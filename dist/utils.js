@@ -64,36 +64,36 @@ function parseStreetType(text, country = 'US') {
  * Extract state or province
  */
 function parseStateProvince(text, country) {
-    // Try US states first - look for full names
-    const usPattern = buildRegexFromDict(data_1.US_STATES);
-    let match = text.match(usPattern);
-    if (match) {
-        const state = data_1.US_STATES[match[1].toLowerCase()];
-        const remaining = text.replace(match[0], ' ').replace(/\s+/g, ' ').trim();
-        return { state, remaining, detectedCountry: 'US' };
-    }
-    // Try US state abbreviations
+    // Try US state abbreviations first (more specific than full names)
     const usAbbrevPattern = new RegExp(`\\b(${Object.values(data_1.US_STATES).join('|')})\\b`, 'i');
-    match = text.match(usAbbrevPattern);
+    let match = text.match(usAbbrevPattern);
     if (match) {
         const state = match[1].toUpperCase();
-        const remaining = text.replace(match[0], ' ').replace(/\s+/g, ' ').trim();
+        const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), ' ').replace(/\s+/g, ' ').trim();
         return { state, remaining, detectedCountry: 'US' };
-    }
-    // Try Canadian provinces - look for full names
-    const caPattern = buildRegexFromDict(data_1.CA_PROVINCES);
-    match = text.match(caPattern);
-    if (match) {
-        const state = data_1.CA_PROVINCES[match[1].toLowerCase()];
-        const remaining = text.replace(match[0], ' ').replace(/\s+/g, ' ').trim();
-        return { state, remaining, detectedCountry: 'CA' };
     }
     // Try Canadian province abbreviations
     const caAbbrevPattern = new RegExp(`\\b(${Object.values(data_1.CA_PROVINCES).join('|')})\\b`, 'i');
     match = text.match(caAbbrevPattern);
     if (match) {
         const state = match[1].toUpperCase();
-        const remaining = text.replace(match[0], ' ').replace(/\s+/g, ' ').trim();
+        const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), ' ').replace(/\s+/g, ' ').trim();
+        return { state, remaining, detectedCountry: 'CA' };
+    }
+    // Try US states full names (only if no abbreviation found)
+    const usPattern = buildRegexFromDict(data_1.US_STATES);
+    match = text.match(usPattern);
+    if (match) {
+        const state = data_1.US_STATES[match[1].toLowerCase()];
+        const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi'), ' ').replace(/\s+/g, ' ').trim();
+        return { state, remaining, detectedCountry: 'US' };
+    }
+    // Try Canadian provinces full names
+    const caPattern = buildRegexFromDict(data_1.CA_PROVINCES);
+    match = text.match(caPattern);
+    if (match) {
+        const state = data_1.CA_PROVINCES[match[1].toLowerCase()];
+        const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi'), ' ').replace(/\s+/g, ' ').trim();
         return { state, remaining, detectedCountry: 'CA' };
     }
     return { state: undefined, remaining: text };

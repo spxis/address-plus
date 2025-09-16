@@ -49,7 +49,7 @@ function parseLocation(address, options = {}) {
     }
     // Parse city, state, zip from the end
     let workingText = cityStateZip;
-    // Extract postal/ZIP code
+    // Extract postal/ZIP code first
     if (workingText) {
         const postalResult = (0, utils_1.parsePostalCode)(workingText);
         if (postalResult.zip) {
@@ -60,7 +60,7 @@ function parseLocation(address, options = {}) {
                 result.country = postalResult.detectedCountry;
             }
         }
-        // Extract state/province 
+        // Extract state/province from what remains
         const stateResult = (0, utils_1.parseStateProvince)(workingText, country === 'auto' ? undefined : country);
         if (stateResult.state) {
             result.state = stateResult.state;
@@ -69,7 +69,7 @@ function parseLocation(address, options = {}) {
                 result.country = stateResult.detectedCountry;
             }
         }
-        // Remaining text is city
+        // What remains after removing state and ZIP should be the city
         if (workingText.trim()) {
             result.city = workingText.trim();
         }
