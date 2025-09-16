@@ -9,6 +9,7 @@ exports.parseIntersection = parseIntersection;
 exports.parseInformalAddress = parseInformalAddress;
 exports.parseAddress = parseAddress;
 const utils_1 = require("./utils");
+const data_1 = require("./data");
 /**
  * Parse a location string into address components
  */
@@ -17,137 +18,183 @@ function parseLocation(address, options = {}) {
         return null;
     }
     const { country = 'auto', normalize = true, validatePostalCode = true, language = 'auto', extractFacilities = true, parseParenthetical: enableParenthetical = true, } = options;
-    let text = (0, utils_1.normalizeText)(address);
+    const original = address.trim();
     const result = {};
+    // Split by comma FIRST before any normalization that removes commas
+    const parts = original.split(',').map(p => p.trim()).filter(Boolean);
+    let streetPart = '';
+    let cityPart = '';
+    let stateZipPart = '';
+    if (parts.length >= 3) {
+        // Format: "street, city, state zip"
+        streetPart = parts[0];
+        cityPart = parts[1];
+        stateZipPart = parts.slice(2).join(' ');
+    }
+    else if (parts.length >= 2) {
+        streetPart = parts[0];
+        stateZipPart = parts[1]; // Could be "city state zip" or just "state zip"
+    }
+    else if (parts.length === 1) {
+        streetPart = parts[0]; // Parse everything from one part
+    }
+    // Now normalize the working text (this will be used for facilities, parenthetical, etc.)
+    let workingText = original.toLowerCase().replace(/[.,;]/g, ' ').replace(/\s+/g, ' ').trim();
     // Parse parenthetical information first if enabled
     if (enableParenthetical) {
-        const { secondary, remaining } = (0, utils_1.parseParenthetical)(text);
-        if (secondary) {
-            result.secondary = secondary;
-            text = remaining;
+        const parenMatch = workingText.match(/\(([^)]+)\)/);
+        if (parenMatch) {
+            result.secondary = parenMatch[1].trim();
+            workingText = workingText.replace(parenMatch[0], ' ').replace(/\s+/g, ' ').trim();
         }
     }
     // Extract facility names if enabled
     if (extractFacilities) {
-        const { facility, remaining } = (0, utils_1.parseFacility)(text);
-        if (facility) {
-            result.facility = facility;
-            text = remaining;
-        }
-    }
-    // Split by commas to help parse structure
-    const commaParts = text.split(',').map(s => s.trim()).filter(Boolean);
-    let streetAndNumber = '';
-    let cityStateZip = '';
-    if (commaParts.length >= 2) {
-        streetAndNumber = commaParts[0];
-        cityStateZip = commaParts.slice(1).join(' ');
-    }
-    else {
-        // No commas, need to parse the whole string
-        streetAndNumber = text;
-    }
-    // Parse city, state, zip from the end
-    let workingText = cityStateZip;
-    // Extract postal/ZIP code first
-    if (workingText) {
-        const postalResult = (0, utils_1.parsePostalCode)(workingText);
-        if (postalResult.zip) {
-            result.zip = postalResult.zip;
-            result.zipext = postalResult.zipext;
-            workingText = postalResult.remaining;
-            if (country === 'auto' && postalResult.detectedCountry) {
-                result.country = postalResult.detectedCountry;
-            }
-        }
-        // Extract state/province from what remains
-        const stateResult = (0, utils_1.parseStateProvince)(workingText, country === 'auto' ? undefined : country);
-        if (stateResult.state) {
-            result.state = stateResult.state;
-            workingText = stateResult.remaining;
-            if (country === 'auto' && stateResult.detectedCountry && !result.country) {
-                result.country = stateResult.detectedCountry;
-            }
-        }
-        // What remains after removing state and ZIP should be the city
-        if (workingText.trim()) {
-            result.city = workingText.trim();
-        }
-    }
-    // Parse street and number
-    workingText = streetAndNumber;
-    // If we don't have city/state/zip yet, try to extract them from the whole string
-    if (!result.city && !result.state && !result.zip) {
-        // Extract postal code from anywhere
-        const postalResult = (0, utils_1.parsePostalCode)(workingText);
-        if (postalResult.zip) {
-            result.zip = postalResult.zip;
-            result.zipext = postalResult.zipext;
-            workingText = postalResult.remaining;
-            if (country === 'auto' && postalResult.detectedCountry) {
-                result.country = postalResult.detectedCountry;
-            }
-        }
-        // Extract state/province
-        const stateResult = (0, utils_1.parseStateProvince)(workingText, country === 'auto' ? undefined : country);
-        if (stateResult.state) {
-            result.state = stateResult.state;
-            workingText = stateResult.remaining;
-            if (country === 'auto' && stateResult.detectedCountry && !result.country) {
-                result.country = stateResult.detectedCountry;
+        const facilityPatterns = [
+            /\b(hospital|medical center|clinic|mall|shopping center|plaza|tower|building|center|centre)\b/i,
+            /\b(school|university|college|library|church|temple|mosque|synagogue)\b/i,
+        ];
+        for (const pattern of facilityPatterns) {
+            const match = workingText.match(pattern);
+            if (match) {
+                const fullMatch = workingText.match(new RegExp(`\\b[\\w\\s]*${match[0]}[\\w\\s]*\\b`, 'i'));
+                if (fullMatch) {
+                    result.facility = fullMatch[0].trim();
+                    workingText = workingText.replace(fullMatch[0], ' ').replace(/\s+/g, ' ').trim();
+                    break;
+                }
             }
         }
     }
-    // Extract secondary unit information
-    const unitResult = (0, utils_1.parseSecondaryUnit)(workingText);
-    if (unitResult.unit) {
-        result.unit = unitResult.unit;
-        result.sec_unit_type = unitResult.sec_unit_type;
-        result.sec_unit_num = unitResult.sec_unit_num;
-        workingText = unitResult.remaining;
-    }
-    // Extract street number from the beginning
-    const numberResult = (0, utils_1.parseStreetNumber)(workingText);
-    if (numberResult.number) {
-        result.number = numberResult.number;
-        workingText = numberResult.remaining;
-    }
-    // Extract prefix directional
-    const prefixResult = (0, utils_1.parseDirectional)(workingText);
-    if (prefixResult.direction) {
-        result.prefix = prefixResult.direction;
-        workingText = prefixResult.remaining;
-    }
-    // Determine country for street type parsing
-    const parseCountry = result.country || (country !== 'auto' ? country : 'US');
-    // Extract street type
-    const typeResult = (0, utils_1.parseStreetType)(workingText, parseCountry);
-    if (typeResult.type) {
-        result.type = typeResult.type;
-        workingText = typeResult.remaining;
-    }
-    // Extract suffix directional
-    const suffixResult = (0, utils_1.parseDirectional)(workingText);
-    if (suffixResult.direction) {
-        result.suffix = suffixResult.direction;
-        workingText = suffixResult.remaining;
-    }
-    // What remains should be street name and possibly city if not already extracted
-    const remainingParts = workingText.split(/\s+/).filter(Boolean);
-    if (remainingParts.length > 0) {
-        if (!result.city && remainingParts.length > 1 && result.number) {
-            // If we have a number and multiple parts, last part might be city
-            result.street = remainingParts.slice(0, -1).join(' ');
-            result.city = remainingParts.slice(-1)[0];
+    // Extract ZIP/Postal code from stateZipPart or original
+    let sourceForZip = stateZipPart || original;
+    const zipMatch = sourceForZip.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
+    const postalMatch = sourceForZip.match(/\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/);
+    if (zipMatch) {
+        result.zip = zipMatch[1];
+        if (zipMatch[2])
+            result.zipext = zipMatch[2];
+        result.country = 'US';
+        if (stateZipPart) {
+            stateZipPart = stateZipPart.replace(new RegExp(zipMatch[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), ' ').replace(/\s+/g, ' ').trim();
         }
         else {
-            // All remaining text is street name
-            result.street = remainingParts.join(' ');
+            // Remove from streetPart if no separate stateZipPart
+            streetPart = streetPart.replace(new RegExp(zipMatch[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), ' ').replace(/\s+/g, ' ').trim();
         }
     }
-    // Auto-detect country if not already determined
-    if (!result.country) {
-        result.country = (0, utils_1.detectCountry)(result);
+    else if (postalMatch) {
+        result.zip = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
+        result.country = 'CA';
+        if (stateZipPart) {
+            stateZipPart = stateZipPart.replace(new RegExp(postalMatch[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), ' ').replace(/\s+/g, ' ').trim();
+        }
+        else {
+            streetPart = streetPart.replace(new RegExp(postalMatch[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), ' ').replace(/\s+/g, ' ').trim();
+        }
+    }
+    // Extract state/province from stateZipPart or original
+    const usStates = Object.values(data_1.US_STATES).join('|');
+    const caProvinces = Object.values(data_1.CA_PROVINCES).join('|');
+    let sourceForState = stateZipPart || streetPart;
+    const stateMatch = sourceForState.match(new RegExp(`\\b(${usStates}|${caProvinces})\\b`, 'i'));
+    if (stateMatch) {
+        result.state = stateMatch[1].toUpperCase();
+        if (!result.country) {
+            result.country = Object.values(data_1.US_STATES).includes(result.state) ? 'US' : 'CA';
+        }
+        if (stateZipPart) {
+            stateZipPart = stateZipPart.replace(new RegExp(`\\b${stateMatch[1]}\\b`, 'i'), ' ').replace(/\s+/g, ' ').trim();
+        }
+        else {
+            streetPart = streetPart.replace(new RegExp(`\\b${stateMatch[1]}\\b`, 'i'), ' ').replace(/\s+/g, ' ').trim();
+        }
+    }
+    // If we had a 2-part split and stateZipPart has remaining text after removing state/zip, that's the city
+    if (parts.length === 2 && stateZipPart && stateZipPart.trim()) {
+        cityPart = stateZipPart.trim();
+    }
+    // Parse street components
+    if (streetPart) {
+        // Extract street number
+        const numMatch = streetPart.match(/^(\d+(?:\s*[-\/]\s*\d+\/\d+|\s+\d+\/\d+)?)/);
+        if (numMatch) {
+            result.number = numMatch[1].trim();
+            streetPart = streetPart.replace(numMatch[0], ' ').trim();
+        }
+        // Extract secondary unit
+        const unitMatch = streetPart.match(/\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)/i);
+        if (unitMatch) {
+            const unitType = data_1.SECONDARY_UNIT_TYPES[unitMatch[1].toLowerCase()] || unitMatch[1].toLowerCase();
+            result.sec_unit_type = unitType;
+            result.sec_unit_num = unitMatch[2];
+            result.unit = `${unitType} ${unitMatch[2]}`;
+            streetPart = streetPart.replace(unitMatch[0], ' ').trim();
+        }
+        // Extract directional prefix
+        const dirWords = Object.keys(data_1.DIRECTIONAL_MAP).join('|');
+        const prefixMatch = streetPart.match(new RegExp(`^(${dirWords})\\s+`, 'i'));
+        if (prefixMatch) {
+            result.prefix = data_1.DIRECTIONAL_MAP[prefixMatch[1].toLowerCase()];
+            streetPart = streetPart.replace(prefixMatch[0], ' ').trim();
+        }
+        // Extract street type and suffix
+        const streetTypes = result.country === 'CA' ? { ...data_1.US_STREET_TYPES, ...data_1.CA_STREET_TYPES } : data_1.US_STREET_TYPES;
+        const streetWords = streetPart.split(/\s+/);
+        let typeIndex = -1;
+        // Find street type - prioritize later positions and common abbreviations
+        for (let i = streetWords.length - 1; i >= 0; i--) {
+            const word = streetWords[i].toLowerCase();
+            if (streetTypes[word]) {
+                // Additional check: if this is a common street name that's also a type, skip it unless it's in a typical type position
+                if (word === 'pine' || word === 'oak' || word === 'maple' || word === 'cedar') {
+                    // These are common street names, only treat as type if they're at the end or followed by directional
+                    if (i === streetWords.length - 1 ||
+                        (i === streetWords.length - 2 && data_1.DIRECTIONAL_MAP[streetWords[i + 1].toLowerCase()])) {
+                        result.type = streetTypes[word];
+                        typeIndex = i;
+                        break;
+                    }
+                }
+                else {
+                    result.type = streetTypes[word];
+                    typeIndex = i;
+                    break;
+                }
+            }
+        }
+        if (typeIndex >= 0) {
+            // Check for suffix directional after street type
+            let suffixIndex = -1;
+            if (typeIndex + 1 < streetWords.length) {
+                const suffixCandidate = streetWords[typeIndex + 1].toLowerCase();
+                if (data_1.DIRECTIONAL_MAP[suffixCandidate]) {
+                    result.suffix = data_1.DIRECTIONAL_MAP[suffixCandidate];
+                    suffixIndex = typeIndex + 1;
+                }
+            }
+            // Street name is everything before the type
+            if (typeIndex > 0) {
+                result.street = streetWords.slice(0, typeIndex).join(' ');
+            }
+            // If there's text after the type (and suffix), it might be city
+            const remainingStart = suffixIndex >= 0 ? suffixIndex + 1 : typeIndex + 1;
+            if (remainingStart < streetWords.length && !cityPart) {
+                cityPart = streetWords.slice(remainingStart).join(' ');
+            }
+        }
+        else {
+            // No street type found, assume it's all street name
+            result.street = streetPart;
+        }
+    }
+    // Set city  
+    if (cityPart) {
+        result.city = cityPart;
+    }
+    // Auto-detect country if not set
+    if (!result.country && result.state) {
+        result.country = Object.values(data_1.US_STATES).includes(result.state) ? 'US' : 'CA';
     }
     // Validate postal code if requested
     if (validatePostalCode && result.zip && result.country) {
@@ -159,7 +206,14 @@ function parseLocation(address, options = {}) {
             delete result.zipext;
         }
     }
-    // Return null if we couldn't parse any meaningful components
+    // Capitalize names appropriately
+    if (result.street) {
+        result.street = result.street.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    }
+    if (result.city) {
+        result.city = result.city.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    }
+    // Return only if we have meaningful components
     const hasComponents = result.number || result.street || result.city || result.state || result.zip;
     return hasComponents ? result : null;
 }
