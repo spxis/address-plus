@@ -3,23 +3,25 @@
  * API-compatible with parse-address for seamless upgrades
  */
 
-import { ParsedAddress, ParsedIntersection, ParseOptions, AddressParser } from './types';
-import { parseLocation, parseIntersection, parseInformalAddress, parseAddress } from './parser';
+import type { AddressParser } from './types.js';
+import { parseLocation, parseIntersection, parseInformalAddress, parseAddress } from './parser.js';
 
 // Export all types
-export * from './types';
+export type * from './types.js';
 
 // Export parser functions
 export { parseLocation, parseIntersection, parseInformalAddress, parseAddress };
 
 // Export data and utilities for advanced usage
-export * from './data';
-export * from './utils';
+export * from './data.js';
+export * from './utils.js';
 
 /**
  * Default export for API compatibility with parse-address
- * Usage: const parser = require('address-plus');
+ * Usage: import parser from 'address-plus';
  *        parser.parseLocation('123 Main St, New York, NY 10001')
+ * 
+ * Or: import { parseLocation } from 'address-plus';
  */
 const parser: AddressParser = {
   parseLocation,
@@ -29,14 +31,3 @@ const parser: AddressParser = {
 };
 
 export default parser;
-
-/**
- * For CommonJS compatibility with parse-address
- * This allows: const parser = require('address-plus');
- */
-module.exports = parser;
-module.exports.default = parser;
-module.exports.parseLocation = parseLocation;
-module.exports.parseIntersection = parseIntersection;
-module.exports.parseInformalAddress = parseInformalAddress;
-module.exports.parseAddress = parseAddress;

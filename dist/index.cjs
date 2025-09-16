@@ -1,3 +1,53 @@
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var index_exports = {};
+__export(index_exports, {
+  CANADIAN_POSTAL_CODE_PATTERN: () => CANADIAN_POSTAL_CODE_PATTERN,
+  CA_PROVINCES: () => CA_PROVINCES,
+  CA_STREET_TYPES: () => CA_STREET_TYPES,
+  DIRECTIONAL_MAP: () => DIRECTIONAL_MAP,
+  FACILITY_PATTERNS: () => FACILITY_PATTERNS,
+  SECONDARY_UNIT_TYPES: () => SECONDARY_UNIT_TYPES,
+  US_STATES: () => US_STATES,
+  US_STREET_TYPES: () => US_STREET_TYPES,
+  ZIP_CODE_PATTERN: () => ZIP_CODE_PATTERN,
+  buildRegexFromDict: () => buildRegexFromDict,
+  default: () => index_default,
+  detectCountry: () => detectCountry,
+  normalizeText: () => normalizeText,
+  parseAddress: () => parseAddress,
+  parseDirectional: () => parseDirectional,
+  parseFacility: () => parseFacility,
+  parseInformalAddress: () => parseInformalAddress,
+  parseIntersection: () => parseIntersection,
+  parseLocation: () => parseLocation,
+  parseParenthetical: () => parseParenthetical,
+  parsePostalCode: () => parsePostalCode,
+  parseSecondaryUnit: () => parseSecondaryUnit,
+  parseStateProvince: () => parseStateProvince,
+  parseStreetNumber: () => parseStreetNumber,
+  parseStreetType: () => parseStreetType
+});
+module.exports = __toCommonJS(index_exports);
+
 // src/data.ts
 var DIRECTIONAL_MAP = {
   // English
@@ -1035,7 +1085,8 @@ var parser = {
   parseAddress
 };
 var index_default = parser;
-export {
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
   CANADIAN_POSTAL_CODE_PATTERN,
   CA_PROVINCES,
   CA_STREET_TYPES,
@@ -1046,7 +1097,6 @@ export {
   US_STREET_TYPES,
   ZIP_CODE_PATTERN,
   buildRegexFromDict,
-  index_default as default,
   detectCountry,
   normalizeText,
   parseAddress,
@@ -1061,5 +1111,5 @@ export {
   parseStateProvince,
   parseStreetNumber,
   parseStreetType
-};
-//# sourceMappingURL=index.js.map
+});
+//# sourceMappingURL=index.cjs.map
