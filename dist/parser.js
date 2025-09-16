@@ -1,0 +1,288 @@
+"use strict";
+/**
+ * Main address parser implementation
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addressParser = void 0;
+exports.parseLocation = parseLocation;
+exports.parseIntersection = parseIntersection;
+exports.parseInformalAddress = parseInformalAddress;
+exports.parseAddress = parseAddress;
+const utils_1 = require("./utils");
+/**
+ * Parse a location string into address components
+ */
+function parseLocation(address, options = {}) {
+    if (!address || typeof address !== 'string') {
+        return null;
+    }
+    const { country = 'auto', normalize = true, validatePostalCode = true, language = 'auto', extractFacilities = true, parseParenthetical: enableParenthetical = true, } = options;
+    let text = (0, utils_1.normalizeText)(address);
+    const result = {};
+    // Parse parenthetical information first if enabled
+    if (enableParenthetical) {
+        const { secondary, remaining } = (0, utils_1.parseParenthetical)(text);
+        if (secondary) {
+            result.secondary = secondary;
+            text = remaining;
+        }
+    }
+    // Extract facility names if enabled
+    if (extractFacilities) {
+        const { facility, remaining } = (0, utils_1.parseFacility)(text);
+        if (facility) {
+            result.facility = facility;
+            text = remaining;
+        }
+    }
+    // Split by commas to help parse structure
+    const commaParts = text.split(',').map(s => s.trim()).filter(Boolean);
+    let streetAndNumber = '';
+    let cityStateZip = '';
+    if (commaParts.length >= 2) {
+        streetAndNumber = commaParts[0];
+        cityStateZip = commaParts.slice(1).join(' ');
+    }
+    else {
+        // No commas, need to parse the whole string
+        streetAndNumber = text;
+    }
+    // Parse city, state, zip from the end
+    let workingText = cityStateZip;
+    // Extract postal/ZIP code
+    if (workingText) {
+        const postalResult = (0, utils_1.parsePostalCode)(workingText);
+        if (postalResult.zip) {
+            result.zip = postalResult.zip;
+            result.zipext = postalResult.zipext;
+            workingText = postalResult.remaining;
+            if (country === 'auto' && postalResult.detectedCountry) {
+                result.country = postalResult.detectedCountry;
+            }
+        }
+        // Extract state/province 
+        const stateResult = (0, utils_1.parseStateProvince)(workingText, country === 'auto' ? undefined : country);
+        if (stateResult.state) {
+            result.state = stateResult.state;
+            workingText = stateResult.remaining;
+            if (country === 'auto' && stateResult.detectedCountry && !result.country) {
+                result.country = stateResult.detectedCountry;
+            }
+        }
+        // Remaining text is city
+        if (workingText.trim()) {
+            result.city = workingText.trim();
+        }
+    }
+    // Parse street and number
+    workingText = streetAndNumber;
+    // If we don't have city/state/zip yet, try to extract them from the whole string
+    if (!result.city && !result.state && !result.zip) {
+        // Extract postal code from anywhere
+        const postalResult = (0, utils_1.parsePostalCode)(workingText);
+        if (postalResult.zip) {
+            result.zip = postalResult.zip;
+            result.zipext = postalResult.zipext;
+            workingText = postalResult.remaining;
+            if (country === 'auto' && postalResult.detectedCountry) {
+                result.country = postalResult.detectedCountry;
+            }
+        }
+        // Extract state/province
+        const stateResult = (0, utils_1.parseStateProvince)(workingText, country === 'auto' ? undefined : country);
+        if (stateResult.state) {
+            result.state = stateResult.state;
+            workingText = stateResult.remaining;
+            if (country === 'auto' && stateResult.detectedCountry && !result.country) {
+                result.country = stateResult.detectedCountry;
+            }
+        }
+    }
+    // Extract secondary unit information
+    const unitResult = (0, utils_1.parseSecondaryUnit)(workingText);
+    if (unitResult.unit) {
+        result.unit = unitResult.unit;
+        result.sec_unit_type = unitResult.sec_unit_type;
+        result.sec_unit_num = unitResult.sec_unit_num;
+        workingText = unitResult.remaining;
+    }
+    // Extract street number from the beginning
+    const numberResult = (0, utils_1.parseStreetNumber)(workingText);
+    if (numberResult.number) {
+        result.number = numberResult.number;
+        workingText = numberResult.remaining;
+    }
+    // Extract prefix directional
+    const prefixResult = (0, utils_1.parseDirectional)(workingText);
+    if (prefixResult.direction) {
+        result.prefix = prefixResult.direction;
+        workingText = prefixResult.remaining;
+    }
+    // Determine country for street type parsing
+    const parseCountry = result.country || (country !== 'auto' ? country : 'US');
+    // Extract street type
+    const typeResult = (0, utils_1.parseStreetType)(workingText, parseCountry);
+    if (typeResult.type) {
+        result.type = typeResult.type;
+        workingText = typeResult.remaining;
+    }
+    // Extract suffix directional
+    const suffixResult = (0, utils_1.parseDirectional)(workingText);
+    if (suffixResult.direction) {
+        result.suffix = suffixResult.direction;
+        workingText = suffixResult.remaining;
+    }
+    // What remains should be street name and possibly city if not already extracted
+    const remainingParts = workingText.split(/\s+/).filter(Boolean);
+    if (remainingParts.length > 0) {
+        if (!result.city && remainingParts.length > 1 && result.number) {
+            // If we have a number and multiple parts, last part might be city
+            result.street = remainingParts.slice(0, -1).join(' ');
+            result.city = remainingParts.slice(-1)[0];
+        }
+        else {
+            // All remaining text is street name
+            result.street = remainingParts.join(' ');
+        }
+    }
+    // Auto-detect country if not already determined
+    if (!result.country) {
+        result.country = (0, utils_1.detectCountry)(result);
+    }
+    // Validate postal code if requested
+    if (validatePostalCode && result.zip && result.country) {
+        const isValid = result.country === 'US'
+            ? /^\d{5}(?:-\d{4})?$/.test(result.zip)
+            : /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/.test(result.zip);
+        if (!isValid) {
+            delete result.zip;
+            delete result.zipext;
+        }
+    }
+    // Return null if we couldn't parse any meaningful components
+    const hasComponents = result.number || result.street || result.city || result.state || result.zip;
+    return hasComponents ? result : null;
+}
+/**
+ * Parse an intersection string
+ */
+function parseIntersection(address, options = {}) {
+    if (!address || typeof address !== 'string') {
+        return null;
+    }
+    const text = (0, utils_1.normalizeText)(address);
+    const result = {};
+    // Look for intersection indicators
+    const intersectionMarkers = /\b(?:and|&|at|@|\/|\\|intersection of|corner of)\b/i;
+    const match = text.match(intersectionMarkers);
+    if (!match) {
+        return null; // No intersection indicator found
+    }
+    const parts = text.split(intersectionMarkers);
+    if (parts.length !== 2) {
+        return null;
+    }
+    const street1Text = parts[0].trim();
+    const street2Text = parts[1].trim();
+    // Parse each street
+    const parseCountry = options.country !== 'auto' ? options.country : 'US';
+    // Parse first street
+    let s1Text = street1Text;
+    const s1PrefixResult = (0, utils_1.parseDirectional)(s1Text);
+    if (s1PrefixResult.direction) {
+        result.prefix1 = s1PrefixResult.direction;
+        s1Text = s1PrefixResult.remaining;
+    }
+    const s1TypeResult = (0, utils_1.parseStreetType)(s1Text, parseCountry);
+    if (s1TypeResult.type) {
+        result.type1 = s1TypeResult.type;
+        s1Text = s1TypeResult.remaining;
+    }
+    const s1SuffixResult = (0, utils_1.parseDirectional)(s1Text);
+    if (s1SuffixResult.direction) {
+        result.suffix1 = s1SuffixResult.direction;
+        s1Text = s1SuffixResult.remaining;
+    }
+    if (s1Text.trim()) {
+        result.street1 = s1Text.trim();
+    }
+    // Parse second street (may include city, state, zip)
+    let s2Text = street2Text;
+    // Extract postal code from second street
+    const postalResult = (0, utils_1.parsePostalCode)(s2Text);
+    if (postalResult.zip) {
+        result.zip = postalResult.zip;
+        s2Text = postalResult.remaining;
+    }
+    // Extract state from second street
+    const stateResult = (0, utils_1.parseStateProvince)(s2Text);
+    if (stateResult.state) {
+        result.state = stateResult.state;
+        s2Text = stateResult.remaining;
+        if (stateResult.detectedCountry) {
+            result.country = stateResult.detectedCountry;
+        }
+    }
+    const s2PrefixResult = (0, utils_1.parseDirectional)(s2Text);
+    if (s2PrefixResult.direction) {
+        result.prefix2 = s2PrefixResult.direction;
+        s2Text = s2PrefixResult.remaining;
+    }
+    const s2TypeResult = (0, utils_1.parseStreetType)(s2Text, parseCountry);
+    if (s2TypeResult.type) {
+        result.type2 = s2TypeResult.type;
+        s2Text = s2TypeResult.remaining;
+    }
+    const s2SuffixResult = (0, utils_1.parseDirectional)(s2Text);
+    if (s2SuffixResult.direction) {
+        result.suffix2 = s2SuffixResult.direction;
+        s2Text = s2SuffixResult.remaining;
+    }
+    // Remaining text could be street name and/or city
+    const s2Parts = s2Text.split(/\s+/).filter(Boolean);
+    if (s2Parts.length > 0) {
+        if (s2Parts.length === 1) {
+            result.street2 = s2Parts[0];
+        }
+        else {
+            // Assume last word is city if we don't have state/zip to help determine
+            if (!result.state && !result.zip) {
+                result.street2 = s2Parts.slice(0, -1).join(' ');
+                result.city = s2Parts.slice(-1)[0];
+            }
+            else {
+                result.street2 = s2Parts.join(' ');
+            }
+        }
+    }
+    // Return result if we have at least two streets
+    return (result.street1 && result.street2) ? result : null;
+}
+/**
+ * Parse an informal address (more lenient parsing)
+ */
+function parseInformalAddress(address, options = {}) {
+    // For informal addresses, be more lenient with parsing
+    const informalOptions = {
+        ...options,
+        validatePostalCode: false, // Don't validate postal codes strictly
+        parseParenthetical: true, // Always parse parenthetical info
+        extractFacilities: true, // Always extract facilities
+    };
+    return parseLocation(address, informalOptions);
+}
+/**
+ * Main parse function (alias for parseLocation for API compatibility)
+ */
+function parseAddress(address, options = {}) {
+    return parseLocation(address, options);
+}
+/**
+ * Create the parser object with all methods
+ */
+exports.addressParser = {
+    parseLocation,
+    parseIntersection,
+    parseInformalAddress,
+    parseAddress,
+};
