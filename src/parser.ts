@@ -15,6 +15,8 @@ import {
   SECONDARY_UNIT_TYPES,
   STREET_TYPE_PROPER_CASE,
   UNIT_TYPE_NUMBER_PATTERN,
+  UNIT_TYPE_KEYWORDS,
+  WRITTEN_NUMBERS,
   US_STATES,
   US_STREET_TYPES,
 } from "./data";
@@ -61,7 +63,7 @@ const buildPatterns = () => {
     .join('|');
 
   return {
-    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+)`,  // Changed to not match directionals
+    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+|${WRITTEN_NUMBERS})`,  // Include written numbers
     fraction: String.raw`(\d+\/\d+)`,
     directional: `(${directionals})`,
     streetType: `(${streetTypes})`,
@@ -71,7 +73,7 @@ const buildPatterns = () => {
     zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
     poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
-    secUnit: String.raw`(?:(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate|#)\s+([a-z0-9-]+))`
+    secUnit: String.raw`(?:(${UNIT_TYPE_KEYWORDS}|#)\s+([a-z0-9-]+))`
   };
 };
 
@@ -456,7 +458,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       const part = commaParts[i].trim();
       
       // Check for secondary units first (Suite 500, Apt 3B, #45, etc.)
-      const unitMatch = part.match(/^(?:suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+[a-z0-9-]+$|^#\s*[a-z0-9-]+$/i);
+      const unitMatch = part.match(new RegExp(`^(?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+$|^#\\s*[a-z0-9-]+$`, 'i'));
       if (unitMatch && !secondaryUnitPart) {
         secondaryUnitPart = part;
         excludedPartIndices.add(i);
@@ -488,7 +490,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   let remaining = addressPart.trim();
   
   // 0. Check for secondary unit at the beginning (e.g., "#42 233 S Wacker Dr")
-  const prefixSecUnitMatch = remaining.match(/^((?:suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s+(.*)$/i);
+  const prefixSecUnitMatch = remaining.match(new RegExp(`^((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s+(.*)$`, 'i'));
   if (prefixSecUnitMatch) {
     const unitText = prefixSecUnitMatch[1];
     remaining = prefixSecUnitMatch[2];
@@ -525,6 +527,12 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     }
   } else {
     result.number = numberMatch[1];
+    
+    // Capitalize written numbers (One, Two, etc.)
+    if (/^[a-zA-Z]+$/.test(result.number)) {
+      result.number = result.number.charAt(0).toUpperCase() + result.number.slice(1).toLowerCase();
+    }
+    
     if (numberMatch[2]) {
       result.number = `${result.number} ${numberMatch[2]}`;
     }

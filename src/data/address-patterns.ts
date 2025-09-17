@@ -3,16 +3,27 @@
  */
 
 /**
- * Pattern for secondary unit types and numbers
- * Matches: "apt 123", "suite 5A", "unit 12", "#45", "# 45", etc.
+ * Unit type keywords pattern (for building regex patterns)
  */
-export const SECONDARY_UNIT_PATTERN = /^(.*?)\s+((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s*$/i;
+export const UNIT_TYPE_KEYWORDS = 'suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate';
+
+/**
+ * Written numbers that can appear as street numbers
+ * Keep it simple to avoid false matches
+ */
+export const WRITTEN_NUMBERS = 'one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?';
+
+/**
+ * Pattern for secondary unit types and numbers
+ * Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", etc.
+ */
+export const SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s*$`, 'i');
 
 /**
  * Pattern for extracting unit type and number
  * Used to parse the secondary unit match
  */
-export const UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
+export const UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|#\\s*([a-z0-9-]+)`, 'i');
 
 /**
  * Pattern for Canadian postal codes (more liberal matching)

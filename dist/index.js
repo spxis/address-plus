@@ -227,8 +227,10 @@ var ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
 var CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)$/;
 
 // src/data/address-patterns.ts
-var SECONDARY_UNIT_PATTERN = /^(.*?)\s+((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s*$/i;
-var UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
+var UNIT_TYPE_KEYWORDS = "suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate";
+var WRITTEN_NUMBERS = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?";
+var SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s*$`, "i");
+var UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|#\\s*([a-z0-9-]+)`, "i");
 var CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
 var PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
 
@@ -1367,8 +1369,8 @@ var buildPatterns = () => {
   const stateAbbrevs = Object.values(US_STATES).concat(Object.values(CA_PROVINCES)).filter((v, i, arr) => arr.indexOf(v) === i && v.length <= 3).sort((a, b) => b.length - a.length).join("|");
   const stateFullNames = Object.keys(US_STATES).concat(Object.keys(CA_PROVINCES)).filter((v, i, arr) => arr.indexOf(v) === i && v.length > 3).sort((a, b) => b.length - a.length).join("|");
   return {
-    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+)`,
-    // Changed to not match directionals
+    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+|${WRITTEN_NUMBERS})`,
+    // Include written numbers
     fraction: String.raw`(\d+\/\d+)`,
     directional: `(${directionals})`,
     streetType: `(${streetTypes})`,
@@ -1378,7 +1380,7 @@ var buildPatterns = () => {
     zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
     poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
-    secUnit: String.raw`(?:(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate|#)\s+([a-z0-9-]+))`
+    secUnit: String.raw`(?:(${UNIT_TYPE_KEYWORDS}|#)\s+([a-z0-9-]+))`
   };
 };
 function hasValidAddressComponents(address) {
@@ -1640,7 +1642,7 @@ function parseStandardAddress(address, options = {}) {
   if (commaParts.length > 2) {
     for (let i = 1; i < commaParts.length - 1; i++) {
       const part = commaParts[i].trim();
-      const unitMatch = part.match(/^(?:suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+[a-z0-9-]+$|^#\s*[a-z0-9-]+$/i);
+      const unitMatch = part.match(new RegExp(`^(?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+$|^#\\s*[a-z0-9-]+$`, "i"));
       if (unitMatch && !secondaryUnitPart) {
         secondaryUnitPart = part;
         excludedPartIndices.add(i);
@@ -1663,7 +1665,7 @@ function parseStandardAddress(address, options = {}) {
     secondaryInfo = parentheticalMatch[2].trim();
   }
   let remaining = addressPart.trim();
-  const prefixSecUnitMatch = remaining.match(/^((?:suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s+(.*)$/i);
+  const prefixSecUnitMatch = remaining.match(new RegExp(`^((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s+(.*)$`, "i"));
   if (prefixSecUnitMatch) {
     const unitText = prefixSecUnitMatch[1];
     remaining = prefixSecUnitMatch[2];
@@ -1690,6 +1692,9 @@ function parseStandardAddress(address, options = {}) {
     }
   } else {
     result.number = numberMatch[1];
+    if (/^[a-zA-Z]+$/.test(result.number)) {
+      result.number = result.number.charAt(0).toUpperCase() + result.number.slice(1).toLowerCase();
+    }
     if (numberMatch[2]) {
       result.number = `${result.number} ${numberMatch[2]}`;
     }
@@ -1934,12 +1939,14 @@ export {
   SECONDARY_UNIT_PATTERN,
   SECONDARY_UNIT_TYPES,
   STREET_TYPE_PROPER_CASE,
+  UNIT_TYPE_KEYWORDS,
   UNIT_TYPE_NUMBER_PATTERN,
   US_REGIONS,
   US_STATES,
   US_STATE_ALTERNATIVES,
   US_STATE_NAMES,
   US_STREET_TYPES,
+  WRITTEN_NUMBERS,
   ZIP_CODE_PATTERN,
   buildRegexFromDict,
   index_default as default,

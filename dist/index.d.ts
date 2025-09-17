@@ -227,8 +227,17 @@ declare const CANADIAN_POSTAL_CODE_PATTERN: RegExp;
  * Regular expression patterns for address parsing
  */
 /**
+ * Unit type keywords pattern (for building regex patterns)
+ */
+declare const UNIT_TYPE_KEYWORDS = "suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate";
+/**
+ * Written numbers that can appear as street numbers
+ * Keep it simple to avoid false matches
+ */
+declare const WRITTEN_NUMBERS = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?";
+/**
  * Pattern for secondary unit types and numbers
- * Matches: "apt 123", "suite 5A", "unit 12", "#45", "# 45", etc.
+ * Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", etc.
  */
 declare const SECONDARY_UNIT_PATTERN: RegExp;
 /**
@@ -406,4 +415,4 @@ declare function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined;
  */
 declare const parser: AddressParser;
 
-export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CANADIAN_POSTAL_LIBERAL_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_DELIMITER_PATTERN, FACILITY_PATTERNS, PARENTHETICAL_PATTERN, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_PATTERN, SECONDARY_UNIT_TYPES, STREET_TYPE_PROPER_CASE, UNIT_TYPE_NUMBER_PATTERN, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeRegion, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };
+export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CANADIAN_POSTAL_LIBERAL_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_DELIMITER_PATTERN, FACILITY_PATTERNS, PARENTHETICAL_PATTERN, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_PATTERN, SECONDARY_UNIT_TYPES, STREET_TYPE_PROPER_CASE, UNIT_TYPE_KEYWORDS, UNIT_TYPE_NUMBER_PATTERN, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, WRITTEN_NUMBERS, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeRegion, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };
