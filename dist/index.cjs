@@ -48,604 +48,771 @@ __export(index_exports, {
 });
 module.exports = __toCommonJS(index_exports);
 
-// src/data.ts
-var DIRECTIONAL_MAP = {
-  // English
-  "north": "N",
-  "northeast": "NE",
-  "east": "E",
-  "southeast": "SE",
-  "south": "S",
-  "southwest": "SW",
-  "west": "W",
-  "northwest": "NW",
-  // Short forms
-  "n": "N",
-  "ne": "NE",
-  "e": "E",
-  "se": "SE",
-  "s": "S",
-  "sw": "SW",
-  "w": "W",
-  "nw": "NW",
-  // French (for Canada)
-  "nord": "N",
-  "nord-est": "NE",
-  "est": "E",
-  "sud-est": "SE",
-  "sud": "S",
-  "sud-ouest": "SW",
-  "ouest": "W",
-  "nord-ouest": "NW"
-};
-var US_STREET_TYPES = {
-  "alley": "aly",
-  "allee": "aly",
-  "ally": "aly",
-  "anex": "anx",
-  "annex": "anx",
-  "annx": "anx",
-  "arcade": "arc",
-  "avenue": "ave",
-  "av": "ave",
-  "aven": "ave",
-  "avenu": "ave",
-  "avn": "ave",
-  "avnue": "ave",
-  "ave": "ave",
-  "bayou": "byu",
-  "bayoo": "byu",
-  "beach": "bch",
-  "bend": "bnd",
-  "bluff": "blf",
-  "bluf": "blf",
-  "bluffs": "blfs",
-  "bottom": "btm",
-  "bot": "btm",
-  "bottm": "btm",
-  "boulevard": "blvd",
-  "blvd": "blvd",
-  "boul": "blvd",
-  "boulv": "blvd",
-  "branch": "br",
-  "brnch": "br",
-  "bridge": "brg",
-  "brdge": "brg",
-  "brook": "brk",
-  "brooks": "brks",
-  "burg": "bg",
-  "burgs": "bgs",
-  "bypass": "byp",
-  "bypa": "byp",
-  "bypas": "byp",
-  "byps": "byp",
-  "camp": "cp",
-  "cmp": "cp",
-  "canyon": "cyn",
-  "canyn": "cyn",
-  "cnyn": "cyn",
-  "cape": "cpe",
-  "causeway": "cswy",
-  "causwa": "cswy",
-  "center": "ctr",
-  "cent": "ctr",
-  "centr": "ctr",
-  "centre": "ctr",
-  "cnter": "ctr",
-  "cntr": "ctr",
-  "centers": "ctrs",
-  "circle": "cir",
-  "circ": "cir",
-  "circl": "cir",
-  "crcl": "cir",
-  "crcle": "cir",
-  "circles": "cirs",
-  "cliff": "clf",
-  "cliffs": "clfs",
-  "club": "clb",
-  "common": "cmn",
-  "commons": "cmns",
-  "corner": "cor",
-  "corners": "cors",
-  "course": "crse",
-  "court": "ct",
-  "crt": "ct",
-  "courts": "cts",
-  "cove": "cv",
-  "coves": "cvs",
-  "creek": "crk",
-  "crescent": "cres",
-  "crsent": "cres",
-  "crsnt": "cres",
-  "crest": "crst",
-  "crossing": "xing",
-  "crssng": "xing",
-  "crssing": "xing",
-  "crossroad": "xrd",
-  "crossroads": "xrds",
-  "curve": "curv",
-  "dale": "dl",
-  "dam": "dm",
-  "divide": "dv",
-  "div": "dv",
-  "dvd": "dv",
-  "drive": "dr",
-  "driv": "dr",
-  "drv": "dr",
-  "drives": "drs",
-  "estate": "est",
-  "estates": "ests",
-  "expressway": "expy",
-  "exp": "expy",
-  "expr": "expy",
-  "express": "expy",
-  "expw": "expy",
-  "extension": "ext",
-  "extn": "ext",
-  "extnsn": "ext",
-  "extensions": "exts",
-  "fall": "fall",
-  "falls": "fls",
-  "ferry": "fry",
-  "frry": "fry",
-  "field": "fld",
-  "fields": "flds",
-  "flat": "flt",
-  "flats": "flts",
-  "ford": "frd",
-  "fords": "frds",
-  "forest": "frst",
-  "forests": "frst",
-  "forge": "frg",
-  "forg": "frg",
-  "forges": "frgs",
-  "fork": "frk",
-  "forks": "frks",
-  "fort": "ft",
-  "frt": "ft",
-  "freeway": "fwy",
-  "freewy": "fwy",
-  "frway": "fwy",
-  "frwy": "fwy",
-  "garden": "gdn",
-  "gardn": "gdn",
-  "grden": "gdn",
-  "grdn": "gdn",
-  "gardens": "gdns",
-  "grdns": "gdns",
-  "gateway": "gtwy",
-  "gatewy": "gtwy",
-  "gatway": "gtwy",
-  "gtway": "gtwy",
-  "glen": "gln",
-  "glens": "glns",
-  "green": "grn",
-  "greens": "grns",
-  "grove": "grv",
-  "grov": "grv",
-  "groves": "grvs",
-  "harbor": "hbr",
-  "harb": "hbr",
-  "harbr": "hbr",
-  "hrbor": "hbr",
-  "harbors": "hbrs",
-  "haven": "hvn",
-  "heights": "hts",
-  "height": "hts",
-  "hgts": "hts",
-  "ht": "hts",
-  "highway": "hwy",
-  "highwy": "hwy",
-  "hiway": "hwy",
-  "hiwy": "hwy",
-  "hway": "hwy",
-  "hill": "hl",
-  "hills": "hls",
-  "hollow": "holw",
-  "hllw": "holw",
-  "hollows": "holw",
-  "holws": "holw",
-  "inlet": "inlt",
-  "island": "is",
-  "islnd": "is",
-  "islands": "iss",
-  "islnds": "iss",
-  "isle": "isle",
-  "isles": "isle",
-  "junction": "jct",
-  "jction": "jct",
-  "jctn": "jct",
-  "junctn": "jct",
-  "juncton": "jct",
-  "junctions": "jcts",
-  "jctns": "jcts",
-  "key": "ky",
-  "keys": "kys",
-  "knoll": "knl",
-  "knol": "knl",
-  "knolls": "knls",
-  "knols": "knls",
-  "lake": "lk",
-  "lakes": "lks",
-  "land": "land",
-  "landing": "lndg",
-  "lndng": "lndg",
-  "lane": "ln",
-  "lanes": "ln",
-  "light": "lgt",
-  "lights": "lgts",
-  "loaf": "lf",
-  "lock": "lck",
-  "locks": "lcks",
-  "lodge": "ldg",
-  "ldge": "ldg",
-  "lodg": "ldg",
-  "loop": "loop",
-  "loops": "loop",
-  "mall": "mall",
-  "manor": "mnr",
-  "manr": "mnr",
-  "manors": "mnrs",
-  "manrs": "mnrs",
-  "meadow": "mdw",
-  "meadows": "mdws",
-  "medows": "mdws",
-  "mews": "mews",
-  "mill": "ml",
-  "mills": "mls",
-  "mission": "msn",
-  "missn": "msn",
-  "mssn": "msn",
-  "motorway": "mtwy",
-  "mount": "mt",
-  "mnt": "mt",
-  "mountain": "mtn",
-  "mntain": "mtn",
-  "mntn": "mtn",
-  "mountin": "mtn",
-  "mtin": "mtn",
-  "mountains": "mtns",
-  "mntns": "mtns",
-  "neck": "nck",
-  "orchard": "orch",
-  "orchrd": "orch",
-  "oval": "oval",
-  "overpass": "opas",
-  "park": "park",
-  "parks": "park",
-  "prk": "park",
-  "parkway": "pkwy",
-  "parkwy": "pkwy",
-  "pkway": "pkwy",
-  "pky": "pkwy",
-  "parkways": "pkwy",
-  "pkwys": "pkwy",
-  "pass": "pass",
-  "passage": "psge",
-  "path": "path",
-  "paths": "path",
-  "pike": "pike",
-  "pikes": "pike",
-  "pine": "pne",
-  "pines": "pnes",
-  "place": "pl",
-  "plc": "pl",
-  "plain": "pln",
-  "plains": "plns",
-  "plaza": "plz",
-  "plza": "plz",
-  "point": "pt",
-  "points": "pts",
-  "port": "prt",
-  "ports": "prts",
-  "prairie": "pr",
-  "prarie": "pr",
-  "prr": "pr",
-  "radial": "radl",
-  "rad": "radl",
-  "ramp": "ramp",
-  "ranch": "rnch",
-  "ranches": "rnch",
-  "rnchs": "rnch",
-  "rapid": "rpd",
-  "rapids": "rpds",
-  "rest": "rst",
-  "ridge": "rdg",
-  "rdge": "rdg",
-  "ridges": "rdgs",
-  "river": "riv",
-  "rivr": "riv",
-  "rvr": "riv",
-  "road": "rd",
-  "roads": "rds",
-  "route": "rte",
-  "row": "row",
-  "rue": "rue",
-  "run": "run",
-  "shoal": "shl",
-  "shoals": "shls",
-  "shore": "shr",
-  "shoar": "shr",
-  "shores": "shrs",
-  "shoars": "shrs",
-  "skyway": "skwy",
-  "spring": "spg",
-  "spng": "spg",
-  "sprng": "spg",
-  "springs": "spgs",
-  "spngs": "spgs",
-  "sprngs": "spgs",
-  "spur": "spur",
-  "spurs": "spur",
-  "square": "sq",
-  "sqr": "sq",
-  "sqre": "sq",
-  "squ": "sq",
-  "squares": "sqs",
-  "sqrs": "sqs",
-  "station": "sta",
-  "statn": "sta",
-  "stn": "sta",
-  "stravenue": "stra",
-  "strav": "stra",
-  "straven": "stra",
-  "strvn": "stra",
-  "strvnue": "stra",
-  "stream": "strm",
-  "streme": "strm",
-  "street": "st",
-  "strt": "st",
-  "str": "st",
-  "st": "st",
-  "streets": "sts",
-  "summit": "smt",
-  "sumit": "smt",
-  "sumitt": "smt",
-  "terrace": "ter",
-  "terr": "ter",
-  "throughway": "trwy",
-  "trace": "trce",
-  "traces": "trce",
-  "track": "trak",
-  "tracks": "trak",
-  "trk": "trak",
-  "trks": "trak",
-  "trafficway": "trfy",
-  "trail": "trl",
-  "trails": "trl",
-  "trls": "trl",
-  "trailer": "trlr",
-  "trlrs": "trlr",
-  "tunnel": "tunl",
-  "tunel": "tunl",
-  "tunls": "tunl",
-  "tunnels": "tunl",
-  "tunnl": "tunl",
-  "turnpike": "tpke",
-  "trnpk": "tpke",
-  "turnpk": "tpke",
-  "underpass": "upas",
-  "union": "un",
-  "unions": "uns",
-  "valley": "vly",
-  "vally": "vly",
-  "vlly": "vly",
-  "valleys": "vlys",
-  "viaduct": "via",
-  "vdct": "via",
-  "viadct": "via",
-  "view": "vw",
-  "views": "vws",
-  "village": "vlg",
-  "vill": "vlg",
-  "villag": "vlg",
-  "villg": "vlg",
-  "villiage": "vlg",
-  "villages": "vlgs",
-  "ville": "vl",
-  "vista": "vis",
-  "vist": "vis",
-  "vst": "vis",
-  "vsta": "vis",
-  "walk": "walk",
-  "walks": "walk",
-  "wall": "wall",
-  "way": "way",
-  "wy": "way",
-  "ways": "ways",
-  "well": "wl",
-  "wells": "wls"
-};
-var CA_STREET_TYPES = {
-  // English
-  "avenue": "ave",
-  "av": "ave",
-  "boulevard": "blvd",
-  "blvd": "blvd",
-  "boul": "blvd",
-  "circle": "cir",
-  "circ": "cir",
-  "court": "crt",
-  "ct": "crt",
-  "crescent": "cres",
-  "cres": "cres",
-  "drive": "dr",
-  "dr": "dr",
-  "expressway": "expy",
-  "freeway": "fwy",
-  "gardens": "gdns",
-  "gate": "gate",
-  "grove": "grove",
-  "heights": "hts",
-  "highway": "hwy",
-  "hill": "hill",
-  "lane": "lane",
-  "park": "pk",
-  "parkway": "pky",
-  "place": "pl",
-  "plaza": "plaza",
-  "point": "pt",
-  "road": "rd",
-  "route": "rte",
-  "square": "sq",
-  "street": "st",
-  "terrace": "terr",
-  "trail": "trail",
-  "way": "way",
-  // French
-  "autoroute": "aut",
-  "carrefour": "carref",
-  "chemin": "ch",
-  "cercle": "cir",
-  "c\xF4te": "c\xF4te",
-  "cour": "cour",
-  "croissant": "crois",
-  "impasse": "imp",
-  "mont\xE9e": "mt\xE9e",
-  "passage": "pass",
-  "promenade": "prom",
-  "rang": "rang",
-  "rue": "rue",
-  "ruelle": "rle",
-  "sentier": "sent",
-  "terrasse": "terr",
-  "voie": "voie"
-};
-var US_STATES = {
-  "alabama": "AL",
-  "alaska": "AK",
-  "arizona": "AZ",
-  "arkansas": "AR",
-  "california": "CA",
-  "colorado": "CO",
-  "connecticut": "CT",
-  "delaware": "DE",
-  "florida": "FL",
-  "georgia": "GA",
-  "hawaii": "HI",
-  "idaho": "ID",
-  "illinois": "IL",
-  "indiana": "IN",
-  "iowa": "IA",
-  "kansas": "KS",
-  "kentucky": "KY",
-  "louisiana": "LA",
-  "maine": "ME",
-  "maryland": "MD",
-  "massachusetts": "MA",
-  "michigan": "MI",
-  "minnesota": "MN",
-  "mississippi": "MS",
-  "missouri": "MO",
-  "montana": "MT",
-  "nebraska": "NE",
-  "nevada": "NV",
-  "new hampshire": "NH",
-  "new jersey": "NJ",
-  "new mexico": "NM",
-  "new york": "NY",
-  "north carolina": "NC",
-  "north dakota": "ND",
-  "ohio": "OH",
-  "oklahoma": "OK",
-  "oregon": "OR",
-  "pennsylvania": "PA",
-  "rhode island": "RI",
-  "south carolina": "SC",
-  "south dakota": "SD",
-  "tennessee": "TN",
-  "texas": "TX",
-  "utah": "UT",
-  "vermont": "VT",
-  "virginia": "VA",
-  "washington": "WA",
-  "west virginia": "WV",
-  "wisconsin": "WI",
-  "wyoming": "WY",
-  "district of columbia": "DC",
-  "puerto rico": "PR",
-  "virgin islands": "VI",
-  "american samoa": "AS",
-  "guam": "GU",
-  "northern mariana islands": "MP"
-};
+// src/data/ca-provinces.ts
 var CA_PROVINCES = {
-  "alberta": "AB",
+  alberta: "AB",
   "british columbia": "BC",
-  "manitoba": "MB",
+  "colombie-britannique": "BC",
+  "\xEEle-du-prince-\xE9douard": "PE",
+  manitoba: "MB",
   "new brunswick": "NB",
   "newfoundland and labrador": "NL",
   "northwest territories": "NT",
-  "nova scotia": "NS",
-  "nunavut": "NU",
-  "ontario": "ON",
-  "prince edward island": "PE",
-  "quebec": "QC",
-  "saskatchewan": "SK",
-  "yukon": "YT",
-  // French names
-  "colombie-britannique": "BC",
-  "\xEEle-du-prince-\xE9douard": "PE",
-  "nouvelle-\xE9cosse": "NS",
   "nouveau-brunswick": "NB",
+  "nova scotia": "NS",
+  "nouvelle-\xE9cosse": "NS",
+  nunavut: "NU",
+  ontario: "ON",
+  pei: "PE",
+  "prince edward island": "PE",
+  quebec: "QC",
+  qu\u00E9bec: "QC",
+  saskatchewan: "SK",
   "terre-neuve-et-labrador": "NL",
   "territoires du nord-ouest": "NT",
-  "qu\xE9bec": "QC"
+  yukon: "YT"
 };
-var SECONDARY_UNIT_TYPES = {
-  "apartment": "apt",
-  "apt": "apt",
-  "apartme": "apt",
-  "basement": "bsmt",
-  "bsmt": "bsmt",
-  "building": "bldg",
-  "bldg": "bldg",
-  "bld": "bldg",
-  "department": "dept",
-  "dept": "dept",
-  "floor": "fl",
-  "fl": "fl",
-  "flr": "fl",
-  "front": "frnt",
-  "frnt": "frnt",
-  "hanger": "hngr",
-  "hngr": "hngr",
-  "key": "key",
-  "lobby": "lbby",
-  "lbby": "lbby",
-  "lot": "lot",
-  "lower": "lowr",
-  "lowr": "lowr",
-  "office": "ofc",
-  "ofc": "ofc",
-  "penthouse": "ph",
-  "ph": "ph",
-  "pier": "pier",
-  "rear": "rear",
-  "room": "rm",
-  "rm": "rm",
-  "side": "side",
-  "slip": "slip",
-  "space": "spc",
-  "spc": "spc",
-  "stop": "stop",
-  "suite": "ste",
-  "ste": "ste",
-  "su": "ste",
-  "trailer": "trlr",
-  "trlr": "trlr",
-  "unit": "unit",
-  "upper": "uppr",
-  "uppr": "uppr"
+
+// src/data/ca-street-types.ts
+var CA_STREET_TYPES = {
+  // English
+  autoroute: "aut",
+  av: "ave",
+  avenue: "ave",
+  blvd: "blvd",
+  boul: "blvd",
+  boulevard: "blvd",
+  carref: "carref",
+  carrefour: "carref",
+  cercle: "cir",
+  ch: "ch",
+  chemin: "ch",
+  cir: "cir",
+  circ: "cir",
+  circle: "cir",
+  cour: "cour",
+  court: "crt",
+  c\u00F4te: "c\xF4te",
+  cres: "cres",
+  crescent: "cres",
+  crois: "crois",
+  croissant: "crois",
+  crt: "crt",
+  ct: "crt",
+  dr: "dr",
+  drive: "dr",
+  expy: "expy",
+  expressway: "expy",
+  freeway: "fwy",
+  fwy: "fwy",
+  gardens: "gdns",
+  gate: "gate",
+  gdns: "gdns",
+  grove: "grove",
+  heights: "hts",
+  hill: "hill",
+  highway: "hwy",
+  hts: "hts",
+  hwy: "hwy",
+  imp: "imp",
+  impasse: "imp",
+  lane: "lane",
+  mt\u00E9e: "mt\xE9e",
+  mont\u00E9e: "mt\xE9e",
+  park: "pk",
+  parkway: "pky",
+  pass: "pass",
+  passage: "pass",
+  pk: "pk",
+  pky: "pky",
+  pl: "pl",
+  place: "pl",
+  plaza: "plaza",
+  point: "pt",
+  prom: "prom",
+  promenade: "prom",
+  pt: "pt",
+  rang: "rang",
+  rd: "rd",
+  rle: "rle",
+  road: "rd",
+  route: "rte",
+  rte: "rte",
+  rue: "rue",
+  ruelle: "rle",
+  sent: "sent",
+  sentier: "sent",
+  sq: "sq",
+  square: "sq",
+  st: "st",
+  street: "st",
+  terr: "terr",
+  terrace: "terr",
+  terrasse: "terr",
+  trail: "trail",
+  voie: "voie",
+  way: "way"
 };
-var ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
-var CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)$/;
+
+// src/data/directionals.ts
+var DIRECTIONAL_MAP = {
+  // English
+  east: "E",
+  north: "N",
+  northeast: "NE",
+  northwest: "NW",
+  south: "S",
+  southeast: "SE",
+  southwest: "SW",
+  west: "W",
+  // Short forms
+  e: "E",
+  n: "N",
+  ne: "NE",
+  nw: "NW",
+  s: "S",
+  se: "SE",
+  sw: "SW",
+  w: "W",
+  // French (for Canada)
+  est: "E",
+  nord: "N",
+  "nord-est": "NE",
+  "nord-ouest": "NW",
+  ouest: "W",
+  sud: "S",
+  "sud-est": "SE",
+  "sud-ouest": "SW"
+};
+
+// src/data/facility-patterns.ts
 var FACILITY_PATTERNS = [
   /\b(hospital|medical center|clinic|mall|shopping center|plaza|tower|building|center|centre)\b/i,
   /\b(school|university|college|library|church|temple|mosque|synagogue)\b/i,
   /\b(airport|station|terminal|depot|port|harbor|harbour)\b/i,
   /\b(park|recreation|rec center|community center|civic center)\b/i
 ];
+
+// src/data/postal-patterns.ts
+var ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
+var CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)$/;
+
+// src/data/secondary-unit-types.ts
+var SECONDARY_UNIT_TYPES = {
+  apartment: "apt",
+  apartme: "apt",
+  apt: "apt",
+  basement: "bsmt",
+  bld: "bldg",
+  bldg: "bldg",
+  bsmt: "bsmt",
+  building: "bldg",
+  department: "dept",
+  dept: "dept",
+  fl: "fl",
+  floor: "fl",
+  flr: "fl",
+  front: "frnt",
+  frnt: "frnt",
+  hanger: "hngr",
+  hngr: "hngr",
+  key: "key",
+  lbby: "lbby",
+  lobby: "lbby",
+  lot: "lot",
+  lower: "lowr",
+  lowr: "lowr",
+  ofc: "ofc",
+  office: "ofc",
+  penthouse: "ph",
+  ph: "ph",
+  pier: "pier",
+  rear: "rear",
+  rm: "rm",
+  room: "rm",
+  side: "side",
+  slip: "slip",
+  space: "spc",
+  spc: "spc",
+  ste: "ste",
+  stop: "stop",
+  su: "ste",
+  suite: "ste",
+  trailer: "trlr",
+  trlr: "trlr",
+  unit: "unit",
+  upper: "uppr",
+  uppr: "uppr"
+};
+
+// src/data/us-states.ts
+var US_STATES = {
+  alabama: "AL",
+  alaska: "AK",
+  "american samoa": "AS",
+  arizona: "AZ",
+  arkansas: "AR",
+  california: "CA",
+  colorado: "CO",
+  connecticut: "CT",
+  delaware: "DE",
+  "district of columbia": "DC",
+  florida: "FL",
+  georgia: "GA",
+  guam: "GU",
+  hawaii: "HI",
+  idaho: "ID",
+  illinois: "IL",
+  indiana: "IN",
+  iowa: "IA",
+  kansas: "KS",
+  kentucky: "KY",
+  louisiana: "LA",
+  maine: "ME",
+  maryland: "MD",
+  massachusetts: "MA",
+  michigan: "MI",
+  minnesota: "MN",
+  mississippi: "MS",
+  missouri: "MO",
+  montana: "MT",
+  nebraska: "NE",
+  nevada: "NV",
+  "new hampshire": "NH",
+  "new jersey": "NJ",
+  "new mexico": "NM",
+  "new york": "NY",
+  "north carolina": "NC",
+  "north dakota": "ND",
+  "northern mariana islands": "MP",
+  ohio: "OH",
+  oklahoma: "OK",
+  oregon: "OR",
+  pennsylvania: "PA",
+  "puerto rico": "PR",
+  "rhode island": "RI",
+  "south carolina": "SC",
+  "south dakota": "SD",
+  tennessee: "TN",
+  texas: "TX",
+  utah: "UT",
+  vermont: "VT",
+  "virgin islands": "VI",
+  virginia: "VA",
+  washington: "WA",
+  "west virginia": "WV",
+  wisconsin: "WI",
+  wyoming: "WY"
+};
+
+// src/data/us-street-types.ts
+var US_STREET_TYPES = {
+  allee: "aly",
+  alley: "aly",
+  ally: "aly",
+  anex: "anx",
+  annex: "anx",
+  annx: "anx",
+  arcade: "arc",
+  av: "ave",
+  ave: "ave",
+  aven: "ave",
+  avenu: "ave",
+  avenue: "ave",
+  avn: "ave",
+  avnue: "ave",
+  bayoo: "byu",
+  bayou: "byu",
+  beach: "bch",
+  bend: "bnd",
+  blf: "blf",
+  bluf: "blf",
+  bluff: "blf",
+  bluffs: "blfs",
+  bot: "btm",
+  bottom: "btm",
+  bottm: "btm",
+  boul: "blvd",
+  boulevard: "blvd",
+  boulv: "blvd",
+  branch: "br",
+  brdge: "brg",
+  bridge: "brg",
+  brnch: "br",
+  brook: "brk",
+  brooks: "brks",
+  burg: "bg",
+  burgs: "bgs",
+  byp: "byp",
+  bypa: "byp",
+  bypas: "byp",
+  bypass: "byp",
+  byps: "byp",
+  camp: "cp",
+  canyn: "cyn",
+  canyon: "cyn",
+  cape: "cpe",
+  causeway: "cswy",
+  causwa: "cswy",
+  cent: "ctr",
+  center: "ctr",
+  centr: "ctr",
+  centre: "ctr",
+  centers: "ctrs",
+  cir: "cir",
+  circ: "cir",
+  circl: "cir",
+  circle: "cir",
+  circles: "cirs",
+  cliff: "clf",
+  cliffs: "clfs",
+  club: "clb",
+  cmp: "cp",
+  cnter: "ctr",
+  cntr: "ctr",
+  cnyn: "cyn",
+  cmn: "cmn",
+  cmns: "cmns",
+  common: "cmn",
+  commons: "cmns",
+  cor: "cor",
+  corner: "cor",
+  corners: "cors",
+  cors: "cors",
+  course: "crse",
+  court: "ct",
+  courts: "cts",
+  cove: "cv",
+  coves: "cvs",
+  crcl: "cir",
+  crcle: "cir",
+  creek: "crk",
+  cres: "cres",
+  crescent: "cres",
+  crest: "crst",
+  crossing: "xing",
+  crossroad: "xrd",
+  crossroads: "xrds",
+  crsent: "cres",
+  crsnt: "cres",
+  crssing: "xing",
+  crssng: "xing",
+  crt: "ct",
+  curve: "curv",
+  dale: "dl",
+  dam: "dm",
+  div: "dv",
+  divide: "dv",
+  dr: "dr",
+  driv: "dr",
+  drive: "dr",
+  drives: "drs",
+  drv: "dr",
+  dvd: "dv",
+  est: "est",
+  estate: "est",
+  estates: "ests",
+  exp: "expy",
+  expr: "expy",
+  express: "expy",
+  expressway: "expy",
+  expw: "expy",
+  expy: "expy",
+  ext: "ext",
+  extension: "ext",
+  extensions: "exts",
+  extn: "ext",
+  extnsn: "ext",
+  fall: "fall",
+  falls: "fls",
+  ferry: "fry",
+  field: "fld",
+  fields: "flds",
+  flat: "flt",
+  flats: "flts",
+  fls: "fls",
+  ford: "frd",
+  fords: "frds",
+  forg: "frg",
+  forge: "frg",
+  forges: "frgs",
+  fork: "frk",
+  forks: "frks",
+  forest: "frst",
+  forests: "frst",
+  fort: "ft",
+  frd: "frd",
+  frds: "frds",
+  freewy: "fwy",
+  freeway: "fwy",
+  frg: "frg",
+  frgs: "frgs",
+  frk: "frk",
+  frks: "frks",
+  frry: "fry",
+  frst: "frst",
+  frt: "ft",
+  frway: "fwy",
+  frwy: "fwy",
+  fry: "fry",
+  ft: "ft",
+  fwy: "fwy",
+  garden: "gdn",
+  gardens: "gdns",
+  gardn: "gdn",
+  gatewy: "gtwy",
+  gateway: "gtwy",
+  gatway: "gtwy",
+  gdn: "gdn",
+  gdns: "gdns",
+  glen: "gln",
+  glens: "glns",
+  grden: "gdn",
+  grdn: "gdn",
+  grdns: "gdns",
+  green: "grn",
+  greens: "grns",
+  grov: "grv",
+  grove: "grv",
+  groves: "grvs",
+  gtway: "gtwy",
+  gtwy: "gtwy",
+  harb: "hbr",
+  harbor: "hbr",
+  harbors: "hbrs",
+  harbr: "hbr",
+  haven: "hvn",
+  hbr: "hbr",
+  hbrs: "hbrs",
+  height: "hts",
+  heights: "hts",
+  hgts: "hts",
+  highway: "hwy",
+  highwy: "hwy",
+  hill: "hl",
+  hills: "hls",
+  hiway: "hwy",
+  hiwy: "hwy",
+  hl: "hl",
+  hllw: "holw",
+  hls: "hls",
+  hollow: "holw",
+  hollows: "holw",
+  holw: "holw",
+  holws: "holw",
+  hrbor: "hbr",
+  ht: "hts",
+  hts: "hts",
+  hvn: "hvn",
+  hway: "hwy",
+  hwy: "hwy",
+  inlet: "inlt",
+  inlt: "inlt",
+  is: "is",
+  island: "is",
+  islands: "iss",
+  isle: "isle",
+  isles: "isle",
+  islnd: "is",
+  islnds: "iss",
+  iss: "iss",
+  jct: "jct",
+  jction: "jct",
+  jctn: "jct",
+  jctns: "jcts",
+  jcts: "jcts",
+  junctn: "jct",
+  junction: "jct",
+  junctions: "jcts",
+  juncton: "jct",
+  key: "ky",
+  keys: "kys",
+  knl: "knl",
+  knol: "knl",
+  knoll: "knl",
+  knolls: "knls",
+  knols: "knls",
+  ky: "ky",
+  kys: "kys",
+  lake: "lk",
+  lakes: "lks",
+  land: "land",
+  landing: "lndg",
+  lane: "ln",
+  lanes: "ln",
+  ldg: "ldg",
+  ldge: "ldg",
+  lf: "lf",
+  lgt: "lgt",
+  lgts: "lgts",
+  light: "lgt",
+  lights: "lgts",
+  lk: "lk",
+  lks: "lks",
+  ln: "ln",
+  lndg: "lndg",
+  lndng: "lndg",
+  loaf: "lf",
+  lck: "lck",
+  lcks: "lcks",
+  lock: "lck",
+  locks: "lcks",
+  lodg: "ldg",
+  lodge: "ldg",
+  loop: "loop",
+  loops: "loop",
+  mall: "mall",
+  manr: "mnr",
+  manor: "mnr",
+  manors: "mnrs",
+  manrs: "mnrs",
+  mdw: "mdw",
+  mdws: "mdws",
+  meadow: "mdw",
+  meadows: "mdws",
+  medows: "mdws",
+  mews: "mews",
+  mill: "ml",
+  mills: "mls",
+  mission: "msn",
+  missn: "msn",
+  ml: "ml",
+  mls: "mls",
+  mnt: "mt",
+  mntain: "mtn",
+  mntn: "mtn",
+  mntns: "mtns",
+  mnr: "mnr",
+  mnrs: "mnrs",
+  motorway: "mtwy",
+  mount: "mt",
+  mountain: "mtn",
+  mountains: "mtns",
+  mountin: "mtn",
+  msn: "msn",
+  mssn: "msn",
+  mt: "mt",
+  mtin: "mtn",
+  mtn: "mtn",
+  mtns: "mtns",
+  mtwy: "mtwy",
+  nck: "nck",
+  neck: "nck",
+  opas: "opas",
+  orch: "orch",
+  orchard: "orch",
+  orchrd: "orch",
+  oval: "oval",
+  overpass: "opas",
+  park: "park",
+  parks: "park",
+  parkway: "pkwy",
+  parkways: "pkwy",
+  parkwy: "pkwy",
+  pass: "pass",
+  passage: "psge",
+  path: "path",
+  paths: "path",
+  pike: "pike",
+  pikes: "pike",
+  pine: "pne",
+  pines: "pnes",
+  pky: "pkwy",
+  pkway: "pkwy",
+  pkwy: "pkwy",
+  pkwys: "pkwy",
+  pl: "pl",
+  place: "pl",
+  plain: "pln",
+  plains: "plns",
+  plaza: "plz",
+  plc: "pl",
+  pln: "pln",
+  plns: "plns",
+  plz: "plz",
+  plza: "plz",
+  pne: "pne",
+  pnes: "pnes",
+  point: "pt",
+  points: "pts",
+  port: "prt",
+  ports: "prts",
+  pr: "pr",
+  prairie: "pr",
+  prarie: "pr",
+  prk: "park",
+  prr: "pr",
+  prt: "prt",
+  prts: "prts",
+  psge: "psge",
+  pt: "pt",
+  pts: "pts",
+  rad: "radl",
+  radial: "radl",
+  radl: "radl",
+  ramp: "ramp",
+  ranch: "rnch",
+  ranches: "rnch",
+  rapid: "rpd",
+  rapids: "rpds",
+  rd: "rd",
+  rdg: "rdg",
+  rdge: "rdg",
+  rdgs: "rdgs",
+  rds: "rds",
+  rest: "rst",
+  ridge: "rdg",
+  ridges: "rdgs",
+  riv: "riv",
+  river: "riv",
+  rivr: "riv",
+  rnch: "rnch",
+  rnchs: "rnch",
+  road: "rd",
+  roads: "rds",
+  route: "rte",
+  row: "row",
+  rpd: "rpd",
+  rpds: "rpds",
+  rst: "rst",
+  rte: "rte",
+  rue: "rue",
+  run: "run",
+  rvr: "riv",
+  shl: "shl",
+  shls: "shls",
+  shoal: "shl",
+  shoals: "shls",
+  shoar: "shr",
+  shoars: "shrs",
+  shore: "shr",
+  shores: "shrs",
+  shr: "shr",
+  shrs: "shrs",
+  skyway: "skwy",
+  skwy: "skwy",
+  spg: "spg",
+  spgs: "spgs",
+  spng: "spg",
+  spngs: "spgs",
+  spring: "spg",
+  springs: "spgs",
+  sprng: "spg",
+  sprngs: "spgs",
+  spur: "spur",
+  spurs: "spur",
+  sq: "sq",
+  sqr: "sq",
+  sqre: "sq",
+  sqrs: "sqs",
+  sqs: "sqs",
+  squ: "sq",
+  square: "sq",
+  squares: "sqs",
+  st: "st",
+  sta: "sta",
+  station: "sta",
+  statn: "sta",
+  stn: "sta",
+  str: "st",
+  stra: "stra",
+  strav: "stra",
+  straven: "stra",
+  stravenue: "stra",
+  stream: "strm",
+  streme: "strm",
+  street: "st",
+  streets: "sts",
+  strm: "strm",
+  strt: "st",
+  strvn: "stra",
+  strvnue: "stra",
+  sts: "sts",
+  sumit: "smt",
+  sumitt: "smt",
+  summit: "smt",
+  smt: "smt",
+  ter: "ter",
+  terr: "ter",
+  terrace: "ter",
+  throughway: "trwy",
+  tpke: "tpke",
+  trace: "trce",
+  traces: "trce",
+  track: "trak",
+  tracks: "trak",
+  trafficway: "trfy",
+  trail: "trl",
+  trailer: "trlr",
+  trails: "trl",
+  trak: "trak",
+  trce: "trce",
+  trfy: "trfy",
+  trk: "trak",
+  trks: "trak",
+  trl: "trl",
+  trlr: "trlr",
+  trlrs: "trlr",
+  trls: "trl",
+  trnpk: "tpke",
+  trwy: "trwy",
+  tunel: "tunl",
+  tunl: "tunl",
+  tunls: "tunl",
+  tunnel: "tunl",
+  tunnels: "tunl",
+  tunnl: "tunl",
+  turnpike: "tpke",
+  turnpk: "tpke",
+  un: "un",
+  underpass: "upas",
+  union: "un",
+  unions: "uns",
+  uns: "uns",
+  upas: "upas",
+  valley: "vly",
+  valleys: "vlys",
+  vally: "vly",
+  vdct: "via",
+  via: "via",
+  viadct: "via",
+  viaduct: "via",
+  view: "vw",
+  views: "vws",
+  vill: "vlg",
+  villag: "vlg",
+  village: "vlg",
+  villages: "vlgs",
+  villg: "vlg",
+  villiage: "vlg",
+  ville: "vl",
+  vis: "vis",
+  vist: "vis",
+  vista: "vis",
+  vl: "vl",
+  vlg: "vlg",
+  vlgs: "vlgs",
+  vlly: "vly",
+  vly: "vly",
+  vlys: "vlys",
+  vst: "vis",
+  vsta: "vis",
+  vw: "vw",
+  vws: "vws",
+  walk: "walk",
+  walks: "walk",
+  wall: "wall",
+  way: "way",
+  ways: "ways",
+  well: "wl",
+  wells: "wls",
+  wl: "wl",
+  wls: "wls",
+  wy: "way",
+  xing: "xing",
+  xrd: "xrd",
+  xrds: "xrds"
+};
 
 // src/utils.ts
 function normalizeText(text) {
@@ -803,288 +970,218 @@ function detectCountry(address) {
 }
 
 // src/parser.ts
+var buildPatterns = () => {
+  const streetTypes = Object.keys(US_STREET_TYPES).concat(Object.values(US_STREET_TYPES)).filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => b.length - a.length).join("|");
+  const directionals = Object.keys(DIRECTIONAL_MAP).concat(Object.values(DIRECTIONAL_MAP)).filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => b.length - a.length).join("|");
+  const states = Object.keys(US_STATES).concat(Object.values(US_STATES)).concat(Object.keys(CA_PROVINCES)).concat(Object.values(CA_PROVINCES)).filter((v, i, arr) => arr.indexOf(v) === i).join("|");
+  return {
+    number: String.raw`(\d+[-\w]*|\w\d+\w\d+)`,
+    fraction: String.raw`(\d+\/\d+)`,
+    directional: `(${directionals})`,
+    streetType: `(${streetTypes})`,
+    state: `\\b(${states})\\b`,
+    zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
+    poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
+    intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
+    secUnit: String.raw`(?:(suite?|ste?|apt|apartment|unit|#)\s*([a-z0-9-]+))`
+  };
+};
 function parseLocation(address, options = {}) {
   if (!address || typeof address !== "string") {
     return null;
   }
-  const {
-    country = "auto",
-    normalize = true,
-    validatePostalCode = true,
-    language = "auto",
-    extractFacilities = true,
-    parseParenthetical: enableParenthetical = true
-  } = options;
   const original = address.trim();
-  const result = {};
-  const parts = original.split(",").map((p) => p.trim()).filter(Boolean);
-  let streetPart = "";
-  let cityPart = "";
-  let stateZipPart = "";
-  if (parts.length >= 3) {
-    streetPart = parts[0];
-    cityPart = parts[1];
-    stateZipPart = parts.slice(2).join(" ");
-  } else if (parts.length >= 2) {
-    streetPart = parts[0];
-    stateZipPart = parts[1];
-  } else if (parts.length === 1) {
-    streetPart = parts[0];
+  const patterns = buildPatterns();
+  if (new RegExp(patterns.intersection, "i").test(original)) {
+    return parseIntersection(original, options);
   }
-  let workingText = original.toLowerCase().replace(/[.,;]/g, " ").replace(/\s+/g, " ").trim();
-  if (enableParenthetical) {
-    const parenMatch = workingText.match(/\(([^)]+)\)/);
-    if (parenMatch) {
-      result.secondary = parenMatch[1].trim();
-      workingText = workingText.replace(parenMatch[0], " ").replace(/\s+/g, " ").trim();
-    }
+  const poBoxMatch = original.match(new RegExp(`^\\s*${patterns.poBox}`, "i"));
+  if (poBoxMatch) {
+    return parsePoBox(original, options);
   }
-  if (extractFacilities) {
-    const facilityPatterns = [
-      /\b(hospital|medical center|clinic|mall|shopping center|plaza|tower|building|center|centre)\b/i,
-      /\b(school|university|college|library|church|temple|mosque|synagogue)\b/i
-    ];
-    for (const pattern of facilityPatterns) {
-      const match = workingText.match(pattern);
-      if (match) {
-        const fullMatch = workingText.match(new RegExp(`\\b[\\w\\s]*${match[0]}[\\w\\s]*\\b`, "i"));
-        if (fullMatch) {
-          result.facility = fullMatch[0].trim();
-          workingText = workingText.replace(fullMatch[0], " ").replace(/\s+/g, " ").trim();
-          break;
-        }
-      }
-    }
-  }
-  let sourceForZip = stateZipPart || original;
-  const zipMatch = sourceForZip.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
-  const postalMatch = sourceForZip.match(/\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/);
-  if (zipMatch) {
-    result.zip = zipMatch[1];
-    if (zipMatch[2]) result.zipext = zipMatch[2];
-    result.country = "US";
-    if (stateZipPart) {
-      stateZipPart = stateZipPart.replace(new RegExp(zipMatch[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), " ").replace(/\s+/g, " ").trim();
-    } else {
-      streetPart = streetPart.replace(new RegExp(zipMatch[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), " ").replace(/\s+/g, " ").trim();
-    }
-  } else if (postalMatch) {
-    result.zip = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
-    result.country = "CA";
-    if (stateZipPart) {
-      stateZipPart = stateZipPart.replace(new RegExp(postalMatch[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), " ").replace(/\s+/g, " ").trim();
-    } else {
-      streetPart = streetPart.replace(new RegExp(postalMatch[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), " ").replace(/\s+/g, " ").trim();
-    }
-  }
-  const usStates = Object.values(US_STATES).join("|");
-  const caProvinces = Object.values(CA_PROVINCES).join("|");
-  let sourceForState = stateZipPart || streetPart;
-  const stateMatch = sourceForState.match(new RegExp(`\\b(${usStates}|${caProvinces})\\b`, "i"));
-  if (stateMatch) {
-    result.state = stateMatch[1].toUpperCase();
-    if (!result.country) {
-      result.country = Object.values(US_STATES).includes(result.state) ? "US" : "CA";
-    }
-    if (stateZipPart) {
-      stateZipPart = stateZipPart.replace(new RegExp(`\\b${stateMatch[1]}\\b`, "i"), " ").replace(/\s+/g, " ").trim();
-    } else {
-      streetPart = streetPart.replace(new RegExp(`\\b${stateMatch[1]}\\b`, "i"), " ").replace(/\s+/g, " ").trim();
-    }
-  }
-  if (parts.length === 2 && stateZipPart && stateZipPart.trim()) {
-    cityPart = stateZipPart.trim();
-  }
-  if (streetPart) {
-    const numMatch = streetPart.match(/^(\d+(?:\s*[-\/]\s*\d+\/\d+|\s+\d+\/\d+)?)/);
-    if (numMatch) {
-      result.number = numMatch[1].trim();
-      streetPart = streetPart.replace(numMatch[0], " ").trim();
-    }
-    const unitMatch = streetPart.match(/\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)/i);
-    if (unitMatch) {
-      const unitType = SECONDARY_UNIT_TYPES[unitMatch[1].toLowerCase()] || unitMatch[1].toLowerCase();
-      result.sec_unit_type = unitType;
-      result.sec_unit_num = unitMatch[2];
-      result.unit = `${unitType} ${unitMatch[2]}`;
-      streetPart = streetPart.replace(unitMatch[0], " ").trim();
-    }
-    const dirWords = Object.keys(DIRECTIONAL_MAP).join("|");
-    const prefixMatch = streetPart.match(new RegExp(`^(${dirWords})\\s+`, "i"));
-    if (prefixMatch) {
-      result.prefix = DIRECTIONAL_MAP[prefixMatch[1].toLowerCase()];
-      streetPart = streetPart.replace(prefixMatch[0], " ").trim();
-    }
-    const streetTypes = result.country === "CA" ? { ...US_STREET_TYPES, ...CA_STREET_TYPES } : US_STREET_TYPES;
-    const streetWords = streetPart.split(/\s+/);
-    let typeIndex = -1;
-    for (let i = streetWords.length - 1; i >= 0; i--) {
-      const word = streetWords[i].toLowerCase();
-      if (streetTypes[word]) {
-        if (word === "pine" || word === "oak" || word === "maple" || word === "cedar") {
-          if (i === streetWords.length - 1 || i === streetWords.length - 2 && DIRECTIONAL_MAP[streetWords[i + 1].toLowerCase()]) {
-            result.type = streetTypes[word];
-            typeIndex = i;
-            break;
-          }
-        } else {
-          result.type = streetTypes[word];
-          typeIndex = i;
-          break;
-        }
-      }
-    }
-    if (typeIndex >= 0) {
-      let suffixIndex = -1;
-      if (typeIndex + 1 < streetWords.length) {
-        const suffixCandidate = streetWords[typeIndex + 1].toLowerCase();
-        if (DIRECTIONAL_MAP[suffixCandidate]) {
-          result.suffix = DIRECTIONAL_MAP[suffixCandidate];
-          suffixIndex = typeIndex + 1;
-        }
-      }
-      if (typeIndex > 0) {
-        result.street = streetWords.slice(0, typeIndex).join(" ");
-      }
-      const remainingStart = suffixIndex >= 0 ? suffixIndex + 1 : typeIndex + 1;
-      if (remainingStart < streetWords.length && !cityPart) {
-        cityPart = streetWords.slice(remainingStart).join(" ");
-      }
-    } else {
-      result.street = streetPart;
-    }
-  }
-  if (cityPart) {
-    result.city = cityPart;
-  }
-  if (!result.country && result.state) {
-    result.country = Object.values(US_STATES).includes(result.state) ? "US" : "CA";
-  }
-  if (validatePostalCode && result.zip && result.country) {
-    const isValid = result.country === "US" ? /^\d{5}(?:-\d{4})?$/.test(result.zip) : /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/.test(result.zip);
-    if (!isValid) {
-      delete result.zip;
-      delete result.zipext;
-    }
-  }
-  if (result.street) {
-    result.street = result.street.split(" ").map(
-      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    ).join(" ");
-  }
-  if (result.city) {
-    result.city = result.city.split(" ").map(
-      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    ).join(" ");
-  }
-  const hasComponents = result.number || result.street || result.city || result.state || result.zip;
-  return hasComponents ? result : null;
+  return parseStandardAddress(original, options) || parseInformalAddress(original, options);
 }
-function parseIntersection(address, options = {}) {
-  if (!address || typeof address !== "string") {
-    return null;
-  }
-  const text = normalizeText(address);
-  const result = {};
-  const intersectionMarkers = /\b(?:and|&|at|@|\/|\\|intersection of|corner of)\b/i;
-  const match = text.match(intersectionMarkers);
-  if (!match) {
-    return null;
-  }
-  const parts = text.split(intersectionMarkers);
-  if (parts.length !== 2) {
-    return null;
-  }
-  const street1Text = parts[0].trim();
-  const street2Text = parts[1].trim();
-  const parseCountry = options.country !== "auto" ? options.country : "US";
-  let s1Text = street1Text;
-  const s1PrefixResult = parseDirectional(s1Text);
-  if (s1PrefixResult.direction) {
-    result.prefix1 = s1PrefixResult.direction;
-    s1Text = s1PrefixResult.remaining;
-  }
-  const s1TypeResult = parseStreetType(s1Text, parseCountry);
-  if (s1TypeResult.type) {
-    result.type1 = s1TypeResult.type;
-    s1Text = s1TypeResult.remaining;
-  }
-  const s1SuffixResult = parseDirectional(s1Text);
-  if (s1SuffixResult.direction) {
-    result.suffix1 = s1SuffixResult.direction;
-    s1Text = s1SuffixResult.remaining;
-  }
-  if (s1Text.trim()) {
-    result.street1 = s1Text.trim();
-  }
-  let s2Text = street2Text;
-  const postalResult = parsePostalCode(s2Text);
-  if (postalResult.zip) {
-    result.zip = postalResult.zip;
-    s2Text = postalResult.remaining;
-  }
-  const stateResult = parseStateProvince(s2Text);
-  if (stateResult.state) {
-    result.state = stateResult.state;
-    s2Text = stateResult.remaining;
-    if (stateResult.detectedCountry) {
-      result.country = stateResult.detectedCountry;
+function parsePoBox(address, options = {}) {
+  const patterns = buildPatterns();
+  const match = address.match(new RegExp(
+    `^\\s*${patterns.poBox}\\s*,?\\s*(?:([^\\d,]+?)\\s*,?\\s*)?(?:${patterns.state}\\s*)?(?:${patterns.zip})?\\s*$`,
+    "i"
+  ));
+  if (!match) return null;
+  const result = {
+    sec_unit_type: match[0].replace(/\s*\d+.*$/, "").trim(),
+    sec_unit_num: match[1]
+  };
+  if (match[2]) result.city = match[2].trim();
+  if (match[3]) result.state = match[3].toUpperCase();
+  if (match[4]) result.zip = match[4];
+  result.country = detectCountry(result);
+  return result;
+}
+function parseStandardAddress(address, options = {}) {
+  const patterns = buildPatterns();
+  const commaParts = address.split(",").map((p) => p.trim());
+  let zipPart = "";
+  let cityStatePart = "";
+  let addressPart = commaParts[0];
+  if (commaParts.length > 1) {
+    const lastPart = commaParts[commaParts.length - 1];
+    const zipMatch = lastPart.match(new RegExp(patterns.zip));
+    if (zipMatch) {
+      zipPart = zipMatch[1];
+      cityStatePart = lastPart.replace(zipMatch[0], "").trim();
+      if (commaParts.length > 2) {
+        cityStatePart = commaParts[commaParts.length - 2] + " " + cityStatePart;
+      }
+    } else {
+      cityStatePart = commaParts.slice(1).join(" ");
     }
   }
-  const s2PrefixResult = parseDirectional(s2Text);
-  if (s2PrefixResult.direction) {
-    result.prefix2 = s2PrefixResult.direction;
-    s2Text = s2PrefixResult.remaining;
-  }
-  const s2TypeResult = parseStreetType(s2Text, parseCountry);
-  if (s2TypeResult.type) {
-    result.type2 = s2TypeResult.type;
-    s2Text = s2TypeResult.remaining;
-  }
-  const s2SuffixResult = parseDirectional(s2Text);
-  if (s2SuffixResult.direction) {
-    result.suffix2 = s2SuffixResult.direction;
-    s2Text = s2SuffixResult.remaining;
-  }
-  const s2Parts = s2Text.split(/\s+/).filter(Boolean);
-  if (s2Parts.length > 0) {
-    if (s2Parts.length === 1) {
-      result.street2 = s2Parts[0];
-    } else {
-      if (!result.state && !result.zip) {
-        result.street2 = s2Parts.slice(0, -1).join(" ");
-        result.city = s2Parts.slice(-1)[0];
+  const result = {};
+  const addressMatch = addressPart.match(new RegExp(
+    `^\\s*(?:${patterns.number}\\s+)?(?:${patterns.fraction}\\s+)?(?:${patterns.directional}\\s+)?([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:${patterns.streetType}\\b\\s*)?(?:${patterns.directional}\\s*)?(?:${patterns.secUnit}\\s*)?$`,
+    "i"
+  ));
+  if (addressMatch) {
+    let i = 1;
+    if (addressMatch[i]) result.number = addressMatch[i++];
+    if (addressMatch[i]) result.fraction = addressMatch[i++];
+    if (addressMatch[i]) result.prefix = addressMatch[i++].toUpperCase();
+    let streetText = addressMatch[i++];
+    if (streetText) {
+      const streetTypeMatch = streetText.match(new RegExp(`\\b(${patterns.streetType.slice(1, -1)})\\b\\s*$`, "i"));
+      if (streetTypeMatch) {
+        result.type = normalizeStreetType(streetTypeMatch[1]);
+        result.street = streetText.replace(streetTypeMatch[0], "").trim();
       } else {
-        result.street2 = s2Parts.join(" ");
+        result.street = streetText.trim();
+      }
+    }
+    if (addressMatch[i]) result.suffix = addressMatch[i++].toUpperCase();
+    if (addressMatch[i] && addressMatch[i + 1]) {
+      result.sec_unit_type = addressMatch[i++].toLowerCase();
+      result.sec_unit_num = addressMatch[i++];
+      result.unit = `${result.sec_unit_type} ${result.sec_unit_num}`;
+    }
+  }
+  if (cityStatePart) {
+    const cityStateMatch = cityStatePart.match(new RegExp(`^(.+?)\\s+${patterns.state}\\s*$`, "i"));
+    if (cityStateMatch) {
+      result.city = cityStateMatch[1].trim();
+      result.state = cityStateMatch[2].toUpperCase();
+    } else {
+      const stateMatch = cityStatePart.match(new RegExp(`^${patterns.state}\\s*$`, "i"));
+      if (stateMatch) {
+        result.state = stateMatch[1].toUpperCase();
+      } else {
+        result.city = cityStatePart;
       }
     }
   }
-  return result.street1 && result.street2 ? result : null;
+  if (zipPart) {
+    result.zip = zipPart;
+  }
+  result.country = detectCountry(result);
+  return result.number || result.street ? result : null;
 }
 function parseInformalAddress(address, options = {}) {
-  const informalOptions = {
-    ...options,
-    validatePostalCode: false,
-    // Don't validate postal codes strictly
-    parseParenthetical: true,
-    // Always parse parenthetical info
-    extractFacilities: true
-    // Always extract facilities
-  };
-  return parseLocation(address, informalOptions);
+  const patterns = buildPatterns();
+  const parts = address.split(/\s*,\s*/);
+  if (parts.length === 0) return null;
+  const result = {};
+  const firstPart = parts[0];
+  const numberMatch = firstPart.match(new RegExp(`^\\s*${patterns.number}\\s+(.+)$`));
+  if (numberMatch) {
+    result.number = numberMatch[1];
+    result.street = numberMatch[2];
+  } else {
+    result.street = firstPart;
+  }
+  if (parts.length > 1) {
+    const lastPart = parts[parts.length - 1];
+    const zipMatch = lastPart.match(new RegExp(patterns.zip));
+    if (zipMatch) {
+      result.zip = zipMatch[1];
+      result.country = "US";
+    }
+  }
+  return result;
+}
+function normalizeStreetType(type) {
+  const normalized = type.toLowerCase().replace(/\./g, "");
+  return US_STREET_TYPES[normalized] || type.toLowerCase();
+}
+function parseIntersection(address, options = {}) {
+  const patterns = buildPatterns();
+  const intersectionPattern = new RegExp(patterns.intersection, "i");
+  const parts = address.split(intersectionPattern);
+  if (parts.length !== 2) return null;
+  const result = {};
+  let locationText = parts[1].trim();
+  const locationMatch = locationText.match(new RegExp(
+    `(.+?)\\s*,?\\s*([^,]+?)\\s*,?\\s*${patterns.state}\\s*(?:${patterns.zip})?\\s*$`,
+    "i"
+  ));
+  if (locationMatch) {
+    result.city = locationMatch[2].trim();
+    result.state = locationMatch[3].toUpperCase();
+    if (locationMatch[4]) result.zip = locationMatch[4];
+    locationText = locationMatch[1].trim();
+  } else {
+    const simpleLocationMatch = locationText.match(new RegExp(
+      `(.+?)\\s+${patterns.state}\\s*$`,
+      "i"
+    ));
+    if (simpleLocationMatch) {
+      result.city = simpleLocationMatch[1].trim();
+      result.state = simpleLocationMatch[2].toUpperCase();
+      locationText = "";
+    }
+  }
+  const street1Text = parts[0].trim();
+  const street1Match = street1Text.match(new RegExp(
+    `^([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:(${patterns.streetType.slice(1, -1)})\\b)?\\s*$`,
+    "i"
+  ));
+  if (street1Match) {
+    result.street1 = street1Match[1].trim();
+    result.type1 = street1Match[2] ? normalizeStreetType(street1Match[2]) : "";
+  }
+  const street2Text = locationText || parts[1].trim();
+  const street2Match = street2Text.match(new RegExp(
+    `^([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:(${patterns.streetType.slice(1, -1)})\\b)?`,
+    "i"
+  ));
+  if (street2Match) {
+    result.street2 = street2Match[1].trim();
+    result.type2 = street2Match[2] ? normalizeStreetType(street2Match[2]) : "";
+  }
+  if (!result.street1 || !result.street2) return null;
+  if (!result.type1) result.type1 = "";
+  if (!result.type2) result.type2 = "";
+  return result;
 }
 function parseAddress(address, options = {}) {
   return parseLocation(address, options);
 }
+function createParser(defaultOptions = {}) {
+  return {
+    parseAddress: (address, options) => parseAddress(address, { ...defaultOptions, ...options }),
+    parseInformalAddress: (address, options) => parseInformalAddress(address, { ...defaultOptions, ...options }),
+    parseIntersection: (address, options) => parseIntersection(address, { ...defaultOptions, ...options }),
+    parseLocation: (address, options) => parseLocation(address, { ...defaultOptions, ...options })
+  };
+}
+var parser = createParser();
 
 // src/index.ts
-var parser = {
+var parser2 = {
   parseLocation,
   parseIntersection,
   parseInformalAddress,
   parseAddress
 };
-var index_default = parser;
+var index_default = parser2;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   CANADIAN_POSTAL_CODE_PATTERN,

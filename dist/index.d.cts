@@ -1,9 +1,14 @@
 /**
- * Types for address parsing results
+ * Types for address parsing results - compatible with parse-address npm package
+ */
+/**
+ * Parsed address result with all possible fields
  */
 interface ParsedAddress {
     /** Street number */
     number?: string;
+    /** Fractional address number (e.g., 1/2 in "123 1/2 Main St") */
+    fraction?: string;
     /** Directional prefix (N, S, E, W, etc.) */
     prefix?: string;
     /** Street name */
@@ -19,39 +24,32 @@ interface ParsedAddress {
     /** ZIP or postal code */
     zip?: string;
     /** Extended ZIP+4 code */
-    zipext?: string;
-    /** Apartment, unit, or suite number */
-    unit?: string;
-    /** Building or facility name */
-    facility?: string;
-    /** Country (US or CA) */
-    country?: 'US' | 'CA';
-    /** Secondary address info (floor, apt, etc.) */
-    secondary?: string;
-    /** Address line as parsed for secondary info */
+    plus4?: string;
+    /** Secondary unit type (apt, suite, etc.) */
     sec_unit_type?: string;
     /** Secondary unit number */
     sec_unit_num?: string;
+    /** Detected country (US, CA) */
+    country?: "CA" | "US";
+    /** Facility name (e.g., building name, complex name) */
+    facility?: string;
+    /** Rural route or similar */
+    rural_route?: string;
+    /** Site or compartment number */
+    site?: string;
+    /** General delivery indicator */
+    general_delivery?: boolean;
+    /** Legacy properties for backward compatibility */
+    secondary?: string;
+    unit?: string;
+    zipext?: string;
 }
+
 /**
- * Configuration options for address parsing
+ * Result from intersection address parsing
  */
-interface ParseOptions {
-    /** Country to optimize parsing for */
-    country?: 'US' | 'CA' | 'auto';
-    /** Whether to normalize street types and directions */
-    normalize?: boolean;
-    /** Whether to validate postal/ZIP codes */
-    validatePostalCode?: boolean;
-    /** Language preference for bilingual parsing (Canada) */
-    language?: 'en' | 'fr' | 'auto';
-    /** Whether to extract facility names */
-    extractFacilities?: boolean;
-    /** Whether to parse parenthetical information */
-    parseParenthetical?: boolean;
-}
 /**
- * Result from intersection parsing
+ * Parsed intersection result containing two streets and location info
  */
 interface ParsedIntersection {
     /** First street */
@@ -76,21 +74,50 @@ interface ParsedIntersection {
     state?: string;
     /** ZIP/Postal code */
     zip?: string;
+    /** Extended ZIP+4 code */
+    zipext?: string;
     /** Country */
-    country?: 'US' | 'CA';
+    country?: "CA" | "US";
 }
+
+/**
+ * Configuration options for address parsing
+ */
+/**
+ * Options to control address parsing behavior
+ */
+interface ParseOptions {
+    /** Country to optimize parsing for */
+    country?: "CA" | "US" | "auto";
+    /** Whether to normalize street types and directions */
+    normalize?: boolean;
+    /** Whether to validate postal/ZIP codes */
+    validatePostalCode?: boolean;
+    /** Language preference for bilingual parsing (Canada) */
+    language?: "auto" | "en" | "fr";
+    /** Whether to extract facility names */
+    extractFacilities?: boolean;
+    /** Whether to parse parenthetical information */
+    parseParenthetical?: boolean;
+}
+
 /**
  * Address parser interface for API compatibility
  */
+
+/**
+ * Main address parser interface providing all parsing methods
+ */
 interface AddressParser {
-    parseLocation(address: string, options?: ParseOptions): ParsedAddress | null;
-    parseIntersection(address: string, options?: ParseOptions): ParsedIntersection | null;
-    parseInformalAddress(address: string, options?: ParseOptions): ParsedAddress | null;
     parseAddress(address: string, options?: ParseOptions): ParsedAddress | null;
+    parseInformalAddress(address: string, options?: ParseOptions): ParsedAddress | null;
+    parseIntersection(address: string, options?: ParseOptions): ParsedIntersection | null;
+    parseLocation(address: string, options?: ParseOptions): ParsedAddress | null;
 }
 
 /**
  * Main address parser implementation
+ * Based on the original parse-address library patterns
  */
 
 /**
@@ -98,30 +125,88 @@ interface AddressParser {
  */
 declare function parseLocation(address: string, options?: ParseOptions): ParsedAddress | null;
 /**
- * Parse an intersection string
- */
-declare function parseIntersection(address: string, options?: ParseOptions): ParsedIntersection | null;
-/**
- * Parse an informal address (more lenient parsing)
+ * Parse informal addresses (fallback)
  */
 declare function parseInformalAddress(address: string, options?: ParseOptions): ParsedAddress | null;
 /**
- * Main parse function (alias for parseLocation for API compatibility)
+ * Parse intersection addresses
+ */
+declare function parseIntersection(address: string, options?: ParseOptions): ParsedIntersection | null;
+/**
+ * Parse address (compatibility alias)
  */
 declare function parseAddress(address: string, options?: ParseOptions): ParsedAddress | null;
 
 /**
- * Address parsing patterns and data for US and Canada
+ * Canadian provinces and territories mapping
+ */
+/**
+ * Mapping of Canadian province and territory names to their official abbreviations
+ * Includes both English and French names
+ */
+declare const CA_PROVINCES: Record<string, string>;
+
+/**
+ * Canadian Street Types (Canada Post official abbreviations) - bilingual
+ */
+/**
+ * Mapping of Canadian street types and their variations to official Canada Post abbreviations
+ * Includes both English and French terms
+ */
+declare const CA_STREET_TYPES: Record<string, string>;
+
+/**
+ * Directional abbreviations for US and Canadian addresses
+ */
+/**
+ * Mapping of directional words to their standard abbreviations
+ * Supports both English and French (for Canada)
  */
 declare const DIRECTIONAL_MAP: Record<string, string>;
-declare const US_STREET_TYPES: Record<string, string>;
-declare const CA_STREET_TYPES: Record<string, string>;
-declare const US_STATES: Record<string, string>;
-declare const CA_PROVINCES: Record<string, string>;
-declare const SECONDARY_UNIT_TYPES: Record<string, string>;
-declare const ZIP_CODE_PATTERN: RegExp;
-declare const CANADIAN_POSTAL_CODE_PATTERN: RegExp;
+
+/**
+ * Facility name recognition patterns
+ */
+/**
+ * Common facility name patterns for extraction
+ */
 declare const FACILITY_PATTERNS: RegExp[];
+
+/**
+ * Regular expressions for postal code patterns
+ */
+/**
+ * Pattern for US ZIP codes (5 digits, optionally followed by +4)
+ */
+declare const ZIP_CODE_PATTERN: RegExp;
+/**
+ * Pattern for Canadian postal codes (A1A 1A1 format)
+ */
+declare const CANADIAN_POSTAL_CODE_PATTERN: RegExp;
+
+/**
+ * Secondary unit types and abbreviations
+ */
+/**
+ * Mapping of secondary unit types to their standard abbreviations
+ */
+declare const SECONDARY_UNIT_TYPES: Record<string, string>;
+
+/**
+ * US States and territories mapping
+ */
+/**
+ * Mapping of US state and territory names to their official abbreviations
+ */
+declare const US_STATES: Record<string, string>;
+
+/**
+ * US Street Types (USPS official abbreviations)
+ */
+/**
+ * Mapping of US street types and their variations to official USPS abbreviations
+ */
+declare const US_STREET_TYPES: Record<string, string>;
 
 /**
  * Core parsing utilities and regex patterns
@@ -158,7 +243,7 @@ declare function parseStateProvince(text: string, country?: 'US' | 'CA'): {
     detectedCountry?: 'US' | 'CA';
 };
 /**
- * Extract ZIP or postal code
+ * Extract postal code (ZIP or Canadian postal code)
  */
 declare function parsePostalCode(text: string): {
     zip: string | undefined;
@@ -167,7 +252,7 @@ declare function parsePostalCode(text: string): {
     detectedCountry?: 'US' | 'CA';
 };
 /**
- * Extract secondary unit information
+ * Parse secondary unit information (apartment, suite, etc.)
  */
 declare function parseSecondaryUnit(text: string): {
     unit: string | undefined;
@@ -177,6 +262,9 @@ declare function parseSecondaryUnit(text: string): {
 };
 /**
  * Extract facility names
+ */
+/**
+ * Parse facility information from address
  */
 declare function parseFacility(text: string): {
     facility: string | undefined;
