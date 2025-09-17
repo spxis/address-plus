@@ -18,7 +18,7 @@ interface AddressTestCase {
     city?: string;
     state?: string;
     zip?: string;
-    zipext?: string;
+    plus4?: string;
     country?: string;
     [key: string]: any;
   };

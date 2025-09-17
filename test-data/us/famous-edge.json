@@ -9,7 +9,7 @@
       "city": "Washington",
       "state": "DC",
       "zip": "20500",
-      "zipext": "0001",
+      "plus4": "0001",
       "country": "US"
     },
     "description": "The White House - with periods and extended ZIP"
@@ -56,7 +56,7 @@
       "city": "Chicago",
       "state": "IL",
       "zip": "60613",
-      "zipext": "4397",
+      "plus4": "4397",
       "country": "US"
     },
     "description": "Wrigley Field - with periods and full state name"
@@ -71,7 +71,7 @@
       "city": "New York",
       "state": "NY",
       "zip": "10007",
-      "zipext": "2701",
+      "plus4": "2701",
       "country": "US"
     },
     "description": "One World Trade Center - abbreviated with floor"
@@ -100,7 +100,7 @@
       "city": "Hollywood",
       "state": "CA",
       "zip": "90068",
-      "zipext": "1661",
+      "plus4": "1661",
       "country": "US"
     },
     "description": "Hollywood Sign - with period and extended ZIP"
@@ -115,7 +115,7 @@
       "city": "Mesa",
       "state": "AZ",
       "zip": "85201",
-      "zipext": "6738",
+      "plus4": "6738",
       "country": "US"
     },
     "description": "Mesa Arts Center - spelled out directional"
@@ -129,7 +129,7 @@
       "city": "Los Angeles",
       "state": "CA",
       "zip": "90049",
-      "zipext": "1679",
+      "plus4": "1679",
       "country": "US"
     },
     "description": "Getty Center - abbreviated drive with full state"
@@ -158,7 +158,7 @@
       "city": "Frisco",
       "state": "TX",
       "zip": "75034",
-      "zipext": "9104",
+      "plus4": "9104",
       "country": "US"
     },
     "description": "The Star - written number with extended ZIP"
@@ -173,7 +173,7 @@
       "city": "Miami",
       "state": "FL",
       "zip": "33129",
-      "zipext": "2324",
+      "plus4": "2324",
       "country": "US"
     },
     "description": "Marlins Park - abbreviated directional with periods"
@@ -188,7 +188,7 @@
       "city": "Atlanta",
       "state": "GA",
       "zip": "30313",
-      "zipext": "1591",
+      "plus4": "1591",
       "country": "US"
     },
     "description": "Mercedes-Benz Stadium area - with periods in directional"
@@ -202,7 +202,7 @@
       "city": "Honolulu",
       "state": "HI",
       "zip": "96818",
-      "zipext": "4601",
+      "plus4": "4601",
       "country": "US"
     },
     "description": "Aloha Stadium - abbreviated place with full state"
@@ -216,7 +216,7 @@
       "city": "Boise",
       "state": "ID",
       "zip": "83725",
-      "zipext": "1000",
+      "plus4": "1000",
       "country": "US"
     },
     "description": "Boise State University - abbreviated with full state"

@@ -114,14 +114,14 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
 /**
  * Extract postal code (ZIP or Canadian postal code)
  */
-function parsePostalCode(text: string): { zip: string | undefined; zipext: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
+function parsePostalCode(text: string): { zip: string | undefined; plus4: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
   // Try US ZIP code - look for it anywhere in the text
   const zipMatch = text.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
   if (zipMatch) {
     const zip = zipMatch[1];
-    const zipext = zipMatch[2];
-    const remaining = text.replace(zipMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    return { zip, zipext, remaining, detectedCountry: 'US' };
+    const plus4 = zipMatch[2];
+    const remaining = text.replace(zipMatch[0], '').trim();
+    return { zip, plus4, remaining, detectedCountry: 'US' };
   }
   
   // Try Canadian postal code - look for it anywhere in the text
@@ -129,10 +129,10 @@ function parsePostalCode(text: string): { zip: string | undefined; zipext: strin
   if (postalMatch) {
     const zip = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
     const remaining = text.replace(postalMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    return { zip, zipext: undefined, remaining, detectedCountry: 'CA' };
+    return { zip, plus4: undefined, remaining, detectedCountry: 'CA' };
   }
   
-  return { zip: undefined, zipext: undefined, remaining: text };
+  return { zip: undefined, plus4: undefined, remaining: text };
 }
 
 /**

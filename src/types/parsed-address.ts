@@ -43,5 +43,4 @@ export interface ParsedAddress {
   /** Legacy properties for backward compatibility */
   secondary?: string;
   unit?: string;
-  zipext?: string;
 }

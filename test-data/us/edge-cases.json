@@ -24,7 +24,7 @@
       "city": "Big City",
       "state": "TX",
       "zip": "75201",
-      "zipext": "1234"
+      "plus4": "1234"
     },
     "description": "Apartment with extended ZIP and periods in directionals"
   },

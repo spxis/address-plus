@@ -42,7 +42,6 @@ interface ParsedAddress {
     /** Legacy properties for backward compatibility */
     secondary?: string;
     unit?: string;
-    zipext?: string;
 }
 
 /**
@@ -75,7 +74,7 @@ interface ParsedIntersection {
     /** ZIP/Postal code */
     zip?: string;
     /** Extended ZIP+4 code */
-    zipext?: string;
+    plus4?: string;
     /** Country */
     country?: "CA" | "US";
 }
@@ -199,7 +198,7 @@ declare const DIRECTIONAL_MAP: Record<string, string>;
  * Facility name recognition patterns
  */
 /**
- * Common facility name patterns for extraction
+ * Combined facility patterns for English and French
  */
 declare const FACILITY_PATTERNS: RegExp[];
 /**
@@ -232,9 +231,9 @@ declare const CANADIAN_POSTAL_CODE_PATTERN: RegExp;
 declare const UNIT_TYPE_KEYWORDS = "suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate";
 /**
  * Written numbers that can appear as street numbers
- * Keep it simple to avoid false matches
+ * Includes comprehensive ordinal support, plurals, and compound numbers
  */
-declare const WRITTEN_NUMBERS = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?";
+declare const WRITTEN_NUMBERS: string;
 /**
  * Pattern for secondary unit types and numbers
  * Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", etc.
@@ -359,7 +358,7 @@ declare function parseStateProvince(text: string, country?: 'US' | 'CA'): {
  */
 declare function parsePostalCode(text: string): {
     zip: string | undefined;
-    zipext: string | undefined;
+    plus4: string | undefined;
     remaining: string;
     detectedCountry?: 'US' | 'CA';
 };

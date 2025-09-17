@@ -29,7 +29,7 @@ export interface ParsedIntersection {
   /** ZIP/Postal code */
   zip?: string;
   /** Extended ZIP+4 code */
-  zipext?: string;
+  plus4?: string;
   /** Country */
   country?: "CA" | "US";
 }

@@ -9,9 +9,18 @@ export const UNIT_TYPE_KEYWORDS = 'suite|ste|apt|apartment|unit|floor|fl|buildin
 
 /**
  * Written numbers that can appear as street numbers
- * Keep it simple to avoid false matches
+ * Includes comprehensive ordinal support, plurals, and compound numbers
  */
-export const WRITTEN_NUMBERS = 'one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?';
+export const WRITTEN_NUMBERS = 
+  'one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|' +
+  'thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|' +
+  'twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|' +
+  'hundred(?:s)?|thousand(?:s)?|' +
+  'first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|' +
+  'eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|' +
+  'seventeenth|eighteenth|nineteenth|' +
+  '(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)' +
+  '(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?';
 
 /**
  * Pattern for secondary unit types and numbers

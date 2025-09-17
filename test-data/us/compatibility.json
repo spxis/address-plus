@@ -138,7 +138,7 @@
         "street": "Wacker",
         "type": "Dr",
         "zip": "60606",
-        "zipext": "6306"
+        "plus4": "6306"
       },
       "description": "ZIP+4 code with dash separator"
     },

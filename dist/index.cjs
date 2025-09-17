@@ -291,12 +291,19 @@ var DIRECTIONAL_MAP = {
 };
 
 // src/data/facility-patterns.ts
-var FACILITY_PATTERNS = [
+var FACILITY_PATTERNS_EN = [
   /\b(hospital|medical center|clinic|mall|shopping center|plaza|tower|building|center|centre)\b/i,
   /\b(school|university|college|library|church|temple|mosque|synagogue)\b/i,
   /\b(airport|station|terminal|depot|port|harbor|harbour)\b/i,
   /\b(park|recreation|rec center|community center|civic center)\b/i
 ];
+var FACILITY_PATTERNS_FR = [
+  /\b(hôpital|centre médical|clinique|centre commercial|place|tour|bâtiment|centre)\b/i,
+  /\b(école|université|collège|bibliothèque|église|temple|mosquée|synagogue)\b/i,
+  /\b(aéroport|gare|terminal|dépôt|port|havre)\b/i,
+  /\b(parc|récréation|centre récréatif|centre communautaire|centre civique)\b/i
+];
+var FACILITY_PATTERNS = [...FACILITY_PATTERNS_EN, ...FACILITY_PATTERNS_FR];
 var FACILITY_DELIMITER_PATTERN = /^([^,]+),\s*(.+)$/;
 
 // src/data/postal-patterns.ts
@@ -305,7 +312,7 @@ var CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)$/;
 
 // src/data/address-patterns.ts
 var UNIT_TYPE_KEYWORDS = "suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate";
-var WRITTEN_NUMBERS = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?";
+var WRITTEN_NUMBERS = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred(?:s)?|thousand(?:s)?|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?";
 var SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s*$`, "i");
 var UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|#\\s*([a-z0-9-]+)`, "i");
 var CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
@@ -1348,17 +1355,17 @@ function parsePostalCode(text) {
   const zipMatch = text.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
   if (zipMatch) {
     const zip = zipMatch[1];
-    const zipext = zipMatch[2];
-    const remaining = text.replace(zipMatch[0], " ").replace(/\s+/g, " ").trim();
-    return { zip, zipext, remaining, detectedCountry: "US" };
+    const plus4 = zipMatch[2];
+    const remaining = text.replace(zipMatch[0], "").trim();
+    return { zip, plus4, remaining, detectedCountry: "US" };
   }
   const postalMatch = text.match(/\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/);
   if (postalMatch) {
     const zip = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
     const remaining = text.replace(postalMatch[0], " ").replace(/\s+/g, " ").trim();
-    return { zip, zipext: void 0, remaining, detectedCountry: "CA" };
+    return { zip, plus4: void 0, remaining, detectedCountry: "CA" };
   }
-  return { zip: void 0, zipext: void 0, remaining: text };
+  return { zip: void 0, plus4: void 0, remaining: text };
 }
 function parseSecondaryUnit(text) {
   const unitPattern = buildRegexFromDict(SECONDARY_UNIT_TYPES);
@@ -1454,8 +1461,8 @@ var buildPatterns = () => {
     state: `\\b(${states})\\b`,
     stateAbbrev: `\\b(${stateAbbrevs})\\b`,
     stateFullName: `\\b(${stateFullNames})\\b`,
-    zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
-    poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
+    zip: String.raw`(\d{5}(?:[-\s]?\d{4})?)`,
+    poBox: String.raw`(p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
     secUnit: String.raw`(?:(${UNIT_TYPE_KEYWORDS}|#)\s+([a-z0-9-]+))`
   };
@@ -1502,10 +1509,8 @@ function parseLocation(address, options = {}) {
 }
 function parsePoBox(address, options = {}) {
   const patterns = buildPatterns();
-  const match = address.match(new RegExp(
-    `^\\s*${patterns.poBox}\\s*,?\\s*(?:([^\\d,]+?)\\s*,?\\s*)?(?:(${patterns.state.slice(2, -2)})\\s*)?(?:(${patterns.zip.slice(1, -1)}))?\\s*$`,
-    "i"
-  ));
+  const fullPattern = `^\\s*${patterns.poBox}\\s*,?\\s*(?:([^\\d,]+?)\\s*,?\\s*)?(?:(${patterns.state.slice(2, -2)})\\s*)?(?:${patterns.zip})?\\s*$`;
+  const match = address.match(new RegExp(fullPattern, "i"));
   if (!match) return null;
   const result = {
     sec_unit_type: normalizePoBoxType(match[1]),
@@ -1513,16 +1518,16 @@ function parsePoBox(address, options = {}) {
   };
   if (match[3]) result.city = match[3].trim();
   if (match[4]) result.state = match[4].toUpperCase();
-  if (match[5]) result.zip = match[5];
+  if (match[6]) result.zip = match[6];
   result.country = detectCountry(result);
   return result;
 }
 function normalizePoBoxType(type) {
-  const normalized = type.toLowerCase().replace(/\./g, "").replace(/\s+/g, " ").trim();
-  if (normalized.includes("post office box") || normalized.includes("po box") || normalized.includes("pobox")) {
+  const cleaned = type.replace(/\s+/g, " ").trim();
+  if (cleaned.toLowerCase().match(/^p\.o\.\s*box$/i)) {
     return "PO box";
   }
-  return normalized;
+  return cleaned;
 }
 function parseStandardAddress(address, options = {}) {
   const patterns = buildPatterns();
@@ -1864,10 +1869,12 @@ function parseStandardAddress(address, options = {}) {
     result.state = stateInfo.state || statePart.toUpperCase();
   }
   if (zipPart) {
-    if (zipPart.includes("-")) {
-      const zipParts = zipPart.split("-");
-      result.zip = zipParts[0];
-      result.zipext = zipParts[1];
+    const zipMatch = zipPart.match(/^(\d{5})(?:[-\s]?(\d{4}))?$/);
+    if (zipMatch) {
+      result.zip = zipMatch[1];
+      if (zipMatch[2]) {
+        result.plus4 = zipMatch[2];
+      }
     } else {
       result.zip = zipPart;
     }
@@ -1928,10 +1935,21 @@ function parseIntersection(address, options = {}) {
     result.state = stateMatch[1].toUpperCase();
     locationText = locationText.replace(stateMatch[0], "").trim();
   }
-  const cityMatch = locationText.match(/\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)$/);
-  if (cityMatch) {
-    result.city = cityMatch[1].trim();
-    locationText = locationText.replace(cityMatch[0], "").trim();
+  if (result.state) {
+    locationText = locationText.replace(/,\s*$/, "").trim();
+    let cityMatch = locationText.match(/,\s+([A-Za-z\s]+)$/);
+    if (cityMatch) {
+      result.city = cityMatch[1].trim();
+      locationText = locationText.replace(cityMatch[0], "").trim();
+    } else {
+      cityMatch = locationText.match(/\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)$/);
+      if (cityMatch) {
+        result.city = cityMatch[1].trim();
+        locationText = locationText.replace(cityMatch[0], "").trim();
+      }
+    }
+  } else {
+    locationText = locationText.replace(/,\s*$/, "").trim();
   }
   const street1Text = parts[0].trim();
   const street1Match = street1Text.match(new RegExp(

@@ -5,12 +5,24 @@
 /**
  * Common facility name patterns for extraction
  */
-const FACILITY_PATTERNS = [
+const FACILITY_PATTERNS_EN = [
   /\b(hospital|medical center|clinic|mall|shopping center|plaza|tower|building|center|centre)\b/i,
   /\b(school|university|college|library|church|temple|mosque|synagogue)\b/i,
   /\b(airport|station|terminal|depot|port|harbor|harbour)\b/i,
   /\b(park|recreation|rec center|community center|civic center)\b/i,
 ];
+
+const FACILITY_PATTERNS_FR = [ 
+  /\b(hôpital|centre médical|clinique|centre commercial|place|tour|bâtiment|centre)\b/i,
+  /\b(école|université|collège|bibliothèque|église|temple|mosquée|synagogue)\b/i,
+  /\b(aéroport|gare|terminal|dépôt|port|havre)\b/i,
+  /\b(parc|récréation|centre récréatif|centre communautaire|centre civique)\b/i,
+];
+
+/**
+ * Combined facility patterns for English and French
+ */
+const FACILITY_PATTERNS: RegExp[] = [...FACILITY_PATTERNS_EN, ...FACILITY_PATTERNS_FR];
 
 /**
  * Pattern for detecting delimiter-separated facility addresses
