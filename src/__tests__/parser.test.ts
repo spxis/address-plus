@@ -1,9 +1,12 @@
 /**
  * Tests for address parsing functionality
+ * Including comprehensive test cases from parse-address compatibility
  */
 
-import { parseLocation, parseIntersection, parseInformalAddress, parseAddress } from '../parser';
-import { ParsedAddress, ParsedIntersection } from '../types';
+import { describe, expect, test } from "vitest";
+
+import { parseAddress, parseInformalAddress, parseIntersection, parseLocation } from "../parser";
+import type { ParsedAddress, ParsedIntersection } from "../types";
 
 describe('Address Plus Parser', () => {
   describe('parseLocation', () => {
