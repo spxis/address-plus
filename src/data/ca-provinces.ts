@@ -1,33 +1,121 @@
+import type { Region } from "../types/region.js";
+
 /**
  * Canadian provinces and territories mapping
  */
 
 /**
- * Mapping of Canadian province and territory names to their official abbreviations
- * Includes both English and French names
+ * Official Canadian province and territory names in English mapped to their abbreviations
  */
-const CA_PROVINCES: Record<string, string> = {
+const CA_PROVINCE_NAMES_EN: Record<string, string> = {
   alberta: "AB",
   "british columbia": "BC",
-  "colombie-britannique": "BC",
-  "île-du-prince-édouard": "PE",
   manitoba: "MB",
   "new brunswick": "NB",
   "newfoundland and labrador": "NL",
   "northwest territories": "NT",
-  "nouveau-brunswick": "NB",
   "nova scotia": "NS",
-  "nouvelle-écosse": "NS",
   nunavut: "NU",
   ontario: "ON",
-  pei: "PE",
   "prince edward island": "PE",
   quebec: "QC",
-  québec: "QC",
   saskatchewan: "SK",
-  "terre-neuve-et-labrador": "NL",
-  "territoires du nord-ouest": "NT",
   yukon: "YT",
 };
 
-export { CA_PROVINCES };
+/**
+ * Official Canadian province and territory names in French mapped to their abbreviations
+ */
+const CA_PROVINCE_NAMES_FR: Record<string, string> = {
+  alberta: "AB",                          // Same in French
+  "colombie-britannique": "BC",
+  manitoba: "MB",                         // Same in French
+  "nouveau-brunswick": "NB",
+  "terre-neuve-et-labrador": "NL",
+  "territoires du nord-ouest": "NT",
+  "nouvelle-écosse": "NS",
+  nunavut: "NU",                          // Same in French (Inuktitut origin)
+  ontario: "ON",                          // Same in French
+  "île-du-prince-édouard": "PE",
+  québec: "QC",
+  saskatchewan: "SK",                     // Same in French (Cree origin)
+  yukon: "YT",                            // Same in French
+};
+
+/**
+ * Combined official Canadian province and territory names (English and French)
+ */
+const CA_PROVINCE_NAMES: Record<string, string> = {
+  ...CA_PROVINCE_NAMES_EN,
+  ...CA_PROVINCE_NAMES_FR,
+};
+
+/**
+ * Common shortened forms, abbreviations, and alternative names for Canadian provinces
+ */
+const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
+  // Alberta
+  alb: "AB",
+  alta: "AB",
+  
+  // Manitoba  
+  man: "MB",
+  
+  // Newfoundland and Labrador
+  newfoundland: "NL",
+  labrador: "NL",
+  "terre-neuve": "NL",
+  "terre neuve": "NL",
+  "terre neuve et labrador": "NL",
+  tnl: "NL",
+  
+  // Northwest Territories
+  northwest: "NT",
+  territories: "NT",
+  territoires: "NT",
+  nwt: "NT",
+  "tn-o": "NT",
+  
+  // Nunavut
+  nvt: "NU",
+  
+  // Ontario
+  ont: "ON",
+  
+  // Prince Edward Island
+  pei: "PE",
+  "prince edward": "PE",
+  "ile-du-prince-édouard": "PE",  // without circumflex
+  "île du prince édouard": "PE",   // without hyphens
+  "ile du prince édouard": "PE",   // without circumflex or hyphens
+  "îpé": "PE",
+  
+  // Saskatchewan
+  sask: "SK",
+};
+
+/**
+ * Combined mapping of all Canadian province names and alternatives to their abbreviations
+ */
+const CA_PROVINCES: Record<string, string> = {
+  ...CA_PROVINCE_NAMES,
+  ...CA_PROVINCE_ALTERNATIVES,
+};
+
+/**
+ * Array of Canadian provinces and territories as Region objects for fuzzy matching
+ */
+const CA_REGIONS: Region[] = Object.entries(CA_PROVINCES).map(([name, abbr]) => ({
+  abbr,
+  country: "CA",
+  name,
+}));
+
+export { 
+  CA_PROVINCES, 
+  CA_REGIONS, 
+  CA_PROVINCE_NAMES, 
+  CA_PROVINCE_NAMES_EN, 
+  CA_PROVINCE_NAMES_FR, 
+  CA_PROVINCE_ALTERNATIVES 
+};

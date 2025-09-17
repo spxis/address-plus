@@ -1,0 +1,606 @@
+{
+  "name": "Canadian Provinces Fuzzy Matching",
+  "description": "Test cases for fuzzy matching of misspelled Canadian province and territory names",
+  "cases": [
+    {
+      "input": "Albert",
+      "expected": {
+        "abbr": "AB",
+        "country": "CA"
+      },
+      "description": "Missing 'a' in Alberta"
+    },
+    {
+      "input": "Albertaa",
+      "expected": {
+        "abbr": "AB",
+        "country": "CA"
+      },
+      "description": "Extra 'a' in Alberta"
+    },
+    {
+      "input": "Alberat",
+      "expected": {
+        "abbr": "AB",
+        "country": "CA"
+      },
+      "description": "Transposed 't' and 'a' in Alberta"
+    },
+    {
+      "input": "British Columbi",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Missing 'a' in British Columbia"
+    },
+    {
+      "input": "British Columbiaa",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Extra 'a' in British Columbia"
+    },
+    {
+      "input": "Bristish Columbia",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Missing 'i' in British Columbia"
+    },
+    {
+      "input": "British Colubmia",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Transposed 'm' and 'b' in British Columbia"
+    },
+    {
+      "input": "Manitob",
+      "expected": {
+        "abbr": "MB",
+        "country": "CA"
+      },
+      "description": "Missing 'a' in Manitoba"
+    },
+    {
+      "input": "Manitobaa",
+      "expected": {
+        "abbr": "MB",
+        "country": "CA"
+      },
+      "description": "Extra 'a' in Manitoba"
+    },
+    {
+      "input": "Manotiba",
+      "expected": {
+        "abbr": "MB",
+        "country": "CA"
+      },
+      "description": "Transposed 'n' and 'i' in Manitoba"
+    },
+    {
+      "input": "New Brunswic",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Missing 'k' in New Brunswick"
+    },
+    {
+      "input": "New Brunswickk",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Extra 'k' in New Brunswick"
+    },
+    {
+      "input": "New Brunsiwck",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Transposed 'w' and 'i' in New Brunswick"
+    },
+    {
+      "input": "Newfoundlan",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Missing 'd' in Newfoundland"
+    },
+    {
+      "input": "Newfoundlandd",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Extra 'd' in Newfoundland"
+    },
+    {
+      "input": "Newofundland",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Missing 'f' in Newfoundland"
+    },
+    {
+      "input": "Newufoundland",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Extra 'u' in Newfoundland"
+    },
+    {
+      "input": "Northwestt",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Extra 't' in Northwest Territories (abbreviated form)"
+    },
+    {
+      "input": "Northwest Territorie",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Missing 's' in Northwest Territories"
+    },
+    {
+      "input": "Northwest Territoriess",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Extra 's' in Northwest Territories"
+    },
+    {
+      "input": "Nothwest Territories",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Missing 'r' in Northwest Territories"
+    },
+    {
+      "input": "Nova Scoti",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Missing 'a' in Nova Scotia"
+    },
+    {
+      "input": "Nova Scotiaa",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Extra 'a' in Nova Scotia"
+    },
+    {
+      "input": "Nova Sotia",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Missing 'c' in Nova Scotia"
+    },
+    {
+      "input": "Nunavu",
+      "expected": {
+        "abbr": "NU",
+        "country": "CA"
+      },
+      "description": "Missing 't' in Nunavut"
+    },
+    {
+      "input": "Nunavutt",
+      "expected": {
+        "abbr": "NU",
+        "country": "CA"
+      },
+      "description": "Extra 't' in Nunavut"
+    },
+    {
+      "input": "Nunauvt",
+      "expected": {
+        "abbr": "NU",
+        "country": "CA"
+      },
+      "description": "Transposed 'u' and 'v' in Nunavut"
+    },
+    {
+      "input": "Ontari",
+      "expected": {
+        "abbr": "ON",
+        "country": "CA"
+      },
+      "description": "Missing 'o' in Ontario"
+    },
+    {
+      "input": "Ontarioo",
+      "expected": {
+        "abbr": "ON",
+        "country": "CA"
+      },
+      "description": "Extra 'o' in Ontario"
+    },
+    {
+      "input": "Ontaroi",
+      "expected": {
+        "abbr": "ON",
+        "country": "CA"
+      },
+      "description": "Transposed 'i' and 'o' in Ontario"
+    },
+    {
+      "input": "Prince Edwar",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Missing 'd' in Prince Edward Island (abbreviated form)"
+    },
+    {
+      "input": "Prince Edward Islan",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Missing 'd' in Prince Edward Island"
+    },
+    {
+      "input": "Prince Edward Islandd",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Extra 'd' in Prince Edward Island"
+    },
+    {
+      "input": "Prince Edwrad Island",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Transposed 'a' and 'r' in Prince Edward Island"
+    },
+    {
+      "input": "Pei",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "PEI abbreviation (mixed case)"
+    },
+    {
+      "input": "P.E.I",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "P.E.I with periods"
+    },
+    {
+      "input": "Quebe",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Missing 'c' in Quebec"
+    },
+    {
+      "input": "Quebecc",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Extra 'c' in Quebec"
+    },
+    {
+      "input": "Quebek",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Wrong ending 'k' in Quebec"
+    },
+    {
+      "input": "Qubec",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Missing 'e' in Quebec"
+    },
+    {
+      "input": "Saskatchewa",
+      "expected": {
+        "abbr": "SK",
+        "country": "CA"
+      },
+      "description": "Missing 'n' in Saskatchewan"
+    },
+    {
+      "input": "Saskatchewann",
+      "expected": {
+        "abbr": "SK",
+        "country": "CA"
+      },
+      "description": "Extra 'n' in Saskatchewan"
+    },
+    {
+      "input": "Sasaktchewan",
+      "expected": {
+        "abbr": "SK",
+        "country": "CA"
+      },
+      "description": "Transposed 'k' and 'a' in Saskatchewan"
+    },
+    {
+      "input": "Saskchewan",
+      "expected": {
+        "abbr": "SK",
+        "country": "CA"
+      },
+      "description": "Missing 'at' in Saskatchewan"
+    },
+    {
+      "input": "Yuko",
+      "expected": {
+        "abbr": "YT",
+        "country": "CA"
+      },
+      "description": "Missing 'n' in Yukon"
+    },
+    {
+      "input": "Yukonn",
+      "expected": {
+        "abbr": "YT",
+        "country": "CA"
+      },
+      "description": "Extra 'n' in Yukon"
+    },
+    {
+      "input": "Yukno",
+      "expected": {
+        "abbr": "YT",
+        "country": "CA"
+      },
+      "description": "Transposed 'k' and 'n' in Yukon"
+    },
+    {
+      "input": "Colombie-Britaniqu",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Missing 'e' in Colombie-Britannique (French)"
+    },
+    {
+      "input": "Colombie-Britanniquee",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Extra 'e' in Colombie-Britannique (French)"
+    },
+    {
+      "input": "Colomnie-Britannique",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Missing 'b' in Colombie-Britannique (French)"
+    },
+    {
+      "input": "Colombie Britanniqu",
+      "expected": {
+        "abbr": "BC",
+        "country": "CA"
+      },
+      "description": "Missing hyphen and 'e' in Colombie-Britannique (French)"
+    },
+    {
+      "input": "Nouveau-Brunswic",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Missing 'k' in Nouveau-Brunswick (French)"
+    },
+    {
+      "input": "Nouveau-Brunswickk",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Extra 'k' in Nouveau-Brunswick (French)"
+    },
+    {
+      "input": "Nouvau-Brunswick",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Missing 'e' in Nouveau-Brunswick (French)"
+    },
+    {
+      "input": "Nouveau Brunswic",
+      "expected": {
+        "abbr": "NB",
+        "country": "CA"
+      },
+      "description": "Missing hyphen and 'k' in Nouveau-Brunswick (French)"
+    },
+    {
+      "input": "Nouvelle-Écoss",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Missing 'e' in Nouvelle-Écosse (French)"
+    },
+    {
+      "input": "Nouvelle-Écossee",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Extra 'e' in Nouvelle-Écosse (French)"
+    },
+    {
+      "input": "Nouvele-Écosse",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Missing 'l' in Nouvelle-Écosse (French)"
+    },
+    {
+      "input": "Nouvelle Écoss",
+      "expected": {
+        "abbr": "NS",
+        "country": "CA"
+      },
+      "description": "Missing hyphen and 'e' in Nouvelle-Écosse (French)"
+    },
+    {
+      "input": "Ile-du-Prince-Édouar",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Missing circumflex and 'd' in Île-du-Prince-Édouard (French)"
+    },
+    {
+      "input": "Île-du-Prince-Édouardd",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Extra 'd' in Île-du-Prince-Édouard (French)"
+    },
+    {
+      "input": "Île-du-Prnce-Édouard",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Missing 'i' in Île-du-Prince-Édouard (French)"
+    },
+    {
+      "input": "Ile du Prince Édouar",
+      "expected": {
+        "abbr": "PE",
+        "country": "CA"
+      },
+      "description": "Missing circumflex, hyphens and 'd' in Île-du-Prince-Édouard (French)"
+    },
+    {
+      "input": "Québe",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Missing 'c' in Québec (French)"
+    },
+    {
+      "input": "Québecc",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Extra 'c' in Québec (French)"
+    },
+    {
+      "input": "Quebéc",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Missing circumflex in Québec (French)"
+    },
+    {
+      "input": "Quèbec",
+      "expected": {
+        "abbr": "QC",
+        "country": "CA"
+      },
+      "description": "Wrong accent in Québec (French)"
+    },
+    {
+      "input": "Terre-Neuve-et-Labrado",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Missing 'r' in Terre-Neuve-et-Labrador (French)"
+    },
+    {
+      "input": "Terre-Neuve-et-Labradorr",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Extra 'r' in Terre-Neuve-et-Labrador (French)"
+    },
+    {
+      "input": "Tere-Neuve-et-Labrador",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Missing 'r' in Terre-Neuve-et-Labrador (French)"
+    },
+    {
+      "input": "Terre Neuve et Labrado",
+      "expected": {
+        "abbr": "NL",
+        "country": "CA"
+      },
+      "description": "Missing hyphens and 'r' in Terre-Neuve-et-Labrador (French)"
+    },
+    {
+      "input": "Territoires du Nord-Oues",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Missing 't' in Territoires du Nord-Ouest (French)"
+    },
+    {
+      "input": "Territoires du Nord-Ouestt",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Extra 't' in Territoires du Nord-Ouest (French)"
+    },
+    {
+      "input": "Teritores du Nord-Ouest",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Missing 'r' and 'i' in Territoires du Nord-Ouest (French)"
+    },
+    {
+      "input": "Territoires du Nord Oues",
+      "expected": {
+        "abbr": "NT",
+        "country": "CA"
+      },
+      "description": "Missing hyphen and 't' in Territoires du Nord-Ouest (French)"
+    }
+  ]
+}

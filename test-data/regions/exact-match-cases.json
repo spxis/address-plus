@@ -1,0 +1,212 @@
+{
+  "name": "Exact Match Test Cases",
+  "description": "Test cases for exact matching of abbreviations and full names",
+  "abbreviationTests": {
+    "name": "Abbreviation Matching",
+    "description": "Test exact matches for state and province abbreviations",
+    "cases": [
+      {
+        "input": "CA",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "California abbreviation"
+      },
+      {
+        "input": "TX",
+        "expected": {
+          "abbr": "TX",
+          "country": "US"
+        },
+        "description": "Texas abbreviation"
+      },
+      {
+        "input": "NY",
+        "expected": {
+          "abbr": "NY",
+          "country": "US"
+        },
+        "description": "New York abbreviation"
+      },
+      {
+        "input": "ON",
+        "expected": {
+          "abbr": "ON",
+          "country": "CA"
+        },
+        "description": "Ontario abbreviation"
+      },
+      {
+        "input": "QC",
+        "expected": {
+          "abbr": "QC",
+          "country": "CA"
+        },
+        "description": "Quebec abbreviation"
+      },
+      {
+        "input": "BC",
+        "expected": {
+          "abbr": "BC",
+          "country": "CA"
+        },
+        "description": "British Columbia abbreviation"
+      },
+      {
+        "input": "PEI",
+        "expected": {
+          "abbr": "PE",
+          "country": "CA"
+        },
+        "description": "Prince Edward Island 3-letter abbreviation"
+      },
+      {
+        "input": "pei",
+        "expected": {
+          "abbr": "PE",
+          "country": "CA"
+        },
+        "description": "Prince Edward Island 3-letter abbreviation (lowercase)"
+      }
+    ]
+  },
+  "nameTests": {
+    "name": "Full Name Matching",
+    "description": "Test exact matches for full state and province names",
+    "cases": [
+      {
+        "input": "california",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "California full name"
+      },
+      {
+        "input": "texas",
+        "expected": {
+          "abbr": "TX",
+          "country": "US"
+        },
+        "description": "Texas full name"
+      },
+      {
+        "input": "new york",
+        "expected": {
+          "abbr": "NY",
+          "country": "US"
+        },
+        "description": "New York full name"
+      },
+      {
+        "input": "ontario",
+        "expected": {
+          "abbr": "ON",
+          "country": "CA"
+        },
+        "description": "Ontario full name"
+      },
+      {
+        "input": "quebec",
+        "expected": {
+          "abbr": "QC",
+          "country": "CA"
+        },
+        "description": "Quebec full name"
+      },
+      {
+        "input": "québec",
+        "expected": {
+          "abbr": "QC",
+          "country": "CA"
+        },
+        "description": "Quebec full name (French accent)"
+      },
+      {
+        "input": "british columbia",
+        "expected": {
+          "abbr": "BC",
+          "country": "CA"
+        },
+        "description": "British Columbia full name"
+      },
+      {
+        "input": "prince edward island",
+        "expected": {
+          "abbr": "PE",
+          "country": "CA"
+        },
+        "description": "Prince Edward Island full name"
+      }
+    ]
+  },
+  "caseInsensitiveTests": {
+    "name": "Case Insensitive Matching",
+    "description": "Test that matching works regardless of case",
+    "cases": [
+      {
+        "input": "ca",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "California abbreviation (lowercase)"
+      },
+      {
+        "input": "TEXAS",
+        "expected": {
+          "abbr": "TX",
+          "country": "US"
+        },
+        "description": "Texas full name (uppercase)"
+      },
+      {
+        "input": "Ontario",
+        "expected": {
+          "abbr": "ON",
+          "country": "CA"
+        },
+        "description": "Ontario full name (title case)"
+      },
+      {
+        "input": "QUEBEC",
+        "expected": {
+          "abbr": "QC",
+          "country": "CA"
+        },
+        "description": "Quebec full name (uppercase)"
+      }
+    ]
+  },
+  "periodsTests": {
+    "name": "Periods in Abbreviations",
+    "description": "Test handling of periods in abbreviations",
+    "cases": [
+      {
+        "input": "P.E.I.",
+        "expected": {
+          "abbr": "PE",
+          "country": "CA"
+        },
+        "description": "P.E.I. with periods"
+      },
+      {
+        "input": "C.A.",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "C.A. with periods"
+      },
+      {
+        "input": "N.Y.",
+        "expected": {
+          "abbr": "NY",
+          "country": "US"
+        },
+        "description": "N.Y. with periods"
+      }
+    ]
+  }
+}

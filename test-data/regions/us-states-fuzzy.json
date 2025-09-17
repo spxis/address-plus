@@ -1,0 +1,462 @@
+{
+  "name": "US States Fuzzy Matching",
+  "description": "Test cases for fuzzy matching of misspelled US state names",
+  "cases": [
+    {
+      "input": "Alabma",
+      "expected": {
+        "abbr": "AL",
+        "country": "US"
+      },
+      "description": "Missing 'a' in Alabama"
+    },
+    {
+      "input": "Alabmaa",
+      "expected": {
+        "abbr": "AL",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Alabama"
+    },
+    {
+      "input": "Alanbama",
+      "expected": {
+        "abbr": "AL",
+        "country": "US"
+      },
+      "description": "Extra 'n' in Alabama"
+    },
+    {
+      "input": "Alasak",
+      "expected": {
+        "abbr": "AK",
+        "country": "US"
+      },
+      "description": "Missing 'k' in Alaska"
+    },
+    {
+      "input": "Alaskaa",
+      "expected": {
+        "abbr": "AK",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Alaska"
+    },
+    {
+      "input": "Alaksa",
+      "expected": {
+        "abbr": "AK",
+        "country": "US"
+      },
+      "description": "Transposed 's' and 'k' in Alaska"
+    },
+    {
+      "input": "Arizon",
+      "expected": {
+        "abbr": "AZ",
+        "country": "US"
+      },
+      "description": "Missing 'a' in Arizona"
+    },
+    {
+      "input": "Arizonaa",
+      "expected": {
+        "abbr": "AZ",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Arizona"
+    },
+    {
+      "input": "Arizoan",
+      "expected": {
+        "abbr": "AZ",
+        "country": "US"
+      },
+      "description": "Transposed 'o' and 'n' in Arizona"
+    },
+    {
+      "input": "Arkansa",
+      "expected": {
+        "abbr": "AR",
+        "country": "US"
+      },
+      "description": "Missing 's' in Arkansas"
+    },
+    {
+      "input": "Arkansass",
+      "expected": {
+        "abbr": "AR",
+        "country": "US"
+      },
+      "description": "Extra 's' in Arkansas"
+    },
+    {
+      "input": "Akransas",
+      "expected": {
+        "abbr": "AR",
+        "country": "US"
+      },
+      "description": "Transposed 'r' and 'k' in Arkansas"
+    },
+    {
+      "input": "Calfornia",
+      "expected": {
+        "abbr": "CA",
+        "country": "US"
+      },
+      "description": "Missing 'i' in California"
+    },
+    {
+      "input": "Californa",
+      "expected": {
+        "abbr": "CA",
+        "country": "US"
+      },
+      "description": "Missing 'i' in California"
+    },
+    {
+      "input": "Californiaa",
+      "expected": {
+        "abbr": "CA",
+        "country": "US"
+      },
+      "description": "Extra 'a' in California"
+    },
+    {
+      "input": "Colorad",
+      "expected": {
+        "abbr": "CO",
+        "country": "US"
+      },
+      "description": "Missing 'o' in Colorado"
+    },
+    {
+      "input": "Coloradoo",
+      "expected": {
+        "abbr": "CO",
+        "country": "US"
+      },
+      "description": "Extra 'o' in Colorado"
+    },
+    {
+      "input": "Colarado",
+      "expected": {
+        "abbr": "CO",
+        "country": "US"
+      },
+      "description": "Missing 'o' in Colorado"
+    },
+    {
+      "input": "Conecticut",
+      "expected": {
+        "abbr": "CT",
+        "country": "US"
+      },
+      "description": "Missing first 'n' in Connecticut"
+    },
+    {
+      "input": "Connecticutt",
+      "expected": {
+        "abbr": "CT",
+        "country": "US"
+      },
+      "description": "Extra 't' in Connecticut"
+    },
+    {
+      "input": "Conneticut",
+      "expected": {
+        "abbr": "CT",
+        "country": "US"
+      },
+      "description": "Missing 'c' in Connecticut"
+    },
+    {
+      "input": "Delawar",
+      "expected": {
+        "abbr": "DE",
+        "country": "US"
+      },
+      "description": "Missing 'e' in Delaware"
+    },
+    {
+      "input": "Delawaree",
+      "expected": {
+        "abbr": "DE",
+        "country": "US"
+      },
+      "description": "Extra 'e' in Delaware"
+    },
+    {
+      "input": "Delware",
+      "expected": {
+        "abbr": "DE",
+        "country": "US"
+      },
+      "description": "Missing 'a' in Delaware"
+    },
+    {
+      "input": "Florda",
+      "expected": {
+        "abbr": "FL",
+        "country": "US"
+      },
+      "description": "Missing 'i' in Florida"
+    },
+    {
+      "input": "Floridaa",
+      "expected": {
+        "abbr": "FL",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Florida"
+    },
+    {
+      "input": "Flordia",
+      "expected": {
+        "abbr": "FL",
+        "country": "US"
+      },
+      "description": "Transposed 'i' and 'd' in Florida"
+    },
+    {
+      "input": "Georga",
+      "expected": {
+        "abbr": "GA",
+        "country": "US"
+      },
+      "description": "Missing 'i' in Georgia"
+    },
+    {
+      "input": "Georgiaa",
+      "expected": {
+        "abbr": "GA",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Georgia"
+    },
+    {
+      "input": "Gerogia",
+      "expected": {
+        "abbr": "GA",
+        "country": "US"
+      },
+      "description": "Transposed 'o' and 'r' in Georgia"
+    },
+    {
+      "input": "Hawai",
+      "expected": {
+        "abbr": "HI",
+        "country": "US"
+      },
+      "description": "Missing 'i' in Hawaii"
+    },
+    {
+      "input": "Hawaiii",
+      "expected": {
+        "abbr": "HI",
+        "country": "US"
+      },
+      "description": "Extra 'i' in Hawaii"
+    },
+    {
+      "input": "Hawiaii",
+      "expected": {
+        "abbr": "HI",
+        "country": "US"
+      },
+      "description": "Transposed 'w' and 'a' in Hawaii"
+    },
+    {
+      "input": "Idah",
+      "expected": {
+        "abbr": "ID",
+        "country": "US"
+      },
+      "description": "Missing 'o' in Idaho"
+    },
+    {
+      "input": "Idahoo",
+      "expected": {
+        "abbr": "ID",
+        "country": "US"
+      },
+      "description": "Extra 'o' in Idaho"
+    },
+    {
+      "input": "Idaoh",
+      "expected": {
+        "abbr": "ID",
+        "country": "US"
+      },
+      "description": "Transposed 'h' and 'o' in Idaho"
+    },
+    {
+      "input": "Ilinois",
+      "expected": {
+        "abbr": "IL",
+        "country": "US"
+      },
+      "description": "Missing first 'l' in Illinois"
+    },
+    {
+      "input": "Illinoiss",
+      "expected": {
+        "abbr": "IL",
+        "country": "US"
+      },
+      "description": "Extra 's' in Illinois"
+    },
+    {
+      "input": "Illionis",
+      "expected": {
+        "abbr": "IL",
+        "country": "US"
+      },
+      "description": "Missing 'o' in Illinois"
+    },
+    {
+      "input": "Indian",
+      "expected": {
+        "abbr": "IN",
+        "country": "US"
+      },
+      "description": "Missing 'a' in Indiana"
+    },
+    {
+      "input": "Indianaa",
+      "expected": {
+        "abbr": "IN",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Indiana"
+    },
+    {
+      "input": "Indaina",
+      "expected": {
+        "abbr": "IN",
+        "country": "US"
+      },
+      "description": "Transposed 'i' and 'a' in Indiana"
+    },
+    {
+      "input": "Iow",
+      "expected": {
+        "abbr": "IA",
+        "country": "US"
+      },
+      "description": "Missing 'a' in Iowa"
+    },
+    {
+      "input": "Iowaa",
+      "expected": {
+        "abbr": "IA",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Iowa"
+    },
+    {
+      "input": "Iowwa",
+      "expected": {
+        "abbr": "IA",
+        "country": "US"
+      },
+      "description": "Extra 'w' in Iowa"
+    },
+    {
+      "input": "Kansa",
+      "expected": {
+        "abbr": "KS",
+        "country": "US"
+      },
+      "description": "Missing 's' in Kansas"
+    },
+    {
+      "input": "Kansass",
+      "expected": {
+        "abbr": "KS",
+        "country": "US"
+      },
+      "description": "Extra 's' in Kansas"
+    },
+    {
+      "input": "Kanssas",
+      "expected": {
+        "abbr": "KS",
+        "country": "US"
+      },
+      "description": "Extra 's' in Kansas"
+    },
+    {
+      "input": "Kentuck",
+      "expected": {
+        "abbr": "KY",
+        "country": "US"
+      },
+      "description": "Missing 'y' in Kentucky"
+    },
+    {
+      "input": "Kentuckyy",
+      "expected": {
+        "abbr": "KY",
+        "country": "US"
+      },
+      "description": "Extra 'y' in Kentucky"
+    },
+    {
+      "input": "Kentukcy",
+      "expected": {
+        "abbr": "KY",
+        "country": "US"
+      },
+      "description": "Transposed 'c' and 'k' in Kentucky"
+    },
+    {
+      "input": "Lousiana",
+      "expected": {
+        "abbr": "LA",
+        "country": "US"
+      },
+      "description": "Missing 'i' in Louisiana"
+    },
+    {
+      "input": "Louisianaa",
+      "expected": {
+        "abbr": "LA",
+        "country": "US"
+      },
+      "description": "Extra 'a' in Louisiana"
+    },
+    {
+      "input": "Louisianna",
+      "expected": {
+        "abbr": "LA",
+        "country": "US"
+      },
+      "description": "Extra 'n' in Louisiana"
+    },
+    {
+      "input": "Main",
+      "expected": {
+        "abbr": "ME",
+        "country": "US"
+      },
+      "description": "Missing 'e' in Maine"
+    },
+    {
+      "input": "Mainee",
+      "expected": {
+        "abbr": "ME",
+        "country": "US"
+      },
+      "description": "Extra 'e' in Maine"
+    },
+    {
+      "input": "Maien",
+      "expected": {
+        "abbr": "ME",
+        "country": "US"
+      },
+      "description": "Transposed 'i' and 'n' in Maine"
+    }
+  ]
+}

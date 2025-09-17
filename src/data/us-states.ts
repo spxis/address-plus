@@ -1,11 +1,13 @@
+import type { Region } from "../types/region.js";
+
 /**
  * US States and territories mapping
  */
 
 /**
- * Mapping of US state and territory names to their official abbreviations
+ * Official US state and territory names mapped to their abbreviations
  */
-const US_STATES: Record<string, string> = {
+const US_STATE_NAMES: Record<string, string> = {
   alabama: "AL",
   alaska: "AK",
   "american samoa": "AS",
@@ -64,4 +66,169 @@ const US_STATES: Record<string, string> = {
   wyoming: "WY",
 };
 
-export { US_STATES };
+/**
+ * Common shortened forms, abbreviations, and alternative names for US states
+ */
+const US_STATE_ALTERNATIVES: Record<string, string> = {
+  // Alabama
+  ala: "AL",
+  bama: "AL",
+  
+  // Arizona
+  ariz: "AZ",
+  
+  // Arkansas
+  ark: "AR",
+  
+  // California
+  cal: "CA",
+  cali: "CA",
+  calif: "CA",
+  
+  // Colorado
+  colo: "CO",
+  
+  // Connecticut
+  conn: "CT",
+  
+  // Delaware
+  del: "DE",
+  
+  // District of Columbia
+  dc: "DC",
+  
+  // Florida
+  fla: "FL",
+  
+  // Illinois
+  ill: "IL",
+  
+  // Indiana
+  ind: "IN",
+  
+  // Kansas
+  kan: "KS",
+  kans: "KS",
+  
+  // Kentucky
+  ky: "KY",
+  kent: "KY",
+  
+  // Louisiana
+  la: "LA",
+  lou: "LA",
+  
+  // Massachusetts
+  mass: "MA",
+  
+  // Michigan
+  mich: "MI",
+  
+  // Minnesota
+  minn: "MN",
+  
+  // Mississippi
+  miss: "MS",
+  
+  // Missouri
+  mo: "MO",
+  
+  // Montana
+  mont: "MT",
+  
+  // Nebraska
+  neb: "NE",
+  nebr: "NE",
+  
+  // Nevada
+  nev: "NV",
+  
+  // New Hampshire
+  "new hamp": "NH",
+  "new hampsh": "NH",
+  
+  // New Jersey
+  "new jers": "NJ",
+  
+  // New Mexico
+  "new mex": "NM",
+  "new mexic": "NM",
+  
+  // North Carolina
+  "n carolina": "NC",
+  "north car": "NC",
+  
+  // North Dakota
+  "n dakota": "ND",
+  "north dak": "ND",
+  
+  // Oklahoma
+  okla: "OK",
+  
+  // Oregon
+  ore: "OR",
+  oreg: "OR",
+  
+  // Pennsylvania
+  penn: "PA",
+  pa: "PA",
+  penna: "PA",
+  pennsyl: "PA",
+  
+  // Rhode Island
+  "rhode isl": "RI",
+  
+  // South Carolina
+  "s carolina": "SC",
+  "south car": "SC",
+  
+  // South Dakota
+  "s dakota": "SD",
+  "south dak": "SD",
+  
+  // Tennessee
+  tenn: "TN",
+  
+  // Texas
+  tex: "TX",
+  
+  // Vermont
+  vt: "VT",
+  
+  // Virginia
+  va: "VA",
+  virg: "VA",
+  
+  // Washington
+  wash: "WA",
+  
+  // West Virginia
+  "west va": "WV",
+  "west virg": "WV",
+  
+  // Wisconsin
+  wis: "WI",
+  wisc: "WI",
+  
+  // Wyoming
+  wyo: "WY",
+};
+
+/**
+ * Combined mapping of all US state names and alternatives to their abbreviations
+ */
+const US_STATES: Record<string, string> = {
+  ...US_STATE_NAMES,
+  ...US_STATE_ALTERNATIVES,
+};
+
+/**
+ * Array of US states and territories as Region objects for fuzzy matching
+ */
+const US_REGIONS: Region[] = Object.entries(US_STATES).map(([name, abbr]) => ({
+  abbr,
+  country: "US",
+  name,
+}));
+
+export { US_REGIONS, US_STATES, US_STATE_NAMES, US_STATE_ALTERNATIVES };

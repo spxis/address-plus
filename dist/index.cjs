@@ -22,11 +22,19 @@ var index_exports = {};
 __export(index_exports, {
   CANADIAN_POSTAL_CODE_PATTERN: () => CANADIAN_POSTAL_CODE_PATTERN,
   CA_PROVINCES: () => CA_PROVINCES,
+  CA_PROVINCE_ALTERNATIVES: () => CA_PROVINCE_ALTERNATIVES,
+  CA_PROVINCE_NAMES: () => CA_PROVINCE_NAMES,
+  CA_PROVINCE_NAMES_EN: () => CA_PROVINCE_NAMES_EN,
+  CA_PROVINCE_NAMES_FR: () => CA_PROVINCE_NAMES_FR,
+  CA_REGIONS: () => CA_REGIONS,
   CA_STREET_TYPES: () => CA_STREET_TYPES,
   DIRECTIONAL_MAP: () => DIRECTIONAL_MAP,
   FACILITY_PATTERNS: () => FACILITY_PATTERNS,
   SECONDARY_UNIT_TYPES: () => SECONDARY_UNIT_TYPES,
+  US_REGIONS: () => US_REGIONS,
   US_STATES: () => US_STATES,
+  US_STATE_ALTERNATIVES: () => US_STATE_ALTERNATIVES,
+  US_STATE_NAMES: () => US_STATE_NAMES,
   US_STREET_TYPES: () => US_STREET_TYPES,
   ZIP_CODE_PATTERN: () => ZIP_CODE_PATTERN,
   buildRegexFromDict: () => buildRegexFromDict,
@@ -49,29 +57,91 @@ __export(index_exports, {
 module.exports = __toCommonJS(index_exports);
 
 // src/data/ca-provinces.ts
-var CA_PROVINCES = {
+var CA_PROVINCE_NAMES_EN = {
   alberta: "AB",
   "british columbia": "BC",
-  "colombie-britannique": "BC",
-  "\xEEle-du-prince-\xE9douard": "PE",
   manitoba: "MB",
   "new brunswick": "NB",
   "newfoundland and labrador": "NL",
   "northwest territories": "NT",
-  "nouveau-brunswick": "NB",
   "nova scotia": "NS",
-  "nouvelle-\xE9cosse": "NS",
   nunavut: "NU",
   ontario: "ON",
-  pei: "PE",
   "prince edward island": "PE",
   quebec: "QC",
-  qu\u00E9bec: "QC",
   saskatchewan: "SK",
-  "terre-neuve-et-labrador": "NL",
-  "territoires du nord-ouest": "NT",
   yukon: "YT"
 };
+var CA_PROVINCE_NAMES_FR = {
+  alberta: "AB",
+  // Same in French
+  "colombie-britannique": "BC",
+  manitoba: "MB",
+  // Same in French
+  "nouveau-brunswick": "NB",
+  "terre-neuve-et-labrador": "NL",
+  "territoires du nord-ouest": "NT",
+  "nouvelle-\xE9cosse": "NS",
+  nunavut: "NU",
+  // Same in French (Inuktitut origin)
+  ontario: "ON",
+  // Same in French
+  "\xEEle-du-prince-\xE9douard": "PE",
+  qu\u00E9bec: "QC",
+  saskatchewan: "SK",
+  // Same in French (Cree origin)
+  yukon: "YT"
+  // Same in French
+};
+var CA_PROVINCE_NAMES = {
+  ...CA_PROVINCE_NAMES_EN,
+  ...CA_PROVINCE_NAMES_FR
+};
+var CA_PROVINCE_ALTERNATIVES = {
+  // Alberta
+  alb: "AB",
+  alta: "AB",
+  // Manitoba  
+  man: "MB",
+  // Newfoundland and Labrador
+  newfoundland: "NL",
+  labrador: "NL",
+  "terre-neuve": "NL",
+  "terre neuve": "NL",
+  "terre neuve et labrador": "NL",
+  tnl: "NL",
+  // Northwest Territories
+  northwest: "NT",
+  territories: "NT",
+  territoires: "NT",
+  nwt: "NT",
+  "tn-o": "NT",
+  // Nunavut
+  nvt: "NU",
+  // Ontario
+  ont: "ON",
+  // Prince Edward Island
+  pei: "PE",
+  "prince edward": "PE",
+  "ile-du-prince-\xE9douard": "PE",
+  // without circumflex
+  "\xEEle du prince \xE9douard": "PE",
+  // without hyphens
+  "ile du prince \xE9douard": "PE",
+  // without circumflex or hyphens
+  "\xEEp\xE9": "PE",
+  // Saskatchewan
+  sask: "SK"
+};
+var CA_PROVINCES = {
+  ...CA_PROVINCE_NAMES,
+  ...CA_PROVINCE_ALTERNATIVES
+};
+var CA_REGIONS = Object.entries(CA_PROVINCES).map(([name, abbr]) => ({
+  abbr,
+  country: "CA",
+  name
+}));
 
 // src/data/ca-street-types.ts
 var CA_STREET_TYPES = {
@@ -246,7 +316,7 @@ var SECONDARY_UNIT_TYPES = {
 };
 
 // src/data/us-states.ts
-var US_STATES = {
+var US_STATE_NAMES = {
   alabama: "AL",
   alaska: "AK",
   "american samoa": "AS",
@@ -304,6 +374,119 @@ var US_STATES = {
   wisconsin: "WI",
   wyoming: "WY"
 };
+var US_STATE_ALTERNATIVES = {
+  // Alabama
+  ala: "AL",
+  bama: "AL",
+  // Arizona
+  ariz: "AZ",
+  // Arkansas
+  ark: "AR",
+  // California
+  cal: "CA",
+  cali: "CA",
+  calif: "CA",
+  // Colorado
+  colo: "CO",
+  // Connecticut
+  conn: "CT",
+  // Delaware
+  del: "DE",
+  // District of Columbia
+  dc: "DC",
+  // Florida
+  fla: "FL",
+  // Illinois
+  ill: "IL",
+  // Indiana
+  ind: "IN",
+  // Kansas
+  kan: "KS",
+  kans: "KS",
+  // Kentucky
+  ky: "KY",
+  kent: "KY",
+  // Louisiana
+  la: "LA",
+  lou: "LA",
+  // Massachusetts
+  mass: "MA",
+  // Michigan
+  mich: "MI",
+  // Minnesota
+  minn: "MN",
+  // Mississippi
+  miss: "MS",
+  // Missouri
+  mo: "MO",
+  // Montana
+  mont: "MT",
+  // Nebraska
+  neb: "NE",
+  nebr: "NE",
+  // Nevada
+  nev: "NV",
+  // New Hampshire
+  "new hamp": "NH",
+  "new hampsh": "NH",
+  // New Jersey
+  "new jers": "NJ",
+  // New Mexico
+  "new mex": "NM",
+  "new mexic": "NM",
+  // North Carolina
+  "n carolina": "NC",
+  "north car": "NC",
+  // North Dakota
+  "n dakota": "ND",
+  "north dak": "ND",
+  // Oklahoma
+  okla: "OK",
+  // Oregon
+  ore: "OR",
+  oreg: "OR",
+  // Pennsylvania
+  penn: "PA",
+  pa: "PA",
+  penna: "PA",
+  pennsyl: "PA",
+  // Rhode Island
+  "rhode isl": "RI",
+  // South Carolina
+  "s carolina": "SC",
+  "south car": "SC",
+  // South Dakota
+  "s dakota": "SD",
+  "south dak": "SD",
+  // Tennessee
+  tenn: "TN",
+  // Texas
+  tex: "TX",
+  // Vermont
+  vt: "VT",
+  // Virginia
+  va: "VA",
+  virg: "VA",
+  // Washington
+  wash: "WA",
+  // West Virginia
+  "west va": "WV",
+  "west virg": "WV",
+  // Wisconsin
+  wis: "WI",
+  wisc: "WI",
+  // Wyoming
+  wyo: "WY"
+};
+var US_STATES = {
+  ...US_STATE_NAMES,
+  ...US_STATE_ALTERNATIVES
+};
+var US_REGIONS = Object.entries(US_STATES).map(([name, abbr]) => ({
+  abbr,
+  country: "US",
+  name
+}));
 
 // src/data/us-street-types.ts
 var US_STREET_TYPES = {
@@ -1186,11 +1369,19 @@ var index_default = parser2;
 0 && (module.exports = {
   CANADIAN_POSTAL_CODE_PATTERN,
   CA_PROVINCES,
+  CA_PROVINCE_ALTERNATIVES,
+  CA_PROVINCE_NAMES,
+  CA_PROVINCE_NAMES_EN,
+  CA_PROVINCE_NAMES_FR,
+  CA_REGIONS,
   CA_STREET_TYPES,
   DIRECTIONAL_MAP,
   FACILITY_PATTERNS,
   SECONDARY_UNIT_TYPES,
+  US_REGIONS,
   US_STATES,
+  US_STATE_ALTERNATIVES,
+  US_STATE_NAMES,
   US_STREET_TYPES,
   ZIP_CODE_PATTERN,
   buildRegexFromDict,

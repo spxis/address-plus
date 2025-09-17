@@ -116,6 +116,18 @@ interface AddressParser {
 }
 
 /**
+ * Region type definition for state/province data with fuzzy matching support
+ */
+/**
+ * Represents a geographic region (state or province) with standardized fields
+ */
+type Region = {
+    abbr: string;
+    country: "CA" | "US";
+    name: string;
+};
+
+/**
  * Main address parser implementation
  * Based on the original parse-address library patterns
  */
@@ -141,10 +153,29 @@ declare function parseAddress(address: string, options?: ParseOptions): ParsedAd
  * Canadian provinces and territories mapping
  */
 /**
- * Mapping of Canadian province and territory names to their official abbreviations
- * Includes both English and French names
+ * Official Canadian province and territory names in English mapped to their abbreviations
+ */
+declare const CA_PROVINCE_NAMES_EN: Record<string, string>;
+/**
+ * Official Canadian province and territory names in French mapped to their abbreviations
+ */
+declare const CA_PROVINCE_NAMES_FR: Record<string, string>;
+/**
+ * Combined official Canadian province and territory names (English and French)
+ */
+declare const CA_PROVINCE_NAMES: Record<string, string>;
+/**
+ * Common shortened forms, abbreviations, and alternative names for Canadian provinces
+ */
+declare const CA_PROVINCE_ALTERNATIVES: Record<string, string>;
+/**
+ * Combined mapping of all Canadian province names and alternatives to their abbreviations
  */
 declare const CA_PROVINCES: Record<string, string>;
+/**
+ * Array of Canadian provinces and territories as Region objects for fuzzy matching
+ */
+declare const CA_REGIONS: Region[];
 
 /**
  * Canadian Street Types (Canada Post official abbreviations) - bilingual
@@ -196,9 +227,21 @@ declare const SECONDARY_UNIT_TYPES: Record<string, string>;
  * US States and territories mapping
  */
 /**
- * Mapping of US state and territory names to their official abbreviations
+ * Official US state and territory names mapped to their abbreviations
+ */
+declare const US_STATE_NAMES: Record<string, string>;
+/**
+ * Common shortened forms, abbreviations, and alternative names for US states
+ */
+declare const US_STATE_ALTERNATIVES: Record<string, string>;
+/**
+ * Combined mapping of all US state names and alternatives to their abbreviations
  */
 declare const US_STATES: Record<string, string>;
+/**
+ * Array of US states and territories as Region objects for fuzzy matching
+ */
+declare const US_REGIONS: Region[];
 
 /**
  * US Street Types (USPS official abbreviations)
@@ -303,4 +346,4 @@ declare function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined;
  */
 declare const parser: AddressParser;
 
-export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CA_PROVINCES, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_PATTERNS, type ParseOptions, type ParsedAddress, type ParsedIntersection, SECONDARY_UNIT_TYPES, US_STATES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };
+export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_PATTERNS, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_TYPES, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };
