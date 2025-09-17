@@ -1,0 +1,110 @@
+{
+  "intersections": [
+    {
+      "input": "Mission & Valencia San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "street2": "Valencia",
+        "city": "San Francisco",
+        "state": "CA",
+        "type2": "",
+        "type1": ""
+      }
+    },
+    {
+      "input": "Mission & Valencia, San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "street2": "Valencia",
+        "city": "San Francisco",
+        "state": "CA",
+        "type2": "",
+        "type1": ""
+      }
+    },
+    {
+      "input": "Mission St and Valencia St San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "type1": "St",
+        "street2": "Valencia",
+        "type2": "St",
+        "city": "San Francisco",
+        "state": "CA"
+      }
+    },
+    {
+      "input": "Mission St and Valencia St",
+      "expected": {
+        "street1": "Mission",
+        "type1": "St",
+        "street2": "Valencia",
+        "type2": "St"
+      }
+    },
+    {
+      "input": "Mission St & Valencia St San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "type1": "St",
+        "street2": "Valencia",
+        "type2": "St",
+        "city": "San Francisco",
+        "state": "CA"
+      }
+    },
+    {
+      "input": "Mission and Valencia Sts San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "street2": "Valencia",
+        "type2": "St",
+        "city": "San Francisco",
+        "state": "CA",
+        "type1": "St"
+      }
+    },
+    {
+      "input": "Mission & Valencia Sts. San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "street2": "Valencia",
+        "type2": "St",
+        "city": "San Francisco",
+        "state": "CA",
+        "type1": "St"
+      }
+    },
+    {
+      "input": "Mission and Valencia Sts.",
+      "expected": {
+        "street1": "Mission",
+        "street2": "Valencia",
+        "type2": "St",
+        "type1": "St"
+      }
+    },
+    {
+      "input": "Mission & Valencia Streets San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "street2": "Valencia",
+        "type2": "St",
+        "city": "San Francisco",
+        "state": "CA",
+        "type1": "St"
+      }
+    },
+    {
+      "input": "Mission Avenue and Valencia Street San Francisco CA",
+      "expected": {
+        "street1": "Mission",
+        "type1": "Ave",
+        "street2": "Valencia",
+        "type2": "St",
+        "city": "San Francisco",
+        "state": "CA"
+      }
+    }
+  ]
+}

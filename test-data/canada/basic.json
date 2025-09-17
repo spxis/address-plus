@@ -1,0 +1,128 @@
+[
+  {
+    "input": "123 Main Street Toronto ON M5V 3A8",
+    "expected": {
+      "number": "123",
+      "street": "Main",
+      "type": "St",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5V 3A8",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "456 Rue Saint-Jacques Montréal QC H2Y 1L9",
+    "expected": {
+      "number": "456",
+      "street": "Saint-Jacques",
+      "type": "Rue",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H2Y 1L9",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "789 King St W Unit 501 Toronto ON M5V 1M2",
+    "expected": {
+      "number": "789",
+      "street": "King",
+      "type": "St",
+      "suffix": "W",
+      "sec_unit_type": "Unit",
+      "sec_unit_num": "501",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5V 1M2",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1234 West Broadway Vancouver BC V6H 1G5",
+    "expected": {
+      "number": "1234",
+      "prefix": "W",
+      "street": "Broadway",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6H 1G5",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "567 Avenue des Pins Est Montréal QC H2W 1S6",
+    "expected": {
+      "number": "567",
+      "street": "des Pins",
+      "type": "Ave",
+      "suffix": "E",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H2W 1S6",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "100 Sparks Street Suite 1200 Ottawa ON K1P 5B7",
+    "expected": {
+      "number": "100",
+      "street": "Sparks",
+      "type": "St",
+      "sec_unit_type": "Suite",
+      "sec_unit_num": "1200",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1P 5B7",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "22 Chemin de la Côte-Sainte-Catherine Outremont QC H2V 2A2",
+    "expected": {
+      "number": "22",
+      "street": "de la Côte-Sainte-Catherine",
+      "type": "Ch",
+      "city": "Outremont",
+      "state": "QC",
+      "zip": "H2V 2A2",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "888 Burrard Street Vancouver BC V6Z 1X9",
+    "expected": {
+      "number": "888",
+      "street": "Burrard",
+      "type": "St",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6Z 1X9",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "333 University Avenue Toronto ON M5G 1R8",
+    "expected": {
+      "number": "333",
+      "street": "University",
+      "type": "Ave",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5G 1R8",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1500 Don Mills Road North York ON M3B 3K4",
+    "expected": {
+      "number": "1500",
+      "street": "Don Mills",
+      "type": "Rd",
+      "city": "North York",
+      "state": "ON",
+      "zip": "M3B 3K4",
+      "country": "CA"
+    }
+  }
+]

@@ -1,0 +1,340 @@
+[
+  {
+    "input": "123 1/2 Rue Principale, Petit-Village, QC G1A 2B3",
+    "expected": {
+      "number": "123",
+      "fraction": "1/2",
+      "street": "Principale",
+      "type": "Rue",
+      "city": "Petit-Village",
+      "state": "QC",
+      "zip": "G1A 2B3",
+      "country": "CA"
+    },
+    "description": "Fractional address with French street type"
+  },
+  {
+    "input": "C.P. 5678, Succursale A, Ville-Marie, QC H3B 1X9",
+    "expected": {
+      "sec_unit_type": "CP",
+      "sec_unit_num": "5678",
+      "city": "Ville-Marie",
+      "state": "QC",
+      "zip": "H3B 1X9",
+      "country": "CA"
+    },
+    "description": "French PO Box (Casier Postal) with branch"
+  },
+  {
+    "input": "456 Chemin du Roy N., App. 12B, Trois-Rivières, QC G9A 5H7",
+    "expected": {
+      "number": "456",
+      "street": "Du Roy",
+      "type": "Ch",
+      "suffix": "N",
+      "sec_unit_type": "App",
+      "sec_unit_num": "12B",
+      "city": "Trois-Rivières",
+      "state": "QC",
+      "zip": "G9A 5H7",
+      "country": "CA"
+    },
+    "description": "French road type (Chemin) with apartment in French"
+  },
+  {
+    "input": "789 Boulevard Saint-Laurent O., Bureau 500, Montréal, QC H2X 2T7",
+    "expected": {
+      "number": "789",
+      "street": "Saint-Laurent",
+      "type": "Blvd",
+      "suffix": "O",
+      "sec_unit_type": "Bureau",
+      "sec_unit_num": "500",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H2X 2T7",
+      "country": "CA"
+    },
+    "description": "Boulevard with French office designation"
+  },
+  {
+    "input": "R.R. 3, Site 15, Box 42, Whitehorse, YT Y1A 4Z2",
+    "expected": {
+      "rural_route": "3",
+      "site": "15",
+      "sec_unit_type": "Box",
+      "sec_unit_num": "42",
+      "city": "Whitehorse",
+      "state": "YT",
+      "zip": "Y1A 4Z2",
+      "country": "CA"
+    },
+    "description": "Rural Route with site designation"
+  },
+  {
+    "input": "321 Trans-Canada Highway, Km 125, Kamloops, BC V2C 5N1",
+    "expected": {
+      "number": "321",
+      "street": "Trans-Canada",
+      "type": "Hwy",
+      "city": "Kamloops",
+      "state": "BC",
+      "zip": "V2C 5N1",
+      "country": "CA"
+    },
+    "description": "Highway with kilometer marker"
+  },
+  {
+    "input": "12-34 Avenue des Pins Est, Étage 5, Montréal, QC H2W 1N8",
+    "expected": {
+      "number": "12-34",
+      "street": "Des Pins",
+      "type": "Ave",
+      "suffix": "E",
+      "sec_unit_type": "Étage",
+      "sec_unit_num": "5",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H2W 1N8",
+      "country": "CA"
+    },
+    "description": "Hyphenated number with French floor designation"
+  },
+  {
+    "input": "555 Rue Sainte-Catherine O., Local 1200, Montréal, QC H3B 1B3",
+    "expected": {
+      "number": "555",
+      "street": "Sainte-Catherine",
+      "type": "Rue",
+      "suffix": "O",
+      "sec_unit_type": "Local",
+      "sec_unit_num": "1200",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H3B 1B3",
+      "country": "CA"
+    },
+    "description": "Street with French local designation"
+  },
+  {
+    "input": "Main Street & 1st Avenue, Moncton, NB E1C 9X5",
+    "expected": {
+      "street1": "Main",
+      "type1": "St",
+      "street2": "1st",
+      "type2": "Ave",
+      "city": "Moncton",
+      "state": "NB",
+      "zip": "E1C 9X5",
+      "country": "CA"
+    },
+    "description": "Street intersection in Maritime province"
+  },
+  {
+    "input": "987 Autoroute 20 Service Road, Hangar B-15, Dorval, QC H9P 2T4",
+    "expected": {
+      "number": "987",
+      "street": "Autoroute 20 Service",
+      "type": "Rd",
+      "sec_unit_type": "Hangar",
+      "sec_unit_num": "B-15",
+      "city": "Dorval",
+      "state": "QC",
+      "zip": "H9P 2T4",
+      "country": "CA"
+    },
+    "description": "French highway service road with hangar"
+  },
+  {
+    "input": "100 Route Transcanadienne, Mile 42, Calgary, AB T3E 7H4",
+    "expected": {
+      "number": "100",
+      "street": "Transcanadienne",
+      "type": "Rte",
+      "city": "Calgary",
+      "state": "AB",
+      "zip": "T3E 7H4",
+      "country": "CA"
+    },
+    "description": "French Trans-Canada route with mile marker"
+  },
+  {
+    "input": "456 Chemin de la Côte-des-Neiges, Sous-sol, Montréal, QC H3V 1A1",
+    "expected": {
+      "number": "456",
+      "street": "De la Côte-des-Neiges",
+      "type": "Ch",
+      "sec_unit_type": "Sous-sol",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H3V 1A1",
+      "country": "CA"
+    },
+    "description": "Complex French street name with basement designation"
+  },
+  {
+    "input": "R.R. 5, Compartiment 123A, Charlottetown, PE C1A 7N5",
+    "expected": {
+      "rural_route": "5",
+      "sec_unit_type": "Comp",
+      "sec_unit_num": "123A",
+      "city": "Charlottetown",
+      "state": "PE",
+      "zip": "C1A 7N5",
+      "country": "CA"
+    },
+    "description": "Rural route with compartment designation"
+  },
+  {
+    "input": "789 Highway 101, Concession 3, London, ON N6A 3K7",
+    "expected": {
+      "number": "789",
+      "street": "Highway 101",
+      "city": "London",
+      "state": "ON",
+      "zip": "N6A 3K7",
+      "country": "CA"
+    },
+    "description": "Highway with concession reference"
+  },
+  {
+    "input": "123 Avenue du Parc N.-O., Penthouse, Québec, QC G1R 2L3",
+    "expected": {
+      "number": "123",
+      "street": "Du Parc",
+      "type": "Ave",
+      "suffix": "NO",
+      "sec_unit_type": "Ph",
+      "city": "Québec",
+      "state": "QC",
+      "zip": "G1R 2L3",
+      "country": "CA"
+    },
+    "description": "French directional abbreviation with penthouse"
+  },
+  {
+    "input": "General Delivery, Inuvik, NT X0E 0T0",
+    "expected": {
+      "general_delivery": true,
+      "city": "Inuvik",
+      "state": "NT",
+      "zip": "X0E 0T0",
+      "country": "CA"
+    },
+    "description": "General delivery in northern territory"
+  },
+  {
+    "input": "456 Provincial Road 206, Cabane 78, Thompson, MB R8N 1X2",
+    "expected": {
+      "number": "456",
+      "street": "Provincial Road 206",
+      "sec_unit_type": "Cabane",
+      "sec_unit_num": "78",
+      "city": "Thompson",
+      "state": "MB",
+      "zip": "R8N 1X2",
+      "country": "CA"
+    },
+    "description": "Provincial road with cabin designation"
+  },
+  {
+    "input": "321 Première Avenue E., Mezzanine, Rimouski, QC G5L 8L4",
+    "expected": {
+      "number": "321",
+      "street": "Première",
+      "type": "Ave",
+      "suffix": "E",
+      "sec_unit_type": "Mezz",
+      "city": "Rimouski",
+      "state": "QC",
+      "zip": "G5L 8L4",
+      "country": "CA"
+    },
+    "description": "French ordinal street with mezzanine"
+  },
+  {
+    "input": "654 Croissant Bellevue, Unité 45, Gatineau, QC J8T 8A8",
+    "expected": {
+      "number": "654",
+      "street": "Bellevue",
+      "type": "Cres",
+      "sec_unit_type": "Unité",
+      "sec_unit_num": "45",
+      "city": "Gatineau",
+      "state": "QC",
+      "zip": "J8T 8A8",
+      "country": "CA"
+    },
+    "description": "French crescent with French unit designation"
+  },
+  {
+    "input": "P.O. Box 9999, Station Main, Halifax, NS B3J 3A7",
+    "expected": {
+      "sec_unit_type": "PO box",
+      "sec_unit_num": "9999",
+      "city": "Halifax",
+      "state": "NS",
+      "zip": "B3J 3A7",
+      "country": "CA"
+    },
+    "description": "PO Box with station designation"
+  },
+  {
+    "input": "888 Confederation Trail, Point 15, Summerside, PE C1N 4J6",
+    "expected": {
+      "number": "888",
+      "street": "Confederation",
+      "type": "Trl",
+      "city": "Summerside",
+      "state": "PE",
+      "zip": "C1N 4J6",
+      "country": "CA"
+    },
+    "description": "Trail with point designation"
+  },
+  {
+    "input": "159 Duckworth Street, Level 3, St. John's, NL A1C 1G4",
+    "expected": {
+      "number": "159",
+      "street": "Duckworth",
+      "type": "St",
+      "sec_unit_type": "Level",
+      "sec_unit_num": "3",
+      "city": "St. John's",
+      "state": "NL",
+      "zip": "A1C 1G4",
+      "country": "CA"
+    },
+    "description": "Historic street with level designation"
+  },
+  {
+    "input": "753 Klondike Highway, Camp 42, Dawson City, YT Y0B 1G0",
+    "expected": {
+      "number": "753",
+      "street": "Klondike",
+      "type": "Hwy",
+      "sec_unit_type": "Camp",
+      "sec_unit_num": "42",
+      "city": "Dawson City",
+      "state": "YT",
+      "zip": "Y0B 1G0",
+      "country": "CA"
+    },
+    "description": "Historic highway with camp designation"
+  },
+  {
+    "input": "246 Arctic Road, Igloo 7, Iqaluit, NU X0A 1H0",
+    "expected": {
+      "number": "246",
+      "street": "Arctic",
+      "type": "Rd",
+      "sec_unit_type": "Igloo",
+      "sec_unit_num": "7",
+      "city": "Iqaluit",
+      "state": "NU",
+      "zip": "X0A 1H0",
+      "country": "CA"
+    },
+    "description": "Northern address with unique unit type"
+  }
+]

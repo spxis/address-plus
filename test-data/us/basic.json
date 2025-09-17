@@ -1,0 +1,164 @@
+{
+  "basic_addresses": [
+    {
+      "input": "1005 Gravenstein Hwy 95472",
+      "expected": {
+        "number": "1005",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1005 Gravenstein Hwy, 95472",
+      "expected": {
+        "number": "1005",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1005 Gravenstein Hwy N, 95472",
+      "expected": {
+        "number": "1005",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "suffix": "N",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1005 Gravenstein Highway North, 95472",
+      "expected": {
+        "number": "1005",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "suffix": "N",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1005 N Gravenstein Highway, Sebastopol, CA",
+      "expected": {
+        "number": "1005",
+        "prefix": "N",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "city": "Sebastopol",
+        "state": "CA"
+      }
+    },
+    {
+      "input": "1005 N Gravenstein Highway, Suite 500, Sebastopol, CA",
+      "expected": {
+        "number": "1005",
+        "prefix": "N",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "sec_unit_type": "Suite",
+        "sec_unit_num": "500",
+        "city": "Sebastopol",
+        "state": "CA"
+      }
+    },
+    {
+      "input": "1005 N Gravenstein Hwy Suite 500 Sebastopol, CA",
+      "expected": {
+        "number": "1005",
+        "prefix": "N",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "sec_unit_type": "Suite",
+        "sec_unit_num": "500",
+        "city": "Sebastopol",
+        "state": "CA"
+      }
+    },
+    {
+      "input": "1005 N Gravenstein Highway, Sebastopol, CA, 95472",
+      "expected": {
+        "number": "1005",
+        "prefix": "N",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "city": "Sebastopol",
+        "state": "CA",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1005 N Gravenstein Highway Sebastopol CA 95472",
+      "expected": {
+        "number": "1005",
+        "prefix": "N",
+        "street": "Gravenstein",
+        "type": "Hwy",
+        "city": "Sebastopol",
+        "state": "CA",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1600 Pennsylvania Ave. Washington DC",
+      "expected": {
+        "number": "1600",
+        "street": "Pennsylvania",
+        "type": "Ave",
+        "city": "Washington",
+        "state": "DC"
+      }
+    },
+    {
+      "input": "1600 Pennsylvania Avenue Washington DC",
+      "expected": {
+        "number": "1600",
+        "street": "Pennsylvania",
+        "type": "Ave",
+        "city": "Washington",
+        "state": "DC"
+      }
+    },
+    {
+      "input": "115 Broadway San Francisco CA",
+      "expected": {
+        "number": "115",
+        "street": "Broadway",
+        "city": "San Francisco",
+        "state": "CA"
+      }
+    },
+    {
+      "input": "7800 Mill Station Rd, Sebastopol, CA 95472",
+      "expected": {
+        "number": "7800",
+        "street": "Mill Station",
+        "type": "Rd",
+        "city": "Sebastopol",
+        "state": "CA",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "7800 Mill Station Rd Sebastopol CA 95472",
+      "expected": {
+        "number": "7800",
+        "street": "Mill Station",
+        "type": "Rd",
+        "city": "Sebastopol",
+        "state": "CA",
+        "zip": "95472"
+      }
+    },
+    {
+      "input": "1005 State Highway 116 Sebastopol CA 95472",
+      "expected": {
+        "number": "1005",
+        "street": "State Highway 116",
+        "city": "Sebastopol",
+        "state": "CA",
+        "zip": "95472"
+      }
+    }
+  ]
+}

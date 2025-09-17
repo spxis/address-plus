@@ -1,0 +1,428 @@
+[
+  {
+    "input": "24 Sussex Drive Ottawa ON K1M 1M4",
+    "expected": {
+      "number": "24",
+      "street": "Sussex",
+      "type": "Dr",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1M 1M4",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "111 Wellington Street Ottawa ON K1A 0A6",
+    "expected": {
+      "number": "111",
+      "street": "Wellington",
+      "type": "St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1A 0A6",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "53-55 Water Street Vancouver BC V6B 1A1",
+    "expected": {
+      "number": "53-55",
+      "street": "Water",
+      "type": "St",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6B 1A1",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "301 Front Street West Toronto ON M5V 2T6",
+    "expected": {
+      "number": "301",
+      "street": "Front",
+      "type": "St",
+      "suffix": "W",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5V 2T6",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "100 Queen Street Ottawa ON K1P 1J9",
+    "expected": {
+      "number": "100",
+      "street": "Queen",
+      "type": "St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1P 1J9",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1000 Rue De La Gauchetière Ouest Montréal QC H3B 4W5",
+    "expected": {
+      "number": "1000",
+      "street": "De La Gauchetière",
+      "type": "Rue",
+      "suffix": "O",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H3B 4W5",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1 Blue Jays Way Toronto ON M5V 1J1",
+    "expected": {
+      "number": "1",
+      "street": "Blue Jays",
+      "type": "Way",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5V 1J1",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "233 Queen Street Ottawa ON K1A 0H6",
+    "expected": {
+      "number": "233",
+      "street": "Queen",
+      "type": "St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1A 0H6",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "675 Belleville Street Victoria BC V8W 9W2",
+    "expected": {
+      "number": "675",
+      "street": "Belleville",
+      "type": "St",
+      "city": "Victoria",
+      "state": "BC",
+      "zip": "V8W 9W2",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "85 Canada Olympic Road SW Calgary AB T3B 5R5",
+    "expected": {
+      "number": "85",
+      "street": "Canada Olympic",
+      "type": "Rd",
+      "suffix": "SW",
+      "city": "Calgary",
+      "state": "AB",
+      "zip": "T3B 5R5",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "405 6 Avenue SE Calgary AB T2G 2E9",
+    "expected": {
+      "number": "405",
+      "street": "6",
+      "type": "Ave",
+      "suffix": "SE",
+      "city": "Calgary",
+      "state": "AB",
+      "zip": "T2G 2E9",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1900 Heritage Drive SW Calgary AB T2V 2X3",
+    "expected": {
+      "number": "1900",
+      "street": "Heritage",
+      "type": "Dr",
+      "suffix": "SW",
+      "city": "Calgary",
+      "state": "AB",
+      "zip": "T2V 2X3",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "3401 Ridgeway Drive Mississauga ON L5L 5Y6",
+    "expected": {
+      "number": "3401",
+      "street": "Ridgeway",
+      "type": "Dr",
+      "city": "Mississauga",
+      "state": "ON",
+      "zip": "L5L 5Y6",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1 Rideau Street Ottawa ON K1N 8S7",
+    "expected": {
+      "number": "1",
+      "street": "Rideau",
+      "type": "St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1N 8S7",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1000 Palladium Drive Ottawa ON K2V 1A5",
+    "expected": {
+      "number": "1000",
+      "street": "Palladium",
+      "type": "Dr",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K2V 1A5",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1 Harbour Square Toronto ON M5J 1A6",
+    "expected": {
+      "number": "1",
+      "street": "Harbour",
+      "type": "Sq",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5J 1A6",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1000 Finch Avenue West Toronto ON M3J 2V5",
+    "expected": {
+      "number": "1000",
+      "street": "Finch",
+      "type": "Ave",
+      "suffix": "W",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M3J 2V5",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1 University Avenue Toronto ON M5J 2P1",
+    "expected": {
+      "number": "1",
+      "street": "University",
+      "type": "Ave",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5J 2P1",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "100 Laurier Street Gatineau QC J8X 4H4",
+    "expected": {
+      "number": "100",
+      "street": "Laurier",
+      "type": "St",
+      "city": "Gatineau",
+      "state": "QC",
+      "zip": "J8X 4H4",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "300 Boulevard René-Lévesque Est Québec QC G1R 5V7",
+    "expected": {
+      "number": "300",
+      "street": "René-Lévesque",
+      "type": "Blvd",
+      "suffix": "E",
+      "city": "Québec",
+      "state": "QC",
+      "zip": "G1R 5V7",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "1 Canal Street Montréal QC H3B 5E8",
+    "expected": {
+      "number": "1",
+      "street": "Canal",
+      "type": "St",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H3B 5E8",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "100 Rue Saint-Antoine Ouest Montréal QC H2Z 1B4",
+    "expected": {
+      "number": "100",
+      "street": "Saint-Antoine",
+      "type": "Rue",
+      "suffix": "O",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H2Z 1B4",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "999 Canada Place Vancouver BC V6C 3T4",
+    "expected": {
+      "number": "999",
+      "street": "Canada",
+      "type": "Pl",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6C 3T4",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "317 Dundas Street West Toronto ON M5T 1G4",
+    "expected": {
+      "number": "317",
+      "street": "Dundas",
+      "type": "St",
+      "suffix": "W",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5T 1G4",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "380 Sussex Drive Ottawa ON K1N 9N4",
+    "expected": {
+      "number": "380",
+      "street": "Sussex",
+      "type": "Dr",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1N 9N4",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "200 Main Street Winnipeg MB R3C 1A8",
+    "expected": {
+      "number": "200",
+      "street": "Main",
+      "type": "St",
+      "city": "Winnipeg",
+      "state": "MB",
+      "zip": "R3C 1A8",
+      "country": "CA"
+    },
+    "description": "Manitoba Legislative Building area - Manitoba"
+  },
+  {
+    "input": "2405 Legislative Drive Regina SK S4S 0B3",
+    "expected": {
+      "number": "2405",
+      "street": "Legislative",
+      "type": "Dr",
+      "city": "Regina",
+      "state": "SK",
+      "zip": "S4S 0B3",
+      "country": "CA"
+    },
+    "description": "Saskatchewan Legislative Building - Saskatchewan"
+  },
+  {
+    "input": "706 Queen Street Fredericton NB E3B 1C2",
+    "expected": {
+      "number": "706",
+      "street": "Queen",
+      "type": "St",
+      "city": "Fredericton",
+      "state": "NB",
+      "zip": "E3B 1C2",
+      "country": "CA"
+    },
+    "description": "New Brunswick Legislative Building - New Brunswick"
+  },
+  {
+    "input": "1741 Argyle Street Halifax NS B3J 3A8",
+    "expected": {
+      "number": "1741",
+      "street": "Argyle",
+      "type": "St",
+      "city": "Halifax",
+      "state": "NS",
+      "zip": "B3J 3A8",
+      "country": "CA"
+    },
+    "description": "Province House - Nova Scotia"
+  },
+  {
+    "input": "165 Richmond Street Charlottetown PE C1A 1J1",
+    "expected": {
+      "number": "165",
+      "street": "Richmond",
+      "type": "St",
+      "city": "Charlottetown",
+      "state": "PE",
+      "zip": "C1A 1J1",
+      "country": "CA"
+    },
+    "description": "Province House - Prince Edward Island"
+  },
+  {
+    "input": "100 Prince Philip Drive St. John's NL A1B 4J6",
+    "expected": {
+      "number": "100",
+      "street": "Prince Philip",
+      "type": "Dr",
+      "city": "St. John's",
+      "state": "NL",
+      "zip": "A1B 4J6",
+      "country": "CA"
+    },
+    "description": "Confederation Building - Newfoundland and Labrador"
+  },
+  {
+    "input": "4601 52nd Avenue Yellowknife NT X1A 2L9",
+    "expected": {
+      "number": "4601",
+      "street": "52nd",
+      "type": "Ave",
+      "city": "Yellowknife",
+      "state": "NT",
+      "zip": "X1A 2L9",
+      "country": "CA"
+    },
+    "description": "Legislative Assembly - Northwest Territories"
+  },
+  {
+    "input": "2071 2nd Avenue Whitehorse YT Y1A 1A8",
+    "expected": {
+      "number": "2071",
+      "street": "2nd",
+      "type": "Ave",
+      "city": "Whitehorse",
+      "state": "YT",
+      "zip": "Y1A 1A8",
+      "country": "CA"
+    },
+    "description": "Yukon Legislative Building - Yukon"
+  },
+  {
+    "input": "926 Federal Road Iqaluit NU X0A 0H0",
+    "expected": {
+      "number": "926",
+      "street": "Federal",
+      "type": "Rd",
+      "city": "Iqaluit",
+      "state": "NU",
+      "zip": "X0A 0H0",
+      "country": "CA"
+    },
+    "description": "Legislative Assembly - Nunavut"
+  }
+]

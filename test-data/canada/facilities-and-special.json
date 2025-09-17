@@ -1,0 +1,100 @@
+[
+  {
+    "input": "PO Box 123 Station A Toronto ON M5W 1A1",
+    "expected": {
+      "sec_unit_type": "PO Box",
+      "sec_unit_num": "123",
+      "facility": "Station A",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5W 1A1",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
+    "expected": {
+      "sec_unit_type": "Case postale",
+      "sec_unit_num": "456",
+      "facility": "Succursale Centre-ville",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H3C 3P8",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "RR 2 Site 10 Comp 5 Whitehorse YT Y1A 0C1",
+    "expected": {
+      "rural_route": "RR 2",
+      "site": "Site 10",
+      "sec_unit_type": "Comp",
+      "sec_unit_num": "5",
+      "city": "Whitehorse",
+      "state": "YT",
+      "zip": "Y1A 0C1",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "General Delivery Iqaluit NU X0A 0H0",
+    "expected": {
+      "general_delivery": true,
+      "city": "Iqaluit",
+      "state": "NU",
+      "zip": "X0A 0H0",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "Box 789 Yellowknife NT X1A 2N1",
+    "expected": {
+      "sec_unit_type": "Box",
+      "sec_unit_num": "789",
+      "city": "Yellowknife",
+      "state": "NT",
+      "zip": "X1A 2N1",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "CN Tower 290 Bremner Blvd Toronto ON M5V 3L9",
+    "expected": {
+      "facility": "CN Tower",
+      "number": "290",
+      "street": "Bremner",
+      "type": "Blvd",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5V 3L9",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "Château Frontenac 1 Rue des Carrières Québec QC G1R 4P5",
+    "expected": {
+      "facility": "Château Frontenac",
+      "number": "1",
+      "street": "des Carrières",
+      "type": "Rue",
+      "city": "Québec",
+      "state": "QC",
+      "zip": "G1R 4P5",
+      "country": "CA"
+    }
+  },
+  {
+    "input": "Fairmont Hotel Vancouver 900 West Georgia Street Vancouver BC V6C 2W6",
+    "expected": {
+      "facility": "Fairmont Hotel Vancouver",
+      "number": "900",
+      "prefix": "W",
+      "street": "Georgia",
+      "type": "St",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6C 2W6",
+      "country": "CA"
+    }
+  }
+]

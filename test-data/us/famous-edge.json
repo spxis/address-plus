@@ -1,0 +1,224 @@
+[
+  {
+    "input": "1600 Pennsylvania Ave. N.W., Washington, D.C. 20500-0001",
+    "expected": {
+      "number": "1600",
+      "street": "Pennsylvania",
+      "type": "Ave",
+      "suffix": "NW",
+      "city": "Washington",
+      "state": "DC",
+      "zip": "20500",
+      "zipext": "0001",
+      "country": "US"
+    },
+    "description": "The White House - with periods and extended ZIP"
+  },
+  {
+    "input": "350 5th Avenue, Floor 86, New York, NY 10118",
+    "expected": {
+      "number": "350",
+      "street": "5th",
+      "type": "Ave",
+      "sec_unit_type": "Fl",
+      "sec_unit_num": "86",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10118",
+      "country": "US"
+    },
+    "description": "Empire State Building - with floor designation"
+  },
+  {
+    "input": "One Infinite Loop, Building 4, Cupertino, California 95014",
+    "expected": {
+      "number": "One",
+      "street": "Infinite",
+      "type": "Loop",
+      "sec_unit_type": "Bldg",
+      "sec_unit_num": "4",
+      "city": "Cupertino",
+      "state": "CA",
+      "zip": "95014",
+      "country": "US"
+    },
+    "description": "Apple Park - with written number and building"
+  },
+  {
+    "input": "1060 W. Addison St., Suite 100, Chicago, Illinois 60613-4397",
+    "expected": {
+      "number": "1060",
+      "prefix": "W",
+      "street": "Addison",
+      "type": "St",
+      "sec_unit_type": "Ste",
+      "sec_unit_num": "100",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60613",
+      "zipext": "4397",
+      "country": "US"
+    },
+    "description": "Wrigley Field - with periods and full state name"
+  },
+  {
+    "input": "1 WTC, Floor 104, New York, NY 10007-2701",
+    "expected": {
+      "number": "1",
+      "street": "WTC",
+      "sec_unit_type": "Fl",
+      "sec_unit_num": "104",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10007",
+      "zipext": "2701",
+      "country": "US"
+    },
+    "description": "One World Trade Center - abbreviated with floor"
+  },
+  {
+    "input": "1 AT&T Way, Gate B, Arlington, Texas 76011",
+    "expected": {
+      "number": "1",
+      "street": "AT&T",
+      "type": "Way",
+      "sec_unit_type": "Gate",
+      "sec_unit_num": "B",
+      "city": "Arlington",
+      "state": "TX",
+      "zip": "76011",
+      "country": "US"
+    },
+    "description": "AT&T Stadium - with gate designation"
+  },
+  {
+    "input": "4059 Mt. Lee Dr., Hollywood, CA 90068-1661",
+    "expected": {
+      "number": "4059",
+      "street": "Mt. Lee",
+      "type": "Dr",
+      "city": "Hollywood",
+      "state": "CA",
+      "zip": "90068",
+      "zipext": "1661",
+      "country": "US"
+    },
+    "description": "Hollywood Sign - with period and extended ZIP"
+  },
+  {
+    "input": "2 East Main Street, Mesa, Arizona 85201-6738",
+    "expected": {
+      "number": "2",
+      "prefix": "E",
+      "street": "Main",
+      "type": "St",
+      "city": "Mesa",
+      "state": "AZ",
+      "zip": "85201",
+      "zipext": "6738",
+      "country": "US"
+    },
+    "description": "Mesa Arts Center - spelled out directional"
+  },
+  {
+    "input": "1200 Getty Center Dr., Los Angeles, California 90049-1679",
+    "expected": {
+      "number": "1200",
+      "street": "Getty Center",
+      "type": "Dr",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90049",
+      "zipext": "1679",
+      "country": "US"
+    },
+    "description": "Getty Center - abbreviated drive with full state"
+  },
+  {
+    "input": "1 Fenway Park, Gate A, Boston, Massachusetts 02215",
+    "expected": {
+      "number": "1",
+      "street": "Fenway",
+      "type": "Park",
+      "sec_unit_type": "Gate",
+      "sec_unit_num": "A",
+      "city": "Boston",
+      "state": "MA",
+      "zip": "02215",
+      "country": "US"
+    },
+    "description": "Fenway Park - with gate designation"
+  },
+  {
+    "input": "One Cowboys Way, Frisco, TX 75034-9104",
+    "expected": {
+      "number": "One",
+      "street": "Cowboys",
+      "type": "Way",
+      "city": "Frisco",
+      "state": "TX",
+      "zip": "75034",
+      "zipext": "9104",
+      "country": "US"
+    },
+    "description": "The Star - written number with extended ZIP"
+  },
+  {
+    "input": "2700 S.W. 2nd Ave., Miami, FL 33129-2324",
+    "expected": {
+      "number": "2700",
+      "prefix": "SW",
+      "street": "2nd",
+      "type": "Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33129",
+      "zipext": "2324",
+      "country": "US"
+    },
+    "description": "Marlins Park - abbreviated directional with periods"
+  },
+  {
+    "input": "1 Georgia Dome Dr. N.W., Atlanta, GA 30313-1591",
+    "expected": {
+      "number": "1",
+      "street": "Georgia Dome",
+      "type": "Dr",
+      "suffix": "NW",
+      "city": "Atlanta",
+      "state": "GA",
+      "zip": "30313",
+      "zipext": "1591",
+      "country": "US"
+    },
+    "description": "Mercedes-Benz Stadium area - with periods in directional"
+  },
+  {
+    "input": "1 Aloha Stadium Pl., Honolulu, Hawaii 96818-4601",
+    "expected": {
+      "number": "1",
+      "street": "Aloha Stadium",
+      "type": "Pl",
+      "city": "Honolulu",
+      "state": "HI",
+      "zip": "96818",
+      "zipext": "4601",
+      "country": "US"
+    },
+    "description": "Aloha Stadium - abbreviated place with full state"
+  },
+  {
+    "input": "1910 University Dr., Boise, Idaho 83725-1000",
+    "expected": {
+      "number": "1910",
+      "street": "University",
+      "type": "Dr",
+      "city": "Boise",
+      "state": "ID",
+      "zip": "83725",
+      "zipext": "1000",
+      "country": "US"
+    },
+    "description": "Boise State University - abbreviated with full state"
+  }
+]

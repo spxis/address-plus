@@ -1,0 +1,341 @@
+[
+  {
+    "input": "123 1/2 Main Street, Anytown, CA 90210",
+    "expected": {
+      "number": "123",
+      "fraction": "1/2",
+      "street": "Main",
+      "type": "St",
+      "city": "Anytown",
+      "state": "CA",
+      "zip": "90210",
+      "country": "US"
+    },
+    "description": "Fractional address number"
+  },
+  {
+    "input": "PO Box 12345, Rural Route 1, Smalltown, MT 59718",
+    "expected": {
+      "sec_unit_type": "PO box",
+      "sec_unit_num": "12345",
+      "city": "Smalltown",
+      "state": "MT",
+      "zip": "59718",
+      "country": "US"
+    },
+    "description": "PO Box with Rural Route"
+  },
+  {
+    "input": "123 N. E. Main St., Apt. 4B, Big City, TX 75201-1234",
+    "expected": {
+      "number": "123",
+      "prefix": "NE",
+      "street": "Main",
+      "type": "St",
+      "sec_unit_type": "Apt",
+      "sec_unit_num": "4B",
+      "city": "Big City",
+      "state": "TX",
+      "zip": "75201",
+      "zipext": "1234",
+      "country": "US"
+    },
+    "description": "Apartment with extended ZIP and periods in directionals"
+  },
+  {
+    "input": "123 South Southwest Boulevard, Unit #456, Phoenix, AZ 85001",
+    "expected": {
+      "number": "123",
+      "prefix": "S",
+      "suffix": "SW",
+      "street": "Boulevard",
+      "sec_unit_type": "Unit",
+      "sec_unit_num": "456",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zip": "85001",
+      "country": "US"
+    },
+    "description": "Multiple directionals and unit with hash symbol"
+  },
+  {
+    "input": "Rural Route 5 Box 123A, Farmville, IA 52556",
+    "expected": {
+      "rural_route": "5",
+      "sec_unit_type": "Box",
+      "sec_unit_num": "123A",
+      "city": "Farmville",
+      "state": "IA",
+      "zip": "52556",
+      "country": "US"
+    },
+    "description": "Rural route with box number"
+  },
+  {
+    "input": "123 Old Highway 66, Mile Marker 85, Flagstaff, AZ 86001",
+    "expected": {
+      "number": "123",
+      "street": "Old Highway 66",
+      "city": "Flagstaff",
+      "state": "AZ",
+      "zip": "86001",
+      "country": "US"
+    },
+    "description": "Highway address with mile marker"
+  },
+  {
+    "input": "45-67 Queens Boulevard, Floor 12, Elmhurst, NY 11373",
+    "expected": {
+      "number": "45-67",
+      "street": "Queens",
+      "type": "Blvd",
+      "sec_unit_type": "Fl",
+      "sec_unit_num": "12",
+      "city": "Elmhurst",
+      "state": "NY",
+      "zip": "11373",
+      "country": "US"
+    },
+    "description": "Hyphenated house number with floor designation"
+  },
+  {
+    "input": "123 Saint Mary's Church Road, Penthouse A, Boston, MA 02101",
+    "expected": {
+      "number": "123",
+      "street": "Saint Mary's Church",
+      "type": "Rd",
+      "sec_unit_type": "Ph",
+      "sec_unit_num": "A",
+      "city": "Boston",
+      "state": "MA",
+      "zip": "02101",
+      "country": "US"
+    },
+    "description": "Apostrophe in street name with penthouse"
+  },
+  {
+    "input": "2nd & Pine, Seattle, WA 98101",
+    "expected": {
+      "street1": "2nd",
+      "street2": "Pine",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98101",
+      "country": "US"
+    },
+    "description": "Street intersection with ampersand"
+  },
+  {
+    "input": "123 Dr. Martin Luther King Jr. Boulevard, Suite 500, Atlanta, GA 30309",
+    "expected": {
+      "number": "123",
+      "street": "Dr. Martin Luther King Jr.",
+      "type": "Blvd",
+      "sec_unit_type": "Ste",
+      "sec_unit_num": "500",
+      "city": "Atlanta",
+      "state": "GA",
+      "zip": "30309",
+      "country": "US"
+    },
+    "description": "Very long street name with title and suffix abbreviation"
+  },
+  {
+    "input": "456 I-95 Service Road North, Trailer 78, Jacksonville, FL 32202",
+    "expected": {
+      "number": "456",
+      "street": "I-95 Service",
+      "type": "Rd",
+      "suffix": "N",
+      "sec_unit_type": "Trlr",
+      "sec_unit_num": "78",
+      "city": "Jacksonville",
+      "state": "FL",
+      "zip": "32202",
+      "country": "US"
+    },
+    "description": "Interstate service road with trailer designation"
+  },
+  {
+    "input": "123 1st Street North West, Department 45, Bismarck, ND 58501",
+    "expected": {
+      "number": "123",
+      "street": "1st",
+      "type": "St",
+      "suffix": "NW",
+      "sec_unit_type": "Dept",
+      "sec_unit_num": "45",
+      "city": "Bismarck",
+      "state": "ND",
+      "zip": "58501",
+      "country": "US"
+    },
+    "description": "Ordinal street with spelled-out directional and department"
+  },
+  {
+    "input": "HC 73 Box 9876, Moab, UT 84532",
+    "expected": {
+      "rural_route": "73",
+      "sec_unit_type": "Box",
+      "sec_unit_num": "9876",
+      "city": "Moab",
+      "state": "UT",
+      "zip": "84532",
+      "country": "US"
+    },
+    "description": "Highway Contract route address"
+  },
+  {
+    "input": "123 Avenue of the Americas, Mezzanine Level, New York, NY 10036",
+    "expected": {
+      "number": "123",
+      "street": "Avenue of the Americas",
+      "sec_unit_type": "Mezz",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10036",
+      "country": "US"
+    },
+    "description": "Famous NYC avenue with mezzanine level"
+  },
+  {
+    "input": "789 County Road 250 East, Space 12, Mobile Home Park, Terre Haute, IN 47802",
+    "expected": {
+      "number": "789",
+      "street": "County Road 250",
+      "suffix": "E",
+      "sec_unit_type": "Spc",
+      "sec_unit_num": "12",
+      "city": "Terre Haute",
+      "state": "IN",
+      "zip": "47802",
+      "country": "US"
+    },
+    "description": "County road with space designation in mobile home park"
+  },
+  {
+    "input": "123 State Highway 1A, Hangar B-7, Anchorage, AK 99501",
+    "expected": {
+      "number": "123",
+      "street": "State Highway 1A",
+      "sec_unit_type": "Hangar",
+      "sec_unit_num": "B-7",
+      "city": "Anchorage",
+      "state": "AK",
+      "zip": "99501",
+      "country": "US"
+    },
+    "description": "State highway with hangar designation"
+  },
+  {
+    "input": "456 Business Route 80, Lower Level, Reno, NV 89501",
+    "expected": {
+      "number": "456",
+      "street": "Business Route 80",
+      "sec_unit_type": "Lower",
+      "city": "Reno",
+      "state": "NV",
+      "zip": "89501",
+      "country": "US"
+    },
+    "description": "Business route with level designation"
+  },
+  {
+    "input": "General Delivery, Smallville, KS 67524",
+    "expected": {
+      "general_delivery": true,
+      "city": "Smallville",
+      "state": "KS",
+      "zip": "67524",
+      "country": "US"
+    },
+    "description": "General delivery address"
+  },
+  {
+    "input": "123 US Highway 101 Frontage Road, Slip C-22, Marina, CA 93933",
+    "expected": {
+      "number": "123",
+      "street": "US Highway 101 Frontage",
+      "type": "Rd",
+      "sec_unit_type": "Slip",
+      "sec_unit_num": "C-22",
+      "city": "Marina",
+      "state": "CA",
+      "zip": "93933",
+      "country": "US"
+    },
+    "description": "US Highway frontage road with marina slip"
+  },
+  {
+    "input": "789 Three Mile Island Road, Reactor Building 2, Middletown, PA 17057",
+    "expected": {
+      "number": "789",
+      "street": "Three Mile Island",
+      "type": "Rd",
+      "sec_unit_type": "Bldg",
+      "sec_unit_num": "2",
+      "city": "Middletown",
+      "state": "PA",
+      "zip": "17057",
+      "country": "US"
+    },
+    "description": "Written-out number in street name with building"
+  },
+  {
+    "input": "123 Fort Belvoir Access Road, Gate 5, Alexandria, VA 22060",
+    "expected": {
+      "number": "123",
+      "street": "Fort Belvoir Access",
+      "type": "Rd",
+      "sec_unit_type": "Gate",
+      "sec_unit_num": "5",
+      "city": "Alexandria",
+      "state": "VA",
+      "zip": "22060",
+      "country": "US"
+    },
+    "description": "Military base access road with gate"
+  },
+  {
+    "input": "456 Old Spanish Trail, Kilometer 15, Santa Fe, NM 87501",
+    "expected": {
+      "number": "456",
+      "street": "Old Spanish",
+      "type": "Trl",
+      "city": "Santa Fe",
+      "state": "NM",
+      "zip": "87501",
+      "country": "US"
+    },
+    "description": "Trail address with kilometer marker"
+  },
+  {
+    "input": "123 MLK Boulevard, Tower 3, Unit 45A, Chicago, IL 60601",
+    "expected": {
+      "number": "123",
+      "street": "MLK",
+      "type": "Blvd",
+      "sec_unit_type": "Unit",
+      "sec_unit_num": "45A",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60601",
+      "country": "US"
+    },
+    "description": "Abbreviated famous name with tower and unit"
+  },
+  {
+    "input": "789 NASA Parkway, Mission Control Center, Houston, TX 77058",
+    "expected": {
+      "number": "789",
+      "street": "NASA",
+      "type": "Pkwy",
+      "facility": "Mission Control Center",
+      "city": "Houston",
+      "state": "TX",
+      "zip": "77058",
+      "country": "US"
+    },
+    "description": "Federal facility with mission control center"
+  }
+]

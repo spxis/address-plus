@@ -1,0 +1,759 @@
+[
+  {
+    "input": "1600 Pennsylvania Avenue NW, Washington, DC 20500",
+    "expected": {
+      "number": "1600",
+      "street": "Pennsylvania",
+      "type": "Ave",
+      "suffix": "NW",
+      "city": "Washington",
+      "state": "DC",
+      "zip": "20500",
+      "country": "US"
+    },
+    "description": "The White House - Washington, DC"
+  },
+  {
+    "input": "350 Fifth Avenue, New York, NY 10118",
+    "expected": {
+      "number": "350",
+      "street": "Fifth",
+      "type": "Ave",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10118",
+      "country": "US"
+    },
+    "description": "Empire State Building - New York"
+  },
+  {
+    "input": "1 Infinite Loop, Cupertino, CA 95014",
+    "expected": {
+      "number": "1",
+      "street": "Infinite",
+      "type": "Loop",
+      "city": "Cupertino",
+      "state": "CA",
+      "zip": "95014",
+      "country": "US"
+    },
+    "description": "Apple Park (former address) - California"
+  },
+  {
+    "input": "1060 West Addison Street, Chicago, IL 60613",
+    "expected": {
+      "number": "1060",
+      "prefix": "W",
+      "street": "Addison",
+      "type": "St",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60613",
+      "country": "US"
+    },
+    "description": "Wrigley Field - Illinois"
+  },
+  {
+    "input": "1 World Trade Center, New York, NY 10007",
+    "expected": {
+      "number": "1",
+      "street": "World Trade",
+      "type": "Ctr",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10007",
+      "country": "US"
+    },
+    "description": "One World Trade Center - New York"
+  },
+  {
+    "input": "1 AT&T Way, Arlington, TX 76011",
+    "expected": {
+      "number": "1",
+      "street": "AT&T",
+      "type": "Way",
+      "city": "Arlington",
+      "state": "TX",
+      "zip": "76011",
+      "country": "US"
+    },
+    "description": "AT&T Stadium - Texas"
+  },
+  {
+    "input": "4059 Mt Lee Drive, Hollywood, CA 90068",
+    "expected": {
+      "number": "4059",
+      "street": "Mt Lee",
+      "type": "Dr",
+      "city": "Hollywood",
+      "state": "CA",
+      "zip": "90068",
+      "country": "US"
+    },
+    "description": "Hollywood Sign - California"
+  },
+  {
+    "input": "2 E Main Street, Mesa, AZ 85201",
+    "expected": {
+      "number": "2",
+      "prefix": "E",
+      "street": "Main",
+      "type": "St",
+      "city": "Mesa",
+      "state": "AZ",
+      "zip": "85201",
+      "country": "US"
+    },
+    "description": "Mesa Arts Center - Arizona"
+  },
+  {
+    "input": "1200 Getty Center Drive, Los Angeles, CA 90049",
+    "expected": {
+      "number": "1200",
+      "street": "Getty Center",
+      "type": "Dr",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90049",
+      "country": "US"
+    },
+    "description": "Getty Center - California"
+  },
+  {
+    "input": "1 Fenway Park, Boston, MA 02215",
+    "expected": {
+      "number": "1",
+      "street": "Fenway",
+      "type": "Park",
+      "city": "Boston",
+      "state": "MA",
+      "zip": "02215",
+      "country": "US"
+    },
+    "description": "Fenway Park - Massachusetts"
+  },
+  {
+    "input": "1 Cowboys Way, Frisco, TX 75034",
+    "expected": {
+      "number": "1",
+      "street": "Cowboys",
+      "type": "Way",
+      "city": "Frisco",
+      "state": "TX",
+      "zip": "75034",
+      "country": "US"
+    },
+    "description": "The Star (Dallas Cowboys) - Texas"
+  },
+  {
+    "input": "2700 SW 2nd Avenue, Miami, FL 33129",
+    "expected": {
+      "number": "2700",
+      "prefix": "SW",
+      "street": "2nd",
+      "type": "Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33129",
+      "country": "US"
+    },
+    "description": "Marlins Park - Florida"
+  },
+  {
+    "input": "1 Georgia Dome Drive NW, Atlanta, GA 30313",
+    "expected": {
+      "number": "1",
+      "street": "Georgia Dome",
+      "type": "Dr",
+      "suffix": "NW",
+      "city": "Atlanta",
+      "state": "GA",
+      "zip": "30313",
+      "country": "US"
+    },
+    "description": "Mercedes-Benz Stadium area - Georgia"
+  },
+  {
+    "input": "1 Aloha Stadium Place, Honolulu, HI 96818",
+    "expected": {
+      "number": "1",
+      "street": "Aloha Stadium",
+      "type": "Pl",
+      "city": "Honolulu",
+      "state": "HI",
+      "zip": "96818",
+      "country": "US"
+    },
+    "description": "Aloha Stadium - Hawaii"
+  },
+  {
+    "input": "1910 University Drive, Boise, ID 83725",
+    "expected": {
+      "number": "1910",
+      "street": "University",
+      "type": "Dr",
+      "city": "Boise",
+      "state": "ID",
+      "zip": "83725",
+      "country": "US"
+    },
+    "description": "Boise State University - Idaho"
+  },
+  {
+    "input": "500 W Madison Street, Chicago, IL 60661",
+    "expected": {
+      "number": "500",
+      "prefix": "W",
+      "street": "Madison",
+      "type": "St",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60661",
+      "country": "US"
+    },
+    "description": "United Center - Illinois"
+  },
+  {
+    "input": "4150 W Washington Street, Indianapolis, IN 46222",
+    "expected": {
+      "number": "4150",
+      "prefix": "W",
+      "street": "Washington",
+      "type": "St",
+      "city": "Indianapolis",
+      "state": "IN",
+      "zip": "46222",
+      "country": "US"
+    },
+    "description": "Indianapolis Motor Speedway - Indiana"
+  },
+  {
+    "input": "1800 E Grand Avenue, Des Moines, IA 50309",
+    "expected": {
+      "number": "1800",
+      "prefix": "E",
+      "street": "Grand",
+      "type": "Ave",
+      "city": "Des Moines",
+      "state": "IA",
+      "zip": "50309",
+      "country": "US"
+    },
+    "description": "Iowa Events Center - Iowa"
+  },
+  {
+    "input": "1 Arrowhead Drive, Kansas City, MO 64129",
+    "expected": {
+      "number": "1",
+      "street": "Arrowhead",
+      "type": "Dr",
+      "city": "Kansas City",
+      "state": "MO",
+      "zip": "64129",
+      "country": "US"
+    },
+    "description": "Arrowhead Stadium - Missouri (Kansas City area)"
+  },
+  {
+    "input": "700 Central Avenue, Louisville, KY 40208",
+    "expected": {
+      "number": "700",
+      "street": "Central",
+      "type": "Ave",
+      "city": "Louisville",
+      "state": "KY",
+      "zip": "40208",
+      "country": "US"
+    },
+    "description": "Churchill Downs - Kentucky"
+  },
+  {
+    "input": "1 Pelican Way, New Orleans, LA 70112",
+    "expected": {
+      "number": "1",
+      "street": "Pelican",
+      "type": "Way",
+      "city": "New Orleans",
+      "state": "LA",
+      "zip": "70112",
+      "country": "US"
+    },
+    "description": "Smoothie King Center - Louisiana"
+  },
+  {
+    "input": "1000 Fen Way, Portland, ME 04102",
+    "expected": {
+      "number": "1000",
+      "street": "Fen",
+      "type": "Way",
+      "city": "Portland",
+      "state": "ME",
+      "zip": "04102",
+      "country": "US"
+    },
+    "description": "Portland Head Light area - Maine"
+  },
+  {
+    "input": "1101 Russell Street, Baltimore, MD 21230",
+    "expected": {
+      "number": "1101",
+      "street": "Russell",
+      "type": "St",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21230",
+      "country": "US"
+    },
+    "description": "M&T Bank Stadium - Maryland"
+  },
+  {
+    "input": "1 Patriot Place, Foxborough, MA 02035",
+    "expected": {
+      "number": "1",
+      "street": "Patriot",
+      "type": "Pl",
+      "city": "Foxborough",
+      "state": "MA",
+      "zip": "02035",
+      "country": "US"
+    },
+    "description": "Gillette Stadium - Massachusetts"
+  },
+  {
+    "input": "2000 Brush Street, Detroit, MI 48226",
+    "expected": {
+      "number": "2000",
+      "street": "Brush",
+      "type": "St",
+      "city": "Detroit",
+      "state": "MI",
+      "zip": "48226",
+      "country": "US"
+    },
+    "description": "Ford Field - Michigan"
+  },
+  {
+    "input": "900 S 5th Street, Minneapolis, MN 55415",
+    "expected": {
+      "number": "900",
+      "prefix": "S",
+      "street": "5th",
+      "type": "St",
+      "city": "Minneapolis",
+      "state": "MN",
+      "zip": "55415",
+      "country": "US"
+    },
+    "description": "U.S. Bank Stadium - Minnesota"
+  },
+  {
+    "input": "1020 Waveland Avenue, Chicago, IL 60613",
+    "expected": {
+      "number": "1020",
+      "street": "Waveland",
+      "type": "Ave",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60613",
+      "country": "US"
+    },
+    "description": "Wrigley Field neighborhood - Illinois"
+  },
+  {
+    "input": "410 Park Avenue, New York, NY 10022",
+    "expected": {
+      "number": "410",
+      "street": "Park",
+      "type": "Ave",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10022",
+      "country": "US"
+    },
+    "description": "MetLife Building - New York"
+  },
+  {
+    "input": "1 E 161st Street, Bronx, NY 10451",
+    "expected": {
+      "number": "1",
+      "prefix": "E",
+      "street": "161st",
+      "type": "St",
+      "city": "Bronx",
+      "state": "NY",
+      "zip": "10451",
+      "country": "US"
+    },
+    "description": "Yankee Stadium - New York"
+  },
+  {
+    "input": "800 W Olympic Boulevard, Los Angeles, CA 90015",
+    "expected": {
+      "number": "800",
+      "prefix": "W",
+      "street": "Olympic",
+      "type": "Blvd",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90015",
+      "country": "US"
+    },
+    "description": "Staples Center - California"
+  },
+  {
+    "input": "1 Bills Drive, Orchard Park, NY 14127",
+    "expected": {
+      "number": "1",
+      "street": "Bills",
+      "type": "Dr",
+      "city": "Orchard Park",
+      "state": "NY",
+      "zip": "14127",
+      "country": "US"
+    },
+    "description": "Highmark Stadium - New York"
+  },
+  {
+    "input": "1 Bank of America Stadium Drive, Charlotte, NC 28202",
+    "expected": {
+      "number": "1",
+      "street": "Bank of America Stadium",
+      "type": "Dr",
+      "city": "Charlotte",
+      "state": "NC",
+      "zip": "28202",
+      "country": "US"
+    },
+    "description": "Bank of America Stadium - North Carolina"
+  },
+  {
+    "input": "1200 42nd Street SE, Fargo, ND 58103",
+    "expected": {
+      "number": "1200",
+      "street": "42nd",
+      "type": "St",
+      "suffix": "SE",
+      "city": "Fargo",
+      "state": "ND",
+      "zip": "58103",
+      "country": "US"
+    },
+    "description": "Fargodome - North Dakota"
+  },
+  {
+    "input": "1 FirstEnergy Plaza, Akron, OH 44308",
+    "expected": {
+      "number": "1",
+      "street": "FirstEnergy",
+      "type": "Plz",
+      "city": "Akron",
+      "state": "OH",
+      "zip": "44308",
+      "country": "US"
+    },
+    "description": "FirstEnergy Stadium area - Ohio"
+  },
+  {
+    "input": "1 Gaylord Boulevard, Oklahoma City, OK 73102",
+    "expected": {
+      "number": "1",
+      "street": "Gaylord",
+      "type": "Blvd",
+      "city": "Oklahoma City",
+      "state": "OK",
+      "zip": "73102",
+      "country": "US"
+    },
+    "description": "Paycom Center area - Oklahoma"
+  },
+  {
+    "input": "1 Center Court, Portland, OR 97227",
+    "expected": {
+      "number": "1",
+      "street": "Center",
+      "type": "Ct",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97227",
+      "country": "US"
+    },
+    "description": "Moda Center - Oregon"
+  },
+  {
+    "input": "1 PPG Place, Pittsburgh, PA 15222",
+    "expected": {
+      "number": "1",
+      "street": "PPG",
+      "type": "Pl",
+      "city": "Pittsburgh",
+      "state": "PA",
+      "zip": "15222",
+      "country": "US"
+    },
+    "description": "PPG Place - Pennsylvania"
+  },
+  {
+    "input": "1 Financial Plaza, Providence, RI 02903",
+    "expected": {
+      "number": "1",
+      "street": "Financial",
+      "type": "Plz",
+      "city": "Providence",
+      "state": "RI",
+      "zip": "02903",
+      "country": "US"
+    },
+    "description": "Downtown Providence - Rhode Island"
+  },
+  {
+    "input": "1 Panther Parkway, Sunrise, FL 33323",
+    "expected": {
+      "number": "1",
+      "street": "Panther",
+      "type": "Pkwy",
+      "city": "Sunrise",
+      "state": "FL",
+      "zip": "33323",
+      "country": "US"
+    },
+    "description": "FLA Live Arena - Florida"
+  },
+  {
+    "input": "301 Assembly Street, Columbia, SC 29201",
+    "expected": {
+      "number": "301",
+      "street": "Assembly",
+      "type": "St",
+      "city": "Columbia",
+      "state": "SC",
+      "zip": "29201",
+      "country": "US"
+    },
+    "description": "University of South Carolina - South Carolina"
+  },
+  {
+    "input": "1000 W Stadium Drive, Vermillion, SD 57069",
+    "expected": {
+      "number": "1000",
+      "prefix": "W",
+      "street": "Stadium",
+      "type": "Dr",
+      "city": "Vermillion",
+      "state": "SD",
+      "zip": "57069",
+      "country": "US"
+    },
+    "description": "DakotaDome - South Dakota"
+  },
+  {
+    "input": "1 Music Square East, Nashville, TN 37203",
+    "expected": {
+      "number": "1",
+      "street": "Music Square",
+      "type": "E",
+      "city": "Nashville",
+      "state": "TN",
+      "zip": "37203",
+      "country": "US"
+    },
+    "description": "Music Row - Tennessee"
+  },
+  {
+    "input": "1200 Congress Avenue, Austin, TX 78701",
+    "expected": {
+      "number": "1200",
+      "street": "Congress",
+      "type": "Ave",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "78701",
+      "country": "US"
+    },
+    "description": "Austin Downtown - Texas"
+  },
+  {
+    "input": "300 S Temple, Salt Lake City, UT 84101",
+    "expected": {
+      "number": "300",
+      "prefix": "S",
+      "street": "Temple",
+      "city": "Salt Lake City",
+      "state": "UT",
+      "zip": "84101",
+      "country": "US"
+    },
+    "description": "Temple Square area - Utah"
+  },
+  {
+    "input": "100 State Street, Montpelier, VT 05609",
+    "expected": {
+      "number": "100",
+      "street": "State",
+      "type": "St",
+      "city": "Montpelier",
+      "state": "VT",
+      "zip": "05609",
+      "country": "US"
+    },
+    "description": "Vermont State House - Vermont"
+  },
+  {
+    "input": "1000 E Grace Street, Richmond, VA 23219",
+    "expected": {
+      "number": "1000",
+      "prefix": "E",
+      "street": "Grace",
+      "type": "St",
+      "city": "Richmond",
+      "state": "VA",
+      "zip": "23219",
+      "country": "US"
+    },
+    "description": "Virginia Commonwealth University - Virginia"
+  },
+  {
+    "input": "1 Microsoft Way, Redmond, WA 98052",
+    "expected": {
+      "number": "1",
+      "street": "Microsoft",
+      "type": "Way",
+      "city": "Redmond",
+      "state": "WA",
+      "zip": "98052",
+      "country": "US"
+    },
+    "description": "Microsoft Campus - Washington"
+  },
+  {
+    "input": "1500 Kanawha Boulevard E, Charleston, WV 25311",
+    "expected": {
+      "number": "1500",
+      "street": "Kanawha",
+      "type": "Blvd",
+      "suffix": "E",
+      "city": "Charleston",
+      "state": "WV",
+      "zip": "25311",
+      "country": "US"
+    },
+    "description": "West Virginia State Capitol area - West Virginia"
+  },
+  {
+    "input": "1265 Lombardi Avenue, Green Bay, WI 54304",
+    "expected": {
+      "number": "1265",
+      "street": "Lombardi",
+      "type": "Ave",
+      "city": "Green Bay",
+      "state": "WI",
+      "zip": "54304",
+      "country": "US"
+    },
+    "description": "Lambeau Field - Wisconsin"
+  },
+  {
+    "input": "1000 E University Avenue, Laramie, WY 82071",
+    "expected": {
+      "number": "1000",
+      "prefix": "E",
+      "street": "University",
+      "type": "Ave",
+      "city": "Laramie",
+      "state": "WY",
+      "zip": "82071",
+      "country": "US"
+    },
+    "description": "University of Wyoming - Wyoming"
+  },
+  {
+    "input": "100 Calle de San Francisco, San Juan, PR 00901",
+    "expected": {
+      "number": "100",
+      "street": "Calle de San Francisco",
+      "city": "San Juan",
+      "state": "PR",
+      "zip": "00901",
+      "country": "US"
+    },
+    "description": "Old San Juan - Puerto Rico"
+  },
+  {
+    "input": "1 Government House Drive, St. Thomas, VI 00802",
+    "expected": {
+      "number": "1",
+      "street": "Government House",
+      "type": "Dr",
+      "city": "St. Thomas",
+      "state": "VI",
+      "zip": "00802",
+      "country": "US"
+    },
+    "description": "Government House - US Virgin Islands"
+  },
+  {
+    "input": "123 Sesame Street, Las Vegas, NV 89101",
+    "expected": {
+      "number": "123",
+      "street": "Sesame",
+      "type": "St",
+      "city": "Las Vegas",
+      "state": "NV",
+      "zip": "89101",
+      "country": "US"
+    },
+    "description": "Famous fictional address - Nevada"
+  },
+  {
+    "input": "700 N Valley View Boulevard, Las Vegas, NV 89107",
+    "expected": {
+      "number": "700",
+      "prefix": "N",
+      "street": "Valley View",
+      "type": "Blvd",
+      "city": "Las Vegas",
+      "state": "NV",
+      "zip": "89107",
+      "country": "US"
+    },
+    "description": "Las Vegas Strip area - Nevada"
+  },
+  {
+    "input": "5 Haines Street, Concord, NH 03301",
+    "expected": {
+      "number": "5",
+      "street": "Haines",
+      "type": "St",
+      "city": "Concord",
+      "state": "NH",
+      "zip": "03301",
+      "country": "US"
+    },
+    "description": "New Hampshire State House area - New Hampshire"
+  },
+  {
+    "input": "1 MetLife Stadium Drive, East Rutherford, NJ 07073",
+    "expected": {
+      "number": "1",
+      "street": "MetLife Stadium",
+      "type": "Dr",
+      "city": "East Rutherford",
+      "state": "NJ",
+      "zip": "07073",
+      "country": "US"
+    },
+    "description": "MetLife Stadium - New Jersey"
+  },
+  {
+    "input": "1119 8th Street, Las Vegas, NM 87701",
+    "expected": {
+      "number": "1119",
+      "street": "8th",
+      "type": "St",
+      "city": "Las Vegas",
+      "state": "NM",
+      "zip": "87701",
+      "country": "US"
+    },
+    "description": "New Mexico Highlands University - New Mexico"
+  }
+]

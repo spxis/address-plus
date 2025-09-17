@@ -1,0 +1,111 @@
+{
+  "zip_plus4": [
+    {
+      "input": "233 S Wacker Dr 60606-6306",
+      "expected": {
+        "number": "233",
+        "prefix": "S",
+        "street": "Wacker",
+        "type": "Dr",
+        "zip": "60606",
+        "plus4": "6306"
+      }
+    },
+    {
+      "input": "233 S Wacker Dr 606066306",
+      "expected": {
+        "number": "233",
+        "prefix": "S",
+        "street": "Wacker",
+        "type": "Dr",
+        "zip": "60606",
+        "plus4": "6306"
+      }
+    },
+    {
+      "input": "233 S Wacker Dr 60606 6306",
+      "expected": {
+        "number": "233",
+        "prefix": "S",
+        "street": "Wacker",
+        "type": "Dr",
+        "zip": "60606",
+        "plus4": "6306"
+      }
+    }
+  ],
+  "grid_addresses": [
+    {
+      "input": "48S 400E, Salt Lake City UT",
+      "expected": {
+        "number": "48",
+        "prefix": "S",
+        "street": "400",
+        "suffix": "E",
+        "city": "Salt Lake City",
+        "state": "UT"
+      }
+    },
+    {
+      "input": "550 S 400 E #3206, Salt Lake City UT 84111",
+      "expected": {
+        "number": "550",
+        "prefix": "S",
+        "street": "400",
+        "suffix": "E",
+        "sec_unit_type": "#",
+        "sec_unit_num": "3206",
+        "city": "Salt Lake City",
+        "state": "UT",
+        "zip": "84111"
+      }
+    },
+    {
+      "input": "6641 N 2200 W Apt D304 Park City, UT 84098",
+      "expected": {
+        "number": "6641",
+        "prefix": "N",
+        "street": "2200",
+        "suffix": "W",
+        "sec_unit_type": "Apt",
+        "sec_unit_num": "D304",
+        "city": "Park City",
+        "state": "UT",
+        "zip": "84098"
+      }
+    },
+    {
+      "input": "N95W18855 Jay Dr, Menomonee Falls, WI 53051",
+      "expected": {
+        "number": "N95W18855",
+        "street": "Jay",
+        "type": "Dr",
+        "city": "Menomonee Falls",
+        "state": "WI",
+        "zip": "53051"
+      }
+    },
+    {
+      "input": "N95W18855 Jay Dr Menomonee Falls WI 53051",
+      "expected": {
+        "number": "N95W18855",
+        "street": "Jay",
+        "type": "Dr",
+        "city": "Menomonee Falls",
+        "state": "WI",
+        "zip": "53051"
+      }
+    },
+    {
+      "input": "n95w18855 Jay Dr Menomonee Falls WI 53051",
+      "expected": {
+        "number": "n95w18855",
+        "street": "Jay",
+        "type": "Dr",
+        "city": "Menomonee Falls",
+        "state": "WI",
+        "zip": "53051"
+      }
+    }
+  ]
+}
