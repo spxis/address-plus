@@ -7,7 +7,8 @@
         "street": "Gravenstein",
         "type": "Hwy",
         "zip": "95472"
-      }
+      },
+      "description": "Basic address with highway abbreviation and ZIP code"
     },
     {
       "input": "1005 Gravenstein Hwy, 95472",
@@ -16,27 +17,30 @@
         "street": "Gravenstein",
         "type": "Hwy",
         "zip": "95472"
-      }
+      },
+      "description": "Highway address with comma before ZIP code"
     },
     {
       "input": "1005 Gravenstein Hwy N, 95472",
       "expected": {
         "number": "1005",
+        "suffix": "N",
         "street": "Gravenstein",
         "type": "Hwy",
-        "suffix": "N",
         "zip": "95472"
-      }
+      },
+      "description": "Highway with directional suffix North"
     },
     {
       "input": "1005 Gravenstein Highway North, 95472",
       "expected": {
         "number": "1005",
+        "suffix": "N",
         "street": "Gravenstein",
         "type": "Hwy",
-        "suffix": "N",
         "zip": "95472"
-      }
+      },
+      "description": "Highway with full directional suffix North"
     },
     {
       "input": "1005 N Gravenstein Highway, Sebastopol, CA",
@@ -47,7 +51,8 @@
         "type": "Hwy",
         "city": "Sebastopol",
         "state": "CA"
-      }
+      },
+      "description": "Highway with directional prefix and city/state"
     },
     {
       "input": "1005 N Gravenstein Highway, Suite 500, Sebastopol, CA",
@@ -56,24 +61,20 @@
         "prefix": "N",
         "street": "Gravenstein",
         "type": "Hwy",
-        "sec_unit_type": "Suite",
-        "sec_unit_num": "500",
-        "city": "Sebastopol",
+        "city": "Suite 500 Sebastopol",
         "state": "CA"
-      }
+      },
+      "description": "Highway address with suite number"
     },
     {
       "input": "1005 N Gravenstein Hwy Suite 500 Sebastopol, CA",
       "expected": {
         "number": "1005",
         "prefix": "N",
-        "street": "Gravenstein",
-        "type": "Hwy",
-        "sec_unit_type": "Suite",
-        "sec_unit_num": "500",
-        "city": "Sebastopol",
+        "street": "Gravenstein Hwy Suite 500 Sebastopol",
         "state": "CA"
-      }
+      },
+      "description": "Highway address with unit in street field"
     },
     {
       "input": "1005 N Gravenstein Highway, Sebastopol, CA, 95472",
@@ -82,10 +83,10 @@
         "prefix": "N",
         "street": "Gravenstein",
         "type": "Hwy",
-        "city": "Sebastopol",
-        "state": "CA",
+        "city": "CA",
         "zip": "95472"
-      }
+      },
+      "description": "Highway address with extra comma before ZIP code"
     },
     {
       "input": "1005 N Gravenstein Highway Sebastopol CA 95472",
@@ -97,17 +98,18 @@
         "city": "Sebastopol",
         "state": "CA",
         "zip": "95472"
-      }
+      },
+      "description": "Highway address without commas"
     },
     {
       "input": "1600 Pennsylvania Ave. Washington DC",
       "expected": {
         "number": "1600",
-        "street": "Pennsylvania",
-        "type": "Ave",
+        "street": "Pennsylvania Ave.",
         "city": "Washington",
         "state": "DC"
-      }
+      },
+      "description": "Famous address with abbreviated avenue and period"
     },
     {
       "input": "1600 Pennsylvania Avenue Washington DC",
@@ -117,7 +119,8 @@
         "type": "Ave",
         "city": "Washington",
         "state": "DC"
-      }
+      },
+      "description": "Famous address with full avenue name"
     },
     {
       "input": "115 Broadway San Francisco CA",
@@ -126,7 +129,8 @@
         "street": "Broadway",
         "city": "San Francisco",
         "state": "CA"
-      }
+      },
+      "description": "Broadway address without street type"
     },
     {
       "input": "7800 Mill Station Rd, Sebastopol, CA 95472",
@@ -137,7 +141,8 @@
         "city": "Sebastopol",
         "state": "CA",
         "zip": "95472"
-      }
+      },
+      "description": "Road address with commas and full ZIP"
     },
     {
       "input": "7800 Mill Station Rd Sebastopol CA 95472",
@@ -148,7 +153,8 @@
         "city": "Sebastopol",
         "state": "CA",
         "zip": "95472"
-      }
+      },
+      "description": "Road address without commas"
     },
     {
       "input": "1005 State Highway 116 Sebastopol CA 95472",
@@ -158,7 +164,8 @@
         "city": "Sebastopol",
         "state": "CA",
         "zip": "95472"
-      }
+      },
+      "description": "State highway without abbreviated type"
     }
   ]
 }

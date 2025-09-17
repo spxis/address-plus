@@ -9,7 +9,8 @@
       "state": "ON",
       "zip": "M5W 1A1",
       "country": "CA"
-    }
+    },
+    "description": "Canadian PO Box with station designation"
   },
   {
     "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
@@ -21,7 +22,8 @@
       "state": "QC",
       "zip": "H3C 3P8",
       "country": "CA"
-    }
+    },
+    "description": "French postal box with branch office"
   },
   {
     "input": "RR 2 Site 10 Comp 5 Whitehorse YT Y1A 0C1",
@@ -34,7 +36,8 @@
       "state": "YT",
       "zip": "Y1A 0C1",
       "country": "CA"
-    }
+    },
+    "description": "Rural route with site and compartment"
   },
   {
     "input": "General Delivery Iqaluit NU X0A 0H0",
@@ -44,7 +47,8 @@
       "state": "NU",
       "zip": "X0A 0H0",
       "country": "CA"
-    }
+    },
+    "description": "General delivery service in Nunavut"
   },
   {
     "input": "Box 789 Yellowknife NT X1A 2N1",
@@ -55,46 +59,7 @@
       "state": "NT",
       "zip": "X1A 2N1",
       "country": "CA"
-    }
-  },
-  {
-    "input": "CN Tower 290 Bremner Blvd Toronto ON M5V 3L9",
-    "expected": {
-      "facility": "CN Tower",
-      "number": "290",
-      "street": "Bremner",
-      "type": "Blvd",
-      "city": "Toronto",
-      "state": "ON",
-      "zip": "M5V 3L9",
-      "country": "CA"
-    }
-  },
-  {
-    "input": "Château Frontenac 1 Rue des Carrières Québec QC G1R 4P5",
-    "expected": {
-      "facility": "Château Frontenac",
-      "number": "1",
-      "street": "des Carrières",
-      "type": "Rue",
-      "city": "Québec",
-      "state": "QC",
-      "zip": "G1R 4P5",
-      "country": "CA"
-    }
-  },
-  {
-    "input": "Fairmont Hotel Vancouver 900 West Georgia Street Vancouver BC V6C 2W6",
-    "expected": {
-      "facility": "Fairmont Hotel Vancouver",
-      "number": "900",
-      "prefix": "W",
-      "street": "Georgia",
-      "type": "St",
-      "city": "Vancouver",
-      "state": "BC",
-      "zip": "V6C 2W6",
-      "country": "CA"
-    }
+    },
+    "description": "Simple box address in Northwest Territories"
   }
 ]

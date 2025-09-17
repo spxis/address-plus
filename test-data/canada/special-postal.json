@@ -1,0 +1,46 @@
+[
+  {
+    "input": "PO Box 123 Station A Toronto ON M5W 1A1",
+    "expected": null,
+    "description": "Canadian PO Box that returns null"
+  },
+  {
+    "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
+    "expected": {
+      "street": "Case postale 456 Succursale Centre-ville Montréal",
+      "state": "QC",
+      "zip": "H3C 3P8"
+    },
+    "description": "French postal box parsed as street"
+  },
+  {
+    "input": "RPO University Village Vancouver BC V6T 1Z4",
+    "expected": {
+      "street": "RPO University",
+      "type": "Vlg",
+      "city": "Vancouver",
+      "state": "BC",
+      "zip": "V6T 1Z4"
+    },
+    "description": "Retail Post Office with village abbreviation"
+  },
+  {
+    "input": "General Delivery Whitehorse YT Y1A 2T6",
+    "expected": {
+      "street": "General Delivery",
+      "city": "Whitehorse",
+      "state": "YT",
+      "zip": "Y1A 2T6"
+    },
+    "description": "General delivery parsed as street address"
+  },
+  {
+    "input": "Boîte postale 789 Succ. Saint-Laurent Québec QC G1K 7X1",
+    "expected": {
+      "street": "Boîte postale 789 Succ. Saint-Laurent Québec",
+      "state": "QC",
+      "zip": "G1K 7X1"
+    },
+    "description": "French postal box with abbreviated branch"
+  }
+]
