@@ -12,8 +12,8 @@ import {
   ZIP_CODE_PATTERN,
   CANADIAN_POSTAL_CODE_PATTERN,
   FACILITY_PATTERNS,
-} from './data';
-import { ParsedAddress, ParseOptions } from './types';
+} from '../data';
+import { ParsedAddress, ParseOptions } from '../types';
 
 /**
  * Normalize text for consistent parsing

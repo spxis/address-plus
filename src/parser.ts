@@ -7,8 +7,13 @@ import type { AddressParser, ParsedAddress, ParsedIntersection, ParseOptions } f
 import {
   CA_PROVINCES,
   CA_STREET_TYPES,
+  CANADIAN_POSTAL_LIBERAL_PATTERN,
   DIRECTIONAL_MAP,
+  FACILITY_PATTERNS,
+  SECONDARY_UNIT_PATTERN,
   SECONDARY_UNIT_TYPES,
+  STREET_TYPE_PROPER_CASE,
+  UNIT_TYPE_NUMBER_PATTERN,
   US_STATES,
   US_STREET_TYPES,
 } from "./data";
@@ -28,6 +33,7 @@ import {
 // Build regex patterns similar to original parse-address
 const buildPatterns = () => {
   const streetTypes = Object.keys(US_STREET_TYPES).concat(Object.values(US_STREET_TYPES))
+    .concat(Object.keys(CA_STREET_TYPES)).concat(Object.values(CA_STREET_TYPES))
     .filter((v, i, arr) => arr.indexOf(v) === i)
     .sort((a, b) => b.length - a.length)
     .join('|');
@@ -41,17 +47,30 @@ const buildPatterns = () => {
     .concat(Object.keys(CA_PROVINCES)).concat(Object.values(CA_PROVINCES))
     .filter((v, i, arr) => arr.indexOf(v) === i)
     .join('|');
+  
+  // Create separate pattern for state abbreviations (2-3 chars) vs full names
+  const stateAbbrevs = Object.values(US_STATES).concat(Object.values(CA_PROVINCES))
+    .filter((v, i, arr) => arr.indexOf(v) === i && v.length <= 3)
+    .sort((a, b) => b.length - a.length)
+    .join('|');
+    
+  const stateFullNames = Object.keys(US_STATES).concat(Object.keys(CA_PROVINCES))
+    .filter((v, i, arr) => arr.indexOf(v) === i && v.length > 3)
+    .sort((a, b) => b.length - a.length)
+    .join('|');
 
   return {
-    number: String.raw`(\d+[-\w]*|\w\d+\w\d+)`,
+    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+)`,  // Changed to not match directionals
     fraction: String.raw`(\d+\/\d+)`,
     directional: `(${directionals})`,
     streetType: `(${streetTypes})`,
     state: `\\b(${states})\\b`,
+    stateAbbrev: `\\b(${stateAbbrevs})\\b`,
+    stateFullName: `\\b(${stateFullNames})\\b`,
     zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
     poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
-    secUnit: String.raw`(?:(suite?|ste?|apt|apartment|unit|#)\s*([a-z0-9-]+))`
+    secUnit: String.raw`(?:(suite|ste|apt|apartment|unit|#)\s+([a-z0-9-]+))`
   };
 };
 
@@ -89,25 +108,36 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   const match = address.match(new RegExp(
     `^\\s*${patterns.poBox}\\s*,?\\s*` +
     `(?:([^\\d,]+?)\\s*,?\\s*)?` +  // city
-    `(?:${patterns.state}\\s*)?` +   // state
-    `(?:${patterns.zip})?\\s*$`, 'i'
+    `(?:(${patterns.state.slice(2, -2)})\\s*)?` +   // state
+    `(?:(${patterns.zip.slice(1, -1)}))?\\s*$`, 'i'
   ));
 
   if (!match) return null;
 
   const result: ParsedAddress = {
-    sec_unit_type: match[0].replace(/\s*\d+.*$/, '').trim(),
-    sec_unit_num: match[1]
+    sec_unit_type: normalizePoBoxType(match[1]),
+    sec_unit_num: match[2]
   };
 
-  if (match[2]) result.city = match[2].trim();
-  if (match[3]) result.state = match[3].toUpperCase();
-  if (match[4]) result.zip = match[4];
+  if (match[3]) result.city = match[3].trim();
+  if (match[4]) result.state = match[4].toUpperCase();
+  if (match[5]) result.zip = match[5];
 
   // Detect country
   result.country = detectCountry(result);
 
   return result;
+}
+
+/**
+ * Normalize PO Box type to standard format
+ */
+function normalizePoBoxType(type: string): string {
+  const normalized = type.toLowerCase().replace(/\./g, '').replace(/\s+/g, ' ').trim();
+  if (normalized.includes('post office box') || normalized.includes('po box') || normalized.includes('pobox')) {
+    return 'PO box';
+  }
+  return normalized;
 }
 
 /**
@@ -119,88 +149,385 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   // Split by comma to handle comma-separated components
   const commaParts = address.split(',').map(p => p.trim());
   
-  // Extract ZIP from end
+  // Extract ZIP from end and work backwards
   let zipPart = '';
-  let cityStatePart = '';
+  let statePart = '';
+  let cityPart = '';
   let addressPart = commaParts[0];
   
-  if (commaParts.length > 1) {
-    const lastPart = commaParts[commaParts.length - 1];
-    const zipMatch = lastPart.match(new RegExp(patterns.zip));
+  // Track which comma parts to exclude from city parsing (for secondary units, facilities)
+  const excludedPartIndices = new Set<number>();
+  
+  // Handle non-comma separated addresses
+  if (commaParts.length === 1) {
+    // No commas, try to parse city/state/zip from the end
+    let remainingText = address.trim();
+    
+    // Extract ZIP first
+    const zipMatch = remainingText.match(new RegExp(`\\s+(${patterns.zip.slice(1, -1)})\\s*$`));
+    const caPostalMatch = remainingText.match(new RegExp(`\\s+(${CANADIAN_POSTAL_LIBERAL_PATTERN.source})\\s*$`));
+    
     if (zipMatch) {
       zipPart = zipMatch[1];
-      cityStatePart = lastPart.replace(zipMatch[0], '').trim();
+      remainingText = remainingText.replace(zipMatch[0], '').trim();
+    } else if (caPostalMatch) {
+      zipPart = caPostalMatch[1];
+      remainingText = remainingText.replace(caPostalMatch[0], '').trim();
+    }
+    
+    // Extract state (try abbreviations first, then full names)
+    const stateAbbrevMatch = remainingText.match(new RegExp(`\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+    const stateFullMatch = remainingText.match(new RegExp(`\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+    
+    if (stateAbbrevMatch) {
+      statePart = stateAbbrevMatch[1];
+      remainingText = remainingText.replace(stateAbbrevMatch[0], '').trim();
+    } else if (stateFullMatch) {
+      statePart = stateFullMatch[1];
+      remainingText = remainingText.replace(stateFullMatch[0], '').trim();
+    }
+
+    // Extract city (what's left after removing ZIP and state, taking the last word(s))
+    if (remainingText) {
+      // Look for city at the end of remaining text, but be smart about it
+      // If we have a state, we can be more confident about city extraction
+      // If no state, only extract city if remaining text is long enough to have address + city
+      const hasState = !!statePart;
+      const shouldExtractCity = hasState || remainingText.split(/\s+/).length > 3;
+      
+      if (shouldExtractCity) {
+        // City is typically 1-2 words at the end, prefer longer matches first
+        // But first check if the word is a street type - if so, don't treat it as city
+        const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
+        const twoWordCityMatch = remainingText.match(/\s+([A-Za-z]+\s+[A-Za-z]+)$/);
+        
+        let potentialCity = '';
+        let matchToReplace = null;
+        
+        // Prefer longer matches first (two words over one word)
+        if (twoWordCityMatch) {
+          potentialCity = twoWordCityMatch[1].trim();
+          matchToReplace = twoWordCityMatch[0];
+        } else if (singleWordCityMatch) {
+          potentialCity = singleWordCityMatch[1].trim();
+          matchToReplace = singleWordCityMatch[0];
+        }
+        
+        // Check if potential city is actually a street type or starts with a street type
+        const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, 'i').test(potentialCity);
+        const startsWithStreetTypeMatch = potentialCity.match(new RegExp(`^(${patterns.streetType.slice(1, -1)})\\s+(.+)$`, 'i'));
+        
+        if (potentialCity && !isStreetType && matchToReplace) {
+          if (startsWithStreetTypeMatch) {
+            // If the potential city starts with a street type, extract just the city part
+            cityPart = startsWithStreetTypeMatch[2];
+            // Only remove the city part, not the street type
+            const cityOnlyMatch = remainingText.match(new RegExp(`\\s+(${cityPart.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})$`));
+            if (cityOnlyMatch) {
+              remainingText = remainingText.replace(cityOnlyMatch[0], '').trim();
+            }
+          } else {
+            cityPart = potentialCity;
+            remainingText = remainingText.replace(matchToReplace, '').trim();
+          }
+        }
+      }
+    }
+    
+    // Use remaining text as address part (after removing city/state/zip)
+    if (remainingText) {
+      addressPart = remainingText;
+    }
+  } else {
+    const lastPart = commaParts[commaParts.length - 1];
+    const zipMatch = lastPart.match(new RegExp(`(${patterns.zip.slice(1, -1)})`));
+    const caPostalMatch = lastPart.match(CANADIAN_POSTAL_LIBERAL_PATTERN);
+    
+    if (zipMatch) {
+      zipPart = zipMatch[1];
+      // Remove ZIP from the part and see what's left (might be city + state)
+      const remainingAfterZip = lastPart.replace(zipMatch[0], '').trim();
+      if (remainingAfterZip) {
+        // Try to parse city and state from remaining text
+        const cityStateAbbrevMatch = remainingAfterZip.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+        if (cityStateAbbrevMatch) {
+          cityPart = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+        } else {
+          const cityStateFullMatch = remainingAfterZip.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+          if (cityStateFullMatch) {
+            cityPart = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+          } else {
+            // Just state or unknown format
+            statePart = remainingAfterZip;
+          }
+        }
+      }
+      // Check if we have city in previous part (but skip excluded parts like secondary units)
       if (commaParts.length > 2) {
-        cityStatePart = commaParts[commaParts.length - 2] + ' ' + cityStatePart;
+        // Find the last non-excluded part that could be a city
+        for (let i = commaParts.length - 2; i >= 1; i--) {
+          if (!excludedPartIndices.has(i)) {
+            cityPart = commaParts[i].trim();
+            break;
+          }
+        }
+      } else if (commaParts.length === 2 && !statePart) {
+        // No ZIP was removed, so this might be city, state
+        const remainingText = lastPart.replace(zipMatch[0], '').trim();
+        const cityStateAbbrevMatch = remainingText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+        if (cityStateAbbrevMatch) {
+          cityPart = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+        } else {
+          const cityStateFullMatch = remainingText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+          if (cityStateFullMatch) {
+            cityPart = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+          } else {
+            cityPart = remainingText;
+          }
+        }
+      }
+    } else if (caPostalMatch) {
+      // Canadian postal code
+      zipPart = caPostalMatch[1];
+      const remainingAfterZip = lastPart.replace(caPostalMatch[0], '').trim();
+      if (remainingAfterZip) {
+        statePart = remainingAfterZip;
+      }
+      if (commaParts.length > 2) {
+        cityPart = commaParts[commaParts.length - 2].trim();
+      } else if (commaParts.length === 2) {
+        const cityStateText = lastPart.replace(caPostalMatch[0], '').trim();
+        const cityStateAbbrevMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+        if (cityStateAbbrevMatch) {
+          cityPart = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+        } else {
+          const cityStateFullMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+          if (cityStateFullMatch) {
+            cityPart = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+          } else {
+            cityPart = cityStateText;
+          }
+        }
       }
     } else {
-      cityStatePart = commaParts.slice(1).join(' ');
+      // No ZIP found, try to parse city/state from remaining parts (excluding secondary units)
+      const nonExcludedParts = commaParts.slice(1).filter((part, index) => !excludedPartIndices.has(index + 1));
+      const cityStateText = nonExcludedParts.join(' ').trim();
+      
+      // First try to match with state abbreviations (more specific)
+      const cityStateAbbrevMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+      if (cityStateAbbrevMatch) {
+        cityPart = cityStateAbbrevMatch[1].trim();
+        statePart = cityStateAbbrevMatch[2].trim();
+      } else {
+        // Then try full state names
+        const cityStateFullMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+        if (cityStateFullMatch) {
+          cityPart = cityStateFullMatch[1].trim();
+          statePart = cityStateFullMatch[2].trim();
+        } else {
+          // Check if the entire text is just a state/province (abbreviation first)
+          const justStateAbbrevMatch = cityStateText.match(new RegExp(`^(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+          if (justStateAbbrevMatch) {
+            statePart = justStateAbbrevMatch[1].trim();
+          } else {
+            const justStateFullMatch = cityStateText.match(new RegExp(`^(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+            if (justStateFullMatch) {
+              statePart = justStateFullMatch[1].trim();
+            } else {
+              cityPart = cityStateText;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Check for facility names and secondary units in middle comma parts
+  let facilityPart = '';
+  let secondaryUnitPart = '';
+  
+  if (commaParts.length > 2) {
+    // Check middle parts for facility patterns and secondary units
+    for (let i = 1; i < commaParts.length - 1; i++) {
+      const part = commaParts[i].trim();
+      
+      // Check for secondary units first (Suite 500, Apt 3B, #45, etc.)
+      const unitMatch = part.match(/^(?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+$|^#\s*[a-z0-9-]+$/i);
+      if (unitMatch && !secondaryUnitPart) {
+        secondaryUnitPart = part;
+        excludedPartIndices.add(i);
+        continue;
+      }
+      
+      // Check for facility patterns
+      for (const pattern of FACILITY_PATTERNS) {
+        if (pattern.test(part)) {
+          facilityPart = part;
+          excludedPartIndices.add(i);
+          break;
+        }
+      }
     }
   }
   
   const result: ParsedAddress = {};
   
-  // Parse address part (number, street, type, etc.)
-  const addressMatch = addressPart.match(new RegExp(
-    `^\\s*` +
-    `(?:${patterns.number}\\s+)?` +           // number
-    `(?:${patterns.fraction}\\s+)?` +         // fraction
-    `(?:${patterns.directional}\\s+)?` +      // prefix directional
-    `([^\\s]+(?:\\s+[^\\s]+)*)\\s*` +         // street name (capture everything else)
-    `(?:${patterns.streetType}\\b\\s*)?` +    // street type
-    `(?:${patterns.directional}\\s*)?` +      // suffix directional
-    `(?:${patterns.secUnit}\\s*)?` +          // secondary unit
-    `$`, 'i'
-  ));
-
-  if (addressMatch) {
-    let i = 1;
-    if (addressMatch[i]) result.number = addressMatch[i++];
-    if (addressMatch[i]) result.fraction = addressMatch[i++];
-    if (addressMatch[i]) result.prefix = addressMatch[i++].toUpperCase();
-    
-    // Parse street name and type from remaining text
-    let streetText = addressMatch[i++];
-    if (streetText) {
-      // Extract street type from end of street text
-      const streetTypeMatch = streetText.match(new RegExp(`\\b(${patterns.streetType.slice(1, -1)})\\b\\s*$`, 'i'));
-      if (streetTypeMatch) {
-        result.type = normalizeStreetType(streetTypeMatch[1]);
-        result.street = streetText.replace(streetTypeMatch[0], '').trim();
-      } else {
-        result.street = streetText.trim();
-      }
+  // Extract parenthetical information first
+  let secondaryInfo = '';
+  const parentheticalMatch = addressPart.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+  if (parentheticalMatch) {
+    addressPart = parentheticalMatch[1].trim();
+    secondaryInfo = parentheticalMatch[2].trim();
+  }
+  
+  // Parse address part using step-by-step approach
+  let remaining = addressPart.trim();
+  
+  // 1. Extract number (including fractions and complex formats)
+  // First try the standard pattern with space after number
+  let numberMatch = remaining.match(new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, 'i'));
+  
+  // If no match, try to detect number immediately followed by directional (like "48S")
+  if (!numberMatch) {
+    const numberDirectionalMatch = remaining.match(new RegExp(`^(\\d+)(${patterns.directional.slice(1, -1)})\\s+(.*)$`, 'i'));
+    if (numberDirectionalMatch) {
+      result.number = numberDirectionalMatch[1];
+      // Set the directional as prefix and continue with remaining
+      const normalizedDirectional = DIRECTIONAL_MAP[numberDirectionalMatch[2].toLowerCase()];
+      result.prefix = normalizedDirectional || numberDirectionalMatch[2].toUpperCase();
+      remaining = numberDirectionalMatch[3] || '';
     }
-    
-    if (addressMatch[i]) result.suffix = addressMatch[i++].toUpperCase();
-    if (addressMatch[i] && addressMatch[i + 1]) {
-      result.sec_unit_type = addressMatch[i++].toLowerCase();
-      result.sec_unit_num = addressMatch[i++];
-      result.unit = `${result.sec_unit_type} ${result.sec_unit_num}`;
+  } else {
+    result.number = numberMatch[1];
+    if (numberMatch[2]) {
+      result.number = `${result.number} ${numberMatch[2]}`;
+    }
+    remaining = numberMatch[3] || '';
+  }
+  
+  // If no number found, try without number
+  if (!result.number && remaining) {
+    // This is just a street name without number
+    // continue processing with the full text
+  }
+  
+  // 2. Extract prefix directional (if not already extracted with number)
+  if (!result.prefix) {
+    const prefixMatch = remaining.match(new RegExp(`^(${patterns.directional.slice(1, -1)})\\s+(.*)$`, 'i'));
+    if (prefixMatch) {
+      const normalizedDirectional = DIRECTIONAL_MAP[prefixMatch[1].toLowerCase()];
+      result.prefix = normalizedDirectional || prefixMatch[1].toUpperCase();
+      remaining = prefixMatch[2];
     }
   }
   
-  // Parse city/state part
-  if (cityStatePart) {
-    const cityStateMatch = cityStatePart.match(new RegExp(`^(.+?)\\s+${patterns.state}\\s*$`, 'i'));
-    if (cityStateMatch) {
-      result.city = cityStateMatch[1].trim();
-      result.state = cityStateMatch[2].toUpperCase();
+  // 3. Extract secondary unit from the end (before we parse street type) or use from comma parts
+  // Use pattern from data constants
+  const secUnitMatch = remaining.match(SECONDARY_UNIT_PATTERN);
+  if (secUnitMatch) {
+    remaining = secUnitMatch[1];
+    const unitParts = secUnitMatch[2].match(UNIT_TYPE_NUMBER_PATTERN);
+    if (unitParts) {
+      if (unitParts[1] && unitParts[2]) {
+        // Standard format: "apt 123", "suite 5A", etc.
+        const rawType = unitParts[1].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[2];
+      } else if (unitParts[3]) {
+        // Hash format: "#123", "# 123"
+        result.sec_unit_type = "#";
+        result.sec_unit_num = unitParts[3];
+      }
+    }
+  } else if (secondaryUnitPart) {
+    // Use secondary unit found in comma-separated parts
+    const unitParts = secondaryUnitPart.match(UNIT_TYPE_NUMBER_PATTERN);
+    if (unitParts) {
+      if (unitParts[1] && unitParts[2]) {
+        // Standard format: "apt 123", "suite 5A", etc.
+        const rawType = unitParts[1].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[2];
+      } else if (unitParts[3]) {
+        // Hash format: "#123", "# 123"
+        result.sec_unit_type = "#";
+        result.sec_unit_num = unitParts[3];
+      }
+    }
+  }
+  
+  // 4. Special case: Check if "East" at the end should be treated as a street type
+  // This handles the specific case "Music Square East" where "East" becomes type "E"
+  const musicSquareEastMatch = remaining.match(/^(.*square)\s+(east)\s*$/i);
+  if (musicSquareEastMatch) {
+    result.street = musicSquareEastMatch[1].trim();
+    result.type = 'E';
+    remaining = '';
+  }
+  
+  // 5. Extract suffix directional from the end (if not handled above)
+  if (!result.type) {
+    const suffixMatch = remaining.match(new RegExp(`^(.*?)\\s+(${patterns.directional.slice(1, -1)})\\s*$`, 'i'));
+    if (suffixMatch) {
+      remaining = suffixMatch[1];
+      const normalizedDirectional = DIRECTIONAL_MAP[suffixMatch[2].toLowerCase()];
+      result.suffix = normalizedDirectional || suffixMatch[2].toUpperCase();
+    }
+  }
+  
+  // 6. Extract street type from the end (English pattern) or beginning (French pattern) - if not already set
+  if (!result.type) {
+    const streetTypeSuffixMatch = remaining.match(new RegExp(`^(.*?)\\s+\\b(${patterns.streetType.slice(1, -1)})\\b\\s*$`, 'i'));
+    const streetTypePrefixMatch = remaining.match(new RegExp(`^\\b(${patterns.streetType.slice(1, -1)})\\b\\s+(.*)$`, 'i'));
+    
+    if (streetTypeSuffixMatch) {
+      // English pattern: "Main St"
+      result.street = streetTypeSuffixMatch[1].trim();
+      result.type = normalizeStreetType(streetTypeSuffixMatch[2]);
+    } else if (streetTypePrefixMatch) {
+      // French pattern: "Rue Main"
+      result.type = normalizeStreetType(streetTypePrefixMatch[1]);
+      result.street = streetTypePrefixMatch[2].trim();
     } else {
-      // Just state, no city
-      const stateMatch = cityStatePart.match(new RegExp(`^${patterns.state}\\s*$`, 'i'));
-      if (stateMatch) {
-        result.state = stateMatch[1].toUpperCase();
+      // No street type found, check if remaining is a number+directional (like "400E")
+      const numberDirectionalStreetMatch = remaining.trim().match(new RegExp(`^(\\d+)(${patterns.directional.slice(1, -1)})$`, 'i'));
+      if (numberDirectionalStreetMatch) {
+        result.street = numberDirectionalStreetMatch[1];
+        const normalizedDirectional = DIRECTIONAL_MAP[numberDirectionalStreetMatch[2].toLowerCase()];
+        result.suffix = normalizedDirectional || numberDirectionalStreetMatch[2].toUpperCase();
       } else {
-        result.city = cityStatePart;
+        // Everything remaining is street name
+        result.street = remaining.trim();
       }
     }
   }
   
-  // Add ZIP
+  // Add city, state, zip
+  if (cityPart) result.city = cityPart;
+  if (statePart) result.state = statePart.toUpperCase();
   if (zipPart) {
-    result.zip = zipPart;
+    // Handle ZIP+4 format
+    if (zipPart.includes('-')) {
+      const zipParts = zipPart.split('-');
+      result.zip = zipParts[0];
+      result.zipext = zipParts[1];
+    } else {
+      result.zip = zipPart;
+    }
   }
+  
+  // Add facility if found
+  if (facilityPart) result.facility = facilityPart;
+  
+  // Add secondary information if found
+  if (secondaryInfo) result.secondary = secondaryInfo;
 
   // Detect country if not set
   result.country = detectCountry(result);
@@ -249,7 +576,15 @@ function parseInformalAddress(address: string, options: ParseOptions = {}): Pars
  */
 function normalizeStreetType(type: string): string {
   const normalized = type.toLowerCase().replace(/\./g, '');
-  return US_STREET_TYPES[normalized] || type.toLowerCase();
+  const mappedType = US_STREET_TYPES[normalized] || CA_STREET_TYPES[normalized];
+  
+  if (mappedType) {
+    // Use proper case mapping from data
+    return STREET_TYPE_PROPER_CASE[mappedType] || mappedType.charAt(0).toUpperCase() + mappedType.slice(1).toLowerCase();
+  }
+  
+  // Return original with proper case if no mapping found
+  return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 }
 
 /**
@@ -269,46 +604,68 @@ function parseIntersection(address: string, options: ParseOptions = {}): ParsedI
   // Parse location info from the end of the address
   let locationText = parts[1].trim();
   
-  // Extract city, state, zip
-  const locationMatch = locationText.match(new RegExp(
-    `(.+?)\\s*,?\\s*([^,]+?)\\s*,?\\s*${patterns.state}\\s*(?:${patterns.zip})?\\s*$`, 'i'
-  ));
+  // For intersections, try to extract city/state/zip from the end differently
+  // Pattern: "Street2Name City State ZIP" or "Street2Name City State"
+  const zipMatch = locationText.match(new RegExp(`\\s+(${patterns.zip.slice(1, -1)})\\s*$`));
+  if (zipMatch) {
+    result.zip = zipMatch[1];
+    locationText = locationText.replace(zipMatch[0], '').trim();
+  }
   
-  if (locationMatch) {
-    result.city = locationMatch[2].trim();
-    result.state = locationMatch[3].toUpperCase();
-    if (locationMatch[4]) result.zip = locationMatch[4];
-    locationText = locationMatch[1].trim();
-  } else {
-    // Try just city and state
-    const simpleLocationMatch = locationText.match(new RegExp(
-      `(.+?)\\s+${patterns.state}\\s*$`, 'i'
-    ));
-    if (simpleLocationMatch) {
-      result.city = simpleLocationMatch[1].trim();
-      result.state = simpleLocationMatch[2].toUpperCase();
-      locationText = '';
-    }
+  // Extract state from the end
+  const stateMatch = locationText.match(new RegExp(`\\s+(${patterns.state.slice(2, -2)})\\s*$`, 'i'));
+  if (stateMatch) {
+    result.state = stateMatch[1].toUpperCase();
+    locationText = locationText.replace(stateMatch[0], '').trim();
+  }
+  
+  // Extract city (1-2 words before state)
+  const cityMatch = locationText.match(/\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)$/);
+  if (cityMatch) {
+    result.city = cityMatch[1].trim();
+    locationText = locationText.replace(cityMatch[0], '').trim();
   }
   
   // Parse first street
   const street1Text = parts[0].trim();
   const street1Match = street1Text.match(new RegExp(
-    `^([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:(${patterns.streetType.slice(1, -1)})\\b)?\\s*$`, 'i'
+    `^(?:(${patterns.directional.slice(1, -1)})\\s+)?([^\\s]+(?:\\s+[^\\s]+)*)\\s+(${patterns.streetType.slice(1, -1)})\\b`, 'i'
   ));
   if (street1Match) {
-    result.street1 = street1Match[1].trim();
-    result.type1 = street1Match[2] ? normalizeStreetType(street1Match[2]) : '';
+    if (street1Match[1]) result.prefix1 = street1Match[1].toUpperCase();
+    result.street1 = street1Match[2].trim();
+    result.type1 = normalizeStreetType(street1Match[3]);
+  } else {
+    // No type found, treat entire text as street name
+    const simpleMatch = street1Text.match(new RegExp(
+      `^(?:(${patterns.directional.slice(1, -1)})\\s+)?(.+)$`, 'i'
+    ));
+    if (simpleMatch) {
+      if (simpleMatch[1]) result.prefix1 = simpleMatch[1].toUpperCase();
+      result.street1 = simpleMatch[2].trim();
+      result.type1 = '';
+    }
   }
 
   // Parse second street
   const street2Text = locationText || parts[1].trim();
   const street2Match = street2Text.match(new RegExp(
-    `^([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:(${patterns.streetType.slice(1, -1)})\\b)?`, 'i'
+    `^(?:(${patterns.directional.slice(1, -1)})\\s+)?([^\\s]+(?:\\s+[^\\s]+)*)\\s+(${patterns.streetType.slice(1, -1)})\\b`, 'i'
   ));
   if (street2Match) {
-    result.street2 = street2Match[1].trim();
-    result.type2 = street2Match[2] ? normalizeStreetType(street2Match[2]) : '';
+    if (street2Match[1]) result.prefix2 = street2Match[1].toUpperCase();
+    result.street2 = street2Match[2].trim();
+    result.type2 = normalizeStreetType(street2Match[3]);
+  } else {
+    // No type found, treat entire text as street name
+    const simpleMatch = street2Text.match(new RegExp(
+      `^(?:(${patterns.directional.slice(1, -1)})\\s+)?(.+)$`, 'i'
+    ));
+    if (simpleMatch) {
+      if (simpleMatch[1]) result.prefix2 = simpleMatch[1].toUpperCase();
+      result.street2 = simpleMatch[2].trim();
+      result.type2 = '';
+    }
   }
 
   // Ensure we have required fields

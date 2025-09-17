@@ -283,11 +283,28 @@ describe('Parse-Address Compatibility Tests', () => {
     });
   });
 
-  describe('Canadian Address Parsing - Facilities and Special', () => {
-    const canadaFacilities = loadTestData('canada', 'facilities-and-special.json');
+  describe('Canadian Address Parsing - Facilities', () => {
+    const canadaFacilities = loadTestData('canada', 'facilities.json');
     
     canadaFacilities.forEach((testCase, index) => {
-      it(`should parse Canadian facility/special address ${index + 1}: "${testCase.input}"`, () => {
+      it(`should parse Canadian facility address ${index + 1}: "${testCase.input}"`, () => {
+        const result = parseLocation(testCase.input);
+        expect(result).toBeTruthy();
+        
+        if (testCase.expected) {
+          Object.keys(testCase.expected).forEach(key => {
+            expect((result as any)?.[key]).toBe(testCase.expected[key]);
+          });
+        }
+      });
+    });
+  });
+
+  describe('Canadian Address Parsing - Special Postal', () => {
+    const canadaSpecial = loadTestData('canada', 'special-postal.json');
+    
+    canadaSpecial.forEach((testCase, index) => {
+      it(`should parse Canadian special postal address ${index + 1}: "${testCase.input}"`, () => {
         const result = parseLocation(testCase.input);
         expect(result).toBeTruthy();
         

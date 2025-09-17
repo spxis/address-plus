@@ -216,6 +216,30 @@ declare const ZIP_CODE_PATTERN: RegExp;
 declare const CANADIAN_POSTAL_CODE_PATTERN: RegExp;
 
 /**
+ * Regular expression patterns for address parsing
+ */
+/**
+ * Pattern for secondary unit types and numbers
+ * Matches: "apt 123", "suite 5A", "unit 12", "#45", "# 45", etc.
+ */
+declare const SECONDARY_UNIT_PATTERN: RegExp;
+/**
+ * Pattern for extracting unit type and number
+ * Used to parse the secondary unit match
+ */
+declare const UNIT_TYPE_NUMBER_PATTERN: RegExp;
+/**
+ * Pattern for Canadian postal codes (more liberal matching)
+ * Matches formats like: A1A 1A1, A1A1A1, a1a 1a1, etc.
+ */
+declare const CANADIAN_POSTAL_LIBERAL_PATTERN: RegExp;
+/**
+ * Pattern for extracting parenthetical information
+ * Matches content within parentheses
+ */
+declare const PARENTHETICAL_PATTERN: RegExp;
+
+/**
  * Secondary unit types and abbreviations
  */
 /**
@@ -250,6 +274,34 @@ declare const US_REGIONS: Region[];
  * Mapping of US street types and their variations to official USPS abbreviations
  */
 declare const US_STREET_TYPES: Record<string, string>;
+
+/**
+ * Street type proper case mapping (USPS standards)
+ * Maps lowercase abbreviations to their proper case equivalents
+ */
+declare const STREET_TYPE_PROPER_CASE: Record<string, string>;
+
+/**
+ * Region normalization utilities for fuzzy matching
+ */
+/**
+ * Normalizes a region input string to find the best matching state/province
+ * Supports exact matches and fuzzy matching for misspellings
+ *
+ * @param input - The input string to normalize (state/province name or abbreviation)
+ * @returns Object with abbreviation and country, or null if no match found
+ *
+ * @example
+ * normalizeRegion('Calfornia'); // → { abbr: 'CA', country: 'US' }
+ * normalizeRegion('Texes');     // → { abbr: 'TX', country: 'US' }
+ * normalizeRegion('Ontaroi');   // → { abbr: 'ON', country: 'CA' }
+ * normalizeRegion('qc');        // → { abbr: 'QC', country: 'CA' }
+ * normalizeRegion('quebec');    // → { abbr: 'QC', country: 'CA' }
+ */
+declare function normalizeRegion(input: string): {
+    abbr: string;
+    country: "CA" | "US";
+} | null;
 
 /**
  * Core parsing utilities and regex patterns
@@ -346,4 +398,4 @@ declare function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined;
  */
 declare const parser: AddressParser;
 
-export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_PATTERNS, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_TYPES, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };
+export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CANADIAN_POSTAL_LIBERAL_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_PATTERNS, PARENTHETICAL_PATTERN, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_PATTERN, SECONDARY_UNIT_TYPES, STREET_TYPE_PROPER_CASE, UNIT_TYPE_NUMBER_PATTERN, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeRegion, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };

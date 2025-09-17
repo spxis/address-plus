@@ -209,6 +209,12 @@ var FACILITY_PATTERNS = [
 var ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
 var CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)$/;
 
+// src/data/address-patterns.ts
+var SECONDARY_UNIT_PATTERN = /^(.*?)\s+((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s*$/i;
+var UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
+var CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
+var PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
+
 // src/data/secondary-unit-types.ts
 var SECONDARY_UNIT_TYPES = {
   apartment: "apt",
@@ -939,7 +945,248 @@ var US_STREET_TYPES = {
   xrds: "xrds"
 };
 
-// src/utils.ts
+// src/data/street-type-proper-case.ts
+var STREET_TYPE_PROPER_CASE = {
+  "ave": "Ave",
+  "st": "St",
+  "dr": "Dr",
+  "blvd": "Blvd",
+  "ct": "Ct",
+  "pl": "Pl",
+  "rd": "Rd",
+  "ln": "Ln",
+  "way": "Way",
+  "pkwy": "Pkwy",
+  "plz": "Plz",
+  "cir": "Cir",
+  "ter": "Ter",
+  "ctr": "Ctr",
+  "loop": "Loop",
+  "park": "Park",
+  "hwy": "Hwy",
+  "expy": "Expy",
+  "fwy": "Fwy",
+  "trl": "Trl",
+  "sq": "Sq",
+  "aly": "Aly",
+  "anx": "Anx",
+  "arc": "Arc",
+  "byu": "Byu",
+  "bch": "Bch",
+  "bnd": "Bnd",
+  "blf": "Blf",
+  "blfs": "Blfs",
+  "btm": "Btm",
+  "br": "Br",
+  "brg": "Brg",
+  "brk": "Brk",
+  "brks": "Brks",
+  "bg": "Bg",
+  "bgs": "Bgs",
+  "byp": "Byp",
+  "cp": "Cp",
+  "cyn": "Cyn",
+  "cpe": "Cpe",
+  "cswy": "Cswy",
+  "ctrs": "Ctrs",
+  "cirs": "Cirs",
+  "clf": "Clf",
+  "clfs": "Clfs",
+  "clb": "Clb",
+  "cmn": "Cmn",
+  "cmns": "Cmns",
+  "cor": "Cor",
+  "cors": "Cors",
+  "crse": "Crse",
+  "cts": "Cts",
+  "cv": "Cv",
+  "cvs": "Cvs",
+  "crk": "Crk",
+  "cres": "Cres",
+  "crst": "Crst",
+  "xing": "Xing",
+  "xrd": "Xrd",
+  "xrds": "Xrds",
+  "curv": "Curv",
+  "dl": "Dl",
+  "dm": "Dm",
+  "dv": "Dv",
+  "drs": "Drs",
+  "est": "Est",
+  "ests": "Ests",
+  "ext": "Ext",
+  "exts": "Exts",
+  "fall": "Fall",
+  "fls": "Fls",
+  "fry": "Fry",
+  "fld": "Fld",
+  "flds": "Flds",
+  "flt": "Flt",
+  "flts": "Flts",
+  "frd": "Frd",
+  "frds": "Frds",
+  "frst": "Frst",
+  "frg": "Frg",
+  "frgs": "Frgs",
+  "frk": "Frk",
+  "frks": "Frks",
+  "ft": "Ft",
+  "gdn": "Gdn",
+  "gdns": "Gdns",
+  "gtwy": "Gtwy",
+  "gln": "Gln",
+  "glns": "Glns",
+  "grn": "Grn",
+  "grns": "Grns",
+  "grv": "Grv",
+  "grvs": "Grvs",
+  "hbr": "Hbr",
+  "hbrs": "Hbrs",
+  "hvn": "Hvn",
+  "hts": "Hts",
+  "hl": "Hl",
+  "hls": "Hls",
+  "holw": "Holw",
+  "inlt": "Inlt",
+  "is": "Is",
+  "iss": "Iss",
+  "isle": "Isle",
+  "jct": "Jct",
+  "jcts": "Jcts",
+  "ky": "Ky",
+  "kys": "Kys",
+  "knl": "Knl",
+  "knls": "Knls",
+  "lk": "Lk",
+  "lks": "Lks",
+  "land": "Land",
+  "lndg": "Lndg",
+  "lgt": "Lgt",
+  "lgts": "Lgts",
+  "lf": "Lf",
+  "lck": "Lck",
+  "lcks": "Lcks",
+  "ldg": "Ldg",
+  "mall": "Mall",
+  "mnr": "Mnr",
+  "mnrs": "Mnrs",
+  "mdw": "Mdw",
+  "mdws": "Mdws",
+  "mews": "Mews",
+  "ml": "Ml",
+  "mls": "Mls",
+  "msn": "Msn",
+  "mtwy": "Mtwy",
+  "mt": "Mt",
+  "mtn": "Mtn",
+  "mtns": "Mtns",
+  "nck": "Nck",
+  "orch": "Orch",
+  "oval": "Oval",
+  "opas": "Opas",
+  "psge": "Psge",
+  "path": "Path",
+  "pike": "Pike",
+  "pne": "Pne",
+  "pnes": "Pnes",
+  "pln": "Pln",
+  "plns": "Plns",
+  "pt": "Pt",
+  "pts": "Pts",
+  "prt": "Prt",
+  "prts": "Prts",
+  "pr": "Pr",
+  "radl": "Radl",
+  "ramp": "Ramp",
+  "rnch": "Rnch",
+  "rpd": "Rpd",
+  "rpds": "Rpds",
+  "rst": "Rst",
+  "rdg": "Rdg",
+  "rdgs": "Rdgs",
+  "riv": "Riv",
+  "rds": "Rds",
+  "rte": "Rte",
+  "row": "Row",
+  "rue": "Rue",
+  "run": "Run",
+  "shl": "Shl",
+  "shls": "Shls",
+  "shr": "Shr",
+  "shrs": "Shrs",
+  "skwy": "Skwy",
+  "spg": "Spg",
+  "spgs": "Spgs",
+  "spur": "Spur",
+  "sqs": "Sqs",
+  "sta": "Sta",
+  "stra": "Stra",
+  "strm": "Strm",
+  "sts": "Sts",
+  "smt": "Smt",
+  "trce": "Trce",
+  "trak": "Trak",
+  "trfy": "Trfy",
+  "trlr": "Trlr",
+  "tunl": "Tunl",
+  "tpke": "Tpke",
+  "upas": "Upas",
+  "un": "Un",
+  "uns": "Uns",
+  "vly": "Vly",
+  "vlys": "Vlys",
+  "via": "Via",
+  "vw": "Vw",
+  "vws": "Vws",
+  "vlg": "Vlg",
+  "vlgs": "Vlgs",
+  "vl": "Vl",
+  "vis": "Vis",
+  "walk": "Walk",
+  "ways": "Ways",
+  "wall": "Wall",
+  "wl": "Wl",
+  "wls": "Wls"
+};
+
+// src/utils/normalize-region.ts
+import levenshtein from "fast-levenshtein";
+
+// src/data/regions.ts
+var REGIONS = [...US_REGIONS, ...CA_REGIONS];
+
+// src/utils/normalize-region.ts
+function normalizeRegion(input) {
+  if (!input) {
+    return null;
+  }
+  const clean = input.trim().replace(/\./g, "").toLowerCase();
+  if (clean === "") {
+    return null;
+  }
+  const exactAbbr = REGIONS.find((r) => r.abbr.toLowerCase() === clean);
+  if (exactAbbr) {
+    return { abbr: exactAbbr.abbr, country: exactAbbr.country };
+  }
+  const exactName = REGIONS.find((r) => r.name.toLowerCase() === clean);
+  if (exactName) {
+    return { abbr: exactName.abbr, country: exactName.country };
+  }
+  let best = null;
+  for (const region of REGIONS) {
+    const dist = levenshtein.get(clean, region.name.toLowerCase());
+    if (!best || dist < best.dist) {
+      best = { region, dist };
+    }
+  }
+  const threshold = clean.length <= 3 ? 1 : 3;
+  if (best && best.dist <= threshold) {
+    return { abbr: best.region.abbr, country: best.region.country };
+  }
+  return null;
+}
+
+// src/utils/parsing.ts
 function normalizeText(text) {
   return text.toLowerCase().replace(/\s+/g, " ").replace(/[.,;]/g, " ").trim();
 }
@@ -1096,19 +1343,24 @@ function detectCountry(address) {
 
 // src/parser.ts
 var buildPatterns = () => {
-  const streetTypes = Object.keys(US_STREET_TYPES).concat(Object.values(US_STREET_TYPES)).filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => b.length - a.length).join("|");
+  const streetTypes = Object.keys(US_STREET_TYPES).concat(Object.values(US_STREET_TYPES)).concat(Object.keys(CA_STREET_TYPES)).concat(Object.values(CA_STREET_TYPES)).filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => b.length - a.length).join("|");
   const directionals = Object.keys(DIRECTIONAL_MAP).concat(Object.values(DIRECTIONAL_MAP)).filter((v, i, arr) => arr.indexOf(v) === i).sort((a, b) => b.length - a.length).join("|");
   const states = Object.keys(US_STATES).concat(Object.values(US_STATES)).concat(Object.keys(CA_PROVINCES)).concat(Object.values(CA_PROVINCES)).filter((v, i, arr) => arr.indexOf(v) === i).join("|");
+  const stateAbbrevs = Object.values(US_STATES).concat(Object.values(CA_PROVINCES)).filter((v, i, arr) => arr.indexOf(v) === i && v.length <= 3).sort((a, b) => b.length - a.length).join("|");
+  const stateFullNames = Object.keys(US_STATES).concat(Object.keys(CA_PROVINCES)).filter((v, i, arr) => arr.indexOf(v) === i && v.length > 3).sort((a, b) => b.length - a.length).join("|");
   return {
-    number: String.raw`(\d+[-\w]*|\w\d+\w\d+)`,
+    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+)`,
+    // Changed to not match directionals
     fraction: String.raw`(\d+\/\d+)`,
     directional: `(${directionals})`,
     streetType: `(${streetTypes})`,
     state: `\\b(${states})\\b`,
+    stateAbbrev: `\\b(${stateAbbrevs})\\b`,
+    stateFullName: `\\b(${stateFullNames})\\b`,
     zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
     poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
-    secUnit: String.raw`(?:(suite?|ste?|apt|apartment|unit|#)\s*([a-z0-9-]+))`
+    secUnit: String.raw`(?:(suite|ste|apt|apartment|unit|#)\s+([a-z0-9-]+))`
   };
 };
 function parseLocation(address, options = {}) {
@@ -1129,83 +1381,314 @@ function parseLocation(address, options = {}) {
 function parsePoBox(address, options = {}) {
   const patterns = buildPatterns();
   const match = address.match(new RegExp(
-    `^\\s*${patterns.poBox}\\s*,?\\s*(?:([^\\d,]+?)\\s*,?\\s*)?(?:${patterns.state}\\s*)?(?:${patterns.zip})?\\s*$`,
+    `^\\s*${patterns.poBox}\\s*,?\\s*(?:([^\\d,]+?)\\s*,?\\s*)?(?:(${patterns.state.slice(2, -2)})\\s*)?(?:(${patterns.zip.slice(1, -1)}))?\\s*$`,
     "i"
   ));
   if (!match) return null;
   const result = {
-    sec_unit_type: match[0].replace(/\s*\d+.*$/, "").trim(),
-    sec_unit_num: match[1]
+    sec_unit_type: normalizePoBoxType(match[1]),
+    sec_unit_num: match[2]
   };
-  if (match[2]) result.city = match[2].trim();
-  if (match[3]) result.state = match[3].toUpperCase();
-  if (match[4]) result.zip = match[4];
+  if (match[3]) result.city = match[3].trim();
+  if (match[4]) result.state = match[4].toUpperCase();
+  if (match[5]) result.zip = match[5];
   result.country = detectCountry(result);
   return result;
+}
+function normalizePoBoxType(type) {
+  const normalized = type.toLowerCase().replace(/\./g, "").replace(/\s+/g, " ").trim();
+  if (normalized.includes("post office box") || normalized.includes("po box") || normalized.includes("pobox")) {
+    return "PO box";
+  }
+  return normalized;
 }
 function parseStandardAddress(address, options = {}) {
   const patterns = buildPatterns();
   const commaParts = address.split(",").map((p) => p.trim());
   let zipPart = "";
-  let cityStatePart = "";
+  let statePart = "";
+  let cityPart = "";
   let addressPart = commaParts[0];
-  if (commaParts.length > 1) {
-    const lastPart = commaParts[commaParts.length - 1];
-    const zipMatch = lastPart.match(new RegExp(patterns.zip));
+  const excludedPartIndices = /* @__PURE__ */ new Set();
+  if (commaParts.length === 1) {
+    let remainingText = address.trim();
+    const zipMatch = remainingText.match(new RegExp(`\\s+(${patterns.zip.slice(1, -1)})\\s*$`));
+    const caPostalMatch = remainingText.match(new RegExp(`\\s+(${CANADIAN_POSTAL_LIBERAL_PATTERN.source})\\s*$`));
     if (zipMatch) {
       zipPart = zipMatch[1];
-      cityStatePart = lastPart.replace(zipMatch[0], "").trim();
+      remainingText = remainingText.replace(zipMatch[0], "").trim();
+    } else if (caPostalMatch) {
+      zipPart = caPostalMatch[1];
+      remainingText = remainingText.replace(caPostalMatch[0], "").trim();
+    }
+    const stateAbbrevMatch = remainingText.match(new RegExp(`\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, "i"));
+    const stateFullMatch = remainingText.match(new RegExp(`\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"));
+    if (stateAbbrevMatch) {
+      statePart = stateAbbrevMatch[1];
+      remainingText = remainingText.replace(stateAbbrevMatch[0], "").trim();
+    } else if (stateFullMatch) {
+      statePart = stateFullMatch[1];
+      remainingText = remainingText.replace(stateFullMatch[0], "").trim();
+    }
+    if (remainingText) {
+      const hasState = !!statePart;
+      const shouldExtractCity = hasState || remainingText.split(/\s+/).length > 3;
+      if (shouldExtractCity) {
+        const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
+        const twoWordCityMatch = remainingText.match(/\s+([A-Za-z]+\s+[A-Za-z]+)$/);
+        let potentialCity = "";
+        let matchToReplace = null;
+        if (twoWordCityMatch) {
+          potentialCity = twoWordCityMatch[1].trim();
+          matchToReplace = twoWordCityMatch[0];
+        } else if (singleWordCityMatch) {
+          potentialCity = singleWordCityMatch[1].trim();
+          matchToReplace = singleWordCityMatch[0];
+        }
+        const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, "i").test(potentialCity);
+        const startsWithStreetTypeMatch = potentialCity.match(new RegExp(`^(${patterns.streetType.slice(1, -1)})\\s+(.+)$`, "i"));
+        if (potentialCity && !isStreetType && matchToReplace) {
+          if (startsWithStreetTypeMatch) {
+            cityPart = startsWithStreetTypeMatch[2];
+            const cityOnlyMatch = remainingText.match(new RegExp(`\\s+(${cityPart.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})$`));
+            if (cityOnlyMatch) {
+              remainingText = remainingText.replace(cityOnlyMatch[0], "").trim();
+            }
+          } else {
+            cityPart = potentialCity;
+            remainingText = remainingText.replace(matchToReplace, "").trim();
+          }
+        }
+      }
+    }
+    if (remainingText) {
+      addressPart = remainingText;
+    }
+  } else {
+    const lastPart = commaParts[commaParts.length - 1];
+    const zipMatch = lastPart.match(new RegExp(`(${patterns.zip.slice(1, -1)})`));
+    const caPostalMatch = lastPart.match(CANADIAN_POSTAL_LIBERAL_PATTERN);
+    if (zipMatch) {
+      zipPart = zipMatch[1];
+      const remainingAfterZip = lastPart.replace(zipMatch[0], "").trim();
+      if (remainingAfterZip) {
+        const cityStateAbbrevMatch = remainingAfterZip.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, "i"));
+        if (cityStateAbbrevMatch) {
+          cityPart = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+        } else {
+          const cityStateFullMatch = remainingAfterZip.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"));
+          if (cityStateFullMatch) {
+            cityPart = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+          } else {
+            statePart = remainingAfterZip;
+          }
+        }
+      }
       if (commaParts.length > 2) {
-        cityStatePart = commaParts[commaParts.length - 2] + " " + cityStatePart;
+        for (let i = commaParts.length - 2; i >= 1; i--) {
+          if (!excludedPartIndices.has(i)) {
+            cityPart = commaParts[i].trim();
+            break;
+          }
+        }
+      } else if (commaParts.length === 2 && !statePart) {
+        const remainingText = lastPart.replace(zipMatch[0], "").trim();
+        const cityStateAbbrevMatch = remainingText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, "i"));
+        if (cityStateAbbrevMatch) {
+          cityPart = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+        } else {
+          const cityStateFullMatch = remainingText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"));
+          if (cityStateFullMatch) {
+            cityPart = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+          } else {
+            cityPart = remainingText;
+          }
+        }
+      }
+    } else if (caPostalMatch) {
+      zipPart = caPostalMatch[1];
+      const remainingAfterZip = lastPart.replace(caPostalMatch[0], "").trim();
+      if (remainingAfterZip) {
+        statePart = remainingAfterZip;
+      }
+      if (commaParts.length > 2) {
+        cityPart = commaParts[commaParts.length - 2].trim();
+      } else if (commaParts.length === 2) {
+        const cityStateText = lastPart.replace(caPostalMatch[0], "").trim();
+        const cityStateAbbrevMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, "i"));
+        if (cityStateAbbrevMatch) {
+          cityPart = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+        } else {
+          const cityStateFullMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"));
+          if (cityStateFullMatch) {
+            cityPart = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+          } else {
+            cityPart = cityStateText;
+          }
+        }
       }
     } else {
-      cityStatePart = commaParts.slice(1).join(" ");
+      const nonExcludedParts = commaParts.slice(1).filter((part, index) => !excludedPartIndices.has(index + 1));
+      const cityStateText = nonExcludedParts.join(" ").trim();
+      const cityStateAbbrevMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, "i"));
+      if (cityStateAbbrevMatch) {
+        cityPart = cityStateAbbrevMatch[1].trim();
+        statePart = cityStateAbbrevMatch[2].trim();
+      } else {
+        const cityStateFullMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"));
+        if (cityStateFullMatch) {
+          cityPart = cityStateFullMatch[1].trim();
+          statePart = cityStateFullMatch[2].trim();
+        } else {
+          const justStateAbbrevMatch = cityStateText.match(new RegExp(`^(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, "i"));
+          if (justStateAbbrevMatch) {
+            statePart = justStateAbbrevMatch[1].trim();
+          } else {
+            const justStateFullMatch = cityStateText.match(new RegExp(`^(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"));
+            if (justStateFullMatch) {
+              statePart = justStateFullMatch[1].trim();
+            } else {
+              cityPart = cityStateText;
+            }
+          }
+        }
+      }
+    }
+  }
+  let facilityPart = "";
+  let secondaryUnitPart = "";
+  if (commaParts.length > 2) {
+    for (let i = 1; i < commaParts.length - 1; i++) {
+      const part = commaParts[i].trim();
+      const unitMatch = part.match(/^(?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+$|^#\s*[a-z0-9-]+$/i);
+      if (unitMatch && !secondaryUnitPart) {
+        secondaryUnitPart = part;
+        excludedPartIndices.add(i);
+        continue;
+      }
+      for (const pattern of FACILITY_PATTERNS) {
+        if (pattern.test(part)) {
+          facilityPart = part;
+          excludedPartIndices.add(i);
+          break;
+        }
+      }
     }
   }
   const result = {};
-  const addressMatch = addressPart.match(new RegExp(
-    `^\\s*(?:${patterns.number}\\s+)?(?:${patterns.fraction}\\s+)?(?:${patterns.directional}\\s+)?([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:${patterns.streetType}\\b\\s*)?(?:${patterns.directional}\\s*)?(?:${patterns.secUnit}\\s*)?$`,
-    "i"
-  ));
-  if (addressMatch) {
-    let i = 1;
-    if (addressMatch[i]) result.number = addressMatch[i++];
-    if (addressMatch[i]) result.fraction = addressMatch[i++];
-    if (addressMatch[i]) result.prefix = addressMatch[i++].toUpperCase();
-    let streetText = addressMatch[i++];
-    if (streetText) {
-      const streetTypeMatch = streetText.match(new RegExp(`\\b(${patterns.streetType.slice(1, -1)})\\b\\s*$`, "i"));
-      if (streetTypeMatch) {
-        result.type = normalizeStreetType(streetTypeMatch[1]);
-        result.street = streetText.replace(streetTypeMatch[0], "").trim();
-      } else {
-        result.street = streetText.trim();
-      }
+  let secondaryInfo = "";
+  const parentheticalMatch = addressPart.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+  if (parentheticalMatch) {
+    addressPart = parentheticalMatch[1].trim();
+    secondaryInfo = parentheticalMatch[2].trim();
+  }
+  let remaining = addressPart.trim();
+  let numberMatch = remaining.match(new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, "i"));
+  if (!numberMatch) {
+    const numberDirectionalMatch = remaining.match(new RegExp(`^(\\d+)(${patterns.directional.slice(1, -1)})\\s+(.*)$`, "i"));
+    if (numberDirectionalMatch) {
+      result.number = numberDirectionalMatch[1];
+      const normalizedDirectional = DIRECTIONAL_MAP[numberDirectionalMatch[2].toLowerCase()];
+      result.prefix = normalizedDirectional || numberDirectionalMatch[2].toUpperCase();
+      remaining = numberDirectionalMatch[3] || "";
     }
-    if (addressMatch[i]) result.suffix = addressMatch[i++].toUpperCase();
-    if (addressMatch[i] && addressMatch[i + 1]) {
-      result.sec_unit_type = addressMatch[i++].toLowerCase();
-      result.sec_unit_num = addressMatch[i++];
-      result.unit = `${result.sec_unit_type} ${result.sec_unit_num}`;
+  } else {
+    result.number = numberMatch[1];
+    if (numberMatch[2]) {
+      result.number = `${result.number} ${numberMatch[2]}`;
+    }
+    remaining = numberMatch[3] || "";
+  }
+  if (!result.number && remaining) {
+  }
+  if (!result.prefix) {
+    const prefixMatch = remaining.match(new RegExp(`^(${patterns.directional.slice(1, -1)})\\s+(.*)$`, "i"));
+    if (prefixMatch) {
+      const normalizedDirectional = DIRECTIONAL_MAP[prefixMatch[1].toLowerCase()];
+      result.prefix = normalizedDirectional || prefixMatch[1].toUpperCase();
+      remaining = prefixMatch[2];
     }
   }
-  if (cityStatePart) {
-    const cityStateMatch = cityStatePart.match(new RegExp(`^(.+?)\\s+${patterns.state}\\s*$`, "i"));
-    if (cityStateMatch) {
-      result.city = cityStateMatch[1].trim();
-      result.state = cityStateMatch[2].toUpperCase();
+  const secUnitMatch = remaining.match(SECONDARY_UNIT_PATTERN);
+  if (secUnitMatch) {
+    remaining = secUnitMatch[1];
+    const unitParts = secUnitMatch[2].match(UNIT_TYPE_NUMBER_PATTERN);
+    if (unitParts) {
+      if (unitParts[1] && unitParts[2]) {
+        const rawType = unitParts[1].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[2];
+      } else if (unitParts[3]) {
+        result.sec_unit_type = "#";
+        result.sec_unit_num = unitParts[3];
+      }
+    }
+  } else if (secondaryUnitPart) {
+    const unitParts = secondaryUnitPart.match(UNIT_TYPE_NUMBER_PATTERN);
+    if (unitParts) {
+      if (unitParts[1] && unitParts[2]) {
+        const rawType = unitParts[1].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[2];
+      } else if (unitParts[3]) {
+        result.sec_unit_type = "#";
+        result.sec_unit_num = unitParts[3];
+      }
+    }
+  }
+  const musicSquareEastMatch = remaining.match(/^(.*square)\s+(east)\s*$/i);
+  if (musicSquareEastMatch) {
+    result.street = musicSquareEastMatch[1].trim();
+    result.type = "E";
+    remaining = "";
+  }
+  if (!result.type) {
+    const suffixMatch = remaining.match(new RegExp(`^(.*?)\\s+(${patterns.directional.slice(1, -1)})\\s*$`, "i"));
+    if (suffixMatch) {
+      remaining = suffixMatch[1];
+      const normalizedDirectional = DIRECTIONAL_MAP[suffixMatch[2].toLowerCase()];
+      result.suffix = normalizedDirectional || suffixMatch[2].toUpperCase();
+    }
+  }
+  if (!result.type) {
+    const streetTypeSuffixMatch = remaining.match(new RegExp(`^(.*?)\\s+\\b(${patterns.streetType.slice(1, -1)})\\b\\s*$`, "i"));
+    const streetTypePrefixMatch = remaining.match(new RegExp(`^\\b(${patterns.streetType.slice(1, -1)})\\b\\s+(.*)$`, "i"));
+    if (streetTypeSuffixMatch) {
+      result.street = streetTypeSuffixMatch[1].trim();
+      result.type = normalizeStreetType(streetTypeSuffixMatch[2]);
+    } else if (streetTypePrefixMatch) {
+      result.type = normalizeStreetType(streetTypePrefixMatch[1]);
+      result.street = streetTypePrefixMatch[2].trim();
     } else {
-      const stateMatch = cityStatePart.match(new RegExp(`^${patterns.state}\\s*$`, "i"));
-      if (stateMatch) {
-        result.state = stateMatch[1].toUpperCase();
+      const numberDirectionalStreetMatch = remaining.trim().match(new RegExp(`^(\\d+)(${patterns.directional.slice(1, -1)})$`, "i"));
+      if (numberDirectionalStreetMatch) {
+        result.street = numberDirectionalStreetMatch[1];
+        const normalizedDirectional = DIRECTIONAL_MAP[numberDirectionalStreetMatch[2].toLowerCase()];
+        result.suffix = normalizedDirectional || numberDirectionalStreetMatch[2].toUpperCase();
       } else {
-        result.city = cityStatePart;
+        result.street = remaining.trim();
       }
     }
   }
+  if (cityPart) result.city = cityPart;
+  if (statePart) result.state = statePart.toUpperCase();
   if (zipPart) {
-    result.zip = zipPart;
+    if (zipPart.includes("-")) {
+      const zipParts = zipPart.split("-");
+      result.zip = zipParts[0];
+      result.zipext = zipParts[1];
+    } else {
+      result.zip = zipPart;
+    }
   }
+  if (facilityPart) result.facility = facilityPart;
+  if (secondaryInfo) result.secondary = secondaryInfo;
   result.country = detectCountry(result);
   return result.number || result.street ? result : null;
 }
@@ -1234,7 +1717,11 @@ function parseInformalAddress(address, options = {}) {
 }
 function normalizeStreetType(type) {
   const normalized = type.toLowerCase().replace(/\./g, "");
-  return US_STREET_TYPES[normalized] || type.toLowerCase();
+  const mappedType = US_STREET_TYPES[normalized] || CA_STREET_TYPES[normalized];
+  if (mappedType) {
+    return STREET_TYPE_PROPER_CASE[mappedType] || mappedType.charAt(0).toUpperCase() + mappedType.slice(1).toLowerCase();
+  }
+  return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 }
 function parseIntersection(address, options = {}) {
   const patterns = buildPatterns();
@@ -1243,43 +1730,60 @@ function parseIntersection(address, options = {}) {
   if (parts.length !== 2) return null;
   const result = {};
   let locationText = parts[1].trim();
-  const locationMatch = locationText.match(new RegExp(
-    `(.+?)\\s*,?\\s*([^,]+?)\\s*,?\\s*${patterns.state}\\s*(?:${patterns.zip})?\\s*$`,
-    "i"
-  ));
-  if (locationMatch) {
-    result.city = locationMatch[2].trim();
-    result.state = locationMatch[3].toUpperCase();
-    if (locationMatch[4]) result.zip = locationMatch[4];
-    locationText = locationMatch[1].trim();
-  } else {
-    const simpleLocationMatch = locationText.match(new RegExp(
-      `(.+?)\\s+${patterns.state}\\s*$`,
-      "i"
-    ));
-    if (simpleLocationMatch) {
-      result.city = simpleLocationMatch[1].trim();
-      result.state = simpleLocationMatch[2].toUpperCase();
-      locationText = "";
-    }
+  const zipMatch = locationText.match(new RegExp(`\\s+(${patterns.zip.slice(1, -1)})\\s*$`));
+  if (zipMatch) {
+    result.zip = zipMatch[1];
+    locationText = locationText.replace(zipMatch[0], "").trim();
+  }
+  const stateMatch = locationText.match(new RegExp(`\\s+(${patterns.state.slice(2, -2)})\\s*$`, "i"));
+  if (stateMatch) {
+    result.state = stateMatch[1].toUpperCase();
+    locationText = locationText.replace(stateMatch[0], "").trim();
+  }
+  const cityMatch = locationText.match(/\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)$/);
+  if (cityMatch) {
+    result.city = cityMatch[1].trim();
+    locationText = locationText.replace(cityMatch[0], "").trim();
   }
   const street1Text = parts[0].trim();
   const street1Match = street1Text.match(new RegExp(
-    `^([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:(${patterns.streetType.slice(1, -1)})\\b)?\\s*$`,
+    `^(?:(${patterns.directional.slice(1, -1)})\\s+)?([^\\s]+(?:\\s+[^\\s]+)*)\\s+(${patterns.streetType.slice(1, -1)})\\b`,
     "i"
   ));
   if (street1Match) {
-    result.street1 = street1Match[1].trim();
-    result.type1 = street1Match[2] ? normalizeStreetType(street1Match[2]) : "";
+    if (street1Match[1]) result.prefix1 = street1Match[1].toUpperCase();
+    result.street1 = street1Match[2].trim();
+    result.type1 = normalizeStreetType(street1Match[3]);
+  } else {
+    const simpleMatch = street1Text.match(new RegExp(
+      `^(?:(${patterns.directional.slice(1, -1)})\\s+)?(.+)$`,
+      "i"
+    ));
+    if (simpleMatch) {
+      if (simpleMatch[1]) result.prefix1 = simpleMatch[1].toUpperCase();
+      result.street1 = simpleMatch[2].trim();
+      result.type1 = "";
+    }
   }
   const street2Text = locationText || parts[1].trim();
   const street2Match = street2Text.match(new RegExp(
-    `^([^\\s]+(?:\\s+[^\\s]+)*)\\s*(?:(${patterns.streetType.slice(1, -1)})\\b)?`,
+    `^(?:(${patterns.directional.slice(1, -1)})\\s+)?([^\\s]+(?:\\s+[^\\s]+)*)\\s+(${patterns.streetType.slice(1, -1)})\\b`,
     "i"
   ));
   if (street2Match) {
-    result.street2 = street2Match[1].trim();
-    result.type2 = street2Match[2] ? normalizeStreetType(street2Match[2]) : "";
+    if (street2Match[1]) result.prefix2 = street2Match[1].toUpperCase();
+    result.street2 = street2Match[2].trim();
+    result.type2 = normalizeStreetType(street2Match[3]);
+  } else {
+    const simpleMatch = street2Text.match(new RegExp(
+      `^(?:(${patterns.directional.slice(1, -1)})\\s+)?(.+)$`,
+      "i"
+    ));
+    if (simpleMatch) {
+      if (simpleMatch[1]) result.prefix2 = simpleMatch[1].toUpperCase();
+      result.street2 = simpleMatch[2].trim();
+      result.type2 = "";
+    }
   }
   if (!result.street1 || !result.street2) return null;
   if (!result.type1) result.type1 = "";
@@ -1309,6 +1813,7 @@ var parser2 = {
 var index_default = parser2;
 export {
   CANADIAN_POSTAL_CODE_PATTERN,
+  CANADIAN_POSTAL_LIBERAL_PATTERN,
   CA_PROVINCES,
   CA_PROVINCE_ALTERNATIVES,
   CA_PROVINCE_NAMES,
@@ -1318,7 +1823,11 @@ export {
   CA_STREET_TYPES,
   DIRECTIONAL_MAP,
   FACILITY_PATTERNS,
+  PARENTHETICAL_PATTERN,
+  SECONDARY_UNIT_PATTERN,
   SECONDARY_UNIT_TYPES,
+  STREET_TYPE_PROPER_CASE,
+  UNIT_TYPE_NUMBER_PATTERN,
   US_REGIONS,
   US_STATES,
   US_STATE_ALTERNATIVES,
@@ -1328,6 +1837,7 @@ export {
   buildRegexFromDict,
   index_default as default,
   detectCountry,
+  normalizeRegion,
   normalizeText,
   parseAddress,
   parseDirectional,

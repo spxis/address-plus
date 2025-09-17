@@ -14,6 +14,12 @@ export { CA_STREET_TYPES } from "./ca-street-types";
 export { DIRECTIONAL_MAP } from "./directionals";
 export { FACILITY_PATTERNS } from "./facility-patterns";
 export { CANADIAN_POSTAL_CODE_PATTERN, ZIP_CODE_PATTERN } from "./postal-patterns";
+export { 
+  SECONDARY_UNIT_PATTERN, 
+  UNIT_TYPE_NUMBER_PATTERN, 
+  CANADIAN_POSTAL_LIBERAL_PATTERN,
+  PARENTHETICAL_PATTERN 
+} from "./address-patterns";
 export { SECONDARY_UNIT_TYPES } from "./secondary-unit-types";
 export { 
   US_REGIONS, 
@@ -22,3 +28,4 @@ export {
   US_STATE_ALTERNATIVES 
 } from "./us-states";
 export { US_STREET_TYPES } from "./us-street-types";
+export { STREET_TYPE_PROPER_CASE } from "./street-type-proper-case";
