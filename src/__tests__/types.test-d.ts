@@ -1,6 +1,6 @@
 import { expectType } from 'tsd';
 
-import type { ParsedAddress, ParsedIntersection, ParseOptions, AddressParser } from './types.js';
+import type { ParsedAddress, ParsedIntersection, ParseOptions, AddressParser } from '../types';
 
 // Test ParsedAddress type
 const address: ParsedAddress = {

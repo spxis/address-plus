@@ -182,4 +182,26 @@ describe('JSON-Based Address Parser Tests', () => {
       });
     });
   });
+
+  describe('US Null Cases', () => {
+    const nullCases = loadTestData('us', 'null-cases.json');
+    
+    nullCases.forEach((testCase, index) => {
+      it(`should return null for invalid input ${index + 1}: "${testCase.input}"`, () => {
+        const result = parseLocation(testCase.input);
+        expect(result).toBeNull();
+      });
+    });
+  });
+
+  describe('Canadian Null Cases', () => {
+    const nullCases = loadTestData('canada', 'null-cases.json');
+    
+    nullCases.forEach((testCase, index) => {
+      it(`should return null for invalid input ${index + 1}: "${testCase.input}"`, () => {
+        const result = parseLocation(testCase.input);
+        expect(result).toBeNull();
+      });
+    });
+  });
 });

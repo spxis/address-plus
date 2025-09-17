@@ -27,7 +27,10 @@ interface AddressTestCase {
 describe('Famous Address Parsing (JSON Data)', () => {
   // Load test data from JSON file
   const testDataPath = join(process.cwd(), 'test-data', 'us', 'famous.json');
-  const testCases: AddressTestCase[] = JSON.parse(readFileSync(testDataPath, 'utf-8'));
+  const data = JSON.parse(readFileSync(testDataPath, 'utf-8'));
+  
+  // Extract the test cases array from the JSON object
+  const testCases: AddressTestCase[] = data.famous_addresses || [];
 
   // Test each case from the JSON file
   testCases.forEach((testCase, index) => {

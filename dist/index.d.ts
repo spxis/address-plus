@@ -202,6 +202,14 @@ declare const DIRECTIONAL_MAP: Record<string, string>;
  * Common facility name patterns for extraction
  */
 declare const FACILITY_PATTERNS: RegExp[];
+/**
+ * Pattern for detecting delimiter-separated facility addresses
+ * Matches: "Any text, address components"
+ * This is a simple delimiter-based approach - if we have comma-separated parts
+ * and the first part doesn't look like typical address components (no numbers, street types),
+ * we treat it as a facility name and parse from the second part.
+ */
+declare const FACILITY_DELIMITER_PATTERN: RegExp;
 
 /**
  * Regular expressions for postal code patterns
@@ -398,4 +406,4 @@ declare function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined;
  */
 declare const parser: AddressParser;
 
-export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CANADIAN_POSTAL_LIBERAL_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_PATTERNS, PARENTHETICAL_PATTERN, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_PATTERN, SECONDARY_UNIT_TYPES, STREET_TYPE_PROPER_CASE, UNIT_TYPE_NUMBER_PATTERN, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeRegion, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };
+export { type AddressParser, CANADIAN_POSTAL_CODE_PATTERN, CANADIAN_POSTAL_LIBERAL_PATTERN, CA_PROVINCES, CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES, CA_PROVINCE_NAMES_EN, CA_PROVINCE_NAMES_FR, CA_REGIONS, CA_STREET_TYPES, DIRECTIONAL_MAP, FACILITY_DELIMITER_PATTERN, FACILITY_PATTERNS, PARENTHETICAL_PATTERN, type ParseOptions, type ParsedAddress, type ParsedIntersection, type Region, SECONDARY_UNIT_PATTERN, SECONDARY_UNIT_TYPES, STREET_TYPE_PROPER_CASE, UNIT_TYPE_NUMBER_PATTERN, US_REGIONS, US_STATES, US_STATE_ALTERNATIVES, US_STATE_NAMES, US_STREET_TYPES, ZIP_CODE_PATTERN, buildRegexFromDict, parser as default, detectCountry, normalizeRegion, normalizeText, parseAddress, parseDirectional, parseFacility, parseInformalAddress, parseIntersection, parseLocation, parseParenthetical, parsePostalCode, parseSecondaryUnit, parseStateProvince, parseStreetNumber, parseStreetType };

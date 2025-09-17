@@ -40,6 +40,7 @@ __export(index_exports, {
   CA_REGIONS: () => CA_REGIONS,
   CA_STREET_TYPES: () => CA_STREET_TYPES,
   DIRECTIONAL_MAP: () => DIRECTIONAL_MAP,
+  FACILITY_DELIMITER_PATTERN: () => FACILITY_DELIMITER_PATTERN,
   FACILITY_PATTERNS: () => FACILITY_PATTERNS,
   PARENTHETICAL_PATTERN: () => PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN: () => SECONDARY_UNIT_PATTERN,
@@ -260,6 +261,19 @@ var DIRECTIONAL_MAP = {
   se: "SE",
   sw: "SW",
   w: "W",
+  // Dotted forms (common in formal addresses)
+  "e.": "E",
+  "n.": "N",
+  "n.e.": "NE",
+  "ne.": "NE",
+  "n.w.": "NW",
+  "nw.": "NW",
+  "s.": "S",
+  "s.e.": "SE",
+  "se.": "SE",
+  "s.w.": "SW",
+  "sw.": "SW",
+  "w.": "W",
   // French (for Canada)
   est: "E",
   nord: "N",
@@ -268,7 +282,10 @@ var DIRECTIONAL_MAP = {
   ouest: "W",
   sud: "S",
   "sud-est": "SE",
-  "sud-ouest": "SW"
+  "sud-ouest": "SW",
+  // French dotted forms (different from English)
+  "o.": "W"
+  // Ouest
 };
 
 // src/data/facility-patterns.ts
@@ -278,6 +295,7 @@ var FACILITY_PATTERNS = [
   /\b(airport|station|terminal|depot|port|harbor|harbour)\b/i,
   /\b(park|recreation|rec center|community center|civic center)\b/i
 ];
+var FACILITY_DELIMITER_PATTERN = /^([^,]+),\s*(.+)$/;
 
 // src/data/postal-patterns.ts
 var ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
@@ -285,56 +303,57 @@ var CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)$/;
 
 // src/data/address-patterns.ts
 var SECONDARY_UNIT_PATTERN = /^(.*?)\s+((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s*$/i;
-var UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
+var UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
 var CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
 var PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
 
 // src/data/secondary-unit-types.ts
 var SECONDARY_UNIT_TYPES = {
-  apartment: "apt",
-  apartme: "apt",
-  apt: "apt",
-  basement: "bsmt",
-  bld: "bldg",
-  bldg: "bldg",
-  bsmt: "bsmt",
-  building: "bldg",
-  department: "dept",
-  dept: "dept",
-  fl: "fl",
-  floor: "fl",
-  flr: "fl",
-  front: "frnt",
-  frnt: "frnt",
-  hanger: "hngr",
-  hngr: "hngr",
-  key: "key",
-  lbby: "lbby",
-  lobby: "lbby",
-  lot: "lot",
-  lower: "lowr",
-  lowr: "lowr",
-  ofc: "ofc",
-  office: "ofc",
-  penthouse: "ph",
-  ph: "ph",
-  pier: "pier",
-  rear: "rear",
-  rm: "rm",
-  room: "rm",
-  side: "side",
-  slip: "slip",
-  space: "spc",
-  spc: "spc",
-  ste: "ste",
-  stop: "stop",
-  su: "ste",
-  suite: "ste",
-  trailer: "trlr",
-  trlr: "trlr",
-  unit: "unit",
-  upper: "uppr",
-  uppr: "uppr"
+  apartment: "Apt",
+  apartme: "Apt",
+  apt: "Apt",
+  basement: "Bsmt",
+  bld: "Bldg",
+  bldg: "Bldg",
+  bsmt: "Bsmt",
+  building: "Bldg",
+  department: "Dept",
+  dept: "Dept",
+  fl: "Fl",
+  floor: "Fl",
+  flr: "Fl",
+  front: "Frnt",
+  frnt: "Frnt",
+  gate: "Gate",
+  hanger: "Hngr",
+  hngr: "Hngr",
+  key: "Key",
+  lbby: "Lbby",
+  lobby: "Lbby",
+  lot: "Lot",
+  lower: "Lowr",
+  lowr: "Lowr",
+  ofc: "Ofc",
+  office: "Ofc",
+  penthouse: "Ph",
+  ph: "Ph",
+  pier: "Pier",
+  rear: "Rear",
+  rm: "Rm",
+  room: "Rm",
+  side: "Side",
+  slip: "Slip",
+  space: "Spc",
+  spc: "Spc",
+  ste: "Ste",
+  stop: "Stop",
+  su: "Ste",
+  suite: "Ste",
+  trailer: "Trlr",
+  trlr: "Trlr",
+  unit: "Unit",
+  upper: "Uppr",
+  uppr: "Uppr"
 };
 
 // src/data/us-states.ts
@@ -1434,9 +1453,34 @@ var buildPatterns = () => {
     zip: String.raw`(\d{5}(?:[-\s]\d{4})?)`,
     poBox: String.raw`(?:p\.?o\.?\s*box|post\s*office\s*box|pobox)\s*(\d+)`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
-    secUnit: String.raw`(?:(suite|ste|apt|apartment|unit|#)\s+([a-z0-9-]+))`
+    secUnit: String.raw`(?:(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate|#)\s+([a-z0-9-]+))`
   };
 };
+function hasValidAddressComponents(address) {
+  const patterns = buildPatterns();
+  if (!/[a-zA-Z]/.test(address) || address.trim().length < 3) {
+    return false;
+  }
+  const alphanumericCount = (address.match(/[a-zA-Z0-9]/g) || []).length;
+  if (alphanumericCount < address.length * 0.3) {
+    return false;
+  }
+  const hasNumber = /\d/.test(address);
+  const hasStreetType = new RegExp(`\\b(${patterns.streetType})\\b`, "i").test(address);
+  const hasDirectional = new RegExp(`\\b(${patterns.directional.slice(1, -1)})\\b`, "i").test(address);
+  const hasState = new RegExp(`\\b(${patterns.state.slice(2, -2)})\\b`, "i").test(address);
+  const hasZip = new RegExp(patterns.zip, "i").test(address);
+  const hasCommaStructure = address.includes(",");
+  const isIntersection = new RegExp(patterns.intersection, "i").test(address);
+  const hasPoBox = new RegExp(patterns.poBox, "i").test(address);
+  if (hasNumber || hasStreetType || hasDirectional || hasState || hasZip || hasCommaStructure || isIntersection || hasPoBox) {
+    return true;
+  }
+  if (address.trim().split(/\s+/).length >= 3) {
+    return true;
+  }
+  return false;
+}
 function parseLocation(address, options = {}) {
   if (!address || typeof address !== "string") {
     return null;
@@ -1478,11 +1522,27 @@ function normalizePoBoxType(type) {
 }
 function parseStandardAddress(address, options = {}) {
   const patterns = buildPatterns();
+  if (!hasValidAddressComponents(address)) {
+    return null;
+  }
   const commaParts = address.split(",").map((p) => p.trim());
+  let addressStartIndex = 0;
+  if (commaParts.length > 1) {
+    const firstPart = commaParts[0];
+    const hasAddressNumbers = /\d/.test(firstPart);
+    const hasStreetTypes = Object.keys(US_STREET_TYPES).some(
+      (type) => new RegExp(`\\b${type}\\b`, "i").test(firstPart)
+    ) || Object.keys(CA_STREET_TYPES).some(
+      (type) => new RegExp(`\\b${type}\\b`, "i").test(firstPart)
+    );
+    if (!hasAddressNumbers && !hasStreetTypes && commaParts.length > 1) {
+      addressStartIndex = 1;
+    }
+  }
   let zipPart = "";
   let statePart = "";
   let cityPart = "";
-  let addressPart = commaParts[0];
+  let addressPart = commaParts[addressStartIndex] || commaParts[0];
   const excludedPartIndices = /* @__PURE__ */ new Set();
   if (commaParts.length === 1) {
     let remainingText = address.trim();
@@ -1574,9 +1634,11 @@ function parseStandardAddress(address, options = {}) {
         }
       }
       if (commaParts.length > 2) {
-        for (let i = commaParts.length - 2; i >= 1; i--) {
+        for (let i = commaParts.length - 2; i >= Math.max(1, addressStartIndex); i--) {
           if (!excludedPartIndices.has(i)) {
-            cityPart = commaParts[i].trim();
+            if (!cityPart) {
+              cityPart = commaParts[i].trim();
+            }
             break;
           }
         }
@@ -1653,7 +1715,7 @@ function parseStandardAddress(address, options = {}) {
   if (commaParts.length > 2) {
     for (let i = 1; i < commaParts.length - 1; i++) {
       const part = commaParts[i].trim();
-      const unitMatch = part.match(/^(?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+$|^#\s*[a-z0-9-]+$/i);
+      const unitMatch = part.match(/^(?:suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+[a-z0-9-]+$|^#\s*[a-z0-9-]+$/i);
       if (unitMatch && !secondaryUnitPart) {
         secondaryUnitPart = part;
         excludedPartIndices.add(i);
@@ -1676,7 +1738,7 @@ function parseStandardAddress(address, options = {}) {
     secondaryInfo = parentheticalMatch[2].trim();
   }
   let remaining = addressPart.trim();
-  const prefixSecUnitMatch = remaining.match(/^((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s+(.*)$/i);
+  const prefixSecUnitMatch = remaining.match(/^((?:suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s+(.*)$/i);
   if (prefixSecUnitMatch) {
     const unitText = prefixSecUnitMatch[1];
     remaining = prefixSecUnitMatch[2];
@@ -1752,6 +1814,16 @@ function parseStandardAddress(address, options = {}) {
     remaining = "";
   }
   if (!result.type) {
+    const streetTypeWithDirectionalMatch = remaining.match(new RegExp(`^(.*?)\\s+\\b(${patterns.streetType.slice(1, -1)})\\.?\\s+(${patterns.directional.slice(1, -1)})\\s*$`, "i"));
+    if (streetTypeWithDirectionalMatch) {
+      result.street = streetTypeWithDirectionalMatch[1].trim();
+      result.type = normalizeStreetType(streetTypeWithDirectionalMatch[2]);
+      const normalizedDirectional = DIRECTIONAL_MAP[streetTypeWithDirectionalMatch[3].toLowerCase()];
+      result.suffix = normalizedDirectional || streetTypeWithDirectionalMatch[3].toUpperCase();
+      remaining = "";
+    }
+  }
+  if (!result.type) {
     const suffixMatch = remaining.match(new RegExp(`^(.*?)\\s+(${patterns.directional.slice(1, -1)})\\s*$`, "i"));
     if (suffixMatch) {
       remaining = suffixMatch[1];
@@ -1760,7 +1832,7 @@ function parseStandardAddress(address, options = {}) {
     }
   }
   if (!result.type) {
-    const streetTypeSuffixMatch = remaining.match(new RegExp(`^(.*?)\\s+\\b(${patterns.streetType.slice(1, -1)})\\b\\s*$`, "i"));
+    const streetTypeSuffixMatch = remaining.match(new RegExp(`^(.*?)\\s+\\b(${patterns.streetType.slice(1, -1)})\\.?\\s*$`, "i"));
     const streetTypePrefixMatch = remaining.match(new RegExp(`^\\b(${patterns.streetType.slice(1, -1)})\\b\\s+(.*)$`, "i"));
     if (streetTypeSuffixMatch) {
       result.street = streetTypeSuffixMatch[1].trim();
@@ -1780,7 +1852,10 @@ function parseStandardAddress(address, options = {}) {
     }
   }
   if (cityPart) result.city = cityPart;
-  if (statePart) result.state = statePart.toUpperCase();
+  if (statePart) {
+    const stateInfo = parseStateProvince(statePart);
+    result.state = stateInfo.state || statePart.toUpperCase();
+  }
   if (zipPart) {
     if (zipPart.includes("-")) {
       const zipParts = zipPart.split("-");
@@ -1797,6 +1872,9 @@ function parseStandardAddress(address, options = {}) {
 }
 function parseInformalAddress(address, options = {}) {
   const patterns = buildPatterns();
+  if (!hasValidAddressComponents(address)) {
+    return null;
+  }
   const parts = address.split(/\s*,\s*/);
   if (parts.length === 0) return null;
   const result = {};
@@ -1926,6 +2004,7 @@ var index_default = parser2;
   CA_REGIONS,
   CA_STREET_TYPES,
   DIRECTIONAL_MAP,
+  FACILITY_DELIMITER_PATTERN,
   FACILITY_PATTERNS,
   PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN,

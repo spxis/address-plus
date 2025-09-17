@@ -24,9 +24,9 @@ function loadTestData(country: 'us' | 'canada', filename: string): any[] {
     return data;
   }
   
-  // Otherwise, extract the array from the object (e.g., data.basic_addresses, data.intersections, etc.)
-  const key = Object.keys(data)[0];
-  return data[key] || [];
+  // Otherwise, extract the array from the first key that isn't 'description'
+  const firstKey = Object.keys(data).find(key => key !== 'description');
+  return firstKey ? data[firstKey] || [] : [];
 }
 
 describe('Parse-Address Compatibility Tests', () => {

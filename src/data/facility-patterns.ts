@@ -12,4 +12,13 @@ const FACILITY_PATTERNS = [
   /\b(park|recreation|rec center|community center|civic center)\b/i,
 ];
 
-export { FACILITY_PATTERNS };
+/**
+ * Pattern for detecting delimiter-separated facility addresses
+ * Matches: "Any text, address components"
+ * This is a simple delimiter-based approach - if we have comma-separated parts
+ * and the first part doesn't look like typical address components (no numbers, street types),
+ * we treat it as a facility name and parse from the second part.
+ */
+const FACILITY_DELIMITER_PATTERN = /^([^,]+),\s*(.+)$/;
+
+export { FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN };

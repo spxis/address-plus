@@ -12,7 +12,7 @@ export const SECONDARY_UNIT_PATTERN = /^(.*?)\s+((?:suite|ste|apt|apartment|unit
  * Pattern for extracting unit type and number
  * Used to parse the secondary unit match
  */
-export const UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
+export const UNIT_TYPE_NUMBER_PATTERN = /(suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate)\s+([a-z0-9-]+)|#\s*([a-z0-9-]+)/i;
 
 /**
  * Pattern for Canadian postal codes (more liberal matching)
