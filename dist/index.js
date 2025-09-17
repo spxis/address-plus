@@ -1432,8 +1432,7 @@ function parseStandardAddress(address, options = {}) {
     }
     if (remainingText) {
       const hasState = !!statePart;
-      const shouldExtractCity = hasState || remainingText.split(/\s+/).length > 3;
-      if (shouldExtractCity) {
+      if (hasState) {
         const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
         const twoWordCityMatch = remainingText.match(/\s+([A-Za-z]+\s+[A-Za-z]+)$/);
         let potentialCity = "";
@@ -1457,6 +1456,20 @@ function parseStandardAddress(address, options = {}) {
           } else {
             cityPart = potentialCity;
             remainingText = remainingText.replace(matchToReplace, "").trim();
+          }
+        }
+      } else {
+        const wordCount = remainingText.split(/\s+/).length;
+        if (wordCount >= 5) {
+          const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
+          if (singleWordCityMatch) {
+            const potentialCity = singleWordCityMatch[1].trim();
+            const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, "i").test(potentialCity);
+            const isDirectional = new RegExp(`^(${patterns.directional.slice(1, -1)})$`, "i").test(potentialCity);
+            if (!isStreetType && !isDirectional && potentialCity.length > 2) {
+              cityPart = potentialCity;
+              remainingText = remainingText.replace(singleWordCityMatch[0], "").trim();
+            }
           }
         }
       }
@@ -1589,6 +1602,22 @@ function parseStandardAddress(address, options = {}) {
     secondaryInfo = parentheticalMatch[2].trim();
   }
   let remaining = addressPart.trim();
+  const prefixSecUnitMatch = remaining.match(/^((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s+(.*)$/i);
+  if (prefixSecUnitMatch) {
+    const unitText = prefixSecUnitMatch[1];
+    remaining = prefixSecUnitMatch[2];
+    const unitParts = unitText.match(UNIT_TYPE_NUMBER_PATTERN);
+    if (unitParts) {
+      if (unitParts[1] && unitParts[2]) {
+        const rawType = unitParts[1].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[2];
+      } else if (unitParts[3]) {
+        result.sec_unit_type = "#";
+        result.sec_unit_num = unitParts[3];
+      }
+    }
+  }
   let numberMatch = remaining.match(new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, "i"));
   if (!numberMatch) {
     const numberDirectionalMatch = remaining.match(new RegExp(`^(\\d+)(${patterns.directional.slice(1, -1)})\\s+(.*)$`, "i"));

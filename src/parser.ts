@@ -191,13 +191,11 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     if (remainingText) {
       // Look for city at the end of remaining text, but be smart about it
       // If we have a state, we can be more confident about city extraction
-      // If no state, only extract city if remaining text is long enough to have address + city
+      // If no state, only extract city if we can clearly identify a non-street-type word
       const hasState = !!statePart;
-      const shouldExtractCity = hasState || remainingText.split(/\s+/).length > 3;
       
-      if (shouldExtractCity) {
-        // City is typically 1-2 words at the end, prefer longer matches first
-        // But first check if the word is a street type - if so, don't treat it as city
+      if (hasState) {
+        // With state, we can confidently extract city as usual
         const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
         const twoWordCityMatch = remainingText.match(/\s+([A-Za-z]+\s+[A-Za-z]+)$/);
         
@@ -229,6 +227,26 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           } else {
             cityPart = potentialCity;
             remainingText = remainingText.replace(matchToReplace, '').trim();
+          }
+        }
+      } else {
+        // Without state, be very conservative about city extraction
+        // Only extract if we have a clear non-street-type word at the end
+        // AND the remaining text suggests a full address (at least 4+ words)
+        const wordCount = remainingText.split(/\s+/).length;
+        if (wordCount >= 5) { // More conservative: at least "number prefix street type city"
+          const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
+          
+          if (singleWordCityMatch) {
+            const potentialCity = singleWordCityMatch[1].trim();
+            const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, 'i').test(potentialCity);
+            const isDirectional = new RegExp(`^(${patterns.directional.slice(1, -1)})$`, 'i').test(potentialCity);
+            
+            // Only extract if it's clearly not a street component
+            if (!isStreetType && !isDirectional && potentialCity.length > 2) {
+              cityPart = potentialCity;
+              remainingText = remainingText.replace(singleWordCityMatch[0], '').trim();
+            }
           }
         }
       }
@@ -389,6 +407,28 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Parse address part using step-by-step approach
   let remaining = addressPart.trim();
+  
+  // 0. Check for secondary unit at the beginning (e.g., "#42 233 S Wacker Dr")
+  const prefixSecUnitMatch = remaining.match(/^((?:suite|ste|apt|apartment|unit)\s+[a-z0-9-]+|#\s*[a-z0-9-]+)\s+(.*)$/i);
+  if (prefixSecUnitMatch) {
+    const unitText = prefixSecUnitMatch[1];
+    remaining = prefixSecUnitMatch[2];
+    
+    // Parse the unit type and number
+    const unitParts = unitText.match(UNIT_TYPE_NUMBER_PATTERN);
+    if (unitParts) {
+      if (unitParts[1] && unitParts[2]) {
+        // Standard format: "apt 123", "suite 5A", etc.
+        const rawType = unitParts[1].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[2];
+      } else if (unitParts[3]) {
+        // Hash format: "#123", "# 123"
+        result.sec_unit_type = "#";
+        result.sec_unit_num = unitParts[3];
+      }
+    }
+  }
   
   // 1. Extract number (including fractions and complex formats)
   // First try the standard pattern with space after number
