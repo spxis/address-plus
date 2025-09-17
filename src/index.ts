@@ -3,18 +3,8 @@
  * API-compatible with parse-address for seamless upgrades
  */
 
-import type { AddressParser } from './types.js';
-import { parseLocation, parseIntersection, parseInformalAddress, parseAddress } from './parser.js';
-
-// Export all types
-export type * from './types.js';
-
-// Export parser functions
-export { parseLocation, parseIntersection, parseInformalAddress, parseAddress };
-
-// Export data and utilities for advanced usage
-export * from './data.js';
-export * from './utils.js';
+import type { AddressParser } from "./types";
+import { parseAddress, parseInformalAddress, parseIntersection, parseLocation } from "./parser";
 
 /**
  * Default export for API compatibility with parse-address
@@ -29,5 +19,15 @@ const parser: AddressParser = {
   parseInformalAddress,
   parseAddress,
 };
+
+// Export all types
+export type * from "./types";
+
+// Export parser functions
+export { parseAddress, parseInformalAddress, parseIntersection, parseLocation };
+
+// Export data and utilities for advanced usage
+export * from "./data";
+export * from "./utils";
 
 export default parser;

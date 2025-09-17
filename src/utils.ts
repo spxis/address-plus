@@ -18,7 +18,7 @@ import { ParsedAddress, ParseOptions } from './types';
 /**
  * Normalize text for consistent parsing
  */
-export function normalizeText(text: string): string {
+function normalizeText(text: string): string {
   return text
     .toLowerCase()
     .replace(/\s+/g, ' ')
@@ -29,7 +29,7 @@ export function normalizeText(text: string): string {
 /**
  * Build regex patterns from dictionary
  */
-export function buildRegexFromDict(dict: Record<string, string>, capture = true): RegExp {
+function buildRegexFromDict(dict: Record<string, string>, capture = true): RegExp {
   const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
   const pattern = keys.map(key => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
   return new RegExp(capture ? `\\b(${pattern})\\b` : `\\b(?:${pattern})\\b`, 'i');
@@ -38,7 +38,7 @@ export function buildRegexFromDict(dict: Record<string, string>, capture = true)
 /**
  * Extract and normalize directional
  */
-export function parseDirectional(text: string): { direction: string | undefined; remaining: string } {
+function parseDirectional(text: string): { direction: string | undefined; remaining: string } {
   const dirPattern = buildRegexFromDict(DIRECTIONAL_MAP);
   const match = text.match(dirPattern);
   
@@ -54,7 +54,7 @@ export function parseDirectional(text: string): { direction: string | undefined;
 /**
  * Extract and normalize street type
  */
-export function parseStreetType(text: string, country: 'US' | 'CA' = 'US'): { type: string | undefined; remaining: string } {
+function parseStreetType(text: string, country: 'US' | 'CA' = 'US'): { type: string | undefined; remaining: string } {
   const typeMap = country === 'CA' ? { ...US_STREET_TYPES, ...CA_STREET_TYPES } : US_STREET_TYPES;
   const typePattern = buildRegexFromDict(typeMap);
   const match = text.match(typePattern);
@@ -71,7 +71,7 @@ export function parseStreetType(text: string, country: 'US' | 'CA' = 'US'): { ty
 /**
  * Extract state or province  
  */
-export function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
+function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
   // Try US state abbreviations first (more specific than full names)
   const usAbbrevPattern = new RegExp(`\\b(${Object.values(US_STATES).join('|')})\\b`, 'i');
   let match = text.match(usAbbrevPattern);
@@ -112,9 +112,9 @@ export function parseStateProvince(text: string, country?: 'US' | 'CA'): { state
 }
 
 /**
- * Extract ZIP or postal code
+ * Extract postal code (ZIP or Canadian postal code)
  */
-export function parsePostalCode(text: string): { zip: string | undefined; zipext: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
+function parsePostalCode(text: string): { zip: string | undefined; zipext: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
   // Try US ZIP code - look for it anywhere in the text
   const zipMatch = text.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
   if (zipMatch) {
@@ -136,9 +136,9 @@ export function parsePostalCode(text: string): { zip: string | undefined; zipext
 }
 
 /**
- * Extract secondary unit information
+ * Parse secondary unit information (apartment, suite, etc.)
  */
-export function parseSecondaryUnit(text: string): { 
+function parseSecondaryUnit(text: string): { 
   unit: string | undefined; 
   sec_unit_type: string | undefined; 
   sec_unit_num: string | undefined; 
@@ -172,7 +172,10 @@ export function parseSecondaryUnit(text: string): {
 /**
  * Extract facility names
  */
-export function parseFacility(text: string): { facility: string | undefined; remaining: string } {
+/**
+ * Parse facility information from address
+ */
+function parseFacility(text: string): { facility: string | undefined; remaining: string } {
   for (const pattern of FACILITY_PATTERNS) {
     const match = text.match(pattern);
     if (match) {
@@ -192,7 +195,7 @@ export function parseFacility(text: string): { facility: string | undefined; rem
 /**
  * Parse parenthetical information
  */
-export function parseParenthetical(text: string): { secondary: string | undefined; remaining: string } {
+function parseParenthetical(text: string): { secondary: string | undefined; remaining: string } {
   const parenMatch = text.match(/\(([^)]+)\)/);
   if (parenMatch) {
     const secondary = parenMatch[1].trim();
@@ -206,7 +209,7 @@ export function parseParenthetical(text: string): { secondary: string | undefine
 /**
  * Extract street number (including fractional)
  */
-export function parseStreetNumber(text: string): { number: string | undefined; remaining: string } {
+function parseStreetNumber(text: string): { number: string | undefined; remaining: string } {
   // Handle fractional numbers like "123 1/2" or "123-1/2"
   const fracMatch = text.match(/^\s*(\d+(?:\s*[-\/]\s*\d+\/\d+|\s+\d+\/\d+)?)\b/);
   if (fracMatch) {
@@ -229,7 +232,7 @@ export function parseStreetNumber(text: string): { number: string | undefined; r
 /**
  * Detect country from address components
  */
-export function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined {
+function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined {
   if (address.state) {
     if (Object.values(US_STATES).includes(address.state) || Object.keys(US_STATES).includes(address.state.toLowerCase())) {
       return 'US';
@@ -250,3 +253,17 @@ export function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined {
   
   return undefined;
 }
+
+export {
+  buildRegexFromDict,
+  detectCountry,
+  normalizeText,
+  parseDirectional,
+  parseFacility,
+  parseParenthetical,
+  parsePostalCode,
+  parseSecondaryUnit,
+  parseStateProvince,
+  parseStreetNumber,
+  parseStreetType,
+};
