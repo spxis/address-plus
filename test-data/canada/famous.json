@@ -9,7 +9,8 @@
       "state": "ON",
       "zip": "K1M 1M4",
       "country": "CA"
-    }
+    },
+    "description": "Prime Minister's residence - Ottawa"
   },
   {
     "input": "111 Wellington Street Ottawa ON K1A 0A6",
@@ -21,7 +22,8 @@
       "state": "ON",
       "zip": "K1A 0A6",
       "country": "CA"
-    }
+    },
+    "description": "Parliament Hill Centre Block - Ottawa"
   },
   {
     "input": "53-55 Water Street Vancouver BC V6B 1A1",
@@ -33,7 +35,8 @@
       "state": "BC",
       "zip": "V6B 1A1",
       "country": "CA"
-    }
+    },
+    "description": "Historic Gastown district - Vancouver"
   },
   {
     "input": "301 Front Street West Toronto ON M5V 2T6",
@@ -46,7 +49,8 @@
       "state": "ON",
       "zip": "M5V 2T6",
       "country": "CA"
-    }
+    },
+    "description": "CN Tower vicinity - Toronto"
   },
   {
     "input": "100 Queen Street Ottawa ON K1P 1J9",
@@ -58,7 +62,8 @@
       "state": "ON",
       "zip": "K1P 1J9",
       "country": "CA"
-    }
+    },
+    "description": "Parliamentary precinct area - Ottawa"
   },
   {
     "input": "1000 Rue De La Gauchetière Ouest Montréal QC H3B 4W5",
@@ -71,7 +76,8 @@
       "state": "QC",
       "zip": "H3B 4W5",
       "country": "CA"
-    }
+    },
+    "description": "Place Ville Marie district - Montréal"
   },
   {
     "input": "1 Blue Jays Way Toronto ON M5V 1J1",
@@ -83,7 +89,8 @@
       "state": "ON",
       "zip": "M5V 1J1",
       "country": "CA"
-    }
+    },
+    "description": "Rogers Centre (SkyDome) - Toronto"
   },
   {
     "input": "233 Queen Street Ottawa ON K1A 0H6",
@@ -95,7 +102,8 @@
       "state": "ON",
       "zip": "K1A 0H6",
       "country": "CA"
-    }
+    },
+    "description": "Government buildings district - Ottawa"
   },
   {
     "input": "675 Belleville Street Victoria BC V8W 9W2",
@@ -107,7 +115,8 @@
       "state": "BC",
       "zip": "V8W 9W2",
       "country": "CA"
-    }
+    },
+    "description": "BC Parliament Buildings area - Victoria"
   },
   {
     "input": "85 Canada Olympic Road SW Calgary AB T3B 5R5",
@@ -120,7 +129,8 @@
       "state": "AB",
       "zip": "T3B 5R5",
       "country": "CA"
-    }
+    },
+    "description": "Canada Olympic Park - Calgary"
   },
   {
     "input": "405 6 Avenue SE Calgary AB T2G 2E9",
@@ -133,7 +143,8 @@
       "state": "AB",
       "zip": "T2G 2E9",
       "country": "CA"
-    }
+    },
+    "description": "Downtown Calgary with numbered avenue and directional suffix"
   },
   {
     "input": "1900 Heritage Drive SW Calgary AB T2V 2X3",
@@ -146,7 +157,8 @@
       "state": "AB",
       "zip": "T2V 2X3",
       "country": "CA"
-    }
+    },
+    "description": "Heritage Park area - Calgary"
   },
   {
     "input": "3401 Ridgeway Drive Mississauga ON L5L 5Y6",
@@ -158,7 +170,8 @@
       "state": "ON",
       "zip": "L5L 5Y6",
       "country": "CA"
-    }
+    },
+    "description": "Mississauga residential area without directional suffix"
   },
   {
     "input": "1 Rideau Street Ottawa ON K1N 8S7",
@@ -170,7 +183,8 @@
       "state": "ON",
       "zip": "K1N 8S7",
       "country": "CA"
-    }
+    },
+    "description": "Rideau Centre shopping area - Ottawa"
   },
   {
     "input": "1000 Palladium Drive Ottawa ON K2V 1A5",
@@ -182,7 +196,8 @@
       "state": "ON",
       "zip": "K2V 1A5",
       "country": "CA"
-    }
+    },
+    "description": "Canadian Tire Centre area - Ottawa"
   },
   {
     "input": "1 Harbour Square Toronto ON M5J 1A6",
@@ -194,7 +209,8 @@
       "state": "ON",
       "zip": "M5J 1A6",
       "country": "CA"
-    }
+    },
+    "description": "Harbourfront area with square street type - Toronto"
   },
   {
     "input": "1000 Finch Avenue West Toronto ON M3J 2V5",
@@ -207,7 +223,8 @@
       "state": "ON",
       "zip": "M3J 2V5",
       "country": "CA"
-    }
+    },
+    "description": "North Toronto with west directional suffix"
   },
   {
     "input": "1 University Avenue Toronto ON M5J 2P1",
@@ -219,7 +236,8 @@
       "state": "ON",
       "zip": "M5J 2P1",
       "country": "CA"
-    }
+    },
+    "description": "Downtown Toronto financial district on University Avenue"
   },
   {
     "input": "100 Laurier Street Gatineau QC J8X 4H4",
@@ -231,7 +249,8 @@
       "state": "QC",
       "zip": "J8X 4H4",
       "country": "CA"
-    }
+    },
+    "description": "Gatineau municipal area - Quebec"
   },
   {
     "input": "300 Boulevard René-Lévesque Est Québec QC G1R 5V7",
@@ -244,7 +263,8 @@
       "state": "QC",
       "zip": "G1R 5V7",
       "country": "CA"
-    }
+    },
+    "description": "Québec City boulevard with hyphenated name and east suffix"
   },
   {
     "input": "1 Canal Street Montréal QC H3B 5E8",
@@ -256,7 +276,8 @@
       "state": "QC",
       "zip": "H3B 5E8",
       "country": "CA"
-    }
+    },
+    "description": "Old Port area near Lachine Canal - Montréal"
   },
   {
     "input": "100 Rue Saint-Antoine Ouest Montréal QC H2Z 1B4",
@@ -269,7 +290,8 @@
       "state": "QC",
       "zip": "H2Z 1B4",
       "country": "CA"
-    }
+    },
+    "description": "French street format with Rue type and west suffix - Montréal"
   },
   {
     "input": "999 Canada Place Vancouver BC V6C 3T4",
@@ -281,7 +303,8 @@
       "state": "BC",
       "zip": "V6C 3T4",
       "country": "CA"
-    }
+    },
+    "description": "Canada Place waterfront convention center - Vancouver"
   },
   {
     "input": "317 Dundas Street West Toronto ON M5T 1G4",
@@ -294,7 +317,8 @@
       "state": "ON",
       "zip": "M5T 1G4",
       "country": "CA"
-    }
+    },
+    "description": "Art Gallery of Toronto area with west directional suffix"
   },
   {
     "input": "380 Sussex Drive Ottawa ON K1N 9N4",
@@ -306,7 +330,8 @@
       "state": "ON",
       "zip": "K1N 9N4",
       "country": "CA"
-    }
+    },
+    "description": "Rideau Hall area on Sussex Drive - Ottawa"
   },
   {
     "input": "200 Main Street Winnipeg MB R3C 1A8",

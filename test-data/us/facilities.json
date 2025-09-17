@@ -1,0 +1,156 @@
+{
+  "description": "US facility addresses with varied formatting - em dash, comma, newline, and space separators to reflect real-world diversity",
+  "facilities": [
+    {
+      "input": "Fenway Park – 4 Jersey Street, Boston MA 02215",
+      "expected": {
+        "street": "Fenway Park – 4 Jersey",
+        "type": "St",
+        "state": "BOSTON MA",
+        "zip": "02215"
+      },
+      "description": "Fenway Park with em dash separator"
+    },
+    {
+      "input": "Harvard University, Massachusetts Hall, Cambridge MA 02138",
+      "expected": {
+        "street": "Harvard University",
+        "city": "Massachusetts Hall",
+        "state": "CAMBRIDGE MA",
+        "zip": "02138"
+      },
+      "description": "Harvard University with building name as city"
+    },
+    {
+      "input": "Golden Gate Bridge Welcome Center\nGolden Gate Bridge Hwy 101, San Francisco CA 94129",
+      "expected": {
+        "street": "Golden Gate Bridge Welcome Center\nGolden Gate Bridge Hwy 101",
+        "state": "SAN FRANCISCO CA",
+        "zip": "94129"
+      },
+      "description": "Bridge visitor center with newline and highway designation"
+    },
+    {
+      "input": "Yosemite National Park Visitor Center 9035 Village Drive, Yosemite Valley CA 95389",
+      "expected": {
+        "street": "Yosemite National Park Visitor Center 9035 Village",
+        "type": "Dr",
+        "state": "YOSEMITE VALLEY CA",
+        "zip": "95389"
+      },
+      "description": "National park visitor center with space separator"
+    },
+    {
+      "input": "Lincoln Memorial - 2 Lincoln Memorial Circle NW, Washington DC 20037",
+      "expected": {
+        "suffix": "NW",
+        "street": "Lincoln Memorial - 2 Lincoln Memorial",
+        "type": "Cir",
+        "state": "WASHINGTON DC",
+        "zip": "20037"
+      },
+      "description": "Memorial with dash separator and directional suffix"
+    },
+    {
+      "input": "The Pentagon: 1400 Defense Pentagon, Washington DC 20301",
+      "expected": {
+        "street": "The Pentagon: 1400 Defense Pentagon",
+        "state": "WASHINGTON DC",
+        "zip": "20301"
+      },
+      "description": "Pentagon with colon separator and military address format"
+    },
+    {
+      "input": "The White House\n1600 Pennsylvania Avenue NW, Washington DC 20500",
+      "expected": {
+        "street": "The White House\n1600 Pennsylvania Avenue NW",
+        "state": "WASHINGTON DC",
+        "zip": "20500"
+      },
+      "description": "White House with newline separator"
+    },
+    {
+      "input": "Walt Disney World Resort, 1375 E Buena Vista Drive, Lake Buena Vista FL 32830",
+      "expected": {
+        "street": "Walt Disney World Resort",
+        "city": "1375 E Buena Vista Drive",
+        "state": "LAKE BUENA VISTA FL",
+        "zip": "32830"
+      },
+      "description": "Theme park resort with comma separators"
+    },
+    {
+      "input": "Willis Tower\n233 S Wacker Drive\nChicago IL 60606",
+      "expected": {
+        "street": "Willis Tower\n233 S Wacker Drive",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60606"
+      },
+      "description": "Skyscraper with newline-formatted address"
+    },
+    {
+      "input": "Empire State Building (350 5th Avenue, New York NY 10118)",
+      "expected": {
+        "street": "Empire State Building (350 5th",
+        "type": "Ave",
+        "state": "NEW YORK NY )",
+        "zip": "10118"
+      },
+      "description": "Landmark with full parenthetical address"
+    },
+    {
+      "input": "Madison Square Garden | 4 Pennsylvania Plaza, New York NY 10001",
+      "expected": {
+        "street": "Madison Square Garden | 4 Pennsylvania",
+        "type": "Plz",
+        "state": "NEW YORK NY",
+        "zip": "10001"
+      },
+      "description": "Arena with pipe separator and Plaza type"
+    },
+    {
+      "input": "Statue of Liberty National Monument  Liberty Island, New York NY 10004",
+      "expected": {
+        "street": "Statue of Liberty National Monument  Liberty",
+        "type": "Is",
+        "state": "NEW YORK NY",
+        "zip": "10004"
+      },
+      "description": "Monument with double space separator and Island type"
+    },
+    {
+      "input": "Space Needle; 400 Broad Street, Seattle WA 98109",
+      "expected": {
+        "street": "Space Needle; 400 Broad",
+        "type": "St",
+        "state": "SEATTLE WA",
+        "zip": "98109"
+      },
+      "description": "Landmark with semicolon separator"
+    },
+    {
+      "input": "Mount Rushmore National Memorial\n13000 SD‑244\nKeystone SD 57751",
+      "expected": {
+        "street": "Mount Rushmore National Memorial\n13000‑244\nKeystone",
+        "city": "SD",
+        "state": "SD",
+        "zip": "57751"
+      },
+      "description": "Memorial with state highway en-dash designation"
+    },
+    {
+      "input": "Grand Canyon Visitor Center at 20 South Entrance Road, Grand Canyon AZ 86023",
+      "expected": {
+        "city": "Grand Canyon",
+        "state": "AZ",
+        "zip": "86023",
+        "street1": "Grand Canyon Visitor",
+        "type1": "Ctr",
+        "street2": "20 South Entrance",
+        "type2": "Rd"
+      },
+      "description": "Visitor center with 'at' preposition separator"
+    }
+  ]
+}

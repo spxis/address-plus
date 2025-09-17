@@ -1,37 +1,41 @@
 {
+  "description": "US street intersection parsing test cases with various intersection delimiters (& and) and street type combinations",
   "intersections": [
     {
       "input": "Mission & Valencia San Francisco CA",
       "expected": {
-        "street1": "Mission",
-        "street2": "Valencia",
         "city": "San Francisco",
         "state": "CA",
-        "type2": "",
-        "type1": ""
-      }
+        "street1": "Mission",
+        "type1": "",
+        "street2": "Valencia",
+        "type2": ""
+      },
+      "description": "Basic intersection with ampersand separator"
     },
     {
       "input": "Mission & Valencia, San Francisco CA",
       "expected": {
-        "street1": "Mission",
-        "street2": "Valencia",
         "city": "San Francisco",
         "state": "CA",
-        "type2": "",
-        "type1": ""
-      }
+        "street1": "Mission",
+        "type1": "",
+        "street2": "Valencia",
+        "type2": ""
+      },
+      "description": "Intersection with ampersand and comma before city"
     },
     {
       "input": "Mission St and Valencia St San Francisco CA",
       "expected": {
+        "city": "San Francisco",
+        "state": "CA",
         "street1": "Mission",
         "type1": "St",
         "street2": "Valencia",
-        "type2": "St",
-        "city": "San Francisco",
-        "state": "CA"
-      }
+        "type2": "St"
+      },
+      "description": "Intersection with 'and' connector and city location"
     },
     {
       "input": "Mission St and Valencia St",
@@ -40,71 +44,114 @@
         "type1": "St",
         "street2": "Valencia",
         "type2": "St"
-      }
+      },
+      "description": "Intersection with 'and' connector - no location"
     },
     {
       "input": "Mission St & Valencia St San Francisco CA",
       "expected": {
+        "city": "San Francisco",
+        "state": "CA",
         "street1": "Mission",
         "type1": "St",
         "street2": "Valencia",
-        "type2": "St",
-        "city": "San Francisco",
-        "state": "CA"
-      }
+        "type2": "St"
+      },
+      "description": "Intersection with individual street types"
     },
     {
       "input": "Mission and Valencia Sts San Francisco CA",
       "expected": {
-        "street1": "Mission",
-        "street2": "Valencia",
-        "type2": "St",
         "city": "San Francisco",
         "state": "CA",
-        "type1": "St"
-      }
+        "street1": "Mission",
+        "type1": "",
+        "street2": "Valencia",
+        "type2": "Sts"
+      },
+      "description": "Intersection with plural 'Sts' for second street"
     },
     {
       "input": "Mission & Valencia Sts. San Francisco CA",
       "expected": {
-        "street1": "Mission",
-        "street2": "Valencia",
-        "type2": "St",
         "city": "San Francisco",
         "state": "CA",
-        "type1": "St"
-      }
+        "street1": "Mission",
+        "type1": "",
+        "street2": "Valencia",
+        "type2": "Sts"
+      },
+      "description": "Intersection with abbreviated 'Sts.' and period"
     },
     {
       "input": "Mission and Valencia Sts.",
       "expected": {
         "street1": "Mission",
+        "type1": "",
         "street2": "Valencia",
-        "type2": "St",
-        "type1": "St"
-      }
+        "type2": "Sts"
+      },
+      "description": "Intersection without location - 'and' connector with period"
     },
     {
       "input": "Mission & Valencia Streets San Francisco CA",
       "expected": {
-        "street1": "Mission",
-        "street2": "Valencia",
-        "type2": "St",
         "city": "San Francisco",
         "state": "CA",
-        "type1": "St"
-      }
+        "street1": "Mission",
+        "type1": "",
+        "street2": "Valencia",
+        "type2": "Sts"
+      },
+      "description": "Intersection with full word 'Streets'"
     },
     {
       "input": "Mission Avenue and Valencia Street San Francisco CA",
       "expected": {
+        "city": "San Francisco",
+        "state": "CA",
         "street1": "Mission",
         "type1": "Ave",
         "street2": "Valencia",
-        "type2": "St",
-        "city": "San Francisco",
-        "state": "CA"
-      }
+        "type2": "St"
+      },
+      "description": "Intersection with different street types for each street"
+    },
+    {
+      "input": "Main St and Oak Ave, Springfield, IL",
+      "expected": {
+        "city": "Springfield",
+        "state": "IL",
+        "street1": "Main",
+        "type1": "St",
+        "street2": "Oak",
+        "type2": "Ave"
+      },
+      "description": "Generic intersection in Springfield with comma separators"
+    },
+    {
+      "input": "N Main St & E Oak Ave",
+      "expected": {
+        "prefix1": "N",
+        "street1": "Main",
+        "type1": "St",
+        "prefix2": "E",
+        "street2": "Oak",
+        "type2": "Ave"
+      },
+      "description": "Intersection with directional prefixes for both streets"
+    },
+    {
+      "input": "Broadway @ 42nd St, New York, NY",
+      "expected": {
+        "city": "New York",
+        "state": "NY",
+        "street1": "Broadway",
+        "type1": "",
+        "street2": "42nd",
+        "type2": "St"
+      },
+      "description": "Intersection using '@' symbol as separator"
     }
   ]
 }

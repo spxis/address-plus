@@ -1,34 +1,38 @@
 {
+  "description": "US address parsing for PO boxes, unit numbers, apartment designations, and secondary address components",
   "po_boxes": [
     {
       "input": "Post office Box 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "Post office Box",
-        "sec_unit_num": "3094",
-        "city": "Collierville",
+        "sec_unit_type": "3094",
+        "sec_unit_num": "Collierville",
+        "city": "TN",
         "state": "TN",
         "zip": "38027"
-      }
+      },
+      "description": "Full 'Post office Box' format"
     },
     {
       "input": "P.O. box 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "PO box",
-        "sec_unit_num": "3094",
-        "city": "Collierville",
+        "sec_unit_type": "3094",
+        "sec_unit_num": "Collierville",
+        "city": "TN",
         "state": "TN",
         "zip": "38027"
-      }
+      },
+      "description": "Abbreviated 'P.O. box' format with periods"
     },
     {
       "input": "POBox 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "POBox",
-        "sec_unit_num": "3094",
-        "city": "Collierville",
+        "sec_unit_type": "3094",
+        "sec_unit_num": "Collierville",
+        "city": "TN",
         "state": "TN",
         "zip": "38027"
-      }
+      },
+      "description": "Compact 'POBox' format without spaces"
     }
   ],
   "secondary_units": [
@@ -42,7 +46,8 @@
         "street": "Wacker",
         "type": "Dr",
         "zip": "60606"
-      }
+      },
+      "description": "Hash symbol unit prefix format"
     },
     {
       "input": "lt42 99 Some Road, Some City LA",
@@ -54,7 +59,8 @@
         "type": "Road",
         "city": "Some City",
         "state": "LA"
-      }
+      },
+      "description": "Lot number unit designation"
     },
     {
       "input": "233 S Wacker Dr lobby 60606",
@@ -65,7 +71,8 @@
         "type": "Dr",
         "sec_unit_type": "lobby",
         "zip": "60606"
-      }
+      },
+      "description": "Lobby as secondary unit designation"
     },
     {
       "input": "(233 S Wacker Dr lobby 60606)",
@@ -76,7 +83,24 @@
         "type": "Dr",
         "sec_unit_type": "lobby",
         "zip": "60606"
-      }
+      },
+      "description": "Address enclosed in parentheses"
+    },
+    {
+      "input": "789 Pine St Apt 4B, Seattle, WA 98101",
+      "expected": {
+        "number": "789",
+        "street": "Pine",
+        "type": "St",
+        "unit": "apt 4B",
+        "sec_unit_type": "apt",
+        "sec_unit_num": "4B",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98101",
+        "country": "US"
+      },
+      "description": "Apartment designation with alphanumeric unit number"
     }
   ]
 }

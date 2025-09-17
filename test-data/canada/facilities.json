@@ -1,0 +1,165 @@
+{
+  "description": "Canadian facility addresses with varied formatting - em dash, comma, newline, colon, and space separators reflecting real-world Canadian address diversity",
+  "facilities": [
+    {
+      "input": "Rogers Place – 10220 104 Avenue NW, Edmonton AB T5J 0H6",
+      "expected": {
+        "suffix": "NW",
+        "street": "Rogers Place – 10220 104",
+        "type": "Ave",
+        "city": "Edmonton",
+        "state": "AB",
+        "zip": "T5J 0H6"
+      },
+      "description": "Rogers Place arena with em dash separator - Edmonton"
+    },
+    {
+      "input": "BC Children's Hospital, 4480 Oak Street, Vancouver BC V6H 3N1",
+      "expected": {
+        "street": "BC Children's Hospital",
+        "city": "4480 Oak Street",
+        "state": "VANCOUVER BC",
+        "zip": "V6H 3N1"
+      },
+      "description": "Hospital address with comma separators"
+    },
+    {
+      "input": "Fairmont Hotel Vancouver\n900 West Georgia Street\nVancouver BC V6C 2W6",
+      "expected": {
+        "street": "Fairmont Hotel Vancouver\n900 West Georgia Street",
+        "city": "Vancouver",
+        "state": "BC",
+        "zip": "V6C 2W6"
+      },
+      "description": "Hotel address with newline separators"
+    },
+    {
+      "input": "Canadian Museum for Human Rights: 85 Israel Asper Way, Winnipeg MB R3C 0L5",
+      "expected": {
+        "street": "Canadian Museum for Human Rights: 85 Israel Asper",
+        "type": "Way",
+        "city": "Winnipeg",
+        "state": "MB",
+        "zip": "R3C 0L5"
+      },
+      "description": "Museum address with colon separator"
+    },
+    {
+      "input": "Legislative Assembly of New Brunswick - 706 Queen Street, Fredericton NB E3B 1C5",
+      "expected": {
+        "street": "Legislative Assembly of New Brunswick - 706 Queen",
+        "type": "St",
+        "city": "Fredericton",
+        "state": "NB",
+        "zip": "E3B 1C5"
+      },
+      "description": "Legislative building with dash separator"
+    },
+    {
+      "input": "Confederation Building  100 Prince Philip Drive, St. John's NL A1B 3R3",
+      "expected": {
+        "street": "Confederation Building  100 Prince Philip",
+        "type": "Dr",
+        "city": "St. John's",
+        "state": "NL",
+        "zip": "A1B 3R3"
+      },
+      "description": "Government building with double space separator"
+    },
+    {
+      "input": "Canadian Museum of Immigration at Pier 21\n1055 Marginal Road\nHalifax NS B3H 4P7",
+      "expected": {
+        "street1": "Canadian Museum of Immigration",
+        "type1": "",
+        "street2": "Pier 21\n1055 Marginal",
+        "type2": "Rd"
+      },
+      "description": "Museum with complex newline-separated address"
+    },
+    {
+      "input": "CN Tower | 301 Front Street West, Toronto ON M5V 2T6",
+      "expected": {
+        "suffix": "W",
+        "street": "CN Tower | 301 Front",
+        "type": "St",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5V 2T6"
+      },
+      "description": "Landmark with pipe separator"
+    },
+    {
+      "input": "CN Tower 290 Bremner Blvd Toronto ON M5V 3L9",
+      "expected": {
+        "street": "CN Tower 290 Bremner",
+        "type": "Blvd",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5V 3L9"
+      },
+      "description": "Landmark with space separator and Boulevard"
+    },
+    {
+      "input": "Parliament of Canada (Centre Block) 111 Wellington Street, Ottawa ON K1A 0A6",
+      "expected": {
+        "street": "Parliament of Canada (Centre Block) 111 Wellington",
+        "type": "St",
+        "city": "Ottawa",
+        "state": "ON",
+        "zip": "K1A 0A6"
+      },
+      "description": "Parliament building with parenthetical designation"
+    },
+    {
+      "input": "Royal Ontario Museum; 100 Queen's Park, Toronto ON M5S 2C6",
+      "expected": {
+        "street": "Royal Ontario Museum; 100 Queen's",
+        "type": "Park",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5S 2C6"
+      },
+      "description": "Museum with semicolon separator"
+    },
+    {
+      "input": "Science North\n100 Ramsey Lake Road\nSudbury ON P3E 5S9",
+      "expected": {
+        "street": "Science North\n100 Ramsey Lake Road",
+        "city": "Sudbury",
+        "state": "ON",
+        "zip": "P3E 5S9"
+      },
+      "description": "Science center with newline-formatted address"
+    },
+    {
+      "input": "Centre Vidéotron, 250 Boulevard Wilfrid‑Hamel, Québec QC G1L 5A7",
+      "expected": {
+        "type": "Ctr",
+        "street": "Vidéotron",
+        "city": "250 Boulevard Wilfrid‑Hamel",
+        "state": "QUÉBEC QC",
+        "zip": "G1L 5A7"
+      },
+      "description": "Arena with French accents and en-dash character"
+    },
+    {
+      "input": "Château Frontenac at 1 Rue des Carrières Québec QC G1R 4P5",
+      "expected": {
+        "street1": "Château Frontenac",
+        "type1": "",
+        "street2": "1",
+        "type2": "Rue"
+      },
+      "description": "Historic hotel with 'at' preposition separator"
+    },
+    {
+      "input": "Musée des beaux‑arts de Montréal\n1380 Rue Sherbrooke Ouest\nMontréal QC H3G 1J5",
+      "expected": {
+        "street": "Musée des beaux‑arts de Montréal\n1380 Rue Sherbrooke Ouest\nMontréal",
+        "state": "QC",
+        "zip": "H3G 1J5"
+      },
+      "description": "Museum with French name and multi-line formatting"
+    }
+  ]
+}
