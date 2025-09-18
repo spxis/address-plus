@@ -5,7 +5,7 @@
 /**
  * Options to control address parsing behavior
  */
-export interface ParseOptions {
+interface ParseOptions {
   /** Country to optimize parsing for */
   country?: "CA" | "US" | "auto";
   /** Whether to normalize street types and directions */
@@ -19,3 +19,5 @@ export interface ParseOptions {
   /** Whether to parse parenthetical information */
   parseParenthetical?: boolean;
 }
+
+export type { ParseOptions };

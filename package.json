@@ -22,6 +22,8 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:types": "tsd",
+    "test:track": "node track-tests.js",
+    "test:regression": "node track-tests.js",
     "dev": "tsup --watch",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",

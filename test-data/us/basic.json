@@ -105,7 +105,8 @@
       "input": "1600 Pennsylvania Ave. Washington DC",
       "expected": {
         "number": "1600",
-        "street": "Pennsylvania Ave.",
+        "street": "Pennsylvania",
+        "type": "Ave",
         "city": "Washington",
         "state": "DC"
       },

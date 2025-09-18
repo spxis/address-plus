@@ -5,7 +5,7 @@
 /**
  * Parsed address result with all possible fields
  */
-export interface ParsedAddress {
+interface ParsedAddress {
   /** Street number */
   number?: string;
   /** Fractional address number (e.g., 1/2 in "123 1/2 Main St") */
@@ -32,6 +32,10 @@ export interface ParsedAddress {
   sec_unit_num?: string;
   /** Detected country (US, CA) */
   country?: "CA" | "US";
+  /** Postal code validation status */
+  postalValid?: boolean;
+  /** Postal code type (zip or postal) */
+  postalType?: 'zip' | 'postal';
   /** Facility name (e.g., building name, complex name) */
   facility?: string;
   /** Rural route or similar */
@@ -44,3 +48,5 @@ export interface ParsedAddress {
   secondary?: string;
   unit?: string;
 }
+
+export type { ParsedAddress };

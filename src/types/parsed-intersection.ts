@@ -5,7 +5,7 @@
 /**
  * Parsed intersection result containing two streets and location info
  */
-export interface ParsedIntersection {
+interface ParsedIntersection {
   /** First street */
   street1?: string;
   /** First street type */
@@ -32,4 +32,10 @@ export interface ParsedIntersection {
   plus4?: string;
   /** Country */
   country?: "CA" | "US";
+  /** Postal code validation status */
+  postalValid?: boolean;
+  /** Postal code type (zip or postal) */
+  postalType?: 'zip' | 'postal';
 }
+
+export type { ParsedIntersection };

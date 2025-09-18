@@ -5,13 +5,14 @@
 /**
  * Unit type keywords pattern (for building regex patterns)
  */
-export const UNIT_TYPE_KEYWORDS = 'suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate';
+const UNIT_TYPE_KEYWORDS = 'suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate';
 
 /**
  * Written numbers that can appear as street numbers
  * Includes comprehensive ordinal support, plurals, and compound numbers
+ * Supports both English and French
  */
-export const WRITTEN_NUMBERS = 
+const WRITTEN_NUMBERS_EN = 
   'one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|' +
   'thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|' +
   'twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|' +
@@ -22,26 +23,46 @@ export const WRITTEN_NUMBERS =
   '(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)' +
   '(?:[-\\s]?(?:one|two|three|four|five|six|seven|eight|nine))?';
 
+const WRITTEN_NUMBERS_FR = 
+  'deux|trois|quatre|cinq|sept|huit|neuf|onze|douze|' +
+  'treize|quatorze|quinze|seize|dix-sept|dix-huit|dix-neuf|' +
+  'vingt|trente|quarante|cinquante|soixante|soixante-dix|quatre-vingt|quatre-vingt-dix|' +
+  'mille|' +
+  'deuxième|troisième|quatrième|cinquième|septième|huitième|neuvième|' +
+  'onzième|douzième|treizième|quatorzième|quinzième|seizième|' +
+  'dix-septième|dix-huitième|dix-neuvième';
+
+const WRITTEN_NUMBERS = WRITTEN_NUMBERS_EN + '|' + WRITTEN_NUMBERS_FR;
+
 /**
  * Pattern for secondary unit types and numbers
  * Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", etc.
  */
-export const SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s*$`, 'i');
+const SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s*$`, 'i');
 
 /**
  * Pattern for extracting unit type and number
  * Used to parse the secondary unit match
  */
-export const UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|#\\s*([a-z0-9-]+)`, 'i');
+const UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|#\\s*([a-z0-9-]+)`, 'i');
 
 /**
  * Pattern for Canadian postal codes (more liberal matching)
  * Matches formats like: A1A 1A1, A1A1A1, a1a 1a1, etc.
  */
-export const CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
+const CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
 
 /**
  * Pattern for extracting parenthetical information
  * Matches content within parentheses
  */
-export const PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
+const PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
+
+export {
+  CANADIAN_POSTAL_LIBERAL_PATTERN,
+  PARENTHETICAL_PATTERN,
+  SECONDARY_UNIT_PATTERN,
+  UNIT_TYPE_KEYWORDS,
+  UNIT_TYPE_NUMBER_PATTERN,
+  WRITTEN_NUMBERS,
+};

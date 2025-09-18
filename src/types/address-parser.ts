@@ -9,9 +9,11 @@ import type { ParseOptions } from "./parse-options";
 /**
  * Main address parser interface providing all parsing methods
  */
-export interface AddressParser {
+interface AddressParser {
   parseAddress(address: string, options?: ParseOptions): ParsedAddress | null;
   parseInformalAddress(address: string, options?: ParseOptions): ParsedAddress | null;
   parseIntersection(address: string, options?: ParseOptions): ParsedIntersection | null;
   parseLocation(address: string, options?: ParseOptions): ParsedAddress | null;
 }
+
+export type { AddressParser };

@@ -7,19 +7,22 @@ import type { AddressParser, ParsedAddress, ParsedIntersection, ParseOptions } f
 import {
   CA_PROVINCES,
   CA_STREET_TYPES,
-  CANADIAN_POSTAL_LIBERAL_PATTERN,
   DIRECTIONAL_MAP,
-  FACILITY_DELIMITER_PATTERN,
-  FACILITY_PATTERNS,
-  SECONDARY_UNIT_PATTERN,
   SECONDARY_UNIT_TYPES,
   STREET_TYPE_PROPER_CASE,
-  UNIT_TYPE_NUMBER_PATTERN,
-  UNIT_TYPE_KEYWORDS,
-  WRITTEN_NUMBERS,
   US_STATES,
   US_STREET_TYPES,
 } from "./data";
+import {
+  CANADIAN_POSTAL_LIBERAL_PATTERN,
+  SECONDARY_UNIT_PATTERN,
+  UNIT_TYPE_NUMBER_PATTERN,
+  UNIT_TYPE_KEYWORDS,
+  WRITTEN_NUMBERS,
+} from "./patterns/address";
+import { FACILITY_DELIMITER_PATTERN, FACILITY_PATTERNS } from "./patterns/facility";
+import { validatePostalCode } from "./validation";
+import { COUNTRIES, VALIDATION_PATTERNS, CITY_PATTERNS } from "./constants";
 import {
   detectCountry,
   normalizeText,
@@ -39,11 +42,13 @@ const buildPatterns = () => {
     .concat(Object.keys(CA_STREET_TYPES)).concat(Object.values(CA_STREET_TYPES))
     .filter((v, i, arr) => arr.indexOf(v) === i)
     .sort((a, b) => b.length - a.length)
+    .map(s => s.replace(VALIDATION_PATTERNS.REGEX_ESCAPE, '\\$&'))  // Escape regex special characters
     .join('|');
   
   const directionals = Object.keys(DIRECTIONAL_MAP).concat(Object.values(DIRECTIONAL_MAP))
     .filter((v, i, arr) => arr.indexOf(v) === i)
     .sort((a, b) => b.length - a.length)
+    .map(d => d.replace(VALIDATION_PATTERNS.REGEX_ESCAPE, '\\$&'))  // Escape regex special characters
     .join('|');
   
   const states = Object.keys(US_STATES).concat(Object.values(US_STATES))
@@ -84,18 +89,18 @@ function hasValidAddressComponents(address: string): boolean {
   const patterns = buildPatterns();
   
   // Basic validation - must have letters and be reasonable length
-  if (!/[a-zA-Z]/.test(address) || address.trim().length < 3) {
+  if (!VALIDATION_PATTERNS.HAS_LETTERS.test(address) || address.trim().length < 3) {
     return false;
   }
   
   // If it's mostly special characters, reject
-  const alphanumericCount = (address.match(/[a-zA-Z0-9]/g) || []).length;
+  const alphanumericCount = (address.match(VALIDATION_PATTERNS.ALPHANUMERIC) || []).length;
   if (alphanumericCount < address.length * 0.3) {
     return false;
   }
   
   // Check for address-like patterns
-  const hasNumber = /\d/.test(address);
+  const hasNumber = VALIDATION_PATTERNS.HAS_DIGITS.test(address);
   const hasStreetType = new RegExp(`\\b(${patterns.streetType})\\b`, 'i').test(address);
   const hasDirectional = new RegExp(`\\b(${patterns.directional.slice(1, -1)})\\b`, 'i').test(address);
   const hasState = new RegExp(`\\b(${patterns.state.slice(2, -2)})\\b`, 'i').test(address);
@@ -118,7 +123,7 @@ function hasValidAddressComponents(address: string): boolean {
   }
   
   // For longer phrases, be more lenient (might be facility names)
-  if (address.trim().split(/\s+/).length >= 3) {
+  if (address.trim().split(VALIDATION_PATTERNS.WHITESPACE_SPLIT).length >= 3) {
     return true;
   }
   
@@ -172,7 +177,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
 
   if (match[3]) result.city = match[3].trim();
   if (match[4]) result.state = match[4].toUpperCase();
-  if (match[6]) result.zip = match[6];  // zip is now at index 6 due to nested groups
+  if (match[6]) setValidatedPostalCode(result, match[6], options || {});  // zip is now at index 6 due to nested groups
 
   // Detect country
   result.country = detectCountry(result);
@@ -185,15 +190,31 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
  */
 function normalizePoBoxType(type: string): string {
   // Preserve original format in most cases, only normalize inconsistent punctuation
-  const cleaned = type.replace(/\s+/g, ' ').trim();
+  const cleaned = type.replace(VALIDATION_PATTERNS.NORMALIZE_SPACES, ' ').trim();
   
   // Only normalize "P.O. box" to "PO box" to match test expectations
-  if (cleaned.toLowerCase().match(/^p\.o\.\s*box$/i)) {
+  if (cleaned.toLowerCase().match(VALIDATION_PATTERNS.PO_BOX_NORMALIZE)) {
     return 'PO box';
   }
   
   // Return original format for other variants
   return cleaned;
+}
+
+/**
+ * Validate and set postal code if validation is enabled
+ */
+function setValidatedPostalCode(result: ParsedAddress | ParsedIntersection, zipCode: string, options: ParseOptions): void {
+  result.zip = zipCode;
+  
+  if (options.validatePostalCode) {
+    const validation = validatePostalCode(zipCode);
+    result.postalValid = validation.isValid;
+    result.postalType = validation.type;
+    if (validation.isValid && validation.formatted) {
+      result.zip = validation.formatted;
+    }
+  }
 }
 
 /**
@@ -212,21 +233,45 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Detect facility addresses (facility name comes first, followed by actual address)
   let addressStartIndex = 0;
+  let facilityName = '';
+  
   if (commaParts.length > 1) {
     const firstPart = commaParts[0];
     
-    // Simple heuristic: if the first part doesn't contain typical address components
-    // (no numbers, no street types), treat it as a facility name
-    const hasAddressNumbers = /\d/.test(firstPart);
-    const hasStreetTypes = Object.keys(US_STREET_TYPES).some(type => 
-      new RegExp(`\\b${type}\\b`, 'i').test(firstPart)
-    ) || Object.keys(CA_STREET_TYPES).some(type => 
-      new RegExp(`\\b${type}\\b`, 'i').test(firstPart)
-    );
+    // More sophisticated heuristic for facility detection:
+    // 1. No house numbers at the start
+    // 2. If it has street types, they should be secondary (like "Park", "Center", "Building")
+    // 3. Doesn't follow typical "number + street + type" pattern
     
-    // If first part looks like a facility name (no numbers or street types), skip it
-    if (!hasAddressNumbers && !hasStreetTypes && commaParts.length > 1) {
-      addressStartIndex = 1;
+    const hasHouseNumber = VALIDATION_PATTERNS.HOUSE_NUMBER_START.test(firstPart.trim());
+    const startsWithNumber = VALIDATION_PATTERNS.STARTS_WITH_NUMBER.test(firstPart);
+    
+    // If it starts with a number, it's likely a street address, not a facility
+    if (!startsWithNumber && !hasHouseNumber) {
+      // Check if this looks like a facility name vs a street name
+      const words = firstPart.trim().split(VALIDATION_PATTERNS.WHITESPACE_SPLIT);
+      
+      // Common facility indicators
+      const facilityIndicators = [
+        'center', 'centre', 'building', 'tower', 'plaza', 'square', 'garden', 'gardens',
+        'park', 'university', 'college', 'school', 'hospital', 'library', 'museum',
+        'station', 'airport', 'mall', 'market', 'stadium', 'arena', 'theater', 'theatre',
+        'hotel', 'resort', 'memorial', 'monument', 'bridge', 'tunnel', 'complex'
+      ];
+      
+      const hasMultipleWords = words.length >= 2;
+      const hasFacilityIndicator = words.some(word => 
+        facilityIndicators.includes(word.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, ''))
+      );
+      
+      // If it's multiple words with facility indicators, treat as facility
+      // OR if it's a proper noun pattern (Title Case) without obvious street patterns
+      if ((hasMultipleWords && hasFacilityIndicator) || 
+          (hasMultipleWords && words.every(word => VALIDATION_PATTERNS.TITLE_CASE.test(word)) && 
+           !words.some(word => VALIDATION_PATTERNS.NUMERIC_ONLY.test(word)))) {
+        facilityName = firstPart.trim();
+        addressStartIndex = 1;
+      }
     }
   }
   
@@ -238,6 +283,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Track which comma parts to exclude from city parsing (for secondary units, facilities)
   const excludedPartIndices = new Set<number>();
+  if (facilityName && addressStartIndex > 0) {
+    excludedPartIndices.add(0); // Exclude facility name part
+  }
   
   // Handle non-comma separated addresses
   if (commaParts.length === 1) {
@@ -277,8 +325,8 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       
       if (hasState) {
         // With state, we can confidently extract city as usual
-        const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
-        const twoWordCityMatch = remainingText.match(/\s+([A-Za-z]+\s+[A-Za-z]+)$/);
+        const singleWordCityMatch = remainingText.match(CITY_PATTERNS.SINGLE_WORD_CITY);
+        const twoWordCityMatch = remainingText.match(CITY_PATTERNS.TWO_WORD_CITY);
         
         let potentialCity = '';
         let matchToReplace = null;
@@ -301,7 +349,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
             // If the potential city starts with a street type, extract just the city part
             cityPart = startsWithStreetTypeMatch[2];
             // Only remove the city part, not the street type
-            const cityOnlyMatch = remainingText.match(new RegExp(`\\s+(${cityPart.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})$`));
+            const cityOnlyMatch = remainingText.match(new RegExp(`\\s+(${cityPart.replace(VALIDATION_PATTERNS.REGEX_ESCAPE, '\\$&')})$`));
             if (cityOnlyMatch) {
               remainingText = remainingText.replace(cityOnlyMatch[0], '').trim();
             }
@@ -314,9 +362,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         // Without state, be very conservative about city extraction
         // Only extract if we have a clear non-street-type word at the end
         // AND the remaining text suggests a full address (at least 4+ words)
-        const wordCount = remainingText.split(/\s+/).length;
+        const wordCount = remainingText.split(VALIDATION_PATTERNS.WHITESPACE_SPLIT).length;
         if (wordCount >= 5) { // More conservative: at least "number prefix street type city"
-          const singleWordCityMatch = remainingText.match(/\s+([A-Za-z]+)$/);
+          const singleWordCityMatch = remainingText.match(CITY_PATTERNS.SINGLE_WORD_CITY);
           
           if (singleWordCityMatch) {
             const potentialCity = singleWordCityMatch[1].trim();
@@ -420,32 +468,80 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         }
       }
     } else {
-      // No ZIP found, try to parse city/state from remaining parts (excluding secondary units)
-      const nonExcludedParts = commaParts.slice(1).filter((part, index) => !excludedPartIndices.has(index + 1));
-      const cityStateText = nonExcludedParts.join(' ').trim();
+      // No ZIP found, try to parse city/state from remaining parts after facility
+      // Skip facility name if present and properly parse remaining parts
+      const startIndex = addressStartIndex;
+      const remainingParts = commaParts.slice(startIndex);
       
-      // First try to match with state abbreviations (more specific)
-      const cityStateAbbrevMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
-      if (cityStateAbbrevMatch) {
-        cityPart = cityStateAbbrevMatch[1].trim();
-        statePart = cityStateAbbrevMatch[2].trim();
-      } else {
-        // Then try full state names
-        const cityStateFullMatch = cityStateText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
-        if (cityStateFullMatch) {
-          cityPart = cityStateFullMatch[1].trim();
-          statePart = cityStateFullMatch[2].trim();
-        } else {
-          // Check if the entire text is just a state/province (abbreviation first)
-          const justStateAbbrevMatch = cityStateText.match(new RegExp(`^(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
-          if (justStateAbbrevMatch) {
-            statePart = justStateAbbrevMatch[1].trim();
-          } else {
-            const justStateFullMatch = cityStateText.match(new RegExp(`^(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
-            if (justStateFullMatch) {
-              statePart = justStateFullMatch[1].trim();
+      if (remainingParts.length > 0) {
+        // Join remaining parts and re-split for proper city/state/zip parsing
+        const remainingText = remainingParts.join(', ');
+        
+        // First try to match with state abbreviations (more specific)
+        const cityStateAbbrevMatch = remainingText.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+        if (cityStateAbbrevMatch) {
+          const beforeState = cityStateAbbrevMatch[1].trim();
+          statePart = cityStateAbbrevMatch[2].trim();
+          
+          // Remove any trailing comma from beforeState
+          const cleanBeforeState = beforeState.replace(/,+\s*$/, '').trim();
+          
+          // Split the part before state to get address and city
+          const beforeStateParts = cleanBeforeState.split(',').map(p => p.trim()).filter(p => p.length > 0);
+          if (beforeStateParts.length >= 2) {
+            addressPart = beforeStateParts[0];
+            // The city is typically the last part before state
+            cityPart = beforeStateParts[beforeStateParts.length - 1];
+          } else if (beforeStateParts.length === 1) {
+            // Only one part before state - could be address or city
+            // Heuristic: if it has numbers, it's probably address; if not, city
+            if (/\d/.test(beforeStateParts[0])) {
+              addressPart = beforeStateParts[0];
             } else {
-              cityPart = cityStateText;
+              cityPart = beforeStateParts[0];
+            }
+          }
+        } else {
+          // Then try full state names
+          const cityStateFullMatch = remainingText.match(new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+          if (cityStateFullMatch) {
+            const beforeState = cityStateFullMatch[1].trim();
+            statePart = cityStateFullMatch[2].trim();
+            
+            // Remove any trailing comma from beforeState
+            const cleanBeforeState = beforeState.replace(/,+\s*$/, '').trim();
+            
+            // Split the part before state to get address and city
+            const beforeStateParts = cleanBeforeState.split(',').map(p => p.trim()).filter(p => p.length > 0);
+            if (beforeStateParts.length >= 2) {
+              addressPart = beforeStateParts[0];
+              // The city is typically the last part before state
+              cityPart = beforeStateParts[beforeStateParts.length - 1];
+            } else if (beforeStateParts.length === 1) {
+              // Only one part before state
+              if (/\d/.test(beforeStateParts[0])) {
+                addressPart = beforeStateParts[0];
+              } else {
+                cityPart = beforeStateParts[0];
+              }
+            }
+          } else {
+            // Check if the entire text is just a state/province (abbreviation first)
+            const justStateAbbrevMatch = remainingText.match(new RegExp(`^(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
+            if (justStateAbbrevMatch) {
+              statePart = justStateAbbrevMatch[1].trim();
+            } else {
+              const justStateFullMatch = remainingText.match(new RegExp(`^(${patterns.stateFullName.slice(2, -2)})\\s*$`, 'i'));
+              if (justStateFullMatch) {
+                statePart = justStateFullMatch[1].trim();
+              } else if (remainingParts.length === 1) {
+                // Only one remaining part, treat as address
+                addressPart = remainingParts[0];
+              } else {
+                // Multiple parts but no state found - treat first as address, rest as city
+                addressPart = remainingParts[0];
+                cityPart = remainingParts.slice(1).join(', ');
+              }
             }
           }
         }
@@ -629,7 +725,6 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   }
   
   // 7. Extract street type from the end (English pattern) or beginning (French pattern) - if not already set
-  // 7. Extract street type from the end (English pattern) or beginning (French pattern) - if not already set
   if (!result.type) {
     // Pattern: "Street Type." or "Street Type" at the end
     const streetTypeSuffixMatch = remaining.match(new RegExp(`^(.*?)\\s+\\b(${patterns.streetType.slice(1, -1)})\\.?\\s*$`, 'i'));
@@ -670,17 +765,21 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     // Handle ZIP+4 format: 12345-6789, 123456789, 12345 6789
     const zipMatch = zipPart.match(/^(\d{5})(?:[-\s]?(\d{4}))?$/);
     if (zipMatch) {
-      result.zip = zipMatch[1];
+      setValidatedPostalCode(result, zipMatch[1], options);
       if (zipMatch[2]) {
         result.plus4 = zipMatch[2];
       }
     } else {
-      result.zip = zipPart;
+      setValidatedPostalCode(result, zipPart, options);
     }
   }
   
-  // Add facility if found
-  if (facilityPart) result.facility = facilityPart;
+  // Add facility if found (from either initial detection or middle parts)
+  if (facilityName) {
+    result.facility = facilityName;
+  } else if (facilityPart) {
+    result.facility = facilityPart;
+  }
   
   // Add secondary information if found
   if (secondaryInfo) result.secondary = secondaryInfo;
@@ -724,8 +823,8 @@ function parseInformalAddress(address: string, options: ParseOptions = {}): Pars
     const lastPart = parts[parts.length - 1];
     const zipMatch = lastPart.match(new RegExp(patterns.zip));
     if (zipMatch) {
-      result.zip = zipMatch[1];
-      result.country = 'US';
+      setValidatedPostalCode(result, zipMatch[1], options);
+      result.country = COUNTRIES.UNITED_STATES;
     }
   }
 
@@ -769,7 +868,7 @@ function parseIntersection(address: string, options: ParseOptions = {}): ParsedI
   // Pattern: "Street2Name City State ZIP" or "Street2Name City State"
   const zipMatch = locationText.match(new RegExp(`\\s+(${patterns.zip.slice(1, -1)})\\s*$`));
   if (zipMatch) {
-    result.zip = zipMatch[1];
+    setValidatedPostalCode(result, zipMatch[1], options);
     locationText = locationText.replace(zipMatch[0], '').trim();
   }
   
@@ -792,7 +891,7 @@ function parseIntersection(address: string, options: ParseOptions = {}): ParsedI
       locationText = locationText.replace(cityMatch[0], '').trim();
     } else {
       // Try without comma - look for 1-2 words before the state
-      cityMatch = locationText.match(/\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)$/);
+      cityMatch = locationText.match(CITY_PATTERNS.BASIC_CITY);
       if (cityMatch) {
         result.city = cityMatch[1].trim();
         locationText = locationText.replace(cityMatch[0], '').trim();

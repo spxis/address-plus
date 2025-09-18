@@ -1,0 +1,79 @@
+name: Test Regression Detection
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-regression-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Run regression test tracking
+        run: node track-tests.js
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results.json
+
+      - name: Comment PR with test results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            try {
+              const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
+              const { testSummary, regressionAnalysis } = results;
+              
+              const status = regressionAnalysis.change === 0 ? '✅' : 
+                            regressionAnalysis.change < 0 ? '🎉' : '⚠️';
+              
+              const comment = `## ${status} Test Results
+              
+              **Summary:**
+              - Total Tests: ${testSummary.totalTests}
+              - Passed: ${testSummary.passed} (${testSummary.passRate})
+              - Failed: ${testSummary.failed}
+              
+              **Regression Analysis:**
+              - Baseline: ${regressionAnalysis.baseline} failures
+              - Current: ${regressionAnalysis.current} failures
+              - Change: ${regressionAnalysis.change >= 0 ? '+' : ''}${regressionAnalysis.change}
+              
+              ${regressionAnalysis.message}
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            } catch (error) {
+              console.log('Could not read test results file');
+            }
