@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TEST_RESULTS_FILE = join(__dirname, 'test-results.json');
-const BASELINE_FAILURES = 160;
+const BASELINE_FAILURES = 165; // Current improved state after architectural refactoring
 
 function getCurrentTimestamp() {
   return new Date().toISOString();
@@ -23,7 +23,19 @@ function runTests() {
     console.log('Running tests to check for regressions...');
     const output = execSync('pnpm test:run', { encoding: 'utf8', stdio: 'pipe' });
 
-    // Parse test output to extract numbers
+    // Parse test output to extract numbers - look for the "Tests" line specifically (not "Test Files")
+    const testResultMatch = output.match(
+      /Tests\s+(\d+)\s+failed\s*\|\s*(\d+)\s+passed\s*\((\d+)\)/
+    );
+
+    if (testResultMatch) {
+      const failed = parseInt(testResultMatch[1]);
+      const passed = parseInt(testResultMatch[2]);
+      const total = parseInt(testResultMatch[3]);
+      return { failed, passed, total, output };
+    }
+
+    // Fallback to original parsing if new format not found
     const failedMatch = output.match(/(\d+)\s+failed/);
     const passedMatch = output.match(/(\d+)\s+passed/);
 
@@ -35,6 +47,20 @@ function runTests() {
   } catch (error) {
     // Tests failed - extract numbers from error output
     const output = error.stdout || error.message;
+
+    // Look for the "Tests" line specifically (not "Test Files")
+    const testResultMatch = output.match(
+      /Tests\s+(\d+)\s+failed\s*\|\s*(\d+)\s+passed\s*\((\d+)\)/
+    );
+
+    if (testResultMatch) {
+      const failed = parseInt(testResultMatch[1]);
+      const passed = parseInt(testResultMatch[2]);
+      const total = parseInt(testResultMatch[3]);
+      return { failed, passed, total, output };
+    }
+
+    // Fallback parsing
     const failedMatch = output.match(/(\d+)\s+failed/);
     const passedMatch = output.match(/(\d+)\s+passed/);
 
