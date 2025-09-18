@@ -20,6 +20,8 @@ interface ParsedAddress {
   suffix?: string;
   /** City name */
   city?: string;
+  /** Sub-city locality (borough, district, neighborhood) */
+  locality?: string;
   /** State/Province code */
   state?: string;
   /** ZIP or postal code */
@@ -36,12 +38,18 @@ interface ParsedAddress {
   postalValid?: boolean;
   /** Postal code type (zip or postal) */
   postalType?: 'zip' | 'postal';
-  /** Facility name (e.g., building name, complex name) */
-  facility?: string;
+  /** Place name (landmark, POI, building, monument, etc.) */
+  place?: string;
   /** Rural route or similar */
   rural_route?: string;
   /** Site or compartment number */
   site?: string;
+  /** Station or Succursale identifier (e.g., Station A, Succ. Centre-ville) */
+  station?: string;
+  /** Retail Postal Outlet (Canada Post) identifier */
+  rpo?: string;
+  /** Rural Route number (RR/R.R.) */
+  rr?: string;
   /** General delivery indicator */
   general_delivery?: boolean;
   /** Legacy properties for backward compatibility */

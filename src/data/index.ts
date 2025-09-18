@@ -33,3 +33,10 @@ export {
 } from "./us-states";
 export { US_STREET_TYPES } from "./us-street-types";
 export { STREET_TYPE_PROPER_CASE } from "./street-type-proper-case";
+export { FRENCH_PREPOSITIONS } from "./french-prepositions";
+export { STREET_NAME_ACRONYMS } from "./street-name-acronyms";
+export { 
+  POSTAL_CODE_TO_PROVINCE, 
+  TERRITORY_POSTAL_RANGES,
+  getProvinceFromPostalCode 
+} from "./postal-code-provinces";

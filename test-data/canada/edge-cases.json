@@ -270,7 +270,7 @@
   {
     "input": "P.O. Box 9999, Station Main, Halifax, NS B3J 3A7",
     "expected": {
-      "sec_unit_type": "PO box",
+      "sec_unit_type": "PO Box",
       "sec_unit_num": "9999",
       "city": "Halifax",
       "state": "NS",

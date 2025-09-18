@@ -167,7 +167,7 @@
       "city": "Terre Haute",
       "state": "IN",
       "zip": "47802",
-      "facility": "Mobile Home Park"
+      "place": "Mobile Home Park"
     },
     "description": "County road with space designation in mobile home park"
   },
@@ -224,7 +224,7 @@
       "city": "Middletown",
       "state": "PA",
       "zip": "17057",
-      "facility": "Reactor Building 2"
+      "place": "Reactor Building 2"
     },
     "description": "Written-out number in street name with building"
   },
@@ -261,7 +261,7 @@
       "city": "Chicago",
       "state": "IL",
       "zip": "60601",
-      "facility": "Tower 3"
+      "place": "Tower 3"
     },
     "description": "Abbreviated famous name with tower and unit"
   },
@@ -274,7 +274,7 @@
       "city": "Houston",
       "state": "TX",
       "zip": "77058",
-      "facility": "Mission Control Center"
+      "place": "Mission Control Center"
     },
     "description": "Federal facility with mission control center"
   }

@@ -5,7 +5,7 @@
 /**
  * Postal code validation result
  */
-export interface PostalValidationResult {
+ interface PostalValidationResult {
   isValid: boolean;
   type: 'zip' | 'postal' | null;
   formatted?: string;
@@ -15,7 +15,7 @@ export interface PostalValidationResult {
 /**
  * Pattern for US ZIP codes (5 digits, optionally followed by +4)
  */
-export const ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
+const ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
 const ZIP_CODE_VALIDATION_REGEX = /^\d{5}(?:[-\s]?\d{4})?$/;
 
 /**
@@ -27,7 +27,7 @@ const CANADIAN_POSTAL_VALIDATION_REGEX = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/
 /**
  * Validate if a postal code or ZIP code is in the correct format
  */
-export const validatePostalCode = (code: string): PostalValidationResult => {
+ const validatePostalCode = (code: string): PostalValidationResult => {
   if (!code || typeof code !== 'string') {
     return {
       isValid: false,
@@ -72,3 +72,6 @@ export const validatePostalCode = (code: string): PostalValidationResult => {
     message: 'Invalid postal code format. Expected US ZIP (12345 or 12345-6789) or Canadian postal code (A1A 1A1)'
   };
 };
+
+export { validatePostalCode, ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN };
+export type { PostalValidationResult };

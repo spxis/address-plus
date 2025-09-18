@@ -3,7 +3,7 @@
  * Maps lowercase abbreviations to their proper case equivalents
  */
 
-export const STREET_TYPE_PROPER_CASE: Record<string, string> = {
+const STREET_TYPE_PROPER_CASE: Record<string, string> = {
   'ave': 'Ave',
   'st': 'St', 
   'dr': 'Dr',
@@ -205,3 +205,5 @@ export const STREET_TYPE_PROPER_CASE: Record<string, string> = {
   'wl': 'Wl',
   'wls': 'Wls'
 };
+
+export { STREET_TYPE_PROPER_CASE };

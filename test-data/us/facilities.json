@@ -4,9 +4,12 @@
     {
       "input": "Fenway Park – 4 Jersey Street, Boston MA 02215",
       "expected": {
-        "street": "Fenway Park – 4 Jersey",
+        "place": "Fenway Park",
+        "number": "4",
+        "street": "Jersey",
         "type": "St",
-        "state": "BOSTON MA",
+        "city": "Boston",
+        "state": "MA",
         "zip": "02215"
       },
       "description": "Fenway Park with em dash separator"
@@ -14,18 +17,21 @@
     {
       "input": "Harvard University, Massachusetts Hall, Cambridge MA 02138",
       "expected": {
-        "street": "Harvard University",
-        "city": "Massachusetts Hall",
-        "state": "CAMBRIDGE MA",
+        "place": "Harvard University",
+        "street": "Massachusetts Hall",
+        "city": "Cambridge",
+        "state": "MA",
         "zip": "02138"
       },
-      "description": "Harvard University with building name as city"
+      "description": "Harvard University with building name as street"
     },
     {
       "input": "Golden Gate Bridge Welcome Center\nGolden Gate Bridge Hwy 101, San Francisco CA 94129",
       "expected": {
-        "street": "Golden Gate Bridge Welcome Center\nGolden Gate Bridge Hwy 101",
-        "state": "SAN FRANCISCO CA",
+        "place": "Golden Gate Bridge Welcome Center",
+        "street": "Golden Gate Bridge Hwy 101",
+        "city": "San Francisco",
+        "state": "CA",
         "zip": "94129"
       },
       "description": "Bridge visitor center with newline and highway designation"
@@ -33,9 +39,12 @@
     {
       "input": "Yosemite National Park Visitor Center 9035 Village Drive, Yosemite Valley CA 95389",
       "expected": {
-        "street": "Yosemite National Park Visitor Center 9035 Village",
+        "place": "Yosemite National Park Visitor Center",
+        "number": "9035",
+        "street": "Village",
         "type": "Dr",
-        "state": "YOSEMITE VALLEY CA",
+        "city": "Yosemite Valley",
+        "state": "CA",
         "zip": "95389"
       },
       "description": "National park visitor center with space separator"
@@ -43,10 +52,13 @@
     {
       "input": "Lincoln Memorial - 2 Lincoln Memorial Circle NW, Washington DC 20037",
       "expected": {
-        "suffix": "NW",
-        "street": "Lincoln Memorial - 2 Lincoln Memorial",
+        "place": "Lincoln Memorial",
+        "number": "2",
+        "street": "Lincoln Memorial",
         "type": "Cir",
-        "state": "WASHINGTON DC",
+        "suffix": "NW",
+        "city": "Washington",
+        "state": "DC",
         "zip": "20037"
       },
       "description": "Memorial with dash separator and directional suffix"
@@ -54,8 +66,11 @@
     {
       "input": "The Pentagon: 1400 Defense Pentagon, Washington DC 20301",
       "expected": {
-        "street": "The Pentagon: 1400 Defense Pentagon",
-        "state": "WASHINGTON DC",
+        "place": "The Pentagon",
+        "number": "1400",
+        "street": "Defense Pentagon",
+        "city": "Washington",
+        "state": "DC",
         "zip": "20301"
       },
       "description": "Pentagon with colon separator and military address format"
@@ -63,8 +78,13 @@
     {
       "input": "The White House\n1600 Pennsylvania Avenue NW, Washington DC 20500",
       "expected": {
-        "street": "The White House\n1600 Pennsylvania Avenue NW",
-        "state": "WASHINGTON DC",
+        "place": "The White House",
+        "number": "1600",
+        "street": "Pennsylvania",
+        "type": "Ave",
+        "suffix": "NW",
+        "city": "Washington",
+        "state": "DC",
         "zip": "20500"
       },
       "description": "White House with newline separator"
@@ -72,9 +92,13 @@
     {
       "input": "Walt Disney World Resort, 1375 E Buena Vista Drive, Lake Buena Vista FL 32830",
       "expected": {
-        "street": "Walt Disney World Resort",
-        "city": "1375 E Buena Vista Drive",
-        "state": "LAKE BUENA VISTA FL",
+        "place": "Walt Disney World Resort",
+        "number": "1375",
+        "prefix": "E",
+        "street": "Buena Vista",
+        "type": "Dr",
+        "city": "Lake Buena Vista",
+        "state": "FL",
         "zip": "32830"
       },
       "description": "Theme park resort with comma separators"
@@ -82,7 +106,11 @@
     {
       "input": "Willis Tower\n233 S Wacker Drive\nChicago IL 60606",
       "expected": {
-        "street": "Willis Tower\n233 S Wacker Drive",
+        "place": "Willis Tower",
+        "number": "233",
+        "prefix": "S",
+        "street": "Wacker",
+        "type": "Dr",
         "city": "Chicago",
         "state": "IL",
         "zip": "60606"
@@ -92,9 +120,12 @@
     {
       "input": "Empire State Building (350 5th Avenue, New York NY 10118)",
       "expected": {
-        "street": "Empire State Building (350 5th",
+        "place": "Empire State Building",
+        "number": "350",
+        "street": "5th",
         "type": "Ave",
-        "state": "NEW YORK NY )",
+        "city": "New York",
+        "state": "NY",
         "zip": "10118"
       },
       "description": "Landmark with full parenthetical address"
@@ -102,9 +133,12 @@
     {
       "input": "Madison Square Garden | 4 Pennsylvania Plaza, New York NY 10001",
       "expected": {
-        "street": "Madison Square Garden | 4 Pennsylvania",
+        "place": "Madison Square Garden",
+        "number": "4",
+        "street": "Pennsylvania",
         "type": "Plz",
-        "state": "NEW YORK NY",
+        "city": "New York",
+        "state": "NY",
         "zip": "10001"
       },
       "description": "Arena with pipe separator and Plaza type"
@@ -112,9 +146,11 @@
     {
       "input": "Statue of Liberty National Monument  Liberty Island, New York NY 10004",
       "expected": {
-        "street": "Statue of Liberty National Monument  Liberty",
+        "place": "Statue of Liberty National Monument",
+        "street": "Liberty",
         "type": "Is",
-        "state": "NEW YORK NY",
+        "city": "New York",
+        "state": "NY",
         "zip": "10004"
       },
       "description": "Monument with double space separator and Island type"
@@ -122,9 +158,12 @@
     {
       "input": "Space Needle; 400 Broad Street, Seattle WA 98109",
       "expected": {
-        "street": "Space Needle; 400 Broad",
+        "place": "Space Needle",
+        "number": "400",
+        "street": "Broad",
         "type": "St",
-        "state": "SEATTLE WA",
+        "city": "Seattle",
+        "state": "WA",
         "zip": "98109"
       },
       "description": "Landmark with semicolon separator"
@@ -132,8 +171,9 @@
     {
       "input": "Mount Rushmore National Memorial\n13000 SD‑244\nKeystone SD 57751",
       "expected": {
-        "street": "Mount Rushmore National Memorial\n13000‑244\nKeystone",
-        "city": "SD",
+        "place": "Mount Rushmore National Memorial",
+        "street": "SD‑244",
+        "city": "Keystone",
         "state": "SD",
         "zip": "57751"
       },
@@ -142,13 +182,13 @@
     {
       "input": "Grand Canyon Visitor Center at 20 South Entrance Road, Grand Canyon AZ 86023",
       "expected": {
+        "place": "Grand Canyon Visitor Center",
+        "number": "20",
+        "street": "South Entrance",
+        "type": "Rd",
         "city": "Grand Canyon",
         "state": "AZ",
-        "zip": "86023",
-        "street1": "Grand Canyon Visitor",
-        "type1": "Ctr",
-        "street2": "20 South Entrance",
-        "type2": "Rd"
+        "zip": "86023"
       },
       "description": "Visitor center with 'at' preposition separator"
     }

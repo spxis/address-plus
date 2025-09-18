@@ -4,9 +4,11 @@
     {
       "input": "Rogers Place – 10220 104 Avenue NW, Edmonton AB T5J 0H6",
       "expected": {
-        "suffix": "NW",
-        "street": "Rogers Place – 10220 104",
+        "place": "Rogers Place",
+        "number": "10220",
+        "street": "104",
         "type": "Ave",
+        "suffix": "NW",
         "city": "Edmonton",
         "state": "AB",
         "zip": "T5J 0H6"
@@ -16,9 +18,12 @@
     {
       "input": "BC Children's Hospital, 4480 Oak Street, Vancouver BC V6H 3N1",
       "expected": {
-        "street": "BC Children's Hospital",
-        "city": "4480 Oak Street",
-        "state": "VANCOUVER BC",
+        "place": "BC Children's Hospital",
+        "number": "4480",
+        "street": "Oak",
+        "type": "St",
+        "city": "Vancouver",
+        "state": "BC",
         "zip": "V6H 3N1"
       },
       "description": "Hospital address with comma separators"
@@ -26,7 +31,11 @@
     {
       "input": "Fairmont Hotel Vancouver\n900 West Georgia Street\nVancouver BC V6C 2W6",
       "expected": {
-        "street": "Fairmont Hotel Vancouver\n900 West Georgia Street",
+        "place": "Fairmont Hotel Vancouver",
+        "number": "900",
+        "prefix": "W",
+        "street": "Georgia",
+        "type": "St",
         "city": "Vancouver",
         "state": "BC",
         "zip": "V6C 2W6"
@@ -36,7 +45,9 @@
     {
       "input": "Canadian Museum for Human Rights: 85 Israel Asper Way, Winnipeg MB R3C 0L5",
       "expected": {
-        "street": "Canadian Museum for Human Rights: 85 Israel Asper",
+        "place": "Canadian Museum for Human Rights",
+        "number": "85",
+        "street": "Israel Asper",
         "type": "Way",
         "city": "Winnipeg",
         "state": "MB",
@@ -47,7 +58,9 @@
     {
       "input": "Legislative Assembly of New Brunswick - 706 Queen Street, Fredericton NB E3B 1C5",
       "expected": {
-        "street": "Legislative Assembly of New Brunswick - 706 Queen",
+        "place": "Legislative Assembly of New Brunswick",
+        "number": "706",
+        "street": "Queen",
         "type": "St",
         "city": "Fredericton",
         "state": "NB",
@@ -58,7 +71,9 @@
     {
       "input": "Confederation Building  100 Prince Philip Drive, St. John's NL A1B 3R3",
       "expected": {
-        "street": "Confederation Building  100 Prince Philip",
+        "place": "Confederation Building",
+        "number": "100",
+        "street": "Prince Philip",
         "type": "Dr",
         "city": "St. John's",
         "state": "NL",
@@ -69,19 +84,25 @@
     {
       "input": "Canadian Museum of Immigration at Pier 21\n1055 Marginal Road\nHalifax NS B3H 4P7",
       "expected": {
-        "street1": "Canadian Museum of Immigration",
-        "type1": "",
-        "street2": "Pier 21\n1055 Marginal",
-        "type2": "Rd"
+        "place": "Canadian Museum of Immigration",
+        "street": "Pier 21",
+        "number": "1055",
+        "street2": "Marginal",
+        "type2": "Rd",
+        "city": "Halifax",
+        "state": "NS",
+        "zip": "B3H 4P7"
       },
       "description": "Museum with complex newline-separated address"
     },
     {
       "input": "CN Tower | 301 Front Street West, Toronto ON M5V 2T6",
       "expected": {
-        "suffix": "W",
-        "street": "CN Tower | 301 Front",
+        "place": "CN Tower",
+        "number": "301",
+        "street": "Front",
         "type": "St",
+        "suffix": "W",
         "city": "Toronto",
         "state": "ON",
         "zip": "M5V 2T6"
@@ -91,7 +112,9 @@
     {
       "input": "CN Tower 290 Bremner Blvd Toronto ON M5V 3L9",
       "expected": {
-        "street": "CN Tower 290 Bremner",
+        "place": "CN Tower",
+        "number": "290",
+        "street": "Bremner",
         "type": "Blvd",
         "city": "Toronto",
         "state": "ON",
@@ -102,7 +125,9 @@
     {
       "input": "Parliament of Canada (Centre Block) 111 Wellington Street, Ottawa ON K1A 0A6",
       "expected": {
-        "street": "Parliament of Canada (Centre Block) 111 Wellington",
+        "place": "Parliament of Canada (Centre Block)",
+        "number": "111",
+        "street": "Wellington",
         "type": "St",
         "city": "Ottawa",
         "state": "ON",
@@ -113,7 +138,9 @@
     {
       "input": "Royal Ontario Museum; 100 Queen's Park, Toronto ON M5S 2C6",
       "expected": {
-        "street": "Royal Ontario Museum; 100 Queen's",
+        "place": "Royal Ontario Museum",
+        "number": "100",
+        "street": "Queen's",
         "type": "Park",
         "city": "Toronto",
         "state": "ON",
@@ -124,7 +151,10 @@
     {
       "input": "Science North\n100 Ramsey Lake Road\nSudbury ON P3E 5S9",
       "expected": {
-        "street": "Science North\n100 Ramsey Lake Road",
+        "place": "Science North",
+        "number": "100",
+        "street": "Ramsey Lake",
+        "type": "Rd",
         "city": "Sudbury",
         "state": "ON",
         "zip": "P3E 5S9"
@@ -134,10 +164,11 @@
     {
       "input": "Centre Vidéotron, 250 Boulevard Wilfrid‑Hamel, Québec QC G1L 5A7",
       "expected": {
-        "type": "Ctr",
-        "street": "Vidéotron",
-        "city": "250 Boulevard Wilfrid‑Hamel",
-        "state": "QUÉBEC QC",
+        "place": "Centre Vidéotron",
+        "number": "250",
+        "street": "Boulevard Wilfrid‑Hamel",
+        "city": "Québec",
+        "state": "QC",
         "zip": "G1L 5A7"
       },
       "description": "Arena with French accents and en-dash character"
@@ -145,17 +176,25 @@
     {
       "input": "Château Frontenac at 1 Rue des Carrières Québec QC G1R 4P5",
       "expected": {
-        "street1": "Château Frontenac",
-        "type1": "",
-        "street2": "1",
-        "type2": "Rue"
+        "place": "Château Frontenac",
+        "number": "1",
+        "type": "Rue",
+        "street": "des Carrières",
+        "city": "Québec",
+        "state": "QC",
+        "zip": "G1R 4P5"
       },
       "description": "Historic hotel with 'at' preposition separator"
     },
     {
       "input": "Musée des beaux‑arts de Montréal\n1380 Rue Sherbrooke Ouest\nMontréal QC H3G 1J5",
       "expected": {
-        "street": "Musée des beaux‑arts de Montréal\n1380 Rue Sherbrooke Ouest\nMontréal",
+        "place": "Musée des beaux‑arts de Montréal",
+        "number": "1380",
+        "type": "Rue",
+        "street": "Sherbrooke",
+        "suffix": "O",
+        "city": "Montréal",
         "state": "QC",
         "zip": "H3G 1J5"
       },

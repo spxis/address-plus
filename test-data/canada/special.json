@@ -4,7 +4,7 @@
     "expected": {
       "sec_unit_type": "PO Box",
       "sec_unit_num": "123",
-      "facility": "Station A",
+      "place": "Station A",
       "city": "Toronto",
       "state": "ON",
       "zip": "M5W 1A1",
@@ -17,7 +17,7 @@
     "expected": {
       "sec_unit_type": "Case Postale",
       "sec_unit_num": "456",
-      "facility": "Succursale Centre-ville",
+      "place": "Succursale Centre-ville",
       "city": "Montréal",
       "state": "QC",
       "zip": "H3C 3P8",

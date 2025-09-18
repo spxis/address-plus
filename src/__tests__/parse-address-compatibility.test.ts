@@ -185,7 +185,7 @@ describe('Parse-Address Compatibility Tests', () => {
         prefix: 'N',
         street: '2200',
         suffix: 'W',
-        sec_unit_type: 'Apt',
+        sec_unit_type: 'Apartment',
         sec_unit_num: 'D304',
         city: 'Park City',
         state: 'UT',
@@ -255,7 +255,7 @@ describe('Parse-Address Compatibility Tests', () => {
         prefix: 'S',
         street: 'Wacker',
         type: 'Dr',
-        sec_unit_type: 'lobby',
+        sec_unit_type: 'Lobby',
         zip: '60606'
       },
       '(233 S Wacker Dr lobby 60606)': {
@@ -263,7 +263,7 @@ describe('Parse-Address Compatibility Tests', () => {
         prefix: 'S',
         street: 'Wacker',
         type: 'Dr',
-        sec_unit_type: 'lobby',
+        sec_unit_type: 'Lobby',
         zip: '60606'
       },
       '#42 233 S Wacker Dr 60606': {
@@ -276,7 +276,7 @@ describe('Parse-Address Compatibility Tests', () => {
         zip: '60606'
       },
       'lt42 99 Some Road, Some City LA': {
-        sec_unit_type: 'lt',
+        sec_unit_type: 'Lot',
         sec_unit_num: '42',
         number: '99',
         street: 'Some',
@@ -308,7 +308,7 @@ describe('Parse-Address Compatibility Tests', () => {
         number: '45',
         street: 'Quaker',
         type: 'Ave',
-        sec_unit_type: 'Ste',
+        sec_unit_type: 'Suite',
         sec_unit_num: '105'
       },
       '2672 Industrial Row Troy, MI 48084': {
@@ -492,14 +492,14 @@ describe('Parse-Address Compatibility Tests', () => {
     // PO Box tests
     const poBoxTests = {
       'Post office Box 3094 Collierville TN 38027': {
-        sec_unit_type: 'Post office Box',
+        sec_unit_type: 'Post Office Box',
         sec_unit_num: '3094',
         city: 'Collierville',
         state: 'TN',
         zip: '38027'
       },
       'P.O. box 3094 Collierville TN 38027': {
-        sec_unit_type: 'PO box',
+        sec_unit_type: 'PO Box',
         sec_unit_num: '3094',
         city: 'Collierville',
         state: 'TN',

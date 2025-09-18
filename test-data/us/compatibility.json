@@ -70,8 +70,10 @@
     {
       "input": "48S 400E, Salt Lake City UT",
       "expected": {
-        "number": "48S",
-        "street": "400E",
+        "number": "48",
+        "prefix": "S",
+        "street": "400",
+        "suffix": "E",
         "city": "Salt Lake City",
         "state": "UT"
       },
@@ -82,8 +84,12 @@
       "expected": {
         "number": "550",
         "prefix": "S",
-        "street": "400 E #3206",
-        "state": "SALT LAKE CITY UT",
+        "street": "400",
+        "suffix": "E",
+        "sec_unit_type": "#",
+        "sec_unit_num": "3206",
+        "city": "Salt Lake City",
+        "state": "UT",
         "zip": "84111"
       },
       "description": "Salt Lake City grid with unit number"

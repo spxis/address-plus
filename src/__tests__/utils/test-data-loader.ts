@@ -90,3 +90,36 @@ export function loadExactMatchTests(): ExactMatchData {
 export function loadEdgeCases(): EdgeCaseData {
   return loadTestData<EdgeCaseData>("edge-cases.json");
 }
+
+/**
+ * Structure for postal code province mapping test data
+ */
+interface PostalCodeProvinceTestData {
+  name: string;
+  description: string;
+  provinceMapping: Array<{
+    input: string;
+    expected: string;
+    description: string;
+  }>;
+  formatVariations: Array<{
+    input: string;
+    expected: string;
+    description: string;
+  }>;
+  invalidCases: Array<{
+    input: string;
+    expected: null;
+    description: string;
+  }>;
+}
+
+/**
+ * Load postal code province mapping test data
+ */
+export function loadPostalCodeProvinceTests(): PostalCodeProvinceTestData {
+  const testDataPath = path.join(process.cwd(), "test-data", "canada", "postal-code-provinces.json");
+  const rawData = fs.readFileSync(testDataPath, "utf-8");
+  
+  return JSON.parse(rawData) as PostalCodeProvinceTestData;
+}

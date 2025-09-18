@@ -4,7 +4,7 @@
     {
       "input": "Post office Box 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "Post Office Box",
+        "sec_unit_type": "PO Box",
         "sec_unit_num": "3094",
         "city": "Collierville",
         "state": "TN",
@@ -26,7 +26,7 @@
     {
       "input": "POBox 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "POBox",
+        "sec_unit_type": "PO Box",
         "sec_unit_num": "3094",
         "city": "Collierville",
         "state": "TN",

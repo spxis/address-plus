@@ -12,8 +12,10 @@ import {
   ZIP_CODE_PATTERN,
   CANADIAN_POSTAL_CODE_PATTERN,
   FACILITY_PATTERNS,
+  getProvinceFromPostalCode,
 } from '../data';
 import { ParsedAddress, ParseOptions } from '../types';
+import { capitalizeStreetName, capitalizeWords } from './capitalization';
 
 /**
  * Normalize text for consistent parsing
@@ -114,7 +116,7 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
 /**
  * Extract postal code (ZIP or Canadian postal code)
  */
-function parsePostalCode(text: string): { zip: string | undefined; plus4: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
+function parsePostalCode(text: string): { zip: string | undefined; plus4: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA'; detectedProvince?: string } {
   // Try US ZIP code - look for it anywhere in the text
   const zipMatch = text.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
   if (zipMatch) {
@@ -129,7 +131,8 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
   if (postalMatch) {
     const zip = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
     const remaining = text.replace(postalMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    return { zip, plus4: undefined, remaining, detectedCountry: 'CA' };
+    const detectedProvince = getProvinceFromPostalCode(zip) || undefined;
+    return { zip, plus4: undefined, remaining, detectedCountry: 'CA', detectedProvince };
   }
   
   return { zip: undefined, plus4: undefined, remaining: text };
@@ -256,6 +259,8 @@ function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined {
 
 export {
   buildRegexFromDict,
+  capitalizeStreetName,
+  capitalizeWords,
   detectCountry,
   normalizeText,
   parseDirectional,
@@ -267,3 +272,4 @@ export {
   parseStreetNumber,
   parseStreetType,
 };
+

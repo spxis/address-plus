@@ -27,6 +27,7 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   hngr: "Hanger",
   key: "Key",
   lbby: "Lobby",
+  level: "Level",
   lobby: "Lobby",
   lot: "Lot",
   lt: "Lot",

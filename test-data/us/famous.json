@@ -56,9 +56,7 @@
     {
       "input": "Golden Gate Bridge, US Hwy 101, San Francisco CA 94129",
       "expected": {
-        "street": "US",
-        "type": "Hwy",
-        "number": "101",
+        "street": "US Hwy 101",
         "city": "San Francisco",
         "state": "CA",
         "zip": "94129",
@@ -96,8 +94,9 @@
       "description": "NYC landmark without street number, using location name as street",
       "input": "Times Square, Manhattan, New York NY 10036",
       "expected": {
-        "street": "Times Square",
-        "city": "Manhattan",
+        "place": "Times Square",
+        "locality": "Manhattan",
+        "city": "New York",
         "state": "NY",
         "zip": "10036",
         "country": "US"
