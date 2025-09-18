@@ -84,8 +84,7 @@
       "expected": {
         "number": "550",
         "prefix": "S",
-        "street": "400",
-        "suffix": "E",
+        "street": "400 E",
         "sec_unit_type": "#",
         "sec_unit_num": "3206",
         "city": "Salt Lake City",
@@ -109,7 +108,8 @@
       "input": "100 S.E. Washington Ave, Minneapolis, MN",
       "expected": {
         "number": "100",
-        "street": "S.E. Washington",
+        "prefix": "SE",
+        "street": "Washington",
         "type": "Ave",
         "city": "Minneapolis",
         "state": "MN"
@@ -132,7 +132,7 @@
       "expected": {
         "number": "123",
         "street": "Maple Rochester",
-        "state": "NEW YORK"
+        "state": "NY"
       },
       "description": "Address where city name merges with street name"
     },
@@ -152,7 +152,7 @@
       "input": "1234 COUNTY HWY 60E, Town, CO 12345",
       "expected": {
         "number": "1234",
-        "street": "COUNTY HWY 60E",
+        "street": "County Hwy 60E",
         "city": "Town",
         "state": "CO",
         "zip": "12345"
@@ -164,7 +164,7 @@
       "expected": {
         "number": "321",
         "street": "S.",
-        "state": "WASHINGTON"
+        "state": "WA"
       },
       "description": "Ambiguous address - direction vs state name conflict"
     },

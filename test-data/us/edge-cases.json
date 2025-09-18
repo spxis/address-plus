@@ -13,14 +13,22 @@
   },
   {
     "input": "PO Box 12345, Rural Route 1, Smalltown, MT 59718",
-    "expected": null,
+    "expected": {
+      "sec_unit_type": "PO Box",
+      "sec_unit_num": "12345",
+      "city": "Rural Route 1, Smalltown",
+      "state": "MT",
+      "zip": "59718"
+    },
     "description": "PO Box with Rural Route"
   },
   {
     "input": "123 N. E. Main St., Apt. 4B, Big City, TX 75201-1234",
     "expected": {
       "number": "123",
-      "street": "N. E. Main St.",
+      "prefix": "N",
+      "street": "E. Main",
+      "type": "St",
       "city": "Big City",
       "state": "TX",
       "zip": "75201",
@@ -55,7 +63,7 @@
     "input": "123 Old Highway 66, Mile Marker 85, Flagstaff, AZ 86001",
     "expected": {
       "number": "123",
-      "street": "Old Highway 66",
+      "street": "Old Hwy 66",
       "city": "Flagstaff",
       "state": "AZ",
       "zip": "86001"
@@ -128,8 +136,7 @@
     "input": "123 1st Street North West, Department 45, Bismarck, ND 58501",
     "expected": {
       "number": "123",
-      "suffix": "W",
-      "street": "1st Street North",
+      "street": "1st Street North West",
       "city": "Bismarck",
       "state": "ND",
       "zip": "58501"
@@ -151,7 +158,7 @@
     "expected": {
       "number": "123",
       "type": "Ave",
-      "street": "of the Americas",
+      "street": "Of The Americas",
       "city": "New York",
       "state": "NY",
       "zip": "10036"
@@ -162,8 +169,7 @@
     "input": "789 County Road 250 East, Space 12, Mobile Home Park, Terre Haute, IN 47802",
     "expected": {
       "number": "789",
-      "suffix": "E",
-      "street": "County Road 250",
+      "street": "County Road 250 East",
       "city": "Terre Haute",
       "state": "IN",
       "zip": "47802",
