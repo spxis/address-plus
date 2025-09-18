@@ -17,7 +17,6 @@
  * Allows flexible spacing and dashes between 5 and 4 digit parts
  */
 const ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]*(\d{4}))?$/;
-const ZIP_CODE_VALIDATION_REGEX = /^\d{5}(?:[-\s]*\d{4})?$/;
 
 /**
  * ZIP code pattern for use in other regex patterns (without anchors)
@@ -28,9 +27,9 @@ const ZIP_CODE_REGEX_PATTERN = String.raw`(\d{5}(?:[-\s]*\d{4})?)`;
 /**
  * Pattern for Canadian postal codes (A1A 1A1 format)
  * Allows flexible spacing and dashes between first 3 and last 3 characters
+ * Uses case-insensitive flag for cleaner pattern
  */
-const CANADIAN_POSTAL_CODE_PATTERN = /^([A-Za-z]\d[A-Za-z])[-\s]*(\d[A-Za-z]\d)$/;
-const CANADIAN_POSTAL_VALIDATION_REGEX = /^[A-Za-z]\d[A-Za-z][-\s]*\d[A-Za-z]\d$/;
+const CANADIAN_POSTAL_CODE_PATTERN = /^([A-Z]\d[A-Z])[-\s]*(\d[A-Z]\d)$/i;
 
 /**
  * Pattern for Canadian postal codes (more liberal matching)
@@ -54,7 +53,7 @@ const CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z][-\s]*\d[A-Z]\d)/i;
   const trimmed = code.trim();
   
   // Check US ZIP code format
-  if (ZIP_CODE_VALIDATION_REGEX.test(trimmed)) {
+  if (ZIP_CODE_PATTERN.test(trimmed)) {
     const match = trimmed.match(ZIP_CODE_PATTERN);
     if (match) {
       const formatted = match[2] ? `${match[1]}-${match[2]}` : match[1];
@@ -68,7 +67,7 @@ const CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z][-\s]*\d[A-Z]\d)/i;
   }
   
   // Check Canadian postal code format
-  if (CANADIAN_POSTAL_VALIDATION_REGEX.test(trimmed)) {
+  if (CANADIAN_POSTAL_CODE_PATTERN.test(trimmed)) {
     const match = trimmed.toUpperCase().match(CANADIAN_POSTAL_CODE_PATTERN);
     if (match) {
       const formatted = `${match[1]} ${match[2]}`;
