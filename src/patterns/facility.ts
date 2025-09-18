@@ -3,6 +3,16 @@
  */
 
 /**
+ * Common facility type keywords used for identifying facility names
+ */
+const FACILITY_INDICATORS = [
+  'center', 'centre', 'building', 'tower', 'plaza', 'square', 'garden', 'gardens',
+  'park', 'university', 'college', 'school', 'hospital', 'library', 'museum',
+  'station', 'airport', 'mall', 'market', 'stadium', 'arena', 'theater', 'theatre',
+  'hotel', 'resort', 'memorial', 'monument', 'bridge', 'tunnel', 'complex'
+] as const;
+
+/**
  * Common facility name patterns for extraction
  */
 const FACILITY_PATTERNS_EN = [
@@ -33,4 +43,9 @@ const FACILITY_PATTERNS: RegExp[] = [...FACILITY_PATTERNS_EN, ...FACILITY_PATTER
  */
 const FACILITY_DELIMITER_PATTERN = /^([^,]+),\s*(.+)$/;
 
-export { FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN };
+/**
+ * Pattern for Music Square East special case
+ */
+const MUSIC_SQUARE_EAST_PATTERN = /^(.*square)\s+(east)\s*$/i;
+
+export { FACILITY_INDICATORS, FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN, MUSIC_SQUARE_EAST_PATTERN };

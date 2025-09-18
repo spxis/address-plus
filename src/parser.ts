@@ -20,8 +20,8 @@ import {
   UNIT_TYPE_KEYWORDS,
   WRITTEN_NUMBERS,
 } from "./patterns/address";
-import { FACILITY_DELIMITER_PATTERN, FACILITY_PATTERNS } from "./patterns/facility";
-import { validatePostalCode } from "./validation";
+import { FACILITY_DELIMITER_PATTERN, FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
+import { validatePostalCode, ZIP_CODE_PATTERN } from "./validation";
 import { COUNTRIES, VALIDATION_PATTERNS, CITY_PATTERNS } from "./constants";
 import {
   detectCountry,
@@ -251,17 +251,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       // Check if this looks like a facility name vs a street name
       const words = firstPart.trim().split(VALIDATION_PATTERNS.WHITESPACE_SPLIT);
       
-      // Common facility indicators
-      const facilityIndicators = [
-        'center', 'centre', 'building', 'tower', 'plaza', 'square', 'garden', 'gardens',
-        'park', 'university', 'college', 'school', 'hospital', 'library', 'museum',
-        'station', 'airport', 'mall', 'market', 'stadium', 'arena', 'theater', 'theatre',
-        'hotel', 'resort', 'memorial', 'monument', 'bridge', 'tunnel', 'complex'
-      ];
-      
       const hasMultipleWords = words.length >= 2;
       const hasFacilityIndicator = words.some(word => 
-        facilityIndicators.includes(word.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, ''))
+        FACILITY_INDICATORS.includes(word.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, '') as any)
       );
       
       // If it's multiple words with facility indicators, treat as facility
@@ -693,7 +685,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // 4. Special case: Check if "East" at the end should be treated as a street type
   // This handles the specific case "Music Square East" where "East" becomes type "E"
-  const musicSquareEastMatch = remaining.match(/^(.*square)\s+(east)\s*$/i);
+  const musicSquareEastMatch = remaining.match(MUSIC_SQUARE_EAST_PATTERN);
   if (musicSquareEastMatch) {
     result.street = musicSquareEastMatch[1].trim();
     result.type = 'E';
@@ -763,7 +755,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   }
   if (zipPart) {
     // Handle ZIP+4 format: 12345-6789, 123456789, 12345 6789
-    const zipMatch = zipPart.match(/^(\d{5})(?:[-\s]?(\d{4}))?$/);
+    const zipMatch = zipPart.match(ZIP_CODE_PATTERN);
     if (zipMatch) {
       setValidatedPostalCode(result, zipMatch[1], options);
       if (zipMatch[2]) {

@@ -15,7 +15,7 @@ export interface PostalValidationResult {
 /**
  * Pattern for US ZIP codes (5 digits, optionally followed by +4)
  */
-const ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
+export const ZIP_CODE_PATTERN = /^(\d{5})(?:[-\s]?(\d{4}))?$/;
 const ZIP_CODE_VALIDATION_REGEX = /^\d{5}(?:[-\s]?\d{4})?$/;
 
 /**
