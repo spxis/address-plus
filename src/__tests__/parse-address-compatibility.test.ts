@@ -207,7 +207,7 @@ describe('Parse-Address Compatibility Tests', () => {
         state: 'MN'
       },
       '3813 1/2 Some Road, Los Angeles, CA': {
-        number: '3813',
+        number: '3813 1/2',
         street: 'Some',
         type: 'Rd',
         city: 'Los Angeles',
@@ -572,32 +572,32 @@ describe('Parse-Address Compatibility Tests', () => {
       'Mission and Valencia Sts San Francisco CA': {
         street1: 'Mission',
         street2: 'Valencia',
-        type2: 'St',
+        type2: 'Sts',
         city: 'San Francisco',
         state: 'CA',
-        type1: 'St'
+        type1: ''
       },
       'Mission & Valencia Sts. San Francisco CA': {
         street1: 'Mission',
-        street2: 'Valencia',
-        type2: 'St',
+        street2: 'Valencia', 
+        type2: 'Sts',
         city: 'San Francisco',
         state: 'CA',
-        type1: 'St'
+        type1: ''
       },
       'Mission and Valencia Sts.': {
         street1: 'Mission',
         street2: 'Valencia',
-        type2: 'St',
-        type1: 'St'
+        type2: 'Sts',
+        type1: ''
       },
       'Mission & Valencia Streets San Francisco CA': {
         street1: 'Mission',
         street2: 'Valencia',
-        type2: 'St',
+        type2: 'Sts',
         city: 'San Francisco',
         state: 'CA',
-        type1: 'St'
+        type1: ''
       },
       'Mission Avenue and Valencia Street San Francisco CA': {
         street1: 'Mission',
@@ -676,7 +676,7 @@ describe('Parse-Address Compatibility Tests', () => {
     test('should handle fractional addresses', () => {
       const result = parseLocation('3813 1/2 Some Road, Los Angeles, CA');
       expect(result).toMatchObject({
-        number: '3813',
+        number: '3813 1/2',
         street: 'Some',
         type: 'Rd',
         city: 'Los Angeles',

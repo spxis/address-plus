@@ -168,7 +168,7 @@ describe('Parse-Address Compatibility Tests', () => {
       const result = parseLocation('PO Box 123, Anytown, NY 12345');
       expect(result).toBeTruthy();
       const address = result as ParsedAddress;
-      expect(address?.sec_unit_type).toBe('PO box');
+      expect(address?.sec_unit_type).toBe('PO Box');
       expect(address?.sec_unit_num).toBe('123');
     });
   });

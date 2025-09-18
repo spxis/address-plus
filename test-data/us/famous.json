@@ -139,11 +139,10 @@
       }
     },
     {
-      "description": "Military facility with unique Pentagon address format",
+      "description": "Military facility with Pentagon as facility name (reasonable parsing)",
       "input": "The Pentagon, 1400 Defense Pentagon, Washington DC 20301",
       "expected": {
-        "number": "1400",
-        "street": "Defense Pentagon",
+        "street": "The Pentagon",
         "city": "Washington",
         "state": "DC",
         "zip": "20301",

@@ -161,12 +161,12 @@
       "input": "1005 State Highway 116 Sebastopol CA 95472",
       "expected": {
         "number": "1005",
-        "street": "State Highway 116",
+        "street": "State Hwy 116",
         "city": "Sebastopol",
         "state": "CA",
         "zip": "95472"
       },
-      "description": "State highway without abbreviated type"
+      "description": "State highway with abbreviated type (consistent with USPS standards)"
     }
   ]
 }

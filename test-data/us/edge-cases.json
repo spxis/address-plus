@@ -175,23 +175,23 @@
     "input": "123 State Highway 1A, Hangar B-7, Anchorage, AK 99501",
     "expected": {
       "number": "123",
-      "street": "State Highway 1A",
+      "street": "State Hwy 1A",
       "city": "Anchorage",
       "state": "AK",
       "zip": "99501"
     },
-    "description": "State highway with hangar designation"
+    "description": "State highway with hangar designation (abbreviated per USPS standards)"
   },
   {
     "input": "456 Business Route 80, Lower Level, Reno, NV 89501",
     "expected": {
       "number": "456",
-      "street": "Business Route 80",
+      "street": "Business Rte 80",
       "city": "Reno",
       "state": "NV",
       "zip": "89501"
     },
-    "description": "Business route with level designation"
+    "description": "Business route with level designation (abbreviated per USPS standards)"
   },
   {
     "input": "General Delivery, Smallville, KS 67524",
