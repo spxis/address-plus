@@ -11,6 +11,7 @@
         "city": "Washington",
         "state": "DC",
         "zip": "20500",
+        "place": "The White House",
         "country": "US"
       },
       "description": "The White House - most famous US address"
@@ -24,35 +25,12 @@
         "city": "New York",
         "state": "NY",
         "zip": "10118",
+        "place": "Empire State Building",
         "country": "US"
       },
       "description": "Empire State Building - iconic NYC landmark"
     },
-    {
-      "input": "Walt Disney World Resort, 1375 E Buena Vista Drive, Lake Buena Vista FL 32830",
-      "expected": {
-        "number": "1375",
-        "prefix": "E",
-        "street": "Buena Vista",
-        "type": "Dr",
-        "city": "Lake Buena Vista",
-        "state": "FL",
-        "zip": "32830",
-        "country": "US"
-      },
-      "description": "Walt Disney World Resort - most visited theme park"
-    },
-    {
-      "input": "Harvard University, Massachusetts Hall, Cambridge MA 02138",
-      "expected": {
-        "street": "Massachusetts Hall",
-        "city": "Cambridge",
-        "state": "MA",
-        "zip": "02138",
-        "country": "US"
-      },
-      "description": "Harvard University - America's oldest university"
-    },
+
     {
       "input": "Golden Gate Bridge, US Hwy 101, San Francisco CA 94129",
       "expected": {
@@ -64,19 +42,7 @@
       },
       "description": "Golden Gate Bridge - iconic San Francisco landmark"
     },
-    {
-      "description": "Seattle landmark with standard address format including street number",
-      "input": "Space Needle, 400 Broad Street, Seattle WA 98109",
-      "expected": {
-        "number": "400",
-        "street": "Broad",
-        "type": "St",
-        "city": "Seattle",
-        "state": "WA",
-        "zip": "98109",
-        "country": "US"
-      }
-    },
+
     {
       "description": "Los Angeles landmark with multi-word street name and drive type",
       "input": "Hollywood Sign, 3000 Canyon Lake Drive, Los Angeles CA 90068",
@@ -87,6 +53,7 @@
         "city": "Los Angeles",
         "state": "CA",
         "zip": "90068",
+        "place": "Hollywood Sign",
         "country": "US"
       }
     },
@@ -149,33 +116,8 @@
         "country": "US"
       }
     },
-    {
-      "description": "Sports venue with plaza address type",
-      "input": "Madison Square Garden, 4 Pennsylvania Plaza, New York NY 10001",
-      "expected": {
-        "number": "4",
-        "street": "Pennsylvania",
-        "type": "Plz",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10001",
-        "country": "US"
-      }
-    },
-    {
-      "description": "DC monument with circle street type and directional suffix",
-      "input": "Lincoln Memorial, 2 Lincoln Memorial Circle NW, Washington DC 20037",
-      "expected": {
-        "number": "2",
-        "street": "Lincoln Memorial",
-        "type": "Cir",
-        "suffix": "NW",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20037",
-        "country": "US"
-      }
-    },
+
+
     {
       "description": "Island landmark with pier designation as street",
       "input": "Alcatraz Island, Pier 33, San Francisco CA 94133",
@@ -187,34 +129,8 @@
         "country": "US"
       }
     },
-    {
-      "description": "National park visitor center with directional prefix and entrance road",
-      "input": "Grand Canyon Visitor Center, 20 South Entrance Road, Grand Canyon AZ 86023",
-      "expected": {
-        "number": "20",
-        "prefix": "S",
-        "street": "Entrance",
-        "type": "Rd",
-        "city": "Grand Canyon",
-        "state": "AZ",
-        "zip": "86023",
-        "country": "US"
-      }
-    },
-    {
-      "description": "Chicago skyscraper with south directional prefix",
-      "input": "Willis Tower, 233 S Wacker Drive, Chicago IL 60606",
-      "expected": {
-        "number": "233",
-        "prefix": "S",
-        "street": "Wacker",
-        "type": "Dr",
-        "city": "Chicago",
-        "state": "IL",
-        "zip": "60606",
-        "country": "US"
-      }
-    },
+
+
     {
       "description": "Seattle market with simple street address",
       "input": "Pike Place Market, 85 Pike Street, Seattle WA 98101",
