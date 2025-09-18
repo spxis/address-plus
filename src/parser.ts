@@ -20,20 +20,12 @@ import {
   UNIT_TYPE_KEYWORDS,
   WRITTEN_NUMBERS,
 } from "./patterns/address";
-import { FACILITY_DELIMITER_PATTERN, FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
+import { FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
 import { validatePostalCode, ZIP_CODE_PATTERN } from "./validation";
 import { COUNTRIES, VALIDATION_PATTERNS, CITY_PATTERNS } from "./constants";
 import {
   detectCountry,
-  normalizeText,
-  parseDirectional,
-  parseFacility,
-  parseParenthetical,
-  parsePostalCode,
-  parseSecondaryUnit,
   parseStateProvince,
-  parseStreetNumber,
-  parseStreetType,
 } from "./utils";
 
 // Build regex patterns similar to original parse-address
@@ -210,7 +202,9 @@ function setValidatedPostalCode(result: ParsedAddress | ParsedIntersection, zipC
   if (options.validatePostalCode) {
     const validation = validatePostalCode(zipCode);
     result.postalValid = validation.isValid;
-    result.postalType = validation.type;
+    if (validation.type) {
+      result.postalType = validation.type;
+    }
     if (validation.isValid && validation.formatted) {
       result.zip = validation.formatted;
     }
@@ -582,8 +576,8 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   // Parse address part using step-by-step approach
   let remaining = addressPart.trim();
   
-  // 0. Check for secondary unit at the beginning (e.g., "#42 233 S Wacker Dr")
-  const prefixSecUnitMatch = remaining.match(new RegExp(`^((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|#\\s*[a-z0-9-]+)\\s+(.*)$`, 'i'));
+  // 0. Check for secondary unit at the beginning (e.g., "#42 233 S Wacker Dr", "lt42 99 Some Road")
+  const prefixSecUnitMatch = remaining.match(new RegExp(`^((?:${UNIT_TYPE_KEYWORDS})\\s*[a-z0-9-]*|#\\s*[a-z0-9-]+)\\s+(.*)$`, 'i'));
   if (prefixSecUnitMatch) {
     const unitText = prefixSecUnitMatch[1];
     remaining = prefixSecUnitMatch[2];
@@ -592,14 +586,19 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     const unitParts = unitText.match(UNIT_TYPE_NUMBER_PATTERN);
     if (unitParts) {
       if (unitParts[1] && unitParts[2]) {
-        // Standard format: "apt 123", "suite 5A", etc.
+        // Standard format with space: "apt 123", "suite 5A"
         const rawType = unitParts[1].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[2];
-      } else if (unitParts[3]) {
+      } else if (unitParts[3] && unitParts[4]) {
+        // No-space format: "lt42", "lot5"
+        const rawType = unitParts[3].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[4];
+      } else if (unitParts[5]) {
         // Hash format: "#123", "# 123"
         result.sec_unit_type = "#";
-        result.sec_unit_num = unitParts[3];
+        result.sec_unit_num = unitParts[5];
       }
     }
   }
@@ -656,14 +655,19 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     const unitParts = secUnitMatch[2].match(UNIT_TYPE_NUMBER_PATTERN);
     if (unitParts) {
       if (unitParts[1] && unitParts[2]) {
-        // Standard format: "apt 123", "suite 5A", etc.
+        // Standard format with space: "apt 123", "suite 5A"
         const rawType = unitParts[1].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[2];
-      } else if (unitParts[3]) {
+      } else if (unitParts[3] && unitParts[4]) {
+        // No-space format: "lt42", "lot5"
+        const rawType = unitParts[3].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[4];
+      } else if (unitParts[5]) {
         // Hash format: "#123", "# 123"
         result.sec_unit_type = "#";
-        result.sec_unit_num = unitParts[3];
+        result.sec_unit_num = unitParts[5];
       }
     }
   } else if (secondaryUnitPart) {
@@ -671,14 +675,19 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     const unitParts = secondaryUnitPart.match(UNIT_TYPE_NUMBER_PATTERN);
     if (unitParts) {
       if (unitParts[1] && unitParts[2]) {
-        // Standard format: "apt 123", "suite 5A", etc.
+        // Standard format with space: "apt 123", "suite 5A"
         const rawType = unitParts[1].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[2];
-      } else if (unitParts[3]) {
+      } else if (unitParts[3] && unitParts[4]) {
+        // No-space format: "lt42", "lot5"
+        const rawType = unitParts[3].toLowerCase();
+        result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
+        result.sec_unit_num = unitParts[4];
+      } else if (unitParts[5]) {
         // Hash format: "#123", "# 123"
         result.sec_unit_type = "#";
-        result.sec_unit_num = unitParts[3];
+        result.sec_unit_num = unitParts[5];
       }
     }
   }

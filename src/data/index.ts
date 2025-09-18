@@ -13,8 +13,9 @@ export {
 export { CA_STREET_TYPES } from "./ca-street-types";
 export { DIRECTIONAL_MAP } from "./directionals";
 export { FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN } from "../patterns/facility";
-export { CANADIAN_POSTAL_CODE_PATTERN, ZIP_CODE_PATTERN, validatePostalCode } from "../patterns/postal";
-export type { PostalValidationResult } from "../patterns/postal";
+export { ZIP_CODE_PATTERN, validatePostalCode } from "../validation";
+export type { PostalValidationResult } from "../validation";
+export { CANADIAN_POSTAL_CODE_PATTERN } from "../patterns/postal";
 export { 
   SECONDARY_UNIT_PATTERN, 
   UNIT_TYPE_NUMBER_PATTERN,
