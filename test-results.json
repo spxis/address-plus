@@ -1,20 +1,20 @@
 {
   "testSummary": {
-    "timestamp": "2025-09-18T00:55:49.932Z",
+    "timestamp": "2025-09-18T01:25:15.883Z",
     "totalTests": 960,
-    "passed": 797,
-    "failed": 163,
-    "passRate": "83.02%",
-    "regressionStatus": "IMPROVEMENT",
+    "passed": 791,
+    "failed": 169,
+    "passRate": "82.40%",
+    "regressionStatus": "REGRESSION",
     "previousBest": 3,
-    "regressionCount": 2
+    "regressionCount": 4
   },
   "regressionAnalysis": {
     "baseline": 165,
-    "current": 163,
-    "change": -2,
-    "message": "✅ IMPROVEMENT: 2 fewer test failures!"
+    "current": 169,
+    "change": 4,
+    "message": "⚠️  REGRESSION DETECTED: 4 additional test failures!"
   },
-  "lastUpdated": "2025-09-18T00:55:49.933Z",
-  "gitCommit": "bf2449d3ee5d9a0568ecce4630f35ed6f4a1d87b"
+  "lastUpdated": "2025-09-18T01:25:15.884Z",
+  "gitCommit": "2dad591f8fb875f346255a5bd814c5a02c3f5878"
 }

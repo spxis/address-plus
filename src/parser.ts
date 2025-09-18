@@ -659,15 +659,18 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         const rawType = unitParts[1].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[2];
+        result.unit = secUnitMatch[2]; // Store original unit text
       } else if (unitParts[3] && unitParts[4]) {
         // No-space format: "lt42", "lot5"
         const rawType = unitParts[3].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[4];
+        result.unit = secUnitMatch[2]; // Store original unit text
       } else if (unitParts[5]) {
         // Hash format: "#123", "# 123"
         result.sec_unit_type = "#";
         result.sec_unit_num = unitParts[5];
+        result.unit = secUnitMatch[2]; // Store original unit text
       }
     }
   } else if (secondaryUnitPart) {
@@ -679,15 +682,18 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         const rawType = unitParts[1].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[2];
+        result.unit = secondaryUnitPart; // Store original unit text
       } else if (unitParts[3] && unitParts[4]) {
         // No-space format: "lt42", "lot5"
         const rawType = unitParts[3].toLowerCase();
         result.sec_unit_type = SECONDARY_UNIT_TYPES[rawType] || rawType;
         result.sec_unit_num = unitParts[4];
+        result.unit = secondaryUnitPart; // Store original unit text
       } else if (unitParts[5]) {
         // Hash format: "#123", "# 123"
         result.sec_unit_type = "#";
         result.sec_unit_num = unitParts[5];
+        result.unit = secondaryUnitPart; // Store original unit text
       }
     }
   }

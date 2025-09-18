@@ -15,7 +15,7 @@
   {
     "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
     "expected": {
-      "sec_unit_type": "Case postale",
+      "sec_unit_type": "Case Postale",
       "sec_unit_num": "456",
       "facility": "Succursale Centre-ville",
       "city": "Montréal",
