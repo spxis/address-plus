@@ -30,7 +30,6 @@
       },
       "description": "Empire State Building - iconic NYC landmark"
     },
-
     {
       "input": "Golden Gate Bridge, US Hwy 101, San Francisco CA 94129",
       "expected": {
@@ -42,7 +41,6 @@
       },
       "description": "Golden Gate Bridge - iconic San Francisco landmark"
     },
-
     {
       "description": "Los Angeles landmark with multi-word street name and drive type",
       "input": "Hollywood Sign, 3000 Canyon Lake Drive, Los Angeles CA 90068",
@@ -116,8 +114,6 @@
         "country": "US"
       }
     },
-
-
     {
       "description": "Island landmark with pier designation as street",
       "input": "Alcatraz Island, Pier 33, San Francisco CA 94133",
@@ -129,8 +125,6 @@
         "country": "US"
       }
     },
-
-
     {
       "description": "Seattle market with simple street address",
       "input": "Pike Place Market, 85 Pike Street, Seattle WA 98101",

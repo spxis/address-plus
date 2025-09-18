@@ -50,19 +50,13 @@ const SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\
 const UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|(lt|lot)([a-z0-9]+)|#\\s*([a-z0-9-]+)`, 'i');
 
 /**
- * Pattern for Canadian postal codes (more liberal matching)
- * Matches formats like: A1A 1A1, A1A1A1, a1a 1a1, etc.
- */
-const CANADIAN_POSTAL_LIBERAL_PATTERN = /([A-Z]\d[A-Z]\s*\d[A-Z]\d)/i;
-
-/**
  * Pattern for extracting parenthetical information
  * Matches content within parentheses
  */
 const PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
 
+// Exports at end of file as per AGENTS.md guidelines
 export {
-  CANADIAN_POSTAL_LIBERAL_PATTERN,
   PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN,
   UNIT_TYPE_KEYWORDS,

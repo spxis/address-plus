@@ -12,11 +12,11 @@ import {
   SECONDARY_UNIT_TYPES,
 } from "./data";
 import {
-  CANADIAN_POSTAL_LIBERAL_PATTERN,
   SECONDARY_UNIT_PATTERN,
   UNIT_TYPE_NUMBER_PATTERN,
   UNIT_TYPE_KEYWORDS,
 } from "./patterns/address";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "./validation";
 import { FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
 import { ZIP_CODE_PATTERN } from "./validation";
 import { VALIDATION_PATTERNS, CITY_PATTERNS } from "./constants";
@@ -171,6 +171,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Extract ZIP from end and work backwards
   let zipPart = '';
+  let invalidZipCandidate = ''; // Track invalid ZIP patterns for validation in strict mode
   let statePart = '';
   let cityPart = '';
   let addressPart = commaParts[addressStartIndex] || commaParts[0];
@@ -770,6 +771,16 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       }
     } else {
       setValidatedPostalCode(result, zipPart, options);
+    }
+  } else if (options.strict) {
+    // In strict mode, check if there were invalid ZIP patterns that we should validate
+    // Look for ZIP-like patterns in the original address
+    const originalParts = address.split(',');
+    const lastOriginalPart = originalParts[originalParts.length - 1] || '';
+    const potentialZipMatch = lastOriginalPart.match(/\b([A-Z0-9]{3,9}(?:[-\s][A-Z0-9]{1,4})?)\s*$/i);
+    if (potentialZipMatch) {
+      // Found a potential ZIP pattern that wasn't extracted in strict mode
+      setValidatedPostalCode(result, potentialZipMatch[1], options);
     }
   }
   

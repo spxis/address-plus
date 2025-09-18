@@ -18,6 +18,12 @@ interface ParseOptions {
   extractFacilities?: boolean;
   /** Whether to parse parenthetical information */
   parseParenthetical?: boolean;
+  /** 
+   * Whether to only extract valid ZIP/postal codes (strict mode)
+   * - true: Only extract codes that pass format validation
+   * - false (default): Extract all codes but indicate validity with zipValid field
+   */
+  strict?: boolean;
 }
 
 export type { ParseOptions };

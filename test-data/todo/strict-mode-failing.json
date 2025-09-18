@@ -1,0 +1,159 @@
+[
+  {
+    "description": "Invalid US ZIP - too short (3 digits)",
+    "address": "123 Main St, New York NY 123",
+    "expected": {
+      "permissive": {
+        "zip": "123",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too short (2 digits)",
+    "address": "123 Main St, New York NY 12",
+    "expected": {
+      "permissive": {
+        "zip": "12",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too long (7 digits)",
+    "address": "123 Main St, New York NY 1234567",
+    "expected": {
+      "permissive": {
+        "zip": "1234567",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - way too long",
+    "address": "123 Main St, New York NY 12345678901",
+    "expected": {
+      "permissive": {
+        "zip": "12345678901",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - wrong pattern",
+    "address": "123 Main St, Toronto ON ABC123",
+    "expected": {
+      "permissive": {
+        "zip": "ABC123",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - too short",
+    "address": "123 Main St, Toronto ON XYZ",
+    "expected": {
+      "permissive": {
+        "zip": "XYZ",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - hyphen format (but should normalize to space)",
+    "address": "123 Main St, Toronto ON M5V-1A1",
+    "expected": {
+      "permissive": {
+        "zip": "M5V-1A1",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    },
+    "note": "This test expects M5V-1A1 but our normalization converts it to M5V 1A1"
+  },
+  {
+    "description": "Invalid Canadian postal - all numbers",
+    "address": "123 Main St, Toronto ON 123456",
+    "expected": {
+      "permissive": {
+        "zip": "123456",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Edge case - mixed alphanumeric",
+    "address": "123 Main St, New York NY A1B2C",
+    "expected": {
+      "permissive": {
+        "zip": "A1B2C",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Edge case - Canadian postal in US address",
+    "address": "123 Main St, New York NY H3C1G1",
+    "expected": {
+      "permissive": {
+        "zip": "H3C1G1",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    },
+    "note": "Our normalization converts H3C1G1 to H3C 1G1"
+  },
+  {
+    "description": "Edge case - US ZIP in Canadian address",
+    "address": "123 Main St, Toronto ON 90210",
+    "expected": {
+      "permissive": {
+        "zip": "90210",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    },
+    "note": "This shows zipValid as true because 90210 is a valid ZIP format, but contextually wrong for Canadian address"
+  }
+]

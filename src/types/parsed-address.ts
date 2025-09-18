@@ -38,6 +38,8 @@ interface ParsedAddress {
   postalValid?: boolean;
   /** Postal code type (zip or postal) */
   postalType?: 'zip' | 'postal';
+  /** ZIP/postal code format validation (true if format is valid) */
+  zipValid?: boolean;
   /** Place name (landmark, POI, building, monument, etc.) */
   place?: string;
   /** Rural route or similar */

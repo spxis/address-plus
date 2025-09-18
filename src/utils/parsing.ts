@@ -141,7 +141,7 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
 /**
  * Parse secondary unit information (apartment, suite, etc.)
  */
-function parseSecondaryUnit(text: string): { 
+export function parseSecondaryUnit(text: string): { 
   unit: string | undefined; 
   sec_unit_type: string | undefined; 
   sec_unit_num: string | undefined; 
@@ -267,7 +267,6 @@ export {
   parseFacility,
   parseParenthetical,
   parsePostalCode,
-  parseSecondaryUnit,
   parseStateProvince,
   parseStreetNumber,
   parseStreetType,

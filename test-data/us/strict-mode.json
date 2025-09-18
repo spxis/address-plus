@@ -1,0 +1,198 @@
+[
+  {
+    "description": "Valid US ZIP - 5 digits",
+    "address": "123 Main St, New York NY 12345",
+    "expected": {
+      "zip": "12345",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "Valid US ZIP+4 with hyphen",
+    "address": "123 Main St, New York NY 12345-6789",
+    "expected": {
+      "zip": "12345",
+      "plus4": "6789",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "Valid US ZIP+4 without hyphen",
+    "address": "123 Main St, New York NY 123456789",
+    "expected": {
+      "zip": "12345",
+      "plus4": "6789",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too short (3 digits)",
+    "address": "123 Main St, New York NY 123",
+    "expected": {
+      "permissive": {
+        "zip": "123",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too short (2 digits)",
+    "address": "123 Main St, New York NY 12",
+    "expected": {
+      "permissive": {
+        "zip": "12",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too long (7 digits)",
+    "address": "123 Main St, New York NY 1234567",
+    "expected": {
+      "permissive": {
+        "zip": "1234567",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - way too long",
+    "address": "123 Main St, New York NY 12345678901",
+    "expected": {
+      "permissive": {
+        "zip": "12345678901",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Valid Canadian postal code with space",
+    "address": "123 Main St, Toronto ON M5V 1A1",
+    "expected": {
+      "zip": "M5V 1A1",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "Valid Canadian postal code without space",
+    "address": "123 Main St, Montreal QC H3C1G1",
+    "expected": {
+      "zip": "H3C 1G1",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - wrong pattern",
+    "address": "123 Main St, Toronto ON ABC123",
+    "expected": {
+      "permissive": {
+        "zip": "ABC123",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - too short",
+    "address": "123 Main St, Toronto ON XYZ",
+    "expected": {
+      "permissive": {
+        "zip": "XYZ",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - hyphen format",
+    "address": "123 Main St, Toronto ON M5V-1A1",
+    "expected": {
+      "permissive": {
+        "zip": "M5V-1A1",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid Canadian postal - all numbers",
+    "address": "123 Main St, Toronto ON 123456",
+    "expected": {
+      "permissive": {
+        "zip": "123456",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Edge case - mixed alphanumeric",
+    "address": "123 Main St, New York NY A1B2C",
+    "expected": {
+      "permissive": {
+        "zip": "A1B2C",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Edge case - Canadian postal in US address",
+    "address": "123 Main St, New York NY H3C1G1",
+    "expected": {
+      "permissive": {
+        "zip": "H3C1G1",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Edge case - US ZIP in Canadian address",
+    "address": "123 Main St, Toronto ON 90210",
+    "expected": {
+      "permissive": {
+        "zip": "90210",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  }
+]

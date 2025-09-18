@@ -12,6 +12,7 @@ import {
 } from "../data";
 import { VALIDATION_PATTERNS } from "../constants";
 import { UNIT_TYPE_KEYWORDS, WRITTEN_NUMBERS } from "./address";
+import { ZIP_CODE_REGEX_PATTERN } from "../validation";
 
 export interface AddressPatterns {
   number: string;
@@ -68,7 +69,7 @@ export function buildPatterns(): AddressPatterns {
     state: `\\b(${states})\\b`,
     stateAbbrev: `\\b(${stateAbbrevs})\\b`,
     stateFullName: `\\b(${stateFullNames})\\b`,
-    zip: String.raw`(\d{5}(?:[-\s]?\d{4})?)`,
+    zip: ZIP_CODE_REGEX_PATTERN,  // Use pattern from validation.ts for DRY compliance
       // Extend to include Canadian variants: C.P./CP, Case/Boîte postale, POBox, Box, and loose 'P.O. box'
       // We'll still capture the box number in group 2 when present
       poBox: String.raw`(p\.?\s*o\.?\s*box|post\s*office\s*box|pobox|po\s*box|c\.?p\.?|cp|case\s*postale|bo[iî]te\s*postale|boite\s*postale|box)\s*(\d+)?`,

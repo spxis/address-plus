@@ -21,9 +21,9 @@ export {
   UNIT_TYPE_NUMBER_PATTERN,
   UNIT_TYPE_KEYWORDS,
   WRITTEN_NUMBERS,
-  CANADIAN_POSTAL_LIBERAL_PATTERN,
   PARENTHETICAL_PATTERN 
 } from "../patterns/address";
+export { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../validation";
 export { SECONDARY_UNIT_TYPES } from "./secondary-unit-types";
 export { 
   US_REGIONS, 

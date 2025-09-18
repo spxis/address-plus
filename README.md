@@ -75,10 +75,17 @@ console.log(intersection);
 ### TypeScript
 
 ```typescript
-import { parseLocation, parseIntersection, type ParsedAddress, type ParsedIntersection } from '@spxis/address-plus';
+import {
+  parseLocation,
+  parseIntersection,
+  type ParsedAddress,
+  type ParsedIntersection,
+} from '@spxis/address-plus';
 
 // Typed address parsing
-const address: ParsedAddress | null = parseLocation('1600 Pennsylvania Ave NW, Washington DC 20500');
+const address: ParsedAddress | null = parseLocation(
+  '1600 Pennsylvania Ave NW, Washington DC 20500'
+);
 
 if (address && 'street' in address) {
   // TypeScript knows this is a standard address, not an intersection
@@ -131,7 +138,7 @@ console.log(address);
 const addresses = [
   '123 Main St, New York NY 10001',
   '456 Broadway Ave, Los Angeles CA 90210',
-  '789 First Street, Chicago IL 60601'
+  '789 First Street, Chicago IL 60601',
 ];
 
 const parsed = addresses.map(addr => parseLocation(addr));
@@ -144,33 +151,33 @@ The parser returns structured objects with the following possible fields:
 
 ### Standard Address Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| `number` | House/building number | `"123"`, `"123 1/2"`, `"N95W18855"` |
-| `prefix` | Directional prefix | `"N"`, `"SE"`, `"NW"` |
-| `street` | Street name | `"Main"`, `"Broadway"`, `"Martin Luther King Jr"` |
-| `type` | Street type (abbreviated) | `"St"`, `"Ave"`, `"Blvd"`, `"Dr"` |
-| `suffix` | Directional suffix | `"N"`, `"SW"`, `"E"` |
-| `sec_unit_type` | Secondary unit type | `"Apt"`, `"Suite"`, `"Unit"`, `"#"` |
-| `sec_unit_num` | Secondary unit number | `"4B"`, `"100"`, `"C-22"` |
-| `city` | City name | `"New York"`, `"Los Angeles"` |
-| `state` | State/province (abbreviated) | `"NY"`, `"CA"`, `"QC"`, `"ON"` |
-| `zip` | ZIP/postal code | `"10001"`, `"90210"`, `"H3C 1G1"` |
-| `plus4` | ZIP+4 extension | `"1234"` |
-| `country` | Country code | `"US"`, `"CA"` |
-| `place` | Facility/landmark name | `"Empire State Building"`, `"Central Park"` |
+| Field           | Description                  | Example                                           |
+| --------------- | ---------------------------- | ------------------------------------------------- |
+| `number`        | House/building number        | `"123"`, `"123 1/2"`, `"N95W18855"`               |
+| `prefix`        | Directional prefix           | `"N"`, `"SE"`, `"NW"`                             |
+| `street`        | Street name                  | `"Main"`, `"Broadway"`, `"Martin Luther King Jr"` |
+| `type`          | Street type (abbreviated)    | `"St"`, `"Ave"`, `"Blvd"`, `"Dr"`                 |
+| `suffix`        | Directional suffix           | `"N"`, `"SW"`, `"E"`                              |
+| `sec_unit_type` | Secondary unit type          | `"Apt"`, `"Suite"`, `"Unit"`, `"#"`               |
+| `sec_unit_num`  | Secondary unit number        | `"4B"`, `"100"`, `"C-22"`                         |
+| `city`          | City name                    | `"New York"`, `"Los Angeles"`                     |
+| `state`         | State/province (abbreviated) | `"NY"`, `"CA"`, `"QC"`, `"ON"`                    |
+| `zip`           | ZIP/postal code              | `"10001"`, `"90210"`, `"H3C 1G1"`                 |
+| `plus4`         | ZIP+4 extension              | `"1234"`                                          |
+| `country`       | Country code                 | `"US"`, `"CA"`                                    |
+| `place`         | Facility/landmark name       | `"Empire State Building"`, `"Central Park"`       |
 
 ### Intersection Fields
 
-| Field | Description | Example |
-|-------|-------------|---------|
-| `street1` | First street name | `"Main"` |
-| `type1` | First street type | `"St"` |
+| Field     | Description        | Example      |
+| --------- | ------------------ | ------------ |
+| `street1` | First street name  | `"Main"`     |
+| `type1`   | First street type  | `"St"`       |
 | `street2` | Second street name | `"Broadway"` |
-| `type2` | Second street type | `"Ave"` |
-| `city` | City name | `"New York"` |
-| `state` | State/province | `"NY"` |
-| `zip` | ZIP/postal code | `"10001"` |
+| `type2`   | Second street type | `"Ave"`      |
+| `city`    | City name          | `"New York"` |
+| `state`   | State/province     | `"NY"`       |
+| `zip`     | ZIP/postal code    | `"10001"`    |
 
 ## Examples
 
@@ -202,7 +209,7 @@ parseLocation('Starbucks, 1234 Coffee Lane, Seattle WA 98101');
 // English format
 parseLocation('123 Main Street, Toronto ON M5V 1A1');
 
-// French format  
+// French format
 parseLocation('456 Rue Saint-Jacques, Montréal QC H3C 1G1');
 
 // Bilingual
@@ -225,9 +232,11 @@ parseIntersection('Highway 101 & Interstate 280');
 Parses a single address string into structured components.
 
 **Parameters:**
+
 - `address` (string): The address string to parse
 
 **Returns:**
+
 - `ParsedAddress | null`: Parsed address object or null if parsing fails
 
 ### `parseIntersection(intersection: string): ParsedIntersection | null`
@@ -235,10 +244,88 @@ Parses a single address string into structured components.
 Parses a street intersection string into structured components.
 
 **Parameters:**
+
 - `intersection` (string): The intersection string to parse
 
 **Returns:**
+
 - `ParsedIntersection | null`: Parsed intersection object or null if parsing fails
+
+## ZIP Code & Postal Code Handling
+
+The parser extracts ZIP/postal codes from addresses and provides validation information:
+
+### US ZIP Codes
+
+```javascript
+// Standard 5-digit ZIP
+parseLocation('123 Main St, New York NY 12345');
+// { zip: '12345', zipValid: true, ... }
+
+// ZIP+4 with hyphen (standard format)
+parseLocation('123 Main St, New York NY 12345-6789');
+// { zip: '12345', plus4: '6789', zipValid: true, ... }
+
+// ZIP+4 without hyphen (extracted and normalized)
+parseLocation('123 Main St, New York NY 123456789');
+// { zip: '12345', plus4: '6789', zipValid: true, ... }
+
+// Invalid ZIP length (still extracted but marked invalid)
+parseLocation('123 Main St, New York NY 123');
+// { zip: '123', zipValid: false, ... }
+
+parseLocation('123 Main St, New York NY 1234567');
+// { zip: '1234567', zipValid: false, ... }
+```
+
+### Canadian Postal Codes
+
+```javascript
+// Standard format with space (A1A 1A1)
+parseLocation('123 Main St, Toronto ON M5V 1A1');
+// { zip: 'M5V 1A1', zipValid: true, country: 'CA', ... }
+
+// No spaces (extracted and normalized)
+parseLocation('123 Main St, Toronto ON M5V1A1');
+// { zip: 'M5V 1A1', zipValid: true, country: 'CA', ... }
+
+// With hyphen (extracted but marked invalid format)
+parseLocation('123 Main St, Toronto ON M5V-1A1');
+// { zip: 'M5V-1A1', zipValid: false, country: 'CA', ... }
+
+// Wrong pattern (extracted but marked invalid)
+parseLocation('123 Main St, Toronto ON ABC123');
+// { zip: 'ABC123', zipValid: false, country: 'CA', ... }
+```
+
+### Validation Fields
+
+The parser provides these validation-related fields:
+
+| Field      | Description                                | Example                         |
+| ---------- | ------------------------------------------ | ------------------------------- |
+| `zip`      | Extracted ZIP/postal code (any format)     | `"12345"`, `"M5V 1A1"`, `"123"` |
+| `plus4`    | ZIP+4 extension (US only)                  | `"6789"`                        |
+| `zipValid` | Whether ZIP/postal follows standard format | `true`, `false`                 |
+| `country`  | Detected country based on format           | `"US"`, `"CA"`                  |
+
+### Format Standards
+
+**Valid US ZIP formats:**
+
+- 5 digits: `12345`
+- ZIP+4: `12345-6789` or `123456789`
+
+**Valid Canadian postal formats:**
+
+- Standard: `A1A 1A1` (letter-digit-letter space digit-letter-digit)
+- No spaces: `A1A1A1` (automatically normalized to `A1A 1A1`)
+
+**Invalid formats are still extracted** but `zipValid: false` to allow for:
+
+- Data cleaning and validation workflows
+- Parsing addresses with typos or non-standard formatting
+- Flexible input handling while maintaining validation awareness
 
 ## Performance
 

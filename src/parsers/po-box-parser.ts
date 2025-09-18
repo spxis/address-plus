@@ -2,7 +2,7 @@ import { VALIDATION_PATTERNS } from "../constants";
 import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { detectCountry, parseStateProvince } from "../utils";
-import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../patterns/address";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../validation";
 import { setValidatedPostalCode } from "../validation/address-validation";
 
 /**
@@ -72,7 +72,7 @@ export function parsePoBox(address: string, options: ParseOptions = {}): ParsedA
       if (kind.startsWith('rr')) {
         result.rr = value || undefined;
         if (value) {
-          (result as any).rural_route = `RR ${value}`;
+          (result as any).ruralRoute = `RR ${value}`;
         }
       } else if (kind === 'rpo') {
         result.rpo = value || undefined;

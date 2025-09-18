@@ -60,16 +60,41 @@ export function hasValidAddressComponents(address: string): boolean {
  * Validate and set postal code if validation is enabled
  */
 export function setValidatedPostalCode(result: ParsedAddress | ParsedIntersection, zipCode: string, options: ParseOptions): void {
-  result.zip = zipCode;
+  // Always validate to determine if code is valid
+  const validation = validatePostalCode(zipCode);
   
-  if (options.validatePostalCode) {
-    const validation = validatePostalCode(zipCode);
-    result.postalValid = validation.isValid;
-    if (validation.type) {
-      result.postalType = validation.type;
+  // In strict mode, only set ZIP if it's valid, but always set zipValid for ParsedAddress
+  if (options.strict && !validation.isValid) {
+    // For ParsedAddress, always set zipValid to indicate the code was invalid
+    if ('number' in result) { // ParsedAddress has number, ParsedIntersection doesn't
+      (result as ParsedAddress).zipValid = false;
     }
-    if (validation.isValid && validation.formatted) {
-      result.zip = validation.formatted;
+    if (options.validatePostalCode && validation.type && ('number' in result)) {
+      (result as ParsedAddress).postalType = validation.type;
+    }
+    return; // Don't set zip field for invalid codes in strict mode
+  }
+  
+  // Set the ZIP code (either valid in strict mode, or any code in permissive mode)
+  result.zip = validation.isValid && validation.formatted ? validation.formatted : zipCode;
+  
+  // Set validation info if requested
+  if (options.validatePostalCode) {
+    if ('number' in result) { // ParsedAddress
+      (result as ParsedAddress).zipValid = validation.isValid;
+    }
+    if (validation.type && ('number' in result)) {
+      (result as ParsedAddress).postalType = validation.type;
+    }
+  } else if (!options.strict) {
+    // In permissive mode without validatePostalCode, still set zipValid for developer awareness
+    if ('number' in result) { // ParsedAddress
+      (result as ParsedAddress).zipValid = validation.isValid;
+    }
+  } else if (options.strict) {
+    // In strict mode without validatePostalCode, still set zipValid for developer awareness
+    if ('number' in result) { // ParsedAddress
+      (result as ParsedAddress).zipValid = validation.isValid;
     }
   }
 }
