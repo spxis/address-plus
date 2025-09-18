@@ -1,57 +1,20 @@
 {
   "testSummary": {
-    "timestamp": "2025-09-18T12:00:00.000Z",
+    "timestamp": "2025-09-18T18:58:29.480Z",
     "totalTests": 986,
     "passed": 830,
     "failed": 156,
     "passRate": "84.18%",
-    "regressionStatus": "IMPROVING",
-    "previousBest": 163,
-    "regressionCount": -7
+    "regressionStatus": "IMPROVEMENT",
+    "previousBest": 156,
+    "regressionCount": 9
   },
   "regressionAnalysis": {
-    "baseline": 163,
+    "baseline": 165,
     "current": 156,
-    "change": -7,
-    "message": "🎯 TARGET ACHIEVED: Reduced to 156 failures (better than target ≤163)"
+    "change": -9,
+    "message": "✅ IMPROVEMENT: 9 fewer test failures!"
   },
-  "lastUpdated": "2025-09-18T12:00:00.000Z",
-  "historicalRuns": [
-    {
-      "timestamp": "2025-01-11T19:30:00.000Z",
-      "failed": 163,
-      "description": "Baseline from git history"
-    },
-    {
-      "timestamp": "2025-01-11T20:15:00.000Z",
-      "failed": 167,
-      "description": "Initial regression state"
-    },
-    {
-      "timestamp": "2025-01-11T20:45:00.000Z",
-      "failed": 218,
-      "description": "After first case-related changes (higher due to other issues)"
-    },
-    {
-      "timestamp": "2025-01-11T20:50:31.123Z",
-      "failed": 171,
-      "description": "After capitalizeStreetName improvements - reduced from 218 to 171 (-47)"
-    },
-    {
-      "timestamp": "2025-09-18T11:50:00.000Z",
-      "failed": 167,
-      "description": "Start of systematic debugging session"
-    },
-    {
-      "timestamp": "2025-09-18T11:53:00.000Z",
-      "failed": 159,
-      "description": "After multiline facility parsing and Canadian directional fixes"
-    },
-    {
-      "timestamp": "2025-09-18T12:00:00.000Z",
-      "failed": 156,
-      "description": "After Canadian postal parsing improvements (Station/Succursale, Box recognition, city/state separation)"
-    }
-  ],
-  "gitCommit": "pending"
+  "lastUpdated": "2025-09-18T18:58:29.481Z",
+  "gitCommit": "feaf190251a16a30d842e12f6f9261eda5c85634"
 }
