@@ -8,11 +8,11 @@ import { describe, expect, test } from "vitest";
 import { parseLocation } from "../index";
 
 // Import test data from JSON file
-import snakeCaseTests from "./test-data/snake-case-compatibility.json";
+import testCases from '../../test-data/snake-case-compatibility.json';
 
 describe('Snake Case Compatibility Tests', () => {
   
-  snakeCaseTests.forEach((testCase, index) => {
+  testCases.forEach((testCase, index) => {
     test(testCase.description, () => {
       const result = parseLocation(testCase.input, testCase.options);
       

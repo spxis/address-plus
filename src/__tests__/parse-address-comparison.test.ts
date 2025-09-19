@@ -7,7 +7,7 @@ import { describe, it, expect } from 'vitest';
 // @ts-ignore - parse-address doesn't have types
 const parseAddress = require('parse-address');
 import { parseLocation } from "../parser";
-import testData from './test-data/parse-address-comparison.json';
+import testData from '../../test-data/parse-address-comparison.json';
 
 interface ComparisonTestCase {
   id: number;
