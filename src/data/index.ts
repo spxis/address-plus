@@ -1,6 +1,5 @@
-/**
- * Export all data constants from organized modules
- */
+// Export all data constants from organized modules
+// Provides centralized access to all address parsing data structures
 
 export { 
   CA_PROVINCES, 

@@ -1,7 +1,6 @@
-/**
- * Street type proper case mapping (USPS standards)
- * Maps lowercase abbreviations to their proper case equivalents
- */
+// Street type proper case mapping (USPS standards)
+// Maps lowercase abbreviations to their proper case equivalents
+// Used for standardizing street type formatting in parsed addresses
 
 const STREET_TYPE_PROPER_CASE: Record<string, string> = {
   'ave': 'Ave',

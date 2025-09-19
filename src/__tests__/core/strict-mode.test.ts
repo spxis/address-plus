@@ -1,6 +1,6 @@
-/**
- * Tests for strict mode functionality
- */
+// Tests for strict mode functionality
+// Validates ZIP/postal code parsing behavior in strict vs permissive modes
+// Covers US ZIP codes and Canadian postal codes with various validation scenarios
 
 import { describe, expect, test } from "vitest";
 
@@ -9,9 +9,29 @@ import { parseLocation } from "../../parser";
 import usStrictModeTestData from "../../../test-data/us/strict-mode.json";
 import canadaStrictModeTestData from "../../../test-data/canada/strict-mode.json";
 
+// Expected result interface for postal/ZIP validation
+interface PostalExpectedResult {
+  zip: string | null; // ZIP/postal code value
+  zipValid: boolean; // Whether the code is valid
+  plus4?: string; // US ZIP+4 extension if present
+}
+
+// Test case structure for strict mode validation
+interface StrictModeTestCase {
+  description: string; // Test case description
+  address: string; // Input address to parse
+  expected: {
+    strict?: PostalExpectedResult; // Expected result in strict mode
+    permissive?: PostalExpectedResult; // Expected result in permissive mode
+    zip?: string; // Direct ZIP value for simple cases
+    zipValid?: boolean; // Direct validation for simple cases
+    plus4?: string; // Direct plus4 for simple cases
+  };
+}
+
 describe("Strict Mode - Core Working Functionality", () => {
   describe("US ZIP Code Validation", () => {
-    usStrictModeTestData.forEach((testCase: any) => {
+    usStrictModeTestData.forEach((testCase: StrictModeTestCase) => {
       test(`${testCase.description}`, () => {
         if (testCase.expected.strict) {
           const strictResult = parseLocation(testCase.address, { strict: true });
@@ -51,7 +71,7 @@ describe("Strict Mode - Core Working Functionality", () => {
   });
 
   describe("Canadian Postal Code Validation", () => {
-    canadaStrictModeTestData.forEach((testCase: any) => {
+    canadaStrictModeTestData.forEach((testCase: StrictModeTestCase) => {
       test(`${testCase.description}`, () => {
         // Test strict mode if specified
         if (testCase.expected.strict) {

@@ -1,11 +1,8 @@
-/**
- * Canadian Street Types (Canada Post official abbreviations) - bilingual
- */
+// Canadian Street Types (Canada Post official abbreviations) - bilingual
+// Includes both English and French terms for comprehensive address parsing
 
-/**
- * Mapping of Canadian street types and their variations to official Canada Post abbreviations
- * Includes both English and French terms
- */
+// Mapping of Canadian street types and their variations to official Canada Post abbreviations
+// Includes both English and French terms
 const CA_STREET_TYPES: Record<string, string> = {
   // English
   abbey: "abbey",

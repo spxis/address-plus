@@ -1,59 +1,38 @@
-/**
- * Types for test case data structures
- */
+// Types for test case data structures
+// Provides interfaces for region normalization testing
+// Covers both successful normalization and edge cases that should return null
 
-/**
- * Expected result for region normalization
- */
+// Expected result for region normalization
 interface ExpectedResult {
-  abbr: string;
-  country: "CA" | "US";
+  abbr: string; // Region abbreviation (e.g., "CA", "NY")
+  country: "CA" | "US"; // Country code
 }
 
-/**
- * A single test case for region normalization
- */
+// A single test case for region normalization
 interface RegionTestCase {
-  /** Input string to test */
-  input: string;
-  /** Expected normalized result */
-  expected: ExpectedResult;
-  /** Optional description of what this test case covers */
-  description?: string;
+  input: string; // Input string to test
+  expected: ExpectedResult; // Expected normalized result
+  description?: string; // Optional description of what this test case covers
 }
 
-/**
- * Collection of test cases organized by category
- */
+// Collection of test cases organized by category
 interface RegionTestSuite {
-  /** Test suite name */
-  name: string;
-  /** Description of what this test suite covers */
-  description: string;
-  /** Array of test cases */
-  cases: RegionTestCase[];
+  name: string; // Test suite name
+  description: string; // Description of what this test suite covers
+  cases: RegionTestCase[]; // Array of test cases
 }
 
-/**
- * Edge case test where we expect null result
- */
+// Edge case test where we expect null result
 interface EdgeTestCase {
-  /** Input string to test */
-  input: string;
-  /** Description of why this should return null */
-  description: string;
+  input: string; // Input string to test
+  description: string; // Description of why this should return null
 }
 
-/**
- * Collection of edge case tests
- */
+// Collection of edge case tests
 interface EdgeTestSuite {
-  /** Test suite name */
-  name: string;
-  /** Description of what this test suite covers */
-  description: string;
-  /** Array of edge test cases (all expect null) */
-  cases: EdgeTestCase[];
+  name: string; // Test suite name
+  description: string; // Description of what this test suite covers
+  cases: EdgeTestCase[]; // Array of edge test cases (all expect null)
 }
 
 export type { EdgeTestCase, EdgeTestSuite, ExpectedResult, RegionTestCase, RegionTestSuite };
