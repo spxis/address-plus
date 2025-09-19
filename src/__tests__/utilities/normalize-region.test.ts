@@ -2,21 +2,26 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-import { normalizeRegion } from "../../utils/normalize-region.js";
+import { normalizeRegion } from "../../utils/normalize-region";
 
-// Helper function to load JSON test data
-function loadTestData<T>(filePath: string): T {
-  const fullPath = join(__dirname, filePath);
-  const rawData = readFileSync(fullPath, "utf-8");
-  return JSON.parse(rawData) as T;
+function loadTestData(filename: string): any[] {
+  const filePath = join(__dirname, "../../../test-data/regions", filename);
+  const data = JSON.parse(readFileSync(filePath, "utf-8"));
+  
+  if (Array.isArray(data)) {
+    return data;
+  }
+  
+  const firstKey = Object.keys(data).find(key => key !== "description");
+  
+  return firstKey ? data[firstKey] || [] : [];
 }
 
-describe("normalizeRegion", () => {
-  // Load test data from JSON files
-  const exactMatchData = loadTestData("../../../test-data/regions/exact-match-cases.json") as any;
-  const edgeCasesData = loadTestData("../../../test-data/regions/edge-cases.json") as any;
-  const usStatesFuzzyData = loadTestData("../../../test-data/regions/us-states-fuzzy.json") as any;
-  const canadianProvincesFuzzyData = loadTestData("../../../test-data/regions/ca-provinces-fuzzy.json") as any;
+describe("Normalize Region", () => {
+  const exactMatchData = loadTestData("exact-match-cases.json") as any;
+  const edgeCasesData = loadTestData("edge-cases.json") as any;
+  const usStatesFuzzyData = loadTestData("us-states-fuzzy.json") as any;
+  const canadianProvincesFuzzyData = loadTestData("ca-provinces-fuzzy.json") as any;
 
   describe("exact abbreviation matches", () => {
     exactMatchData.abbreviationTests.cases.forEach(({ input, expected, description }) => {

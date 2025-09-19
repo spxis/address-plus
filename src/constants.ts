@@ -19,29 +19,17 @@ type CountryCode = typeof COUNTRIES[keyof typeof COUNTRIES];
  * Regex patterns for address validation
  */
 const VALIDATION_PATTERNS = {
-  /** Check for letters in input */
   HAS_LETTERS: /[a-zA-Z]/,
-  /** Check for alphanumeric characters */
   ALPHANUMERIC: /[a-zA-Z0-9]/g,
-  /** Check for digits */
   HAS_DIGITS: /\d/,
-  /** Check for house number at start (including complex alphanumeric like N95W18855) */
-  HOUSE_NUMBER_START: /^(\d+|\w\d+\w\d+)\b/,
-  /** Check for number at start (including complex alphanumeric patterns) */
+  HOUSE_NUMBER_START: /^(\d+|\w\d+\w\d+)\b/, // Including complex alphanumeric like N95W18855
   STARTS_WITH_NUMBER: /^\s*(\d|\w\d+\w\d+)/,
-  /** Split by whitespace */
   WHITESPACE_SPLIT: /\s+/,
-  /** Check for title case words */
   TITLE_CASE: /^[A-Z]/,
-  /** Check for numeric only */
   NUMERIC_ONLY: /^\d+$/,
-  /** Remove non-word characters */
   NON_WORD: /[^\w]/g,
-  /** Escape regex special characters */
   REGEX_ESCAPE: /[.*+?^${}()|[\]\\]/g,
-  /** Replace multiple spaces with single space */
   NORMALIZE_SPACES: /\s+/g,
-  /** PO Box normalization pattern */
   PO_BOX_NORMALIZE: /^p\.o\.\s*box$/i
 } as const;
 
@@ -64,9 +52,7 @@ const COMMON_STREET_NAMES_PATTERN = /^(broadway|main|first|second|third|fourth|f
  * General Delivery patterns
  */
 const GENERAL_DELIVERY_PATTERNS = {
-  /** Standard General Delivery pattern */
   STANDARD: /^general\s+delivery$/i,
-  /** General Delivery with city extraction */
   WITH_CITY: /^\s*general\s+delivery\s+([^,]+?)\s+([A-Za-z]{2})\b/i
 } as const;
 
@@ -74,7 +60,6 @@ const GENERAL_DELIVERY_PATTERNS = {
  * ZIP code validation patterns
  */
 const ZIP_VALIDATION_PATTERNS = {
-  /** Potential ZIP pattern for strict mode validation */
   POTENTIAL_ZIP: /\b([A-Z0-9]{3,9}(?:[-\s][A-Z0-9]{1,4})?)\s*$/i
 } as const;
 
@@ -82,12 +67,9 @@ const ZIP_VALIDATION_PATTERNS = {
  * Facility delimiter patterns for inline address parsing
  */
 const FACILITY_DELIMITER_PATTERNS = {
-  /** Parenthetical address format: "Facility Name (address)" */
-  PARENTHETICAL: /^(.*?)\s*\(([^)]+)\)\s*$/,
-  /** Delimiter-separated format: "Facility Name: address" or "Facility Name | address" */
-  DELIMITED: /^(.*?)\s*([:;|\u2013\u2014\-])\s*(.+)$/,
-  /** Trailing Island format: "Facility  Liberty Island" */
-  TRAILING_ISLAND: /^(.*?)(\s+)(\b.+\s+(?:Island|Isl\.?|Is\.?)\b.*)$/i
+  PARENTHETICAL: /^(.*?)\s*\(([^)]+)\)\s*$/, // "Facility Name (address)"
+  DELIMITED: /^(.*?)\s*([:;|\u2013\u2014\-])\s*(.+)$/, // "Facility Name: address"
+  TRAILING_ISLAND: /^(.*?)(\s+)(\b.+\s+(?:Island|Isl\.?|Is\.?)\b.*)$/i // "Facility  Liberty Island"
 } as const;
 
 /**

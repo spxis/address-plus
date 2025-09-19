@@ -166,7 +166,7 @@ export function parseSecondaryUnit(text: string): {
     return { unit, secUnitType, secUnitNum, remaining };
   }
   
-  // Look for just numbers that might be unit numbers
+  // Look for numbers that might be unit numbers
   const numberMatch = text.match(/\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)\b/i);
   if (numberMatch) {
     const secUnitType = SECONDARY_UNIT_TYPES[numberMatch[1].toLowerCase()] || numberMatch[1].toLowerCase();

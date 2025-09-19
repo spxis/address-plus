@@ -1,13 +1,11 @@
 /**
- * Tests for strict mode functionality - Core Working Features
- * All test cases loaded from JSON files as per project standards
+ * Tests for strict mode functionality
  */
 
 import { describe, expect, test } from "vitest";
 
 import { parseLocation } from "../../parser";
 
-// Import country-specific test data
 import usStrictModeTestData from "../../../test-data/us/strict-mode.json";
 import canadaStrictModeTestData from "../../../test-data/canada/strict-mode.json";
 
@@ -15,7 +13,6 @@ describe("Strict Mode - Core Working Functionality", () => {
   describe("US ZIP Code Validation", () => {
     usStrictModeTestData.forEach((testCase: any) => {
       test(`${testCase.description}`, () => {
-        // Test strict mode if specified
         if (testCase.expected.strict) {
           const strictResult = parseLocation(testCase.address, { strict: true });
           
@@ -28,7 +25,6 @@ describe("Strict Mode - Core Working Functionality", () => {
           }
         }
         
-        // Test permissive mode if specified
         if (testCase.expected.permissive) {
           const permissiveResult = parseLocation(testCase.address, { strict: false });
           
@@ -36,7 +32,6 @@ describe("Strict Mode - Core Working Functionality", () => {
           expect(permissiveResult?.zipValid).toBe(testCase.expected.permissive.zipValid);
         }
         
-        // Test both modes for basic cases
         if (!testCase.expected.strict && !testCase.expected.permissive) {
           const strictResult = parseLocation(testCase.address, { strict: true });
           const permissiveResult = parseLocation(testCase.address, { strict: false });

@@ -55,7 +55,7 @@ function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } 
   }
 
   // Accept if reasonably close (tune threshold)
-  // Additional check: for very short inputs (3 chars or less), require a closer match
+  // Additional check: for short inputs (3 chars or less), require a closer match
   // to avoid false positives with random strings
   const threshold = clean.length <= 3 ? 1 : 3;
   if (best && best.dist <= threshold) {

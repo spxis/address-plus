@@ -41,7 +41,7 @@ export function parseIntersection(address: string, options: ParseOptions = {}): 
     // Remove trailing comma first
     locationText = locationText.replace(/,\s*$/, '').trim();
     
-    // Look for city pattern: comma followed by 1-3 words at the end, OR just 1-3 words at the end
+    // Look for city pattern: comma followed by 1-3 words at the end, or 1-3 words at the end
     let cityMatch = locationText.match(/,\s+([A-Za-z\s]+)$/);
     if (cityMatch) {
       result.city = cityMatch[1].trim();

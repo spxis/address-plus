@@ -84,28 +84,26 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     return null;
   }
   
-  // Normalize newlines to commas for consistent parsing, but preserve original structure
+  // Normalize newlines to commas for consistent parsing
   const normalizedAddress = address.replace(/\n/g, ', ');
   
   // Split by comma to handle comma-separated components
   const commaParts = normalizedAddress.split(',').map(p => p.trim());
   
-  // Track General Delivery flag early and exclude from parsing if present
+  // Track General Delivery flag and excluded parts
   let isGeneralDelivery = false;
-  // Track which comma parts to exclude from city parsing (for secondary units, facilities)
   const excludedPartIndices = new Set<number>();
   
   // Detect facility addresses (facility name comes first, followed by actual address)
   let addressStartIndex = 0;
   let facilityName = '';
-  // Track if the address was embedded inline in the first comma part (via delimiter or parentheses)
+  // Track if address was embedded inline in the first part (via delimiter or parentheses)
   let addressInlineInFirstPart = false;
-  // Preserve the delimiter used between facility and address when inline (e.g., ":", "|", ";", "–", "—", "-")
+  // Preserve delimiter used between facility and address when inline
   let facilityDelimiter: string | null = null;
-  // Preserve any original spaces between facility and trailing Island phrase when no explicit delimiter is present
+  // Preserve original spaces between facility and trailing Island phrase
   let preservedFacilitySpacing: string | null = null;
-  // If the first comma part also contains an inline address (via delimiters or parentheses),
-  // capture it here and use it as the address part instead of moving to the next comma part.
+  // Address part override when inline address found in first comma part
   let addressPartOverride: string | null = null;
   
   if (commaParts.length > 1) {
@@ -114,12 +112,12 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     // Special-case: General Delivery as the first part
     if (GENERAL_DELIVERY_PATTERNS.STANDARD.test(firstPart)) {
       isGeneralDelivery = true;
-      addressStartIndex = 1; // Move past the General Delivery part
+      addressStartIndex = 1;
     }
     
-    // More sophisticated heuristic for facility detection:
+    // Sophisticated heuristic for facility detection:
     // 1. No house numbers at the start
-    // 2. If it has street types, they should be secondary (like "Park", "Center", "Building")
+    // 2. Street types should be secondary (like "Park", "Center", "Building")
     // 3. Doesn't follow typical "number + street + type" pattern
     
     const hasHouseNumber = VALIDATION_PATTERNS.HOUSE_NUMBER_START.test(firstPart.trim());
@@ -127,12 +125,10 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     
     // If it starts with a number, it's likely a street address, not a facility
     if (!startsWithNumber && !hasHouseNumber) {
-      // Special handling: if the first part contains an inline address separated by a delimiter
-      // like ":", "|", or dashes, split into facility name and address segment.
-      // Also handle parenthetical address: "Facility Name (350 5th Avenue, New York NY 10118)".
+      // Handle inline address separated by delimiter or parentheses
       const parenInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.PARENTHETICAL);
       const delimInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.DELIMITED);
-      // Handle trailing Island-like phrases without delimiters (e.g., "…  Liberty Island"); preserve spaces
+      // Handle trailing Island-like phrases without delimiters; preserve spaces
       const trailingIsland = firstPart.match(FACILITY_DELIMITER_PATTERNS.TRAILING_ISLAND);
 
       if (parenInline) {
@@ -149,7 +145,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         excludedPartIndices.add(0);
         addressInlineInFirstPart = true;
       } else if (trailingIsland) {
-        // Keep trailing Island phrase as address part and preserve original spacing
+        // Keep trailing Island phrase as address part and preserve spacing
         facilityName = trailingIsland[1].trim();
         preservedFacilitySpacing = trailingIsland[2];
         addressPartOverride = trailingIsland[3].trim();
@@ -160,7 +156,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
       // Check if this looks like a facility name vs a street name
       const words = firstPart.trim().split(VALIDATION_PATTERNS.WHITESPACE_SPLIT);
-      // Ignore connector words when checking Title Case (e.g., "of", "the", "de", "la")
+      // Ignore connector words when checking Title Case
       const filteredWords = words.filter(w => {
         const lw = w.toLowerCase();
         return !CONNECTOR_WORDS.has(lw);
@@ -189,9 +185,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   let cityPart = '';
   let addressPart = commaParts[addressStartIndex] || commaParts[0];
   if (addressPartOverride) {
-    // If we detected an inline facility + address in the first part, DO NOT prepend the facility.
-    // We want to parse the address portion cleanly, and keep the facility separately in result.place.
-    // This avoids breaking number/street parsing like "Fenway Park – 4 Jersey Street".
+    // Use inline address found in first part; parse separately from facility
     addressPart = addressPartOverride;
   }
   
@@ -241,7 +235,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     if (remainingText) {
       // Look for city at the end of remaining text, but be smart about it
       // If we have a state, we can be more confident about city extraction
-      // If no state, only extract city if we can clearly identify a non-street-type word
+      // If no state, extract city if we can identify a non-street-type word
       const hasState = !!statePart;
       
       if (hasState) {
@@ -278,7 +272,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           matchToReplace = singleWordCityMatch[0];
         }
         
-        // Check if potential city is actually a street type or starts with a street type
+            // Check if potential city is a street type or starts with a street type
         const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, 'i').test(potentialCity);
         const startsWithStreetTypeMatch = potentialCity.match(new RegExp(`^(${patterns.streetType.slice(1, -1)})\\s+(.+)$`, 'i'));
         
@@ -297,8 +291,8 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           }
         }
       } else {
-        // Without state, be very conservative about city extraction
-        // Only extract if we have a clear non-street-type word at the end
+        // Without state, be conservative about city extraction
+        // Extract if we have a clear non-street-type word at the end
         // AND the remaining text suggests a full address (at least 4+ words)
         const wordCount = remainingText.split(VALIDATION_PATTERNS.WHITESPACE_SPLIT).length;
         if (wordCount >= 5) { // More conservative: at least "number prefix street type city"
@@ -309,7 +303,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
             const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, 'i').test(potentialCity);
             const isDirectional = new RegExp(`^(${patterns.directional.slice(1, -1)})$`, 'i').test(potentialCity);
             
-            // Only extract if it's clearly not a street component
+            // Extract if it's clearly not a street component
             if (!isStreetType && !isDirectional && potentialCity.length > 2) {
               cityPart = potentialCity;
               remainingText = remainingText.replace(singleWordCityMatch[0], '').trim();
@@ -344,7 +338,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
             cityPart = cityStateFullMatch[1].trim();
             statePart = cityStateFullMatch[2].trim();
           } else {
-            // Just state or unknown format
+            // State or unknown format
             statePart = remainingAfterZip;
           }
         }
@@ -356,7 +350,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         // But don't go back before the address start index (to skip facility names)
         for (let i = commaParts.length - 2; i >= Math.max(1, addressStartIndex); i--) {
           if (!excludedPartIndices.has(i)) {
-            // Only set city if we haven't already parsed it from city/state pattern
+            // Set city if we haven't already parsed it from city/state pattern
             if (!cityPart) {
               cityPart = commaParts[i].trim();
             }
@@ -431,7 +425,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
             // The city is typically the last part before state
             cityPart = beforeStateParts[beforeStateParts.length - 1];
           } else if (beforeStateParts.length === 1) {
-            // Only one part before state - could be address or city
+            // One part before state - could be address or city
             // Heuristic: if it has numbers, it's probably address; if not, city
             if (/\d/.test(beforeStateParts[0])) {
               addressPart = beforeStateParts[0];
@@ -456,7 +450,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
               // The city is typically the last part before state
               cityPart = beforeStateParts[beforeStateParts.length - 1];
             } else if (beforeStateParts.length === 1) {
-              // Only one part before state
+              // One part before state
               if (/\d/.test(beforeStateParts[0])) {
                 addressPart = beforeStateParts[0];
               } else {
@@ -464,7 +458,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
               }
             }
           } else {
-            // Check if the entire text is just a state/province (abbreviation first)
+            // Check if the entire text is a state/province (abbreviation first)
             const justStateAbbrevMatch = remainingText.match(new RegExp(`^(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
             if (justStateAbbrevMatch) {
               statePart = justStateAbbrevMatch[1].trim();
@@ -473,7 +467,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
               if (justStateFullMatch) {
                 statePart = justStateFullMatch[1].trim();
               } else if (remainingParts.length === 1) {
-                // Only one remaining part, treat as address
+                // One remaining part, treat as address
                 addressPart = remainingParts[0];
               } else {
                 // Multiple parts but no state found - treat first as address, rest as city
@@ -596,7 +590,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // If no number found, try without number
   if (!result.number && remaining) {
-    // This is just a street name without number
+    // This is a street name without number
     // continue processing with the full text
   }
   
