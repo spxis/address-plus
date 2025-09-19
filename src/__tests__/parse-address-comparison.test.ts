@@ -7,26 +7,39 @@ import { describe, it, expect } from 'vitest';
 // @ts-ignore - parse-address doesn't have types
 const parseAddress = require('parse-address');
 import { parseLocation } from "../parser";
+import testData from './test-data/parse-address-comparison.json';
 
-// Test cases that were causing format conflicts
-const comparisonTestCases = [
-  '48S 400E, Salt Lake City UT',
-  '550 S 400 E #3206, Salt Lake City UT 84111',
-  '233 S Wacker Dr 60606-6306',
-  '1005 Gravenstein Hwy 95472',
-  '123 Main St, Anytown CA 12345',
-  '#42 233 S Wacker Dr 60606',
-  'Mission & Valencia San Francisco CA'
-];
+interface ComparisonTestCase {
+  id: number;
+  description: string;
+  input: string;
+  category: string;
+}
+
+interface KeyTestCase {
+  description: string;
+  input: string;
+  purpose: string;
+}
+
+interface TestData {
+  description: string;
+  testCases: ComparisonTestCase[];
+  keyTestCase: KeyTestCase;
+}
+
+const { testCases, keyTestCase }: TestData = testData;
 
 describe('Parse-Address Compatibility Comparison', () => {
-  comparisonTestCases.forEach((address, index) => {
-    it(`should match parse-address format for case ${index + 1}: "${address}"`, () => {
-      console.log(`\nTesting: ${address}`);
+  testCases.forEach((testCase) => {
+    it(`should match parse-address format for ${testCase.category} case ${testCase.id}: "${testCase.input}"`, () => {
+      console.log(`\nTesting: ${testCase.input}`);
+      console.log(`Category: ${testCase.category}`);
+      console.log(`Description: ${testCase.description}`);
       
       // Get results from both parsers
-      const originalResult = parseAddress.parseLocation(address);
-      const ourResult = parseLocation(address);
+      const originalResult = parseAddress.parseLocation(testCase.input);
+      const ourResult = parseLocation(testCase.input);
       
       console.log('Original parse-address result:', JSON.stringify(originalResult, null, 2));
       console.log('Our result:', JSON.stringify(ourResult, null, 2));
@@ -38,10 +51,11 @@ describe('Parse-Address Compatibility Comparison', () => {
     });
   });
   
-  it('should demonstrate format structure for key cases', () => {
-    const keyTestCase = '48S 400E, Salt Lake City UT';
-    const original = parseAddress.parseLocation(keyTestCase);
-    const ours = parseLocation(keyTestCase);
+  it(`should demonstrate format structure for key case: "${keyTestCase.input}"`, () => {
+    console.log(`\nKey Test Purpose: ${keyTestCase.purpose}`);
+    
+    const original = parseAddress.parseLocation(keyTestCase.input);
+    const ours = parseLocation(keyTestCase.input);
     
     console.log('\n=== FORMAT ANALYSIS ===');
     console.log('Original format (parse-address):', JSON.stringify(original, null, 2));
