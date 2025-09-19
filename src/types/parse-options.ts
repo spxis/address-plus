@@ -24,6 +24,12 @@ interface ParseOptions {
    * - false (default): Extract all codes but indicate validity with zipValid field
    */
   strict?: boolean;
+  /**
+   * Whether to return field names in snake_case format for backward compatibility
+   * - true: Return snake_case field names (sec_unit_type, sec_unit_num, etc.)
+   * - false (default): Return camelCase field names (secUnitType, secUnitNum, etc.)
+   */
+  useSnakeCase?: boolean;
 }
 
 export type { ParseOptions };

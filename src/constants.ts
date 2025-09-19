@@ -25,10 +25,10 @@ const VALIDATION_PATTERNS = {
   ALPHANUMERIC: /[a-zA-Z0-9]/g,
   /** Check for digits */
   HAS_DIGITS: /\d/,
-  /** Check for house number at start */
-  HOUSE_NUMBER_START: /^\d+\b/,
-  /** Check for number at start */
-  STARTS_WITH_NUMBER: /^\s*\d/,
+  /** Check for house number at start (including complex alphanumeric like N95W18855) */
+  HOUSE_NUMBER_START: /^(\d+|\w\d+\w\d+)\b/,
+  /** Check for number at start (including complex alphanumeric patterns) */
+  STARTS_WITH_NUMBER: /^\s*(\d|\w\d+\w\d+)/,
   /** Split by whitespace */
   WHITESPACE_SPLIT: /\s+/,
   /** Check for title case words */

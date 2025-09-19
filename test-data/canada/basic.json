@@ -40,8 +40,8 @@
       "input": "789 King St W Unit 501 Toronto ON M5V 1M2",
       "expected": {
         "number": "789",
-        "sec_unit_type": "Unit",
-        "sec_unit_num": "501",
+        "secUnitType": "Unit",
+        "secUnitNum": "501",
         "unit": "Unit 501",
         "suffix": "W",
         "street": "King",
@@ -69,7 +69,7 @@
       "expected": {
         "number": "567",
         "type": "Ave",
-        "street": "des Pins Est Montréal",
+        "street": "Des Pins Est Montréal",
         "state": "QC",
         "zip": "H2W 1S6"
       },
@@ -79,8 +79,8 @@
       "input": "100 Sparks Street Suite 1200 Ottawa ON K1P 5B7",
       "expected": {
         "number": "100",
-        "sec_unit_type": "Suite",
-        "sec_unit_num": "1200",
+        "secUnitType": "Suite",
+        "secUnitNum": "1200",
         "unit": "Suite 1200",
         "street": "Sparks",
         "type": "St",
@@ -95,7 +95,7 @@
       "expected": {
         "number": "22",
         "type": "Ch",
-        "street": "de la Côte-Sainte-Catherine",
+        "street": "De la Côte-Sainte-Catherine",
         "city": "Outremont",
         "state": "QC",
         "zip": "H2V 2A2"

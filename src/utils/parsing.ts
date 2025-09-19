@@ -9,11 +9,10 @@ import {
   US_STATES,
   CA_PROVINCES,
   SECONDARY_UNIT_TYPES,
-  ZIP_CODE_PATTERN,
-  CANADIAN_POSTAL_CODE_PATTERN,
   FACILITY_PATTERNS,
   getProvinceFromPostalCode,
 } from '../data';
+import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from '../validation';
 import { ParsedAddress, ParseOptions } from '../types';
 import { capitalizeStreetName, capitalizeWords } from './capitalization';
 
@@ -117,22 +116,30 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
  * Extract postal code (ZIP or Canadian postal code)
  */
 function parsePostalCode(text: string): { zip: string | undefined; plus4: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA'; detectedProvince?: string } {
-  // Try US ZIP code - look for it anywhere in the text
+  // Try US ZIP code - create non-anchored version of ZIP_CODE_PATTERN
   const zipMatch = text.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
   if (zipMatch) {
-    const zip = zipMatch[1];
-    const plus4 = zipMatch[2];
-    const remaining = text.replace(zipMatch[0], '').trim();
-    return { zip, plus4, remaining, detectedCountry: 'US' };
+    // Validate with the proper pattern from validation.ts
+    const fullZip = zipMatch[0].replace(/\s+/g, '');
+    if (ZIP_CODE_PATTERN.test(fullZip)) {
+      const zip = zipMatch[1];
+      const plus4 = zipMatch[2];
+      const remaining = text.replace(zipMatch[0], '').trim();
+      return { zip, plus4, remaining, detectedCountry: 'US' };
+    }
   }
   
-  // Try Canadian postal code - look for it anywhere in the text
+  // Try Canadian postal code - create non-anchored version of CANADIAN_POSTAL_CODE_PATTERN
   const postalMatch = text.match(/\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/);
   if (postalMatch) {
-    const zip = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
-    const remaining = text.replace(postalMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    const detectedProvince = getProvinceFromPostalCode(zip) || undefined;
-    return { zip, plus4: undefined, remaining, detectedCountry: 'CA', detectedProvince };
+    // Validate with the proper pattern from validation.ts
+    const fullPostal = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
+    if (CANADIAN_POSTAL_CODE_PATTERN.test(fullPostal)) {
+      const zip = fullPostal;
+      const remaining = text.replace(postalMatch[0], ' ').replace(/\s+/g, ' ').trim();
+      const detectedProvince = getProvinceFromPostalCode(zip) || undefined;
+      return { zip, plus4: undefined, remaining, detectedCountry: 'CA', detectedProvince };
+    }
   }
   
   return { zip: undefined, plus4: undefined, remaining: text };
@@ -143,8 +150,8 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
  */
 export function parseSecondaryUnit(text: string): { 
   unit: string | undefined; 
-  sec_unit_type: string | undefined; 
-  sec_unit_num: string | undefined; 
+  secUnitType: string | undefined; 
+  secUnitNum: string | undefined; 
   remaining: string;
 } {
   const unitPattern = buildRegexFromDict(SECONDARY_UNIT_TYPES);
@@ -152,24 +159,24 @@ export function parseSecondaryUnit(text: string): {
   // Look for unit type followed by number
   const unitMatch = text.match(new RegExp(`${unitPattern.source}\\s*(\\d+\\w*|[a-zA-Z]+\\d*)`));
   if (unitMatch) {
-    const sec_unit_type = SECONDARY_UNIT_TYPES[unitMatch[1].toLowerCase()];
-    const sec_unit_num = unitMatch[2];
-    const unit = `${sec_unit_type} ${sec_unit_num}`;
+    const secUnitType = SECONDARY_UNIT_TYPES[unitMatch[1].toLowerCase()];
+    const secUnitNum = unitMatch[2];
+    const unit = `${secUnitType} ${secUnitNum}`;
     const remaining = text.replace(unitMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    return { unit, sec_unit_type, sec_unit_num, remaining };
+    return { unit, secUnitType, secUnitNum, remaining };
   }
   
   // Look for just numbers that might be unit numbers
   const numberMatch = text.match(/\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)\b/i);
   if (numberMatch) {
-    const sec_unit_type = SECONDARY_UNIT_TYPES[numberMatch[1].toLowerCase()] || numberMatch[1].toLowerCase();
-    const sec_unit_num = numberMatch[2];
-    const unit = `${sec_unit_type} ${sec_unit_num}`;
+    const secUnitType = SECONDARY_UNIT_TYPES[numberMatch[1].toLowerCase()] || numberMatch[1].toLowerCase();
+    const secUnitNum = numberMatch[2];
+    const unit = `${secUnitType} ${secUnitNum}`;
     const remaining = text.replace(numberMatch[0], ' ').replace(/\s+/g, ' ').trim();
-    return { unit, sec_unit_type, sec_unit_num, remaining };
+    return { unit, secUnitType, secUnitNum, remaining };
   }
   
-  return { unit: undefined, sec_unit_type: undefined, sec_unit_num: undefined, remaining: text };
+  return { unit: undefined, secUnitType: undefined, secUnitNum: undefined, remaining: text };
 }
 
 /**

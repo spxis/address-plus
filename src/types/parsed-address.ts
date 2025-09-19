@@ -29,9 +29,9 @@ interface ParsedAddress {
   /** Extended ZIP+4 code */
   plus4?: string;
   /** Secondary unit type (apt, suite, etc.) */
-  sec_unit_type?: string;
+  secUnitType?: string;
   /** Secondary unit number */
-  sec_unit_num?: string;
+  secUnitNum?: string;
   /** Detected country (US, CA) */
   country?: "CA" | "US";
   /** Postal code validation status */
@@ -43,7 +43,7 @@ interface ParsedAddress {
   /** Place name (landmark, POI, building, monument, etc.) */
   place?: string;
   /** Rural route or similar */
-  rural_route?: string;
+  ruralRoute?: string;
   /** Site or compartment number */
   site?: string;
   /** Station or Succursale identifier (e.g., Station A, Succ. Centre-ville) */
@@ -53,7 +53,7 @@ interface ParsedAddress {
   /** Rural Route number (RR/R.R.) */
   rr?: string;
   /** General delivery indicator */
-  general_delivery?: boolean;
+  generalDelivery?: boolean;
   /** Legacy properties for backward compatibility */
   secondary?: string;
   unit?: string;

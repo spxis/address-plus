@@ -14,8 +14,8 @@
   {
     "input": "PO Box 12345, Rural Route 1, Smalltown, MT 59718",
     "expected": {
-      "sec_unit_type": "PO Box",
-      "sec_unit_num": "12345",
+      "secUnitType": "PO Box",
+      "secUnitNum": "12345",
       "city": "Rural Route 1, Smalltown",
       "state": "MT",
       "zip": "59718"

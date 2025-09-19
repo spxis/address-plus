@@ -4,8 +4,8 @@
     {
       "input": "Post office Box 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "PO Box",
-        "sec_unit_num": "3094",
+        "secUnitType": "PO Box",
+        "secUnitNum": "3094",
         "city": "Collierville",
         "state": "TN",
         "zip": "38027"
@@ -15,8 +15,8 @@
     {
       "input": "P.O. box 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "PO Box",
-        "sec_unit_num": "3094",
+        "secUnitType": "PO Box",
+        "secUnitNum": "3094",
         "city": "Collierville",
         "state": "TN",
         "zip": "38027"
@@ -26,8 +26,8 @@
     {
       "input": "POBox 3094 Collierville TN 38027",
       "expected": {
-        "sec_unit_type": "PO Box",
-        "sec_unit_num": "3094",
+        "secUnitType": "PO Box",
+        "secUnitNum": "3094",
         "city": "Collierville",
         "state": "TN",
         "zip": "38027"
@@ -39,8 +39,8 @@
     {
       "input": "#42 233 S Wacker Dr 60606",
       "expected": {
-        "sec_unit_type": "#",
-        "sec_unit_num": "42",
+        "secUnitType": "#",
+        "secUnitNum": "42",
         "number": "233",
         "prefix": "S",
         "street": "Wacker",
@@ -52,8 +52,8 @@
     {
       "input": "lt42 99 Some Road, Some City LA",
       "expected": {
-        "sec_unit_type": "Lot",
-        "sec_unit_num": "42",
+        "secUnitType": "Lot",
+        "secUnitNum": "42",
         "number": "99",
         "street": "Some",
         "type": "Road",
@@ -69,7 +69,7 @@
         "prefix": "S",
         "street": "Wacker",
         "type": "Dr",
-        "sec_unit_type": "Lobby",
+        "secUnitType": "Lobby",
         "zip": "60606"
       },
       "description": "Lobby as secondary unit designation"
@@ -81,7 +81,7 @@
         "prefix": "S",
         "street": "Wacker",
         "type": "Dr",
-        "sec_unit_type": "Lobby",
+        "secUnitType": "Lobby",
         "zip": "60606"
       },
       "description": "Address enclosed in parentheses"
@@ -93,8 +93,8 @@
         "street": "Pine",
         "type": "St",
         "unit": "Apt 4B",
-        "sec_unit_type": "Apartment",
-        "sec_unit_num": "4B",
+        "secUnitType": "Apartment",
+        "secUnitNum": "4B",
         "city": "Seattle",
         "state": "WA",
         "zip": "98101",

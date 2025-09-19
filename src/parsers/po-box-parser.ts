@@ -28,8 +28,8 @@ export function parsePoBox(address: string, options: ParseOptions = {}): ParsedA
   const usMatch = address.match(usPattern);
   if (usMatch) {
     const result: ParsedAddress = {
-      sec_unit_type: 'PO Box',
-      sec_unit_num: usMatch[1],
+      secUnitType: 'PO Box',
+      secUnitNum: usMatch[1],
       city: usMatch[2].trim(),
       state: usMatch[3].toUpperCase(),
     };
@@ -42,18 +42,18 @@ export function parsePoBox(address: string, options: ParseOptions = {}): ParsedA
 
   const result: ParsedAddress = {};
   const poType = normalizePoBoxType(poMatch[1]);
-  result.sec_unit_type = poType;
+  result.secUnitType = poType;
 
   // Prefer number captured inside the initial poBox pattern
   if (poMatch[2]) {
-    result.sec_unit_num = poMatch[2];
+    result.secUnitNum = poMatch[2];
   }
 
   // Otherwise, capture an immediate box number if present right after the PO indicator
-  const leadingBoxNum = !result.sec_unit_num ? after.match(/^([0-9A-Za-z-]+)\b[,\s]*/) : null;
+  const leadingBoxNum = !result.secUnitNum ? after.match(/^([0-9A-Za-z-]+)\b[,\s]*/) : null;
   let rest = after;
   if (leadingBoxNum) {
-    result.sec_unit_num = leadingBoxNum[1];
+    result.secUnitNum = leadingBoxNum[1];
     rest = after.slice(leadingBoxNum[0].length).trim();
   }
 

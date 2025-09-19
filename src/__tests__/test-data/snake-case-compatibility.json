@@ -1,0 +1,143 @@
+[
+  {
+    "description": "should return camelCase by default",
+    "input": "550 S 400 E #3206, Salt Lake City UT 84111",
+    "options": {},
+    "expected": {
+      "secUnitType": "#",
+      "secUnitNum": "3206",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "should return snake_case when useSnakeCase option is true",
+    "input": "550 S 400 E #3206, Salt Lake City UT 84111",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "sec_unit_type": "#",
+      "sec_unit_num": "3206",
+      "zip_valid": true
+    },
+    "notExpected": [
+      "secUnitType",
+      "secUnitNum",
+      "zipValid"
+    ]
+  },
+  {
+    "description": "should handle PO Box addresses with snake_case",
+    "input": "P.O. Box 123, Anytown CA 90210",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "sec_unit_type": "PO Box",
+      "sec_unit_num": "123"
+    }
+  },
+  {
+    "description": "should handle intersections with snake_case",
+    "input": "Main St & Elm Ave, Anytown CA",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "street1": "Main",
+      "street2": "Elm",
+      "type1": "St",
+      "type2": "Ave"
+    }
+  },
+  {
+    "description": "should handle general delivery with snake_case",
+    "input": "General Delivery, Smalltown MT 59718",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "general_delivery": true
+    }
+  },
+  {
+    "description": "should match original parse-address format exactly",
+    "input": "#42 233 S Wacker Dr 60606",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "sec_unit_type": "#",
+      "sec_unit_num": "42",
+      "number": "233",
+      "prefix": "S",
+      "street": "Wacker",
+      "type": "Dr",
+      "zip": "60606",
+      "country": "US"
+    }
+  },
+  {
+    "description": "should preserve all other fields in snake_case",
+    "input": "123 Main St Apartment 4B, Anytown CA 90210",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "number": "123",
+      "street": "Main",
+      "type": "St",
+      "sec_unit_type": "Apartment",
+      "sec_unit_num": "4B",
+      "city": "Anytown",
+      "state": "CA",
+      "zip": "90210",
+      "country": "US"
+    }
+  },
+  {
+    "description": "should handle Canadian addresses with snake_case",
+    "input": "123 Main St, Toronto ON M5V 3A8",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "number": "123",
+      "street": "Main",
+      "type": "St",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "M5V 3A8",
+      "country": "CA"
+    }
+  },
+  {
+    "description": "should handle complex addresses with all snake_case fields",
+    "input": "100 N Main St Unit 502, Rural Route 3, Smalltown State 12345-6789",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": {
+      "number": "100",
+      "prefix": "N",
+      "street": "Main",
+      "type": "St"
+    },
+    "notExpected": [
+      "secUnitType",
+      "secUnitNum",
+      "ruralRoute",
+      "generalDelivery",
+      "zipValid",
+      "postalValid"
+    ]
+  },
+  {
+    "description": "should return null in snake_case mode when parsing fails",
+    "input": "",
+    "options": {
+      "useSnakeCase": true
+    },
+    "expected": null
+  }
+]

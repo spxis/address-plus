@@ -85,8 +85,8 @@
         "number": "550",
         "prefix": "S",
         "street": "400 E",
-        "sec_unit_type": "#",
-        "sec_unit_num": "3206",
+        "secUnitType": "#",
+        "secUnitNum": "3206",
         "city": "Salt Lake City",
         "state": "UT",
         "zip": "84111"

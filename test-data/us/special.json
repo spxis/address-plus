@@ -57,8 +57,8 @@
         "prefix": "S",
         "street": "400",
         "suffix": "E",
-        "sec_unit_type": "#",
-        "sec_unit_num": "3206",
+        "secUnitType": "#",
+        "secUnitNum": "3206",
         "city": "Salt Lake City",
         "state": "UT",
         "zip": "84111"
@@ -72,8 +72,8 @@
         "prefix": "N",
         "street": "2200",
         "suffix": "W",
-        "sec_unit_type": "Apartment",
-        "sec_unit_num": "D304",
+        "secUnitType": "Apartment",
+        "secUnitNum": "D304",
         "city": "Park City",
         "state": "UT",
         "zip": "84098"
@@ -137,8 +137,8 @@
         "number": "565",
         "street": "Bush",
         "type": "St",
-        "sec_unit_type": "Apartment",
-        "sec_unit_num": "7",
+        "secUnitType": "Apartment",
+        "secUnitNum": "7",
         "city": "San Francisco",
         "state": "CA",
         "zip": "94108"
