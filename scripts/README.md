@@ -20,7 +20,7 @@ node scripts/analyze-json-failures.js
 # Debug directional patterns
 node scripts/debug-directional.js
 
-# Debug general patterns  
+# Debug general patterns
 node scripts/debug-patterns.js
 
 # Update test expectations

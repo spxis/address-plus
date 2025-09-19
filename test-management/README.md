@@ -5,7 +5,7 @@ This directory contains files related to test tracking and analysis.
 ## Files
 
 - **track-tests.js** - Main test tracking script that monitors test regressions and updates baseline
-- **test-results.json** - Current test results and regression analysis data  
+- **test-results.json** - Current test results and regression analysis data
 - **test-output.json** - Detailed test output from latest run
 
 ## Usage
@@ -13,11 +13,13 @@ This directory contains files related to test tracking and analysis.
 The track-tests.js script is automatically run by the git pre-commit hook to prevent regressions.
 
 You can also run it manually:
+
 ```bash
 node test-management/track-tests.js
 ```
 
 Or using the package.json scripts:
+
 ```bash
 pnpm test:track
 pnpm test:regression
