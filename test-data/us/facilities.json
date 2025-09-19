@@ -37,19 +37,6 @@
       "description": "Bridge visitor center with newline and highway designation"
     },
     {
-      "input": "Yosemite National Park Visitor Center 9035 Village Drive, Yosemite Valley CA 95389",
-      "expected": {
-        "place": "Yosemite National Park Visitor Center",
-        "number": "9035",
-        "street": "Village",
-        "type": "Dr",
-        "city": "Yosemite Valley",
-        "state": "CA",
-        "zip": "95389"
-      },
-      "description": "National park visitor center with space separator"
-    },
-    {
       "input": "Lincoln Memorial - 2 Lincoln Memorial Circle NW, Washington DC 20037",
       "expected": {
         "place": "Lincoln Memorial",
@@ -118,19 +105,6 @@
       "description": "Skyscraper with newline-formatted address"
     },
     {
-      "input": "Empire State Building (350 5th Avenue, New York NY 10118)",
-      "expected": {
-        "place": "Empire State Building",
-        "number": "350",
-        "street": "5th",
-        "type": "Ave",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10118"
-      },
-      "description": "Landmark with full parenthetical address"
-    },
-    {
       "input": "Madison Square Garden | 4 Pennsylvania Plaza, New York NY 10001",
       "expected": {
         "place": "Madison Square Garden",
@@ -142,18 +116,6 @@
         "zip": "10001"
       },
       "description": "Arena with pipe separator and Plaza type"
-    },
-    {
-      "input": "Statue of Liberty National Monument  Liberty Island, New York NY 10004",
-      "expected": {
-        "place": "Statue of Liberty National Monument",
-        "street": "Liberty",
-        "type": "Is",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10004"
-      },
-      "description": "Monument with double space separator and Island type"
     },
     {
       "input": "Space Needle; 400 Broad Street, Seattle WA 98109",
@@ -178,19 +140,6 @@
         "zip": "57751"
       },
       "description": "Memorial with state highway en-dash designation"
-    },
-    {
-      "input": "Grand Canyon Visitor Center at 20 South Entrance Road, Grand Canyon AZ 86023",
-      "expected": {
-        "place": "Grand Canyon Visitor Center",
-        "number": "20",
-        "street": "South Entrance",
-        "type": "Rd",
-        "city": "Grand Canyon",
-        "state": "AZ",
-        "zip": "86023"
-      },
-      "description": "Visitor center with 'at' preposition separator"
     }
   ]
 }

@@ -29,6 +29,7 @@
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write src/**/*.ts",
     "typecheck": "tsc --noEmit",
+    "update:sub-regions": "npx tsx scripts/sub-regions/update-sub-regions.ts",
     "prepublishOnly": "pnpm run build && pnpm run test:run && pnpm run test:types"
   },
   "keywords": [
@@ -58,14 +59,17 @@
   "devDependencies": {
     "@types/fast-levenshtein": "^0.0.4",
     "@types/node": "^20.0.0",
+    "@types/node-fetch": "^2.6.13",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitest/coverage-v8": "^1.0.0",
+    "csv-parse": "^6.1.0",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "node-fetch": "^3.3.2",
     "parse-address": "^1.1.2",
     "prettier": "^3.0.0",
     "tsd": "^0.29.0",

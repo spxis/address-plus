@@ -1,11 +1,7 @@
-/**
- * Directional abbreviations for US and Canadian addresses
- */
+// Directional abbreviations for US and Canadian addresses
 
-/**
- * Mapping of directional words to their standard abbreviations
- * Supports both English and French (for Canada)
- */
+// Mapping of directional words to their standard abbreviations
+// Supports both English and French (for Canada)
 const DIRECTIONAL_MAP: Record<string, string> = {
   // English
   east: "E",

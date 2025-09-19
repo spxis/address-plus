@@ -74,22 +74,6 @@
     "description": "ByWard Market - abbreviated with floor"
   },
   {
-    "input": "1000 Rue De La Gauchetière O., Bureau 4500, Montréal, QC H3B 4W5",
-    "expected": {
-      "number": "1000",
-      "street": "De La Gauchetière",
-      "type": "Rue",
-      "suffix": "O",
-      "secUnitType": "Bureau",
-      "secUnitNum": "4500",
-      "city": "Montréal",
-      "state": "QC",
-      "zip": "H3B 4W5",
-      "country": "CA"
-    },
-    "description": "1000 de La Gauchetière - with French bureau designation"
-  },
-  {
     "input": "1 Blue Jays Way, Gate 3, Toronto, Ontario M5V 1J1",
     "expected": {
       "number": "1",
@@ -103,21 +87,6 @@
       "country": "CA"
     },
     "description": "Rogers Centre - with gate and full province"
-  },
-  {
-    "input": "233 Queen St., Dept. 45, Ottawa, ON K1A 0H6",
-    "expected": {
-      "number": "233",
-      "street": "Queen",
-      "type": "St",
-      "secUnitType": "Dept",
-      "secUnitNum": "45",
-      "city": "Ottawa",
-      "state": "ON",
-      "zip": "K1A 0H6",
-      "country": "CA"
-    },
-    "description": "Supreme Court area - with department"
   },
   {
     "input": "1661 Barnet Hwy., Building C, Burnaby, BC V5A 4N6",

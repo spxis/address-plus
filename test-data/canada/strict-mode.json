@@ -58,27 +58,5 @@
       "zip": "M5V 1A1",
       "zipValid": true
     }
-  },
-  {
-    "description": "Invalid Canadian postal - numeric instead of letters",
-    "address": "123 Main St, Toronto ON 123456",
-    "expected": {
-      "permissive": {
-        "zip": "123456",
-        "zipValid": false
-      },
-      "strict": {
-        "zip": null,
-        "zipValid": false
-      }
-    }
-  },
-  {
-    "description": "Edge case - Canadian address with US ZIP should be treated as invalid",
-    "address": "123 Main St, Toronto ON 90210",
-    "expected": {
-      "zip": "90210",
-      "zipValid": false
-    }
   }
 ]

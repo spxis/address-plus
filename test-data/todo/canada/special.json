@@ -1,0 +1,17 @@
+[
+  {
+    "input": "1234 Rue Saint-Urbain, Appartement 2e étage, Montréal, QC H2X 2M5",
+    "expected": {
+      "number": "1234",
+      "street": "Saint-Urbain",
+      "type": "Rue",
+      "secUnitType": "Apt",
+      "secUnitNum": "2",
+      "city": "Montréal",
+      "state": "QC",
+      "zip": "H2X 2M5",
+      "country": "CA"
+    },
+    "description": "French apartment with floor designation"
+  }
+]

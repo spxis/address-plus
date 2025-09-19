@@ -15,15 +15,15 @@ console.log(`Processed ${result.stats.successful}/${result.stats.total} addresse
 
 ## Features
 
-- 🇺🇸 **US Address Parsing**: Full USPS format support with street types, directionals, and secondary units
-- 🇨🇦 **Canadian Address Parsing**: Canada Post bilingual support (English/French)
-- 🏢 **Facility Detection**: Extracts business/landmark names with various separators
-- 📍 **Intersection Parsing**: Handles street intersections with multiple formats
-- 🔢 **Comprehensive Address Components**: Numbers, streets, units, cities, states, postal codes
-- ⚡ **Batch Processing**: Efficiently process multiple addresses with performance statistics
-- 📦 **Zero Dependencies**: Lightweight and fast
-- 🔧 **TypeScript First**: Full type definitions included
-- 🔄 **Drop-in Replacement**: API compatible with parse-address
+- **US Address Parsing**: Full USPS format support with street types, directionals, and secondary units
+- **Canadian Address Parsing**: Canada Post bilingual support (English/French)
+- **Facility Detection**: Extracts business/landmark names with various separators
+- **Intersection Parsing**: Handles street intersections with multiple formats
+- **Comprehensive Address Components**: Numbers, streets, units, cities, states, postal codes
+- **Batch Processing**: Efficiently process multiple addresses with performance statistics
+- **Zero Dependencies**: Lightweight and fast
+- **TypeScript First**: Full type definitions included
+- **Drop-in Replacement**: API compatible with parse-address
 
 ## Installation
 
@@ -482,11 +482,11 @@ Batch processing provides several advantages over individual parsing:
 
 ## Browser Support
 
-- ✅ Chrome 61+
-- ✅ Firefox 60+
-- ✅ Safari 12+
-- ✅ Edge 79+
-- ✅ Node.js 14+
+- Chrome 61+
+- Firefox 60+
+- Safari 12+
+- Edge 79+
+- Node.js 14+
 
 ## License
 

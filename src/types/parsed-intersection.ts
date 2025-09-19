@@ -1,37 +1,20 @@
-/**
- * Parsed intersection result containing two streets and location info
- */
+// Parsed intersection result containing two streets and location info
 interface ParsedIntersection {
-  /** First street */
-  street1?: string;
-  /** First street type */
-  type1?: string;
-  /** First street prefix */
-  prefix1?: string;
-  /** First street suffix */
-  suffix1?: string;
-  /** Second street */
-  street2?: string;
-  /** Second street type */
-  type2?: string;
-  /** Second street prefix */
-  prefix2?: string;
-  /** Second street suffix */
-  suffix2?: string;
-  /** City */
-  city?: string;
-  /** State/Province */
-  state?: string;
-  /** ZIP/Postal code */
-  zip?: string;
-  /** Extended ZIP+4 code */
-  plus4?: string;
-  /** Country */
-  country?: "CA" | "US";
-  /** Postal code validation status */
-  postalValid?: boolean;
-  /** Postal code type (zip or postal) */
-  postalType?: 'zip' | 'postal';
+  street1?: string; // First street
+  type1?: string; // First street type
+  prefix1?: string; // First street prefix
+  suffix1?: string; // First street suffix
+  street2?: string; // Second street
+  type2?: string; // Second street type
+  prefix2?: string; // Second street prefix
+  suffix2?: string; // Second street suffix
+  city?: string; // City
+  state?: string; // State/Province
+  zip?: string; // ZIP/Postal code
+  plus4?: string; // Extended ZIP+4 code
+  country?: "CA" | "US"; // Country
+  postalValid?: boolean; // Postal code validation status
+  postalType?: "zip" | "postal"; // Postal code type (zip or postal)
 }
 
 export type { ParsedIntersection };

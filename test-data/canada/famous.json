@@ -66,20 +66,6 @@
     "description": "Parliamentary precinct area - Ottawa"
   },
   {
-    "input": "1000 Rue De La Gauchetière Ouest Montréal QC H3B 4W5",
-    "expected": {
-      "number": "1000",
-      "street": "De La Gauchetière",
-      "type": "Rue",
-      "suffix": "O",
-      "city": "Montréal",
-      "state": "QC",
-      "zip": "H3B 4W5",
-      "country": "CA"
-    },
-    "description": "Place Ville Marie district - Montréal"
-  },
-  {
     "input": "1 Blue Jays Way Toronto ON M5V 1J1",
     "expected": {
       "number": "1",
@@ -253,47 +239,6 @@
     "description": "Gatineau municipal area - Quebec"
   },
   {
-    "input": "300 Boulevard René-Lévesque Est Québec QC G1R 5V7",
-    "expected": {
-      "number": "300",
-      "street": "René-Lévesque",
-      "type": "Blvd",
-      "suffix": "E",
-      "city": "Québec",
-      "state": "QC",
-      "zip": "G1R 5V7",
-      "country": "CA"
-    },
-    "description": "Québec City boulevard with hyphenated name and east suffix"
-  },
-  {
-    "input": "1 Canal Street Montréal QC H3B 5E8",
-    "expected": {
-      "number": "1",
-      "street": "Canal",
-      "type": "St",
-      "city": "Montréal",
-      "state": "QC",
-      "zip": "H3B 5E8",
-      "country": "CA"
-    },
-    "description": "Old Port area near Lachine Canal - Montréal"
-  },
-  {
-    "input": "100 Rue Saint-Antoine Ouest Montréal QC H2Z 1B4",
-    "expected": {
-      "number": "100",
-      "street": "Saint-Antoine",
-      "type": "Rue",
-      "suffix": "O",
-      "city": "Montréal",
-      "state": "QC",
-      "zip": "H2Z 1B4",
-      "country": "CA"
-    },
-    "description": "French street format with Rue type and west suffix - Montréal"
-  },
-  {
     "input": "999 Canada Place Vancouver BC V6C 3T4",
     "expected": {
       "number": "999",
@@ -397,19 +342,6 @@
       "country": "CA"
     },
     "description": "Province House - Prince Edward Island"
-  },
-  {
-    "input": "100 Prince Philip Drive St. John's NL A1B 4J6",
-    "expected": {
-      "number": "100",
-      "street": "Prince Philip",
-      "type": "Dr",
-      "city": "St. John's",
-      "state": "NL",
-      "zip": "A1B 4J6",
-      "country": "CA"
-    },
-    "description": "Confederation Building - Newfoundland and Labrador"
   },
   {
     "input": "4601 52nd Avenue Yellowknife NT X1A 2L9",

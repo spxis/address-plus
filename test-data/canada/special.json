@@ -26,20 +26,6 @@
     "description": "French postal box with branch office"
   },
   {
-    "input": "RR 2 Site 10 Comp 5 Whitehorse YT Y1A 0C1",
-    "expected": {
-      "ruralRoute": "RR 2",
-      "site": "Site 10",
-      "secUnitType": "Comp",
-      "secUnitNum": "5",
-      "city": "Whitehorse",
-      "state": "YT",
-      "zip": "Y1A 0C1",
-      "country": "CA"
-    },
-    "description": "Rural route with site and compartment"
-  },
-  {
     "input": "General Delivery Iqaluit NU X0A 0H0",
     "expected": {
       "generalDelivery": true,

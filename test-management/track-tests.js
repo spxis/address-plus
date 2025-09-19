@@ -19,7 +19,7 @@ function getCurrentTimestamp() {
 
 function getBaselineFailures() {
   const DEFAULT_BASELINE = 54; // Fallback if no previous results exist
-  
+
   if (existsSync(TEST_RESULTS_FILE)) {
     try {
       const data = JSON.parse(readFileSync(TEST_RESULTS_FILE, 'utf8'));
@@ -29,7 +29,7 @@ function getBaselineFailures() {
       return DEFAULT_BASELINE;
     }
   }
-  
+
   return DEFAULT_BASELINE;
 }
 
@@ -93,19 +93,19 @@ function analyzeRegression(currentFailures, previousFailures) {
     return {
       status: 'REGRESSION',
       count: regressionCount,
-      message: `⚠️  REGRESSION DETECTED: ${regressionCount} additional test failures!`,
+      message: `REGRESSION DETECTED: ${regressionCount} additional test failures!`,
     };
   } else if (regressionCount < 0) {
     return {
       status: 'IMPROVEMENT',
       count: Math.abs(regressionCount),
-      message: `✅ IMPROVEMENT: ${Math.abs(regressionCount)} fewer test failures!`,
+      message: `IMPROVEMENT: ${Math.abs(regressionCount)} fewer test failures!`,
     };
   } else {
     return {
       status: 'STABLE',
       count: 0,
-      message: '✅ No regression detected - test results stable',
+      message: 'No regression detected - test results stable',
     };
   }
 }
@@ -169,14 +169,14 @@ function updateTestResults(testData) {
 
   // Exit with error code if regression detected
   if (regression.status === 'REGRESSION') {
-    console.error('\n❌ COMMIT BLOCKED: Regression detected!');
+    console.error('\nCOMMIT BLOCKED: Regression detected!');
     console.error(
       `You must fix the ${regression.count} additional failing tests before committing.`
     );
     process.exit(1);
   }
 
-  console.log('\n✅ Test tracking updated successfully');
+  console.log('\nTest tracking updated successfully');
   return results;
 }
 

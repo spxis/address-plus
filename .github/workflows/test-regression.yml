@@ -2,7 +2,10 @@ name: Test Regression Detection
 
 on:
   push:
-    branches: [main]
+    bra              const status = regressionAnalysis.change === 0 ? 'STABLE' : 
+                             regressionAnalysis.change < 0 ? 'IMPROVED' : 'REGRESSION';
+              
+              const comment = `## ${status} Test Results`;s: [main]
   pull_request:
     branches: [main]
 
@@ -50,8 +53,8 @@ jobs:
               const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
               const { testSummary, regressionAnalysis } = results;
               
-              const status = regressionAnalysis.change === 0 ? '✅' : 
-                            regressionAnalysis.change < 0 ? '🎉' : '⚠️';
+              const status = regressionAnalysis.change === 0 ? 'STABLE' : 
+                            regressionAnalysis.change < 0 ? 'IMPROVED' : 'REGRESSION';
               
               const comment = `## ${status} Test Results
               

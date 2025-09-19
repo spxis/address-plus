@@ -1,0 +1,32 @@
+[
+  {
+    "input": "123 Main St, Toronto, ON 12345",
+    "expected": {
+      "number": "123",
+      "street": "Main",
+      "type": "St",
+      "city": "Toronto",
+      "state": "ON",
+      "zip": "12345",
+      "country": "CA"
+    },
+    "description": "Should fail strict mode - numeric postal code",
+    "strictMode": true,
+    "shouldFail": true
+  },
+  {
+    "input": "456 Oak Ave, Montreal, QC H3B 2E7, Vancouver, BC",
+    "expected": {
+      "number": "456",
+      "street": "Oak",
+      "type": "Ave",
+      "city": "Montreal",
+      "state": "QC",
+      "zip": "H3B 2E7",
+      "country": "CA"
+    },
+    "description": "Multiple cities - should fail strict validation",
+    "strictMode": true,
+    "shouldFail": true
+  }
+]

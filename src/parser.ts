@@ -8,7 +8,7 @@ import {
   DIRECTIONAL_MAP,
   SECONDARY_UNIT_TYPES,
 } from "./data";
-import { NYC_BOROUGHS } from "./data/nyc-boroughs";
+import { ALL_SUB_REGION_NAMES } from "./data/sub-regions";
 import {
   SECONDARY_UNIT_PATTERN,
   UNIT_TYPE_NUMBER_PATTERN,
@@ -765,11 +765,11 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Add city, locality (if available), state, zip
   if (cityPart) result.city = cityPart;
-  // If we have a facility and the next comma part is a NYC borough, treat it as locality
+  // If we have a facility and the next comma part is a sub-region (NYC borough, DC quadrant, etc.), treat it as locality
   if (facilityName && commaParts.length > 1) {
-    const maybeLocalityRaw = commaParts[1].trim();
-    const normLocality = maybeLocalityRaw.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, '');
-    if (NYC_BOROUGHS.has(normLocality)) {
+    const maybeLocalityRaw: string = commaParts[1].trim();
+    const normLocality: string = maybeLocalityRaw.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, '');
+    if (ALL_SUB_REGION_NAMES.has(normLocality)) {
       result.locality = maybeLocalityRaw;
     }
   }
