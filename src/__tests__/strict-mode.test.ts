@@ -9,6 +9,7 @@ import { parseLocation } from "../parser";
 
 // Import working test data
 import workingTestData from "../../test-data/us/strict-mode-working.json";
+import comprehensiveTestData from "../../test-data/us/strict-mode-comprehensive.json";
 
 describe("Strict Mode - Core Working Functionality", () => {
   describe("ZIP/Postal Code Validation", () => {
@@ -47,50 +48,50 @@ describe("Strict Mode - Core Working Functionality", () => {
   });
 
   describe("Default Behavior", () => {
-    test("should default to permissive mode when strict is not specified", () => {
-      const address = "123 Main St, New York NY 12345";
-      const defaultResult = parseLocation(address);
-      const explicitPermissive = parseLocation(address, { strict: false });
+    comprehensiveTestData.defaultBehavior.forEach((testCase: any) => {
+      test(testCase.description, () => {
+        const defaultResult = parseLocation(testCase.input);
+        const explicitPermissive = parseLocation(testCase.input, { strict: false });
 
-      expect(defaultResult?.zip).toBe("12345");
-      expect(defaultResult?.zipValid).toBe(true);
-      expect(defaultResult).toEqual(explicitPermissive);
-    });
-
-    test("should include zipValid field in permissive mode", () => {
-      const validResult = parseLocation("123 Main St, New York NY 12345", { strict: false });
-      
-      expect(validResult?.zipValid).toBe(true);
+        // Check expected fields
+        Object.keys(testCase.expected).forEach(key => {
+          expect((defaultResult as any)?.[key]).toBe(testCase.expected[key]);
+        });
+        
+        // Ensure default equals explicit permissive
+        expect(defaultResult).toEqual(explicitPermissive);
+      });
     });
   });
 
   describe("Postal Code Normalization", () => {
-    test("should normalize Canadian postal codes to XXX XXX format", () => {
-      const tests = [
-        { input: "123 Main St, Toronto ON M5V1A1", expected: "M5V 1A1" },
-        { input: "123 Main St, Toronto ON M5V-1A1", expected: "M5V 1A1" },
-        { input: "123 Main St, Toronto ON M5V 1A1", expected: "M5V 1A1" }
-      ];
-
-      tests.forEach(({ input, expected }) => {
-        const result = parseLocation(input, { strict: false });
-        expect(result?.zip).toBe(expected);
-        expect(result?.zipValid).toBe(true);
+    comprehensiveTestData.postalCodeNormalization.forEach((testGroup: any) => {
+      describe(testGroup.description, () => {
+        testGroup.testCases.forEach((testCase: any) => {
+          test(testCase.description, () => {
+            const result = parseLocation(testCase.input, { strict: false });
+            
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          });
+        });
       });
     });
+  });
 
-    test("should handle flexible ZIP+4 spacing", () => {
-      const tests = [
-        { input: "123 Main St, New York NY 12345-6789", expected: { zip: "12345", plus4: "6789" } },
-        { input: "123 Main St, New York NY 12345 6789", expected: { zip: "12345", plus4: "6789" } },
-        { input: "123 Main St, New York NY 123456789", expected: { zip: "12345", plus4: "6789" } }
-      ];
-
-      tests.forEach(({ input, expected }) => {
-        const result = parseLocation(input, { strict: false });
-        expect(result?.zip).toBe(expected.zip);
-        expect(result?.plus4).toBe(expected.plus4);
-        expect(result?.zipValid).toBe(true);
+  describe("ZIP+4 Flexible Spacing", () => {
+    comprehensiveTestData.zipPlusFourSpacing.forEach((testGroup: any) => {
+      describe(testGroup.description, () => {
+        testGroup.testCases.forEach((testCase: any) => {
+          test(testCase.description, () => {
+            const result = parseLocation(testCase.input, { strict: false });
+            
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          });
+        });
       });
     });
   });
