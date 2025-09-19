@@ -1,8 +1,4 @@
 /**
- * Types for address parsing results - compatible with parse-address npm package
- */
-
-/**
  * Parsed address result with all possible fields
  */
 interface ParsedAddress {

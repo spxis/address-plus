@@ -1,0 +1,148 @@
+{
+  "description": "Test data for advanced batch functions with statistics (parseLocationsBatch, parseAddressesBatch, etc.)",
+  "testSuites": {
+    "withStatistics": {
+      "basic": {
+        "description": "Basic batch processing with error tracking",
+        "addresses": [
+          "123 Main St, New York, NY 10001",
+          "",
+          "456 Oak Ave, Los Angeles, CA 90210"
+        ],
+        "expectedStats": {
+          "total": 3,
+          "successful": 2,
+          "failed": 1
+        },
+        "expectedErrors": [
+          {
+            "index": 1,
+            "errorContains": "invalid or unparseable format"
+          }
+        ]
+      },
+      "errorTracking": {
+        "description": "Error tracking with empty and whitespace strings",
+        "addresses": [
+          "123 Main St, New York, NY 10001",
+          "",
+          "   ",
+          "456 Oak Ave, Los Angeles, CA 90210"
+        ],
+        "expectedStats": {
+          "total": 4,
+          "successful": 2,
+          "failed": 2
+        }
+      },
+      "stopOnError": {
+        "description": "Testing stopOnError functionality",
+        "addresses": [
+          "123 Main St, New York, NY 10001",
+          "",
+          "456 Oak Ave, Los Angeles, CA 90210"
+        ],
+        "options": {
+          "stopOnError": true
+        },
+        "expectedStats": {
+          "total": 3,
+          "successful": 1,
+          "failed": 1
+        },
+        "expectedErrors": [
+          {
+            "index": 1,
+            "errorContains": "invalid or unparseable format"
+          }
+        ],
+        "expectedResultsLength": 2
+      }
+    },
+    "performance": {
+      "large": {
+        "description": "Performance test with larger dataset",
+        "addresses": [
+          "123 Main Street, New York, NY 10001",
+          "124 Main Street, New York, NY 10001",
+          "125 Main Street, New York, NY 10001",
+          "126 Main Street, New York, NY 10001",
+          "127 Main Street, New York, NY 10001"
+        ],
+        "expectedStats": {
+          "total": 5,
+          "successful": 5,
+          "failed": 0
+        },
+        "performanceExpectations": {
+          "maxDurationMs": 100,
+          "minAddressesPerSecond": 50
+        }
+      },
+      "largeBatch": {
+        "description": "Large batch performance test (100 addresses)",
+        "generateAddresses": {
+          "count": 100,
+          "template": "{number} Main Street, New York, NY 10001",
+          "startNumber": 123
+        },
+        "expectedStats": {
+          "total": 100,
+          "successful": 100,
+          "failed": 0
+        },
+        "performanceExpectations": {
+          "maxDurationMs": 1000,
+          "minAddressesPerSecond": 100
+        }
+      }
+    },
+    "edgeCases": {
+      "mixedInvalid": {
+        "description": "Mixed valid and invalid addresses including null/undefined",
+        "addresses": [
+          "123 Main St, New York, NY 10001",
+          null,
+          "",
+          "456 Oak Ave, Los Angeles, CA 90210"
+        ],
+        "expectedStats": {
+          "total": 4,
+          "successful": 2,
+          "failed": 2
+        }
+      },
+      "intersectionsMixed": {
+        "description": "Mixed intersection formats with invalid entries",
+        "addresses": [
+          "Main Street & Oak Avenue, New York, NY",
+          "Broadway and 42nd Street, New York, NY",
+          "not an intersection",
+          "1st Ave & Pine St, Seattle, WA"
+        ],
+        "expectedStats": {
+          "total": 4,
+          "successful": 3,
+          "failed": 1
+        }
+      }
+    },
+    "options": {
+      "passthrough": {
+        "description": "Testing option passthrough to underlying parsers",
+        "addresses": [
+          "123 Main St, New York, NY 10001"
+        ],
+        "options": {
+          "strict": true,
+          "country": "US"
+        },
+        "expectedStats": {
+          "total": 1,
+          "successful": 1,
+          "failed": 0
+        }
+      }
+    }
+  }
+}

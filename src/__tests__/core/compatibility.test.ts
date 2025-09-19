@@ -19,10 +19,11 @@ import {
   parseInformalAddress, 
   parseIntersection, 
   parseLocation
-} from "../../parser";
+} from "../../index";
 
 import testData from "../../../test-data/parse-address-comparison.json";
 import snakeCaseTestCases from "../../../test-data/snake-case-compatibility.json";
+import multipleParserTestCases from "../../../test-data/multiple-parser-functions.json";
 
 // Constants
 const TEST_DATA_ROOT_PATH = "../../../test-data";
@@ -219,21 +220,24 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Multiple Parser Function Tests", () => {
-      const testInput = "1600 Pennsylvania Avenue Washington DC";
-      
-      it("should handle parseLocation", () => {
-        const result = parseLocation(testInput);
-        expect(result).toBeTruthy();
-      });
-      
-      it("should handle parseAddress", () => {
-        const result = parseAddress(testInput);
-        expect(result).toBeTruthy();
-      });
-      
-      it("should handle parseInformalAddress", () => {
-        const result = parseInformalAddress(testInput);
-        expect(result).toBeTruthy();
+      multipleParserTestCases.forEach((testCase, index) => {
+        describe(`Test case ${index + 1}: ${testCase.description}`, () => {
+          
+          it("should handle parseLocation", () => {
+            const result = parseLocation(testCase.input);
+            expect(result).toBeTruthy();
+          });
+          
+          it("should handle parseAddress", () => {
+            const result = ourParseAddress(testCase.input);
+            expect(result).toBeTruthy();
+          });
+          
+          it("should handle parseInformalAddress", () => {
+            const result = parseInformalAddress(testCase.input);
+            expect(result).toBeTruthy();
+          });
+        });
       });
     });
   });

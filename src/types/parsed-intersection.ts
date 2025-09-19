@@ -1,8 +1,4 @@
 /**
- * Result from intersection address parsing
- */
-
-/**
  * Parsed intersection result containing two streets and location info
  */
 interface ParsedIntersection {

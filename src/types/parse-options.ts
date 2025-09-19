@@ -1,8 +1,4 @@
 /**
- * Configuration options for address parsing
- */
-
-/**
  * Options to control address parsing behavior
  */
 interface ParseOptions {

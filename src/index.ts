@@ -26,6 +26,18 @@ export type * from "./types";
 // Export parser functions
 export { parseAddress, parseInformalAddress, parseIntersection, parseLocation };
 
+// Export batch processing functions
+export { 
+  parseLocations,
+  parseAddresses,
+  parseInformalAddresses, 
+  parseIntersections,
+  parseLocationsBatch,
+  parseAddressesBatch,
+  parseInformalAddressesBatch,
+  parseIntersectionsBatch
+} from "./batch-parser";
+
 // Export data and utilities for advanced usage
 export * from "./data";
 export * from "./utils";
