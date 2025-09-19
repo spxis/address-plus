@@ -5,7 +5,7 @@
 /**
  * Expected result for region normalization
  */
-export interface ExpectedResult {
+interface ExpectedResult {
   abbr: string;
   country: "CA" | "US";
 }
@@ -13,7 +13,7 @@ export interface ExpectedResult {
 /**
  * A single test case for region normalization
  */
-export interface RegionTestCase {
+interface RegionTestCase {
   /** Input string to test */
   input: string;
   /** Expected normalized result */
@@ -25,7 +25,7 @@ export interface RegionTestCase {
 /**
  * Collection of test cases organized by category
  */
-export interface RegionTestSuite {
+interface RegionTestSuite {
   /** Test suite name */
   name: string;
   /** Description of what this test suite covers */
@@ -37,7 +37,7 @@ export interface RegionTestSuite {
 /**
  * Edge case test where we expect null result
  */
-export interface EdgeTestCase {
+interface EdgeTestCase {
   /** Input string to test */
   input: string;
   /** Description of why this should return null */
@@ -47,7 +47,7 @@ export interface EdgeTestCase {
 /**
  * Collection of edge case tests
  */
-export interface EdgeTestSuite {
+interface EdgeTestSuite {
   /** Test suite name */
   name: string;
   /** Description of what this test suite covers */
@@ -55,3 +55,5 @@ export interface EdgeTestSuite {
   /** Array of edge test cases (all expect null) */
   cases: EdgeTestCase[];
 }
+
+export type { EdgeTestCase, EdgeTestSuite, ExpectedResult, RegionTestCase, RegionTestSuite };

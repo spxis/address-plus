@@ -11,6 +11,11 @@ import type {
   RegionTestSuite,
 } from "./test-case.js";
 
+// Constants for test data paths
+const TEST_DATA_ROOT_PATH = "test-data";
+const REGIONS_PATH = "regions";
+const CANADA_PATH = "canada";
+
 /**
  * Structure for exact match test data
  */
@@ -54,44 +59,6 @@ interface EdgeCaseData {
 }
 
 /**
- * Load JSON test data from file
- */
-function loadTestData<T>(filename: string): T {
-  const testDataPath = path.join(process.cwd(), "test-data", "regions", filename);
-  const rawData = fs.readFileSync(testDataPath, "utf-8");
-  
-  return JSON.parse(rawData) as T;
-}
-
-/**
- * Load US states fuzzy matching test cases
- */
-export function loadUSStatesFuzzyTests(): RegionTestSuite {
-  return loadTestData<RegionTestSuite>("us-states-fuzzy.json");
-}
-
-/**
- * Load Canadian provinces fuzzy matching test cases
- */
-export function loadCanadianProvincesFuzzyTests(): RegionTestSuite {
-  return loadTestData<RegionTestSuite>("ca-provinces-fuzzy.json");
-}
-
-/**
- * Load exact match test cases
- */
-export function loadExactMatchTests(): ExactMatchData {
-  return loadTestData<ExactMatchData>("exact-match-cases.json");
-}
-
-/**
- * Load edge case test data
- */
-export function loadEdgeCases(): EdgeCaseData {
-  return loadTestData<EdgeCaseData>("edge-cases.json");
-}
-
-/**
  * Structure for postal code province mapping test data
  */
 interface PostalCodeProvinceTestData {
@@ -115,11 +82,64 @@ interface PostalCodeProvinceTestData {
 }
 
 /**
+ * Load JSON test data from file
+ */
+function loadTestData<T>(filePath: string): T {
+  const fullPath = path.join(process.cwd(), filePath);
+  const rawData = fs.readFileSync(fullPath, "utf-8");
+
+  return JSON.parse(rawData) as T;
+}
+
+/**
+ * Load US states fuzzy matching test cases
+ */
+function loadUSStatesFuzzyTests(): RegionTestSuite {
+  const filePath = path.join(TEST_DATA_ROOT_PATH, REGIONS_PATH, "us-states-fuzzy.json");
+
+  return loadTestData<RegionTestSuite>(filePath);
+}
+
+/**
+ * Load Canadian provinces fuzzy matching test cases
+ */
+function loadCanadianProvincesFuzzyTests(): RegionTestSuite {
+  const filePath = path.join(TEST_DATA_ROOT_PATH, REGIONS_PATH, "ca-provinces-fuzzy.json");
+
+  return loadTestData<RegionTestSuite>(filePath);
+}
+
+/**
+ * Load exact match test cases
+ */
+function loadExactMatchTests(): ExactMatchData {
+  const filePath = path.join(TEST_DATA_ROOT_PATH, REGIONS_PATH, "exact-match-cases.json");
+
+  return loadTestData<ExactMatchData>(filePath);
+}
+
+/**
+ * Load edge case test data
+ */
+function loadEdgeCases(): EdgeCaseData {
+  const filePath = path.join(TEST_DATA_ROOT_PATH, REGIONS_PATH, "edge-cases.json");
+
+  return loadTestData<EdgeCaseData>(filePath);
+}
+
+/**
  * Load postal code province mapping test data
  */
-export function loadPostalCodeProvinceTests(): PostalCodeProvinceTestData {
-  const testDataPath = path.join(process.cwd(), "test-data", "canada", "postal-code-provinces.json");
-  const rawData = fs.readFileSync(testDataPath, "utf-8");
-  
-  return JSON.parse(rawData) as PostalCodeProvinceTestData;
+function loadPostalCodeProvinceTests(): PostalCodeProvinceTestData {
+  const filePath = path.join(TEST_DATA_ROOT_PATH, CANADA_PATH, "postal-code-provinces.json");
+
+  return loadTestData<PostalCodeProvinceTestData>(filePath);
 }
+
+export { 
+  loadCanadianProvincesFuzzyTests, 
+  loadEdgeCases, 
+  loadExactMatchTests, 
+  loadPostalCodeProvinceTests, 
+  loadUSStatesFuzzyTests 
+};
