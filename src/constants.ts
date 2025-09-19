@@ -46,7 +46,16 @@ const CITY_PATTERNS = {
 /**
  * Common street names that should not be captured as part of city names
  */
-const COMMON_STREET_NAMES_PATTERN = /^(broadway|main|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|market|church|park|oak|elm|pine|maple|cedar|washington|lincoln|madison|jefferson|jackson|franklin|harrison|central|mill|spring|hill|river|lake|green|north|south|east|west)$/i;
+const COMMON_STREET_NAMES_PATTERN = new RegExp(
+  "^(" +
+    "broadway|main|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|" +
+    "market|church|park|oak|elm|pine|maple|cedar|" +
+    "washington|lincoln|madison|jefferson|jackson|franklin|harrison|" +
+    "central|mill|spring|hill|river|lake|green|" +
+    "north|south|east|west" +
+  ")$",
+  "i"
+);
 
 /**
  * General Delivery patterns

@@ -24,7 +24,12 @@ export function parsePoBox(address: string, options: ParseOptions = {}): ParsedA
   if (!poMatch) return null;
 
   // First, try a strict US PO Box pattern: indicator + number + city + state + zip
-  const usPattern = /^(?:p\.?\s*o\.?\s*box|post\s*office\s*box|pobox|po\s*box)\s*(\d+)\s*,?\s*([^,]+?)\s*,?\s*([A-Za-z]{2})\s*(\d{5}(?:[-\s]?\d{4})?)?\s*$/i;
+  const usPattern = new RegExp(
+    "^(?:p\\.?\\s*o\\.?\\s*box|post\\s*office\\s*box|pobox|po\\s*box)" +
+    "\\s*(\\d+)\\s*,?\\s*([^,]+?)\\s*,?\\s*([A-Za-z]{2})" +
+    "\\s*(\\d{5}(?:[-\\s]?\\d{4})?)?\\s*$",
+    "i"
+  );
   const usMatch = address.match(usPattern);
   if (usMatch) {
     const result: ParsedAddress = {
@@ -60,7 +65,12 @@ export function parsePoBox(address: string, options: ParseOptions = {}): ParsedA
   // Optional station/succursale/RPO/RR segments
   // Capture patterns like: Station A | Succursale Centre-ville | RPO University Village | RR 2 | R.R. 3
   // Look for these at the beginning of the remaining string after the PO Box number
-  const stationRe = /^(station|succ(?:\.|ursale)?|rpo|rr|r\.r\.)\s+([A-Za-z0-9]+(?:\s*[A-Za-z0-9-]+)*?)(?=\s+[A-Z][a-z]|\s*,|$)/i;
+  const stationRe = new RegExp(
+    "^(station|succ(?:\\.|ursale)?|rpo|rr|r\\.r\\.)" +
+    "\\s+([A-Za-z0-9]+(?:\\s*[A-Za-z0-9-]+)*?)" +
+    "(?=\\s+[A-Z][a-z]|\\s*,|$)",
+    "i"
+  );
   let stationPart: RegExpMatchArray | null = null;
   const stationMatch = rest.match(stationRe);
   if (stationMatch) {

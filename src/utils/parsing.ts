@@ -18,7 +18,9 @@ import { capitalizeStreetName, capitalizeWords } from './capitalization';
 const ZIP_MATCH_PATTERN = /\b(\d{5})(?:[-\s]?(\d{4}))?\b/;
 const POSTAL_MATCH_PATTERN = /\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/;
 const UNIT_NUMBER_PATTERN = /\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)\b/i;
-const FRACTIONAL_NUMBER_PATTERN = /^\s*(\d+(?:\s*[-\/]\s*\d+\/\d+|\s+\d+\/\d+)?)\b/;
+const FRACTIONAL_NUMBER_PATTERN = new RegExp(
+  "^\\s*(\\d+(?:\\s*[-\\/]\\s*\\d+\\/\\d+|\\s+\\d+\\/\\d+)?)\\b"
+);
 
 // Normalize text for consistent parsing
 function normalizeText(text: string): string {
