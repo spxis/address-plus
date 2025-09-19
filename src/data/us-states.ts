@@ -1,12 +1,8 @@
 import type { Region } from "../types/region.js";
 
-/**
- * US States and territories mapping
- */
+// US States and territories mapping
 
-/**
- * Official US state and territory names mapped to their abbreviations
- */
+// Official US state and territory names mapped to their abbreviations
 const US_STATE_NAMES: Record<string, string> = {
   alabama: "AL",
   alaska: "AK",
@@ -66,9 +62,7 @@ const US_STATE_NAMES: Record<string, string> = {
   wyoming: "WY",
 };
 
-/**
- * Common shortened forms, abbreviations, and alternative names for US states
- */
+// Common shortened forms, abbreviations, and alternative names for US states
 const US_STATE_ALTERNATIVES: Record<string, string> = {
   // Alabama
   ala: "AL",
@@ -214,17 +208,13 @@ const US_STATE_ALTERNATIVES: Record<string, string> = {
   wyo: "WY",
 };
 
-/**
- * Combined mapping of all US state names and alternatives to their abbreviations
- */
+// Combined mapping of all US state names and alternatives to their abbreviations
 const US_STATES: Record<string, string> = {
   ...US_STATE_NAMES,
   ...US_STATE_ALTERNATIVES,
 };
 
-/**
- * Array of US states and territories as Region objects for fuzzy matching
- */
+// Array of US states and territories as Region objects for fuzzy matching
 const US_REGIONS: Region[] = Object.entries(US_STATES).map(([name, abbr]) => ({
   abbr,
   country: "US",

@@ -1,11 +1,7 @@
-/**
- * Secondary unit types and abbreviations
- */
+// Secondary unit types and abbreviations
 
-/**
- * Mapping of secondary unit types to their standardized proper case forms
- * Changed from abbreviations to full words in proper case for consistency
- */
+// Mapping of secondary unit types to their standardized proper case forms
+// Changed from abbreviations to full words in proper case for consistency
 const SECONDARY_UNIT_TYPES: Record<string, string> = {
   apartment: "Apartment",
   apartme: "Apartment", 

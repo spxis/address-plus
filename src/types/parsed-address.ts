@@ -1,6 +1,4 @@
-/**
- * Parsed address result with all possible fields
- */
+// Parsed address result with all possible fields
 interface ParsedAddress {
   /** Street number */
   number?: string;

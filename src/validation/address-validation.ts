@@ -1,15 +1,11 @@
-/**
- * Address validation functions
- */
+// Address validation functions
 
 import type { ParsedAddress, ParsedIntersection, ParseOptions } from "../types";
 import { VALIDATION_PATTERNS } from "../constants";
 import { validatePostalCode } from "../validation";
 import { buildPatterns } from "../patterns/pattern-builder";
 
-/**
- * Check if input contains recognizable address components
- */
+// Check if input contains recognizable address components
 export function hasValidAddressComponents(address: string): boolean {
   const patterns = buildPatterns();
   
@@ -47,9 +43,7 @@ export function hasValidAddressComponents(address: string): boolean {
   return false;
 }
 
-/**
- * Validate and set postal code if validation is enabled
- */
+// Validate and set postal code if validation is enabled
 export function setValidatedPostalCode(result: ParsedAddress | ParsedIntersection, zipCode: string, options: ParseOptions): void {
   const validation = validatePostalCode(zipCode);
   

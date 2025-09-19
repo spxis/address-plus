@@ -1,10 +1,8 @@
-/**
- * US ZIP code → state/territory (2-letter) resolver
- * Complete, zero-padded string comparisons (no octal issues).
- * - Accepts 5-digit or ZIP+4 formats
- * - Returns a single 2-letter code, or undefined if invalid/unmapped
- * - Covers all 50 states, DC, territories, and military/diplomatic (AA/AE/AP)
- */
+// US ZIP code → state/territory (2-letter) resolver
+// Complete, zero-padded string comparisons (no octal issues).
+// - Accepts 5-digit or ZIP+4 formats
+// - Returns a single 2-letter code, or undefined if invalid/unmapped
+// - Covers all 50 states, DC, territories, and military/diplomatic (AA/AE/AP)
 
 type StateCode =
   | 'AL' | 'AK' | 'AZ' | 'AR' | 'CA' | 'CO' | 'CT' | 'DC' | 'DE' | 'FL'
@@ -27,10 +25,8 @@ interface Zip5Range {
   code: StateCode;
 }
 
-/**
- * Exact 5-digit ranges with precedence (territories and military/diplomatic).
- * These are checked BEFORE the 3-digit regional ranges.
- */
+// Exact 5-digit ranges with precedence (territories and military/diplomatic).
+// These are checked BEFORE the 3-digit regional ranges.
 const ZIP5_EXACT_OVERRIDES: Zip5Range[] = [
   // Military/diplomatic
   { start: '09000', end: '09899', code: 'AE' }, // Europe/Middle East/Africa APO/FPO/DPO
@@ -54,10 +50,8 @@ const ZIP5_EXACT_OVERRIDES: Zip5Range[] = [
   { start: '00500', end: '00599', code: 'NY' }, // e.g., 00501 Holtsville (IRS)
 ];
 
-/**
- * 3-digit regional ranges (inclusive), used when no 5-digit override matches.
- * Ranges are zero-padded strings and compared lexicographically.
- */
+// 3-digit regional ranges (inclusive), used when no 5-digit override matches.
+// Ranges are zero-padded strings and compared lexicographically.
 const ZIP3_RANGES: Zip3Range[] = [
   // New England + NJ
   { start: '010', end: '027', code: 'MA' },
@@ -141,9 +135,7 @@ const ZIP3_RANGES: Zip3Range[] = [
   { start: '967', end: '968', code: 'HI' },
 ];
 
-/**
- * Resolve a US ZIP code (5-digit or ZIP+4) to a 2-letter state/territory code.
- */
+// Resolve a US ZIP code (5-digit or ZIP+4) to a 2-letter state/territory code.
  function getStateFromZip(zip: string | number): StateCode | undefined {
   if (zip == null) return undefined;
 
