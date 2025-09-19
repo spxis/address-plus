@@ -26,7 +26,16 @@
     }
   },
   {
-    "description": "Invalid US ZIP - too short (3 digits)",
+    "description": "Valid US ZIP+4 with space",
+    "address": "123 Main St, New York NY 12345 6789",
+    "expected": {
+      "zip": "12345",
+      "plus4": "6789",
+      "zipValid": true
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too short (3 digits) - permissive allows",
     "address": "123 Main St, New York NY 123",
     "expected": {
       "permissive": {
@@ -40,11 +49,25 @@
     }
   },
   {
-    "description": "Invalid US ZIP - too short (2 digits)",
-    "address": "123 Main St, New York NY 12",
+    "description": "Invalid US ZIP - too short (4 digits) - permissive allows",
+    "address": "123 Main St, New York NY 1234",
     "expected": {
       "permissive": {
-        "zip": "12",
+        "zip": "1234",
+        "zipValid": false
+      },
+      "strict": {
+        "zip": null,
+        "zipValid": false
+      }
+    }
+  },
+  {
+    "description": "Invalid US ZIP - too long (6 digits) - permissive allows",
+    "address": "123 Main St, New York NY 123456",
+    "expected": {
+      "permissive": {
+        "zip": "123456",
         "zipValid": false
       },
       "strict": {
@@ -82,27 +105,11 @@
     }
   },
   {
-    "description": "Valid Canadian postal code with space",
-    "address": "123 Main St, Toronto ON M5V 1A1",
-    "expected": {
-      "zip": "M5V 1A1",
-      "zipValid": true
-    }
-  },
-  {
-    "description": "Valid Canadian postal code without space",
-    "address": "123 Main St, Montreal QC H3C1G1",
-    "expected": {
-      "zip": "H3C 1G1",
-      "zipValid": true
-    }
-  },
-  {
-    "description": "Invalid Canadian postal - wrong pattern",
-    "address": "123 Main St, Toronto ON ABC123",
+    "description": "Invalid US ZIP - contains letters",
+    "address": "123 Main St, New York NY ABC12",
     "expected": {
       "permissive": {
-        "zip": "ABC123",
+        "zip": "ABC12",
         "zipValid": false
       },
       "strict": {
@@ -112,49 +119,7 @@
     }
   },
   {
-    "description": "Invalid Canadian postal - too short",
-    "address": "123 Main St, Toronto ON XYZ",
-    "expected": {
-      "permissive": {
-        "zip": "XYZ",
-        "zipValid": false
-      },
-      "strict": {
-        "zip": null,
-        "zipValid": false
-      }
-    }
-  },
-  {
-    "description": "Invalid Canadian postal - hyphen format",
-    "address": "123 Main St, Toronto ON M5V-1A1",
-    "expected": {
-      "permissive": {
-        "zip": "M5V-1A1",
-        "zipValid": false
-      },
-      "strict": {
-        "zip": null,
-        "zipValid": false
-      }
-    }
-  },
-  {
-    "description": "Invalid Canadian postal - all numbers",
-    "address": "123 Main St, Toronto ON 123456",
-    "expected": {
-      "permissive": {
-        "zip": "123456",
-        "zipValid": false
-      },
-      "strict": {
-        "zip": null,
-        "zipValid": false
-      }
-    }
-  },
-  {
-    "description": "Edge case - mixed alphanumeric",
+    "description": "Invalid US ZIP - alphanumeric pattern",
     "address": "123 Main St, New York NY A1B2C",
     "expected": {
       "permissive": {
@@ -168,11 +133,11 @@
     }
   },
   {
-    "description": "Edge case - Canadian postal in US address",
-    "address": "123 Main St, New York NY H3C1G1",
+    "description": "Edge case - weird alphanumeric mix",
+    "address": "123 Main St, New York NY 1A2B3",
     "expected": {
       "permissive": {
-        "zip": "H3C1G1",
+        "zip": "1A2B3",
         "zipValid": false
       },
       "strict": {
@@ -182,17 +147,11 @@
     }
   },
   {
-    "description": "Edge case - US ZIP in Canadian address",
-    "address": "123 Main St, Toronto ON 90210",
+    "description": "Default behavior - should default to permissive mode when strict is not specified",
+    "address": "123 Main St, New York NY 12345",
     "expected": {
-      "permissive": {
-        "zip": "90210",
-        "zipValid": false
-      },
-      "strict": {
-        "zip": null,
-        "zipValid": false
-      }
+      "zip": "12345",
+      "zipValid": true
     }
   }
 ]

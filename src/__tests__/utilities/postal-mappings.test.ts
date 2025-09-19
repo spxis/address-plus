@@ -1,9 +1,11 @@
 /**
- * Postal code to province mapping tests using JSON test data
+ * Postal Code to Province Mapping Tests
  */
 
-import { getProvinceFromPostalCode } from "../data/postal-code-provinces.js";
-import { loadPostalCodeProvinceTests } from "./utils/test-data-loader.js";
+import { describe, expect, it } from "vitest";
+
+import { getProvinceFromPostalCode } from "../../data/postal-code-provinces.js";
+import { loadPostalCodeProvinceTests } from "../utils/test-data-loader.js";
 
 describe("Postal Code to Province Mapping", () => {
   const testData = loadPostalCodeProvinceTests();

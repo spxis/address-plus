@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeRegion } from "../utils/normalize-region.js";
+import { normalizeRegion } from "../../utils/normalize-region.js";
 import { 
   loadCanadianProvincesFuzzyTests,
   loadEdgeCases,
   loadExactMatchTests, 
   loadUSStatesFuzzyTests,
-} from "./utils/test-data-loader.js";
+} from "../utils/test-data-loader.js";
 
 describe("normalizeRegion", () => {
   // Load test data from JSON files
