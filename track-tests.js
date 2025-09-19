@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TEST_RESULTS_FILE = join(__dirname, 'test-results.json');
-const BASELINE_FAILURES = 165; // Current improved state after architectural refactoring
+const BASELINE_FAILURES = 54; // Current baseline after converting to JSON-driven tests
 
 function getCurrentTimestamp() {
   return new Date().toISOString();
