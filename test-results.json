@@ -1,30 +1,20 @@
 {
   "testSummary": {
-    "timestamp": "2025-09-19T12:55:50.000Z",
+    "timestamp": "2025-09-19T20:00:43.620Z",
     "totalTests": 1018,
     "passed": 963,
     "failed": 55,
-    "passRate": "94.6%",
-    "regressionStatus": "MASSIVE_IMPROVEMENT",
+    "passRate": "94.60%",
+    "regressionStatus": "IMPROVEMENT",
     "previousBest": 55,
-    "regressionCount": 0,
-    "testsRecovered": 473,
-    "recoveryStatus": "COMPLETE"
+    "regressionCount": 110
   },
   "regressionAnalysis": {
-    "baseline": 545,
-    "current": 1018,
-    "change": 473,
-    "message": "🎉 MASSIVE TEST RECOVERY: 473 tests restored! From 545 → 1,018 total tests"
+    "baseline": 165,
+    "current": 55,
+    "change": -110,
+    "message": "✅ IMPROVEMENT: 110 fewer test failures!"
   },
-  "testRecovery": {
-    "originalTarget": 996,
-    "actualRecovered": 1018,
-    "testsLost": 451,
-    "testsRestored": 473,
-    "recoveryMethod": "comprehensive multi-function testing across all JSON datasets",
-    "status": "EXCEEDED_TARGET"
-  },
-  "lastUpdated": "2025-09-19T12:57:00.000Z",
-  "gitCommit": "pending"
+  "lastUpdated": "2025-09-19T20:00:43.621Z",
+  "gitCommit": "95b9773253b6eb27b26bd599fa83c89d64eb4456"
 }

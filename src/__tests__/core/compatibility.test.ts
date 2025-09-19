@@ -20,10 +20,8 @@ import {
   parseIntersection, 
   parseLocation
 } from "../../parser";
-import type { ParsedAddress, ParsedIntersection } from "../../types";
-import testData from "../../../test-data/parse-address-comparison.json";
 
-// Import snake case test data
+import testData from "../../../test-data/parse-address-comparison.json";
 import snakeCaseTestCases from "../../../test-data/snake-case-compatibility.json";
 
 // Constants
