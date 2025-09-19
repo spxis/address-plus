@@ -1,7 +1,4 @@
-/**
- * Main address parser implementation
- * Based on the original parse-address library patterns
- */
+// Main address parser implementation - based on the original parse-address library patterns
 
 import type {  ParsedAddress, ParseOptions } from "./types";
 import { parsePoBox } from "./parsers/po-box-parser";
@@ -11,6 +8,7 @@ import {
   DIRECTIONAL_MAP,
   SECONDARY_UNIT_TYPES,
 } from "./data";
+import { NYC_BOROUGHS } from "./data/nyc-boroughs";
 import {
   SECONDARY_UNIT_PATTERN,
   UNIT_TYPE_NUMBER_PATTERN,
@@ -39,9 +37,7 @@ import { buildPatterns } from "./patterns/pattern-builder";
 import { hasValidAddressComponents, setValidatedPostalCode } from "./validation/address-validation";
 import { toSnakeCase } from "./utils/case-converter";
 
-/**
- * Parse a location string into address components
- */
+// Parse a location string into address components
 function parseLocation(address: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!address || typeof address !== 'string') {
     return null;
@@ -73,9 +69,7 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   return parseStandardAddress(original, options) || parseInformalAddress(original, options);
 }
 
-/**
- * Parse standard addresses with number, street, type, city, state, zip
- */
+// Parse standard addresses with number, street, type, city, state, zip
 function parseStandardAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   const patterns = buildPatterns();
   
@@ -775,7 +769,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   if (facilityName && commaParts.length > 1) {
     const maybeLocalityRaw = commaParts[1].trim();
     const normLocality = maybeLocalityRaw.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, '');
-    if (["manhattan","brooklyn","queens","bronx","statenisland","staten island"].includes(normLocality)) {
+    if (NYC_BOROUGHS.has(normLocality)) {
       result.locality = maybeLocalityRaw;
     }
   }
@@ -837,9 +831,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   return finalResult;
 }
 
-/**
- * Parse informal addresses (fallback)
- */
+// Parse informal addresses (fallback)
 import { createParser, parseAddress, parser, setParseLocationImpl } from "./parsers/parser-orchestrator";
 
 // Inject parseLocation implementation to break circular dependency

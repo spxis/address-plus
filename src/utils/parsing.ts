@@ -1,7 +1,4 @@
-/**
- * Core parsing utilities and regex patterns
- */
-
+// Core parsing utilities and regex patterns
 import {
   DIRECTIONAL_MAP,
   US_STREET_TYPES,
@@ -16,9 +13,13 @@ import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from '../validation';
 import { ParsedAddress, ParseOptions } from '../types';
 import { capitalizeStreetName, capitalizeWords } from './capitalization';
 
-/**
- * Normalize text for consistent parsing
- */
+// Regex patterns for parsing components
+const ZIP_MATCH_PATTERN = /\b(\d{5})(?:[-\s]?(\d{4}))?\b/;
+const POSTAL_MATCH_PATTERN = /\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/;
+const UNIT_NUMBER_PATTERN = /\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)\b/i;
+const FRACTIONAL_NUMBER_PATTERN = /^\s*(\d+(?:\s*[-\/]\s*\d+\/\d+|\s+\d+\/\d+)?)\b/;
+
+// Normalize text for consistent parsing
 function normalizeText(text: string): string {
   return text
     .toLowerCase()
@@ -27,18 +28,14 @@ function normalizeText(text: string): string {
     .trim();
 }
 
-/**
- * Build regex patterns from dictionary
- */
+// Build regex patterns from dictionary
 function buildRegexFromDict(dict: Record<string, string>, capture = true): RegExp {
   const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
   const pattern = keys.map(key => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
   return new RegExp(capture ? `\\b(${pattern})\\b` : `\\b(?:${pattern})\\b`, 'i');
 }
 
-/**
- * Extract and normalize directional
- */
+// Extract and normalize directional
 function parseDirectional(text: string): { direction: string | undefined; remaining: string } {
   const dirPattern = buildRegexFromDict(DIRECTIONAL_MAP);
   const match = text.match(dirPattern);
@@ -52,9 +49,7 @@ function parseDirectional(text: string): { direction: string | undefined; remain
   return { direction: undefined, remaining: text };
 }
 
-/**
- * Extract and normalize street type
- */
+// Extract and normalize street type
 function parseStreetType(text: string, country: 'US' | 'CA' = 'US'): { type: string | undefined; remaining: string } {
   const typeMap = country === 'CA' ? { ...US_STREET_TYPES, ...CA_STREET_TYPES } : US_STREET_TYPES;
   const typePattern = buildRegexFromDict(typeMap);
@@ -69,9 +64,7 @@ function parseStreetType(text: string, country: 'US' | 'CA' = 'US'): { type: str
   return { type: undefined, remaining: text };
 }
 
-/**
- * Extract state or province  
- */
+// Extract state or province  
 function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA' } {
   // Try US state abbreviations first (more specific than full names)
   const usAbbrevPattern = new RegExp(`\\b(${Object.values(US_STATES).join('|')})\\b`, 'i');
@@ -112,12 +105,10 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
   return { state: undefined, remaining: text };
 }
 
-/**
- * Extract postal code (ZIP or Canadian postal code)
- */
+// Extract postal code (ZIP or Canadian postal code)
 function parsePostalCode(text: string): { zip: string | undefined; plus4: string | undefined; remaining: string; detectedCountry?: 'US' | 'CA'; detectedProvince?: string } {
-  // Try US ZIP code - create non-anchored version of ZIP_CODE_PATTERN
-  const zipMatch = text.match(/\b(\d{5})(?:[-\s]?(\d{4}))?\b/);
+  // Try US ZIP code - use centralized pattern
+  const zipMatch = text.match(ZIP_MATCH_PATTERN);
   if (zipMatch) {
     // Validate with the proper pattern from validation.ts
     const fullZip = zipMatch[0].replace(/\s+/g, '');
@@ -129,8 +120,8 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
     }
   }
   
-  // Try Canadian postal code - create non-anchored version of CANADIAN_POSTAL_CODE_PATTERN
-  const postalMatch = text.match(/\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/);
+  // Try Canadian postal code - use centralized pattern
+  const postalMatch = text.match(POSTAL_MATCH_PATTERN);
   if (postalMatch) {
     // Validate with the proper pattern from validation.ts
     const fullPostal = `${postalMatch[1]} ${postalMatch[2]}`.toUpperCase();
@@ -145,9 +136,7 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
   return { zip: undefined, plus4: undefined, remaining: text };
 }
 
-/**
- * Parse secondary unit information (apartment, suite, etc.)
- */
+// Parse secondary unit information (apartment, suite, etc.)
 export function parseSecondaryUnit(text: string): { 
   unit: string | undefined; 
   secUnitType: string | undefined; 
@@ -167,7 +156,7 @@ export function parseSecondaryUnit(text: string): {
   }
   
   // Look for numbers that might be unit numbers
-  const numberMatch = text.match(/\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)\b/i);
+  const numberMatch = text.match(UNIT_NUMBER_PATTERN);
   if (numberMatch) {
     const secUnitType = SECONDARY_UNIT_TYPES[numberMatch[1].toLowerCase()] || numberMatch[1].toLowerCase();
     const secUnitNum = numberMatch[2];
@@ -179,12 +168,8 @@ export function parseSecondaryUnit(text: string): {
   return { unit: undefined, secUnitType: undefined, secUnitNum: undefined, remaining: text };
 }
 
-/**
- * Extract facility names
- */
-/**
- * Parse facility information from address
- */
+// Extract facility names
+// Parse facility information from address
 function parseFacility(text: string): { facility: string | undefined; remaining: string } {
   for (const pattern of FACILITY_PATTERNS) {
     const match = text.match(pattern);
@@ -202,9 +187,7 @@ function parseFacility(text: string): { facility: string | undefined; remaining:
   return { facility: undefined, remaining: text };
 }
 
-/**
- * Parse parenthetical information
- */
+// Parse parenthetical information
 function parseParenthetical(text: string): { secondary: string | undefined; remaining: string } {
   const parenMatch = text.match(/\(([^)]+)\)/);
   if (parenMatch) {
@@ -216,12 +199,10 @@ function parseParenthetical(text: string): { secondary: string | undefined; rema
   return { secondary: undefined, remaining: text };
 }
 
-/**
- * Extract street number (including fractional)
- */
+// Extract street number (including fractional)
 function parseStreetNumber(text: string): { number: string | undefined; remaining: string } {
   // Handle fractional numbers like "123 1/2" or "123-1/2"
-  const fracMatch = text.match(/^\s*(\d+(?:\s*[-\/]\s*\d+\/\d+|\s+\d+\/\d+)?)\b/);
+  const fracMatch = text.match(FRACTIONAL_NUMBER_PATTERN);
   if (fracMatch) {
     const number = fracMatch[1].replace(/\s+/g, ' ').trim();
     const remaining = text.replace(fracMatch[0], ' ').replace(/\s+/g, ' ').trim();
@@ -239,9 +220,7 @@ function parseStreetNumber(text: string): { number: string | undefined; remainin
   return { number: undefined, remaining: text };
 }
 
-/**
- * Detect country from address components
- */
+// Detect country from address components
 function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined {
   if (address.state) {
     if (Object.values(US_STATES).includes(address.state) || Object.keys(US_STATES).includes(address.state.toLowerCase())) {

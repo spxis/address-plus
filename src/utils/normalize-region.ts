@@ -3,24 +3,13 @@ import levenshtein from "fast-levenshtein";
 import { REGIONS } from "../data/regions.js";
 import type { Region } from "../types/region.js";
 
-/**
- * Region normalization utilities for fuzzy matching
- */
+// Region normalization utilities for fuzzy matching
 
-/**
- * Normalizes a region input string to find the best matching state/province
- * Supports exact matches and fuzzy matching for misspellings
- * 
- * @param input - The input string to normalize (state/province name or abbreviation)
- * @returns Object with abbreviation and country, or null if no match found
- * 
- * @example
- * normalizeRegion('Calfornia'); // → { abbr: 'CA', country: 'US' }
- * normalizeRegion('Texes');     // → { abbr: 'TX', country: 'US' }
- * normalizeRegion('Ontaroi');   // → { abbr: 'ON', country: 'CA' }
- * normalizeRegion('qc');        // → { abbr: 'QC', country: 'CA' }
- * normalizeRegion('quebec');    // → { abbr: 'QC', country: 'CA' }
- */
+// Normalizes a region input string to find the best matching state/province
+// Supports exact matches and fuzzy matching for misspellings
+// @param input - The input string to normalize (state/province name or abbreviation)  
+// @returns Object with abbreviation and country, or null if no match found
+// @example normalizeRegion('Calfornia') → { abbr: 'CA', country: 'US' }
 function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } | null {
   if (!input) {
     return null;
