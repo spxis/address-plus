@@ -12,10 +12,25 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TEST_RESULTS_FILE = join(__dirname, 'test-results.json');
-const BASELINE_FAILURES = 54; // Current baseline after converting to JSON-driven tests
 
 function getCurrentTimestamp() {
   return new Date().toISOString();
+}
+
+function getBaselineFailures() {
+  const DEFAULT_BASELINE = 54; // Fallback if no previous results exist
+  
+  if (existsSync(TEST_RESULTS_FILE)) {
+    try {
+      const data = JSON.parse(readFileSync(TEST_RESULTS_FILE, 'utf8'));
+      return data.regressionAnalysis?.baseline || DEFAULT_BASELINE;
+    } catch (error) {
+      console.warn('Could not read baseline from test results, using default');
+      return DEFAULT_BASELINE;
+    }
+  }
+  
+  return DEFAULT_BASELINE;
 }
 
 function runTests() {
@@ -98,13 +113,14 @@ function analyzeRegression(currentFailures, previousFailures) {
 function updateTestResults(testData) {
   const { failed, passed, total } = testData;
   const passRate = ((passed / total) * 100).toFixed(2);
+  const baselineFailures = getBaselineFailures();
 
   // Read previous results if they exist
-  let previousBest = BASELINE_FAILURES;
+  let previousBest = baselineFailures;
   if (existsSync(TEST_RESULTS_FILE)) {
     try {
       const prevData = JSON.parse(readFileSync(TEST_RESULTS_FILE, 'utf8'));
-      previousBest = prevData.testSummary.previousBest || BASELINE_FAILURES;
+      previousBest = prevData.testSummary.previousBest || baselineFailures;
 
       // Update previousBest if we've improved
       if (failed < previousBest) {
@@ -114,7 +130,7 @@ function updateTestResults(testData) {
       console.warn('Could not read previous test results, using baseline');
     }
   }
-  const regression = analyzeRegression(failed, BASELINE_FAILURES);
+  const regression = analyzeRegression(failed, baselineFailures);
 
   const results = {
     testSummary: {
@@ -128,9 +144,9 @@ function updateTestResults(testData) {
       regressionCount: regression.count,
     },
     regressionAnalysis: {
-      baseline: BASELINE_FAILURES,
+      baseline: baselineFailures,
       current: failed,
-      change: failed - BASELINE_FAILURES,
+      change: failed - baselineFailures,
       message: regression.message,
     },
     lastUpdated: getCurrentTimestamp(),
@@ -147,7 +163,7 @@ function updateTestResults(testData) {
   console.log(`Total Tests: ${total}`);
   console.log(`Passed: ${passed} (${passRate}%)`);
   console.log(`Failed: ${failed}`);
-  console.log(`Baseline: ${BASELINE_FAILURES} failures`);
+  console.log(`Baseline: ${baselineFailures} failures`);
   console.log(regression.message);
   console.log('='.repeat(60));
 
