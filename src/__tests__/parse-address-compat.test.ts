@@ -3,21 +3,25 @@
  * Uses JSON test data files for maintainable test cases
  */
 
-import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { describe, expect, it } from "vitest";
+import { readFileSync } from "fs";
+import { join } from "path";
+
 import { 
-  parseLocation, 
   parseAddress, 
+  parseInformalAddress, 
   parseIntersection, 
-  parseInformalAddress
+  parseLocation
 } from "../parser";
 import type { ParsedAddress, ParsedIntersection } from "../types";
 
+// Constants for test data paths
+const TEST_DATA_ROOT_PATH = "../../test-data";
+
 // Helper to load test data by country
-function loadTestData(country: 'us' | 'canada', filename: string): any[] {
-  const filePath = join(__dirname, '../../test-data', country, filename);
-  const data = JSON.parse(readFileSync(filePath, 'utf-8'));
+function loadTestData(country: "us" | "canada", filename: string): any[] {
+  const filePath = join(__dirname, TEST_DATA_ROOT_PATH, country, filename);
+  const data = JSON.parse(readFileSync(filePath, "utf-8"));
   
   // If it's already an array, return it directly
   if (Array.isArray(data)) {
@@ -25,7 +29,8 @@ function loadTestData(country: 'us' | 'canada', filename: string): any[] {
   }
   
   // Otherwise, extract the array from the first key that isn't 'description'
-  const firstKey = Object.keys(data).find(key => key !== 'description');
+  const firstKey = Object.keys(data).find(key => key !== "description");
+  
   return firstKey ? data[firstKey] || [] : [];
 }
 
@@ -168,8 +173,8 @@ describe('Parse-Address Compatibility Tests', () => {
       const result = parseLocation('PO Box 123, Anytown, NY 12345');
       expect(result).toBeTruthy();
       const address = result as ParsedAddress;
-      expect(address?.sec_unit_type).toBe('PO Box');
-      expect(address?.sec_unit_num).toBe('123');
+      expect(address?.secUnitType).toBe('PO Box');
+      expect(address?.secUnitNum).toBe('123');
     });
   });
 
