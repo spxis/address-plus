@@ -1,4 +1,5 @@
 // Core parsing utilities and regex patterns
+import { COUNTRIES } from "../constants";
 import {
   DIRECTIONAL_MAP,
   US_STREET_TYPES,
@@ -50,8 +51,8 @@ function parseDirectional(text: string): { direction: string | undefined; remain
 }
 
 // Extract and normalize street type
-function parseStreetType(text: string, country: 'US' | 'CA' = 'US'): { type: string | undefined; remaining: string } {
-  const typeMap = country === 'CA' ? { ...US_STREET_TYPES, ...CA_STREET_TYPES } : US_STREET_TYPES;
+function parseStreetType(text: string, country: 'US' | 'CA' = COUNTRIES.UNITED_STATES): { type: string | undefined; remaining: string } {
+  const typeMap = country === COUNTRIES.CANADA ? { ...US_STREET_TYPES, ...CA_STREET_TYPES } : US_STREET_TYPES;
   const typePattern = buildRegexFromDict(typeMap);
   const match = text.match(typePattern);
   
@@ -72,7 +73,7 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
   if (match) {
     const state = match[1].toUpperCase();
     const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), ' ').replace(/\s+/g, ' ').trim();
-    return { state, remaining, detectedCountry: 'US' };
+    return { state, remaining, detectedCountry: COUNTRIES.UNITED_STATES };
   }
   
   // Try Canadian province abbreviations
@@ -81,7 +82,7 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
   if (match) {
     const state = match[1].toUpperCase();
     const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), ' ').replace(/\s+/g, ' ').trim();
-    return { state, remaining, detectedCountry: 'CA' };
+    return { state, remaining, detectedCountry: COUNTRIES.CANADA };
   }
   
   // Try US states full names (only if no abbreviation found)
@@ -90,7 +91,7 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
   if (match) {
     const state = US_STATES[match[1].toLowerCase()];
     const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi'), ' ').replace(/\s+/g, ' ').trim();
-    return { state, remaining, detectedCountry: 'US' };
+    return { state, remaining, detectedCountry: COUNTRIES.UNITED_STATES };
   }
   
   // Try Canadian provinces full names
@@ -99,7 +100,7 @@ function parseStateProvince(text: string, country?: 'US' | 'CA'): { state: strin
   if (match) {
     const state = CA_PROVINCES[match[1].toLowerCase()];
     const remaining = text.replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi'), ' ').replace(/\s+/g, ' ').trim();
-    return { state, remaining, detectedCountry: 'CA' };
+    return { state, remaining, detectedCountry: COUNTRIES.CANADA };
   }
   
   return { state: undefined, remaining: text };
@@ -116,7 +117,7 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
       const zip = zipMatch[1];
       const plus4 = zipMatch[2];
       const remaining = text.replace(zipMatch[0], '').trim();
-      return { zip, plus4, remaining, detectedCountry: 'US' };
+      return { zip, plus4, remaining, detectedCountry: COUNTRIES.UNITED_STATES };
     }
   }
   
@@ -129,7 +130,7 @@ function parsePostalCode(text: string): { zip: string | undefined; plus4: string
       const zip = fullPostal;
       const remaining = text.replace(postalMatch[0], ' ').replace(/\s+/g, ' ').trim();
       const detectedProvince = getProvinceFromPostalCode(zip) || undefined;
-      return { zip, plus4: undefined, remaining, detectedCountry: 'CA', detectedProvince };
+      return { zip, plus4: undefined, remaining, detectedCountry: COUNTRIES.CANADA, detectedProvince };
     }
   }
   
@@ -224,19 +225,19 @@ function parseStreetNumber(text: string): { number: string | undefined; remainin
 function detectCountry(address: ParsedAddress): 'US' | 'CA' | undefined {
   if (address.state) {
     if (Object.values(US_STATES).includes(address.state) || Object.keys(US_STATES).includes(address.state.toLowerCase())) {
-      return 'US';
+      return COUNTRIES.UNITED_STATES;
     }
     if (Object.values(CA_PROVINCES).includes(address.state) || Object.keys(CA_PROVINCES).includes(address.state.toLowerCase())) {
-      return 'CA';
+      return COUNTRIES.CANADA;
     }
   }
   
   if (address.zip) {
     if (ZIP_CODE_PATTERN.test(address.zip)) {
-      return 'US';
+      return COUNTRIES.UNITED_STATES;
     }
     if (CANADIAN_POSTAL_CODE_PATTERN.test(address.zip)) {
-      return 'CA';
+      return COUNTRIES.CANADA;
     }
   }
   
