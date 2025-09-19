@@ -19,7 +19,16 @@ import {
 import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "./validation";
 import { FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
 import { ZIP_CODE_PATTERN } from "./validation";
-import { VALIDATION_PATTERNS, CITY_PATTERNS } from "./constants";
+import { 
+  VALIDATION_PATTERNS, 
+  CITY_PATTERNS,
+  COMMON_STREET_NAMES_PATTERN,
+  GENERAL_DELIVERY_PATTERNS,
+  ZIP_VALIDATION_PATTERNS,
+  FACILITY_DELIMITER_PATTERNS,
+  ISLAND_TYPE_PATTERN,
+  CONNECTOR_WORDS
+} from "./constants";
 import {
   capitalizeStreetName,
   detectCountry,
@@ -83,7 +92,6 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Track General Delivery flag early and exclude from parsing if present
   let isGeneralDelivery = false;
-  const GENERAL_DELIVERY_REGEX = /^general\s+delivery$/i;
   // Track which comma parts to exclude from city parsing (for secondary units, facilities)
   const excludedPartIndices = new Set<number>();
   
@@ -104,7 +112,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   const firstPart = commaParts[0];
     
     // Special-case: General Delivery as the first part
-    if (GENERAL_DELIVERY_REGEX.test(firstPart)) {
+    if (GENERAL_DELIVERY_PATTERNS.STANDARD.test(firstPart)) {
       isGeneralDelivery = true;
       addressStartIndex = 1; // Move past the General Delivery part
     }
@@ -122,10 +130,10 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       // Special handling: if the first part contains an inline address separated by a delimiter
       // like ":", "|", or dashes, split into facility name and address segment.
       // Also handle parenthetical address: "Facility Name (350 5th Avenue, New York NY 10118)".
-  const parenInline = firstPart.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
-  const delimInline = firstPart.match(/^(.*?)\s*([:;|\u2013\u2014\-])\s*(.+)$/); // capture delimiter (en/em dash, hyphen, pipe, colon, semicolon)
-  // Handle trailing Island-like phrases without delimiters (e.g., "…  Liberty Island"); preserve spaces
-  const trailingIsland = firstPart.match(/^(.*?)(\s+)(\b.+\s+(?:Island|Isl\.?|Is\.?)\b.*)$/i);
+      const parenInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.PARENTHETICAL);
+      const delimInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.DELIMITED);
+      // Handle trailing Island-like phrases without delimiters (e.g., "…  Liberty Island"); preserve spaces
+      const trailingIsland = firstPart.match(FACILITY_DELIMITER_PATTERNS.TRAILING_ISLAND);
 
       if (parenInline) {
         facilityName = parenInline[1].trim();
@@ -153,13 +161,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       // Check if this looks like a facility name vs a street name
       const words = firstPart.trim().split(VALIDATION_PATTERNS.WHITESPACE_SPLIT);
       // Ignore connector words when checking Title Case (e.g., "of", "the", "de", "la")
-      const connectorWords = new Set([
-        'of','the','and','at','on','in','for','to','from','by','with','without',
-        'de','la','le','les','du','des','l\'',"d'","o'","y'"
-      ]);
       const filteredWords = words.filter(w => {
         const lw = w.toLowerCase();
-        return !connectorWords.has(lw);
+        return !CONNECTOR_WORDS.has(lw);
       });
       
       const hasMultipleWords = words.length >= 2;
@@ -258,7 +262,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           const isFirstWordDirectional = new RegExp(`^(${patterns.directional.slice(1, -1)})$`, 'i').test(firstWordOfCity);
           
           // Additional check: common street names that might not be in street types
-          const isCommonStreetName = /^(broadway|main|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|market|church|park|oak|elm|pine|maple|cedar|washington|lincoln|madison|jefferson|jackson|franklin|harrison|central|mill|spring|hill|river|lake|green|north|south|east|west)$/i.test(firstWordOfCity);
+          const isCommonStreetName = COMMON_STREET_NAMES_PATTERN.test(firstWordOfCity);
           
           // If the first word is a street component or common street name, prefer single word city
           if ((isFirstWordStreetType || isFirstWordDirectional || isCommonStreetName) && singleWordCityMatch) {
@@ -488,7 +492,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     // Example non-comma formats:
     //  - General Delivery Whitehorse YT Y1A 2T6
     //  - General Delivery Iqaluit NU X0A 0H0
-    const gdCityMatch = address.match(/^\s*general\s+delivery\s+([^,]+?)\s+([A-Za-z]{2})\b/i);
+    const gdCityMatch = address.match(GENERAL_DELIVERY_PATTERNS.WITH_CITY);
     if (gdCityMatch) {
       cityPart = gdCityMatch[1].trim();
     }
@@ -744,7 +748,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       const rawType = streetTypeSuffixMatch[2];
       const normalizedType = normalizeStreetType(rawType);
       // Special case: Facility + "Island" with no house number should keep full phrase as street
-      if (facilityName && !result.number && /^(island|is\.?|isl\.?|isle\.?|ils\.?)$/i.test(rawType)) {
+      if (facilityName && !result.number && ISLAND_TYPE_PATTERN.test(rawType)) {
         result.street = capitalizeStreetName(`${streetTypeSuffixMatch[1].trim()} Island`);
         // Do not set type in this special facility case
       } else {
@@ -803,7 +807,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     // Look for ZIP-like patterns in the original address
     const originalParts = address.split(',');
     const lastOriginalPart = originalParts[originalParts.length - 1] || '';
-    const potentialZipMatch = lastOriginalPart.match(/\b([A-Z0-9]{3,9}(?:[-\s][A-Z0-9]{1,4})?)\s*$/i);
+    const potentialZipMatch = lastOriginalPart.match(ZIP_VALIDATION_PATTERNS.POTENTIAL_ZIP);
     if (potentialZipMatch) {
       // Found a potential ZIP pattern that wasn't extracted in strict mode
       setValidatedPostalCode(result, potentialZipMatch[1], options);

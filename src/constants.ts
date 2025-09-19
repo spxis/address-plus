@@ -55,5 +55,63 @@ const CITY_PATTERNS = {
   TWO_WORD_CITY: /\s+([A-Za-z]+\s+[A-Za-z]+)$/
 } as const;
 
-export { COUNTRIES, CITY_PATTERNS, VALIDATION_PATTERNS };
+/**
+ * Common street names that should not be captured as part of city names
+ */
+const COMMON_STREET_NAMES_PATTERN = /^(broadway|main|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|market|church|park|oak|elm|pine|maple|cedar|washington|lincoln|madison|jefferson|jackson|franklin|harrison|central|mill|spring|hill|river|lake|green|north|south|east|west)$/i;
+
+/**
+ * General Delivery patterns
+ */
+const GENERAL_DELIVERY_PATTERNS = {
+  /** Standard General Delivery pattern */
+  STANDARD: /^general\s+delivery$/i,
+  /** General Delivery with city extraction */
+  WITH_CITY: /^\s*general\s+delivery\s+([^,]+?)\s+([A-Za-z]{2})\b/i
+} as const;
+
+/**
+ * ZIP code validation patterns
+ */
+const ZIP_VALIDATION_PATTERNS = {
+  /** Potential ZIP pattern for strict mode validation */
+  POTENTIAL_ZIP: /\b([A-Z0-9]{3,9}(?:[-\s][A-Z0-9]{1,4})?)\s*$/i
+} as const;
+
+/**
+ * Facility delimiter patterns for inline address parsing
+ */
+const FACILITY_DELIMITER_PATTERNS = {
+  /** Parenthetical address format: "Facility Name (address)" */
+  PARENTHETICAL: /^(.*?)\s*\(([^)]+)\)\s*$/,
+  /** Delimiter-separated format: "Facility Name: address" or "Facility Name | address" */
+  DELIMITED: /^(.*?)\s*([:;|\u2013\u2014\-])\s*(.+)$/,
+  /** Trailing Island format: "Facility  Liberty Island" */
+  TRAILING_ISLAND: /^(.*?)(\s+)(\b.+\s+(?:Island|Isl\.?|Is\.?)\b.*)$/i
+} as const;
+
+/**
+ * Island type variations for special facility handling
+ */
+const ISLAND_TYPE_PATTERN = /^(island|is\.?|isl\.?|isle\.?|ils\.?)$/i;
+
+/**
+ * Connector words to ignore when checking Title Case in facility names
+ */
+const CONNECTOR_WORDS = new Set([
+  'of','the','and','at','on','in','for','to','from','by','with','without',
+  'de','la','le','les','du','des','l\'',"d'","o'","y'"
+]);
+
+export { 
+  COUNTRIES, 
+  CITY_PATTERNS, 
+  VALIDATION_PATTERNS,
+  COMMON_STREET_NAMES_PATTERN,
+  GENERAL_DELIVERY_PATTERNS,
+  ZIP_VALIDATION_PATTERNS,
+  FACILITY_DELIMITER_PATTERNS,
+  ISLAND_TYPE_PATTERN,
+  CONNECTOR_WORDS
+};
 export type { CountryCode };
