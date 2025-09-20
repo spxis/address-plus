@@ -1,7 +1,3 @@
-/**
- * Regex patterns for address validation
- */
-
 // Regex patterns for address validation
 export const VALIDATION_PATTERNS = {
   HAS_LETTERS: /[a-zA-Z]/,

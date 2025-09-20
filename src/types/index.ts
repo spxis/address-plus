@@ -39,3 +39,14 @@ export type {
   CleanAddressOptions,
   CleanAddressResult,
 } from "./clean-address";
+
+export type {
+  TestCaseBase,
+  AddressParsingTestCase,
+  AddressFormattingTestCase,
+  AddressValidationTestCase,
+  AddressComparisonTestCase,
+  CleanAddressTestCase,
+  BatchProcessingTestCase,
+  TestCase,
+} from "./test-schema";

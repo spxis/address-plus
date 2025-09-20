@@ -1,28 +1,33 @@
-[
-  {
-    "input": "PO Box 123 Station A Toronto ON M5W 1A1",
-    "expected": null,
-    "description": "Canadian PO Box that returns null"
-  },
-  {
-    "input": "RPO University Village Vancouver BC V6T 1Z4",
-    "expected": {
-      "street": "RPO University",
-      "type": "Vlg",
-      "city": "Vancouver",
-      "state": "BC",
-      "zip": "V6T 1Z4"
+{
+  "$schema": "../schemas/test-file.json",
+  "name": "Canadian Special Postal Codes",
+  "description": "Special Canadian postal code formats and validation scenarios",
+  "specialCases": [
+    {
+      "input": "PO Box 123 Station A Toronto ON M5W 1A1",
+      "expected": null,
+      "description": "Canadian PO Box that returns null"
     },
-    "description": "Retail Post Office with village abbreviation"
-  },
-  {
-    "input": "General Delivery Whitehorse YT Y1A 2T6",
-    "expected": {
-      "street": "General Delivery",
-      "city": "Whitehorse",
-      "state": "YT",
-      "zip": "Y1A 2T6"
+    {
+      "input": "RPO University Village Vancouver BC V6T 1Z4",
+      "expected": {
+        "street": "RPO University",
+        "type": "Vlg",
+        "city": "Vancouver",
+        "state": "BC",
+        "zip": "V6T 1Z4"
+      },
+      "description": "Retail Post Office with village abbreviation"
     },
-    "description": "General delivery parsed as street address"
-  }
-]
+    {
+      "input": "General Delivery Whitehorse YT Y1A 2T6",
+      "expected": {
+        "street": "General Delivery",
+        "city": "Whitehorse",
+        "state": "YT",
+        "zip": "Y1A 2T6"
+      },
+      "description": "General delivery parsed as street address"
+    }
+  ]
+}

@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Null Cases",
+  "description": "Test cases that should return null results for invalid US addresses",
   "null_cases": [
     {
       "input": "",

@@ -1,46 +1,51 @@
-[
-  {
-    "input": "321 Trans-Canada Highway, Km 125, Kamloops, BC V2C 5N1",
-    "expected": {
-      "number": "321",
-      "street": "Trans-Canada",
-      "type": "Hwy",
-      "suffix": "Km 125",
-      "city": "Kamloops",
-      "state": "BC",
-      "zip": "V2C 5N1",
-      "country": "CA"
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "TODO: Canadian Edge Cases",
+  "description": "TODO: Canadian edge case tests requiring implementation",
+  "edgeCases": [
+    {
+      "input": "321 Trans-Canada Highway, Km 125, Kamloops, BC V2C 5N1",
+      "expected": {
+        "number": "321",
+        "street": "Trans-Canada",
+        "type": "Hwy",
+        "suffix": "Km 125",
+        "city": "Kamloops",
+        "state": "BC",
+        "zip": "V2C 5N1",
+        "country": "CA"
+      },
+      "description": "Highway with kilometer marker"
     },
-    "description": "Highway with kilometer marker"
-  },
-  {
-    "input": "789 Boulevard Saint-Laurent O., Bureau 500, Montréal, QC H2X 2T7",
-    "expected": {
-      "number": "789",
-      "street": "Saint-Laurent",
-      "type": "Blvd",
-      "suffix": "O",
-      "secUnitType": "Bureau",
-      "secUnitNum": "500",
-      "city": "Montréal",
-      "state": "QC",
-      "zip": "H2X 2T7",
-      "country": "CA"
+    {
+      "input": "789 Boulevard Saint-Laurent O., Bureau 500, Montréal, QC H2X 2T7",
+      "expected": {
+        "number": "789",
+        "street": "Saint-Laurent",
+        "type": "Blvd",
+        "suffix": "O",
+        "secUnitType": "Bureau",
+        "secUnitNum": "500",
+        "city": "Montréal",
+        "state": "QC",
+        "zip": "H2X 2T7",
+        "country": "CA"
+      },
+      "description": "Boulevard with French office designation"
     },
-    "description": "Boulevard with French office designation"
-  },
-  {
-    "input": "R.R. 3, Site 15, Box 42, Whitehorse, YT Y1A 4Z2",
-    "expected": {
-      "ruralRoute": "3",
-      "site": "15",
-      "secUnitType": "Box",
-      "secUnitNum": "42",
-      "city": "Whitehorse",
-      "state": "YT",
-      "zip": "Y1A 4Z2",
-      "country": "CA"
-    },
-    "description": "Complex rural route with site and box"
-  }
-]
+    {
+      "input": "R.R. 3, Site 15, Box 42, Whitehorse, YT Y1A 4Z2",
+      "expected": {
+        "ruralRoute": "3",
+        "site": "15",
+        "secUnitType": "Box",
+        "secUnitNum": "42",
+        "city": "Whitehorse",
+        "state": "YT",
+        "zip": "Y1A 4Z2",
+        "country": "CA"
+      },
+      "description": "Complex rural route with site and box"
+    }
+  ]
+}

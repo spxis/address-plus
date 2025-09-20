@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Canadian Facilities and Institutions",
   "description": "Canadian facility addresses with varied formatting - em dash, comma, newline, colon, and space separators reflecting real-world Canadian address diversity",
   "facilities": [
     {

@@ -1,7 +1,3 @@
-/**
- * City name extraction patterns
- */
-
 // City name extraction patterns
 export const CITY_PATTERNS = {
   BASIC_CITY: /\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)$/,

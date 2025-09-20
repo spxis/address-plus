@@ -1,5 +1,7 @@
 {
-  "description": "Comprehensive batch processing test scenarios for address parsing functions",
+  "$schema": "../../schemas/test-file.json",
+  "name": "Batch Parser Test Suite",
+  "description": "Test data for batch functions (parseLocationsBatch, parseAddressesBatch, etc.)",
   "batchTests": [
     {
       "id": 1,

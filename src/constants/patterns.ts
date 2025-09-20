@@ -1,7 +1,3 @@
-/**
- * Additional parsing patterns and utilities
- */
-
 // Common street names that should not be captured as part of city names
 // Prevents false city detection for addresses with generic street names
 export const COMMON_STREET_NAMES_PATTERN = new RegExp(

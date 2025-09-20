@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schemas/test-file.json",
   "name": "Canadian Provinces Fuzzy Matching",
   "description": "Test cases for fuzzy matching of misspelled Canadian province and territory names",
   "cases": [

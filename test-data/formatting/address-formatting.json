@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Address Formatting Tests",
+  "description": "Address formatting and standardization test cases",
   "formatAddress": [
     {
       "input": {

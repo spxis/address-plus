@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Compatibility Tests",
   "description": "Comprehensive US address parsing compatibility tests covering edge cases, multi-word cities, directionals, and complex formats derived from parse-address library compatibility testing",
   "compatibility_tests": [
     {

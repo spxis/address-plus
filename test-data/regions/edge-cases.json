@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schemas/test-file.json",
   "name": "Edge Cases",
   "description": "Test cases that should return null or handle edge conditions",
   "nullCases": [

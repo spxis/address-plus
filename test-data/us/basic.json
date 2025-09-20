@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Basic Address Tests",
+  "description": "Basic US address parsing test cases covering standard address formats",
   "basic_addresses": [
     {
       "input": "1005 Gravenstein Hwy 95472",

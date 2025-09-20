@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schemas/test-file.json",
   "name": "US States Fuzzy Matching",
   "description": "Test cases for fuzzy matching of misspelled US state names",
   "cases": [

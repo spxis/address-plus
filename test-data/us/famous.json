@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Famous Locations",
   "description": "Famous US address locations including landmarks, buildings, and well-known facilities with complex address parsing requirements",
   "famous_addresses": [
     {

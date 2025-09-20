@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Special Address Formats",
+  "description": "Special US address formats and parsing scenarios",
   "zip_plus4": [
     {
       "input": "233 S Wacker Dr 60606-6306",

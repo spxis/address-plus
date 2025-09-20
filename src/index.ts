@@ -48,7 +48,7 @@ export {
 export {
   cleanAddress,
   cleanAddressDetailed,
-} from "./utilities/clean-address";
+} from "./utils/clean-address";
 
 // Export batch processing functions
 export { 

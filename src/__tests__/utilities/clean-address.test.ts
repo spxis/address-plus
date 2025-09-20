@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cleanAddress, cleanAddressDetailed } from "../../utilities/clean-address";
+import { cleanAddress, cleanAddressDetailed } from "../../utils/clean-address";
 import type { CleanAddressOptions } from "../../types/clean-address";
 import testData from "../../../test-data/utilities/clean-address.json";
 

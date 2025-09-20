@@ -18,8 +18,8 @@ import {
   parseLocation
 } from "../../index";
 
-import testData from "../../../test-data/parse-address-comparison.json";
-import snakeCaseTestCases from "../../../test-data/snake-case-compatibility.json";
+import testDataFile from "../../../test-data/parse-address-comparison.json";
+import snakeCaseTestDataFile from "../../../test-data/snake-case-compatibility.json";
 
 // Dynamic import helper for CommonJS module compatibility
 async function getParseAddress() {
@@ -51,6 +51,16 @@ interface TestData {
   keyTestCase: KeyTestCase;
 }
 
+// Helper function to extract test data from objects with $schema
+function loadSchemaTestData<T>(testDataFile: any): T {
+  // If the imported data has $schema property, extract everything except $schema
+  if (testDataFile && typeof testDataFile === "object" && "$schema" in testDataFile) {
+    const { $schema, ...data } = testDataFile;
+    return data as T;
+  }
+  return testDataFile;
+}
+
 // Helper Functions
 function loadTestData(country: "us" | "canada", filename: string): any[] {
   const filePath = join(__dirname, TEST_DATA_ROOT_PATH, country, filename);
@@ -61,19 +71,26 @@ function loadTestData(country: "us" | "canada", filename: string): any[] {
     return data;
   }
   
-  // Otherwise, extract the array from the first key that isn't 'description'
-  const firstKey = Object.keys(data).find(key => key !== "description");
+  // Otherwise, extract the array from the first key that isn't metadata
+  const firstKey = Object.keys(data).find(key => 
+    key !== "description" && key !== "$schema" && key !== "name"
+  );
   
   return firstKey ? data[firstKey] || [] : [];
 }
 
 // Extract test data
+const testData = loadSchemaTestData<TestData>(testDataFile);
 const { testCases, keyTestCase }: TestData = testData;
+const snakeCaseData = loadSchemaTestData<any>(snakeCaseTestDataFile);
+const snakeCaseTestCases = snakeCaseData.compatibilityTests || snakeCaseData.testCases || snakeCaseData;
+const multipleParserData = loadSchemaTestData<any>(multipleParserTestCases);
+const multipleParserArray = multipleParserData.testCases || multipleParserData;
 
 describe("Compatibility Tests", () => {
   
   describe("Snake Case Compatibility", () => {
-    snakeCaseTestCases.forEach((testCase, index) => {
+    snakeCaseTestCases.forEach((testCase: any, index: number) => {
       test(testCase.description, () => {
         const result = parseLocation(testCase.input, testCase.options);
         
@@ -91,7 +108,7 @@ describe("Compatibility Tests", () => {
         
         // Check fields that should not exist (for snake_case mode)
         if (testCase.notExpected) {
-          testCase.notExpected.forEach(field => {
+          testCase.notExpected.forEach((field: string) => {
             expect((result as any)[field]).toBeUndefined();
           });
         }
@@ -218,7 +235,7 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Multiple Parser Function Tests", () => {
-      multipleParserTestCases.forEach((testCase, index) => {
+      multipleParserArray.forEach((testCase: any, index: number) => {
         describe(`Test case ${index + 1}: ${testCase.description}`, () => {
           
           it("should handle parseLocation", () => {

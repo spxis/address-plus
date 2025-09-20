@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Postal Code Mappings",
+  "description": "Postal code to region mapping validation test cases",
   "provinceMapping": [
     {
       "name": "Newfoundland and Labrador mapping",

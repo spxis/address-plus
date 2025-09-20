@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Canadian Postal Code Provinces",
+  "description": "Canadian postal code validation and province mapping test cases",
   "provinceMapping": [
     {
       "name": "Newfoundland and Labrador mapping",

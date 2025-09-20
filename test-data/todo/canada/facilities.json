@@ -1,43 +1,48 @@
-[
-  {
-    "input": "Centre Bell - 1909 Avenue des Canadiens-de-Montréal, Montréal, QC H3B 5E8",
-    "expected": {
-      "facility": "Centre Bell",
-      "number": "1909",
-      "street": "des Canadiens-de-Montréal",
-      "type": "Ave",
-      "city": "Montréal",
-      "state": "QC",
-      "zip": "H3B 5E8",
-      "country": "CA"
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "TODO: Canadian Facilities",
+  "description": "TODO: Canadian facility and institution address parsing tests",
+  "testCases": [
+    {
+      "input": "Centre Bell - 1909 Avenue des Canadiens-de-Montréal, Montréal, QC H3B 5E8",
+      "expected": {
+        "facility": "Centre Bell",
+        "number": "1909",
+        "street": "des Canadiens-de-Montréal",
+        "type": "Ave",
+        "city": "Montréal",
+        "state": "QC",
+        "zip": "H3B 5E8",
+        "country": "CA"
+      },
+      "description": "Sports facility with French street name"
     },
-    "description": "Sports facility with French street name"
-  },
-  {
-    "input": "Canadian Museum of History | 100 Laurier Street, Gatineau, QC K1A 0M8",
-    "expected": {
-      "facility": "Canadian Museum of History",
-      "number": "100",
-      "street": "Laurier",
-      "type": "St",
-      "city": "Gatineau",
-      "state": "QC",
-      "zip": "K1A 0M8",
-      "country": "CA"
+    {
+      "input": "Canadian Museum of History | 100 Laurier Street, Gatineau, QC K1A 0M8",
+      "expected": {
+        "facility": "Canadian Museum of History",
+        "number": "100",
+        "street": "Laurier",
+        "type": "St",
+        "city": "Gatineau",
+        "state": "QC",
+        "zip": "K1A 0M8",
+        "country": "CA"
+      },
+      "description": "Museum with pipe separator"
     },
-    "description": "Museum with pipe separator"
-  },
-  {
-    "input": "Royal Ontario Museum / 100 Queen's Park, Toronto, ON M5S 2C6",
-    "expected": {
-      "facility": "Royal Ontario Museum",
-      "number": "100",
-      "street": "Queen's Park",
-      "city": "Toronto",
-      "state": "ON",
-      "zip": "M5S 2C6",
-      "country": "CA"
-    },
-    "description": "Museum with slash separator"
-  }
-]
+    {
+      "input": "Royal Ontario Museum / 100 Queen's Park, Toronto, ON M5S 2C6",
+      "expected": {
+        "facility": "Royal Ontario Museum",
+        "number": "100",
+        "street": "Queen's Park",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5S 2C6",
+        "country": "CA"
+      },
+      "description": "Museum with slash separator"
+    }
+  ]
+}

@@ -1,4 +1,6 @@
 {
+  "$schema": "../schemas/test-file.json",
+  "name": "Parse Address Library Comparison",
   "description": "Comparison test cases against the original parse-address library to validate implementation compatibility and identify correct expected formats",
   "testCases": [
     {

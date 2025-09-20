@@ -35,8 +35,10 @@ function loadTestData(country: "us" | "canada", filename: string): any[] {
     return data;
   }
   
-  // Otherwise, extract the array from the first key that isn't 'description'
-  const firstKey = Object.keys(data).find(key => key !== "description");
+  // Otherwise, extract the array from the first key that isn't metadata
+  const firstKey = Object.keys(data).find(key => 
+    key !== "description" && key !== "$schema" && key !== "name"
+  );
   
   return firstKey ? data[firstKey] || [] : [];
 }

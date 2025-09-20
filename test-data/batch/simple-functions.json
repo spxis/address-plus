@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Simple Functions Batch Testing",
   "description": "Test data for simple batch functions (parseLocations, parseAddresses, etc.)",
   "testSuites": {
     "parseLocations": {

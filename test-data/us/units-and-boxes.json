@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Units and PO Boxes",
   "description": "US address parsing for PO boxes, unit numbers, apartment designations, and secondary address components",
   "po_boxes": [
     {

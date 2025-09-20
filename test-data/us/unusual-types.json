@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Unusual Address Types",
+  "description": "Unusual US address types and formats for comprehensive parsing validation",
   "unusual_street_types": [
     {
       "input": "10144 Potters Hatch Cmn Cupertino CA 95014",

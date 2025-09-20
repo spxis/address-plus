@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "US Intersection Addresses",
   "description": "US street intersection parsing test cases with various intersection delimiters (& and) and street type combinations",
   "intersections": [
     {

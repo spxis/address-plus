@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Advanced Functions Batch Testing",
   "description": "Test data for advanced batch functions with statistics (parseLocationsBatch, parseAddressesBatch, etc.)",
   "testSuites": {
     "withStatistics": {

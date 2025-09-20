@@ -1,52 +1,57 @@
-[
-  {
-    "description": "Test all parser functions with standard address",
-    "input": "1600 Pennsylvania Avenue Washington DC",
-    "functions": [
-      "parseLocation",
-      "parseAddress",
-      "parseInformalAddress"
-    ],
-    "expectedResult": "truthy"
-  },
-  {
-    "description": "Test all parser functions with complex address",
-    "input": "350 5th Avenue, Floor 86, New York, NY 10118",
-    "functions": [
-      "parseLocation",
-      "parseAddress",
-      "parseInformalAddress"
-    ],
-    "expectedResult": "truthy"
-  },
-  {
-    "description": "Test all parser functions with Canadian address",
-    "input": "24 Sussex Drive Ottawa ON K1M 1M4",
-    "functions": [
-      "parseLocation",
-      "parseAddress",
-      "parseInformalAddress"
-    ],
-    "expectedResult": "truthy"
-  },
-  {
-    "description": "Test all parser functions with PO Box",
-    "input": "PO Box 123 Station A Toronto ON M5W 1A1",
-    "functions": [
-      "parseLocation",
-      "parseAddress",
-      "parseInformalAddress"
-    ],
-    "expectedResult": "truthy"
-  },
-  {
-    "description": "Test all parser functions with intersection",
-    "input": "Mission & Valencia San Francisco CA",
-    "functions": [
-      "parseLocation",
-      "parseAddress",
-      "parseInformalAddress"
-    ],
-    "expectedResult": "truthy"
-  }
-]
+{
+  "$schema": "schemas/test-file.json",
+  "name": "Multiple Parser Functions",
+  "description": "Test cases for multiple parser function comparisons and validation",
+  "testCases": [
+    {
+      "description": "Test all parser functions with standard address",
+      "input": "1600 Pennsylvania Avenue Washington DC",
+      "functions": [
+        "parseLocation",
+        "parseAddress",
+        "parseInformalAddress"
+      ],
+      "expectedResult": "truthy"
+    },
+    {
+      "description": "Test all parser functions with complex address",
+      "input": "350 5th Avenue, Floor 86, New York, NY 10118",
+      "functions": [
+        "parseLocation",
+        "parseAddress",
+        "parseInformalAddress"
+      ],
+      "expectedResult": "truthy"
+    },
+    {
+      "description": "Test all parser functions with Canadian address",
+      "input": "24 Sussex Drive Ottawa ON K1M 1M4",
+      "functions": [
+        "parseLocation",
+        "parseAddress",
+        "parseInformalAddress"
+      ],
+      "expectedResult": "truthy"
+    },
+    {
+      "description": "Test all parser functions with PO Box",
+      "input": "PO Box 123 Station A Toronto ON M5W 1A1",
+      "functions": [
+        "parseLocation",
+        "parseAddress",
+        "parseInformalAddress"
+      ],
+      "expectedResult": "truthy"
+    },
+    {
+      "description": "Test all parser functions with intersection",
+      "input": "Mission & Valencia San Francisco CA",
+      "functions": [
+        "parseLocation",
+        "parseAddress",
+        "parseInformalAddress"
+      ],
+      "expectedResult": "truthy"
+    }
+  ]
+}

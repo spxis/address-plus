@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Unified Address Comparison",
+  "description": "Unified address comparison tests across different parsing approaches",
   "compareAddresses": [
     {
       "description": "identical addresses",
@@ -24,10 +27,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": []
         }
       }
@@ -56,10 +59,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": []
         }
       }
@@ -162,10 +165,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": []
         }
       }
@@ -229,10 +232,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": []
         }
       }
@@ -265,10 +268,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": []
         }
       }
@@ -297,10 +300,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": []
         }
       }
@@ -329,10 +332,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "similarity": 1.0,
+          "similarity": 1,
           "differences": [
             "country"
           ]
@@ -372,10 +375,10 @@
       },
       "expected": {
         "isSame": true,
-        "similarity": 1.0,
+        "similarity": 1,
         "comparison": {
           "isSame": true,
-          "score": 1.0
+          "score": 1
         }
       }
     },
@@ -398,7 +401,7 @@
       },
       "expected": {
         "isSame": false,
-        "similarityLessThan": 1.0,
+        "similarityLessThan": 1,
         "comparison": {
           "isSame": false
         }

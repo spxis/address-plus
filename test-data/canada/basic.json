@@ -1,4 +1,6 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Canadian Basic Address Tests",
   "description": "Basic Canadian address parsing test cases including French street names, postal codes, and province variations",
   "basic_addresses": [
     {

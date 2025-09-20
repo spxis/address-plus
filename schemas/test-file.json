@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.address-plus.dev/test-file.json",
+  "title": "Address Plus Test File Schema",
+  "description": "Schema for test data files containing arrays of test cases or nested structures",
+  "oneOf": [
+    {
+      "type": "array",
+      "description": "Array of test cases",
+      "items": {
+        "$ref": "test-case.json"
+      }
+    },
+    {
+      "type": "object",
+      "description": "Object with categorized test cases or complex nested structures",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Proper-case title or name for the test file"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the entire test file's purpose"
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ],
+      "additionalProperties": true
+    }
+  ]
+}

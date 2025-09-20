@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Comprehensive Validation Suite",
+  "description": "Comprehensive address validation test cases across all validation scenarios",
   "validateAddress": [
     {
       "name": "complete US address validation",

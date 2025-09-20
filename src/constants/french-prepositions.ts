@@ -1,6 +1,4 @@
-/**
- * French prepositions for proper street name capitalization
- */
+// French prepositions for proper street name capitalization
 
 const FRENCH_PREPOSITIONS = new Map([
   ['du ', 'Du '],

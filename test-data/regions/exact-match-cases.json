@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schemas/test-file.json",
   "name": "Exact Match Test Cases",
   "description": "Test cases for exact matching of abbreviations and full names",
   "abbreviationTests": {

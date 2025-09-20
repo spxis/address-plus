@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.address-plus.dev/test-case.json",
+  "title": "Address Plus Test Case Schema",
+  "description": "Schema for individual test cases in the address-plus project",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of what this test case validates"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what this test case validates"
+    },
+    "input": {
+      "description": "The input data for the test",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "address": {
+      "description": "Alternative input property name (legacy)",
+      "type": "string"
+    },
+    "expected": {
+      "description": "The expected output/result of the test"
+    },
+    "expectedResult": {
+      "description": "Alternative expected result property for function testing",
+      "type": "string"
+    },
+    "functions": {
+      "description": "Array of function names to test",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "options": {
+      "type": "object",
+      "description": "Optional configuration or parsing options for the test",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "anyOf": [
+        {
+          "required": [
+            "input",
+            "expected"
+          ]
+        },
+        {
+          "required": [
+            "address",
+            "expected"
+          ]
+        },
+        {
+          "required": [
+            "input",
+            "expectedResult"
+          ]
+        },
+        {
+          "required": [
+            "input",
+            "functions"
+          ]
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "description"
+          ]
+        }
+      ]
+    }
+  ],
+  "additionalProperties": true
+}

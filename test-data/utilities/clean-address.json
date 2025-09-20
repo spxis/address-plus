@@ -1,4 +1,7 @@
 {
+  "$schema": "../../schemas/test-file.json",
+  "name": "Address Cleaning Utilities",
+  "description": "Address cleaning and normalization utility function test cases",
   "cleanAddress": [
     {
       "name": "basic address cleaning",

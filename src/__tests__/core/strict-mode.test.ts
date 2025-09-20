@@ -6,8 +6,24 @@ import { describe, expect, test } from "vitest";
 
 import { parseLocation } from "../../parser";
 
-import usStrictModeTestData from "../../../test-data/us/strict-mode.json";
-import canadaStrictModeTestData from "../../../test-data/canada/strict-mode.json";
+import usStrictModeTestDataFile from "../../../test-data/us/strict-mode.json";
+import canadaStrictModeTestDataFile from "../../../test-data/canada/strict-mode.json";
+
+// Helper function to extract test data from objects with $schema
+function loadSchemaTestData<T>(testDataFile: any): T {
+  // If the imported data has $schema property, extract everything except $schema
+  if (testDataFile && typeof testDataFile === "object" && "$schema" in testDataFile) {
+    const { $schema, ...data } = testDataFile;
+    return data as T;
+  }
+  return testDataFile;
+}
+
+// Extract test data
+const usStrictModeData = loadSchemaTestData<any>(usStrictModeTestDataFile);
+const usStrictModeTestData = usStrictModeData.strictModeTests || usStrictModeData.testCases || usStrictModeData;
+const canadaStrictModeData = loadSchemaTestData<any>(canadaStrictModeTestDataFile);
+const canadaStrictModeTestData = canadaStrictModeData.strictModeTests || canadaStrictModeData.testCases || canadaStrictModeData;
 
 // Expected result interface for postal/ZIP validation
 interface PostalExpectedResult {
