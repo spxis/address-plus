@@ -1,18 +1,12 @@
-/**
- * Regular expression patterns for address parsing
- */
+// Regular expression patterns for address parsing
 
-/**
- * Unit type keywords pattern (for building regex patterns)
- * Updated to include more comprehensive unit types
- */
+// Unit type keywords pattern (for building regex patterns)
+// Updated to include more comprehensive unit types
 const UNIT_TYPE_KEYWORDS = 'suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate|lobby|lot|lt|rm|room|office|off|level|lv|desk|workstation|booth|stall|bay';
 
-/**
- * Written numbers that can appear as street numbers
- * Includes comprehensive ordinal support, plurals, and compound numbers
- * Supports both English and French
- */
+// Written numbers that can appear as street numbers
+// Includes comprehensive ordinal support, plurals, and compound numbers
+// Supports both English and French
 const WRITTEN_NUMBERS_EN = 
   'one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|' +
   'thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|' +
@@ -35,33 +29,24 @@ const WRITTEN_NUMBERS_FR =
 
 const WRITTEN_NUMBERS = WRITTEN_NUMBERS_EN + '|' + WRITTEN_NUMBERS_FR;
 
-/**
- * Pattern for secondary unit types and numbers
- * Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", "lt42"
- * Conservative update to handle specific cases without breaking existing patterns
- */
+// Pattern for secondary unit types and numbers
+// Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", "lt42"
+// Conservative update to handle specific cases without breaking existing patterns
 const SECONDARY_UNIT_PATTERN = new RegExp(`^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|(?:lt|lot)[a-z0-9]+|#\\s*[a-z0-9-]+)\\s*$`, 'i');
 
-/**
- * Pattern for extracting unit type and number
- * Used to parse the secondary unit match
- * Conservative update to handle specific cases like lt42
- */
+// Pattern for extracting unit type and number
+// Used to parse the secondary unit match
+// Conservative update to handle specific cases like lt42
 const UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|(lt|lot)([a-z0-9]+)|#\\s*([a-z0-9-]+)`, 'i');
 
-/**
- * Pattern for extracting parenthetical information
- * Matches content within parentheses
- */
+// Pattern for extracting parenthetical information
+// Matches content within parentheses
 const PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
 
-/**
- * Pattern for detecting common street types in addresses
- * Used to determine if parsed address has valid street component
- */
+// Pattern for detecting common street types in addresses
+// Used to determine if parsed address has valid street component
 const STREET_TYPE_DETECTION_PATTERN = /\b(street|st|avenue|ave|road|rd|drive|dr|boulevard|blvd|lane|ln|court|ct|place|pl|way|highway|hwy|parkway|pkwy|circle|cir|terrace|ter|trail|trl)\b/i;
 
-// Exports at end of file as per AGENTS.md guidelines
 export {
   PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN,

@@ -1,10 +1,6 @@
-/**
- * Facility name recognition patterns
- */
+// Facility name recognition patterns
 
-/**
- * Common facility type keywords used for identifying facility names
- */
+// Common facility type keywords used for identifying facility names
 const FACILITY_INDICATORS = [
   'center', 'centre', 'building', 'tower', 'plaza', 'square', 'garden', 'gardens',
   'park', 'university', 'college', 'school', 'hospital', 'library', 'museum',
@@ -12,9 +8,7 @@ const FACILITY_INDICATORS = [
   'hotel', 'resort', 'memorial', 'monument', 'bridge', 'tunnel', 'complex'
 ] as const;
 
-/**
- * Common facility name patterns for extraction
- */
+// Common facility name patterns for extraction
 const FACILITY_PATTERNS_EN = [
   /\b(hospital|medical center|clinic|mall|shopping center|plaza|tower|building|center|centre)\b/i,
   /\b(school|university|college|library|church|temple|mosque|synagogue)\b/i,
@@ -29,23 +23,17 @@ const FACILITY_PATTERNS_FR = [
   /\b(parc|récréation|centre récréatif|centre communautaire|centre civique)\b/i,
 ];
 
-/**
- * Combined facility patterns for English and French
- */
+// Combined facility patterns for English and French
 const FACILITY_PATTERNS: RegExp[] = [...FACILITY_PATTERNS_EN, ...FACILITY_PATTERNS_FR];
 
-/**
- * Pattern for detecting delimiter-separated facility addresses
- * Matches: "Any text, address components"
- * This is a simple delimiter-based approach - if we have comma-separated parts
- * and the first part doesn't look like typical address components (no numbers, street types),
- * we treat it as a facility name and parse from the second part.
- */
+// Pattern for detecting delimiter-separated facility addresses
+// Matches: "Any text, address components"
+// This is a simple delimiter-based approach - if we have comma-separated parts
+// and the first part doesn't look like typical address components (no numbers, street types),
+// we treat it as a facility name and parse from the second part.
 const FACILITY_DELIMITER_PATTERN = /^([^,]+),\s*(.+)$/;
 
-/**
- * Pattern for Music Square East special case
- */
+// Pattern for Music Square East special case
 const MUSIC_SQUARE_EAST_PATTERN = /^(.*square)\s+(east)\s*$/i;
 
 export { FACILITY_INDICATORS, FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN, MUSIC_SQUARE_EAST_PATTERN };

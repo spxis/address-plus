@@ -1,7 +1,5 @@
-/**
- * Clean address string functionality
- * Provides string-based cleaning and normalization of address data
- */
+// Clean address string functionality
+// Provides string-based cleaning and normalization of address data
 
 import { parseLocation } from "../index.js";
 import { formatAddress, formatUSPS, formatCanadaPost } from "./address-formatting.js";
@@ -17,13 +15,8 @@ import {
   US_STATE_EXPANSIONS,
 } from "../constants/index.js";
 
-/**
- * Clean and normalize an address string with various formatting options
- * @param addressString The address string to clean
- * @param options Cleaning options including format, case, and expansion preferences
- * @returns The cleaned address string
- */
-export function cleanAddress(
+// Clean and normalize an address string with various formatting options
+function cleanAddress(
   addressString: string,
   options: CleanAddressOptions = {}
 ): string {
@@ -31,13 +24,8 @@ export function cleanAddress(
   return result.cleanedAddress;
 }
 
-/**
- * Clean and normalize an address string with detailed change tracking
- * @param addressString The address string to clean
- * @param options Cleaning options including format, case, and expansion preferences
- * @returns Detailed result with cleaned address and list of changes made
- */
-export function cleanAddressDetailed(
+// Clean and normalize an address string with detailed change tracking
+function cleanAddressDetailed(
   addressString: string,
   options: CleanAddressOptions = {}
 ): CleanAddressResult {
@@ -294,3 +282,5 @@ function applyFinalFormatting(
   
   return result;
 }
+
+export { cleanAddress, cleanAddressDetailed };

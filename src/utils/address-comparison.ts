@@ -1,6 +1,4 @@
-/**
- * Address comparison and similarity utilities for deduplication and matching
- */
+// Address comparison and similarity utilities for deduplication and matching
 
 import type { 
   ParsedAddress,
@@ -26,9 +24,7 @@ const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {
   requireExactMatch: false,
 };
 
-/**
- * Compare two addresses and determine if they are the same
- */
+// Compare two addresses and determine if they are the same
 function compareAddresses(
   address1: ParsedAddress,
   address2: ParsedAddress,
@@ -77,9 +73,7 @@ function compareAddresses(
   };
 }
 
-/**
- * Simple boolean check if two addresses are the same
- */
+// Simple boolean check if two addresses are the same
 function isSameAddress(
   address1: ParsedAddress,
   address2: ParsedAddress,
@@ -89,9 +83,7 @@ function isSameAddress(
   return result.isSame;
 }
 
-/**
- * Get detailed similarity analysis between two addresses
- */
+// Get detailed similarity analysis between two addresses
 function getAddressSimilarity(
   address1: ParsedAddress,
   address2: ParsedAddress,

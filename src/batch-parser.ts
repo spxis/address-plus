@@ -1,6 +1,4 @@
-/**
- * Batch address parsing functions for processing multiple addresses efficiently
- */
+// Batch address parsing functions for processing multiple addresses efficiently
 
 import type { 
   BatchParseOptions, 
@@ -17,9 +15,7 @@ import {
   parseLocation 
 } from "./parser";
 
-/**
- * Core batch processing function that handles the common logic
- */
+// Core batch processing function that handles the common logic
 function processBatch<T>(
   addresses: string[], 
   parseFunction: (address: string, options?: ParseOptions) => T | null,

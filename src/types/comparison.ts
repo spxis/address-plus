@@ -1,11 +1,9 @@
-/**
- * Types for address comparison and similarity functions
- */
+// Types for address comparison and similarity functions
 
 import type { ParsedAddress } from "./index";
 
 // Address comparison options
-export interface AddressComparisonOptions {
+interface AddressComparisonOptions {
   ignoreCase?: boolean;
   ignorePunctuation?: boolean;
   normalizeStreetTypes?: boolean;
@@ -17,7 +15,7 @@ export interface AddressComparisonOptions {
 }
 
 // Address similarity result
-export interface AddressSimilarityResult {
+interface AddressSimilarityResult {
   score: number; // 0-1 similarity score
   isMatch: boolean; // Whether addresses are considered a match
   confidence: number; // 0-1 confidence in the match
@@ -33,7 +31,7 @@ export interface AddressSimilarityResult {
 }
 
 // Address difference details
-export interface AddressDifference {
+interface AddressDifference {
   field: keyof ParsedAddress;
   value1: string | undefined;
   value2: string | undefined;
@@ -42,10 +40,10 @@ export interface AddressDifference {
 }
 
 // Address match types
-export type AddressMatchType = "exact" | "strong" | "moderate" | "weak" | "none";
+type AddressMatchType = "exact" | "strong" | "moderate" | "weak" | "none";
 
 // Address comparison result
-export interface AddressComparisonResult {
+interface AddressComparisonResult {
   isSame: boolean;
   matchType: AddressMatchType;
   similarity: AddressSimilarityResult;
@@ -54,9 +52,18 @@ export interface AddressComparisonResult {
 }
 
 // Fuzzy matching options
-export interface FuzzyMatchOptions {
+interface FuzzyMatchOptions {
   threshold: number; // 0-1 minimum similarity threshold
   maxDistance: number; // Maximum edit distance for string matching
   enableSoundex?: boolean; // Use soundex for phonetic matching
   enableMetaphone?: boolean; // Use metaphone for phonetic matching
 }
+
+export type { 
+  AddressComparisonOptions,
+  AddressSimilarityResult,
+  AddressDifference,
+  AddressMatchType,
+  AddressComparisonResult,
+  FuzzyMatchOptions
+};

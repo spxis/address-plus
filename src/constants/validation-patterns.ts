@@ -1,5 +1,5 @@
 // Regex patterns for address validation
-export const VALIDATION_PATTERNS = {
+const VALIDATION_PATTERNS = {
   HAS_LETTERS: /[a-zA-Z]/,
   ALPHANUMERIC: /[a-zA-Z0-9]/g,
   HAS_DIGITS: /\d/,
@@ -13,3 +13,5 @@ export const VALIDATION_PATTERNS = {
   NORMALIZE_SPACES: /\s+/g,
   PO_BOX_NORMALIZE: /^p\.o\.\s*box$/i
 } as const;
+
+export { VALIDATION_PATTERNS };

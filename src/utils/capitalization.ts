@@ -1,20 +1,14 @@
-/**
- * String capitalization utilities for address parsing
- */
+// String capitalization utilities for address parsing
 
 import { FRENCH_PREPOSITIONS } from '../constants/french-prepositions';
 import { STREET_NAME_ACRONYMS } from '../constants/street-name-acronyms';
 
-/**
- * Super fast first letter capitalization - minimal footprint
- */
+// Super fast first letter capitalization - minimal footprint
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-/**
- * Capitalize the first letter of each word in a string
- */
+// Capitalize the first letter of each word in a string
  function capitalizeWords(text: string): string {
   // Capitalize by words and also handle hyphenated compounds (Saint-Laurent, René-Lévesque)
   return text.split(' ').map(word => {
@@ -30,9 +24,7 @@ function capitalize(str: string): string {
   }).join(' ');
 }
 
-/**
- * Properly capitalize common street names with French and acronym support
- */
+// Properly capitalize common street names with French and acronym support
  function capitalizeStreetName(text: string): string {
   // Start with proper capitalization of all words
   let result = capitalizeWords(text.toLowerCase());

@@ -1,6 +1,4 @@
-/**
- * Comprehensive address validation with confidence scoring and detailed error reporting
- */
+// Comprehensive address validation with confidence scoring and detailed error reporting
 
 import type { 
   ParsedAddress, 
@@ -30,10 +28,8 @@ const COMPLETENESS_WEIGHTS = {
   postalCode: 0.20,
 };
 
-/**
- * Validates an address string and returns detailed validation results
- */
-export function validateAddress(
+// Validates an address string and returns detailed validation results
+function validateAddress(
   addressString: string,
   options: ValidationOptions = {}
 ): AddressValidationResult {
@@ -103,10 +99,8 @@ export function validateAddress(
   };
 }
 
-/**
- * Simple boolean check if address is valid
- */
-export function isValidAddress(
+// Simple boolean check for address validity
+function isValidAddress(
   addressString: string,
   options: ValidationOptions = {}
 ): boolean {
@@ -128,10 +122,8 @@ function hasStrictRequirements(options: ValidationOptions): boolean {
             options.strictPostalValidation);
 }
 
-/**
- * Get only validation errors without full validation result
- */
-export function getValidationErrors(
+// Get only validation errors without full validation result
+function getValidationErrors(
   addressString: string,
   options: ValidationOptions = {}
 ): ValidationError[] {
@@ -394,3 +386,5 @@ function calculateCompleteness(address: ParsedAddress): number {
   
   return Math.round(score * 100) / 100;
 }
+
+export { validateAddress, isValidAddress, getValidationErrors };
