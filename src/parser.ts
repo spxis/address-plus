@@ -184,11 +184,12 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   }
 
   // Extract ZIP from end and work backwards
+  const invalidZipCandidate = ""; // Track invalid ZIP patterns for validation in strict mode
   let zipPart = "";
-  let invalidZipCandidate = ""; // Track invalid ZIP patterns for validation in strict mode
   let statePart = "";
   let cityPart = "";
   let addressPart = commaParts[addressStartIndex] || commaParts[0];
+  
   if (addressPartOverride) {
     // Use inline address found in first part; parse separately from facility
     addressPart = addressPartOverride;
@@ -620,7 +621,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
   // 1. Extract number (including fractions and complex formats)
   // First try the standard pattern with space after number
-  let numberMatch = remaining.match(
+  const numberMatch = remaining.match(
     new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, "i"),
   );
 
