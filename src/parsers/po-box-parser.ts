@@ -1,8 +1,9 @@
 import { VALIDATION_PATTERNS } from "../constants";
+import { PO_BOX_PATTERNS, COMMON_PARSER_PATTERNS } from "../constants/parser-patterns";
 import { buildPatterns } from "../patterns/pattern-builder";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../patterns/postal";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { detectCountry, parseStateProvince } from "../utils";
-import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../constants";
 import { setValidatedPostalCode } from "../utils/address-validation";
 
 // Parse PO Box addresses
@@ -22,13 +23,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   if (!poMatch) return null;
 
   // First, try a strict US PO Box pattern: indicator + number + city + state + zip
-  const usPattern = new RegExp(
-    "^(?:p\\.?\\s*o\\.?\\s*box|post\\s*office\\s*box|pobox|po\\s*box)" +
-    "\\s*(\\d+)\\s*,?\\s*([^,]+?)\\s*,?\\s*([A-Za-z]{2})" +
-    "\\s*(\\d{5}(?:[-\\s]?\\d{4})?)?\\s*$",
-    "i"
-  );
-  const usMatch = address.match(usPattern);
+  const usMatch = address.match(PO_BOX_PATTERNS.US_PO_BOX);
   if (usMatch) {
     const result: ParsedAddress = {
       secUnitType: 'PO Box',
@@ -53,7 +48,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   }
 
   // Otherwise, capture an immediate box number if present right after the PO indicator
-  const leadingBoxNum = !result.secUnitNum ? after.match(/^([0-9A-Za-z-]+)\b[,\s]*/) : null;
+  const leadingBoxNum = !result.secUnitNum ? after.match(PO_BOX_PATTERNS.LEADING_BOX_NUMBER) : null;
   let rest = after;
   if (leadingBoxNum) {
     result.secUnitNum = leadingBoxNum[1];
@@ -63,14 +58,8 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   // Optional station/succursale/RPO/RR segments
   // Capture patterns like: Station A | Succursale Centre-ville | RPO University Village | RR 2 | R.R. 3
   // Look for these at the beginning of the remaining string after the PO Box number
-  const stationRe = new RegExp(
-    "^(station|succ(?:\\.|ursale)?|rpo|rr|r\\.r\\.)" +
-    "\\s+([A-Za-z0-9]+(?:\\s*[A-Za-z0-9-]+)*?)" +
-    "(?=\\s+[A-Z][a-z]|\\s*,|$)",
-    "i"
-  );
   let stationPart: RegExpMatchArray | null = null;
-  const stationMatch = rest.match(stationRe);
+  const stationMatch = rest.match(PO_BOX_PATTERNS.STATION_PATTERN);
   if (stationMatch) {
     stationPart = stationMatch;
     // Remove the matched station part from rest
@@ -99,8 +88,8 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
 
   // Now parse remaining: expect optional city, province/state, postal/zip
   // Try to pull postal code (US or CA) from the end first
-  const caPostal = rest.match(new RegExp(CANADIAN_POSTAL_LIBERAL_PATTERN.source + `$`, 'i'));
-  const usZip = rest.match(new RegExp(`${patterns.zip}$`, 'i'));
+  const caPostal = rest.match(COMMON_PARSER_PATTERNS.POSTAL_AT_END(CANADIAN_POSTAL_LIBERAL_PATTERN.source));
+  const usZip = rest.match(COMMON_PARSER_PATTERNS.POSTAL_AT_END(patterns.zip));
   if (caPostal) {
     setValidatedPostalCode(result, caPostal[1], options || {});
     rest = rest.slice(0, rest.length - caPostal[0].length).trim().replace(/[,\s]+$/, '');
@@ -111,19 +100,17 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
 
   // Try to get trailing province/state abbreviation
   // Look for city + state pattern at the end
-  const cityStateAbbrevMatch = rest.match(new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(2, -2)})\\s*$`, 'i'));
-  if (cityStateAbbrevMatch) {
-    const cityPart = cityStateAbbrevMatch[1].trim().replace(/,\s*$/, ''); // Remove trailing comma
-    const stateInfo = parseStateProvince(cityStateAbbrevMatch[2]);
-    result.city = cityPart;
-    result.state = stateInfo.state || cityStateAbbrevMatch[2].toUpperCase();
-    rest = ''; // consumed all remaining text
-  }
-
-  // Whatever remains at the end is likely the city (last token group)
+  const cityStateAbbrevMatch = rest.match(COMMON_PARSER_PATTERNS.CITY_STATE_PATTERN(patterns.stateAbbrev));
+    if (cityStateAbbrevMatch) {
+      const cityPart = cityStateAbbrevMatch[1].trim().replace(PO_BOX_PATTERNS.TRAILING_COMMA, ''); // Remove trailing comma
+      const stateInfo = parseStateProvince(cityStateAbbrevMatch[2]);
+      result.city = cityPart;
+      result.state = stateInfo.state || cityStateAbbrevMatch[2].toUpperCase();
+      rest = ''; // consumed all remaining text
+    }  // Whatever remains at the end is likely the city (last token group)
     if (rest) {
       // Remove trailing comma
-      rest = rest.replace(/,\s*$/, '');
+      rest = rest.replace(PO_BOX_PATTERNS.TRAILING_COMMA, '');
       // If comma-separated segments remain, try to split out city/state
       const pieces = rest.split(',').map(s => s.trim()).filter(Boolean);
       if (pieces.length >= 2) {

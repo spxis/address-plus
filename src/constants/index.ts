@@ -47,6 +47,7 @@ export { COUNTRIES } from "./countries";
 export type { CountryCode } from "./countries";
 export { VALIDATION_PATTERNS } from "./validation-patterns";
 export { CITY_PATTERNS } from "./city-patterns";
+export { PO_BOX_PATTERNS, INTERSECTION_PATTERNS, COMMON_PARSER_PATTERNS } from "./parser-patterns";
 export { 
   COMMON_STREET_NAMES_PATTERN,
   GENERAL_DELIVERY_PATTERNS,
