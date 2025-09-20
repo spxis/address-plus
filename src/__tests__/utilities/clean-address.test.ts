@@ -2,47 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import testData from "../../../test-data/utilities/clean-address.json";
 import { cleanAddress, cleanAddressDetailed } from "../../utils/clean-address";
-
-interface CleanAddressTestCase {
-  name: string;
-  input: string;
-  expected: string;
-  options?: Record<string, any>;
-}
-
-interface CleanAddressDetailedTestCase {
-  name: string;
-  input: string;
-  expected: {
-    cleaned?: string;
-    cleanedAddress?: string;
-    changes?: string[];
-    wasModified?: boolean;
-  };
-  options?: Record<string, any>;
-}
-
-interface FormatSpecificTestCase {
-  name: string;
-  input: string;
-  expected?: string;
-  expectContains?: string[];
-  options?: Record<string, any>;
-}
-
-interface EdgeCaseTestCase {
-  name: string;
-  input: string;
-  expected: string;
-  options?: Record<string, any>;
-}
-
-interface AdditionalTestCase {
-  name: string;
-  description?: string;
-  input: string;
-  expected: string;
-}
+import type { 
+  CleanAddressTestCase, 
+  CleanAddressDetailedTestCase, 
+  FormatSpecificTestCase, 
+  EdgeCaseTestCase, 
+  AdditionalTestCase 
+} from "../types/test-interfaces";
 
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];

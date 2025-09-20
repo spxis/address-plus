@@ -3,27 +3,7 @@ import { describe, expect, it } from "vitest";
 import testData from "../../../test-data/utilities/address-formatting.json";
 import type { ParsedAddress } from "../../types";
 import { formatAddress, formatCanadaPost, formatUSPS, getAddressAbbreviations } from "../../utils/address-formatting";
-
-interface FormattingTestCase {
-  description: string;
-  input: Record<string, any>;
-  expected: {
-    lines?: string[];
-    singleLine?: string;
-    format?: string;
-    shouldNotContain?: string;
-    shouldContain?: string;
-    regex?: string;
-    country?: string;
-    hasProperties?: string[];
-    streetTypes?: Record<string, any>;
-    directions?: Record<string, any>;
-    states?: Record<string, any>;
-    provinces?: Record<string, any>;
-    unitTypes?: Record<string, any>;
-  };
-  options?: Record<string, any>;
-}
+import type { FormattingTestCase } from "../types/test-interfaces";
 
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];

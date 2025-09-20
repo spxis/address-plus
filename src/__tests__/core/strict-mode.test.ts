@@ -7,31 +7,7 @@ import { describe, expect, test } from "vitest";
 import canadaStrictModeTestDataFile from "../../../test-data/canada/strict-mode.json";
 import usStrictModeTestDataFile from "../../../test-data/us/strict-mode.json";
 import { parseLocation } from "../../parser";
-
-// Expected result interface for postal/ZIP validation
-interface PostalExpectedResult {
-  zip: string | null; // ZIP/postal code value
-  zipValid: boolean; // Whether the code is valid
-  plus4?: string; // US ZIP+4 extension if present
-}
-
-// Test case structure for strict mode validation
-interface StrictModeTestCase {
-  description: string; // Test case description
-  address: string; // Input address to parse
-  expected: {
-    strict?: PostalExpectedResult; // Expected result in strict mode
-    permissive?: PostalExpectedResult; // Expected result in permissive mode
-    zip?: string; // Direct ZIP value for simple cases
-    zipValid?: boolean; // Direct validation for simple cases
-    plus4?: string; // Direct plus4 for simple cases
-  };
-}
-
-// Test data structure for strict mode tests
-interface StrictModeTestData {
-  tests: StrictModeTestCase[] | { [key: string]: StrictModeTestCase[] | StrictModeTestCase };
-}
+import type { PostalExpectedResult, StrictModeTestCase, StrictModeTestData } from "../types/test-interfaces";
 
 // Helper function to extract test data from objects with $schema
 function loadSchemaTestData<T>(testDataFile: T): T {
@@ -43,11 +19,6 @@ function loadSchemaTestData<T>(testDataFile: T): T {
   }
 
   return testDataFile;
-}
-
-// Test data structure for strict mode tests
-interface StrictModeTestData {
-  tests: StrictModeTestCase[] | { [key: string]: StrictModeTestCase[] | StrictModeTestCase };
 }
 
 // Helper function to extract test arrays from the new object-of-arrays structure

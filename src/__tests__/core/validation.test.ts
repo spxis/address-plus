@@ -3,70 +3,12 @@ import { describe, expect, it } from "vitest";
 import testData from "../../../test-data/validation/comprehensive-validation.json";
 import type { ValidationOptions } from "../../types/validation";
 import { getValidationErrors, isValidAddress, validateAddress } from "../../utils/comprehensive-validation";
-
-interface ValidationTestCase {
-  name: string;
-  description?: string;
-  input: string;
-  expected: {
-    isValid?: boolean;
-    confidence?: number;
-    confidenceGreaterThan?: number;
-    completeness?: number;
-    completenessGreaterThan?: number;
-    completenessLessThan?: number;
-    errorCodes?: string[];
-    errorsLength?: number;
-    errorsLengthGreaterThan?: number;
-    warningsLengthGreaterThan?: number;
-    parsedAddress?: Record<string, any>;
-    parsedAddressNull?: boolean;
-    firstErrorCode?: string;
-    suggestionsLengthGreaterThan?: number;
-    suggestionContains?: string;
-  };
-  options?: ValidationOptions;
-}
-
-interface IsValidTestCase {
-  name: string;
-  description?: string;
-  input?: string | string[];
-  expected?: boolean | boolean[];
-  tests?: Array<{
-    input: string;
-    expected: boolean;
-    options?: ValidationOptions;
-  }>;
-}
-
-interface GetValidationErrorsTestCase {
-  name: string;
-  description?: string;
-  input: string;
-  expected: {
-    errorsLengthGreaterThan?: number;
-    allSeverityTypes?: string[];
-    errorSeverityCount?: number;
-  };
-  options?: ValidationOptions;
-}
-
-interface ConfidenceScoringTestCase {
-  name: string;
-  description?: string;
-  inputs: {
-    complete?: string;
-    incomplete?: string;
-    identical?: string[];
-    different?: string[];
-  };
-  expected: {
-    confidenceComparison?: string;
-    confidencesEqual?: boolean;
-    confidencesDifferent?: boolean;
-  };
-}
+import type { 
+  ValidationTestCase, 
+  IsValidTestCase, 
+  GetValidationErrorsTestCase, 
+  ConfidenceScoringTestCase 
+} from "../types/test-interfaces";
 
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
@@ -185,13 +127,13 @@ describe("Address Validation API", () => {
   describe("Confidence Scoring", () => {
     confidenceScoringTests.forEach(({ name, description, inputs, expected }: ConfidenceScoringTestCase) => {
       it(`should ${name}`, () => {
-        if (expected.confidenceComparison === "complete > incomplete" && inputs.complete && inputs.incomplete) {
+        if (expected.confidenceComparison === "complete > incomplete" && inputs?.complete && inputs?.incomplete) {
           const complete = validateAddress(inputs.complete);
           const incomplete = validateAddress(inputs.incomplete);
           expect(complete.confidence).toBeGreaterThan(incomplete.confidence);
         }
 
-        if (expected.confidenceComparison === "withZip > withoutZip" && inputs.complete && inputs.incomplete) {
+        if (expected.confidenceComparison === "withZip > withoutZip" && inputs?.complete && inputs?.incomplete) {
           const withZip = validateAddress(inputs.complete);
           const withoutZip = validateAddress(inputs.incomplete);
           expect(withZip.completeness).toBeGreaterThan(withoutZip.completeness);

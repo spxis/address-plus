@@ -23,6 +23,12 @@ import {
 } from "../../batch-parser";
 import type { ParsedAddress, ParsedIntersection } from "../../types";
 import type { BatchParseOptions, BatchParseResult } from "../../types/batch-parse";
+import type { 
+  BatchTestCase, 
+  BatchTestData, 
+  BatchParseFunctionTestData, 
+  AdvancedFunctionTestData 
+} from "../types/test-interfaces";
 
 // Test data paths
 const BATCH_TEST_DATA_PATH = "../../../test-data/batch/batch-test.json";
@@ -30,123 +36,6 @@ const SIMPLE_FUNCTIONS_PATH = "../../../test-data/batch/simple-functions.json";
 const ADVANCED_FUNCTIONS_PATH = "../../../test-data/batch/advanced-functions.json";
 
 // Types for test data
-interface BatchTestCase {
-  id: number;
-  name: string;
-  description: string;
-  addresses: string[];
-  expectedSuccessCount: number;
-  expectedFailureCount: number;
-  testFunction: string;
-  expectStats?: boolean;
-}
-
-interface BatchTestData {
-  description: string;
-  batchTests: BatchTestCase[];
-}
-
-interface BatchParseFunctionTestData {
-  parseLocations: Array<{
-    description: string;
-    addresses: string[];
-    expectedResults?: (ParsedAddress | null)[];
-    expectedSuccessCount?: number;
-    expectedFailureCount?: number;
-  }>;
-  parseAddresses: Array<{
-    description: string;
-    addresses: string[];
-    expectedResults?: (ParsedAddress | null)[];
-    expectedSuccessCount?: number;
-    expectedFailureCount?: number;
-  }>;
-  parseInformalAddresses: Array<{
-    description: string;
-    addresses: string[];
-    expectedResults?: (ParsedAddress | null)[];
-    expectedSuccessCount?: number;
-    expectedFailureCount?: number;
-  }>;
-  parseIntersections: Array<{
-    description: string;
-    addresses: string[];
-    expectedResults?: (ParsedIntersection | null)[];
-    expectedSuccessCount?: number;
-    expectedFailureCount?: number;
-  }>;
-  options: Array<{
-    description: string;
-    addresses: string[];
-    options?: BatchParseOptions;
-    expectedResults?: (ParsedAddress | null)[];
-    expectedSuccessCount?: number;
-    expectedFailureCount?: number;
-  }>;
-}
-interface AdvancedFunctionTestData {
-  withStatistics: Array<{
-    description: string;
-    addresses: string[];
-    options?: BatchParseOptions;
-    expectedStats?: {
-      total: number;
-      successful: number;
-      failed: number;
-    };
-    expectedErrors?: Array<{
-      index: number;
-      errorContains: string;
-    }>;
-    expectedResultsLength?: number;
-  }>;
-  performance: Array<{
-    description: string;
-    addresses?: string[];
-    generateAddresses?: {
-      count: number;
-      template: string;
-      startNumber: number;
-    };
-    expectedStats?: {
-      total: number;
-      successful: number;
-      failed: number;
-    };
-    performanceExpectations?: {
-      maxDurationMs: number;
-      minAddressesPerSecond: number;
-    };
-  }>;
-  edgeCases: Array<{
-    description: string;
-    addresses: (string | null)[];
-    expectedStats?: {
-      total: number;
-      successful: number;
-      failed: number;
-    };
-  }>;
-  options: Array<{
-    description: string;
-    addresses: string[];
-    options?: BatchParseOptions;
-    expectedStats?: {
-      total: number;
-      successful: number;
-      failed: number;
-    };
-    expectedErrors?: Array<{
-      index: number;
-      errorContains: string;
-    }>;
-    expectedResultsLength?: number;
-    performanceExpectations?: {
-      maxDurationMs: number;
-      minAddressesPerSecond: number;
-    };
-  }>;
-}
 
 // Helper Functions
 function loadBatchTestData(): BatchTestData {

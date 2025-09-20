@@ -9,6 +9,14 @@ import { describe, expect, it, test } from "vitest";
 
 import testDataFile from "../../../test-data/core/compatibility.json";
 import { parseAddress as ourParseAddress, parseInformalAddress, parseIntersection, parseLocation } from "../../index";
+import type { 
+  CompatibilityComparisonTestCase, 
+  SnakeCaseTestCase, 
+  AddressTestCase, 
+  MultipleParserTestCase, 
+  KeyTestCase, 
+  CompatibilityTestData 
+} from "../types/test-interfaces";
 
 // Dynamic import helper for CommonJS module compatibility
 async function getParseAddress() {
@@ -17,26 +25,6 @@ async function getParseAddress() {
 }
 
 // Constants
-
-// Types
-interface ComparisonTestCase {
-  id: number;
-  description: string;
-  input: string;
-  category: string;
-}
-
-interface KeyTestCase {
-  description: string;
-  input: string;
-  purpose: string;
-}
-
-interface TestData {
-  description: string;
-  testCases: ComparisonTestCase[];
-  keyTestCase: KeyTestCase;
-}
 
 // Helper function to extract test data from objects with $schema
 function loadSchemaTestData<T>(testDataFile: any): T {
@@ -49,7 +37,7 @@ function loadSchemaTestData<T>(testDataFile: any): T {
 }
 
 // Extract test data from consolidated file
-const testData = loadSchemaTestData<TestData>(testDataFile);
+const testData = loadSchemaTestData<CompatibilityTestData>(testDataFile);
 // Extract different test groups from the consolidated structure
 const parseAddressComparisonTests = (testData as any).tests.parseAddressComparison || [];
 const snakeCaseTestCases = (testData as any).tests.snakeCaseCompatibility || [];
@@ -128,15 +116,15 @@ describe("Compatibility Tests", () => {
 
   describe("Comprehensive JSON Data Validation", () => {
     describe("US Address Parsing - Basic Addresses", () => {
-      usBasicAddresses.forEach((testCase, index) => {
+      usBasicAddresses.forEach((testCase: AddressTestCase, index: number) => {
         it(`should parse basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = ourParseAddress(testCase.input);
           expect(result).toBeTruthy();
 
           if (testCase.expected) {
             // Check each expected field
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            Object.keys(testCase.expected || {}).forEach((key) => {
+              expect((result as any)?.[key]).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -144,7 +132,7 @@ describe("Compatibility Tests", () => {
     });
 
     describe("US Address Parsing - Special Addresses", () => {
-      usSpecialFormats.forEach((testCase, index) => {
+      usSpecialFormats.forEach((testCase: AddressTestCase, index: number) => {
         it(`should parse special address ${index + 1}: "${testCase.input}"`, () => {
           const result = ourParseAddress(testCase.input);
 
@@ -165,7 +153,7 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Canadian Address Parsing - Basic Addresses", () => {
-      canadaBasicAddresses.forEach((testCase, index) => {
+      canadaBasicAddresses.forEach((testCase: AddressTestCase, index: number) => {
         it(`should parse Canadian basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = ourParseAddress(testCase.input);
 
@@ -186,7 +174,7 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Intersection Parsing", () => {
-      intersections.forEach((testCase, index) => {
+      intersections.forEach((testCase: AddressTestCase, index: number) => {
         it(`should parse intersection ${index + 1}: "${testCase.input}"`, () => {
           const result = parseIntersection(testCase.input);
 
