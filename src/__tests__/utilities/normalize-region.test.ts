@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
 import { readFileSync } from "fs";
 import { join } from "path";
+
+import { describe, expect, it } from "vitest";
 
 import { normalizeRegion } from "../../utils/normalize-region";
 
@@ -18,7 +19,7 @@ interface NullTestCase {
 function loadTestData(filename: string): any {
   const filePath: string = join(__dirname, "../../../test-data/regions", filename);
   const data: any = JSON.parse(readFileSync(filePath, "utf-8"));
-  
+
   // Return the tests object which contains the reorganized data
   return data.tests || data;
 }

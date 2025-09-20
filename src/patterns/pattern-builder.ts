@@ -2,6 +2,7 @@
 // Constructs regex patterns from data constants
 
 import { CA_PROVINCES, CA_STREET_TYPES, DIRECTIONAL_MAP, US_STATES, US_STREET_TYPES } from "../constants";
+
 import { UNIT_TYPE_KEYWORDS, WRITTEN_NUMBERS } from "./address-patterns";
 import { VALIDATION_PATTERNS } from "./core-patterns";
 import { ZIP_CODE_REGEX_PATTERN } from "./location-patterns";

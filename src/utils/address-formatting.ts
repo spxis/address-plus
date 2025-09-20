@@ -1,5 +1,6 @@
 // Address formatting utilities for standardized output formats
 
+import { CA_PROVINCE_NAMES, DIRECTIONAL_MAP, US_STATE_NAMES, US_STREET_TYPES } from "../constants";
 import type {
   AddressAbbreviations,
   AddressFormattingOptions,
@@ -8,9 +9,6 @@ import type {
   ParsedAddress,
   USPSFormattingOptions,
 } from "../types";
-
-import { CA_PROVINCE_NAMES, DIRECTIONAL_MAP, US_STATE_NAMES, US_STREET_TYPES } from "../constants";
-
 import { capitalize } from "../utils/capitalization";
 
 // Simple unit type abbreviations for formatting

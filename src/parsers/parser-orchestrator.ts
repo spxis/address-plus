@@ -1,4 +1,5 @@
 import type { AddressParser, ParsedAddress, ParseOptions } from "../types";
+
 import { parseInformalAddress } from "./informal-address-parser";
 import { parseIntersection } from "./intersection-parser";
 

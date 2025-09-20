@@ -1,5 +1,6 @@
 // Address comparison and similarity utilities for deduplication and matching
 
+import { DIRECTIONAL_MAP, normalizeStateProvinceName, US_STREET_TYPES } from "../constants";
 import type {
   AddressComparisonOptions,
   AddressComparisonResult,
@@ -8,8 +9,6 @@ import type {
   AddressSimilarityResult,
   ParsedAddress,
 } from "../types";
-
-import { DIRECTIONAL_MAP, normalizeStateProvinceName, US_STREET_TYPES } from "../constants";
 
 // Default comparison options
 const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {

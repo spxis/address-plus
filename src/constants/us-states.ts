@@ -1,4 +1,5 @@
 import type { Region } from "../types/region.js";
+
 import { CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES } from "./ca-provinces.js";
 
 // US States and territories mapping

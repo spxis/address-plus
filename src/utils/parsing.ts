@@ -12,6 +12,7 @@ import {
 } from "../constants";
 import { CANADIAN_POSTAL_CODE_PATTERN, ZIP_CODE_PATTERN } from "../patterns/location-patterns";
 import { ParsedAddress } from "../types";
+
 import { capitalizeStreetName, capitalizeWords } from "./capitalization";
 
 // Regex patterns for parsing components
