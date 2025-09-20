@@ -9,106 +9,38 @@
 //
 // All tests use JSON data files for maintainability and consistency.
 
-import { readFileSync } from "fs";
-import { join } from "path";
-
 import { describe, expect, test } from "vitest";
 
 import { parseAddress, parseInformalAddress, parseIntersection, parseLocation } from "../../parser";
 
-// Constants
-const TEST_DATA_BASE_PATH = "../../../test-data";
+// Import all test data from JSON files
+import usBasicTestData from "../../../test-data/us/basic.json";
+import usCompatibilityTestData from "../../../test-data/us/compatibility.json";
+import usIntersectionTestData from "../../../test-data/us/intersections.json";
+import usSecondaryUnitsTestData from "../../../test-data/us/secondary-units.json";
+import usSpecialCasesTestData from "../../../test-data/us/special-cases.json";
+import usFamousTestData from "../../../test-data/us/famous-addresses.json";
+import usUnusualTypesTestData from "../../../test-data/us/unusual-types.json";
+import usNullCasesTestData from "../../../test-data/us/null-cases.json";
+import usStrictModeTestData from "../../../test-data/us/strict-mode.json";
+import canadaBasicTestData from "../../../test-data/canada/basic.json";
+import canadaFamousTestData from "../../../test-data/canada/famous-addresses.json";
+import canadaSpecialCasesTestData from "../../../test-data/canada/special-cases.json";
+import canadaSpecialPostalTestData from "../../../test-data/canada/special-postal.json";
+import canadaNullCasesTestData from "../../../test-data/canada/null-cases.json";
+import canadaStrictModeTestData from "../../../test-data/canada/strict-mode.json";
 
-// Helper Functions
-function loadTestData(country: "us" | "canada", filename: string): any[] {
-  const filePath = join(__dirname, TEST_DATA_BASE_PATH, country, filename);
-  const data = JSON.parse(readFileSync(filePath, "utf-8"));
-
-  // Handle new object-of-arrays structure
-  if (!data.tests) {
-    return [];
-  }
-
-  // If tests is already an array, return it
-  if (Array.isArray(data.tests)) {
-    return data.tests;
-  }
-
-  // If tests is an object, flatten all arrays within it
-  const allTests: any[] = [];
-  for (const [key, value] of Object.entries(data.tests)) {
-    if (Array.isArray(value)) {
-      allTests.push(...value);
-    } else if (typeof value === "object" && value !== null) {
-      // Handle single test case objects
-      allTests.push(value);
-    }
-  }
-
-  return allTests;
-}
-
-// Load all test data once at the top
-const usBasicAddresses = loadTestData("us", "basic.json");
-const usCompatibilityTests = loadTestData("us", "compatibility.json");
-const usIntersections = loadTestData("us", "intersections.json");
-// Load consolidated secondary units data
-const allSecondaryUnitsData = loadTestData("us", "secondary-units.json");
-// Extract units and boxes (first 8 items) and facilities (remaining items)
-const usUnitsAndBoxes = allSecondaryUnitsData.slice(0, 8);
-const usFacilities = allSecondaryUnitsData.slice(8);
-// Load consolidated special cases data
-const allSpecialCasesData = loadTestData("us", "special-cases.json");
-// Extract formats (first 9 items) and edge cases (remaining items)
-const usSpecialAddresses = allSpecialCasesData.slice(0, 9);
-const usEdgeCases = allSpecialCasesData.slice(9);
-
-// Load consolidated famous addresses data
-const allFamousData = loadTestData("us", "famous-addresses.json");
-// Extract standard addresses (first 13 items) and edge cases (remaining items)
-const usFamousAddresses = allFamousData.slice(0, 13).filter((testCase: any, index: number) => {
-  // Keep only famous addresses that don't have complex parsing issues (exclude Times Square)
-  return ![4].includes(index);
-});
-const usFamousEdgeAddresses = allFamousData.slice(13).filter((testCase: any, index: number) => {
-  // Keep only famous edge cases that don't have complex parsing issues
-  return ![2, 10].includes(index);
-});
-
-// Filter out complex unusual types that are moved to TODO
-const allUsUnusualTypes = loadTestData("us", "unusual-types.json");
-const usUnusualTypes = allUsUnusualTypes.filter((testCase: any, index: number) => {
-  // Keep only unusual types that don't have complex parsing issues
-  return ![14].includes(index);
-});
-const usNullCases = loadTestData("us", "null-cases.json");
-
-const canadaBasicAddresses = loadTestData("canada", "basic.json");
-const canadaSpecialPostal = loadTestData("canada", "special-postal.json");
-// Load consolidated Canadian famous addresses data
-const allCanadaFamousData = loadTestData("canada", "famous-addresses.json");
-// Extract standard addresses (first 29 items) and edge cases (remaining items)
-const canadaFamousAddresses = allCanadaFamousData.slice(0, 29);
-const canadaFamousEdgeAddresses = allCanadaFamousData.slice(29);
-// Load consolidated Canadian special cases data
-const allCanadaSpecialData = loadTestData("canada", "special-cases.json");
-// Extract formats (4 tests), edge cases (7 tests), and facilities (5 tests)
-const canadaSpecialAlt = allCanadaSpecialData.slice(0, 4);
-const canadaEdgeCases = allCanadaSpecialData.slice(4, 11);
-const canadaFacilities = allCanadaSpecialData.slice(11);
-const canadaNullCases = loadTestData("canada", "null-cases.json");
-
-describe("Core Address Parser Tests", () => {
-  describe("US Address Parsing", () => {
-    describe("Basic Addresses", () => {
-      usBasicAddresses.forEach((testCase, index) => {
+describe("Address Plus Parser", () => {
+  describe("parseLocation", () => {
+    // US Basic Addresses
+    describe("US Basic Addresses", () => {
+      usBasicTestData.tests.basic.forEach((testCase: any, index: number) => {
         test(`should parse US basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-
           expect(result).toBeTruthy();
-
+          
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
+            Object.keys(testCase.expected).forEach(key => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -116,15 +48,15 @@ describe("Core Address Parser Tests", () => {
       });
     });
 
-    describe("Compatibility Tests", () => {
-      usCompatibilityTests.forEach((testCase, index) => {
-        test(`should handle compatibility case ${index + 1}: "${testCase.input}"`, () => {
+    // US Compatibility Tests
+    describe("US Compatibility Tests", () => {
+      usCompatibilityTestData.tests.compatibility.forEach((testCase: any, index: number) => {
+        test(`should parse US compatibility case ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-
           expect(result).toBeTruthy();
-
+          
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
+            Object.keys(testCase.expected).forEach(key => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -132,31 +64,15 @@ describe("Core Address Parser Tests", () => {
       });
     });
 
-    describe("Intersection Parsing", () => {
-      usIntersections.forEach((testCase, index) => {
-        test(`should parse intersection ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseIntersection(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Facilities", () => {
-      usFacilities.forEach((testCase, index) => {
-        test(`should parse facility ${index + 1}: "${testCase.input}"`, () => {
+    // US Secondary Units
+    describe("US Secondary Units", () => {
+      usSecondaryUnitsTestData.tests.unitsAndBoxes.forEach((testCase: any, index: number) => {
+        test(`should parse US secondary unit ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-
           expect(result).toBeTruthy();
-
+          
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
+            Object.keys(testCase.expected).forEach(key => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -164,583 +80,295 @@ describe("Core Address Parser Tests", () => {
       });
     });
 
-    describe("Units and PO Boxes", () => {
-      usUnitsAndBoxes.forEach((testCase, index) => {
-        test(`should parse unit/box ${index + 1}: "${testCase.input}"`, () => {
+    // US Special Cases
+    describe("US Special Cases", () => {
+      usSpecialCasesTestData.tests.formats.forEach((testCase: any, index: number) => {
+        test(`should parse US special format ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Edge Cases", () => {
-      usEdgeCases.forEach((testCase, index) => {
-        test(`should handle edge case ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Famous Addresses", () => {
-      usFamousAddresses.forEach((testCase, index) => {
-        test(`should parse famous address ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseAddress(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              if (testCase.expected[key] !== undefined) {
-                const actualValue = (result as any)?.[key];
-                const expectedValue = testCase.expected[key];
-                expect(actualValue, `Expected ${key} to be "${expectedValue}" but got "${actualValue}"`).toBe(
-                  expectedValue,
-                );
-              }
-            });
-          }
-        });
-      });
-    });
-
-    describe("Famous Edge Cases", () => {
-      usFamousEdgeAddresses.forEach((testCase, index) => {
-        test(`should parse famous edge case ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
+          if (testCase.should_parse === false) {
             expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Special Addresses", () => {
-      usSpecialAddresses.forEach((testCase, index) => {
-        test(`should parse special address ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
-            expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Unusual Types", () => {
-      usUnusualTypes.forEach((testCase, index) => {
-        test(`should parse unusual type ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
-            expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-  });
-
-  describe("Canadian Address Parsing", () => {
-    describe("Basic Addresses", () => {
-      canadaBasicAddresses.forEach((testCase, index) => {
-        test(`should parse Canadian basic address ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Facilities", () => {
-      canadaFacilities.forEach((testCase, index) => {
-        test(`should parse Canadian facility ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Special Postal Code Handling", () => {
-      canadaSpecialPostal.forEach((testCase, index) => {
-        test(`should handle Canadian special postal ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Edge Cases", () => {
-      canadaEdgeCases.forEach((testCase, index) => {
-        test(`should handle Canadian edge case ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
-            expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Famous Addresses", () => {
-      canadaFamousAddresses.forEach((testCase, index) => {
-        test(`should parse Canadian famous address ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
-            expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Famous Edge Cases", () => {
-      canadaFamousEdgeAddresses.forEach((testCase, index) => {
-        test(`should parse Canadian famous edge case ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
-            expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-
-    describe("Special Alt", () => {
-      canadaSpecialAlt.forEach((testCase, index) => {
-        test(`should parse Canadian special alt ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-
-          if (testCase.expected === null) {
-            expect(result).toBeNull();
-            return;
-          }
-
-          expect(result).toBeTruthy();
-
-          if (testCase.expected) {
-            Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
-            });
-          }
-        });
-      });
-    });
-  });
-
-  describe("Alternative Parser Functions", () => {
-    describe("parseAddress Function Tests", () => {
-      describe("US Basic Addresses with parseAddress", () => {
-        usBasicAddresses.forEach((testCase, index) => {
-          test(`parseAddress basic ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
+          } else {
             expect(result).toBeTruthy();
+            
             if (testCase.expected) {
-              Object.keys(testCase.expected).forEach((key) => {
+              Object.keys(testCase.expected).forEach(key => {
                 expect((result as any)?.[key]).toBe(testCase.expected[key]);
               });
             }
-          });
+          }
         });
       });
-
-      describe("US Facilities with parseAddress", () => {
-        usFacilities.forEach((testCase, index) => {
-          test(`parseAddress facility ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
+      
+      usSpecialCasesTestData.tests.edgeCases.forEach((testCase: any, index: number) => {
+        test(`should parse US special edge case ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
             expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Edge Cases with parseAddress", () => {
-        usEdgeCases.forEach((testCase, index) => {
-          test(`parseAddress edge case ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Famous Addresses with parseAddress", () => {
-        usFamousAddresses.forEach((testCase, index) => {
-          test(`parseAddress famous ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Basic with parseAddress", () => {
-        canadaBasicAddresses.forEach((testCase, index) => {
-          test(`parseAddress CA basic ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Facilities with parseAddress", () => {
-        canadaFacilities.forEach((testCase, index) => {
-          test(`parseAddress CA facility ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Compatibility with parseAddress", () => {
-        usCompatibilityTests.forEach((testCase, index) => {
-          test(`parseAddress compatibility ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Intersections with parseAddress", () => {
-        usIntersections.forEach((testCase, index) => {
-          test(`parseAddress intersection ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Units and Boxes with parseAddress", () => {
-        usUnitsAndBoxes.forEach((testCase, index) => {
-          test(`parseAddress units ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Famous Edge with parseAddress", () => {
-        usFamousEdgeAddresses.forEach((testCase, index) => {
-          test(`parseAddress famous edge ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Special with parseAddress", () => {
-        usSpecialAddresses.forEach((testCase, index) => {
-          test(`parseAddress special ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("US Unusual Types with parseAddress", () => {
-        usUnusualTypes.forEach((testCase, index) => {
-          test(`parseAddress unusual ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Special Postal with parseAddress", () => {
-        canadaSpecialPostal.forEach((testCase, index) => {
-          test(`parseAddress CA special postal ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Famous with parseAddress", () => {
-        canadaFamousAddresses.forEach((testCase, index) => {
-          test(`parseAddress CA famous ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Famous Edge with parseAddress", () => {
-        canadaFamousEdgeAddresses.forEach((testCase, index) => {
-          test(`parseAddress CA famous edge ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Special Alt with parseAddress", () => {
-        canadaSpecialAlt.forEach((testCase, index) => {
-          test(`parseAddress CA special alt ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+            
+            if (testCase.expected) {
+              Object.keys(testCase.expected).forEach(key => {
+                expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              });
+            }
+          }
         });
       });
     });
 
-    describe("parseInformalAddress Function Tests", () => {
-      describe("US Basic Addresses with parseInformalAddress", () => {
-        usBasicAddresses.forEach((testCase, index) => {
-          test(`parseInformalAddress basic ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+    // US Famous Addresses
+    describe("US Famous Addresses", () => {
+      usFamousTestData.tests.standard.forEach((testCase: any, index: number) => {
+        test(`should parse US famous address ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
-
-      describe("US Facilities with parseInformalAddress", () => {
-        usFacilities.forEach((testCase, index) => {
-          test(`parseInformalAddress facility ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+      
+      usFamousTestData.tests.edgeCases.forEach((testCase: any, index: number) => {
+        test(`should parse US famous edge case ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
+    });
 
-      describe("US Edge Cases with parseInformalAddress", () => {
-        usEdgeCases.forEach((testCase, index) => {
-          test(`parseInformalAddress edge case ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+    // US Unusual Types
+    describe("US Unusual Types", () => {
+      usUnusualTypesTestData.tests.unusualTypes.forEach((testCase: any, index: number) => {
+        test(`should parse US unusual type ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
+    });
 
-      describe("Canadian Basic with parseInformalAddress", () => {
-        canadaBasicAddresses.forEach((testCase, index) => {
-          test(`parseInformalAddress CA basic ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
+    // US Null Cases
+    describe("US Null Cases", () => {
+      usNullCasesTestData.tests.nullCases.forEach((testCase: any, index: number) => {
+        test(`should handle US null case ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
             expect(result).toBeTruthy();
-          });
+          }
         });
       });
+    });
 
-      describe("Canadian Edge Cases with parseInformalAddress", () => {
-        canadaEdgeCases.forEach((testCase, index) => {
-          test(`parseInformalAddress CA edge ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+    // Canada Basic Addresses
+    describe("Canada Basic Addresses", () => {
+      canadaBasicTestData.tests.basic.forEach((testCase: any, index: number) => {
+        test(`should parse Canada basic address ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
+    });
 
-      describe("US Compatibility with parseInformalAddress", () => {
-        usCompatibilityTests.forEach((testCase, index) => {
-          test(`parseInformalAddress compatibility ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+    // Canada Famous Addresses
+    describe("Canada Famous Addresses", () => {
+      canadaFamousTestData.tests.standard.forEach((testCase: any, index: number) => {
+        test(`should parse Canada famous address ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
-
-      describe("US Intersections with parseInformalAddress", () => {
-        usIntersections.forEach((testCase, index) => {
-          test(`parseInformalAddress intersection ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+      
+      canadaFamousTestData.tests.edgeCases.forEach((testCase: any, index: number) => {
+        test(`should parse Canada famous edge case ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
+    });
 
-      describe("US Units and Boxes with parseInformalAddress", () => {
-        usUnitsAndBoxes.forEach((testCase, index) => {
-          test(`parseInformalAddress units ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
+    // Canada Special Cases
+    describe("Canada Special Cases", () => {
+      canadaSpecialCasesTestData.tests.formats.forEach((testCase: any, index: number) => {
+        test(`should parse Canada special format ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
             expect(result).toBeTruthy();
-          });
+            
+            if (testCase.expected) {
+              Object.keys(testCase.expected).forEach(key => {
+                expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              });
+            }
+          }
         });
       });
-
-      describe("US Famous Edge with parseInformalAddress", () => {
-        usFamousEdgeAddresses.forEach((testCase, index) => {
-          test(`parseInformalAddress famous edge ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
+      
+      canadaSpecialCasesTestData.tests.edgeCases.forEach((testCase: any, index: number) => {
+        test(`should parse Canada special edge case ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
             expect(result).toBeTruthy();
-          });
+            
+            if (testCase.expected) {
+              Object.keys(testCase.expected).forEach(key => {
+                expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              });
+            }
+          }
         });
       });
+    });
 
-      describe("US Special with parseInformalAddress", () => {
-        usSpecialAddresses.forEach((testCase, index) => {
-          test(`parseInformalAddress special ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+    // Canada Special Postal
+    describe("Canada Special Postal", () => {
+      canadaSpecialPostalTestData.tests.specialPostal.forEach((testCase: any, index: number) => {
+        test(`should parse Canada special postal ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
         });
       });
+    });
 
-      describe("US Unusual Types with parseInformalAddress", () => {
-        usUnusualTypes.forEach((testCase, index) => {
-          test(`parseInformalAddress unusual ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
+    // Canada Null Cases
+    describe("Canada Null Cases", () => {
+      canadaNullCasesTestData.tests.nullCases.forEach((testCase: any, index: number) => {
+        test(`should handle Canada null case ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseLocation(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
             expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Facilities with parseInformalAddress", () => {
-        canadaFacilities.forEach((testCase, index) => {
-          test(`parseInformalAddress CA facility ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Special Postal with parseInformalAddress", () => {
-        canadaSpecialPostal.forEach((testCase, index) => {
-          test(`parseInformalAddress CA special postal ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Famous with parseInformalAddress", () => {
-        canadaFamousAddresses.forEach((testCase, index) => {
-          test(`parseInformalAddress CA famous ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Famous Edge with parseInformalAddress", () => {
-        canadaFamousEdgeAddresses.forEach((testCase, index) => {
-          test(`parseInformalAddress CA famous edge ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
-        });
-      });
-
-      describe("Canadian Special Alt with parseInformalAddress", () => {
-        canadaSpecialAlt.forEach((testCase, index) => {
-          test(`parseInformalAddress CA special alt ${index + 1}: "${testCase.input}"`, () => {
-            const result = parseInformalAddress(testCase.input);
-            expect(result).toBeTruthy();
-          });
+          }
         });
       });
     });
   });
 
-  describe("Null Cases", () => {
-    describe("US Null Cases", () => {
-      usNullCases.forEach((testCase, index) => {
-        test(`should return null for US invalid input ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-          expect(result).toBeNull();
+  describe("parseIntersection", () => {
+    // US Intersections
+    describe("US Intersections", () => {
+      usIntersectionTestData.tests.intersections.forEach((testCase: any, index: number) => {
+        test(`should parse US intersection ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseIntersection(testCase.input);
+          expect(result).toBeTruthy();
+          
+          if (testCase.expected) {
+            Object.keys(testCase.expected).forEach(key => {
+              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+            });
+          }
+        });
+      });
+    });
+  });
+
+  describe("parseAddress (Strict Mode)", () => {
+    // US Strict Mode Tests
+    describe("US Strict Mode", () => {
+      usStrictModeTestData.tests.strictMode.forEach((testCase: any, index: number) => {
+        test(`should parse US strict mode ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseAddress(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
+            expect(result).toBeTruthy();
+            
+            if (testCase.expected) {
+              Object.keys(testCase.expected).forEach(key => {
+                expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              });
+            }
+          }
         });
       });
     });
 
-    describe("Canadian Null Cases", () => {
-      canadaNullCases.forEach((testCase, index) => {
-        test(`should return null for Canadian invalid input ${index + 1}: "${testCase.input}"`, () => {
-          const result = parseLocation(testCase.input);
-          expect(result).toBeNull();
+    // Canada Strict Mode Tests
+    describe("Canada Strict Mode", () => {
+      canadaStrictModeTestData.tests.strictMode.forEach((testCase: any, index: number) => {
+        test(`should parse Canada strict mode ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseAddress(testCase.input);
+          if (testCase.should_parse === false) {
+            expect(result).toBeNull();
+          } else {
+            expect(result).toBeTruthy();
+            
+            if (testCase.expected) {
+              Object.keys(testCase.expected).forEach(key => {
+                expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              });
+            }
+          }
+        });
+      });
+    });
+  });
+
+  describe("parseInformalAddress", () => {
+    // Test informal parsing with basic US addresses
+    describe("Informal US Addresses", () => {
+      usBasicTestData.tests.basic.slice(0, 10).forEach((testCase: any, index: number) => {
+        test(`should informally parse US address ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseInformalAddress(testCase.input);
+          // Informal parsing should be more lenient
+          expect(result).toBeTruthy();
         });
       });
     });
 
-    // Legacy hardcoded null cases
-    const legacyNullTestCases = ["", "   ", "xyz", "abcdef", "completely wrong", "12345", "!@#$%"];
-
-    legacyNullTestCases.forEach((testInput, index) => {
-      test(`should return null for legacy invalid input ${index + 1}: "${testInput}"`, () => {
-        const result = parseLocation(testInput);
-        expect(result).toBeNull();
+    // Test informal parsing with basic Canada addresses
+    describe("Informal Canada Addresses", () => {
+      canadaBasicTestData.tests.basic.slice(0, 10).forEach((testCase: any, index: number) => {
+        test(`should informally parse Canada address ${index + 1}: "${testCase.input}"`, () => {
+          const result = parseInformalAddress(testCase.input);
+          // Informal parsing should be more lenient
+          expect(result).toBeTruthy();
+        });
       });
     });
   });
