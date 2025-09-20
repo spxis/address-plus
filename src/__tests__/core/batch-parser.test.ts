@@ -83,7 +83,8 @@ interface BatchParseFunctionTestData {
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
   }>;
-}interface AdvancedFunctionTestData {
+}
+interface AdvancedFunctionTestData {
   withStatistics: Array<{
     description: string;
     addresses: string[];

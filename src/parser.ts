@@ -189,7 +189,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   let statePart = "";
   let cityPart = "";
   let addressPart = commaParts[addressStartIndex] || commaParts[0];
-  
+
   if (addressPartOverride) {
     // Use inline address found in first part; parse separately from facility
     addressPart = addressPartOverride;
