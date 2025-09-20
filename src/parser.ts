@@ -69,6 +69,12 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   return parseStandardAddress(original, options) || parseInformalAddress(original, options);
 }
 
+// Simple validation to check if address contains basic components
+function hasValidAddressComponents(address: string): boolean {
+  // Basic check for numbers and letters
+  return /\d/.test(address) && /[a-zA-Z]/.test(address) && address.trim().length > 3;
+}
+
 // Parse standard addresses with number, street, type, city, state, zip
 function parseStandardAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   const patterns = buildPatterns();

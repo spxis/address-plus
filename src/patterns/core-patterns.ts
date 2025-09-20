@@ -30,7 +30,7 @@ const ZIP_VALIDATION_PATTERNS = {
 // Facility delimiter patterns for inline address parsing
 const FACILITY_DELIMITER_PATTERNS = {
   PARENTHETICAL: /^(.*?)\s*\(([^)]+)\)\s*$/,
-  DELIMITED: /^(.*?)\s*([:;|\u2013\u2014\-])\s*(.+)$/,
+  DELIMITED: /^(.*?)\s*([:;|\u2013\u2014-])\s*(.+)$/,
   TRAILING_ISLAND: /^(.*?)(\s+)(\b.+\s+(?:Island|Isl\.?|Is\.?)\b.*)$/i,
 } as const;
 

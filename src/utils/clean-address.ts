@@ -63,7 +63,7 @@ function cleanAddressDetailed(addressString: string, options: CleanAddressOption
   }
 
   // Start with basic formatting - always use standard format initially
-  let formattedResult = formatAddress(parsedAddress);
+  const formattedResult = formatAddress(parsedAddress);
   let formattedAddress = formattedResult.singleLine;
 
   // Apply expansion of abbreviations to the formatted result if requested
