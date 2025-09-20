@@ -6,6 +6,8 @@ applyTo: '**/*.{ts,tsx,js,jsx}'
 
 ## Module Structure
 
+- **Use ES Modules exclusively** - no CommonJS (`require`/`module.exports`).
+- All files must use `import` and `export` statements.
 - Imports must appear at the top of the file.
   - Group external packages first, then internal modules.
   - Use `import/order` with `newlines-between: always` and alphabetize imports.
@@ -37,6 +39,7 @@ applyTo: '**/*.{ts,tsx,js,jsx}'
 ## Comment Style & Documentation
 
 - **Use concise `//` single-line comments** instead of JSDoc blocks (`/** */`) for brevity.
+- **Never use emoji, icons, or symbols** in comments, documentation, or any text output.
 - Place comments above the code they describe, not inline unless necessary.
 - For interfaces and types, use inline comments after properties: `property: string; // Description`
 - For multi-line explanations, use multiple single-line comments:
@@ -70,6 +73,7 @@ applyTo: '**/*.{ts,tsx,js,jsx}'
 
 ## UI Text & Accessibility
 
+- **Never use emoji, icons, or visual symbols** in any user-facing text, console output, or documentation.
 - Centralize all user-facing strings (e.g., labels, titles, ARIA attributes) at the top of the file.
 - Do not inline text in JSX or props.
 - Use semantic HTML and ARIA roles/labels where appropriate.

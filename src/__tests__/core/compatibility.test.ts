@@ -11,9 +11,6 @@ import { describe, expect, it, test } from "vitest";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-// @ts-ignore - parse-address doesn't have types
-const parseAddress = require("parse-address");
-
 import { 
   parseAddress as ourParseAddress, 
   parseInformalAddress, 
@@ -23,6 +20,12 @@ import {
 
 import testData from "../../../test-data/parse-address-comparison.json";
 import snakeCaseTestCases from "../../../test-data/snake-case-compatibility.json";
+
+// Dynamic import helper for CommonJS module compatibility
+async function getParseAddress() {
+  const parseAddressModule = await import("parse-address");
+  return parseAddressModule.default || parseAddressModule;
+}
 import multipleParserTestCases from "../../../test-data/multiple-parser-functions.json";
 
 // Constants
@@ -98,12 +101,13 @@ describe("Compatibility Tests", () => {
 
   describe("Parse-Address Library Comparison", () => {
     testCases.forEach((testCase) => {
-      it(`should match parse-address format for ${testCase.category} case ${testCase.id}: "${testCase.input}"`, () => {
+      it(`should match parse-address format for ${testCase.category} case ${testCase.id}: "${testCase.input}"`, async () => {
         console.log(`\\nTesting: ${testCase.input}`);
         console.log(`Category: ${testCase.category}`);
         console.log(`Description: ${testCase.description}`);
         
         // Get results from both parsers
+        const parseAddress = await getParseAddress();
         const originalResult = parseAddress.parseLocation(testCase.input);
         const ourResult = parseLocation(testCase.input);
         
@@ -117,9 +121,10 @@ describe("Compatibility Tests", () => {
       });
     });
     
-    it(`should demonstrate format structure for key case: "${keyTestCase.input}"`, () => {
+    it(`should demonstrate format structure for key case: "${keyTestCase.input}"`, async () => {
       console.log(`\\nKey Test Purpose: ${keyTestCase.purpose}`);
       
+      const parseAddress = await getParseAddress();
       const original = parseAddress.parseLocation(keyTestCase.input);
       const ours = parseLocation(keyTestCase.input);
       
