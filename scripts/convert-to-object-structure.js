@@ -42,10 +42,10 @@ function convertArrayToObjectStructure(filePath) {
 
     // Write back to file
     writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n");
-    console.log(`✅ Converted ${filePath} to use '${categoryName}' category`);
+    console.log(`Converted ${filePath} to use '${categoryName}' category`);
     return true;
   } catch (error) {
-    console.error(`❌ Error converting ${filePath}:`, error.message);
+    console.error(`Error converting ${filePath}:`, error.message);
     return false;
   }
 }
@@ -82,7 +82,7 @@ function getCategoryName(filePath) {
 const testDataDir = "test-data";
 const jsonFiles = getAllJsonFiles(testDataDir);
 
-console.log(`🔍 Found ${jsonFiles.length} JSON files to check for conversion\n`);
+console.log(`Found ${jsonFiles.length} JSON files to check for conversion\n`);
 
 let converted = 0;
 for (const file of jsonFiles) {

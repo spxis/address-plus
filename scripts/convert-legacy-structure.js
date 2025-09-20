@@ -46,10 +46,10 @@ function convertLegacyStructure(filePath) {
 
     // Write back to file
     writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n");
-    console.log(`✅ Converted ${filePath} - wrapped properties: ${Object.keys(tests).join(", ")}`);
+    console.log(`Converted ${filePath} - wrapped properties: ${Object.keys(tests).join(", ")}`);
     return true;
   } catch (error) {
-    console.error(`❌ Error converting ${filePath}:`, error.message);
+    console.error(`Error converting ${filePath}:`, error.message);
     return false;
   }
 }
@@ -58,7 +58,7 @@ function convertLegacyStructure(filePath) {
 const testDataDir = "test-data";
 const jsonFiles = getAllJsonFiles(testDataDir);
 
-console.log(`🔍 Found ${jsonFiles.length} JSON files to check for legacy structure conversion\n`);
+console.log(`Found ${jsonFiles.length} JSON files to check for legacy structure conversion\n`);
 
 let converted = 0;
 for (const file of jsonFiles) {

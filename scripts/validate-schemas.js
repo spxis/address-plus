@@ -83,7 +83,7 @@ function validateJsonFile(filePath) {
 }
 
 function main() {
-  console.log("🔍 Validating JSON test files with schema...\n");
+  console.log("Validating JSON test files with schema...\n");
 
   const testDataDir = "test-data";
   const jsonFiles = getAllJsonFiles(testDataDir);
@@ -99,9 +99,9 @@ function main() {
     results.push({ file: relativePath, ...result });
 
     if (result.valid) {
-      console.log(`✅ ${relativePath} (${result.schema})`);
+      console.log(`Valid: ${relativePath} (${result.schema})`);
     } else {
-      console.log(`❌ ${relativePath} (${result.schema})`);
+      console.log(`Invalid: ${relativePath} (${result.schema})`);
       if (result.errors.length > 0) {
         result.errors.slice(0, 3).forEach((error) => {
           console.log(`   • ${error.instancePath || "root"}: ${error.message}`);
@@ -113,7 +113,7 @@ function main() {
     }
   }
 
-  console.log("\n📊 VALIDATION SUMMARY");
+  console.log("\nVALIDATION SUMMARY");
   console.log("=====================================");
 
   const validFiles = results.filter((r) => r.valid).length;
@@ -128,10 +128,10 @@ function main() {
   console.log(`Without $schema: ${withoutSchema}`);
 
   if (invalidFiles > 0) {
-    console.log("\n❌ Some files failed schema validation");
+    console.log("\nSome files failed schema validation");
     process.exit(1);
   } else {
-    console.log("\n✅ All JSON test files pass schema validation");
+    console.log("\nAll JSON test files pass schema validation");
   }
 }
 

@@ -26,7 +26,7 @@ function normalizeText(text: string): string {
 }
 
 // Build regex patterns from dictionary
-function buildRegexFromDict(dict: Record<string, string>, capture = true): RegExp {
+function buildRegexFromDict(dict: Record<string, string>, capture: boolean = true): RegExp {
   const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
   const pattern = keys.map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
   return new RegExp(capture ? `\\b(${pattern})\\b` : `\\b(?:${pattern})\\b`, "i");

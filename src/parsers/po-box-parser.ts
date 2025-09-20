@@ -149,22 +149,26 @@ function normalizePoBoxType(type: string): string {
   // Normalize to proper case format - capitalize first letter of each word
   const cleaned = type.replace(VALIDATION_PATTERNS.NORMALIZE_SPACES, " ").trim();
 
-  const t = cleaned.toLowerCase();
-  if (/^p\.?\s*o\.?\s*box$/.test(t) || /^po\s*box$/.test(t) || /^post\s*office\s*box$/.test(t)) {
+  const normalizedType = cleaned.toLowerCase();
+  if (
+    /^p\.?\s*o\.?\s*box$/.test(normalizedType) ||
+    /^po\s*box$/.test(normalizedType) ||
+    /^post\s*office\s*box$/.test(normalizedType)
+  ) {
     return "PO Box";
   }
-  if (/^c\.?p\.?$/.test(t) || t === "cp") {
+  if (/^c\.?p\.?$/.test(normalizedType) || normalizedType === "cp") {
     return "CP"; // Case postale abbreviation
   }
-  if (/^case\s*postale$/.test(t)) {
+  if (/^case\s*postale$/.test(normalizedType)) {
     return "Case Postale";
   }
-  if (/^bo[iî]te\s*postale$/.test(t) || /^boite\s*postale$/.test(t)) {
+  if (/^bo[iî]te\s*postale$/.test(normalizedType) || /^boite\s*postale$/.test(normalizedType)) {
     return "Boîte Postale";
   }
-  if (t === "rpo") return "RPO";
-  if (t === "rr" || t === "r.r." || /^r\.?r\.?$/.test(t)) return "RR";
-  if (t === "box") return "Box"; // Simple Canadian Box
+  if (normalizedType === "rpo") return "RPO";
+  if (normalizedType === "rr" || normalizedType === "r.r." || /^r\.?r\.?$/.test(normalizedType)) return "RR";
+  if (normalizedType === "box") return "Box"; // Simple Canadian Box
 
   return cleaned
     .split(" ")
