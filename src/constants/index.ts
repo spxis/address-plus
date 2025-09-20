@@ -14,7 +14,7 @@ export {
 } from "./ca-provinces";
 export { CA_STREET_TYPES } from "./ca-street-types";
 export { DIRECTIONAL_MAP, DIRECTION_EXPANSIONS } from "./directionals";
-export { FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN } from "../patterns/facility";
+export { FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN, FACILITY_INDICATORS, MUSIC_SQUARE_EAST_PATTERN } from "../patterns/address-patterns";
 export { validatePostalCode } from "../utils/postal-validation";
 export type { PostalValidationResult } from "../utils/postal-validation";
 export { 
@@ -22,7 +22,7 @@ export {
   CANADIAN_POSTAL_CODE_PATTERN,
   CANADIAN_POSTAL_LIBERAL_PATTERN,
   ZIP_CODE_REGEX_PATTERN
-} from "../patterns/postal";
+} from "../patterns/location-patterns";
 export { 
   SECONDARY_UNIT_PATTERN, 
   STREET_TYPE_DETECTION_PATTERN,
@@ -30,7 +30,7 @@ export {
   UNIT_TYPE_KEYWORDS,
   WRITTEN_NUMBERS,
   PARENTHETICAL_PATTERN 
-} from "../patterns/address";
+} from "../patterns/address-patterns";
 export { SECONDARY_UNIT_TYPES, UNIT_TYPE_EXPANSIONS } from "./secondary-unit-types";
 export { 
   US_REGIONS, 
@@ -46,8 +46,8 @@ export { FRENCH_PREPOSITIONS } from "./french-prepositions";
 export { STREET_NAME_ACRONYMS } from "./street-name-acronyms";
 export { COUNTRIES } from "./countries";
 export type { CountryCode } from "./countries";
-export { VALIDATION_PATTERNS } from "../patterns/validation-patterns";
-export { CITY_PATTERNS } from "../patterns/city-patterns";
+export { VALIDATION_PATTERNS } from "../patterns/core-patterns";
+export { CITY_PATTERNS } from "../patterns/location-patterns";
 export { PO_BOX_PATTERNS, INTERSECTION_PATTERNS, COMMON_PARSER_PATTERNS } from "./parser-patterns";
 export { 
   COMMON_STREET_NAMES_PATTERN,
@@ -56,7 +56,7 @@ export {
   FACILITY_DELIMITER_PATTERNS,
   ISLAND_TYPE_PATTERN,
   CONNECTOR_WORDS
-} from "../patterns/general-patterns";
+} from "../patterns/core-patterns";
 export { 
   POSTAL_CODE_TO_PROVINCE, 
   TERRITORY_POSTAL_RANGES,

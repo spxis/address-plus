@@ -1,6 +1,6 @@
 // Postal code validation utilities
 
-import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from "../patterns/postal";
+import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from "../patterns/location-patterns";
 
 // Postal code validation result
 interface PostalValidationResult {

@@ -13,19 +13,19 @@ import {
   SECONDARY_UNIT_PATTERN,
   UNIT_TYPE_NUMBER_PATTERN,
   UNIT_TYPE_KEYWORDS,
-} from "./patterns/address";
-import { CANADIAN_POSTAL_LIBERAL_PATTERN, ZIP_CODE_PATTERN } from "./constants";
-import { FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
+} from "./patterns/address-patterns";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN, ZIP_CODE_PATTERN } from "./patterns/location-patterns";
+import { FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/address-patterns";
+import { CITY_PATTERNS } from "./patterns/location-patterns";
 import { 
   VALIDATION_PATTERNS, 
-  CITY_PATTERNS,
   COMMON_STREET_NAMES_PATTERN,
   GENERAL_DELIVERY_PATTERNS,
   ZIP_VALIDATION_PATTERNS,
   FACILITY_DELIMITER_PATTERNS,
   ISLAND_TYPE_PATTERN,
   CONNECTOR_WORDS
-} from "./constants";
+} from "./patterns/core-patterns";
 import {
   capitalizeStreetName,
   detectCountry,

@@ -1,7 +1,7 @@
 import { VALIDATION_PATTERNS } from "../constants";
 import { PO_BOX_PATTERNS, COMMON_PARSER_PATTERNS } from "../constants/parser-patterns";
 import { buildPatterns } from "../patterns/pattern-builder";
-import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../patterns/postal";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../patterns/location-patterns";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { detectCountry, parseStateProvince } from "../utils";
 import { setValidatedPostalCode } from "../utils/address-validation";
