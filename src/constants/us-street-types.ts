@@ -511,20 +511,20 @@ const US_STREET_TYPES: Record<string, string> = {
 
 // Street type expansions (reverse mapping from abbreviations to full names)
 const STREET_TYPE_EXPANSIONS: Record<string, string> = {
-  "ave": "Avenue",
-  "blvd": "Boulevard", 
-  "cir": "Circle",
-  "ct": "Court",
-  "dr": "Drive",
-  "ln": "Lane",
-  "pl": "Place",
-  "rd": "Road",
-  "st": "Street",
-  "ter": "Terrace",
-  "trl": "Trail",
-  "way": "Way",
-  "hwy": "Highway",
-  "pkwy": "Parkway",
+  ave: "Avenue",
+  blvd: "Boulevard",
+  cir: "Circle",
+  ct: "Court",
+  dr: "Drive",
+  ln: "Lane",
+  pl: "Place",
+  rd: "Road",
+  st: "Street",
+  ter: "Terrace",
+  trl: "Trail",
+  way: "Way",
+  hwy: "Highway",
+  pkwy: "Parkway",
 };
 
-export { US_STREET_TYPES, STREET_TYPE_EXPANSIONS };
+export { STREET_TYPE_EXPANSIONS, US_STREET_TYPES };

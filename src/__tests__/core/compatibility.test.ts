@@ -1,11 +1,9 @@
-/**
- * Compatibility Tests
- * 
- * This file contains tests for:
- * - Snake case compatibility mode (useSnakeCase option)
- * - Comparison with original parse-address library
- * - Backward compatibility validation
- */
+// Compatibility Tests
+//
+// This file contains tests for:
+// - Snake case compatibility mode (useSnakeCase option)
+// - Comparison with original parse-address library
+// - Backward compatibility validation
 
 import { describe, expect, it, test } from "vitest";
 

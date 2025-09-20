@@ -1,7 +1,5 @@
 // Types for address formatting functions
 
-import type { ParsedAddress } from "./index";
-
 // Address formatting options
 interface AddressFormattingOptions {
   includeCountry?: boolean; // Whether to include country in formatted address
@@ -50,9 +48,9 @@ interface AddressAbbreviations {
 }
 
 export type {
+  AddressAbbreviations,
   AddressFormattingOptions,
-  USPSFormattingOptions,
   CanadaPostFormattingOptions,
   FormattedAddress,
-  AddressAbbreviations
+  USPSFormattingOptions,
 };

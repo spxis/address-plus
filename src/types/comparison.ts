@@ -59,11 +59,11 @@ interface FuzzyMatchOptions {
   enableMetaphone?: boolean; // Use metaphone for phonetic matching
 }
 
-export type { 
+export type {
   AddressComparisonOptions,
-  AddressSimilarityResult,
+  AddressComparisonResult,
   AddressDifference,
   AddressMatchType,
-  AddressComparisonResult,
-  FuzzyMatchOptions
+  AddressSimilarityResult,
+  FuzzyMatchOptions,
 };

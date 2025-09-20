@@ -1,8 +1,8 @@
 // Address parser interface for API compatibility
 
+import type { ParseOptions } from "./parse-options";
 import type { ParsedAddress } from "./parsed-address";
 import type { ParsedIntersection } from "./parsed-intersection";
-import type { ParseOptions } from "./parse-options";
 
 // Main address parser interface providing all parsing methods
 interface AddressParser {

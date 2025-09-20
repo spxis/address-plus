@@ -1,15 +1,13 @@
-/**
- * Core Parser Tests - Comprehensive Address Parsing Functionality
- * 
- * This file contains all core address parsing tests including:
- * - Basic address parsing (US & Canada)
- * - Complex address formats (facilities, intersections, edge cases)
- * - Famous addresses validation
- * - Secondary units and PO boxes
- * - Regional variations and compatibility
- * 
- * All tests use JSON data files for maintainability and consistency.
- */
+// Core Parser Tests - Comprehensive Address Parsing Functionality
+//
+// This file contains all core address parsing tests including:
+// - Basic address parsing (US & Canada)
+// - Complex address formats (facilities, intersections, edge cases)
+// - Famous addresses validation
+// - Secondary units and PO boxes
+// - Regional variations and compatibility
+//
+// All tests use JSON data files for maintainability and consistency.
 
 import { describe, expect, test } from "vitest";
 import { readFileSync } from "fs";

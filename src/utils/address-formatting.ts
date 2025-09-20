@@ -1,39 +1,30 @@
 // Address formatting utilities for standardized output formats
 
-import type { 
-  ParsedAddress, 
+import type {
+  AddressAbbreviations,
   AddressFormattingOptions,
-  USPSFormattingOptions,
   CanadaPostFormattingOptions,
   FormattedAddress,
-  AddressAbbreviations
+  ParsedAddress,
+  USPSFormattingOptions,
 } from "../types";
 
-import {
-  DIRECTIONAL_MAP,
-  US_STATE_NAMES,
-  CA_PROVINCE_NAMES,
-  US_STREET_TYPES,
-  SECONDARY_UNIT_TYPES
-} from "../constants";
+import { CA_PROVINCE_NAMES, DIRECTIONAL_MAP, US_STATE_NAMES, US_STREET_TYPES } from "../constants";
 
 import { capitalize } from "../utils/capitalization";
 
 // Simple unit type abbreviations for formatting
 const UNIT_ABBREVIATIONS: Record<string, string> = {
   apartment: "Apt",
-  suite: "Ste", 
+  suite: "Ste",
   unit: "Unit",
   building: "Bldg",
   floor: "Fl",
-  room: "Rm"
+  room: "Rm",
 };
 
 // Format address using standard conventions
-function formatAddress(
-  address: ParsedAddress,
-  options: AddressFormattingOptions = {}
-): FormattedAddress {
+function formatAddress(address: ParsedAddress, options: AddressFormattingOptions = {}): FormattedAddress {
   const {
     includeCountry = false,
     includeSecondaryUnit = true,
@@ -45,7 +36,7 @@ function formatAddress(
   } = options;
 
   const lines: string[] = [];
-  
+
   // Build delivery line (street address)
   let deliveryLine = buildDeliveryLine(address, {
     includeSecondaryUnit,
@@ -53,7 +44,7 @@ function formatAddress(
     abbreviateDirections,
     separator,
   });
-  
+
   if (deliveryLine) {
     lines.push(deliveryLine);
   }
@@ -63,7 +54,7 @@ function formatAddress(
     abbreviateStates,
     separator,
   });
-  
+
   if (lastLine) {
     lines.push(lastLine);
   }
@@ -74,9 +65,7 @@ function formatAddress(
   }
 
   // Apply case transformation
-  const formattedLines = lines.map(line => 
-    upperCase ? line.toUpperCase() : line
-  );
+  const formattedLines = lines.map((line) => (upperCase ? line.toUpperCase() : line));
 
   return {
     lines: formattedLines,
@@ -89,18 +78,11 @@ function formatAddress(
 }
 
 // Format address using USPS standards
-function formatUSPS(
-  address: ParsedAddress,
-  options: USPSFormattingOptions = {}
-): FormattedAddress {
-  const {
-    includeDeliveryLine = true,
-    includeLastLine = true,
-    standardizeCase = true,
-  } = options;
+function formatUSPS(address: ParsedAddress, options: USPSFormattingOptions = {}): FormattedAddress {
+  const { includeDeliveryLine = true, includeLastLine = true, standardizeCase = true } = options;
 
   const lines: string[] = [];
-  
+
   // USPS specific delivery line with unit after street
   let deliveryLine = buildDeliveryLine(address, {
     includeSecondaryUnit: true,
@@ -109,7 +91,7 @@ function formatUSPS(
     separator: " ",
     uspsOrder: true, // Units come after street address for USPS
   });
-  
+
   if (includeDeliveryLine && deliveryLine) {
     lines.push(deliveryLine);
   }
@@ -119,13 +101,13 @@ function formatUSPS(
     abbreviateStates: true,
     separator: " ",
   });
-  
+
   if (includeLastLine && lastLine) {
     lines.push(lastLine);
   }
 
   return {
-    lines: standardizeCase ? lines.map(line => line.toUpperCase()) : lines,
+    lines: standardizeCase ? lines.map((line) => line.toUpperCase()) : lines,
     singleLine: lines.join(", "),
     deliveryLine,
     lastLine,
@@ -135,18 +117,11 @@ function formatUSPS(
 }
 
 // Format address using Canada Post standards
-function formatCanadaPost(
-  address: ParsedAddress,
-  options: CanadaPostFormattingOptions = {}
-): FormattedAddress {
-  const {
-    includeDeliveryLine = true,
-    includeLastLine = true,
-    standardizeCase = true,
-  } = options;
+function formatCanadaPost(address: ParsedAddress, options: CanadaPostFormattingOptions = {}): FormattedAddress {
+  const { includeDeliveryLine = true, includeLastLine = true, standardizeCase = true } = options;
 
   const lines: string[] = [];
-  
+
   // Canada Post specific formatting
   let deliveryLine = buildDeliveryLine(address, {
     includeSecondaryUnit: true,
@@ -154,7 +129,7 @@ function formatCanadaPost(
     abbreviateDirections: true,
     separator: " ",
   });
-  
+
   if (includeDeliveryLine && deliveryLine) {
     lines.push(deliveryLine);
   }
@@ -168,13 +143,13 @@ function formatCanadaPost(
     const province = abbreviateProvince(address.state);
     lastLine = `${address.city} ${province}`;
   }
-  
+
   if (includeLastLine && lastLine) {
     lines.push(lastLine);
   }
 
   return {
-    lines: standardizeCase ? lines.map(line => line.toUpperCase()) : lines,
+    lines: standardizeCase ? lines.map((line) => line.toUpperCase()) : lines,
     singleLine: lines.join(", "),
     deliveryLine,
     lastLine,
@@ -190,7 +165,7 @@ function getAddressAbbreviations(): AddressAbbreviations {
   for (const [key, value] of Object.entries(US_STREET_TYPES)) {
     streetTypes[key] = capitalize(value);
   }
-  
+
   return {
     streetTypes,
     directions: { ...DIRECTIONAL_MAP },
@@ -210,67 +185,57 @@ function buildDeliveryLine(
     abbreviateDirections: boolean;
     separator: string;
     uspsOrder?: boolean; // New option for USPS unit ordering
-  }
+  },
 ): string {
   const parts: string[] = [];
-  
+
   // Add unit prefix if it exists (unless USPS order)
   if (options.includeSecondaryUnit && address.secUnitType && address.secUnitNum && !options.uspsOrder) {
-    const unitType = options.abbreviateStreetTypes 
-      ? abbreviateUnitType(address.secUnitType)
-      : address.secUnitType;
+    const unitType = options.abbreviateStreetTypes ? abbreviateUnitType(address.secUnitType) : address.secUnitType;
     parts.push(unitType);
     parts.push(address.secUnitNum);
   }
-  
+
   // Add street number
   if (address.number) {
     parts.push(address.number);
   }
-  
+
   // Add directional prefix
   if (address.prefix) {
-    const prefix = options.abbreviateDirections 
-      ? abbreviateDirection(address.prefix)
-      : address.prefix;
+    const prefix = options.abbreviateDirections ? abbreviateDirection(address.prefix) : address.prefix;
     parts.push(prefix);
   }
-  
+
   // Add street name
   if (address.street) {
     parts.push(address.street);
   }
-  
+
   // Add street type
   if (address.type) {
-    const streetType = options.abbreviateStreetTypes 
-      ? abbreviateStreetType(address.type)
-      : address.type;
+    const streetType = options.abbreviateStreetTypes ? abbreviateStreetType(address.type) : address.type;
     parts.push(streetType);
   }
-  
+
   // Add directional suffix
   if (address.suffix) {
-    const suffix = options.abbreviateDirections 
-      ? abbreviateDirection(address.suffix)
-      : address.suffix;
+    const suffix = options.abbreviateDirections ? abbreviateDirection(address.suffix) : address.suffix;
     parts.push(suffix);
   }
-  
+
   // Add unit suffix for USPS order (after street address)
   if (options.includeSecondaryUnit && address.secUnitType && address.secUnitNum && options.uspsOrder) {
-    const unitType = options.abbreviateStreetTypes 
-      ? abbreviateUnitType(address.secUnitType)
-      : address.secUnitType;
+    const unitType = options.abbreviateStreetTypes ? abbreviateUnitType(address.secUnitType) : address.secUnitType;
     parts.push(unitType);
     parts.push(address.secUnitNum);
   }
-  
+
   // Add unit suffix if it exists and not already added as prefix
   if (options.includeSecondaryUnit && address.unit && !address.secUnitType) {
     parts.push(address.unit);
   }
-  
+
   return parts.join(options.separator);
 }
 
@@ -279,21 +244,19 @@ function buildLastLine(
   options: {
     abbreviateStates: boolean;
     separator: string;
-  }
+  },
 ): string {
   const parts: string[] = [];
-  
+
   if (address.city) {
     parts.push(address.city);
   }
-  
+
   if (address.state) {
-    const state = options.abbreviateStates 
-      ? abbreviateState(address.state)
-      : address.state;
+    const state = options.abbreviateStates ? abbreviateState(address.state) : address.state;
     parts.push(state);
   }
-  
+
   if (address.zip) {
     let postal = address.zip;
     if (address.plus4) {
@@ -301,7 +264,7 @@ function buildLastLine(
     }
     parts.push(postal);
   }
-  
+
   return parts.join(options.separator);
 }
 
@@ -331,4 +294,4 @@ function abbreviateUnitType(unitType: string): string {
   return UNIT_ABBREVIATIONS[normalized] || unitType;
 }
 
-export { formatAddress, formatUSPS, formatCanadaPost, getAddressAbbreviations };
+export { formatAddress, formatCanadaPost, formatUSPS, getAddressAbbreviations };

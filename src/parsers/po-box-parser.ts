@@ -1,7 +1,7 @@
 import { VALIDATION_PATTERNS } from "../constants";
-import { PO_BOX_PATTERNS, COMMON_PARSER_PATTERNS } from "../constants/parser-patterns";
-import { buildPatterns } from "../patterns/pattern-builder";
+import { COMMON_PARSER_PATTERNS, PO_BOX_PATTERNS } from "../constants/parser-patterns";
 import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../patterns/location-patterns";
+import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { detectCountry, parseStateProvince } from "../utils";
 import { setValidatedPostalCode } from "../utils/address-validation";
@@ -19,14 +19,14 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   //  - RR 2 Site 10 Comp 5 Whitehorse YT Y1A 0C1 (not a pure PO Box, but special postal)
 
   const text = address.trim();
-  const poMatch = text.match(new RegExp(`^\s*${patterns.poBox}`, 'i'));
+  const poMatch = text.match(new RegExp(`^\s*${patterns.poBox}`, "i"));
   if (!poMatch) return null;
 
   // First, try a strict US PO Box pattern: indicator + number + city + state + zip
   const usMatch = address.match(PO_BOX_PATTERNS.US_PO_BOX);
   if (usMatch) {
     const result: ParsedAddress = {
-      secUnitType: 'PO Box',
+      secUnitType: "PO Box",
       secUnitNum: usMatch[1],
       city: usMatch[2].trim(),
       state: usMatch[3].toUpperCase(),
@@ -36,7 +36,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
     return result;
   }
 
-  const after = text.slice(poMatch[0].length).trim().replace(/^,\s*/, '');
+  const after = text.slice(poMatch[0].length).trim().replace(/^,\s*/, "");
 
   const result: ParsedAddress = {};
   const poType = normalizePoBoxType(poMatch[1]);
@@ -63,26 +63,26 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   if (stationMatch) {
     stationPart = stationMatch;
     // Remove the matched station part from rest
-    rest = rest.slice(stationMatch[0].length).trim().replace(/^,\s*/, '');
+    rest = rest.slice(stationMatch[0].length).trim().replace(/^,\s*/, "");
     const kind = stationMatch[1].toLowerCase();
-    const value = (stationMatch[2] || '').trim();
-      if (kind.startsWith('rr')) {
-        result.rr = value || undefined;
-        if (value) {
-          (result as any).ruralRoute = `RR ${value}`;
-        }
-      } else if (kind === 'rpo') {
-        result.rpo = value || undefined;
-        if (value) {
-          result.place = `RPO ${value}`;
-        }
-      } else {
-        // Station or Succursale
-        result.station = value || undefined;
-        if (value) {
-          const label = kind.startsWith('succ') ? 'Succursale' : 'Station';
-          result.place = `${label} ${value}`.trim();
-        }
+    const value = (stationMatch[2] || "").trim();
+    if (kind.startsWith("rr")) {
+      result.rr = value || undefined;
+      if (value) {
+        (result as any).ruralRoute = `RR ${value}`;
+      }
+    } else if (kind === "rpo") {
+      result.rpo = value || undefined;
+      if (value) {
+        result.place = `RPO ${value}`;
+      }
+    } else {
+      // Station or Succursale
+      result.station = value || undefined;
+      if (value) {
+        const label = kind.startsWith("succ") ? "Succursale" : "Station";
+        result.place = `${label} ${value}`.trim();
+      }
     }
   }
 
@@ -92,41 +92,50 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   const usZip = rest.match(COMMON_PARSER_PATTERNS.POSTAL_AT_END(patterns.zip));
   if (caPostal) {
     setValidatedPostalCode(result, caPostal[1], options || {});
-    rest = rest.slice(0, rest.length - caPostal[0].length).trim().replace(/[,\s]+$/, '');
+    rest = rest
+      .slice(0, rest.length - caPostal[0].length)
+      .trim()
+      .replace(/[,\s]+$/, "");
   } else if (usZip) {
     setValidatedPostalCode(result, usZip[1], options || {});
-    rest = rest.slice(0, rest.length - usZip[0].length).trim().replace(/[,\s]+$/, '');
+    rest = rest
+      .slice(0, rest.length - usZip[0].length)
+      .trim()
+      .replace(/[,\s]+$/, "");
   }
 
   // Try to get trailing province/state abbreviation
   // Look for city + state pattern at the end
   const cityStateAbbrevMatch = rest.match(COMMON_PARSER_PATTERNS.CITY_STATE_PATTERN(patterns.stateAbbrev));
-    if (cityStateAbbrevMatch) {
-      const cityPart = cityStateAbbrevMatch[1].trim().replace(PO_BOX_PATTERNS.TRAILING_COMMA, ''); // Remove trailing comma
-      const stateInfo = parseStateProvince(cityStateAbbrevMatch[2]);
-      result.city = cityPart;
-      result.state = stateInfo.state || cityStateAbbrevMatch[2].toUpperCase();
-      rest = ''; // consumed all remaining text
-    }  // Whatever remains at the end is likely the city (last token group)
-    if (rest) {
-      // Remove trailing comma
-      rest = rest.replace(PO_BOX_PATTERNS.TRAILING_COMMA, '');
-      // If comma-separated segments remain, try to split out city/state
-      const pieces = rest.split(',').map(s => s.trim()).filter(Boolean);
-      if (pieces.length >= 2) {
-        // Typically: City, ST or Station Main, City, ST
-        const last = pieces[pieces.length - 1];
-        const prev = pieces[pieces.length - 2];
-        const stateGuess = parseStateProvince(last);
-        if (stateGuess.state) {
-          result.state = result.state || stateGuess.state;
-          result.city = prev;
-        } else {
-          result.city = pieces.join(', ');
-        }
+  if (cityStateAbbrevMatch) {
+    const cityPart = cityStateAbbrevMatch[1].trim().replace(PO_BOX_PATTERNS.TRAILING_COMMA, ""); // Remove trailing comma
+    const stateInfo = parseStateProvince(cityStateAbbrevMatch[2]);
+    result.city = cityPart;
+    result.state = stateInfo.state || cityStateAbbrevMatch[2].toUpperCase();
+    rest = ""; // consumed all remaining text
+  } // Whatever remains at the end is likely the city (last token group)
+  if (rest) {
+    // Remove trailing comma
+    rest = rest.replace(PO_BOX_PATTERNS.TRAILING_COMMA, "");
+    // If comma-separated segments remain, try to split out city/state
+    const pieces = rest
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (pieces.length >= 2) {
+      // Typically: City, ST or Station Main, City, ST
+      const last = pieces[pieces.length - 1];
+      const prev = pieces[pieces.length - 2];
+      const stateGuess = parseStateProvince(last);
+      if (stateGuess.state) {
+        result.state = result.state || stateGuess.state;
+        result.city = prev;
       } else {
-        result.city = rest;
+        result.city = pieces.join(", ");
       }
+    } else {
+      result.city = rest;
+    }
   }
 
   // Detect country at the end
@@ -138,28 +147,33 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
 // Normalize PO Box type to standard format
 function normalizePoBoxType(type: string): string {
   // Normalize to proper case format - capitalize first letter of each word
-  const cleaned = type.replace(VALIDATION_PATTERNS.NORMALIZE_SPACES, ' ').trim();
+  const cleaned = type.replace(VALIDATION_PATTERNS.NORMALIZE_SPACES, " ").trim();
 
-  const t = cleaned.toLowerCase();
-  if (/^p\.?\s*o\.?\s*box$/.test(t) || /^po\s*box$/.test(t) || /^post\s*office\s*box$/.test(t)) {
-    return 'PO Box';
+  const normalizedType = cleaned.toLowerCase();
+  if (
+    /^p\.?\s*o\.?\s*box$/.test(normalizedType) ||
+    /^po\s*box$/.test(normalizedType) ||
+    /^post\s*office\s*box$/.test(normalizedType)
+  ) {
+    return "PO Box";
   }
-  if (/^c\.?p\.?$/.test(t) || t === 'cp') {
-    return 'CP'; // Case postale abbreviation
+  if (/^c\.?p\.?$/.test(normalizedType) || normalizedType === "cp") {
+    return "CP"; // Case postale abbreviation
   }
-  if (/^case\s*postale$/.test(t)) {
-    return 'Case Postale';
+  if (/^case\s*postale$/.test(normalizedType)) {
+    return "Case Postale";
   }
-  if (/^bo[iî]te\s*postale$/.test(t) || /^boite\s*postale$/.test(t)) {
-    return 'Boîte Postale';
+  if (/^bo[iî]te\s*postale$/.test(normalizedType) || /^boite\s*postale$/.test(normalizedType)) {
+    return "Boîte Postale";
   }
-  if (t === 'rpo') return 'RPO';
-  if (t === 'rr' || t === 'r.r.' || /^r\.?r\.?$/.test(t)) return 'RR';
-  if (t === 'box') return 'Box'; // Simple Canadian Box
+  if (normalizedType === "rpo") return "RPO";
+  if (normalizedType === "rr" || normalizedType === "r.r." || /^r\.?r\.?$/.test(normalizedType)) return "RR";
+  if (normalizedType === "box") return "Box"; // Simple Canadian Box
 
-  return cleaned.split(' ').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-  ).join(' ');
+  return cleaned
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 }
 
-export { parsePoBox, normalizePoBoxType };
+export { normalizePoBoxType, parsePoBox };

@@ -7,7 +7,7 @@ import type { Region } from "../types/region.js";
 
 // Normalizes a region input string to find the best matching state/province
 // Supports exact matches and fuzzy matching for misspellings
-// @param input - The input string to normalize (state/province name or abbreviation)  
+// @param input - The input string to normalize (state/province name or abbreviation)
 // @returns Object with abbreviation and country, or null if no match found
 // @example normalizeRegion('Calfornia') → { abbr: 'CA', country: 'US' }
 function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } | null {
@@ -16,7 +16,7 @@ function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } 
   }
 
   const clean = input.trim().replace(/\./g, "").toLowerCase();
-  
+
   // Return null for empty strings after trimming
   if (clean === "") {
     return null;

@@ -36,9 +36,4 @@ interface BatchParseResult<T = ParsedAddress | ParsedIntersection> {
   stats: BatchParseStats; // Performance and processing statistics
 }
 
-export type { 
-  BatchParseOptions, 
-  BatchParseError, 
-  BatchParseStats, 
-  BatchParseResult 
-};
+export type { BatchParseError, BatchParseOptions, BatchParseResult, BatchParseStats };

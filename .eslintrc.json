@@ -5,18 +5,14 @@
     "es2022": true
   },
   "extends": [
-    "eslint:recommended",
-    "@typescript-eslint/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-    "prettier"
+    "eslint:recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "import", "prettier"],
+  "plugins": ["@typescript-eslint", "import", "prettier", "perfectionist"],
   "rules": {
     "prettier/prettier": "error",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
@@ -32,7 +28,9 @@
           "order": "asc"
         }
       }
-    ]
+    ],
+    "perfectionist/sort-named-imports": "error",
+    "perfectionist/sort-exports": "error"
   },
   "settings": {
     "import/resolver": {

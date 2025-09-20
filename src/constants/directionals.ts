@@ -12,7 +12,7 @@ const DIRECTIONAL_MAP: Record<string, string> = {
   southeast: "SE",
   southwest: "SW",
   west: "W",
-  
+
   // Short forms
   e: "E",
   n: "N",
@@ -72,15 +72,15 @@ const DIRECTIONAL_MAP: Record<string, string> = {
 
 // Direction expansions (reverse mapping from abbreviations to full names)
 const DIRECTION_EXPANSIONS: Record<string, string> = {
-  "n": "North",
-  "s": "South", 
-  "e": "East",
-  "w": "West",
-  "ne": "Northeast",
-  "nw": "Northwest", 
-  "se": "Southeast",
-  "sw": "Southwest",
-  "o": "Ouest", // French
+  n: "North",
+  s: "South",
+  e: "East",
+  w: "West",
+  ne: "Northeast",
+  nw: "Northwest",
+  se: "Southeast",
+  sw: "Southwest",
+  o: "Ouest", // French
 };
 
 export { DIRECTIONAL_MAP, DIRECTION_EXPANSIONS };
