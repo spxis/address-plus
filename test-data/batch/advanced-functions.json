@@ -2,9 +2,9 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Advanced Functions Batch Testing",
   "description": "Test data for advanced batch functions with statistics (parseLocationsBatch, parseAddressesBatch, etc.)",
-  "testSuites": {
-    "withStatistics": {
-      "basic": {
+  "tests": {
+    "withStatistics": [
+      {
         "description": "Basic batch processing with error tracking",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -23,7 +23,7 @@
           }
         ]
       },
-      "errorTracking": {
+      {
         "description": "Error tracking with empty and whitespace strings",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -37,7 +37,7 @@
           "failed": 2
         }
       },
-      "stopOnError": {
+      {
         "description": "Testing stopOnError functionality",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -60,9 +60,9 @@
         ],
         "expectedResultsLength": 2
       }
-    },
-    "performance": {
-      "large": {
+    ],
+    "performance": [
+      {
         "description": "Performance test with larger dataset",
         "addresses": [
           "123 Main Street, New York, NY 10001",
@@ -81,7 +81,7 @@
           "minAddressesPerSecond": 50
         }
       },
-      "largeBatch": {
+      {
         "description": "Large batch performance test (100 addresses)",
         "generateAddresses": {
           "count": 100,
@@ -98,9 +98,9 @@
           "minAddressesPerSecond": 100
         }
       }
-    },
-    "edgeCases": {
-      "mixedInvalid": {
+    ],
+    "edgeCases": [
+      {
         "description": "Mixed valid and invalid addresses including null/undefined",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -114,7 +114,7 @@
           "failed": 2
         }
       },
-      "intersectionsMixed": {
+      {
         "description": "Mixed intersection formats with invalid entries",
         "addresses": [
           "Main Street & Oak Avenue, New York, NY",
@@ -128,9 +128,9 @@
           "failed": 1
         }
       }
-    },
-    "options": {
-      "passthrough": {
+    ],
+    "options": [
+      {
         "description": "Testing option passthrough to underlying parsers",
         "addresses": [
           "123 Main St, New York, NY 10001"
@@ -145,6 +145,6 @@
           "failed": 0
         }
       }
-    }
+    ]
   }
 }

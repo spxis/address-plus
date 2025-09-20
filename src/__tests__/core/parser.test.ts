@@ -30,17 +30,28 @@ function loadTestData(country: "us" | "canada", filename: string): any[] {
   const filePath = join(__dirname, TEST_DATA_BASE_PATH, country, filename);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
   
-  // If it's already an array, return it directly
-  if (Array.isArray(data)) {
-    return data;
+  // Handle new object-of-arrays structure
+  if (!data.tests) {
+    return [];
   }
   
-  // Otherwise, extract the array from the first key that isn't metadata
-  const firstKey = Object.keys(data).find(key => 
-    key !== "description" && key !== "$schema" && key !== "name"
-  );
+  // If tests is already an array, return it
+  if (Array.isArray(data.tests)) {
+    return data.tests;
+  }
   
-  return firstKey ? data[firstKey] || [] : [];
+  // If tests is an object, flatten all arrays within it
+  const allTests: any[] = [];
+  for (const [key, value] of Object.entries(data.tests)) {
+    if (Array.isArray(value)) {
+      allTests.push(...value);
+    } else if (typeof value === 'object' && value !== null) {
+      // Handle single test case objects
+      allTests.push(value);
+    }
+  }
+  
+  return allTests;
 }
 
 // Load all test data once at the top

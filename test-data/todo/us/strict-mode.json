@@ -2,111 +2,113 @@
   "$schema": "../../schemas/test-file.json",
   "name": "TODO: US Strict Mode",
   "description": "TODO: US strict mode validation tests requiring implementation",
-  "strictModeTests": [
-    {
-      "input": "123 Main St, New York, NY ABC12",
-      "expected": {
-        "number": "123",
-        "street": "Main",
-        "type": "St",
-        "city": "New York",
-        "state": "NY",
-        "zip": "ABC12",
-        "country": "US"
+  "tests": {
+    "strictMode": [
+      {
+        "input": "123 Main St, New York, NY ABC12",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "New York",
+          "state": "NY",
+          "zip": "ABC12",
+          "country": "US"
+        },
+        "description": "Should fail - alphanumeric ZIP",
+        "strictMode": true,
+        "shouldFail": true
       },
-      "description": "Should fail - alphanumeric ZIP",
-      "strictMode": true,
-      "shouldFail": true
-    },
-    {
-      "input": "456 Oak Ave, Los Angeles, CA 9021",
-      "expected": {
-        "number": "456",
-        "street": "Oak",
-        "type": "Ave",
-        "city": "Los Angeles",
-        "state": "CA",
-        "zip": "9021",
-        "country": "US"
+      {
+        "input": "456 Oak Ave, Los Angeles, CA 9021",
+        "expected": {
+          "number": "456",
+          "street": "Oak",
+          "type": "Ave",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zip": "9021",
+          "country": "US"
+        },
+        "description": "Should fail - 4-digit ZIP",
+        "strictMode": true,
+        "shouldFail": true
       },
-      "description": "Should fail - 4-digit ZIP",
-      "strictMode": true,
-      "shouldFail": true
-    },
-    {
-      "input": "789 Pine St, Chicago, IL 606011234",
-      "expected": {
-        "number": "789",
-        "street": "Pine",
-        "type": "St",
-        "city": "Chicago",
-        "state": "IL",
-        "zip": "606011234",
-        "country": "US"
+      {
+        "input": "789 Pine St, Chicago, IL 606011234",
+        "expected": {
+          "number": "789",
+          "street": "Pine",
+          "type": "St",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "606011234",
+          "country": "US"
+        },
+        "description": "Should fail - 9-digit ZIP without hyphen",
+        "strictMode": true,
+        "shouldFail": true
       },
-      "description": "Should fail - 9-digit ZIP without hyphen",
-      "strictMode": true,
-      "shouldFail": true
-    },
-    {
-      "input": "321 Elm St, Houston, TX",
-      "expected": {
-        "number": "321",
-        "street": "Elm",
-        "type": "St",
-        "city": "Houston",
-        "state": "TX",
-        "country": "US"
+      {
+        "input": "321 Elm St, Houston, TX",
+        "expected": {
+          "number": "321",
+          "street": "Elm",
+          "type": "St",
+          "city": "Houston",
+          "state": "TX",
+          "country": "US"
+        },
+        "description": "Should fail strict mode - missing ZIP",
+        "strictMode": true,
+        "shouldFail": true
       },
-      "description": "Should fail strict mode - missing ZIP",
-      "strictMode": true,
-      "shouldFail": true
-    },
-    {
-      "input": "654 Maple Ave, Phoenix, AZ 850011234567",
-      "expected": {
-        "number": "654",
-        "street": "Maple",
-        "type": "Ave",
-        "city": "Phoenix",
-        "state": "AZ",
-        "zip": "850011234567",
-        "country": "US"
+      {
+        "input": "654 Maple Ave, Phoenix, AZ 850011234567",
+        "expected": {
+          "number": "654",
+          "street": "Maple",
+          "type": "Ave",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "850011234567",
+          "country": "US"
+        },
+        "description": "Should fail - ZIP too long",
+        "strictMode": true,
+        "shouldFail": true
       },
-      "description": "Should fail - ZIP too long",
-      "strictMode": true,
-      "shouldFail": true
-    },
-    {
-      "input": "987 Cedar Blvd, Miami, FL 33101, Orlando, FL 32801",
-      "expected": {
-        "number": "987",
-        "street": "Cedar",
-        "type": "Blvd",
-        "city": "Miami",
-        "state": "FL",
-        "zip": "33101",
-        "country": "US"
+      {
+        "input": "987 Cedar Blvd, Miami, FL 33101, Orlando, FL 32801",
+        "expected": {
+          "number": "987",
+          "street": "Cedar",
+          "type": "Blvd",
+          "city": "Miami",
+          "state": "FL",
+          "zip": "33101",
+          "country": "US"
+        },
+        "description": "Should fail strict mode - multiple cities",
+        "strictMode": true,
+        "shouldFail": true
       },
-      "description": "Should fail strict mode - multiple cities",
-      "strictMode": true,
-      "shouldFail": true
-    },
-    {
-      "input": "111 Broadway, New York, NY 10001, Suite 500",
-      "expected": {
-        "number": "111",
-        "street": "Broadway",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10001",
-        "secUnitType": "Ste",
-        "secUnitNum": "500",
-        "country": "US"
-      },
-      "description": "Should fail strict mode - unit after ZIP",
-      "strictMode": true,
-      "shouldFail": true
-    }
-  ]
+      {
+        "input": "111 Broadway, New York, NY 10001, Suite 500",
+        "expected": {
+          "number": "111",
+          "street": "Broadway",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10001",
+          "secUnitType": "Ste",
+          "secUnitNum": "500",
+          "country": "US"
+        },
+        "description": "Should fail strict mode - unit after ZIP",
+        "strictMode": true,
+        "shouldFail": true
+      }
+    ]
+  }
 }

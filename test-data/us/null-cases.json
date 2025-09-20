@@ -2,41 +2,43 @@
   "$schema": "../../schemas/test-file.json",
   "name": "US Null Cases",
   "description": "Test cases that should return null results for invalid US addresses",
-  "null_cases": [
-    {
-      "input": "",
-      "expected": null,
-      "description": "Empty string should return null"
-    },
-    {
-      "input": "   ",
-      "expected": null,
-      "description": "Whitespace only string should return null"
-    },
-    {
-      "input": "xyz",
-      "expected": null,
-      "description": "Random 3-letter string should return null"
-    },
-    {
-      "input": "abcdef",
-      "expected": null,
-      "description": "Random 6-letter string should return null"
-    },
-    {
-      "input": "completely wrong",
-      "expected": null,
-      "description": "Completely unrelated phrase should return null"
-    },
-    {
-      "input": "12345",
-      "expected": null,
-      "description": "Numbers only should return null"
-    },
-    {
-      "input": "!@#$%",
-      "expected": null,
-      "description": "Special characters only should return null"
-    }
-  ]
+  "tests": {
+    "nullCases": [
+      {
+        "input": "",
+        "expected": null,
+        "description": "Empty string should return null"
+      },
+      {
+        "input": "   ",
+        "expected": null,
+        "description": "Whitespace only string should return null"
+      },
+      {
+        "input": "xyz",
+        "expected": null,
+        "description": "Random 3-letter string should return null"
+      },
+      {
+        "input": "abcdef",
+        "expected": null,
+        "description": "Random 6-letter string should return null"
+      },
+      {
+        "input": "completely wrong",
+        "expected": null,
+        "description": "Completely unrelated phrase should return null"
+      },
+      {
+        "input": "12345",
+        "expected": null,
+        "description": "Numbers only should return null"
+      },
+      {
+        "input": "!@#$%",
+        "expected": null,
+        "description": "Special characters only should return null"
+      }
+    ]
+  }
 }

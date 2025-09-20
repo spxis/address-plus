@@ -18,15 +18,15 @@ import {
   parseLocation
 } from "../../index";
 
-import testDataFile from "../../../test-data/parse-address-comparison.json";
-import snakeCaseTestDataFile from "../../../test-data/snake-case-compatibility.json";
+import testDataFile from "../../../test-data/comparison/parse-address-comparison.json";
+import snakeCaseTestDataFile from "../../../test-data/utilities/snake-case-compatibility.json";
 
 // Dynamic import helper for CommonJS module compatibility
 async function getParseAddress() {
   const parseAddressModule = await import("parse-address");
   return parseAddressModule.default || parseAddressModule;
 }
-import multipleParserTestCases from "../../../test-data/multiple-parser-functions.json";
+import multipleParserTestCases from "../../../test-data/parsing/multiple-parser-functions.json";
 
 // Constants
 const TEST_DATA_ROOT_PATH = "../../../test-data";
@@ -66,26 +66,40 @@ function loadTestData(country: "us" | "canada", filename: string): any[] {
   const filePath = join(__dirname, TEST_DATA_ROOT_PATH, country, filename);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
   
-  // If it's already an array, return it directly
-  if (Array.isArray(data)) {
-    return data;
+  // Handle new object-of-arrays structure
+  if (!data.tests) {
+    return [];
   }
   
-  // Otherwise, extract the array from the first key that isn't metadata
-  const firstKey = Object.keys(data).find(key => 
-    key !== "description" && key !== "$schema" && key !== "name"
-  );
+  // If tests is already an array, return it
+  if (Array.isArray(data.tests)) {
+    return data.tests;
+  }
   
-  return firstKey ? data[firstKey] || [] : [];
+  // If tests is an object, flatten all arrays within it
+  const allTests: any[] = [];
+  for (const [key, value] of Object.entries(data.tests)) {
+    if (Array.isArray(value)) {
+      allTests.push(...value);
+    } else if (typeof value === 'object' && value !== null) {
+      // Handle single test case objects
+      allTests.push(value);
+    }
+  }
+  
+  return allTests;
 }
 
 // Extract test data
 const testData = loadSchemaTestData<TestData>(testDataFile);
-const { testCases, keyTestCase }: TestData = testData;
+// Extract test cases from the new structure
+const allTests = (testData as any).tests ? Object.values((testData as any).tests).flat() : [];
+const testCases = allTests;
+const keyTestCase = allTests.find((test: any) => test.id === "key") || allTests[0];
 const snakeCaseData = loadSchemaTestData<any>(snakeCaseTestDataFile);
-const snakeCaseTestCases = snakeCaseData.compatibilityTests || snakeCaseData.testCases || snakeCaseData;
+const snakeCaseTestCases = snakeCaseData.tests ? Object.values(snakeCaseData.tests).flat() : (snakeCaseData.compatibilityTests || snakeCaseData.testCases || snakeCaseData);
 const multipleParserData = loadSchemaTestData<any>(multipleParserTestCases);
-const multipleParserArray = multipleParserData.testCases || multipleParserData;
+const multipleParserArray = multipleParserData.tests ? Object.values(multipleParserData.tests).flat() : (multipleParserData.testCases || multipleParserData);
 
 describe("Compatibility Tests", () => {
   
@@ -117,7 +131,7 @@ describe("Compatibility Tests", () => {
   });
 
   describe("Parse-Address Library Comparison", () => {
-    testCases.forEach((testCase) => {
+    testCases.forEach((testCase: any) => {
       it(`should match parse-address format for ${testCase.category} case ${testCase.id}: "${testCase.input}"`, async () => {
         // Get results from both parsers
         const parseAddress = await getParseAddress();
@@ -131,12 +145,12 @@ describe("Compatibility Tests", () => {
       });
     });
     
-    it(`should demonstrate format structure for key case: "${keyTestCase.input}"`, async () => {
-      console.log(`\\nKey Test Purpose: ${keyTestCase.purpose}`);
+    it(`should demonstrate format structure for key case: "${(keyTestCase as any)?.input}"`, async () => {
+      console.log(`\\nKey Test Purpose: ${(keyTestCase as any)?.purpose}`);
       
       const parseAddress = await getParseAddress();
-      const original = parseAddress.parseLocation(keyTestCase.input);
-      const ours = parseLocation(keyTestCase.input);
+      const original = parseAddress.parseLocation((keyTestCase as any)?.input);
+      const ours = parseLocation((keyTestCase as any)?.input);
       
       console.log("\\n=== FORMAT ANALYSIS ===");
       console.log("Original format (parse-address):", JSON.stringify(original, null, 2));

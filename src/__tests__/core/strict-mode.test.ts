@@ -19,11 +19,36 @@ function loadSchemaTestData<T>(testDataFile: any): T {
   return testDataFile;
 }
 
+// Helper function to extract test arrays from the new object-of-arrays structure
+function extractTestsFromData(data: any): any[] {
+  if (!data.tests) {
+    return [];
+  }
+  
+  // If tests is already an array, return it
+  if (Array.isArray(data.tests)) {
+    return data.tests;
+  }
+  
+  // If tests is an object, flatten all arrays within it
+  const allTests: any[] = [];
+  for (const [key, value] of Object.entries(data.tests)) {
+    if (Array.isArray(value)) {
+      allTests.push(...value);
+    } else if (typeof value === 'object' && value !== null) {
+      // Handle single test case objects
+      allTests.push(value);
+    }
+  }
+  
+  return allTests;
+}
+
 // Extract test data
 const usStrictModeData = loadSchemaTestData<any>(usStrictModeTestDataFile);
-const usStrictModeTestData = usStrictModeData.strictModeTests || usStrictModeData.testCases || usStrictModeData;
+const usStrictModeTestData = extractTestsFromData(usStrictModeData);
 const canadaStrictModeData = loadSchemaTestData<any>(canadaStrictModeTestDataFile);
-const canadaStrictModeTestData = canadaStrictModeData.strictModeTests || canadaStrictModeData.testCases || canadaStrictModeData;
+const canadaStrictModeTestData = extractTestsFromData(canadaStrictModeData);
 
 // Expected result interface for postal/ZIP validation
 interface PostalExpectedResult {

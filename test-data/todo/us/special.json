@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Special Address Formats - TODO",
+  "description": "Special US address formats that are edge cases not yet implemented",
+  "tests": {
+    "special": [
+      {
+        "input": "550 S 400 E #3206, Salt Lake City UT 84111",
+        "expected": {
+          "number": "550",
+          "prefix": "S",
+          "street": "400",
+          "suffix": "E",
+          "secUnitType": "#",
+          "secUnitNum": "3206",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84111"
+        },
+        "description": "Grid address with unit number and ZIP code"
+      },
+      {
+        "input": "6641 N 2200 W Apt D304 Park City, UT 84098",
+        "expected": {
+          "number": "6641",
+          "prefix": "N",
+          "street": "2200",
+          "suffix": "W",
+          "secUnitType": "Apartment",
+          "secUnitNum": "D304",
+          "city": "Park City",
+          "state": "UT",
+          "zip": "84098"
+        },
+        "description": "Grid address with apartment designation"
+      }
+    ]
+  }
+}

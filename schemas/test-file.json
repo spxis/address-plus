@@ -2,33 +2,49 @@
   "$schema": "https://json-schema.org/draft-07/schema#",
   "$id": "https://schema.address-plus.dev/test-file.json",
   "title": "Address Plus Test File Schema",
-  "description": "Schema for test data files containing arrays of test cases or nested structures",
-  "oneOf": [
-    {
-      "type": "array",
-      "description": "Array of test cases",
-      "items": {
-        "$ref": "test-case.json"
-      }
+  "description": "Schema for test data files with standardized test cases",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
     },
-    {
+    "name": {
+      "type": "string",
+      "description": "Proper-case title or name for the test file"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the entire test file's purpose"
+    },
+    "tests": {
       "type": "object",
-      "description": "Object with categorized test cases or complex nested structures",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Proper-case title or name for the test file"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the entire test file's purpose"
-        }
+      "description": "Object containing test categories, where each property is an array of test cases",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "array",
+            "description": "Array of test cases for this category",
+            "items": {
+              "type": "object",
+              "description": "Individual test case",
+              "additionalProperties": true
+            }
+          },
+          {
+            "type": "object",
+            "description": "Single test case or nested test structure",
+            "additionalProperties": true
+          }
+        ]
       },
-      "required": [
-        "name",
-        "description"
-      ],
-      "additionalProperties": true
+      "minProperties": 1
     }
-  ]
+  },
+  "required": [
+    "name",
+    "description",
+    "tests"
+  ],
+  "additionalProperties": false
 }

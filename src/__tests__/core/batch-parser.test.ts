@@ -2,7 +2,24 @@
  * Batch Processing Tests - Comprehensive testing of batch address parsing functions
  * 
  * This file tests all batch processing functions including:
- * - parseLocations, parseAddresses, parseInformalAddresses, parseIntersections
+ * - parseLocations, parseAddresses, parseInformalAddresse    test("parseIntersections should process multiple intersections", () => {
+      const testCase = simpleFunctionData.parseIntersections[0]; // First test case in parseIntersections array
+      const results = parseIntersections(testCase.addresses);
+      
+      expect(results).toHaveLength(testCase.addresses.length);
+      
+      // Test specific expected results from JSON data
+      if (testCase.expectedResults) {
+        testCase.expectedResults.forEach((expected: any, index: number) => {
+          const result = results[index];
+          expect(result).toBeTruthy();
+          expect(result?.street1).toBe(expected.street1);
+          expect(result?.street2).toBe(expected.street2);
+          if (expected.city) expect(result?.city).toBe(expected.city);
+          if (expected.state) expect(result?.state).toBe(expected.state);
+        });
+      }
+    });ons
  * - Batch functions with statistics (parseLocationsBatch, etc.)
  * - Performance characteristics and error handling
  * - Edge cases and invalid input handling
@@ -46,113 +63,121 @@ interface BatchTestData {
 }
 
 interface SimpleFunctionTestData {
-  description: string;
-  testSuites: {
-    [functionName: string]: {
-      [testName: string]: {
-        description: string;
-        addresses: string[];
-        options?: any;
-        expectedResults?: any[];
-        expectedSuccessCount?: number;
-        expectedFailureCount?: number;
-      };
-    };
-  };
+  parseLocations: Array<{
+    description: string;
+    addresses: string[];
+    options?: any;
+    expectedResults?: any[];
+    expectedSuccessCount?: number;
+    expectedFailureCount?: number;
+  }>;
+  parseInformalAddresses: Array<{
+    description: string;
+    addresses: string[];
+    options?: any;
+    expectedResults?: any[];
+    expectedSuccessCount?: number;
+    expectedFailureCount?: number;
+  }>;
+  parseIntersections: Array<{
+    description: string;
+    addresses: string[];
+    options?: any;
+    expectedResults?: any[];
+    expectedSuccessCount?: number;
+    expectedFailureCount?: number;
+  }>;
+  options: Array<{
+    description: string;
+    addresses: string[];
+    options?: any;
+    expectedResults?: any[];
+    expectedSuccessCount?: number;
+    expectedFailureCount?: number;
+  }>;
 }
 
 interface AdvancedFunctionTestData {
-  description: string;
-  testSuites: {
-    withStatistics: {
-      [key: string]: {
-        description: string;
-        addresses: string[];
-        options?: any;
-        expectedStats?: {
-          total: number;
-          successful: number;
-          failed: number;
-        };
-        expectedErrors?: Array<{
-          index: number;
-          errorContains: string;
-        }>;
-        expectedResultsLength?: number;
-      };
+  withStatistics: Array<{
+    description: string;
+    addresses: string[];
+    options?: any;
+    expectedStats?: {
+      total: number;
+      successful: number;
+      failed: number;
     };
-    performance: {
-      [key: string]: {
-        description: string;
-        addresses?: string[];
-        generateAddresses?: {
-          count: number;
-          template: string;
-          startNumber: number;
-        };
-        expectedStats?: {
-          total: number;
-          successful: number;
-          failed: number;
-        };
-        performanceExpectations?: {
-          maxDurationMs: number;
-          minAddressesPerSecond: number;
-        };
-      };
+    expectedErrors?: Array<{
+      index: number;
+      errorContains: string;
+    }>;
+    expectedResultsLength?: number;
+  }>;
+  performance: Array<{
+    description: string;
+    addresses?: string[];
+    generateAddresses?: {
+      count: number;
+      template: string;
+      startNumber: number;
     };
-    edgeCases: {
-      [key: string]: {
-        description: string;
-        addresses: (string | null)[];
-        expectedStats?: {
-          total: number;
-          successful: number;
-          failed: number;
-        };
-      };
+    expectedStats?: {
+      total: number;
+      successful: number;
+      failed: number;
     };
-    options: {
-      [key: string]: {
-        description: string;
-        addresses: string[];
-        options?: any;
-        expectedStats?: {
-          total: number;
-          successful: number;
-          failed: number;
-        };
-        expectedErrors?: Array<{
-          index: number;
-          errorContains: string;
-        }>;
-        expectedResultsLength?: number;
-        performanceExpectations?: {
-          maxDurationMs: number;
-          minAddressesPerSecond: number;
-        };
-      };
+    performanceExpectations?: {
+      maxDurationMs: number;
+      minAddressesPerSecond: number;
     };
-  };
+  }>;
+  edgeCases: Array<{
+    description: string;
+    addresses: (string | null)[];
+    expectedStats?: {
+      total: number;
+      successful: number;
+      failed: number;
+    };
+  }>;
+  options: Array<{
+    description: string;
+    addresses: string[];
+    options?: any;
+    expectedStats?: {
+      total: number;
+      successful: number;
+      failed: number;
+    };
+    expectedErrors?: Array<{
+      index: number;
+      errorContains: string;
+    }>;
+    expectedResultsLength?: number;
+    performanceExpectations?: {
+      maxDurationMs: number;
+      minAddressesPerSecond: number;
+    };
+  }>;
 }
 
 // Helper Functions
 function loadBatchTestData(): BatchTestData {
   const filePath = join(__dirname, BATCH_TEST_DATA_PATH);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
-  return data;
+  return data.tests;
 }
 
 function loadSimpleFunctionTestData(): SimpleFunctionTestData {
   const filePath = join(__dirname, SIMPLE_FUNCTIONS_PATH);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
-  return data;
+  return data.tests;
 }
 
 function loadAdvancedFunctionTestData(): AdvancedFunctionTestData {
   const filePath = join(__dirname, ADVANCED_FUNCTIONS_PATH);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
-  return data;
+  return data.tests;
 }
 
 // Load test data
@@ -165,7 +190,7 @@ describe("Batch Address Processing Tests", () => {
   describe("Simple Batch Functions (Array Results)", () => {
     
     test("parseLocations should process multiple addresses", () => {
-      const testCase = simpleFunctionData.testSuites.parseLocations.basic;
+      const testCase = simpleFunctionData.parseLocations[0]; // First test case in parseLocations array
       const results = parseLocations(testCase.addresses);
       
       expect(results).toHaveLength(testCase.addresses.length);
@@ -185,7 +210,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("parseAddresses should process multiple addresses", () => {
-      const testCase = simpleFunctionData.testSuites.parseLocations.basic;
+      const testCase = simpleFunctionData.parseLocations[0]; // First test case in parseLocations array
       const results = parseAddresses(testCase.addresses.slice(0, 2)); // Use first 2 addresses
       
       expect(results).toHaveLength(2);
@@ -194,7 +219,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("parseInformalAddresses should process multiple addresses", () => {
-      const testCase = simpleFunctionData.testSuites.parseInformalAddresses.withUnits;
+      const testCase = simpleFunctionData.parseInformalAddresses[0]; // First test case in parseInformalAddresses array
       const results = parseInformalAddresses(testCase.addresses);
       
       expect(results).toHaveLength(testCase.addresses.length);
@@ -203,14 +228,14 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("parseIntersections should process multiple intersections", () => {
-      const testCase = simpleFunctionData.testSuites.parseIntersections.basic;
+      const testCase = simpleFunctionData.parseIntersections[0]; // "Basic intersection parsing"
       const results = parseIntersections(testCase.addresses);
       
       expect(results).toHaveLength(testCase.addresses.length);
       
       // Test specific expected results
       if (testCase.expectedResults) {
-        testCase.expectedResults.forEach((expected, index) => {
+        testCase.expectedResults.forEach((expected: any, index: number) => {
           const result = results[index];
           expect(result).toBeTruthy();
           expect(result?.street1).toBe(expected.street1);
@@ -222,14 +247,14 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("should handle empty input array", () => {
-      const testCase = simpleFunctionData.testSuites.parseLocations.empty;
+      const testCase = simpleFunctionData.parseLocations[2]; // "Empty input array" test case
       const results = parseLocations(testCase.addresses);
       
       expect(results).toHaveLength(0);
     });
 
     test("should handle invalid addresses", () => {
-      const testCase = simpleFunctionData.testSuites.parseLocations.withInvalid;
+      const testCase = simpleFunctionData.parseLocations[1]; // "Handling invalid addresses" test case
       const results = parseLocations(testCase.addresses);
       
       expect(results).toHaveLength(testCase.addresses.length);
@@ -245,7 +270,7 @@ describe("Batch Address Processing Tests", () => {
   describe("Advanced Batch Functions (With Statistics)", () => {
     
     test("parseLocationsBatch should provide detailed results and stats", () => {
-      const testCase = advancedFunctionData.testSuites.withStatistics.basic;
+      const testCase = advancedFunctionData.withStatistics[0]; // "Basic batch processing with error tracking"
       const result = parseLocationsBatch(testCase.addresses);
       
       expect(result.results).toHaveLength(testCase.addresses.length);
@@ -272,7 +297,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("parseAddressesBatch should track errors properly", () => {
-      const testCase = advancedFunctionData.testSuites.withStatistics.errorTracking;
+      const testCase = advancedFunctionData.withStatistics[1]; // "Error tracking with empty and whitespace strings"
       const result = parseAddressesBatch(testCase.addresses);
       
       expect(result.results).toHaveLength(testCase.addresses.length);
@@ -288,7 +313,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("batch function should respect stopOnError option", () => {
-      const testCase = advancedFunctionData.testSuites.withStatistics.stopOnError;
+      const testCase = advancedFunctionData.withStatistics[2]; // "Testing stopOnError functionality"
       const result = parseLocationsBatch(testCase.addresses, testCase.options);
       
       // Should stop after the first error
@@ -308,7 +333,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("batch function should work with parsing options", () => {
-      const testCase = advancedFunctionData.testSuites.options.passthrough;
+      const testCase = advancedFunctionData.options[0]; // "Testing option passthrough to underlying parsers"
       const result = parseLocationsBatch(testCase.addresses, testCase.options);
       
       expect(result.results).toHaveLength(testCase.addresses.length);
@@ -329,7 +354,7 @@ describe("Batch Address Processing Tests", () => {
   describe("Performance and Edge Cases", () => {
     
     test("should handle large batch efficiently", () => {
-      const testCase = advancedFunctionData.testSuites.performance.largeBatch;
+      const testCase = advancedFunctionData.performance[1]; // "Large batch performance test (100 addresses)"
       
       // Generate addresses based on the template
       let addresses: string[];
@@ -356,7 +381,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("should handle mixed valid and invalid addresses", () => {
-      const testCase = advancedFunctionData.testSuites.edgeCases.mixedInvalid;
+      const testCase = advancedFunctionData.edgeCases[0]; // "Mixed valid and invalid addresses including null/undefined"
       const result = parseLocationsBatch(testCase.addresses.filter((addr): addr is string => addr !== null));
       
       expect(result.results).toHaveLength(testCase.addresses.filter(addr => addr !== null).length);
@@ -374,7 +399,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("parseIntersectionsBatch should handle mixed intersection formats", () => {
-      const testCase = advancedFunctionData.testSuites.edgeCases.intersectionsMixed;
+      const testCase = advancedFunctionData.edgeCases[1]; // "Mixed intersection formats with invalid entries"
       const result = parseIntersectionsBatch(testCase.addresses.filter((addr): addr is string => addr !== null));
       
       const validAddresses = testCase.addresses.filter(addr => addr !== null);
@@ -451,7 +476,7 @@ describe("Batch Address Processing Tests", () => {
   describe("Options and Configuration", () => {
     
     test("should pass options to underlying parser functions", () => {
-      const testCase = simpleFunctionData.testSuites.options.snakeCase;
+      const testCase = simpleFunctionData.options[0]; // "Testing useSnakeCase option"
       
       // Test with snake_case option
       const results = parseLocations(testCase.addresses, testCase.options);
@@ -471,7 +496,7 @@ describe("Batch Address Processing Tests", () => {
     });
 
     test("should handle country-specific options", () => {
-      const testCase = simpleFunctionData.testSuites.options.canadianAddresses;
+      const testCase = simpleFunctionData.options[1]; // "Testing country-specific options for Canada"
       
       const results = parseLocations(testCase.addresses, testCase.options);
       

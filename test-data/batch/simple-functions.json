@@ -2,9 +2,9 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Simple Functions Batch Testing",
   "description": "Test data for simple batch functions (parseLocations, parseAddresses, etc.)",
-  "testSuites": {
-    "parseLocations": {
-      "basic": {
+  "tests": {
+    "parseLocations": [
+      {
         "description": "Basic address parsing functionality",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -38,7 +38,7 @@
           }
         ]
       },
-      "withInvalid": {
+      {
         "description": "Handling invalid addresses",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -48,15 +48,15 @@
         "expectedSuccessCount": 2,
         "expectedFailureCount": 1
       },
-      "empty": {
+      {
         "description": "Empty input array",
         "addresses": [],
         "expectedSuccessCount": 0,
         "expectedFailureCount": 0
       }
-    },
-    "parseIntersections": {
-      "basic": {
+    ],
+    "parseIntersections": [
+      {
         "description": "Basic intersection parsing",
         "addresses": [
           "Main Street & Oak Avenue, New York, NY",
@@ -81,9 +81,9 @@
           }
         ]
       }
-    },
-    "parseInformalAddresses": {
-      "withUnits": {
+    ],
+    "parseInformalAddresses": [
+      {
         "description": "Addresses with secondary units",
         "addresses": [
           "123 Main St, Apt 4B, New York, NY 10001",
@@ -92,9 +92,9 @@
         "expectedSuccessCount": 2,
         "expectedFailureCount": 0
       }
-    },
-    "options": {
-      "snakeCase": {
+    ],
+    "options": [
+      {
         "description": "Testing useSnakeCase option",
         "addresses": [
           "123 Main St, New York, NY 10001",
@@ -106,7 +106,7 @@
         "expectedSuccessCount": 2,
         "expectedFailureCount": 0
       },
-      "canadianAddresses": {
+      {
         "description": "Testing country-specific options for Canada",
         "addresses": [
           "123 Yonge Street, Toronto, ON M5B 1M4",
@@ -118,6 +118,6 @@
         "expectedSuccessCount": 2,
         "expectedFailureCount": 0
       }
-    }
+    ]
   }
 }

@@ -2,151 +2,119 @@
   "$schema": "../../schemas/test-file.json",
   "name": "US Special Address Formats",
   "description": "Special US address formats and parsing scenarios",
-  "zip_plus4": [
-    {
-      "input": "233 S Wacker Dr 60606-6306",
-      "expected": {
-        "number": "233",
-        "prefix": "S",
-        "street": "Wacker",
-        "type": "Dr",
-        "zip": "60606",
-        "plus4": "6306"
+  "tests": {
+    "special": [
+      {
+        "input": "233 S Wacker Dr 60606-6306",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606",
+          "plus4": "6306"
+        },
+        "description": "ZIP+4 format with hyphen separator"
       },
-      "description": "ZIP+4 format with hyphen separator"
-    },
-    {
-      "input": "233 S Wacker Dr 606066306",
-      "expected": {
-        "number": "233",
-        "prefix": "S",
-        "street": "Wacker",
-        "type": "Dr",
-        "zip": "60606",
-        "plus4": "6306"
+      {
+        "input": "233 S Wacker Dr 606066306",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606",
+          "plus4": "6306"
+        },
+        "description": "ZIP+4 format concatenated without separator"
       },
-      "description": "ZIP+4 format concatenated without separator"
-    },
-    {
-      "input": "233 S Wacker Dr 60606 6306",
-      "expected": {
-        "number": "233",
-        "prefix": "S",
-        "street": "Wacker",
-        "type": "Dr",
-        "zip": "60606",
-        "plus4": "6306"
+      {
+        "input": "233 S Wacker Dr 60606 6306",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606",
+          "plus4": "6306"
+        },
+        "description": "ZIP+4 format with space separator"
       },
-      "description": "ZIP+4 format with space separator"
-    }
-  ],
-  "grid_addresses": [
-    {
-      "input": "48S 400E, Salt Lake City UT",
-      "expected": {
-        "number": "48",
-        "prefix": "S",
-        "street": "400",
-        "suffix": "E",
-        "city": "Salt Lake City",
-        "state": "UT"
+      {
+        "input": "48S 400E, Salt Lake City UT",
+        "expected": {
+          "number": "48",
+          "prefix": "S",
+          "street": "400",
+          "suffix": "E",
+          "city": "Salt Lake City",
+          "state": "UT"
+        },
+        "description": "Grid-based address system (Salt Lake City style)"
       },
-      "description": "Grid-based address system (Salt Lake City style)"
-    },
-    {
-      "input": "550 S 400 E #3206, Salt Lake City UT 84111",
-      "expected": {
-        "number": "550",
-        "prefix": "S",
-        "street": "400",
-        "suffix": "E",
-        "secUnitType": "#",
-        "secUnitNum": "3206",
-        "city": "Salt Lake City",
-        "state": "UT",
-        "zip": "84111"
+      {
+        "input": "N95W18855 Jay Dr, Menomonee Falls, WI 53051",
+        "expected": {
+          "number": "N95W18855",
+          "street": "Jay",
+          "type": "Dr",
+          "city": "Menomonee Falls",
+          "state": "WI",
+          "zip": "53051"
+        },
+        "description": "Wisconsin-style grid number with directionals"
       },
-      "description": "Grid address with unit number and ZIP code"
-    },
-    {
-      "input": "6641 N 2200 W Apt D304 Park City, UT 84098",
-      "expected": {
-        "number": "6641",
-        "prefix": "N",
-        "street": "2200",
-        "suffix": "W",
-        "secUnitType": "Apartment",
-        "secUnitNum": "D304",
-        "city": "Park City",
-        "state": "UT",
-        "zip": "84098"
+      {
+        "input": "N95W18855 Jay Dr Menomonee Falls WI 53051",
+        "expected": {
+          "number": "N95W18855",
+          "street": "Jay",
+          "type": "Dr",
+          "city": "Menomonee Falls",
+          "state": "WI",
+          "zip": "53051"
+        },
+        "description": "Wisconsin grid number without commas"
       },
-      "description": "Grid address with apartment designation"
-    },
-    {
-      "input": "N95W18855 Jay Dr, Menomonee Falls, WI 53051",
-      "expected": {
-        "number": "N95W18855",
-        "street": "Jay",
-        "type": "Dr",
-        "city": "Menomonee Falls",
-        "state": "WI",
-        "zip": "53051"
+      {
+        "input": "n95w18855 Jay Dr Menomonee Falls WI 53051",
+        "expected": {
+          "number": "n95w18855",
+          "street": "Jay",
+          "type": "Dr",
+          "city": "Menomonee Falls",
+          "state": "WI",
+          "zip": "53051"
+        },
+        "description": "Wisconsin grid number in lowercase"
       },
-      "description": "Wisconsin-style grid number with directionals"
-    },
-    {
-      "input": "N95W18855 Jay Dr Menomonee Falls WI 53051",
-      "expected": {
-        "number": "N95W18855",
-        "street": "Jay",
-        "type": "Dr",
-        "city": "Menomonee Falls",
-        "state": "WI",
-        "zip": "53051"
+      {
+        "input": "John Doe, 120 E 96th St, New York, NY 10128",
+        "expected": {
+          "number": "120",
+          "prefix": "E",
+          "street": "96th",
+          "type": "St",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10128"
+        },
+        "description": "Address with person name prefix"
       },
-      "description": "Wisconsin grid number without commas"
-    },
-    {
-      "input": "n95w18855 Jay Dr Menomonee Falls WI 53051",
-      "expected": {
-        "number": "n95w18855",
-        "street": "Jay",
-        "type": "Dr",
-        "city": "Menomonee Falls",
-        "state": "WI",
-        "zip": "53051"
-      },
-      "description": "Wisconsin grid number in lowercase"
-    }
-  ],
-  "facility_and_secondary": [
-    {
-      "input": "John Doe, 120 E 96th St, New York, NY 10128",
-      "expected": {
-        "number": "120",
-        "prefix": "E",
-        "street": "96th",
-        "type": "St",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10128"
-      },
-      "description": "Address with person name prefix"
-    },
-    {
-      "input": "565 Bush St Apt 7 San Francisco CA 94108",
-      "expected": {
-        "number": "565",
-        "street": "Bush",
-        "type": "St",
-        "secUnitType": "Apartment",
-        "secUnitNum": "7",
-        "city": "San Francisco",
-        "state": "CA",
-        "zip": "94108"
-      },
-      "description": "Street address with apartment number"
-    }
-  ]
+      {
+        "input": "565 Bush St Apt 7 San Francisco CA 94108",
+        "expected": {
+          "number": "565",
+          "street": "Bush",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "7",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94108"
+        },
+        "description": "Street address with apartment number"
+      }
+    ]
+  }
 }

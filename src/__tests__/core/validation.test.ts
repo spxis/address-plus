@@ -6,9 +6,16 @@ import {
 } from "../../validation/comprehensive-validation";
 import testData from "../../../test-data/validation/comprehensive-validation.json";
 
+// Extract test cases from new structure
+const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
+const validateAddressTests = testData.tests?.validateAddress || allTests;
+const isValidAddressTests = testData.tests?.isValidAddress || [];
+const getValidationErrorsTests = testData.tests?.getValidationErrors || [];
+const confidenceScoringTests = testData.tests?.confidenceScoring || [];
+
 describe("Address Validation API", () => {
   describe("validateAddress", () => {
-    testData.validateAddress.forEach(({ name, description, input, expected, options }) => {
+    validateAddressTests.forEach(({ name, description, input, expected, options }: any) => {
       it(`should ${name}`, () => {
         const result = validateAddress(input, options);
         
@@ -55,8 +62,8 @@ describe("Address Validation API", () => {
         }
         
         if (expected.errorCodes) {
-          expected.errorCodes.forEach(code => {
-            expect(result.errors.some(e => e.code === code)).toBe(true);
+          expected.errorCodes.forEach((code: any) => {
+            expect(result.errors.some((e: any) => e.code === code)).toBe(true);
           });
         }
         
@@ -69,23 +76,23 @@ describe("Address Validation API", () => {
         }
         
         if (expected.suggestionContains) {
-          expect(result.suggestions.some(s => s.includes(expected.suggestionContains))).toBe(true);
+          expect(result.suggestions.some((s: any) => s.includes(expected.suggestionContains))).toBe(true);
         }
       });
     });
   });
 
   describe("isValidAddress", () => {
-    testData.isValidAddress.forEach(({ name, description, input, expected, tests }) => {
+    isValidAddressTests.forEach(({ name, description, input, expected, tests }: any) => {
       if (Array.isArray(input) && Array.isArray(expected)) {
         it(`should ${name}`, () => {
-          input.forEach((addr, index) => {
+          input.forEach((addr: any, index: number) => {
             expect(isValidAddress(addr)).toBe(expected[index]);
           });
         });
       } else if (tests) {
         it(`should ${name}`, () => {
-          tests.forEach(({ input: testInput, options, expected: testExpected }) => {
+          tests.forEach(({ input: testInput, options, expected: testExpected }: any) => {
             expect(isValidAddress(testInput, options)).toBe(testExpected);
           });
         });
@@ -94,7 +101,7 @@ describe("Address Validation API", () => {
   });
 
   describe("getValidationErrors", () => {
-    testData.getValidationErrors.forEach(({ name, description, input, expected, options }) => {
+    getValidationErrorsTests.forEach(({ name, description, input, expected, options }: any) => {
       it(`should ${name}`, () => {
         const errors = getValidationErrors(input, options);
         
@@ -103,18 +110,18 @@ describe("Address Validation API", () => {
         }
         
         if (expected.allSeverityTypes) {
-          expect(errors.every(e => expected.allSeverityTypes.includes(e.severity))).toBe(true);
+          expect(errors.every((e: any) => expected.allSeverityTypes.includes(e.severity))).toBe(true);
         }
         
         if (expected.errorSeverityCount !== undefined) {
-          expect(errors.filter(e => e.severity === "error")).toHaveLength(expected.errorSeverityCount);
+          expect(errors.filter((e: any) => e.severity === "error")).toHaveLength(expected.errorSeverityCount);
         }
       });
     });
   });
 
-  describe("confidence scoring", () => {
-    testData.confidenceScoring.forEach(({ name, description, inputs, expected }) => {
+  describe("Confidence Scoring", () => {
+    confidenceScoringTests.forEach(({ name, description, inputs, expected }: any) => {
       it(`should ${name}`, () => {
         if (expected.confidenceComparison === "complete > incomplete" && inputs.complete && inputs.incomplete) {
           const complete = validateAddress(inputs.complete);

@@ -2,177 +2,179 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Batch Parser Test Suite",
   "description": "Test data for batch functions (parseLocationsBatch, parseAddressesBatch, etc.)",
-  "batchTests": [
-    {
-      "id": 1,
-      "name": "Mixed US Basic Addresses",
-      "description": "Standard US addresses with various formats",
-      "addresses": [
-        "123 Main Street, New York, NY 10001",
-        "456 Oak Avenue, Los Angeles, CA 90210",
-        "789 Pine Road, Chicago, IL 60601",
-        "321 Elm Drive, Houston, TX 77001",
-        "654 Maple Lane, Phoenix, AZ 85001"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseLocations"
-    },
-    {
-      "id": 2,
-      "name": "Canadian Addresses with Postal Codes",
-      "description": "Canadian addresses in various formats",
-      "addresses": [
-        "123 Yonge Street, Toronto, ON M5B 1M4",
-        "456 Granville Street, Vancouver, BC V6C 1V5",
-        "789 Portage Avenue, Winnipeg, MB R3G 0M8",
-        "321 Whyte Avenue, Edmonton, AB T6E 2A5",
-        "654 Water Street, St. John's, NL A1C 1A9"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseAddresses"
-    },
-    {
-      "id": 3,
-      "name": "Complex Addresses with Units",
-      "description": "Addresses containing secondary units and complex formats",
-      "addresses": [
-        "123 Main St, Apt 4B, New York, NY 10001",
-        "456 Oak Ave, Suite 200, Los Angeles, CA 90210",
-        "789 Pine Rd, Unit 12, Chicago, IL 60601",
-        "321 Elm Dr, #305, Houston, TX 77001",
-        "654 Maple Ln, Floor 5, Phoenix, AZ 85001"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseInformalAddresses"
-    },
-    {
-      "id": 4,
-      "name": "Intersection Addresses",
-      "description": "Street intersection parsing tests",
-      "addresses": [
-        "Main Street & Oak Avenue, New York, NY",
-        "Broadway and 42nd Street, New York, NY",
-        "1st Ave & Pine St, Seattle, WA",
-        "Sunset Blvd and Vine St, Los Angeles, CA",
-        "Michigan Ave & Oak St, Chicago, IL"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseIntersections"
-    },
-    {
-      "id": 5,
-      "name": "Mixed Valid and Invalid Addresses",
-      "description": "Combination of valid addresses and invalid/unparseable inputs",
-      "addresses": [
-        "123 Main Street, New York, NY 10001",
-        "",
-        "456 Oak Avenue, Los Angeles, CA 90210",
-        "   ",
-        "789 Pine Road, Chicago, IL 60601"
-      ],
-      "expectedSuccessCount": 3,
-      "expectedFailureCount": 2,
-      "testFunction": "parseLocations"
-    },
-    {
-      "id": 6,
-      "name": "Facility Addresses",
-      "description": "Addresses with facility names and complex formats",
-      "addresses": [
-        "Empire State Building - 350 5th Avenue, New York, NY 10118",
-        "Golden Gate Bridge Welcome Center, Golden Gate Bridge Hwy 101, San Francisco, CA 94129",
-        "Willis Tower: 233 S Wacker Drive, Chicago, IL 60606",
-        "Space Needle; 400 Broad Street, Seattle, WA 98109",
-        "Statue of Liberty National Monument, Liberty Island, New York, NY 10004"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseAddresses"
-    },
-    {
-      "id": 7,
-      "name": "PO Boxes and Special Formats",
-      "description": "Post office boxes and special delivery formats",
-      "addresses": [
-        "PO Box 123, New York, NY 10001",
-        "P.O. Box 456, Los Angeles, CA 90210",
-        "Post Office Box 789, Chicago, IL 60601",
-        "General Delivery, Small Town, MT 59718",
-        "Rural Route 2, Box 15, Farmington, ME 04938"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseInformalAddresses"
-    },
-    {
-      "id": 8,
-      "name": "International and Edge Cases",
-      "description": "Edge cases and potentially problematic formats",
-      "addresses": [
-        "123½ Main Street, New York, NY 10001",
-        "1234 N.W. 25th Street, Miami, FL 33125",
-        "99999 Nonexistent Road, Nowhere, ZZ 00000",
-        "123 Main St\nNew York, NY 10001",
-        "456   Oak   Ave,   Los   Angeles,   CA   90210"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 0,
-      "testFunction": "parseLocations"
-    },
-    {
-      "id": 9,
-      "name": "Large Batch Performance Test",
-      "description": "Performance test with many similar addresses",
-      "addresses": [
-        "123 Main Street, New York, NY 10001",
-        "124 Main Street, New York, NY 10001",
-        "125 Main Street, New York, NY 10001",
-        "126 Main Street, New York, NY 10001",
-        "127 Main Street, New York, NY 10001",
-        "128 Main Street, New York, NY 10001",
-        "129 Main Street, New York, NY 10001",
-        "130 Main Street, New York, NY 10001",
-        "131 Main Street, New York, NY 10001",
-        "132 Main Street, New York, NY 10001",
-        "133 Main Street, New York, NY 10001",
-        "134 Main Street, New York, NY 10001",
-        "135 Main Street, New York, NY 10001",
-        "136 Main Street, New York, NY 10001",
-        "137 Main Street, New York, NY 10001",
-        "138 Main Street, New York, NY 10001",
-        "139 Main Street, New York, NY 10001",
-        "140 Main Street, New York, NY 10001",
-        "141 Main Street, New York, NY 10001",
-        "142 Main Street, New York, NY 10001"
-      ],
-      "expectedSuccessCount": 20,
-      "expectedFailureCount": 0,
-      "testFunction": "parseLocationsBatch",
-      "expectStats": true
-    },
-    {
-      "id": 10,
-      "name": "Empty and Null Input Handling",
-      "description": "Test handling of empty strings and edge case inputs",
-      "addresses": [
-        "",
-        "   ",
-        "\n\t",
-        "123",
-        "Main Street",
-        "NY 10001",
-        "123 Main Street",
-        "New York, NY",
-        "123 Main Street, New York, NY 10001"
-      ],
-      "expectedSuccessCount": 5,
-      "expectedFailureCount": 4,
-      "testFunction": "parseAddressesBatch",
-      "expectStats": true
-    }
-  ]
+  "tests": {
+    "batchTests": [
+      {
+        "id": 1,
+        "name": "Mixed US Basic Addresses",
+        "description": "Standard US addresses with various formats",
+        "addresses": [
+          "123 Main Street, New York, NY 10001",
+          "456 Oak Avenue, Los Angeles, CA 90210",
+          "789 Pine Road, Chicago, IL 60601",
+          "321 Elm Drive, Houston, TX 77001",
+          "654 Maple Lane, Phoenix, AZ 85001"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseLocations"
+      },
+      {
+        "id": 2,
+        "name": "Canadian Addresses with Postal Codes",
+        "description": "Canadian addresses in various formats",
+        "addresses": [
+          "123 Yonge Street, Toronto, ON M5B 1M4",
+          "456 Granville Street, Vancouver, BC V6C 1V5",
+          "789 Portage Avenue, Winnipeg, MB R3G 0M8",
+          "321 Whyte Avenue, Edmonton, AB T6E 2A5",
+          "654 Water Street, St. John's, NL A1C 1A9"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseAddresses"
+      },
+      {
+        "id": 3,
+        "name": "Complex Addresses with Units",
+        "description": "Addresses containing secondary units and complex formats",
+        "addresses": [
+          "123 Main St, Apt 4B, New York, NY 10001",
+          "456 Oak Ave, Suite 200, Los Angeles, CA 90210",
+          "789 Pine Rd, Unit 12, Chicago, IL 60601",
+          "321 Elm Dr, #305, Houston, TX 77001",
+          "654 Maple Ln, Floor 5, Phoenix, AZ 85001"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseInformalAddresses"
+      },
+      {
+        "id": 4,
+        "name": "Intersection Addresses",
+        "description": "Street intersection parsing tests",
+        "addresses": [
+          "Main Street & Oak Avenue, New York, NY",
+          "Broadway and 42nd Street, New York, NY",
+          "1st Ave & Pine St, Seattle, WA",
+          "Sunset Blvd and Vine St, Los Angeles, CA",
+          "Michigan Ave & Oak St, Chicago, IL"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseIntersections"
+      },
+      {
+        "id": 5,
+        "name": "Mixed Valid and Invalid Addresses",
+        "description": "Combination of valid addresses and invalid/unparseable inputs",
+        "addresses": [
+          "123 Main Street, New York, NY 10001",
+          "",
+          "456 Oak Avenue, Los Angeles, CA 90210",
+          "   ",
+          "789 Pine Road, Chicago, IL 60601"
+        ],
+        "expectedSuccessCount": 3,
+        "expectedFailureCount": 2,
+        "testFunction": "parseLocations"
+      },
+      {
+        "id": 6,
+        "name": "Facility Addresses",
+        "description": "Addresses with facility names and complex formats",
+        "addresses": [
+          "Empire State Building - 350 5th Avenue, New York, NY 10118",
+          "Golden Gate Bridge Welcome Center, Golden Gate Bridge Hwy 101, San Francisco, CA 94129",
+          "Willis Tower: 233 S Wacker Drive, Chicago, IL 60606",
+          "Space Needle; 400 Broad Street, Seattle, WA 98109",
+          "Statue of Liberty National Monument, Liberty Island, New York, NY 10004"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseAddresses"
+      },
+      {
+        "id": 7,
+        "name": "PO Boxes and Special Formats",
+        "description": "Post office boxes and special delivery formats",
+        "addresses": [
+          "PO Box 123, New York, NY 10001",
+          "P.O. Box 456, Los Angeles, CA 90210",
+          "Post Office Box 789, Chicago, IL 60601",
+          "General Delivery, Small Town, MT 59718",
+          "Rural Route 2, Box 15, Farmington, ME 04938"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseInformalAddresses"
+      },
+      {
+        "id": 8,
+        "name": "International and Edge Cases",
+        "description": "Edge cases and potentially problematic formats",
+        "addresses": [
+          "123½ Main Street, New York, NY 10001",
+          "1234 N.W. 25th Street, Miami, FL 33125",
+          "99999 Nonexistent Road, Nowhere, ZZ 00000",
+          "123 Main St\nNew York, NY 10001",
+          "456   Oak   Ave,   Los   Angeles,   CA   90210"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 0,
+        "testFunction": "parseLocations"
+      },
+      {
+        "id": 9,
+        "name": "Large Batch Performance Test",
+        "description": "Performance test with many similar addresses",
+        "addresses": [
+          "123 Main Street, New York, NY 10001",
+          "124 Main Street, New York, NY 10001",
+          "125 Main Street, New York, NY 10001",
+          "126 Main Street, New York, NY 10001",
+          "127 Main Street, New York, NY 10001",
+          "128 Main Street, New York, NY 10001",
+          "129 Main Street, New York, NY 10001",
+          "130 Main Street, New York, NY 10001",
+          "131 Main Street, New York, NY 10001",
+          "132 Main Street, New York, NY 10001",
+          "133 Main Street, New York, NY 10001",
+          "134 Main Street, New York, NY 10001",
+          "135 Main Street, New York, NY 10001",
+          "136 Main Street, New York, NY 10001",
+          "137 Main Street, New York, NY 10001",
+          "138 Main Street, New York, NY 10001",
+          "139 Main Street, New York, NY 10001",
+          "140 Main Street, New York, NY 10001",
+          "141 Main Street, New York, NY 10001",
+          "142 Main Street, New York, NY 10001"
+        ],
+        "expectedSuccessCount": 20,
+        "expectedFailureCount": 0,
+        "testFunction": "parseLocationsBatch",
+        "expectStats": true
+      },
+      {
+        "id": 10,
+        "name": "Empty and Null Input Handling",
+        "description": "Test handling of empty strings and edge case inputs",
+        "addresses": [
+          "",
+          "   ",
+          "\n\t",
+          "123",
+          "Main Street",
+          "NY 10001",
+          "123 Main Street",
+          "New York, NY",
+          "123 Main Street, New York, NY 10001"
+        ],
+        "expectedSuccessCount": 5,
+        "expectedFailureCount": 4,
+        "testFunction": "parseAddressesBatch",
+        "expectStats": true
+      }
+    ]
+  }
 }

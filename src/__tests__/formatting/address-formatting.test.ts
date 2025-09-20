@@ -8,9 +8,17 @@ import {
 import type { ParsedAddress } from "../../types";
 import testData from "../../../test-data/formatting/address-formatting.json";
 
+// Extract test cases from new structure
+const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
+const formatAddressTests = testData.tests?.formatAddress || allTests;
+const formatUSPSTests = testData.tests?.formatUSPS || [];
+const formatCanadaPostTests = testData.tests?.formatCanadaPost || [];
+const getAddressAbbreviationsTests = testData.tests?.getAddressAbbreviations || [];
+const edgeCasesTests = testData.tests?.edgeCases || [];
+
 describe("Address Formatting API", () => {
   describe("formatAddress", () => {
-    testData.formatAddress.forEach((testCase, index) => {
+    formatAddressTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatAddress(testCase.input as ParsedAddress, testCase.options);
         
@@ -42,7 +50,7 @@ describe("Address Formatting API", () => {
   });
 
   describe("formatUSPS", () => {
-    testData.formatUSPS.forEach((testCase, index) => {
+    formatUSPSTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatUSPS(testCase.input as ParsedAddress, testCase.options);
         
@@ -58,7 +66,7 @@ describe("Address Formatting API", () => {
   });
 
   describe("formatCanadaPost", () => {
-    testData.formatCanadaPost.forEach((testCase, index) => {
+    formatCanadaPostTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatCanadaPost(testCase.input as ParsedAddress, testCase.options);
         
@@ -82,7 +90,7 @@ describe("Address Formatting API", () => {
   });
 
   describe("getAddressAbbreviations", () => {
-    testData.getAddressAbbreviations.forEach((testCase, index) => {
+    getAddressAbbreviationsTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = getAddressAbbreviations();
         
@@ -126,7 +134,7 @@ describe("Address Formatting API", () => {
   });
 
   describe("Edge Cases", () => {
-    testData.edgeCases.forEach((testCase, index) => {
+    edgeCasesTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatAddress(testCase.input as ParsedAddress, testCase.options);
         

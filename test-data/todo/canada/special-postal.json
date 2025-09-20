@@ -2,34 +2,36 @@
   "$schema": "../../schemas/test-file.json",
   "name": "TODO: Canadian Special Postal Codes",
   "description": "TODO: Special Canadian postal code scenarios requiring implementation",
-  "specialCases": [
-    {
-      "input": "123 Main St, Unit A-1.5, Toronto, ON M5V3A8",
-      "expected": {
-        "number": "123",
-        "street": "Main",
-        "type": "St",
-        "secUnitType": "Unit",
-        "secUnitNum": "A-1.5",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5V 3A8",
-        "country": "CA"
+  "tests": {
+    "specialPostal": [
+      {
+        "input": "123 Main St, Unit A-1.5, Toronto, ON M5V3A8",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "A-1.5",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 3A8",
+          "country": "CA"
+        },
+        "description": "Postal code without space - should normalize"
       },
-      "description": "Postal code without space - should normalize"
-    },
-    {
-      "input": "456 Oak Ave, Toronto, ONM5H2N1",
-      "expected": {
-        "number": "456",
-        "street": "Oak",
-        "type": "Ave",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5H 2N1",
-        "country": "CA"
-      },
-      "description": "Province and postal code merged"
-    }
-  ]
+      {
+        "input": "456 Oak Ave, Toronto, ONM5H2N1",
+        "expected": {
+          "number": "456",
+          "street": "Oak",
+          "type": "Ave",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N1",
+          "country": "CA"
+        },
+        "description": "Province and postal code merged"
+      }
+    ]
+  }
 }

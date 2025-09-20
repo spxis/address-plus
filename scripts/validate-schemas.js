@@ -16,16 +16,13 @@ const ajv = new Ajv({
 });
 addFormats(ajv);
 
-// Load our schemas
-const testCaseSchema = JSON.parse(readFileSync('schemas/test-case.json', 'utf-8'));
+// Load our unified schema
 const testFileSchema = JSON.parse(readFileSync('schemas/test-file.json', 'utf-8'));
 
-// Remove $schema properties that cause issues
-delete testCaseSchema.$schema;
+// Remove $schema property that causes issues
 delete testFileSchema.$schema;
 
-// Add schemas to ajv
-ajv.addSchema(testCaseSchema, 'test-case.json');
+// Add schema to ajv
 ajv.addSchema(testFileSchema, 'test-file.json');
 
 function getAllJsonFiles(dir) {
@@ -53,17 +50,15 @@ function validateJsonFile(filePath) {
 
     // All files must have explicit $schema property
     if (data.$schema) {
-      const schemaName = data.$schema.includes('test-file.json')
-        ? 'test-file.json'
-        : 'test-case.json';
-      const validate = ajv.getSchema(schemaName);
+      // All files should reference test-file.json now
+      const validate = ajv.getSchema('test-file.json');
 
       if (validate) {
         const valid = validate(data);
         return {
           valid,
           errors: validate.errors || [],
-          schema: schemaName,
+          schema: 'test-file.json',
         };
       }
     }

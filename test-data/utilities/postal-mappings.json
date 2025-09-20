@@ -2,166 +2,168 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Postal Code Mappings",
   "description": "Postal code to region mapping validation test cases",
-  "provinceMapping": [
-    {
-      "name": "Newfoundland and Labrador mapping",
-      "description": "Newfoundland and Labrador - A postal codes",
-      "input": "A1B 2C3",
-      "expected": "NL"
-    },
-    {
-      "name": "Nova Scotia mapping",
-      "description": "Nova Scotia - B postal codes",
-      "input": "B3H 4J6",
-      "expected": "NS"
-    },
-    {
-      "name": "Prince Edward Island mapping",
-      "description": "Prince Edward Island - C postal codes",
-      "input": "C1A 7N2",
-      "expected": "PE"
-    },
-    {
-      "name": "New Brunswick mapping",
-      "description": "New Brunswick - E postal codes",
-      "input": "E3B 1G4",
-      "expected": "NB"
-    },
-    {
-      "name": "Quebec G postal codes",
-      "description": "Quebec - G postal codes",
-      "input": "G1K 7L9",
-      "expected": "QC"
-    },
-    {
-      "name": "Quebec H postal codes",
-      "description": "Quebec - H postal codes (Montreal area)",
-      "input": "H2W 1S6",
-      "expected": "QC"
-    },
-    {
-      "name": "Quebec J postal codes",
-      "description": "Quebec - J postal codes",
-      "input": "J7P 4R8",
-      "expected": "QC"
-    },
-    {
-      "name": "Ontario K postal codes",
-      "description": "Ontario - K postal codes (Eastern Ontario/Ottawa)",
-      "input": "K1N 5Y3",
-      "expected": "ON"
-    },
-    {
-      "name": "Ontario L postal codes",
-      "description": "Ontario - L postal codes (Southern Ontario)",
-      "input": "L8M 1K7",
-      "expected": "ON"
-    },
-    {
-      "name": "Ontario M postal codes",
-      "description": "Ontario - M postal codes (Toronto/GTA)",
-      "input": "M5G 1N8",
-      "expected": "ON"
-    },
-    {
-      "name": "Ontario N postal codes",
-      "description": "Ontario - N postal codes (Southwestern Ontario)",
-      "input": "N6A 3K4",
-      "expected": "ON"
-    },
-    {
-      "name": "Ontario P postal codes",
-      "description": "Ontario - P postal codes (Northern Ontario)",
-      "input": "P7A 2H9",
-      "expected": "ON"
-    },
-    {
-      "name": "Manitoba postal codes",
-      "description": "Manitoba - R postal codes",
-      "input": "R3B 0W5",
-      "expected": "MB"
-    },
-    {
-      "name": "Saskatchewan postal codes",
-      "description": "Saskatchewan - S postal codes",
-      "input": "S7K 2J1",
-      "expected": "SK"
-    },
-    {
-      "name": "Alberta postal codes",
-      "description": "Alberta - T postal codes",
-      "input": "T6E 2M3",
-      "expected": "AB"
-    },
-    {
-      "name": "British Columbia postal codes",
-      "description": "British Columbia - V postal codes",
-      "input": "V6Z 1L3",
-      "expected": "BC"
-    },
-    {
-      "name": "Northwest Territories postal codes",
-      "description": "Northwest Territories - X1A postal codes",
-      "input": "X1A 2N1",
-      "expected": "NT"
-    },
-    {
-      "name": "Nunavut postal codes",
-      "description": "Nunavut - X0A postal codes",
-      "input": "X0A 1H0",
-      "expected": "NU"
-    },
-    {
-      "name": "Yukon Territory postal codes",
-      "description": "Yukon Territory - Y postal codes",
-      "input": "Y1A 1A1",
-      "expected": "YT"
-    }
-  ],
-  "formatVariations": [
-    {
-      "name": "no space format normalization",
-      "description": "Postal code without space should be normalized and province detected",
-      "input": "M5V3A8",
-      "expected": "ON"
-    },
-    {
-      "name": "lowercase format normalization",
-      "description": "Lowercase postal code should be normalized and province detected",
-      "input": "m5v 3a8",
-      "expected": "ON"
-    },
-    {
-      "name": "mixed case format normalization",
-      "description": "Mixed case postal code should be normalized and province detected",
-      "input": "H2w 1S6",
-      "expected": "QC"
-    }
-  ],
-  "invalidCases": [
-    {
-      "name": "empty string handling",
-      "description": "Empty string should return null",
-      "input": "",
-      "expected": null
-    },
-    {
-      "name": "US ZIP code rejection",
-      "description": "US ZIP code format should return null",
-      "input": "123456",
-      "expected": null
-    },
-    {
-      "name": "invalid format rejection",
-      "description": "Invalid format should return null",
-      "input": "ABCDEF",
-      "expected": null
-    },
-    {
-      "name": "non-existent prefix rejection",
-      "description": "Non-existent postal code prefix should return null",
-      "input": "Z1A 1A1",
-      "expected": null
-    }
-  ]
+  "tests": {
+    "provinceMapping": [
+      {
+        "name": "Newfoundland and Labrador mapping",
+        "description": "Newfoundland and Labrador - A postal codes",
+        "input": "A1B 2C3",
+        "expected": "NL"
+      },
+      {
+        "name": "Nova Scotia mapping",
+        "description": "Nova Scotia - B postal codes",
+        "input": "B3H 4J6",
+        "expected": "NS"
+      },
+      {
+        "name": "Prince Edward Island mapping",
+        "description": "Prince Edward Island - C postal codes",
+        "input": "C1A 7N2",
+        "expected": "PE"
+      },
+      {
+        "name": "New Brunswick mapping",
+        "description": "New Brunswick - E postal codes",
+        "input": "E3B 1G4",
+        "expected": "NB"
+      },
+      {
+        "name": "Quebec G postal codes",
+        "description": "Quebec - G postal codes",
+        "input": "G1K 7L9",
+        "expected": "QC"
+      },
+      {
+        "name": "Quebec H postal codes",
+        "description": "Quebec - H postal codes (Montreal area)",
+        "input": "H2W 1S6",
+        "expected": "QC"
+      },
+      {
+        "name": "Quebec J postal codes",
+        "description": "Quebec - J postal codes",
+        "input": "J7P 4R8",
+        "expected": "QC"
+      },
+      {
+        "name": "Ontario K postal codes",
+        "description": "Ontario - K postal codes (Eastern Ontario/Ottawa)",
+        "input": "K1N 5Y3",
+        "expected": "ON"
+      },
+      {
+        "name": "Ontario L postal codes",
+        "description": "Ontario - L postal codes (Southern Ontario)",
+        "input": "L8M 1K7",
+        "expected": "ON"
+      },
+      {
+        "name": "Ontario M postal codes",
+        "description": "Ontario - M postal codes (Toronto/GTA)",
+        "input": "M5G 1N8",
+        "expected": "ON"
+      },
+      {
+        "name": "Ontario N postal codes",
+        "description": "Ontario - N postal codes (Southwestern Ontario)",
+        "input": "N6A 3K4",
+        "expected": "ON"
+      },
+      {
+        "name": "Ontario P postal codes",
+        "description": "Ontario - P postal codes (Northern Ontario)",
+        "input": "P7A 2H9",
+        "expected": "ON"
+      },
+      {
+        "name": "Manitoba postal codes",
+        "description": "Manitoba - R postal codes",
+        "input": "R3B 0W5",
+        "expected": "MB"
+      },
+      {
+        "name": "Saskatchewan postal codes",
+        "description": "Saskatchewan - S postal codes",
+        "input": "S7K 2J1",
+        "expected": "SK"
+      },
+      {
+        "name": "Alberta postal codes",
+        "description": "Alberta - T postal codes",
+        "input": "T6E 2M3",
+        "expected": "AB"
+      },
+      {
+        "name": "British Columbia postal codes",
+        "description": "British Columbia - V postal codes",
+        "input": "V6Z 1L3",
+        "expected": "BC"
+      },
+      {
+        "name": "Northwest Territories postal codes",
+        "description": "Northwest Territories - X1A postal codes",
+        "input": "X1A 2N1",
+        "expected": "NT"
+      },
+      {
+        "name": "Nunavut postal codes",
+        "description": "Nunavut - X0A postal codes",
+        "input": "X0A 1H0",
+        "expected": "NU"
+      },
+      {
+        "name": "Yukon Territory postal codes",
+        "description": "Yukon Territory - Y postal codes",
+        "input": "Y1A 1A1",
+        "expected": "YT"
+      }
+    ],
+    "formatVariations": [
+      {
+        "name": "no space format normalization",
+        "description": "Postal code without space should be normalized and province detected",
+        "input": "M5V3A8",
+        "expected": "ON"
+      },
+      {
+        "name": "lowercase format normalization",
+        "description": "Lowercase postal code should be normalized and province detected",
+        "input": "m5v 3a8",
+        "expected": "ON"
+      },
+      {
+        "name": "mixed case format normalization",
+        "description": "Mixed case postal code should be normalized and province detected",
+        "input": "H2w 1S6",
+        "expected": "QC"
+      }
+    ],
+    "invalidCases": [
+      {
+        "name": "empty string handling",
+        "description": "Empty string should return null",
+        "input": "",
+        "expected": null
+      },
+      {
+        "name": "US ZIP code rejection",
+        "description": "US ZIP code format should return null",
+        "input": "123456",
+        "expected": null
+      },
+      {
+        "name": "invalid format rejection",
+        "description": "Invalid format should return null",
+        "input": "ABCDEF",
+        "expected": null
+      },
+      {
+        "name": "non-existent prefix rejection",
+        "description": "Non-existent postal code prefix should return null",
+        "input": "Z1A 1A1",
+        "expected": null
+      }
+    ]
+  }
 }

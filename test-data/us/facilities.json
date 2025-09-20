@@ -2,146 +2,148 @@
   "$schema": "../../schemas/test-file.json",
   "name": "US Facilities and Institutions",
   "description": "US facility addresses with varied formatting - em dash, comma, newline, and space separators to reflect real-world diversity",
-  "facilities": [
-    {
-      "input": "Fenway Park – 4 Jersey Street, Boston MA 02215",
-      "expected": {
-        "place": "Fenway Park",
-        "number": "4",
-        "street": "Jersey",
-        "type": "St",
-        "city": "Boston",
-        "state": "MA",
-        "zip": "02215"
+  "tests": {
+    "facilities": [
+      {
+        "input": "Fenway Park – 4 Jersey Street, Boston MA 02215",
+        "expected": {
+          "place": "Fenway Park",
+          "number": "4",
+          "street": "Jersey",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02215"
+        },
+        "description": "Fenway Park with em dash separator"
       },
-      "description": "Fenway Park with em dash separator"
-    },
-    {
-      "input": "Harvard University, Massachusetts Hall, Cambridge MA 02138",
-      "expected": {
-        "place": "Harvard University",
-        "street": "Massachusetts Hall",
-        "city": "Cambridge",
-        "state": "MA",
-        "zip": "02138"
+      {
+        "input": "Harvard University, Massachusetts Hall, Cambridge MA 02138",
+        "expected": {
+          "place": "Harvard University",
+          "street": "Massachusetts Hall",
+          "city": "Cambridge",
+          "state": "MA",
+          "zip": "02138"
+        },
+        "description": "Harvard University with building name as street"
       },
-      "description": "Harvard University with building name as street"
-    },
-    {
-      "input": "Golden Gate Bridge Welcome Center\nGolden Gate Bridge Hwy 101, San Francisco CA 94129",
-      "expected": {
-        "place": "Golden Gate Bridge Welcome Center",
-        "street": "Golden Gate Bridge Hwy 101",
-        "city": "San Francisco",
-        "state": "CA",
-        "zip": "94129"
+      {
+        "input": "Golden Gate Bridge Welcome Center\nGolden Gate Bridge Hwy 101, San Francisco CA 94129",
+        "expected": {
+          "place": "Golden Gate Bridge Welcome Center",
+          "street": "Golden Gate Bridge Hwy 101",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94129"
+        },
+        "description": "Bridge visitor center with newline and highway designation"
       },
-      "description": "Bridge visitor center with newline and highway designation"
-    },
-    {
-      "input": "Lincoln Memorial - 2 Lincoln Memorial Circle NW, Washington DC 20037",
-      "expected": {
-        "place": "Lincoln Memorial",
-        "number": "2",
-        "street": "Lincoln Memorial",
-        "type": "Cir",
-        "suffix": "NW",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20037"
+      {
+        "input": "Lincoln Memorial - 2 Lincoln Memorial Circle NW, Washington DC 20037",
+        "expected": {
+          "place": "Lincoln Memorial",
+          "number": "2",
+          "street": "Lincoln Memorial",
+          "type": "Cir",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20037"
+        },
+        "description": "Memorial with dash separator and directional suffix"
       },
-      "description": "Memorial with dash separator and directional suffix"
-    },
-    {
-      "input": "The Pentagon: 1400 Defense Pentagon, Washington DC 20301",
-      "expected": {
-        "place": "The Pentagon",
-        "number": "1400",
-        "street": "Defense Pentagon",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20301"
+      {
+        "input": "The Pentagon: 1400 Defense Pentagon, Washington DC 20301",
+        "expected": {
+          "place": "The Pentagon",
+          "number": "1400",
+          "street": "Defense Pentagon",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20301"
+        },
+        "description": "Pentagon with colon separator and military address format"
       },
-      "description": "Pentagon with colon separator and military address format"
-    },
-    {
-      "input": "The White House\n1600 Pennsylvania Avenue NW, Washington DC 20500",
-      "expected": {
-        "place": "The White House",
-        "number": "1600",
-        "street": "Pennsylvania",
-        "type": "Ave",
-        "suffix": "NW",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20500"
+      {
+        "input": "The White House\n1600 Pennsylvania Avenue NW, Washington DC 20500",
+        "expected": {
+          "place": "The White House",
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500"
+        },
+        "description": "White House with newline separator"
       },
-      "description": "White House with newline separator"
-    },
-    {
-      "input": "Walt Disney World Resort, 1375 E Buena Vista Drive, Lake Buena Vista FL 32830",
-      "expected": {
-        "place": "Walt Disney World Resort",
-        "number": "1375",
-        "prefix": "E",
-        "street": "Buena Vista",
-        "type": "Dr",
-        "city": "Lake Buena Vista",
-        "state": "FL",
-        "zip": "32830"
+      {
+        "input": "Walt Disney World Resort, 1375 E Buena Vista Drive, Lake Buena Vista FL 32830",
+        "expected": {
+          "place": "Walt Disney World Resort",
+          "number": "1375",
+          "prefix": "E",
+          "street": "Buena Vista",
+          "type": "Dr",
+          "city": "Lake Buena Vista",
+          "state": "FL",
+          "zip": "32830"
+        },
+        "description": "Theme park resort with comma separators"
       },
-      "description": "Theme park resort with comma separators"
-    },
-    {
-      "input": "Willis Tower\n233 S Wacker Drive\nChicago IL 60606",
-      "expected": {
-        "place": "Willis Tower",
-        "number": "233",
-        "prefix": "S",
-        "street": "Wacker",
-        "type": "Dr",
-        "city": "Chicago",
-        "state": "IL",
-        "zip": "60606"
+      {
+        "input": "Willis Tower\n233 S Wacker Drive\nChicago IL 60606",
+        "expected": {
+          "place": "Willis Tower",
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606"
+        },
+        "description": "Skyscraper with newline-formatted address"
       },
-      "description": "Skyscraper with newline-formatted address"
-    },
-    {
-      "input": "Madison Square Garden | 4 Pennsylvania Plaza, New York NY 10001",
-      "expected": {
-        "place": "Madison Square Garden",
-        "number": "4",
-        "street": "Pennsylvania",
-        "type": "Plz",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10001"
+      {
+        "input": "Madison Square Garden | 4 Pennsylvania Plaza, New York NY 10001",
+        "expected": {
+          "place": "Madison Square Garden",
+          "number": "4",
+          "street": "Pennsylvania",
+          "type": "Plz",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10001"
+        },
+        "description": "Arena with pipe separator and Plaza type"
       },
-      "description": "Arena with pipe separator and Plaza type"
-    },
-    {
-      "input": "Space Needle; 400 Broad Street, Seattle WA 98109",
-      "expected": {
-        "place": "Space Needle",
-        "number": "400",
-        "street": "Broad",
-        "type": "St",
-        "city": "Seattle",
-        "state": "WA",
-        "zip": "98109"
+      {
+        "input": "Space Needle; 400 Broad Street, Seattle WA 98109",
+        "expected": {
+          "place": "Space Needle",
+          "number": "400",
+          "street": "Broad",
+          "type": "St",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98109"
+        },
+        "description": "Landmark with semicolon separator"
       },
-      "description": "Landmark with semicolon separator"
-    },
-    {
-      "input": "Mount Rushmore National Memorial\n13000 SD‑244\nKeystone SD 57751",
-      "expected": {
-        "place": "Mount Rushmore National Memorial",
-        "street": "SD‑244",
-        "city": "Keystone",
-        "state": "SD",
-        "zip": "57751"
-      },
-      "description": "Memorial with state highway en-dash designation"
-    }
-  ]
+      {
+        "input": "Mount Rushmore National Memorial\n13000 SD‑244\nKeystone SD 57751",
+        "expected": {
+          "place": "Mount Rushmore National Memorial",
+          "street": "SD‑244",
+          "city": "Keystone",
+          "state": "SD",
+          "zip": "57751"
+        },
+        "description": "Memorial with state highway en-dash designation"
+      }
+    ]
+  }
 }

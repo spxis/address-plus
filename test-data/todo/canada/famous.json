@@ -2,79 +2,81 @@
   "$schema": "../../schemas/test-file.json",
   "name": "TODO: Canadian Famous Locations",
   "description": "TODO: Famous Canadian location tests requiring implementation",
-  "famousAddresses": [
-    {
-      "input": "1, promenade Sussex, Ottawa, ON K1A 0A2",
-      "expected": {
-        "number": "1",
-        "street": "Sussex",
-        "type": "Promenade",
-        "city": "Ottawa",
-        "state": "ON",
-        "zip": "K1A 0A2",
-        "country": "CA"
+  "tests": {
+    "famous": [
+      {
+        "input": "1, promenade Sussex, Ottawa, ON K1A 0A2",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Promenade",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A2",
+          "country": "CA"
+        },
+        "description": "Rideau Hall with French promenade"
       },
-      "description": "Rideau Hall with French promenade"
-    },
-    {
-      "input": "2020, rue Université, 14e étage, Montréal, QC H3A 2A5",
-      "expected": {
-        "number": "2020",
-        "street": "Université",
-        "type": "Rue",
-        "secUnitType": "étage",
-        "secUnitNum": "14",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H3A 2A5",
-        "country": "CA"
+      {
+        "input": "2020, rue Université, 14e étage, Montréal, QC H3A 2A5",
+        "expected": {
+          "number": "2020",
+          "street": "Université",
+          "type": "Rue",
+          "secUnitType": "étage",
+          "secUnitNum": "14",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3A 2A5",
+          "country": "CA"
+        },
+        "description": "French address with floor designation"
       },
-      "description": "French address with floor designation"
-    },
-    {
-      "input": "1255, square Phillips, bureau 1100, Montréal, QC H3B 3G1",
-      "expected": {
-        "number": "1255",
-        "street": "Phillips",
-        "type": "Square",
-        "secUnitType": "Bureau",
-        "secUnitNum": "1100",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H3B 3G1",
-        "country": "CA"
+      {
+        "input": "1255, square Phillips, bureau 1100, Montréal, QC H3B 3G1",
+        "expected": {
+          "number": "1255",
+          "street": "Phillips",
+          "type": "Square",
+          "secUnitType": "Bureau",
+          "secUnitNum": "1100",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 3G1",
+          "country": "CA"
+        },
+        "description": "Phillips Square with French office"
       },
-      "description": "Phillips Square with French office"
-    },
-    {
-      "input": "1100, boul. René-Lévesque Ouest, 25e étage, Montréal, QC H3B 4P3",
-      "expected": {
-        "number": "1100",
-        "street": "René-Lévesque",
-        "type": "Blvd",
-        "suffix": "O",
-        "secUnitType": "étage",
-        "secUnitNum": "25",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H3B 4P3",
-        "country": "CA"
+      {
+        "input": "1100, boul. René-Lévesque Ouest, 25e étage, Montréal, QC H3B 4P3",
+        "expected": {
+          "number": "1100",
+          "street": "René-Lévesque",
+          "type": "Blvd",
+          "suffix": "O",
+          "secUnitType": "étage",
+          "secUnitNum": "25",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 4P3",
+          "country": "CA"
+        },
+        "description": "Boulevard René-Lévesque with floor"
       },
-      "description": "Boulevard René-Lévesque with floor"
-    },
-    {
-      "input": "Place Ville Marie, 1 Place Ville Marie, Montréal, QC H3B 2E7",
-      "expected": {
-        "facility": "Place Ville Marie",
-        "number": "1",
-        "street": "Ville Marie",
-        "type": "Place",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H3B 2E7",
-        "country": "CA"
-      },
-      "description": "Place Ville Marie landmark"
-    }
-  ]
+      {
+        "input": "Place Ville Marie, 1 Place Ville Marie, Montréal, QC H3B 2E7",
+        "expected": {
+          "facility": "Place Ville Marie",
+          "number": "1",
+          "street": "Ville Marie",
+          "type": "Place",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 2E7",
+          "country": "CA"
+        },
+        "description": "Place Ville Marie landmark"
+      }
+    ]
+  }
 }

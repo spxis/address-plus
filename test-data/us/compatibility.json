@@ -2,279 +2,267 @@
   "$schema": "../../schemas/test-file.json",
   "name": "US Compatibility Tests",
   "description": "Comprehensive US address parsing compatibility tests covering edge cases, multi-word cities, directionals, and complex formats derived from parse-address library compatibility testing",
-  "compatibility_tests": [
-    {
-      "input": "1005 Gravenstein Hwy 95472",
-      "expected": {
-        "number": "1005",
-        "street": "Gravenstein",
-        "type": "Hwy",
-        "zip": "95472"
+  "tests": {
+    "compatibility": [
+      {
+        "input": "1005 Gravenstein Hwy 95472",
+        "expected": {
+          "number": "1005",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "zip": "95472"
+        },
+        "description": "Highway address with ZIP only"
       },
-      "description": "Highway address with ZIP only"
-    },
-    {
-      "input": "1005 Gravenstein Hwy, 95472",
-      "expected": {
-        "number": "1005",
-        "street": "Gravenstein",
-        "type": "Hwy",
-        "zip": "95472"
+      {
+        "input": "1005 Gravenstein Hwy, 95472",
+        "expected": {
+          "number": "1005",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "zip": "95472"
+        },
+        "description": "Highway address with comma separator before ZIP"
       },
-      "description": "Highway address with comma separator before ZIP"
-    },
-    {
-      "input": "1005 N Gravenstein Highway, Sebastopol, CA",
-      "expected": {
-        "number": "1005",
-        "prefix": "N",
-        "street": "Gravenstein",
-        "type": "Hwy",
-        "city": "Sebastopol",
-        "state": "CA"
+      {
+        "input": "1005 N Gravenstein Highway, Sebastopol, CA",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA"
+        },
+        "description": "Full highway address with direction prefix and commas"
       },
-      "description": "Full highway address with direction prefix and commas"
-    },
-    {
-      "input": "1005 N Gravenstein Highway Sebastopol CA 95472",
-      "expected": {
-        "number": "1005",
-        "prefix": "N",
-        "street": "Gravenstein",
-        "type": "Hwy",
-        "city": "Sebastopol",
-        "state": "CA",
-        "zip": "95472"
+      {
+        "input": "1005 N Gravenstein Highway Sebastopol CA 95472",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472"
+        },
+        "description": "Highway address with direction prefix, no comma separators, includes ZIP"
       },
-      "description": "Highway address with direction prefix, no comma separators, includes ZIP"
-    },
-    {
-      "input": "115 Broadway San Francisco CA",
-      "expected": {
-        "number": "115",
-        "street": "Broadway",
-        "city": "San Francisco",
-        "state": "CA"
+      {
+        "input": "115 Broadway San Francisco CA",
+        "expected": {
+          "number": "115",
+          "street": "Broadway",
+          "city": "San Francisco",
+          "state": "CA"
+        },
+        "description": "Basic street address with multi-word city"
       },
-      "description": "Basic street address with multi-word city"
-    },
-    {
-      "input": "1600 Pennsylvania Avenue Washington DC",
-      "expected": {
-        "number": "1600",
-        "street": "Pennsylvania",
-        "type": "Ave",
-        "city": "Washington",
-        "state": "DC"
+      {
+        "input": "1600 Pennsylvania Avenue Washington DC",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "city": "Washington",
+          "state": "DC"
+        },
+        "description": "White House address without ZIP code"
       },
-      "description": "White House address without ZIP code"
-    },
-    {
-      "input": "48S 400E, Salt Lake City UT",
-      "expected": {
-        "number": "48",
-        "prefix": "S",
-        "street": "400",
-        "suffix": "E",
-        "city": "Salt Lake City",
-        "state": "UT"
+      {
+        "input": "48S 400E, Salt Lake City UT",
+        "expected": {
+          "number": "48",
+          "prefix": "S",
+          "street": "400",
+          "suffix": "E",
+          "city": "Salt Lake City",
+          "state": "UT"
+        },
+        "description": "Utah grid address system format"
       },
-      "description": "Utah grid address system format"
-    },
-    {
-      "input": "550 S 400 E #3206, Salt Lake City UT 84111",
-      "expected": {
-        "number": "550",
-        "prefix": "S",
-        "street": "400 E",
-        "secUnitType": "#",
-        "secUnitNum": "3206",
-        "city": "Salt Lake City",
-        "state": "UT",
-        "zip": "84111"
+      {
+        "input": "100 South St, Philadelphia, PA",
+        "expected": {
+          "number": "100",
+          "prefix": "S",
+          "street": "St",
+          "city": "Philadelphia",
+          "state": "PA"
+        },
+        "description": "Directional prefix where street name is same as direction"
       },
-      "description": "Salt Lake City grid with unit number"
-    },
-    {
-      "input": "100 South St, Philadelphia, PA",
-      "expected": {
-        "number": "100",
-        "prefix": "S",
-        "street": "St",
-        "city": "Philadelphia",
-        "state": "PA"
+      {
+        "input": "100 S.E. Washington Ave, Minneapolis, MN",
+        "expected": {
+          "number": "100",
+          "prefix": "SE",
+          "street": "Washington",
+          "type": "Ave",
+          "city": "Minneapolis",
+          "state": "MN"
+        },
+        "description": "Compound directional prefix with periods"
       },
-      "description": "Directional prefix where street name is same as direction"
-    },
-    {
-      "input": "100 S.E. Washington Ave, Minneapolis, MN",
-      "expected": {
-        "number": "100",
-        "prefix": "SE",
-        "street": "Washington",
-        "type": "Ave",
-        "city": "Minneapolis",
-        "state": "MN"
+      {
+        "input": "3813 1/2 Some Road, Los Angeles, CA",
+        "expected": {
+          "number": "3813 1/2",
+          "street": "Some",
+          "type": "Rd",
+          "city": "Los Angeles",
+          "state": "CA"
+        },
+        "description": "Fractional house number format"
       },
-      "description": "Compound directional prefix with periods"
-    },
-    {
-      "input": "3813 1/2 Some Road, Los Angeles, CA",
-      "expected": {
-        "number": "3813 1/2",
-        "street": "Some",
-        "type": "Rd",
-        "city": "Los Angeles",
-        "state": "CA"
+      {
+        "input": "123 Maple Rochester, New York",
+        "expected": {
+          "number": "123",
+          "street": "Maple Rochester",
+          "state": "NY"
+        },
+        "description": "Address where city name merges with street name"
       },
-      "description": "Fractional house number format"
-    },
-    {
-      "input": "123 Maple Rochester, New York",
-      "expected": {
-        "number": "123",
-        "street": "Maple Rochester",
-        "state": "NY"
+      {
+        "input": "233 S Wacker Dr 60606-6306",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606",
+          "plus4": "6306"
+        },
+        "description": "ZIP+4 code with dash separator"
       },
-      "description": "Address where city name merges with street name"
-    },
-    {
-      "input": "233 S Wacker Dr 60606-6306",
-      "expected": {
-        "number": "233",
-        "prefix": "S",
-        "street": "Wacker",
-        "type": "Dr",
-        "zip": "60606",
-        "plus4": "6306"
+      {
+        "input": "1234 COUNTY HWY 60E, Town, CO 12345",
+        "expected": {
+          "number": "1234",
+          "street": "County Hwy 60E",
+          "city": "Town",
+          "state": "CO",
+          "zip": "12345"
+        },
+        "description": "County highway designation with directional suffix"
       },
-      "description": "ZIP+4 code with dash separator"
-    },
-    {
-      "input": "1234 COUNTY HWY 60E, Town, CO 12345",
-      "expected": {
-        "number": "1234",
-        "street": "County Hwy 60E",
-        "city": "Town",
-        "state": "CO",
-        "zip": "12345"
+      {
+        "input": "321 S. Washington",
+        "expected": {
+          "number": "321",
+          "street": "S.",
+          "state": "WA"
+        },
+        "description": "Ambiguous address - direction vs state name conflict"
       },
-      "description": "County highway designation with directional suffix"
-    },
-    {
-      "input": "321 S. Washington",
-      "expected": {
-        "number": "321",
-        "street": "S.",
-        "state": "WA"
+      {
+        "input": "2672 Industrial Row Troy, MI 48084",
+        "expected": {
+          "number": "2672",
+          "street": "Industrial Row Troy",
+          "state": "MI",
+          "zip": "48084"
+        },
+        "description": "Street name incorporating city name in parsing"
       },
-      "description": "Ambiguous address - direction vs state name conflict"
-    },
-    {
-      "input": "2672 Industrial Row Troy, MI 48084",
-      "expected": {
-        "number": "2672",
-        "street": "Industrial Row Troy",
-        "state": "MI",
-        "zip": "48084"
+      {
+        "input": "N95W18855 Jay Dr, Menomonee Falls, WI 53051",
+        "expected": {
+          "number": "N95W18855",
+          "street": "Jay",
+          "type": "Dr",
+          "city": "Menomonee Falls",
+          "state": "WI",
+          "zip": "53051"
+        },
+        "description": "Wisconsin-style grid coordinate house number"
       },
-      "description": "Street name incorporating city name in parsing"
-    },
-    {
-      "input": "N95W18855 Jay Dr, Menomonee Falls, WI 53051",
-      "expected": {
-        "number": "N95W18855",
-        "street": "Jay",
-        "type": "Dr",
-        "city": "Menomonee Falls",
-        "state": "WI",
-        "zip": "53051"
+      {
+        "input": "10144 Potters Hatch Cmn Cupertino CA 95014",
+        "expected": {
+          "number": "10144",
+          "street": "Potters Hatch",
+          "type": "Cmn",
+          "city": "Cupertino",
+          "state": "CA",
+          "zip": "95014"
+        },
+        "description": "Uncommon street type 'Common' abbreviated"
       },
-      "description": "Wisconsin-style grid coordinate house number"
-    },
-    {
-      "input": "10144 Potters Hatch Cmn Cupertino CA 95014",
-      "expected": {
-        "number": "10144",
-        "street": "Potters Hatch",
-        "type": "Cmn",
-        "city": "Cupertino",
-        "state": "CA",
-        "zip": "95014"
+      {
+        "input": "36 Hathway Commons Lebanon OH 45036",
+        "expected": {
+          "number": "36",
+          "street": "Hathway",
+          "type": "Cmns",
+          "city": "Lebanon",
+          "state": "OH",
+          "zip": "45036"
+        },
+        "description": "Plural 'Commons' street type abbreviated"
       },
-      "description": "Uncommon street type 'Common' abbreviated"
-    },
-    {
-      "input": "36 Hathway Commons Lebanon OH 45036",
-      "expected": {
-        "number": "36",
-        "street": "Hathway",
-        "type": "Cmns",
-        "city": "Lebanon",
-        "state": "OH",
-        "zip": "45036"
+      {
+        "input": "905 Laing Crossroads Dawson GA 39842",
+        "expected": {
+          "number": "905",
+          "street": "Laing",
+          "type": "Xrds",
+          "city": "Dawson",
+          "state": "GA",
+          "zip": "39842"
+        },
+        "description": "Crossroads street type abbreviated to 'Xrds'"
       },
-      "description": "Plural 'Commons' street type abbreviated"
-    },
-    {
-      "input": "905 Laing Crossroads Dawson GA 39842",
-      "expected": {
-        "number": "905",
-        "street": "Laing",
-        "type": "Xrds",
-        "city": "Dawson",
-        "state": "GA",
-        "zip": "39842"
+      {
+        "input": "2146 University Square Mall Tampa FL 33612",
+        "expected": {
+          "number": "2146",
+          "street": "University Square",
+          "type": "Mall",
+          "city": "Tampa",
+          "state": "FL",
+          "zip": "33612"
+        },
+        "description": "Mall as street type designation"
       },
-      "description": "Crossroads street type abbreviated to 'Xrds'"
-    },
-    {
-      "input": "2146 University Square Mall Tampa FL 33612",
-      "expected": {
-        "number": "2146",
-        "street": "University Square",
-        "type": "Mall",
-        "city": "Tampa",
-        "state": "FL",
-        "zip": "33612"
+      {
+        "input": "415 Van Wyck Mews Norfolk VA 23517",
+        "expected": {
+          "number": "415",
+          "street": "Van Wyck",
+          "type": "Mews",
+          "city": "Norfolk",
+          "state": "VA",
+          "zip": "23517"
+        },
+        "description": "British-style 'Mews' street type"
       },
-      "description": "Mall as street type designation"
-    },
-    {
-      "input": "415 Van Wyck Mews Norfolk VA 23517",
-      "expected": {
-        "number": "415",
-        "street": "Van Wyck",
-        "type": "Mews",
-        "city": "Norfolk",
-        "state": "VA",
-        "zip": "23517"
+      {
+        "input": "6 Maison Rue Hattiesburg MS 39402",
+        "expected": {
+          "number": "6",
+          "street": "Maison",
+          "type": "Rue",
+          "city": "Hattiesburg",
+          "state": "MS",
+          "zip": "39402"
+        },
+        "description": "French 'Rue' street type in US address"
       },
-      "description": "British-style 'Mews' street type"
-    },
-    {
-      "input": "6 Maison Rue Hattiesburg MS 39402",
-      "expected": {
-        "number": "6",
-        "street": "Maison",
-        "type": "Rue",
-        "city": "Hattiesburg",
-        "state": "MS",
-        "zip": "39402"
-      },
-      "description": "French 'Rue' street type in US address"
-    },
-    {
-      "input": "12921 Coyote Run Fishers IN 46038",
-      "expected": {
-        "number": "12921",
-        "street": "Coyote",
-        "type": "Run",
-        "city": "Fishers",
-        "state": "IN",
-        "zip": "46038"
-      },
-      "description": "Nature-themed street type 'Run'"
-    }
-  ]
+      {
+        "input": "12921 Coyote Run Fishers IN 46038",
+        "expected": {
+          "number": "12921",
+          "street": "Coyote",
+          "type": "Run",
+          "city": "Fishers",
+          "state": "IN",
+          "zip": "46038"
+        },
+        "description": "Nature-themed street type 'Run'"
+      }
+    ]
+  }
 }

@@ -2,228 +2,230 @@
   "$schema": "../schemas/test-file.json",
   "name": "US Famous Edge Cases",
   "description": "Famous US locations with edge cases that test parsing accuracy for well-known addresses",
-  "famousAddresses": [
-    {
-      "input": "1600 Pennsylvania Ave. N.W., Washington, D.C. 20500-0001",
-      "expected": {
-        "number": "1600",
-        "street": "Pennsylvania",
-        "type": "Ave",
-        "suffix": "NW",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20500",
-        "plus4": "0001",
-        "country": "US"
+  "tests": {
+    "famousEdge": [
+      {
+        "input": "1600 Pennsylvania Ave. N.W., Washington, D.C. 20500-0001",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500",
+          "plus4": "0001",
+          "country": "US"
+        },
+        "description": "The White House - with periods and extended ZIP"
       },
-      "description": "The White House - with periods and extended ZIP"
-    },
-    {
-      "input": "350 5th Avenue, Floor 86, New York, NY 10118",
-      "expected": {
-        "number": "350",
-        "street": "5th",
-        "type": "Ave",
-        "secUnitType": "Floor",
-        "secUnitNum": "86",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10118",
-        "country": "US"
+      {
+        "input": "350 5th Avenue, Floor 86, New York, NY 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "86",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "description": "Empire State Building - with floor designation"
       },
-      "description": "Empire State Building - with floor designation"
-    },
-    {
-      "input": "One Infinite Loop, Building 4, Cupertino, California 95014",
-      "expected": {
-        "number": "One",
-        "street": "Infinite",
-        "type": "Loop",
-        "secUnitType": "Building",
-        "secUnitNum": "4",
-        "city": "Cupertino",
-        "state": "CA",
-        "zip": "95014",
-        "country": "US"
+      {
+        "input": "One Infinite Loop, Building 4, Cupertino, California 95014",
+        "expected": {
+          "number": "One",
+          "street": "Infinite",
+          "type": "Loop",
+          "secUnitType": "Building",
+          "secUnitNum": "4",
+          "city": "Cupertino",
+          "state": "CA",
+          "zip": "95014",
+          "country": "US"
+        },
+        "description": "Apple Park - with written number and building"
       },
-      "description": "Apple Park - with written number and building"
-    },
-    {
-      "input": "1060 W. Addison St., Suite 100, Chicago, Illinois 60613-4397",
-      "expected": {
-        "number": "1060",
-        "prefix": "W",
-        "street": "Addison",
-        "type": "St",
-        "secUnitType": "Suite",
-        "secUnitNum": "100",
-        "city": "Chicago",
-        "state": "IL",
-        "zip": "60613",
-        "plus4": "4397",
-        "country": "US"
+      {
+        "input": "1060 W. Addison St., Suite 100, Chicago, Illinois 60613-4397",
+        "expected": {
+          "number": "1060",
+          "prefix": "W",
+          "street": "Addison",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "100",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60613",
+          "plus4": "4397",
+          "country": "US"
+        },
+        "description": "Wrigley Field - with periods and full state name"
       },
-      "description": "Wrigley Field - with periods and full state name"
-    },
-    {
-      "input": "1 WTC, Floor 104, New York, NY 10007-2701",
-      "expected": {
-        "number": "1",
-        "street": "WTC",
-        "secUnitType": "Floor",
-        "secUnitNum": "104",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10007",
-        "plus4": "2701",
-        "country": "US"
+      {
+        "input": "1 WTC, Floor 104, New York, NY 10007-2701",
+        "expected": {
+          "number": "1",
+          "street": "WTC",
+          "secUnitType": "Floor",
+          "secUnitNum": "104",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10007",
+          "plus4": "2701",
+          "country": "US"
+        },
+        "description": "One World Trade Center - abbreviated with floor"
       },
-      "description": "One World Trade Center - abbreviated with floor"
-    },
-    {
-      "input": "1 AT&T Way, Gate B, Arlington, Texas 76011",
-      "expected": {
-        "number": "1",
-        "street": "AT&T",
-        "type": "Way",
-        "secUnitType": "Gate",
-        "secUnitNum": "B",
-        "city": "Arlington",
-        "state": "TX",
-        "zip": "76011",
-        "country": "US"
+      {
+        "input": "1 AT&T Way, Gate B, Arlington, Texas 76011",
+        "expected": {
+          "number": "1",
+          "street": "AT&T",
+          "type": "Way",
+          "secUnitType": "Gate",
+          "secUnitNum": "B",
+          "city": "Arlington",
+          "state": "TX",
+          "zip": "76011",
+          "country": "US"
+        },
+        "description": "AT&T Stadium - with gate designation"
       },
-      "description": "AT&T Stadium - with gate designation"
-    },
-    {
-      "input": "4059 Mt. Lee Dr., Hollywood, CA 90068-1661",
-      "expected": {
-        "number": "4059",
-        "street": "Mt. Lee",
-        "type": "Dr",
-        "city": "Hollywood",
-        "state": "CA",
-        "zip": "90068",
-        "plus4": "1661",
-        "country": "US"
+      {
+        "input": "4059 Mt. Lee Dr., Hollywood, CA 90068-1661",
+        "expected": {
+          "number": "4059",
+          "street": "Mt. Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "plus4": "1661",
+          "country": "US"
+        },
+        "description": "Hollywood Sign - with period and extended ZIP"
       },
-      "description": "Hollywood Sign - with period and extended ZIP"
-    },
-    {
-      "input": "2 East Main Street, Mesa, Arizona 85201-6738",
-      "expected": {
-        "number": "2",
-        "prefix": "E",
-        "street": "Main",
-        "type": "St",
-        "city": "Mesa",
-        "state": "AZ",
-        "zip": "85201",
-        "plus4": "6738",
-        "country": "US"
+      {
+        "input": "2 East Main Street, Mesa, Arizona 85201-6738",
+        "expected": {
+          "number": "2",
+          "prefix": "E",
+          "street": "Main",
+          "type": "St",
+          "city": "Mesa",
+          "state": "AZ",
+          "zip": "85201",
+          "plus4": "6738",
+          "country": "US"
+        },
+        "description": "Mesa Arts Center - spelled out directional"
       },
-      "description": "Mesa Arts Center - spelled out directional"
-    },
-    {
-      "input": "1200 Getty Center Dr., Los Angeles, California 90049-1679",
-      "expected": {
-        "number": "1200",
-        "street": "Getty Center",
-        "type": "Dr",
-        "city": "Los Angeles",
-        "state": "CA",
-        "zip": "90049",
-        "plus4": "1679",
-        "country": "US"
+      {
+        "input": "1200 Getty Center Dr., Los Angeles, California 90049-1679",
+        "expected": {
+          "number": "1200",
+          "street": "Getty Center",
+          "type": "Dr",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zip": "90049",
+          "plus4": "1679",
+          "country": "US"
+        },
+        "description": "Getty Center - abbreviated drive with full state"
       },
-      "description": "Getty Center - abbreviated drive with full state"
-    },
-    {
-      "input": "1 Fenway Park, Gate A, Boston, Massachusetts 02215",
-      "expected": {
-        "number": "1",
-        "street": "Fenway",
-        "type": "Park",
-        "secUnitType": "Gate",
-        "secUnitNum": "A",
-        "city": "Boston",
-        "state": "MA",
-        "zip": "02215",
-        "country": "US"
+      {
+        "input": "1 Fenway Park, Gate A, Boston, Massachusetts 02215",
+        "expected": {
+          "number": "1",
+          "street": "Fenway",
+          "type": "Park",
+          "secUnitType": "Gate",
+          "secUnitNum": "A",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02215",
+          "country": "US"
+        },
+        "description": "Fenway Park - with gate designation"
       },
-      "description": "Fenway Park - with gate designation"
-    },
-    {
-      "input": "One Cowboys Way, Frisco, TX 75034-9104",
-      "expected": {
-        "number": "One",
-        "street": "Cowboys",
-        "type": "Way",
-        "city": "Frisco",
-        "state": "TX",
-        "zip": "75034",
-        "plus4": "9104",
-        "country": "US"
+      {
+        "input": "One Cowboys Way, Frisco, TX 75034-9104",
+        "expected": {
+          "number": "One",
+          "street": "Cowboys",
+          "type": "Way",
+          "city": "Frisco",
+          "state": "TX",
+          "zip": "75034",
+          "plus4": "9104",
+          "country": "US"
+        },
+        "description": "The Star - written number with extended ZIP"
       },
-      "description": "The Star - written number with extended ZIP"
-    },
-    {
-      "input": "2700 S.W. 2nd Ave., Miami, FL 33129-2324",
-      "expected": {
-        "number": "2700",
-        "prefix": "SW",
-        "street": "2nd",
-        "type": "Ave",
-        "city": "Miami",
-        "state": "FL",
-        "zip": "33129",
-        "plus4": "2324",
-        "country": "US"
+      {
+        "input": "2700 S.W. 2nd Ave., Miami, FL 33129-2324",
+        "expected": {
+          "number": "2700",
+          "prefix": "SW",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Miami",
+          "state": "FL",
+          "zip": "33129",
+          "plus4": "2324",
+          "country": "US"
+        },
+        "description": "Marlins Park - abbreviated directional with periods"
       },
-      "description": "Marlins Park - abbreviated directional with periods"
-    },
-    {
-      "input": "1 Georgia Dome Dr. N.W., Atlanta, GA 30313-1591",
-      "expected": {
-        "number": "1",
-        "street": "Georgia Dome",
-        "type": "Dr",
-        "suffix": "NW",
-        "city": "Atlanta",
-        "state": "GA",
-        "zip": "30313",
-        "plus4": "1591",
-        "country": "US"
+      {
+        "input": "1 Georgia Dome Dr. N.W., Atlanta, GA 30313-1591",
+        "expected": {
+          "number": "1",
+          "street": "Georgia Dome",
+          "type": "Dr",
+          "suffix": "NW",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30313",
+          "plus4": "1591",
+          "country": "US"
+        },
+        "description": "Mercedes-Benz Stadium area - with periods in directional"
       },
-      "description": "Mercedes-Benz Stadium area - with periods in directional"
-    },
-    {
-      "input": "1 Aloha Stadium Pl., Honolulu, Hawaii 96818-4601",
-      "expected": {
-        "number": "1",
-        "street": "Aloha Stadium",
-        "type": "Pl",
-        "city": "Honolulu",
-        "state": "HI",
-        "zip": "96818",
-        "plus4": "4601",
-        "country": "US"
+      {
+        "input": "1 Aloha Stadium Pl., Honolulu, Hawaii 96818-4601",
+        "expected": {
+          "number": "1",
+          "street": "Aloha Stadium",
+          "type": "Pl",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96818",
+          "plus4": "4601",
+          "country": "US"
+        },
+        "description": "Aloha Stadium - abbreviated place with full state"
       },
-      "description": "Aloha Stadium - abbreviated place with full state"
-    },
-    {
-      "input": "1910 University Dr., Boise, Idaho 83725-1000",
-      "expected": {
-        "number": "1910",
-        "street": "University",
-        "type": "Dr",
-        "city": "Boise",
-        "state": "ID",
-        "zip": "83725",
-        "plus4": "1000",
-        "country": "US"
-      },
-      "description": "Boise State University - abbreviated with full state"
-    }
-  ]
+      {
+        "input": "1910 University Dr., Boise, Idaho 83725-1000",
+        "expected": {
+          "number": "1910",
+          "street": "University",
+          "type": "Dr",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83725",
+          "plus4": "1000",
+          "country": "US"
+        },
+        "description": "Boise State University - abbreviated with full state"
+      }
+    ]
+  }
 }

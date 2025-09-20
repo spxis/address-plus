@@ -2,49 +2,51 @@
   "$schema": "../schemas/test-file.json",
   "name": "US Strict Mode Tests",
   "description": "US address parsing tests with strict validation mode enabled",
-  "strictModeTests": [
-    {
-      "description": "Valid US ZIP - 5 digits",
-      "address": "123 Main St, New York NY 12345",
-      "expected": {
-        "zip": "12345",
-        "zipValid": true
+  "tests": {
+    "strictMode": [
+      {
+        "description": "Valid US ZIP - 5 digits",
+        "address": "123 Main St, New York NY 12345",
+        "expected": {
+          "zip": "12345",
+          "zipValid": true
+        }
+      },
+      {
+        "description": "Valid US ZIP+4 with hyphen",
+        "address": "123 Main St, New York NY 12345-6789",
+        "expected": {
+          "zip": "12345",
+          "plus4": "6789",
+          "zipValid": true
+        }
+      },
+      {
+        "description": "Valid US ZIP+4 without hyphen",
+        "address": "123 Main St, New York NY 123456789",
+        "expected": {
+          "zip": "12345",
+          "plus4": "6789",
+          "zipValid": true
+        }
+      },
+      {
+        "description": "Valid US ZIP+4 with space",
+        "address": "123 Main St, New York NY 12345 6789",
+        "expected": {
+          "zip": "12345",
+          "plus4": "6789",
+          "zipValid": true
+        }
+      },
+      {
+        "description": "Default behavior - should default to permissive mode when strict is not specified",
+        "address": "123 Main St, New York NY 12345",
+        "expected": {
+          "zip": "12345",
+          "zipValid": true
+        }
       }
-    },
-    {
-      "description": "Valid US ZIP+4 with hyphen",
-      "address": "123 Main St, New York NY 12345-6789",
-      "expected": {
-        "zip": "12345",
-        "plus4": "6789",
-        "zipValid": true
-      }
-    },
-    {
-      "description": "Valid US ZIP+4 without hyphen",
-      "address": "123 Main St, New York NY 123456789",
-      "expected": {
-        "zip": "12345",
-        "plus4": "6789",
-        "zipValid": true
-      }
-    },
-    {
-      "description": "Valid US ZIP+4 with space",
-      "address": "123 Main St, New York NY 12345 6789",
-      "expected": {
-        "zip": "12345",
-        "plus4": "6789",
-        "zipValid": true
-      }
-    },
-    {
-      "description": "Default behavior - should default to permissive mode when strict is not specified",
-      "address": "123 Main St, New York NY 12345",
-      "expected": {
-        "zip": "12345",
-        "zipValid": true
-      }
-    }
-  ]
+    ]
+  }
 }

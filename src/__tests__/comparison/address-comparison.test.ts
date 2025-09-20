@@ -7,9 +7,14 @@ import {
 import type { ParsedAddress } from "../../types";
 import testData from "../../../test-data/comparison/address-comparison-unified.json";
 
+// Extract test cases from new structure
+const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
+const compareAddressesTests = testData.tests?.compareAddresses || allTests;
+const edgeCasesTests = testData.tests?.edgeCases || [];
+
 describe("Address Comparison API", () => {
   describe("compareAddresses", () => {
-    testData.compareAddresses.forEach((testCase, index) => {
+    compareAddressesTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = compareAddresses(
           testCase.input.address1 as ParsedAddress, 
@@ -23,7 +28,7 @@ describe("Address Comparison API", () => {
   });
 
   describe("isSameAddress", () => {
-    testData.compareAddresses.forEach((testCase, index) => {
+    compareAddressesTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = isSameAddress(
           testCase.input.address1 as ParsedAddress, 
@@ -35,7 +40,7 @@ describe("Address Comparison API", () => {
   });
 
   describe("getAddressSimilarity", () => {
-    testData.compareAddresses.forEach((testCase, index) => {
+    compareAddressesTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = getAddressSimilarity(
           testCase.input.address1 as ParsedAddress, 
@@ -47,7 +52,7 @@ describe("Address Comparison API", () => {
   });
 
   describe("Edge Cases", () => {
-    testData.edgeCases.forEach((testCase, index) => {
+    edgeCasesTests.forEach((testCase: any, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = compareAddresses(
           testCase.input.address1 as ParsedAddress, 

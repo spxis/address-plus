@@ -2,55 +2,57 @@
   "$schema": "../schemas/test-file.json",
   "name": "Canadian Special Address Formats",
   "description": "Special Canadian address formats and parsing scenarios",
-  "specialCases": [
-    {
-      "input": "PO Box 123 Station A Toronto ON M5W 1A1",
-      "expected": {
-        "secUnitType": "PO Box",
-        "secUnitNum": "123",
-        "place": "Station A",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5W 1A1",
-        "country": "CA"
+  "tests": {
+    "special": [
+      {
+        "input": "PO Box 123 Station A Toronto ON M5W 1A1",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "123",
+          "place": "Station A",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5W 1A1",
+          "country": "CA"
+        },
+        "description": "Canadian PO Box with station designation"
       },
-      "description": "Canadian PO Box with station designation"
-    },
-    {
-      "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
-      "expected": {
-        "secUnitType": "Case Postale",
-        "secUnitNum": "456",
-        "place": "Succursale Centre-ville",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H3C 3P8",
-        "country": "CA"
+      {
+        "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
+        "expected": {
+          "secUnitType": "Case Postale",
+          "secUnitNum": "456",
+          "place": "Succursale Centre-ville",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3C 3P8",
+          "country": "CA"
+        },
+        "description": "French postal box with branch office"
       },
-      "description": "French postal box with branch office"
-    },
-    {
-      "input": "General Delivery Iqaluit NU X0A 0H0",
-      "expected": {
-        "generalDelivery": true,
-        "city": "Iqaluit",
-        "state": "NU",
-        "zip": "X0A 0H0",
-        "country": "CA"
+      {
+        "input": "General Delivery Iqaluit NU X0A 0H0",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "description": "General delivery service in Nunavut"
       },
-      "description": "General delivery service in Nunavut"
-    },
-    {
-      "input": "Box 789 Yellowknife NT X1A 2N1",
-      "expected": {
-        "secUnitType": "Box",
-        "secUnitNum": "789",
-        "city": "Yellowknife",
-        "state": "NT",
-        "zip": "X1A 2N1",
-        "country": "CA"
-      },
-      "description": "Simple box address in Northwest Territories"
-    }
-  ]
+      {
+        "input": "Box 789 Yellowknife NT X1A 2N1",
+        "expected": {
+          "secUnitType": "Box",
+          "secUnitNum": "789",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N1",
+          "country": "CA"
+        },
+        "description": "Simple box address in Northwest Territories"
+      }
+    ]
+  }
 }

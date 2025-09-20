@@ -2,144 +2,146 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Canadian Basic Address Tests",
   "description": "Basic Canadian address parsing test cases including French street names, postal codes, and province variations",
-  "basic_addresses": [
-    {
-      "input": "123 Main Street, Toronto, ON M5V 3A8",
-      "expected": {
-        "number": "123",
-        "street": "Main",
-        "type": "St",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5V 3A8"
+  "tests": {
+    "basic": [
+      {
+        "input": "123 Main Street, Toronto, ON M5V 3A8",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 3A8"
+        },
+        "description": "Basic address with commas separating components"
       },
-      "description": "Basic address with commas separating components"
-    },
-    {
-      "input": "123 Main Street Toronto ON M5V 3A8",
-      "expected": {
-        "number": "123",
-        "street": "Main",
-        "type": "St",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5V 3A8"
+      {
+        "input": "123 Main Street Toronto ON M5V 3A8",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 3A8"
+        },
+        "description": "Basic address without commas"
       },
-      "description": "Basic address without commas"
-    },
-    {
-      "input": "456 Rue Saint-Jacques Montréal QC H2Y 1L9",
-      "expected": {
-        "number": "456",
-        "type": "Rue",
-        "street": "Saint-Jacques Montréal",
-        "state": "QC",
-        "zip": "H2Y 1L9"
+      {
+        "input": "456 Rue Saint-Jacques Montréal QC H2Y 1L9",
+        "expected": {
+          "number": "456",
+          "type": "Rue",
+          "street": "Saint-Jacques Montréal",
+          "state": "QC",
+          "zip": "H2Y 1L9"
+        },
+        "description": "French street name with 'Rue' prefix"
       },
-      "description": "French street name with 'Rue' prefix"
-    },
-    {
-      "input": "789 King St W Unit 501 Toronto ON M5V 1M2",
-      "expected": {
-        "number": "789",
-        "secUnitType": "Unit",
-        "secUnitNum": "501",
-        "unit": "Unit 501",
-        "suffix": "W",
-        "street": "King",
-        "type": "St",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5V 1M2"
+      {
+        "input": "789 King St W Unit 501 Toronto ON M5V 1M2",
+        "expected": {
+          "number": "789",
+          "secUnitType": "Unit",
+          "secUnitNum": "501",
+          "unit": "Unit 501",
+          "suffix": "W",
+          "street": "King",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 1M2"
+        },
+        "description": "Address with unit number and directional suffix"
       },
-      "description": "Address with unit number and directional suffix"
-    },
-    {
-      "input": "1234 West Broadway Vancouver BC V6H 1G5",
-      "expected": {
-        "number": "1234",
-        "prefix": "W",
-        "street": "Broadway",
-        "city": "Vancouver",
-        "state": "BC",
-        "zip": "V6H 1G5"
+      {
+        "input": "1234 West Broadway Vancouver BC V6H 1G5",
+        "expected": {
+          "number": "1234",
+          "prefix": "W",
+          "street": "Broadway",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V6H 1G5"
+        },
+        "description": "Address with directional prefix 'West'"
       },
-      "description": "Address with directional prefix 'West'"
-    },
-    {
-      "input": "567 Avenue des Pins Est Montréal QC H2W 1S6",
-      "expected": {
-        "number": "567",
-        "type": "Ave",
-        "street": "Des Pins Est Montréal",
-        "state": "QC",
-        "zip": "H2W 1S6"
+      {
+        "input": "567 Avenue des Pins Est Montréal QC H2W 1S6",
+        "expected": {
+          "number": "567",
+          "type": "Ave",
+          "street": "Des Pins Est Montréal",
+          "state": "QC",
+          "zip": "H2W 1S6"
+        },
+        "description": "French street name with 'Avenue' and directional 'Est'"
       },
-      "description": "French street name with 'Avenue' and directional 'Est'"
-    },
-    {
-      "input": "100 Sparks Street Suite 1200 Ottawa ON K1P 5B7",
-      "expected": {
-        "number": "100",
-        "secUnitType": "Suite",
-        "secUnitNum": "1200",
-        "unit": "Suite 1200",
-        "street": "Sparks",
-        "type": "St",
-        "city": "Ottawa",
-        "state": "ON",
-        "zip": "K1P 5B7"
+      {
+        "input": "100 Sparks Street Suite 1200 Ottawa ON K1P 5B7",
+        "expected": {
+          "number": "100",
+          "secUnitType": "Suite",
+          "secUnitNum": "1200",
+          "unit": "Suite 1200",
+          "street": "Sparks",
+          "type": "St",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 5B7"
+        },
+        "description": "Address with suite number designation"
       },
-      "description": "Address with suite number designation"
-    },
-    {
-      "input": "22 Chemin de la Côte-Sainte-Catherine Outremont QC H2V 2A2",
-      "expected": {
-        "number": "22",
-        "type": "Ch",
-        "street": "De la Côte-Sainte-Catherine",
-        "city": "Outremont",
-        "state": "QC",
-        "zip": "H2V 2A2"
+      {
+        "input": "22 Chemin de la Côte-Sainte-Catherine Outremont QC H2V 2A2",
+        "expected": {
+          "number": "22",
+          "type": "Ch",
+          "street": "De la Côte-Sainte-Catherine",
+          "city": "Outremont",
+          "state": "QC",
+          "zip": "H2V 2A2"
+        },
+        "description": "French 'Chemin' street type with complex hyphenated name"
       },
-      "description": "French 'Chemin' street type with complex hyphenated name"
-    },
-    {
-      "input": "888 Burrard Street Vancouver BC V6Z 1X9",
-      "expected": {
-        "number": "888",
-        "street": "Burrard",
-        "type": "St",
-        "city": "Vancouver",
-        "state": "BC",
-        "zip": "V6Z 1X9"
+      {
+        "input": "888 Burrard Street Vancouver BC V6Z 1X9",
+        "expected": {
+          "number": "888",
+          "street": "Burrard",
+          "type": "St",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V6Z 1X9"
+        },
+        "description": "Standard Vancouver street address"
       },
-      "description": "Standard Vancouver street address"
-    },
-    {
-      "input": "333 University Avenue Toronto ON M5G 1R8",
-      "expected": {
-        "number": "333",
-        "street": "University",
-        "type": "Ave",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5G 1R8"
+      {
+        "input": "333 University Avenue Toronto ON M5G 1R8",
+        "expected": {
+          "number": "333",
+          "street": "University",
+          "type": "Ave",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5G 1R8"
+        },
+        "description": "University Avenue in downtown Toronto"
       },
-      "description": "University Avenue in downtown Toronto"
-    },
-    {
-      "input": "1500 Don Mills Road North York ON M3B 3K4",
-      "expected": {
-        "number": "1500",
-        "suffix": "N",
-        "street": "Don Mills",
-        "type": "Rd",
-        "city": "York",
-        "state": "ON",
-        "zip": "M3B 3K4"
-      },
-      "description": "Address with directional suffix 'North' abbreviated to 'N'"
-    }
-  ]
+      {
+        "input": "1500 Don Mills Road North York ON M3B 3K4",
+        "expected": {
+          "number": "1500",
+          "suffix": "N",
+          "street": "Don Mills",
+          "type": "Rd",
+          "city": "York",
+          "state": "ON",
+          "zip": "M3B 3K4"
+        },
+        "description": "Address with directional suffix 'North' abbreviated to 'N'"
+      }
+    ]
+  }
 }

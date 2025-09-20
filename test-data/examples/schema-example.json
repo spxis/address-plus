@@ -2,32 +2,34 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Schema Example Test Cases",
   "description": "Example test file showing proper JSON Schema usage",
-  "basicTests": [
-    {
-      "name": "Basic US address parsing",
-      "description": "Test parsing a standard US address",
-      "input": "123 Main St, Anytown, CA 90210",
-      "expected": {
-        "number": "123",
-        "street": "Main",
-        "type": "St",
-        "city": "Anytown",
-        "state": "CA",
-        "zip": "90210"
+  "tests": {
+    "examples": [
+      {
+        "name": "Basic US address parsing",
+        "description": "Test parsing a standard US address",
+        "input": "123 Main St, Anytown, CA 90210",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Anytown",
+          "state": "CA",
+          "zip": "90210"
+        }
+      },
+      {
+        "name": "Canadian address parsing",
+        "description": "Test parsing a standard Canadian address",
+        "input": "123 Main Street, Toronto, ON M5V 3A8",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 3A8"
+        }
       }
-    },
-    {
-      "name": "Canadian address parsing",
-      "description": "Test parsing a standard Canadian address",
-      "input": "123 Main Street, Toronto, ON M5V 3A8",
-      "expected": {
-        "number": "123",
-        "street": "Main",
-        "type": "St",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5V 3A8"
-      }
-    }
-  ]
+    ]
+  }
 }

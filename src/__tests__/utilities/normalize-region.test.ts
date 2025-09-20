@@ -19,7 +19,8 @@ function loadTestData(filename: string): any {
   const filePath: string = join(__dirname, "../../../test-data/regions", filename);
   const data: any = JSON.parse(readFileSync(filePath, "utf-8"));
   
-  return data;
+  // Return the tests object which contains the reorganized data
+  return data.tests || data;
 }
 
 describe("Normalize Region", () => {
@@ -86,8 +87,10 @@ describe("Normalize Region", () => {
 
   describe("edge cases", () => {
     describe("null cases", () => {
-      if (edgeCasesData?.nullCases) {
-        edgeCasesData.nullCases.forEach(({ input, description }: NullTestCase) => {
+      if (edgeCasesData?.cases) {
+        // Filter for null cases (first 7 items based on the structure)
+        const nullCases = edgeCasesData.cases.slice(0, 7);
+        nullCases.forEach(({ input, description }: NullTestCase) => {
           it(`should return null for ${description}`, () => {
             expect(normalizeRegion(input)).toBe(null);
           });
@@ -100,8 +103,10 @@ describe("Normalize Region", () => {
     });
 
     describe("whitespace handling", () => {
-      if (edgeCasesData?.whitespaceTests) {
-        edgeCasesData.whitespaceTests.forEach(({ input, expected, description }: TestCase) => {
+      if (edgeCasesData?.cases) {
+        // Filter for whitespace test cases (next 3 items)
+        const whitespaceCases = edgeCasesData.cases.slice(7, 10);
+        whitespaceCases.forEach(({ input, expected, description }: TestCase) => {
           it(`should handle ${description}`, () => {
             expect(normalizeRegion(input)).toEqual(expected);
           });
@@ -114,8 +119,10 @@ describe("Normalize Region", () => {
     });
 
     describe("exact match priority", () => {
-      if (edgeCasesData?.priorityTests) {
-        edgeCasesData.priorityTests.forEach(({ input, expected, description }: TestCase) => {
+      if (edgeCasesData?.cases) {
+        // Filter for priority test cases (remaining items)
+        const priorityCases = edgeCasesData.cases.slice(10);
+        priorityCases.forEach(({ input, expected, description }: TestCase) => {
           it(`${description}`, () => {
             expect(normalizeRegion(input)).toEqual(expected);
           });
@@ -129,8 +136,8 @@ describe("Normalize Region", () => {
   });
 
   describe("fuzzy matching - US states", () => {
-    if (usStatesFuzzyData?.cases) {
-      usStatesFuzzyData.cases.forEach(({ input, expected, description }: TestCase) => {
+    if (usStatesFuzzyData?.fuzzyMatching) {
+      usStatesFuzzyData.fuzzyMatching.forEach(({ input, expected, description }: TestCase) => {
         it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
           expect(normalizeRegion(input)).toEqual(expected);
         });
@@ -143,8 +150,8 @@ describe("Normalize Region", () => {
   });
 
   describe("fuzzy matching - Canadian provinces", () => {
-    if (canadianProvincesFuzzyData?.cases) {
-      canadianProvincesFuzzyData.cases.forEach(({ input, expected, description }: TestCase) => {
+    if (canadianProvincesFuzzyData?.fuzzyMatching) {
+      canadianProvincesFuzzyData.fuzzyMatching.forEach(({ input, expected, description }: TestCase) => {
         it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
           expect(normalizeRegion(input)).toEqual(expected);
         });

@@ -2,78 +2,76 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Edge Cases",
   "description": "Test cases that should return null or handle edge conditions",
-  "nullCases": [
-    {
-      "input": "",
-      "description": "Empty string"
-    },
-    {
-      "input": "   ",
-      "description": "Whitespace only string"
-    },
-    {
-      "input": "xyz",
-      "description": "Random 3-letter string"
-    },
-    {
-      "input": "abcdef",
-      "description": "Random 6-letter string"
-    },
-    {
-      "input": "completely wrong",
-      "description": "Completely unrelated phrase"
-    },
-    {
-      "input": "12345",
-      "description": "Numbers only"
-    },
-    {
-      "input": "!@#$%",
-      "description": "Special characters only"
-    }
-  ],
-  "whitespaceTests": [
-    {
-      "input": " CA ",
-      "expected": {
-        "abbr": "CA",
-        "country": "US"
+  "tests": {
+    "cases": [
+      {
+        "input": "",
+        "description": "Empty string"
       },
-      "description": "California abbreviation with leading/trailing spaces"
-    },
-    {
-      "input": "\tTX\t",
-      "expected": {
-        "abbr": "TX",
-        "country": "US"
+      {
+        "input": "   ",
+        "description": "Whitespace only string"
       },
-      "description": "Texas abbreviation with tabs"
-    },
-    {
-      "input": "  ontario  ",
-      "expected": {
-        "abbr": "ON",
-        "country": "CA"
+      {
+        "input": "xyz",
+        "description": "Random 3-letter string"
       },
-      "description": "Ontario full name with multiple spaces"
-    }
-  ],
-  "priorityTests": [
-    {
-      "input": "new york",
-      "expected": {
-        "abbr": "NY",
-        "country": "US"
+      {
+        "input": "abcdef",
+        "description": "Random 6-letter string"
       },
-      "description": "Should match exact name over fuzzy match"
-    },
-    {
-      "input": "CA",
-      "expected": {
-        "abbr": "CA",
-        "country": "US"
+      {
+        "input": "completely wrong",
+        "description": "Completely unrelated phrase"
       },
-      "description": "Should match exact abbreviation over fuzzy match"
-    }
-  ]
+      {
+        "input": "12345",
+        "description": "Numbers only"
+      },
+      {
+        "input": "!@#$%",
+        "description": "Special characters only"
+      },
+      {
+        "input": " CA ",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "California abbreviation with leading/trailing spaces"
+      },
+      {
+        "input": "\tTX\t",
+        "expected": {
+          "abbr": "TX",
+          "country": "US"
+        },
+        "description": "Texas abbreviation with tabs"
+      },
+      {
+        "input": "  ontario  ",
+        "expected": {
+          "abbr": "ON",
+          "country": "CA"
+        },
+        "description": "Ontario full name with multiple spaces"
+      },
+      {
+        "input": "new york",
+        "expected": {
+          "abbr": "NY",
+          "country": "US"
+        },
+        "description": "Should match exact name over fuzzy match"
+      },
+      {
+        "input": "CA",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "Should match exact abbreviation over fuzzy match"
+      }
+    ]
+  }
 }

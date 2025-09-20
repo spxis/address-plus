@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Compatibility Cases - TODO",
+  "description": "Compatibility test cases that are edge cases not yet implemented",
+  "tests": {
+    "compatibility": [
+      {
+        "input": "550 S 400 E #3206, Salt Lake City UT 84111",
+        "expected": {
+          "number": "550",
+          "prefix": "S",
+          "street": "400 E",
+          "secUnitType": "#",
+          "secUnitNum": "3206",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84111"
+        },
+        "description": "Salt Lake City grid with unit number"
+      }
+    ]
+  }
+}

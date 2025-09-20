@@ -2,410 +2,412 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Unified Address Comparison",
   "description": "Unified address comparison tests across different parsing approaches",
-  "compareAddresses": [
-    {
-      "description": "identical addresses",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
+  "tests": {
+    "compareAddresses": [
+      {
+        "description": "identical addresses",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          }
         },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        }
-      },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": []
-        }
-      }
-    },
-    {
-      "description": "similar addresses with abbreviations",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "St",
-          "city": "Anytown",
-          "state": "CA",
-          "zip": "90210",
-          "country": "US"
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": []
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+      {
+        "description": "similar addresses with abbreviations",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "St",
+            "city": "Anytown",
+            "state": "CA",
+            "zip": "90210",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": []
-        }
-      }
-    },
-    {
-      "description": "minor variations (space in city, plus4)",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Any Town",
-          "state": "California",
-          "zip": "90210-1234",
-          "country": "US"
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": []
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 0.95,
-        "comparison": {
+      {
+        "description": "minor variations (space in city, plus4)",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Any Town",
+            "state": "California",
+            "zip": "90210-1234",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 0.95,
-          "differences": [
-            "city",
-            "zip"
-          ]
-        }
-      }
-    },
-    {
-      "description": "different addresses",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        },
-        "address2": {
-          "number": "456",
-          "street": "Oak",
-          "type": "Avenue",
-          "city": "Different City",
-          "state": "New York",
-          "zip": "10001",
-          "country": "US"
+          "comparison": {
+            "isSame": true,
+            "similarity": 0.95,
+            "differences": [
+              "city",
+              "zip"
+            ]
+          }
         }
       },
-      "expected": {
-        "isSame": false,
-        "similarity": 0.13,
-        "comparison": {
+      {
+        "description": "different addresses",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "456",
+            "street": "Oak",
+            "type": "Avenue",
+            "city": "Different City",
+            "state": "New York",
+            "zip": "10001",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": false,
           "similarity": 0.13,
-          "differences": [
-            "number",
-            "street",
-            "type",
-            "city",
-            "state",
-            "zip"
-          ]
-        }
-      }
-    },
-    {
-      "description": "case sensitivity test",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "main",
-          "type": "street",
-          "city": "anytown",
-          "state": "california",
-          "zip": "90210",
-          "country": "US"
-        },
-        "address2": {
-          "number": "123",
-          "street": "MAIN",
-          "type": "STREET",
-          "city": "ANYTOWN",
-          "state": "CALIFORNIA",
-          "zip": "90210",
-          "country": "US"
+          "comparison": {
+            "isSame": false,
+            "similarity": 0.13,
+            "differences": [
+              "number",
+              "street",
+              "type",
+              "city",
+              "state",
+              "zip"
+            ]
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+      {
+        "description": "case sensitivity test",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "main",
+            "type": "street",
+            "city": "anytown",
+            "state": "california",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "MAIN",
+            "type": "STREET",
+            "city": "ANYTOWN",
+            "state": "CALIFORNIA",
+            "zip": "90210",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": []
-        }
-      }
-    },
-    {
-      "description": "missing zip code",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "country": "US"
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": []
+          }
         }
       },
-      "expected": {
-        "isSame": false,
-        "similarity": 0.8,
-        "comparison": {
+      {
+        "description": "missing zip code",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": false,
           "similarity": 0.8,
-          "differences": [
-            "zip"
-          ]
-        }
-      }
-    },
-    {
-      "description": "directional differences",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "prefix": "North",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "prefix": "N",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
+          "comparison": {
+            "isSame": false,
+            "similarity": 0.8,
+            "differences": [
+              "zip"
+            ]
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+      {
+        "description": "directional differences",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "prefix": "North",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "prefix": "N",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": []
-        }
-      }
-    },
-    {
-      "description": "unit number differences",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "secUnitType": "Apt",
-          "secUnitNum": "4B",
-          "country": "US"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "secUnitType": "Apartment",
-          "secUnitNum": "4B",
-          "country": "US"
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": []
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+      {
+        "description": "unit number differences",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "secUnitType": "Apt",
+            "secUnitNum": "4B",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "secUnitType": "Apartment",
+            "secUnitNum": "4B",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": []
-        }
-      }
-    },
-    {
-      "description": "Canadian address comparison",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Toronto",
-          "state": "Ontario",
-          "zip": "M5V 3A8",
-          "country": "CA"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "St",
-          "city": "Toronto",
-          "state": "ON",
-          "zip": "M5V 3A8",
-          "country": "CA"
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": []
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+      {
+        "description": "Canadian address comparison",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Toronto",
+            "state": "Ontario",
+            "zip": "M5V 3A8",
+            "country": "CA"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "St",
+            "city": "Toronto",
+            "state": "ON",
+            "zip": "M5V 3A8",
+            "country": "CA"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": []
-        }
-      }
-    },
-    {
-      "description": "different countries same address",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Toronto",
-          "state": "Ontario",
-          "zip": "M5V 3A8",
-          "country": "CA"
-        },
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Toronto",
-          "state": "Ontario",
-          "zip": "M5V 3A8",
-          "country": "US"
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": []
+          }
         }
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
+      {
+        "description": "different countries same address",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Toronto",
+            "state": "Ontario",
+            "zip": "M5V 3A8",
+            "country": "CA"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Toronto",
+            "state": "Ontario",
+            "zip": "M5V 3A8",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": true,
           "similarity": 1,
-          "differences": [
-            "country"
-          ]
+          "comparison": {
+            "isSame": true,
+            "similarity": 1,
+            "differences": [
+              "country"
+            ]
+          }
         }
       }
-    }
-  ],
-  "edgeCases": [
-    {
-      "description": "null address comparison",
-      "input": {
-        "address1": null,
-        "address2": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
-        }
-      },
-      "expected": {
-        "isSame": false,
-        "similarity": 0,
-        "comparison": {
+    ],
+    "edgeCases": [
+      {
+        "description": "null address comparison",
+        "input": {
+          "address1": null,
+          "address2": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          }
+        },
+        "expected": {
           "isSame": false,
-          "score": 0
+          "similarity": 0,
+          "comparison": {
+            "isSame": false,
+            "score": 0
+          }
         }
-      }
-    },
-    {
-      "description": "empty addresses comparison",
-      "input": {
-        "address1": {},
-        "address2": {}
       },
-      "expected": {
-        "isSame": true,
-        "similarity": 1,
-        "comparison": {
-          "isSame": true,
-          "score": 1
-        }
-      }
-    },
-    {
-      "description": "partial address comparison",
-      "input": {
-        "address1": {
-          "number": "123",
-          "street": "Main",
-          "type": "Street",
-          "city": "Anytown",
-          "state": "California",
-          "zip": "90210",
-          "country": "US"
+      {
+        "description": "empty addresses comparison",
+        "input": {
+          "address1": {},
+          "address2": {}
         },
-        "address2": {
-          "number": "123",
-          "street": "Main"
+        "expected": {
+          "isSame": true,
+          "similarity": 1,
+          "comparison": {
+            "isSame": true,
+            "score": 1
+          }
         }
       },
-      "expected": {
-        "isSame": false,
-        "similarityLessThan": 1,
-        "comparison": {
-          "isSame": false
+      {
+        "description": "partial address comparison",
+        "input": {
+          "address1": {
+            "number": "123",
+            "street": "Main",
+            "type": "Street",
+            "city": "Anytown",
+            "state": "California",
+            "zip": "90210",
+            "country": "US"
+          },
+          "address2": {
+            "number": "123",
+            "street": "Main"
+          }
+        },
+        "expected": {
+          "isSame": false,
+          "similarityLessThan": 1,
+          "comparison": {
+            "isSame": false
+          }
         }
       }
-    }
-  ]
+    ]
+  }
 }

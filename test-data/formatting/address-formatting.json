@@ -2,495 +2,497 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Address Formatting Tests",
   "description": "Address formatting and standardization test cases",
-  "formatAddress": [
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
+  "tests": {
+    "formatAddress": [
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {},
+        "expected": {
+          "lines": [
+            "123 Main Street",
+            "Anytown California 90210"
+          ],
+          "singleLine": "123 Main Street, Anytown California 90210",
+          "format": "standard"
+        },
+        "description": "Format a basic US address"
       },
-      "options": {},
-      "expected": {
-        "lines": [
-          "123 Main Street",
-          "Anytown California 90210"
-        ],
-        "singleLine": "123 Main Street, Anytown California 90210",
-        "format": "standard"
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {
+          "abbreviateStreetTypes": true,
+          "abbreviateStates": true
+        },
+        "expected": {
+          "lines": [
+            "123 Main St",
+            "Anytown CA 90210"
+          ]
+        },
+        "description": "Format with abbreviations when requested"
       },
-      "description": "Format a basic US address"
-    },
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {
+          "upperCase": true,
+          "abbreviateStreetTypes": true,
+          "abbreviateStates": true
+        },
+        "expected": {
+          "lines": [
+            "123 MAIN ST",
+            "ANYTOWN CA 90210"
+          ]
+        },
+        "description": "Format in uppercase when requested"
       },
-      "options": {
-        "abbreviateStreetTypes": true,
-        "abbreviateStates": true
+      {
+        "input": {
+          "number": "789",
+          "prefix": "North",
+          "street": "Elm",
+          "type": "Boulevard",
+          "suffix": "East",
+          "secUnitType": "Apartment",
+          "secUnitNum": "42",
+          "city": "Springfield",
+          "state": "Illinois",
+          "zip": "62701",
+          "plus4": "1234",
+          "country": "US"
+        },
+        "options": {
+          "includeSecondaryUnit": true,
+          "abbreviateStreetTypes": true,
+          "abbreviateDirections": true,
+          "abbreviateStates": true
+        },
+        "expected": {
+          "lines": [
+            "Apt 42 789 N Elm Blvd E",
+            "Springfield IL 62701-1234"
+          ]
+        },
+        "description": "Include secondary units"
       },
-      "expected": {
-        "lines": [
-          "123 Main St",
-          "Anytown CA 90210"
-        ]
+      {
+        "input": {
+          "number": "789",
+          "prefix": "North",
+          "street": "Elm",
+          "type": "Boulevard",
+          "suffix": "East",
+          "secUnitType": "Apartment",
+          "secUnitNum": "42",
+          "city": "Springfield",
+          "state": "Illinois",
+          "zip": "62701",
+          "plus4": "1234",
+          "country": "US"
+        },
+        "options": {
+          "includeSecondaryUnit": false,
+          "abbreviateStreetTypes": true,
+          "abbreviateDirections": true
+        },
+        "expected": {
+          "lines": [
+            "789 N Elm Blvd E",
+            "Springfield Illinois 62701-1234"
+          ],
+          "shouldNotContain": "Apt"
+        },
+        "description": "Exclude secondary units when requested"
       },
-      "description": "Format with abbreviations when requested"
-    },
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
+      {
+        "input": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "country": "UK"
+        },
+        "options": {
+          "includeCountry": true
+        },
+        "expected": {
+          "lines": [
+            "10 Downing Street",
+            "London SW1A 2AA",
+            "UK"
+          ]
+        },
+        "description": "Include country for international addresses"
       },
-      "options": {
-        "upperCase": true,
-        "abbreviateStreetTypes": true,
-        "abbreviateStates": true
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {
+          "includeCountry": true
+        },
+        "expected": {
+          "lines": [
+            "123 Main Street",
+            "Anytown California 90210"
+          ],
+          "shouldNotContain": "US"
+        },
+        "description": "Do not include country for US/CA addresses even when requested"
       },
-      "expected": {
-        "lines": [
-          "123 MAIN ST",
-          "ANYTOWN CA 90210"
-        ]
+      {
+        "input": {
+          "number": "789",
+          "prefix": "North",
+          "street": "Elm",
+          "type": "Boulevard",
+          "suffix": "East",
+          "secUnitType": "Apartment",
+          "secUnitNum": "42",
+          "city": "Springfield",
+          "state": "Illinois",
+          "zip": "62701",
+          "plus4": "1234",
+          "country": "US"
+        },
+        "options": {
+          "separator": "  ",
+          "abbreviateStreetTypes": true
+        },
+        "expected": {
+          "lines": [
+            "Apt  42  789  North  Elm  Blvd  East",
+            "Springfield  Illinois  62701-1234"
+          ],
+          "shouldContain": "  "
+        },
+        "description": "Use custom separator"
+      }
+    ],
+    "formatUSPS": [
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {},
+        "expected": {
+          "lines": [
+            "123 MAIN ST",
+            "ANYTOWN CA 90210"
+          ],
+          "format": "usps"
+        },
+        "description": "Format according to USPS standards"
       },
-      "description": "Format in uppercase when requested"
-    },
-    {
-      "input": {
-        "number": "789",
-        "prefix": "North",
-        "street": "Elm",
-        "type": "Boulevard",
-        "suffix": "East",
-        "secUnitType": "Apartment",
-        "secUnitNum": "42",
-        "city": "Springfield",
-        "state": "Illinois",
-        "zip": "62701",
-        "plus4": "1234",
-        "country": "US"
+      {
+        "input": {
+          "number": "789",
+          "prefix": "North",
+          "street": "Elm",
+          "type": "Boulevard",
+          "suffix": "East",
+          "secUnitType": "Apartment",
+          "secUnitNum": "42",
+          "city": "Springfield",
+          "state": "Illinois",
+          "zip": "62701",
+          "plus4": "1234",
+          "country": "US"
+        },
+        "options": {},
+        "expected": {
+          "lines": [
+            "789 N ELM BLVD E APT 42",
+            "SPRINGFIELD IL 62701-1234"
+          ]
+        },
+        "description": "Format complex address with USPS standards"
       },
-      "options": {
-        "includeSecondaryUnit": true,
-        "abbreviateStreetTypes": true,
-        "abbreviateDirections": true,
-        "abbreviateStates": true
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {
+          "standardizeCase": false
+        },
+        "expected": {
+          "lines": [
+            "123 Main St",
+            "Anytown CA 90210"
+          ]
+        },
+        "description": "Allow case control"
       },
-      "expected": {
-        "lines": [
-          "Apt 42 789 N Elm Blvd E",
-          "Springfield IL 62701-1234"
-        ]
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Street",
+          "city": "Anytown",
+          "state": "California",
+          "zip": "90210",
+          "country": "US"
+        },
+        "options": {
+          "includeDeliveryLine": false,
+          "includeLastLine": true
+        },
+        "expected": {
+          "lines": [
+            "ANYTOWN CA 90210"
+          ]
+        },
+        "description": "Allow selective line inclusion"
+      }
+    ],
+    "formatCanadaPost": [
+      {
+        "input": {
+          "number": "456",
+          "street": "Oak",
+          "type": "Avenue",
+          "city": "Toronto",
+          "state": "Ontario",
+          "zip": "M5V 3A8",
+          "country": "CA"
+        },
+        "options": {},
+        "expected": {
+          "lines": [
+            "456 OAK AVE",
+            "TORONTO ON  M5V 3A8"
+          ],
+          "format": "canada-post",
+          "country": "CA"
+        },
+        "description": "Format according to Canada Post standards"
       },
-      "description": "Include secondary units"
-    },
-    {
-      "input": {
-        "number": "789",
-        "prefix": "North",
-        "street": "Elm",
-        "type": "Boulevard",
-        "suffix": "East",
-        "secUnitType": "Apartment",
-        "secUnitNum": "42",
-        "city": "Springfield",
-        "state": "Illinois",
-        "zip": "62701",
-        "plus4": "1234",
-        "country": "US"
+      {
+        "input": {
+          "number": "456",
+          "street": "Oak",
+          "type": "Avenue",
+          "city": "Toronto",
+          "state": "Ontario",
+          "zip": "M5V 3A8",
+          "country": "CA"
+        },
+        "options": {},
+        "expected": {
+          "lines": [
+            "456 OAK AVE",
+            "TORONTO ON  M5V 3A8"
+          ],
+          "regex": "\\s{2}M5V 3A8$"
+        },
+        "description": "Use proper postal code spacing"
       },
-      "options": {
-        "includeSecondaryUnit": false,
-        "abbreviateStreetTypes": true,
-        "abbreviateDirections": true
+      {
+        "input": {
+          "number": "456",
+          "street": "Oak",
+          "type": "Avenue",
+          "city": "Toronto",
+          "state": "Ontario",
+          "zip": "M5V 3A8",
+          "country": "CA"
+        },
+        "options": {
+          "standardizeCase": false
+        },
+        "expected": {
+          "lines": [
+            "456 Oak Ave",
+            "Toronto ON  M5V 3A8"
+          ]
+        },
+        "description": "Allow case control"
       },
-      "expected": {
-        "lines": [
-          "789 N Elm Blvd E",
-          "Springfield Illinois 62701-1234"
-        ],
-        "shouldNotContain": "Apt"
+      {
+        "input": {
+          "number": "456",
+          "street": "Oak",
+          "type": "Avenue",
+          "city": "Toronto",
+          "state": "Ontario",
+          "country": "CA"
+        },
+        "options": {},
+        "expected": {
+          "lines": [
+            "456 OAK AVE",
+            "TORONTO ON"
+          ]
+        },
+        "description": "Handle addresses without postal codes"
+      }
+    ],
+    "getAddressAbbreviations": [
+      {
+        "input": {},
+        "expected": {
+          "hasProperties": [
+            "streetTypes",
+            "directions",
+            "states",
+            "provinces",
+            "unitTypes"
+          ]
+        },
+        "description": "Return all abbreviation mappings"
       },
-      "description": "Exclude secondary units when requested"
-    },
-    {
-      "input": {
-        "number": "10",
-        "street": "Downing",
-        "type": "Street",
-        "city": "London",
-        "zip": "SW1A 2AA",
-        "country": "UK"
+      {
+        "input": {},
+        "expected": {
+          "streetTypes": {
+            "street": "St",
+            "avenue": "Ave",
+            "boulevard": "Blvd",
+            "drive": "Dr"
+          }
+        },
+        "description": "Include common street type abbreviations"
       },
-      "options": {
-        "includeCountry": true
+      {
+        "input": {},
+        "expected": {
+          "directions": {
+            "north": "N",
+            "south": "S",
+            "northeast": "NE",
+            "southwest": "SW"
+          }
+        },
+        "description": "Include directional abbreviations"
       },
-      "expected": {
-        "lines": [
-          "10 Downing Street",
-          "London SW1A 2AA",
-          "UK"
-        ]
+      {
+        "input": {},
+        "expected": {
+          "states": {
+            "california": "CA",
+            "texas": "TX",
+            "new york": "NY"
+          }
+        },
+        "description": "Include US state abbreviations"
       },
-      "description": "Include country for international addresses"
-    },
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
+      {
+        "input": {},
+        "expected": {
+          "provinces": {
+            "ontario": "ON",
+            "british columbia": "BC",
+            "quebec": "QC"
+          }
+        },
+        "description": "Include Canadian province abbreviations"
       },
-      "options": {
-        "includeCountry": true
+      {
+        "input": {},
+        "expected": {
+          "unitTypes": {
+            "apartment": "Apt",
+            "suite": "Ste",
+            "unit": "Unit"
+          }
+        },
+        "description": "Include unit type abbreviations"
+      }
+    ],
+    "edgeCases": [
+      {
+        "input": {
+          "street": "Main"
+        },
+        "expected": {
+          "lines": [
+            "Main"
+          ]
+        },
+        "description": "Handle missing address components gracefully"
       },
-      "expected": {
-        "lines": [
-          "123 Main Street",
-          "Anytown California 90210"
-        ],
-        "shouldNotContain": "US"
+      {
+        "input": {},
+        "expected": {
+          "lines": [],
+          "singleLine": ""
+        },
+        "description": "Handle empty address"
       },
-      "description": "Do not include country for US/CA addresses even when requested"
-    },
-    {
-      "input": {
-        "number": "789",
-        "prefix": "North",
-        "street": "Elm",
-        "type": "Boulevard",
-        "suffix": "East",
-        "secUnitType": "Apartment",
-        "secUnitNum": "42",
-        "city": "Springfield",
-        "state": "Illinois",
-        "zip": "62701",
-        "plus4": "1234",
-        "country": "US"
+      {
+        "input": {
+          "zip": "90210"
+        },
+        "expected": {
+          "lines": [
+            "90210"
+          ]
+        },
+        "description": "Handle address with only postal code"
       },
-      "options": {
-        "separator": "  ",
-        "abbreviateStreetTypes": true
-      },
-      "expected": {
-        "lines": [
-          "Apt  42  789  North  Elm  Blvd  East",
-          "Springfield  Illinois  62701-1234"
-        ],
-        "shouldContain": "  "
-      },
-      "description": "Use custom separator"
-    }
-  ],
-  "formatUSPS": [
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
-      },
-      "options": {},
-      "expected": {
-        "lines": [
-          "123 MAIN ST",
-          "ANYTOWN CA 90210"
-        ],
-        "format": "usps"
-      },
-      "description": "Format according to USPS standards"
-    },
-    {
-      "input": {
-        "number": "789",
-        "prefix": "North",
-        "street": "Elm",
-        "type": "Boulevard",
-        "suffix": "East",
-        "secUnitType": "Apartment",
-        "secUnitNum": "42",
-        "city": "Springfield",
-        "state": "Illinois",
-        "zip": "62701",
-        "plus4": "1234",
-        "country": "US"
-      },
-      "options": {},
-      "expected": {
-        "lines": [
-          "789 N ELM BLVD E APT 42",
-          "SPRINGFIELD IL 62701-1234"
-        ]
-      },
-      "description": "Format complex address with USPS standards"
-    },
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
-      },
-      "options": {
-        "standardizeCase": false
-      },
-      "expected": {
-        "lines": [
-          "123 Main St",
-          "Anytown CA 90210"
-        ]
-      },
-      "description": "Allow case control"
-    },
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Street",
-        "city": "Anytown",
-        "state": "California",
-        "zip": "90210",
-        "country": "US"
-      },
-      "options": {
-        "includeDeliveryLine": false,
-        "includeLastLine": true
-      },
-      "expected": {
-        "lines": [
-          "ANYTOWN CA 90210"
-        ]
-      },
-      "description": "Allow selective line inclusion"
-    }
-  ],
-  "formatCanadaPost": [
-    {
-      "input": {
-        "number": "456",
-        "street": "Oak",
-        "type": "Avenue",
-        "city": "Toronto",
-        "state": "Ontario",
-        "zip": "M5V 3A8",
-        "country": "CA"
-      },
-      "options": {},
-      "expected": {
-        "lines": [
-          "456 OAK AVE",
-          "TORONTO ON  M5V 3A8"
-        ],
-        "format": "canada-post",
-        "country": "CA"
-      },
-      "description": "Format according to Canada Post standards"
-    },
-    {
-      "input": {
-        "number": "456",
-        "street": "Oak",
-        "type": "Avenue",
-        "city": "Toronto",
-        "state": "Ontario",
-        "zip": "M5V 3A8",
-        "country": "CA"
-      },
-      "options": {},
-      "expected": {
-        "lines": [
-          "456 OAK AVE",
-          "TORONTO ON  M5V 3A8"
-        ],
-        "regex": "\\s{2}M5V 3A8$"
-      },
-      "description": "Use proper postal code spacing"
-    },
-    {
-      "input": {
-        "number": "456",
-        "street": "Oak",
-        "type": "Avenue",
-        "city": "Toronto",
-        "state": "Ontario",
-        "zip": "M5V 3A8",
-        "country": "CA"
-      },
-      "options": {
-        "standardizeCase": false
-      },
-      "expected": {
-        "lines": [
-          "456 Oak Ave",
-          "Toronto ON  M5V 3A8"
-        ]
-      },
-      "description": "Allow case control"
-    },
-    {
-      "input": {
-        "number": "456",
-        "street": "Oak",
-        "type": "Avenue",
-        "city": "Toronto",
-        "state": "Ontario",
-        "country": "CA"
-      },
-      "options": {},
-      "expected": {
-        "lines": [
-          "456 OAK AVE",
-          "TORONTO ON"
-        ]
-      },
-      "description": "Handle addresses without postal codes"
-    }
-  ],
-  "getAddressAbbreviations": [
-    {
-      "input": {},
-      "expected": {
-        "hasProperties": [
-          "streetTypes",
-          "directions",
-          "states",
-          "provinces",
-          "unitTypes"
-        ]
-      },
-      "description": "Return all abbreviation mappings"
-    },
-    {
-      "input": {},
-      "expected": {
-        "streetTypes": {
-          "street": "St",
-          "avenue": "Ave",
-          "boulevard": "Blvd",
-          "drive": "Dr"
-        }
-      },
-      "description": "Include common street type abbreviations"
-    },
-    {
-      "input": {},
-      "expected": {
-        "directions": {
-          "north": "N",
-          "south": "S",
-          "northeast": "NE",
-          "southwest": "SW"
-        }
-      },
-      "description": "Include directional abbreviations"
-    },
-    {
-      "input": {},
-      "expected": {
-        "states": {
-          "california": "CA",
-          "texas": "TX",
-          "new york": "NY"
-        }
-      },
-      "description": "Include US state abbreviations"
-    },
-    {
-      "input": {},
-      "expected": {
-        "provinces": {
-          "ontario": "ON",
-          "british columbia": "BC",
-          "quebec": "QC"
-        }
-      },
-      "description": "Include Canadian province abbreviations"
-    },
-    {
-      "input": {},
-      "expected": {
-        "unitTypes": {
-          "apartment": "Apt",
-          "suite": "Ste",
-          "unit": "Unit"
-        }
-      },
-      "description": "Include unit type abbreviations"
-    }
-  ],
-  "edgeCases": [
-    {
-      "input": {
-        "street": "Main"
-      },
-      "expected": {
-        "lines": [
-          "Main"
-        ]
-      },
-      "description": "Handle missing address components gracefully"
-    },
-    {
-      "input": {},
-      "expected": {
-        "lines": [],
-        "singleLine": ""
-      },
-      "description": "Handle empty address"
-    },
-    {
-      "input": {
-        "zip": "90210"
-      },
-      "expected": {
-        "lines": [
-          "90210"
-        ]
-      },
-      "description": "Handle address with only postal code"
-    },
-    {
-      "input": {
-        "number": "123",
-        "street": "Main",
-        "type": "Xyz",
-        "city": "Anytown",
-        "state": "Somestate"
-      },
-      "options": {
-        "abbreviateStreetTypes": true,
-        "abbreviateStates": true
-      },
-      "expected": {
-        "lines": [
-          "123 Main Xyz",
-          "Anytown Somestate"
-        ]
-      },
-      "description": "Preserve unknown abbreviations"
-    }
-  ]
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "Xyz",
+          "city": "Anytown",
+          "state": "Somestate"
+        },
+        "options": {
+          "abbreviateStreetTypes": true,
+          "abbreviateStates": true
+        },
+        "expected": {
+          "lines": [
+            "123 Main Xyz",
+            "Anytown Somestate"
+          ]
+        },
+        "description": "Preserve unknown abbreviations"
+      }
+    ]
+  }
 }

@@ -2,36 +2,38 @@
   "$schema": "../../schemas/test-file.json",
   "name": "TODO: Canadian Famous Edge Cases",
   "description": "TODO: Famous Canadian location edge cases requiring implementation",
-  "famousAddresses": [
-    {
-      "input": "789 Mont-Royal E, Appartement 3½, Montréal, QC H2J 1W8",
-      "expected": {
-        "number": "789",
-        "street": "Mont-Royal",
-        "suffix": "E",
-        "secUnitType": "Apt",
-        "secUnitNum": "3½",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H2J 1W8",
-        "country": "CA"
+  "tests": {
+    "famousEdge": [
+      {
+        "input": "789 Mont-Royal E, Appartement 3½, Montréal, QC H2J 1W8",
+        "expected": {
+          "number": "789",
+          "street": "Mont-Royal",
+          "suffix": "E",
+          "secUnitType": "Apt",
+          "secUnitNum": "3½",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2J 1W8",
+          "country": "CA"
+        },
+        "description": "Montreal address with French apartment notation"
       },
-      "description": "Montreal address with French apartment notation"
-    },
-    {
-      "input": "1000 rue de la Commune O, Loft 205, Montréal, QC H3C 4R2",
-      "expected": {
-        "number": "1000",
-        "street": "de la Commune",
-        "suffix": "O",
-        "secUnitType": "Loft",
-        "secUnitNum": "205",
-        "city": "Montréal",
-        "state": "QC",
-        "zip": "H3C 4R2",
-        "country": "CA"
-      },
-      "description": "French street with loft unit"
-    }
-  ]
+      {
+        "input": "1000 rue de la Commune O, Loft 205, Montréal, QC H3C 4R2",
+        "expected": {
+          "number": "1000",
+          "street": "de la Commune",
+          "suffix": "O",
+          "secUnitType": "Loft",
+          "secUnitNum": "205",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3C 4R2",
+          "country": "CA"
+        },
+        "description": "French street with loft unit"
+      }
+    ]
+  }
 }

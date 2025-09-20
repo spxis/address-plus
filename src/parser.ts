@@ -43,7 +43,12 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
     return null;
   }
 
-  const original = address.trim();
+  let original = address.trim();
+  
+  // Strip surrounding parentheses if present
+  if (original.startsWith('(') && original.endsWith(')')) {
+    original = original.slice(1, -1).trim();
+  }
 
   // Check for intersection first
   const patterns = buildPatterns();
@@ -364,7 +369,21 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
             cityPart = cityStateFullMatch[1].trim();
             statePart = cityStateFullMatch[2].trim();
           } else {
-            cityPart = remainingText;
+            // Before assigning remaining text as city, check if it's a standalone secondary unit type
+            if (remainingText.toLowerCase() in SECONDARY_UNIT_TYPES) {
+              // The entire remaining text is just a secondary unit type (no city)
+              // Don't assign it as city, let parseStandardAddress handle it
+              // cityPart remains empty
+            } else {
+              const standaloneUnitMatch = remainingText.match(new RegExp(`^(.*?)\\s+(${Object.keys(SECONDARY_UNIT_TYPES).join('|')})\\s*$`, 'i'));
+              if (standaloneUnitMatch && standaloneUnitMatch[1].trim()) {
+                // Found a secondary unit, extract city from the part before it
+                cityPart = standaloneUnitMatch[1].trim();
+                // Note: The secondary unit will be processed later in parseStandardAddress
+              } else {
+                cityPart = remainingText;
+              }
+            }
           }
         }
       }
@@ -598,6 +617,18 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     }
   }
   
+  // 2.5. Check for spaced grid address pattern (e.g., "2200 W" or "400 E")
+  if (result.number && result.prefix && !result.street) {
+    // Look for pattern: NUMBER DIRECTION at the start of remaining text
+    const gridMatch = remaining.match(new RegExp(`^(\\d+)\\s+(${Object.keys(DIRECTIONAL_MAP).join('|')})\\b(.*)$`, 'i'));
+    if (gridMatch) {
+      result.street = gridMatch[1];
+      const normalizedDirectional = DIRECTIONAL_MAP[gridMatch[2].toLowerCase()];
+      result.suffix = normalizedDirectional || gridMatch[2].toUpperCase();
+      remaining = gridMatch[3].trim();
+    }
+  }
+  
   // 3. Extract secondary unit from the end (before we parse street type) or use from comma parts
   // Use pattern from data constants
   const secUnitMatch = remaining.match(SECONDARY_UNIT_PATTERN);
@@ -646,6 +677,18 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         result.secUnitNum = unitParts[5];
         result.unit = secondaryUnitPart; // Store original unit text
       }
+    }
+  }
+  
+  // 3.5. Check for standalone secondary unit types (like "lobby" without a unit number)
+  if (!result.secUnitType && !result.secUnitNum) {
+    // Look for standalone secondary unit type at the end before ZIP code
+    const standaloneUnitMatch = remaining.match(new RegExp(`^(.*?)\\s+(${Object.keys(SECONDARY_UNIT_TYPES).join('|')})\\s*$`, 'i'));
+    if (standaloneUnitMatch) {
+      remaining = standaloneUnitMatch[1].trim();
+      const rawType = standaloneUnitMatch[2].toLowerCase();
+      result.secUnitType = SECONDARY_UNIT_TYPES[rawType];
+      result.unit = standaloneUnitMatch[2]; // Store original unit text
     }
   }
   
@@ -765,6 +808,14 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   
   // Add city, locality (if available), state, zip
   if (cityPart) result.city = cityPart;
+  
+  // Fix: If city was incorrectly assigned a secondary unit type, move it to secUnitType
+  if (result.city && !result.secUnitType && result.city.toLowerCase() in SECONDARY_UNIT_TYPES) {
+    result.secUnitType = SECONDARY_UNIT_TYPES[result.city.toLowerCase()];
+    result.unit = result.city; // Store original text
+    delete result.city; // Remove incorrect city assignment
+  }
+  
   // If we have a facility and the next comma part is a sub-region (NYC borough, DC quadrant, etc.), treat it as locality
   if (facilityName && commaParts.length > 1) {
     const maybeLocalityRaw: string = commaParts[1].trim();

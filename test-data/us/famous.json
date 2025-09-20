@@ -2,169 +2,171 @@
   "$schema": "../../schemas/test-file.json",
   "name": "US Famous Locations",
   "description": "Famous US address locations including landmarks, buildings, and well-known facilities with complex address parsing requirements",
-  "famous_addresses": [
-    {
-      "input": "The White House, 1600 Pennsylvania Avenue NW, Washington DC 20500",
-      "expected": {
-        "number": "1600",
-        "street": "Pennsylvania",
-        "type": "Ave",
-        "suffix": "NW",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20500",
-        "place": "The White House",
-        "country": "US"
+  "tests": {
+    "famous": [
+      {
+        "input": "The White House, 1600 Pennsylvania Avenue NW, Washington DC 20500",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500",
+          "place": "The White House",
+          "country": "US"
+        },
+        "description": "The White House - most famous US address"
       },
-      "description": "The White House - most famous US address"
-    },
-    {
-      "input": "Empire State Building, 350 5th Avenue, New York NY 10118",
-      "expected": {
-        "number": "350",
-        "street": "5th",
-        "type": "Ave",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10118",
-        "place": "Empire State Building",
-        "country": "US"
+      {
+        "input": "Empire State Building, 350 5th Avenue, New York NY 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "place": "Empire State Building",
+          "country": "US"
+        },
+        "description": "Empire State Building - iconic NYC landmark"
       },
-      "description": "Empire State Building - iconic NYC landmark"
-    },
-    {
-      "input": "Golden Gate Bridge, US Hwy 101, San Francisco CA 94129",
-      "expected": {
-        "street": "US Hwy 101",
-        "city": "San Francisco",
-        "state": "CA",
-        "zip": "94129",
-        "country": "US"
+      {
+        "input": "Golden Gate Bridge, US Hwy 101, San Francisco CA 94129",
+        "expected": {
+          "street": "US Hwy 101",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94129",
+          "country": "US"
+        },
+        "description": "Golden Gate Bridge - iconic San Francisco landmark"
       },
-      "description": "Golden Gate Bridge - iconic San Francisco landmark"
-    },
-    {
-      "description": "Los Angeles landmark with multi-word street name and drive type",
-      "input": "Hollywood Sign, 3000 Canyon Lake Drive, Los Angeles CA 90068",
-      "expected": {
-        "number": "3000",
-        "street": "Canyon Lake",
-        "type": "Dr",
-        "city": "Los Angeles",
-        "state": "CA",
-        "zip": "90068",
-        "place": "Hollywood Sign",
-        "country": "US"
+      {
+        "description": "Los Angeles landmark with multi-word street name and drive type",
+        "input": "Hollywood Sign, 3000 Canyon Lake Drive, Los Angeles CA 90068",
+        "expected": {
+          "number": "3000",
+          "street": "Canyon Lake",
+          "type": "Dr",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zip": "90068",
+          "place": "Hollywood Sign",
+          "country": "US"
+        }
+      },
+      {
+        "description": "NYC landmark without street number, using location name as street",
+        "input": "Times Square, Manhattan, New York NY 10036",
+        "expected": {
+          "place": "Times Square",
+          "locality": "Manhattan",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10036",
+          "country": "US"
+        }
+      },
+      {
+        "description": "National monument with highway designation and en dash",
+        "input": "Mount Rushmore, 13000 SD‑244, Keystone SD 57751",
+        "expected": {
+          "number": "13000",
+          "street": "SD‑244",
+          "city": "Keystone",
+          "state": "SD",
+          "zip": "57751",
+          "country": "US"
+        }
+      },
+      {
+        "description": "National monument on island without street number",
+        "input": "Statue of Liberty, Liberty Island, New York NY 10004",
+        "expected": {
+          "street": "Liberty Island",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10004",
+          "country": "US"
+        }
+      },
+      {
+        "description": "National park with village drive address",
+        "input": "Yosemite National Park, 9035 Village Drive, Yosemite Valley CA 95389",
+        "expected": {
+          "number": "9035",
+          "street": "Village",
+          "type": "Dr",
+          "city": "Yosemite Valley",
+          "state": "CA",
+          "zip": "95389",
+          "country": "US"
+        }
+      },
+      {
+        "description": "Military facility with Pentagon as facility name (reasonable parsing)",
+        "input": "The Pentagon, 1400 Defense Pentagon, Washington DC 20301",
+        "expected": {
+          "street": "The Pentagon",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20301",
+          "country": "US"
+        }
+      },
+      {
+        "description": "Island landmark with pier designation as street",
+        "input": "Alcatraz Island, Pier 33, San Francisco CA 94133",
+        "expected": {
+          "street": "Pier 33",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94133",
+          "country": "US"
+        }
+      },
+      {
+        "description": "Seattle market with simple street address",
+        "input": "Pike Place Market, 85 Pike Street, Seattle WA 98101",
+        "expected": {
+          "number": "85",
+          "street": "Pike",
+          "type": "St",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        }
+      },
+      {
+        "description": "Historic Philadelphia building with standard street format",
+        "input": "Independence Hall, 520 Chestnut Street, Philadelphia PA 19106",
+        "expected": {
+          "number": "520",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Philadelphia",
+          "state": "PA",
+          "zip": "19106",
+          "country": "US"
+        }
+      },
+      {
+        "description": "Boston baseball stadium with simple street address",
+        "input": "Fenway Park, 4 Jersey Street, Boston MA 02215",
+        "expected": {
+          "number": "4",
+          "street": "Jersey",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02215",
+          "country": "US"
+        }
       }
-    },
-    {
-      "description": "NYC landmark without street number, using location name as street",
-      "input": "Times Square, Manhattan, New York NY 10036",
-      "expected": {
-        "place": "Times Square",
-        "locality": "Manhattan",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10036",
-        "country": "US"
-      }
-    },
-    {
-      "description": "National monument with highway designation and en dash",
-      "input": "Mount Rushmore, 13000 SD‑244, Keystone SD 57751",
-      "expected": {
-        "number": "13000",
-        "street": "SD‑244",
-        "city": "Keystone",
-        "state": "SD",
-        "zip": "57751",
-        "country": "US"
-      }
-    },
-    {
-      "description": "National monument on island without street number",
-      "input": "Statue of Liberty, Liberty Island, New York NY 10004",
-      "expected": {
-        "street": "Liberty Island",
-        "city": "New York",
-        "state": "NY",
-        "zip": "10004",
-        "country": "US"
-      }
-    },
-    {
-      "description": "National park with village drive address",
-      "input": "Yosemite National Park, 9035 Village Drive, Yosemite Valley CA 95389",
-      "expected": {
-        "number": "9035",
-        "street": "Village",
-        "type": "Dr",
-        "city": "Yosemite Valley",
-        "state": "CA",
-        "zip": "95389",
-        "country": "US"
-      }
-    },
-    {
-      "description": "Military facility with Pentagon as facility name (reasonable parsing)",
-      "input": "The Pentagon, 1400 Defense Pentagon, Washington DC 20301",
-      "expected": {
-        "street": "The Pentagon",
-        "city": "Washington",
-        "state": "DC",
-        "zip": "20301",
-        "country": "US"
-      }
-    },
-    {
-      "description": "Island landmark with pier designation as street",
-      "input": "Alcatraz Island, Pier 33, San Francisco CA 94133",
-      "expected": {
-        "street": "Pier 33",
-        "city": "San Francisco",
-        "state": "CA",
-        "zip": "94133",
-        "country": "US"
-      }
-    },
-    {
-      "description": "Seattle market with simple street address",
-      "input": "Pike Place Market, 85 Pike Street, Seattle WA 98101",
-      "expected": {
-        "number": "85",
-        "street": "Pike",
-        "type": "St",
-        "city": "Seattle",
-        "state": "WA",
-        "zip": "98101",
-        "country": "US"
-      }
-    },
-    {
-      "description": "Historic Philadelphia building with standard street format",
-      "input": "Independence Hall, 520 Chestnut Street, Philadelphia PA 19106",
-      "expected": {
-        "number": "520",
-        "street": "Chestnut",
-        "type": "St",
-        "city": "Philadelphia",
-        "state": "PA",
-        "zip": "19106",
-        "country": "US"
-      }
-    },
-    {
-      "description": "Boston baseball stadium with simple street address",
-      "input": "Fenway Park, 4 Jersey Street, Boston MA 02215",
-      "expected": {
-        "number": "4",
-        "street": "Jersey",
-        "type": "St",
-        "city": "Boston",
-        "state": "MA",
-        "zip": "02215",
-        "country": "US"
-      }
-    }
-  ]
+    ]
+  }
 }

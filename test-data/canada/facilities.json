@@ -2,73 +2,75 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Canadian Facilities and Institutions",
   "description": "Canadian facility addresses with varied formatting - em dash, comma, newline, colon, and space separators reflecting real-world Canadian address diversity",
-  "facilities": [
-    {
-      "input": "Rogers Place – 10220 104 Avenue NW, Edmonton AB T5J 0H6",
-      "expected": {
-        "place": "Rogers Place",
-        "number": "10220",
-        "street": "104",
-        "type": "Ave",
-        "suffix": "NW",
-        "city": "Edmonton",
-        "state": "AB",
-        "zip": "T5J 0H6"
+  "tests": {
+    "facilities": [
+      {
+        "input": "Rogers Place – 10220 104 Avenue NW, Edmonton AB T5J 0H6",
+        "expected": {
+          "place": "Rogers Place",
+          "number": "10220",
+          "street": "104",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 0H6"
+        },
+        "description": "Rogers Place arena with em dash separator - Edmonton"
       },
-      "description": "Rogers Place arena with em dash separator - Edmonton"
-    },
-    {
-      "input": "Canadian Museum for Human Rights: 85 Israel Asper Way, Winnipeg MB R3C 0L5",
-      "expected": {
-        "place": "Canadian Museum for Human Rights",
-        "number": "85",
-        "street": "Israel Asper",
-        "type": "Way",
-        "city": "Winnipeg",
-        "state": "MB",
-        "zip": "R3C 0L5"
+      {
+        "input": "Canadian Museum for Human Rights: 85 Israel Asper Way, Winnipeg MB R3C 0L5",
+        "expected": {
+          "place": "Canadian Museum for Human Rights",
+          "number": "85",
+          "street": "Israel Asper",
+          "type": "Way",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3C 0L5"
+        },
+        "description": "Museum address with colon separator"
       },
-      "description": "Museum address with colon separator"
-    },
-    {
-      "input": "Legislative Assembly of New Brunswick - 706 Queen Street, Fredericton NB E3B 1C5",
-      "expected": {
-        "place": "Legislative Assembly of New Brunswick",
-        "number": "706",
-        "street": "Queen",
-        "type": "St",
-        "city": "Fredericton",
-        "state": "NB",
-        "zip": "E3B 1C5"
+      {
+        "input": "Legislative Assembly of New Brunswick - 706 Queen Street, Fredericton NB E3B 1C5",
+        "expected": {
+          "place": "Legislative Assembly of New Brunswick",
+          "number": "706",
+          "street": "Queen",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1C5"
+        },
+        "description": "Legislative building with dash separator"
       },
-      "description": "Legislative building with dash separator"
-    },
-    {
-      "input": "CN Tower | 301 Front Street West, Toronto ON M5V 2T6",
-      "expected": {
-        "place": "CN Tower",
-        "number": "301",
-        "street": "Front",
-        "type": "St",
-        "suffix": "W",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5V 2T6"
+      {
+        "input": "CN Tower | 301 Front Street West, Toronto ON M5V 2T6",
+        "expected": {
+          "place": "CN Tower",
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6"
+        },
+        "description": "Landmark with pipe separator"
       },
-      "description": "Landmark with pipe separator"
-    },
-    {
-      "input": "Royal Ontario Museum; 100 Queen's Park, Toronto ON M5S 2C6",
-      "expected": {
-        "place": "Royal Ontario Museum",
-        "number": "100",
-        "street": "Queen's",
-        "type": "Park",
-        "city": "Toronto",
-        "state": "ON",
-        "zip": "M5S 2C6"
-      },
-      "description": "Museum with semicolon separator"
-    }
-  ]
+      {
+        "input": "Royal Ontario Museum; 100 Queen's Park, Toronto ON M5S 2C6",
+        "expected": {
+          "place": "Royal Ontario Museum",
+          "number": "100",
+          "street": "Queen's",
+          "type": "Park",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5S 2C6"
+        },
+        "description": "Museum with semicolon separator"
+      }
+    ]
+  }
 }

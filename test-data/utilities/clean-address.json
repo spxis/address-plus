@@ -2,271 +2,273 @@
   "$schema": "../../schemas/test-file.json",
   "name": "Address Cleaning Utilities",
   "description": "Address cleaning and normalization utility function test cases",
-  "cleanAddress": [
-    {
-      "name": "basic address cleaning",
-      "input": "123   main  st   anytown ca  90210",
-      "expected": "123 Main St, Anytown CA 90210",
-      "options": {
-        "removeExtraSpaces": true,
-        "standardizeCase": "title"
-      }
-    },
-    {
-      "name": "USPS format cleaning",
-      "input": "456 oak avenue apt 2b springfield illinois 62701",
-      "expected": "456 OAK AVE APT 2B, SPRINGFIELD IL 62701",
-      "options": {
-        "format": "usps"
-      }
-    },
-    {
-      "name": "Canada Post format cleaning",
-      "input": "789 maple street toronto ontario m5v 3a8",
-      "expected": "789 MAPLE STREET TORONTO ONTARIO M5V 3A8",
-      "options": {
-        "format": "canada-post"
-      }
-    },
-    {
-      "name": "abbreviation expansion",
-      "input": "321 elm st apt 5 dallas tx 75201",
-      "expected": "Apartment 5 321 Elm Street, Dallas Texas 75201",
-      "options": {
-        "expandAbbreviations": true,
-        "standardizeCase": "title",
-        "abbreviateStates": false
-      }
-    },
-    {
-      "name": "case standardization upper",
-      "input": "654 Pine Ave, Boston MA 02101",
-      "expected": "654 PINE AVE, BOSTON MA 02101",
-      "options": {
-        "standardizeCase": "upper"
-      }
-    },
-    {
-      "name": "case standardization lower",
-      "input": "987 OAK BLVD, DENVER CO 80202",
-      "expected": "987 oak blvd, denver co 80202",
-      "options": {
-        "standardizeCase": "lower"
-      }
-    },
-    {
-      "name": "directional expansion",
-      "input": "111 n main st e, phoenix az 85001",
-      "expected": "111 North Main Street East, Phoenix Arizona 85001",
-      "options": {
-        "expandAbbreviations": true,
-        "standardizeCase": "title"
-      }
-    },
-    {
-      "name": "Canadian address with expansion",
-      "input": "222 king st w apt 10 toronto on m5h 1k4",
-      "expected": "222 King Street West Apartment 10 Toronto Ontario M5h 1k4",
-      "options": {
-        "expandAbbreviations": true,
-        "standardizeCase": "title"
-      }
-    },
-    {
-      "name": "minimal cleaning",
-      "input": "555 Broadway New York NY 10012",
-      "expected": "555 Broadway, New York NY 10012",
-      "options": {}
-    },
-    {
-      "name": "address with extra punctuation",
-      "input": "777... Main!!! St.,,,, City@@ State## 12345",
-      "expected": "777 Main St, City State 12345",
-      "options": {
-        "removeExtraSpaces": true
-      }
-    }
-  ],
-  "cleanAddressDetailed": [
-    {
-      "name": "detailed information about changes",
-      "input": "123  main   st  dallas tx  75201",
-      "expected": {
-        "cleanedAddress": "123 Main Street, Dallas Texas 75201",
-        "wasModified": true,
-        "changes": [
-          "Expanded abbreviations to full names",
-          "Applied title case standardization"
-        ]
+  "tests": {
+    "cleanAddress": [
+      {
+        "name": "basic address cleaning",
+        "input": "123   main  st   anytown ca  90210",
+        "expected": "123 Main St, Anytown CA 90210",
+        "options": {
+          "removeExtraSpaces": true,
+          "standardizeCase": "title"
+        }
       },
-      "options": {
-        "expandAbbreviations": true,
-        "standardizeCase": "title",
-        "removeExtraSpaces": true
-      }
-    },
-    {
-      "name": "no changes were made",
-      "input": "123 Main Street, Anytown CA 90210",
-      "expected": {
-        "cleanedAddress": "123 Main St, Anytown CA 90210",
-        "wasModified": true,
-        "changes": []
+      {
+        "name": "USPS format cleaning",
+        "input": "456 oak avenue apt 2b springfield illinois 62701",
+        "expected": "456 OAK AVE APT 2B, SPRINGFIELD IL 62701",
+        "options": {
+          "format": "usps"
+        }
       },
-      "options": {}
-    },
-    {
-      "name": "USPS format changes",
-      "input": "123 Main Street, Anytown California 90210",
-      "expected": {
-        "cleanedAddress": "123 MAIN ST, ANYTOWN CA 90210",
-        "wasModified": true,
-        "changes": [
-          "Applied USPS formatting standards"
-        ]
+      {
+        "name": "Canada Post format cleaning",
+        "input": "789 maple street toronto ontario m5v 3a8",
+        "expected": "789 MAPLE STREET TORONTO ONTARIO M5V 3A8",
+        "options": {
+          "format": "canada-post"
+        }
       },
-      "options": {
-        "format": "usps"
-      }
-    },
-    {
-      "name": "Canada Post format changes",
-      "input": "123 Maple Street Toronto Ontario M5V 3A8",
-      "expected": {
-        "cleanedAddress": "123 MAPLE ST, TORONTO ON  M5V 3A8",
-        "wasModified": true,
-        "changes": [
-          "Applied Canada Post formatting standards"
-        ]
+      {
+        "name": "abbreviation expansion",
+        "input": "321 elm st apt 5 dallas tx 75201",
+        "expected": "Apartment 5 321 Elm Street, Dallas Texas 75201",
+        "options": {
+          "expandAbbreviations": true,
+          "standardizeCase": "title",
+          "abbreviateStates": false
+        }
       },
-      "options": {
-        "format": "canada-post"
-      }
-    },
-    {
-      "name": "parsing failures",
-      "input": "xyz123",
-      "expected": {
-        "cleanedAddress": "Xyz123",
-        "wasModified": true,
-        "changes": [
-          "Applied smart title case"
-        ]
+      {
+        "name": "case standardization upper",
+        "input": "654 Pine Ave, Boston MA 02101",
+        "expected": "654 PINE AVE, BOSTON MA 02101",
+        "options": {
+          "standardizeCase": "upper"
+        }
       },
-      "options": {}
-    },
-    {
-      "name": "indicate when no changes were made",
-      "input": "123 Main Street, Anytown CA 90210",
-      "expected": {
-        "cleanedAddress": "123 Main St, Anytown CA 90210",
-        "wasModified": true,
-        "changes": []
+      {
+        "name": "case standardization lower",
+        "input": "987 OAK BLVD, DENVER CO 80202",
+        "expected": "987 oak blvd, denver co 80202",
+        "options": {
+          "standardizeCase": "lower"
+        }
       },
-      "options": {}
-    }
-  ],
-  "formatSpecific": [
-    {
-      "name": "standard format with abbreviations",
-      "input": "123 Main Street Apt 2B, Anytown California 90210",
-      "expected": "Apartment 2b 123 Main St, Anytown CA 90210",
-      "expectContains": [
-        "Main St",
-        "CA"
-      ],
-      "options": {
-        "format": "standard"
+      {
+        "name": "directional expansion",
+        "input": "111 n main st e, phoenix az 85001",
+        "expected": "111 North Main Street East, Phoenix Arizona 85001",
+        "options": {
+          "expandAbbreviations": true,
+          "standardizeCase": "title"
+        }
+      },
+      {
+        "name": "Canadian address with expansion",
+        "input": "222 king st w apt 10 toronto on m5h 1k4",
+        "expected": "222 King Street West Apartment 10 Toronto Ontario M5h 1k4",
+        "options": {
+          "expandAbbreviations": true,
+          "standardizeCase": "title"
+        }
+      },
+      {
+        "name": "minimal cleaning",
+        "input": "555 Broadway New York NY 10012",
+        "expected": "555 Broadway, New York NY 10012",
+        "options": {}
+      },
+      {
+        "name": "address with extra punctuation",
+        "input": "777... Main!!! St.,,,, City@@ State## 12345",
+        "expected": "777 Main St, City State 12345",
+        "options": {
+          "removeExtraSpaces": true
+        }
       }
-    },
-    {
-      "name": "standard format without abbreviations",
-      "input": "123 Main St Apt 2B, Anytown CA 90210",
-      "expected": "Apartment 2b 123 Main Street, Anytown California 90210",
-      "expectContains": [
-        "Main Street",
-        "California"
-      ],
-      "options": {
-        "format": "standard",
-        "expandAbbreviations": true
+    ],
+    "cleanAddressDetailed": [
+      {
+        "name": "detailed information about changes",
+        "input": "123  main   st  dallas tx  75201",
+        "expected": {
+          "cleanedAddress": "123 Main Street, Dallas Texas 75201",
+          "wasModified": true,
+          "changes": [
+            "Expanded abbreviations to full names",
+            "Applied title case standardization"
+          ]
+        },
+        "options": {
+          "expandAbbreviations": true,
+          "standardizeCase": "title",
+          "removeExtraSpaces": true
+        }
+      },
+      {
+        "name": "no changes were made",
+        "input": "123 Main Street, Anytown CA 90210",
+        "expected": {
+          "cleanedAddress": "123 Main St, Anytown CA 90210",
+          "wasModified": true,
+          "changes": []
+        },
+        "options": {}
+      },
+      {
+        "name": "USPS format changes",
+        "input": "123 Main Street, Anytown California 90210",
+        "expected": {
+          "cleanedAddress": "123 MAIN ST, ANYTOWN CA 90210",
+          "wasModified": true,
+          "changes": [
+            "Applied USPS formatting standards"
+          ]
+        },
+        "options": {
+          "format": "usps"
+        }
+      },
+      {
+        "name": "Canada Post format changes",
+        "input": "123 Maple Street Toronto Ontario M5V 3A8",
+        "expected": {
+          "cleanedAddress": "123 MAPLE ST, TORONTO ON  M5V 3A8",
+          "wasModified": true,
+          "changes": [
+            "Applied Canada Post formatting standards"
+          ]
+        },
+        "options": {
+          "format": "canada-post"
+        }
+      },
+      {
+        "name": "parsing failures",
+        "input": "xyz123",
+        "expected": {
+          "cleanedAddress": "Xyz123",
+          "wasModified": true,
+          "changes": [
+            "Applied smart title case"
+          ]
+        },
+        "options": {}
+      },
+      {
+        "name": "indicate when no changes were made",
+        "input": "123 Main Street, Anytown CA 90210",
+        "expected": {
+          "cleanedAddress": "123 Main St, Anytown CA 90210",
+          "wasModified": true,
+          "changes": []
+        },
+        "options": {}
       }
-    },
-    {
-      "name": "USPS format standardization",
-      "input": "123 Main Street Apt 2B, Anytown California 90210",
-      "expected": "123 MAIN ST APT 2B, ANYTOWN CA 90210",
-      "expectContains": [
-        "MAIN ST",
-        "APT"
-      ],
-      "options": {
-        "format": "usps"
+    ],
+    "formatSpecific": [
+      {
+        "name": "standard format with abbreviations",
+        "input": "123 Main Street Apt 2B, Anytown California 90210",
+        "expected": "Apartment 2b 123 Main St, Anytown CA 90210",
+        "expectContains": [
+          "Main St",
+          "CA"
+        ],
+        "options": {
+          "format": "standard"
+        }
+      },
+      {
+        "name": "standard format without abbreviations",
+        "input": "123 Main St Apt 2B, Anytown CA 90210",
+        "expected": "Apartment 2b 123 Main Street, Anytown California 90210",
+        "expectContains": [
+          "Main Street",
+          "California"
+        ],
+        "options": {
+          "format": "standard",
+          "expandAbbreviations": true
+        }
+      },
+      {
+        "name": "USPS format standardization",
+        "input": "123 Main Street Apt 2B, Anytown California 90210",
+        "expected": "123 MAIN ST APT 2B, ANYTOWN CA 90210",
+        "expectContains": [
+          "MAIN ST",
+          "APT"
+        ],
+        "options": {
+          "format": "usps"
+        }
+      },
+      {
+        "name": "Canada Post with proper spacing",
+        "input": "123 King Street Toronto Ontario M5H1K4",
+        "expected": "123 KING ST, TORONTO ON  M5H 1K4",
+        "expectContains": [
+          "KING ST",
+          "ON  M5H"
+        ],
+        "options": {
+          "format": "canada-post"
+        }
       }
-    },
-    {
-      "name": "Canada Post with proper spacing",
-      "input": "123 King Street Toronto Ontario M5H1K4",
-      "expected": "123 KING ST, TORONTO ON  M5H 1K4",
-      "expectContains": [
-        "KING ST",
-        "ON  M5H"
-      ],
-      "options": {
-        "format": "canada-post"
+    ],
+    "edgeCases": [
+      {
+        "name": "address with secondary unit prefix",
+        "input": "Apt 5 123 Main St, Anytown CA 90210",
+        "expected": "Apartment 5 123 Main St, Anytown CA 90210",
+        "options": {}
+      },
+      {
+        "name": "address with directional suffix",
+        "input": "456 Pine St SW, Seattle WA 98101",
+        "expected": "456 Pine St Sw, Seattle WA 98101",
+        "options": {}
+      },
+      {
+        "name": "address with ZIP+4",
+        "input": "789 Oak Ave, Portland OR 97201-1234",
+        "expected": "789 Oak Ave, Portland OR 97201-1234",
+        "options": {}
+      },
+      {
+        "name": "incomplete address",
+        "input": "123 Main St",
+        "expected": "123 Main St",
+        "options": {}
       }
-    }
-  ],
-  "edgeCases": [
-    {
-      "name": "address with secondary unit prefix",
-      "input": "Apt 5 123 Main St, Anytown CA 90210",
-      "expected": "Apartment 5 123 Main St, Anytown CA 90210",
-      "options": {}
-    },
-    {
-      "name": "address with directional suffix",
-      "input": "456 Pine St SW, Seattle WA 98101",
-      "expected": "456 Pine St Sw, Seattle WA 98101",
-      "options": {}
-    },
-    {
-      "name": "address with ZIP+4",
-      "input": "789 Oak Ave, Portland OR 97201-1234",
-      "expected": "789 Oak Ave, Portland OR 97201-1234",
-      "options": {}
-    },
-    {
-      "name": "incomplete address",
-      "input": "123 Main St",
-      "expected": "123 Main St",
-      "options": {}
-    }
-  ],
-  "additionalTests": [
-    {
-      "name": "unparseable addresses gracefully",
-      "description": "Should handle unparseable addresses gracefully",
-      "input": "xyz123",
-      "expected": "Xyz123"
-    },
-    {
-      "name": "preserve already clean addresses",
-      "description": "Should preserve already clean addresses",
-      "input": "123 Main St, Anytown CA 90210",
-      "expected": "123 Main St, Anytown CA 90210"
-    },
-    {
-      "name": "empty input",
-      "description": "Should handle empty input",
-      "input": "",
-      "expected": ""
-    },
-    {
-      "name": "whitespace-only input",
-      "description": "Should handle whitespace-only input",
-      "input": "   ",
-      "expected": ""
-    }
-  ]
+    ],
+    "additionalTests": [
+      {
+        "name": "unparseable addresses gracefully",
+        "description": "Should handle unparseable addresses gracefully",
+        "input": "xyz123",
+        "expected": "Xyz123"
+      },
+      {
+        "name": "preserve already clean addresses",
+        "description": "Should preserve already clean addresses",
+        "input": "123 Main St, Anytown CA 90210",
+        "expected": "123 Main St, Anytown CA 90210"
+      },
+      {
+        "name": "empty input",
+        "description": "Should handle empty input",
+        "input": "",
+        "expected": ""
+      },
+      {
+        "name": "whitespace-only input",
+        "description": "Should handle whitespace-only input",
+        "input": "   ",
+        "expected": ""
+      }
+    ]
+  }
 }
