@@ -1,6 +1,4 @@
-/**
- * Acronyms that should be capitalized specially in street names
- */
+// Acronyms that should be capitalized specially in street names
 
 const STREET_NAME_ACRONYMS = new Map<string, string>([
   // Common country/state/civic acronyms used in roads

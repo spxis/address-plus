@@ -113,9 +113,7 @@ function isValidAddress(
   return result.isValid && result.confidence >= minConfidence;
 }
 
-/**
- * Check if validation options have strict requirements
- */
+// Check if validation options have strict requirements
 function hasStrictRequirements(options: ValidationOptions): boolean {
   return !!(options.requireCity || options.requireState || options.requirePostalCode || 
             options.requireStreetName || options.requireStreetNumber || 
