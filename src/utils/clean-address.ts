@@ -5,9 +5,9 @@ import { COUNTRIES } from "../constants";
 import {
   DIRECTION_EXPANSIONS,
   PROVINCE_EXPANSIONS,
+  SECONDARY_UNIT_TYPES,
   STREET_TYPE_DETECTION_PATTERN,
   STREET_TYPE_EXPANSIONS,
-  UNIT_TYPE_EXPANSIONS,
   US_STATE_EXPANSIONS,
 } from "../constants/index.js";
 import { parseLocation } from "../index.js";
@@ -127,7 +127,7 @@ function expandAddressAbbreviations(address: ParsedAddress): void {
 
   // Unit type expansions
   if (address.secUnitType) {
-    const expanded = UNIT_TYPE_EXPANSIONS[address.secUnitType.toLowerCase().replace(/[^a-z]/g, "")];
+    const expanded = SECONDARY_UNIT_TYPES[address.secUnitType.toLowerCase().replace(/[^a-z]/g, "")];
     if (expanded) address.secUnitType = expanded;
   }
 }
@@ -249,7 +249,7 @@ function expandStringAbbreviations(addressString: string): string {
   });
 
   // Expand unit types
-  Object.entries(UNIT_TYPE_EXPANSIONS).forEach(([abbr, expansion]) => {
+  Object.entries(SECONDARY_UNIT_TYPES).forEach(([abbr, expansion]) => {
     const regex = new RegExp(`\\b${abbr}\\b`, "gi");
     result = result.replace(regex, expansion);
   });

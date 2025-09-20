@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import testData from "../../../test-data/comparison/address-comparison.json";
 import type { ParsedAddress } from "../../types";
 import { compareAddresses, getAddressSimilarity, isSameAddress } from "../../utils/address-comparison";
-import testData from "../../../test-data/comparison/address-comparison.json";
 
 interface ComparisonTestCase {
   description: string;
@@ -50,8 +50,8 @@ describe("Address Comparison API", () => {
     compareAddressesTests.forEach((testCase: ComparisonTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = compareAddresses(
-          testCase.input.address1,
-          testCase.input.address2,
+          testCase.input.address1 as ParsedAddress,
+          testCase.input.address2 as ParsedAddress,
         );
 
         expect(result.isSame).toBe(testCase.expected.isSame);
@@ -64,8 +64,8 @@ describe("Address Comparison API", () => {
     compareAddressesTests.forEach((testCase: ComparisonTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = isSameAddress(
-          testCase.input.address1,
-          testCase.input.address2,
+          testCase.input.address1 as ParsedAddress,
+          testCase.input.address2 as ParsedAddress,
         );
         expect(result).toBe(testCase.expected.isSame);
       });
@@ -76,8 +76,8 @@ describe("Address Comparison API", () => {
     compareAddressesTests.forEach((testCase: ComparisonTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = getAddressSimilarity(
-          testCase.input.address1,
-          testCase.input.address2,
+          testCase.input.address1 as ParsedAddress,
+          testCase.input.address2 as ParsedAddress,
         );
         expect(result.score).toBeCloseTo(testCase.expected.similarity, 1);
       });
@@ -88,8 +88,9 @@ describe("Address Comparison API", () => {
     edgeCasesTests.forEach((testCase: EdgeCaseTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = compareAddresses(
-          testCase.input.address1,
-          testCase.input.address2,
+          testCase.input.address1 as ParsedAddress,
+          testCase.input.address2 as ParsedAddress,
+          (testCase.input as any).options,
         );
 
         if (testCase.expected.isSame !== undefined) {
@@ -99,6 +100,9 @@ describe("Address Comparison API", () => {
         if (testCase.expected.similarity !== undefined) {
           expect(result.similarity.score).toBeCloseTo(testCase.expected.similarity, 1);
         }
+
+        if ((testCase.expected as any).similarityLessThan !== undefined) {
+          expect(result.similarity.score).toBeLessThan((testCase.expected as any).similarityLessThan);
         }
 
         if (testCase.expected.comparison?.score !== undefined) {

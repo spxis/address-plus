@@ -1,8 +1,11 @@
 // Main address parser implementation - based on the original parse-address library patterns
 
+import { DIRECTIONAL_MAP, SECONDARY_UNIT_TYPES } from "./constants/index";
+import { ALL_SUB_REGION_NAMES } from "./constants/sub-regions";
+import { parseInformalAddress } from "./parsers/informal-address-parser";
 import { parseIntersection } from "./parsers/intersection-parser";
+import { createParser, parseAddress, parser, setParseLocationImpl } from "./parsers/parser-orchestrator";
 import { parsePoBox } from "./parsers/po-box-parser";
-import { SECONDARY_UNIT_TYPES } from "./constants/secondary-unit-types";
 import {
   FACILITY_INDICATORS,
   FACILITY_PATTERNS,
@@ -23,7 +26,10 @@ import {
 import { CANADIAN_POSTAL_LIBERAL_PATTERN, CITY_PATTERNS, ZIP_CODE_PATTERN } from "./patterns/location-patterns";
 import { buildPatterns } from "./patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "./types";
+import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
+import { capitalizeStreetName } from "./utils/capitalization";
 import { toSnakeCase } from "./utils/case-converter";
+import { detectCountry, parseStateProvince } from "./utils/parsing";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
 // Parse a location string into address components
@@ -179,7 +185,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
   // Extract ZIP from end and work backwards
   let zipPart = "";
-  const invalidZipCandidate = ""; // Track invalid ZIP patterns for validation in strict mode
+  let invalidZipCandidate = ""; // Track invalid ZIP patterns for validation in strict mode
   let statePart = "";
   let cityPart = "";
   let addressPart = commaParts[addressStartIndex] || commaParts[0];
@@ -614,7 +620,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
   // 1. Extract number (including fractions and complex formats)
   // First try the standard pattern with space after number
-  const numberMatch = remaining.match(
+  let numberMatch = remaining.match(
     new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, "i"),
   );
 
@@ -952,7 +958,6 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 }
 
 // Parse informal addresses (fallback)
-import { createParser, parseAddress, parser, setParseLocationImpl } from "./parsers/parser-orchestrator";
 
 // Inject parseLocation implementation to break circular dependency
 setParseLocationImpl(parseLocation);
