@@ -102,17 +102,10 @@ describe("Compatibility Tests", () => {
   describe("Parse-Address Library Comparison", () => {
     testCases.forEach((testCase) => {
       it(`should match parse-address format for ${testCase.category} case ${testCase.id}: "${testCase.input}"`, async () => {
-        console.log(`\\nTesting: ${testCase.input}`);
-        console.log(`Category: ${testCase.category}`);
-        console.log(`Description: ${testCase.description}`);
-        
         // Get results from both parsers
         const parseAddress = await getParseAddress();
         const originalResult = parseAddress.parseLocation(testCase.input);
         const ourResult = parseLocation(testCase.input);
-        
-        console.log("Original parse-address result:", JSON.stringify(originalResult, null, 2));
-        console.log("Our result:", JSON.stringify(ourResult, null, 2));
         
         // For now, just log the comparison - we'll analyze patterns
         // and decide on specific assertions based on the output

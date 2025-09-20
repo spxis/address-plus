@@ -104,6 +104,10 @@ applyTo: '**/*.{ts,tsx,js,jsx}'
 
 - Cover all branches and error cases.
 - Use mocks for dependencies and mock before importing the module under test.
+- **ALL test data MUST be stored in JSON files in the `/test-data/` folder - NO hardcoded test data inline in test files.**
+- **Import JSON test data constants at the top of test files, immediately after other imports.**
+- **Organize test data JSON files in appropriate subfolders within `/test-data/` (e.g., `/test-data/formatting/`, `/test-data/parsing/`).**
+- **Use descriptive names for JSON test data files without redundant suffixes (e.g., `address-formatting.json`, not `address-formatting-test-data.json`).**
 
 ## Package Management
 

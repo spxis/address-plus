@@ -12,3 +12,30 @@ export type {
   BatchParseStats, 
   BatchParseResult 
 } from "./batch-parse";
+export type {
+  ValidationError,
+  AddressValidationResult,
+  ValidationOptions
+} from "./validation";
+
+export type {
+  AddressFormattingOptions,
+  USPSFormattingOptions,
+  CanadaPostFormattingOptions,
+  FormattedAddress,
+  AddressAbbreviations,
+} from "./formatting";
+
+export type {
+  AddressComparisonOptions,
+  AddressSimilarityResult,
+  AddressDifference,
+  AddressMatchType,
+  AddressComparisonResult,
+  FuzzyMatchOptions,
+} from "./comparison";
+
+export type {
+  CleanAddressOptions,
+  CleanAddressResult,
+} from "./clean-address";

@@ -1,31 +1,34 @@
 {
-  "name": "Postal Code to Province Mapping",
-  "description": "Test cases for Canadian postal code to province detection based on Canada Post guidelines",
   "provinceMapping": [
     {
+      "name": "Newfoundland and Labrador mapping",
+      "description": "Newfoundland and Labrador - A postal codes",
       "input": "A1B 2C3",
-      "expected": "NL",
-      "description": "Newfoundland and Labrador - A postal codes"
+      "expected": "NL"
     },
     {
+      "name": "Nova Scotia mapping",
+      "description": "Nova Scotia - B postal codes",
       "input": "B3H 4J6",
-      "expected": "NS",
-      "description": "Nova Scotia - B postal codes"
+      "expected": "NS"
     },
     {
+      "name": "Prince Edward Island mapping",
+      "description": "Prince Edward Island - C postal codes",
       "input": "C1A 7N2",
-      "expected": "PE",
-      "description": "Prince Edward Island - C postal codes"
+      "expected": "PE"
     },
     {
+      "name": "New Brunswick mapping",
+      "description": "New Brunswick - E postal codes",
       "input": "E3B 1G4",
-      "expected": "NB",
-      "description": "New Brunswick - E postal codes"
+      "expected": "NB"
     },
     {
+      "name": "Quebec G postal codes",
+      "description": "Quebec - G postal codes",
       "input": "G1K 7L9",
-      "expected": "QC",
-      "description": "Quebec - G postal codes"
+      "expected": "QC"
     },
     {
       "input": "H2W 1S6",

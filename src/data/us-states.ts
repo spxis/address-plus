@@ -221,4 +221,9 @@ const US_REGIONS: Region[] = Object.entries(US_STATES).map(([name, abbr]) => ({
   name,
 }));
 
-export { US_REGIONS, US_STATES, US_STATE_NAMES, US_STATE_ALTERNATIVES };
+// US state expansions (reverse mapping from abbreviations to full names)
+const US_STATE_EXPANSIONS: Record<string, string> = Object.fromEntries(
+  Object.entries(US_STATE_NAMES).map(([name, abbr]) => [abbr.toLowerCase(), name])
+);
+
+export { US_REGIONS, US_STATES, US_STATE_NAMES, US_STATE_ALTERNATIVES, US_STATE_EXPANSIONS };

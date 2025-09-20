@@ -111,11 +111,33 @@ const CA_REGIONS: Region[] = Object.entries(CA_PROVINCES).map(([name, abbr]) => 
   name,
 }));
 
+// Canadian province expansions (reverse mapping from abbreviations to full names)
+// Supports both English and French province names
+const PROVINCE_EXPANSIONS_EN: Record<string, string> = Object.fromEntries(
+  Object.entries(CA_PROVINCE_NAMES_EN).map(([name, abbr]) => [abbr.toLowerCase(), name])
+);
+
+const PROVINCE_EXPANSIONS_FR: Record<string, string> = Object.fromEntries(
+  Object.entries(CA_PROVINCE_NAMES_FR).map(([name, abbr]) => [abbr.toLowerCase(), name])
+);
+
+// Combined expansions - defaults to English but includes French options
+const PROVINCE_EXPANSIONS: Record<string, string> = {
+  ...PROVINCE_EXPANSIONS_EN,
+  // Add French alternatives with _fr suffix for explicit French usage
+  ...Object.fromEntries(
+    Object.entries(PROVINCE_EXPANSIONS_FR).map(([abbr, name]) => [`${abbr}_fr`, name])
+  )
+};
+
 export { 
   CA_PROVINCES, 
   CA_REGIONS, 
   CA_PROVINCE_NAMES, 
   CA_PROVINCE_NAMES_EN, 
   CA_PROVINCE_NAMES_FR, 
-  CA_PROVINCE_ALTERNATIVES 
+  CA_PROVINCE_ALTERNATIVES,
+  PROVINCE_EXPANSIONS,
+  PROVINCE_EXPANSIONS_EN,
+  PROVINCE_EXPANSIONS_FR
 };

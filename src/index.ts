@@ -22,6 +22,34 @@ export type * from "./types";
 // Export parser functions
 export { parseAddress, parseInformalAddress, parseIntersection, parseLocation };
 
+// Validation functions
+export {
+  validateAddress,
+  isValidAddress,
+  getValidationErrors,
+} from "./validation/comprehensive-validation";
+
+// Formatting functions
+export {
+  formatAddress,
+  formatUSPS,
+  formatCanadaPost,
+  getAddressAbbreviations,
+} from "./formatting/address-formatting";
+
+// Comparison functions
+export {
+  compareAddresses,
+  isSameAddress,
+  getAddressSimilarity,
+} from "./comparison/address-comparison";
+
+// Clean address functions
+export {
+  cleanAddress,
+  cleanAddressDetailed,
+} from "./utilities/clean-address";
+
 // Export batch processing functions
 export { 
   parseLocations,

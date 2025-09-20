@@ -1,0 +1,194 @@
+{
+  "validateAddress": [
+    {
+      "name": "complete US address validation",
+      "description": "Should validate a complete US address with all required fields",
+      "input": "123 Main St, Anytown, CA 90210",
+      "expected": {
+        "isValid": true,
+        "confidenceGreaterThan": 0.8,
+        "completenessGreaterThan": 0.9,
+        "errorsLength": 0,
+        "parsedAddress": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Anytown",
+          "state": "CA",
+          "zip": "90210"
+        }
+      }
+    },
+    {
+      "name": "complete Canadian address validation",
+      "description": "Should validate a complete Canadian address with proper postal code",
+      "input": "123 Main Street, Toronto, ON M5V 3A8",
+      "expected": {
+        "isValid": true,
+        "confidenceGreaterThan": 0.8,
+        "completenessGreaterThan": 0.9,
+        "errorsLength": 0,
+        "parsedAddress": {
+          "zip": "M5V 3A8"
+        }
+      }
+    },
+    {
+      "name": "incomplete address identification",
+      "description": "Should identify addresses that are incomplete and provide warnings",
+      "input": "123 Main St",
+      "expected": {
+        "completenessLessThan": 0.7,
+        "warningsLengthGreaterThan": 0
+      }
+    },
+    {
+      "name": "required fields validation",
+      "description": "Should validate required fields when specified in options",
+      "input": "123 Main St",
+      "options": {
+        "requireCity": true,
+        "requireState": true,
+        "requirePostalCode": true
+      },
+      "expected": {
+        "isValid": false,
+        "errorsLengthGreaterThan": 0,
+        "errorCodes": [
+          "MISSING_CITY",
+          "MISSING_STATE",
+          "MISSING_POSTAL_CODE"
+        ]
+      }
+    },
+    {
+      "name": "unparseable address handling",
+      "description": "Should handle addresses that cannot be parsed at all",
+      "input": "xyz123",
+      "expected": {
+        "isValid": false,
+        "confidence": 0,
+        "completeness": 0,
+        "firstErrorCode": "UNPARSEABLE",
+        "parsedAddressNull": true
+      }
+    },
+    {
+      "name": "improvement suggestions",
+      "description": "Should provide suggestions for improving incomplete addresses",
+      "input": "123 Main Anytown CA",
+      "expected": {
+        "suggestionsLengthGreaterThan": 0,
+        "suggestionContains": "street type"
+      }
+    },
+    {
+      "name": "postal code format validation",
+      "description": "Should validate and parse postal code formats including ZIP+4",
+      "input": "123 Main St, Anytown, CA 12345-6789",
+      "expected": {
+        "parsedAddress": {
+          "zip": "12345",
+          "plus4": "6789",
+          "zipValid": true
+        }
+      }
+    }
+  ],
+  "isValidAddress": [
+    {
+      "name": "valid complete addresses return true",
+      "description": "Should return true for addresses that are valid and complete",
+      "input": [
+        "123 Main St, Anytown, CA 90210",
+        "456 Oak Ave, Toronto, ON M5V 3A8"
+      ],
+      "expected": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "invalid or incomplete addresses return false",
+      "description": "Should return false for addresses that are invalid or incomplete",
+      "input": [
+        "xyz123",
+        "123"
+      ],
+      "expected": [
+        false,
+        false
+      ]
+    },
+    {
+      "name": "validation options respected",
+      "description": "Should respect validation options when determining validity",
+      "tests": [
+        {
+          "input": "123 Main St",
+          "options": {
+            "requireCity": true
+          },
+          "expected": false
+        },
+        {
+          "input": "123 Main St",
+          "options": {
+            "requireCity": false
+          },
+          "expected": true
+        }
+      ]
+    }
+  ],
+  "getValidationErrors": [
+    {
+      "name": "errors and warnings only",
+      "description": "Should return only errors and warnings from validation",
+      "input": "123 Main St",
+      "options": {
+        "requireCity": true,
+        "requireState": true
+      },
+      "expected": {
+        "errorsLengthGreaterThan": 0,
+        "allSeverityTypes": [
+          "error",
+          "warning"
+        ]
+      }
+    },
+    {
+      "name": "empty array for valid addresses",
+      "description": "Should return empty array for addresses with no errors",
+      "input": "123 Main St, Anytown, CA 90210",
+      "expected": {
+        "errorSeverityCount": 0
+      }
+    }
+  ],
+  "confidenceScoring": [
+    {
+      "name": "complete vs incomplete confidence",
+      "description": "Should give higher confidence to complete addresses",
+      "inputs": {
+        "complete": "123 Main St, Anytown, CA 90210",
+        "incomplete": "123 Main"
+      },
+      "expected": {
+        "confidenceComparison": "complete > incomplete"
+      }
+    },
+    {
+      "name": "more fields higher completeness",
+      "description": "Should give higher completeness to addresses with more fields",
+      "inputs": {
+        "withZip": "123 Main St, Anytown, CA 90210",
+        "withoutZip": "123 Main St, Anytown, CA"
+      },
+      "expected": {
+        "completenessComparison": "withZip > withoutZip"
+      }
+    }
+  ]
+}

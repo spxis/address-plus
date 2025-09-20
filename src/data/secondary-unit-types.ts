@@ -52,4 +52,14 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   uppr: "Upper",
 };
 
-export { SECONDARY_UNIT_TYPES };
+// Unit type expansions (reverse mapping for common abbreviations)
+const UNIT_TYPE_EXPANSIONS: Record<string, string> = {
+  "apt": "Apartment",
+  "ste": "Suite",
+  "unit": "Unit",
+  "bldg": "Building",
+  "fl": "Floor",
+  "rm": "Room",
+};
+
+export { SECONDARY_UNIT_TYPES, UNIT_TYPE_EXPANSIONS };

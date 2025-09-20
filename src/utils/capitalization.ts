@@ -6,6 +6,13 @@ import { FRENCH_PREPOSITIONS } from '../data/french-prepositions';
 import { STREET_NAME_ACRONYMS } from '../data/street-name-acronyms';
 
 /**
+ * Super fast first letter capitalization - minimal footprint
+ */
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
  * Capitalize the first letter of each word in a string
  */
  function capitalizeWords(text: string): string {
@@ -55,4 +62,4 @@ import { STREET_NAME_ACRONYMS } from '../data/street-name-acronyms';
   return result;
 }
 
-export { capitalizeWords, capitalizeStreetName };
+export { capitalize, capitalizeWords, capitalizeStreetName };

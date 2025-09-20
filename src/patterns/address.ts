@@ -55,10 +55,17 @@ const UNIT_TYPE_NUMBER_PATTERN = new RegExp(`(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9
  */
 const PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
 
+/**
+ * Pattern for detecting common street types in addresses
+ * Used to determine if parsed address has valid street component
+ */
+const STREET_TYPE_DETECTION_PATTERN = /\b(street|st|avenue|ave|road|rd|drive|dr|boulevard|blvd|lane|ln|court|ct|place|pl|way|highway|hwy|parkway|pkwy|circle|cir|terrace|ter|trail|trl)\b/i;
+
 // Exports at end of file as per AGENTS.md guidelines
 export {
   PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN,
+  STREET_TYPE_DETECTION_PATTERN,
   UNIT_TYPE_KEYWORDS,
   UNIT_TYPE_NUMBER_PATTERN,
   WRITTEN_NUMBERS,

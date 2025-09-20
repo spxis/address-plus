@@ -11,6 +11,7 @@ export default defineConfig({
     globals: true,
     environment: "node",
     include: ["src/**/*.test.ts", "src/**/*.spec.ts"],
+    watch: false,
     coverage: {
       provider: "v8",
       include: ["src/**/*.ts"],
