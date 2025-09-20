@@ -21,6 +21,8 @@ import {
   parseLocations,
   parseLocationsBatch,
 } from "../../batch-parser";
+import type { ParsedAddress, ParsedIntersection } from "../../types";
+import type { BatchParseOptions } from "../../types/batch-parse";
 
 // Test data paths
 const BATCH_TEST_DATA_PATH = "../../../test-data/batch/batch-test.json";
@@ -48,31 +50,31 @@ interface SimpleFunctionTestData {
   parseLocations: Array<{
     description: string;
     addresses: string[];
-    options?: any;
-    expectedResults?: any[];
+    options?: BatchParseOptions;
+    expectedResults?: (ParsedAddress | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
   }>;
   parseInformalAddresses: Array<{
     description: string;
     addresses: string[];
-    options?: any;
-    expectedResults?: any[];
+    options?: BatchParseOptions;
+    expectedResults?: (ParsedAddress | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
   }>;
   parseIntersections: Array<{
     description: string;
     addresses: string[];
-    options?: any;
-    expectedResults?: any[];
+    options?: BatchParseOptions;
+    expectedResults?: (ParsedIntersection | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
   }>;
   options: Array<{
     description: string;
     addresses: string[];
-    options?: any;
+    options?: BatchParseOptions;
     expectedResults?: any[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;

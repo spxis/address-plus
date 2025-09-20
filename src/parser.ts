@@ -1,9 +1,8 @@
 // Main address parser implementation - based on the original parse-address library patterns
 
-import { parsePoBox } from "./parsers/po-box-parser";
-import type {  ParsedAddress, ParseOptions } from "./types";
 import { parseIntersection } from "./parsers/intersection-parser";
 import { parsePoBox } from "./parsers/po-box-parser";
+import { SECONDARY_UNIT_TYPES } from "./constants/secondary-unit-types";
 import {
   FACILITY_INDICATORS,
   FACILITY_PATTERNS,
@@ -23,9 +22,7 @@ import {
 } from "./patterns/core-patterns";
 import { CANADIAN_POSTAL_LIBERAL_PATTERN, CITY_PATTERNS, ZIP_CODE_PATTERN } from "./patterns/location-patterns";
 import { buildPatterns } from "./patterns/pattern-builder";
-import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
-import { normalizeStreetType } from "./utils/street-type-normalizer";
-import { buildPatterns } from "./patterns/pattern-builder";
+import type { ParsedAddress, ParseOptions } from "./types";
 import { toSnakeCase } from "./utils/case-converter";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
@@ -64,6 +61,12 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
 
   // Try standard address parsing
   return parseStandardAddress(original, options) || parseInformalAddress(original, options);
+}
+
+// Simple validation to check if address contains basic components
+function hasValidAddressComponents(address: string): boolean {
+  // Basic check for numbers and letters
+  return /\d/.test(address) && /[a-zA-Z]/.test(address) && address.trim().length > 3;
 }
 
 // Parse standard addresses with number, street, type, city, state, zip
@@ -176,7 +179,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
   // Extract ZIP from end and work backwards
   let zipPart = "";
-  const invalidZipCandidate = ''; // Track invalid ZIP patterns for validation in strict mode
+  const invalidZipCandidate = ""; // Track invalid ZIP patterns for validation in strict mode
   let statePart = "";
   let cityPart = "";
   let addressPart = commaParts[addressStartIndex] || commaParts[0];
@@ -611,7 +614,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
   // 1. Extract number (including fractions and complex formats)
   // First try the standard pattern with space after number
-  const numberMatch = remaining.match(new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, 'i'));
+  const numberMatch = remaining.match(
+    new RegExp(`^(${patterns.number.slice(1, -1)})(?:\\s+(${patterns.fraction.slice(1, -1)}))?\\s+(.*)$`, "i"),
+  );
 
   // If no match, try to detect number immediately followed by directional (like "48S")
   if (!numberMatch) {
