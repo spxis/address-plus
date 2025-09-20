@@ -110,12 +110,12 @@ interface BatchProcessingTestCase extends TestCaseBase {
 }
 
 // Union type for all test cases
-type TestCase = 
-  | AddressParsingTestCase 
-  | AddressFormattingTestCase 
-  | AddressValidationTestCase 
-  | AddressComparisonTestCase 
-  | CleanAddressTestCase 
+type TestCase =
+  | AddressParsingTestCase
+  | AddressFormattingTestCase
+  | AddressValidationTestCase
+  | AddressComparisonTestCase
+  | CleanAddressTestCase
   | BatchProcessingTestCase;
 
 // Helper type for extracting test categories from file schema
@@ -176,26 +176,37 @@ function validateTestCase(data: any): data is TestCase {
   }
 
   // Must have either name or description (but allow for very simple cases)
-  if (!("name" in data) && !("description" in data) && !("input" in data) && !("address" in data) && !("addresses" in data)) {
+  if (
+    !("name" in data) &&
+    !("description" in data) &&
+    !("input" in data) &&
+    !("address" in data) &&
+    !("addresses" in data)
+  ) {
     return false;
   }
 
   // Must have some form of input or be a metadata container
   const hasInput = "input" in data || "address" in data || "addresses" in data;
-  
+
   // Allow metadata objects that don't have input but have description/name
   const isMetadata = ("description" in data || "name" in data) && !hasInput;
-  
+
   if (!hasInput && !isMetadata) {
     return false;
   }
 
   // If it has input, it should have some form of expected output
   if (hasInput) {
-    const hasExpected = "expected" in data || "expectedResult" in data || 
-                       "expectedResults" in data || "expectedSuccessCount" in data || 
-                       "expectedFailureCount" in data || "category" in data || "id" in data;
-    
+    const hasExpected =
+      "expected" in data ||
+      "expectedResult" in data ||
+      "expectedResults" in data ||
+      "expectedSuccessCount" in data ||
+      "expectedFailureCount" in data ||
+      "category" in data ||
+      "id" in data;
+
     if (!hasExpected) {
       return false;
     }

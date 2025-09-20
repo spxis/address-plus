@@ -4,18 +4,18 @@
 // Changed from abbreviations to full words in proper case for consistency
 const SECONDARY_UNIT_TYPES: Record<string, string> = {
   apartment: "Apartment",
-  apartme: "Apartment", 
+  apartme: "Apartment",
   apt: "Apartment",
   basement: "Basement",
   bld: "Building",
-  bldg: "Building", 
+  bldg: "Building",
   bsmt: "Basement",
   building: "Building",
   department: "Department",
   dept: "Department",
   fl: "Floor",
   floor: "Floor",
-  flr: "Floor", 
+  flr: "Floor",
   front: "Front",
   frnt: "Front",
   gate: "Gate",
@@ -36,7 +36,7 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   pier: "Pier",
   rear: "Rear",
   rm: "Room",
-  room: "Room", 
+  room: "Room",
   side: "Side",
   slip: "Slip",
   space: "Space",
@@ -45,7 +45,7 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   stop: "Stop",
   su: "Suite",
   suite: "Suite",
-  trailer: "Trailer", 
+  trailer: "Trailer",
   trlr: "Trailer",
   unit: "Unit",
   upper: "Upper",
@@ -54,12 +54,12 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
 
 // Unit type expansions (reverse mapping for common abbreviations)
 const UNIT_TYPE_EXPANSIONS: Record<string, string> = {
-  "apt": "Apartment",
-  "ste": "Suite",
-  "unit": "Unit",
-  "bldg": "Building",
-  "fl": "Floor",
-  "rm": "Room",
+  apt: "Apartment",
+  ste: "Suite",
+  unit: "Unit",
+  bldg: "Building",
+  fl: "Floor",
+  rm: "Room",
 };
 
 export { SECONDARY_UNIT_TYPES, UNIT_TYPE_EXPANSIONS };

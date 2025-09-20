@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync, readdirSync } from 'fs';
-import { join } from 'path';
+import { readdirSync, readFileSync, writeFileSync } from "fs";
+import { join } from "path";
 
 function getAllJsonFiles(dir) {
   const files = [];
@@ -11,7 +11,7 @@ function getAllJsonFiles(dir) {
     const fullPath = join(dir, item.name);
     if (item.isDirectory()) {
       files.push(...getAllJsonFiles(fullPath));
-    } else if (item.name.endsWith('.json')) {
+    } else if (item.name.endsWith(".json")) {
       files.push(fullPath);
     }
   }
@@ -21,7 +21,7 @@ function getAllJsonFiles(dir) {
 
 function convertLegacyStructure(filePath) {
   try {
-    const content = readFileSync(filePath, 'utf-8');
+    const content = readFileSync(filePath, "utf-8");
     const data = JSON.parse(content);
 
     // Skip if already has tests property
@@ -30,7 +30,7 @@ function convertLegacyStructure(filePath) {
     }
 
     // Skip if only has name, description, $schema
-    const keys = Object.keys(data).filter(key => !['$schema', 'name', 'description'].includes(key));
+    const keys = Object.keys(data).filter((key) => !["$schema", "name", "description"].includes(key));
     if (keys.length === 0) {
       return false;
     }
@@ -45,8 +45,8 @@ function convertLegacyStructure(filePath) {
     data.tests = tests;
 
     // Write back to file
-    writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n');
-    console.log(`✅ Converted ${filePath} - wrapped properties: ${Object.keys(tests).join(', ')}`);
+    writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n");
+    console.log(`✅ Converted ${filePath} - wrapped properties: ${Object.keys(tests).join(", ")}`);
     return true;
   } catch (error) {
     console.error(`❌ Error converting ${filePath}:`, error.message);
@@ -55,7 +55,7 @@ function convertLegacyStructure(filePath) {
 }
 
 // Main execution
-const testDataDir = 'test-data';
+const testDataDir = "test-data";
 const jsonFiles = getAllJsonFiles(testDataDir);
 
 console.log(`🔍 Found ${jsonFiles.length} JSON files to check for legacy structure conversion\n`);

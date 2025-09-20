@@ -1,4 +1,4 @@
-import type { AddressParser, ParsedAddress, ParsedIntersection, ParseOptions } from "../types";
+import type { AddressParser, ParsedAddress, ParseOptions } from "../types";
 import { parseInformalAddress } from "./informal-address-parser";
 import { parseIntersection } from "./intersection-parser";
 
@@ -21,13 +21,12 @@ function parseAddress(address: string, options: ParseOptions = {}): ParsedAddres
 // Create address parser instance
 function createParser(defaultOptions: ParseOptions = {}): AddressParser {
   return {
-    parseAddress: (address: string, options?: ParseOptions) => 
-      parseAddress(address, { ...defaultOptions, ...options }),
-    parseInformalAddress: (address: string, options?: ParseOptions) => 
+    parseAddress: (address: string, options?: ParseOptions) => parseAddress(address, { ...defaultOptions, ...options }),
+    parseInformalAddress: (address: string, options?: ParseOptions) =>
       parseInformalAddress(address, { ...defaultOptions, ...options }),
-    parseIntersection: (address: string, options?: ParseOptions) => 
+    parseIntersection: (address: string, options?: ParseOptions) =>
       parseIntersection(address, { ...defaultOptions, ...options }),
-    parseLocation: (address: string, options?: ParseOptions) => 
+    parseLocation: (address: string, options?: ParseOptions) =>
       parseLocationImpl(address, { ...defaultOptions, ...options }),
   };
 }
@@ -35,4 +34,4 @@ function createParser(defaultOptions: ParseOptions = {}): AddressParser {
 // Export default parser instance
 const parser = createParser();
 
-export { setParseLocationImpl, parseAddress, createParser, parser };
+export { createParser, parseAddress, parser, setParseLocationImpl };

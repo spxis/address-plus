@@ -39,8 +39,28 @@ const ISLAND_TYPE_PATTERN = /^(island|is\.?|isl\.?|isle\.?|ils\.?)$/i;
 
 // Connector words to ignore when checking Title Case in facility names
 const CONNECTOR_WORDS = new Set([
-  "of", "the", "and", "at", "on", "in", "for", "to", "from", "by", "with", "without",
-  "de", "la", "le", "les", "du", "des", "l'", "d'", "o'", "y'",
+  "of",
+  "the",
+  "and",
+  "at",
+  "on",
+  "in",
+  "for",
+  "to",
+  "from",
+  "by",
+  "with",
+  "without",
+  "de",
+  "la",
+  "le",
+  "les",
+  "du",
+  "des",
+  "l'",
+  "d'",
+  "o'",
+  "y'",
 ]);
 
 // Common street names that should not be captured as part of city names
@@ -51,16 +71,16 @@ const COMMON_STREET_NAMES_PATTERN = new RegExp(
     "washington|lincoln|madison|jefferson|jackson|franklin|harrison|" +
     "central|mill|spring|hill|river|lake|green|" +
     "north|south|east|west" +
-  ")$",
-  "i"
+    ")$",
+  "i",
 );
 
 export {
-  VALIDATION_PATTERNS,
-  GENERAL_DELIVERY_PATTERNS,
-  ZIP_VALIDATION_PATTERNS,
-  FACILITY_DELIMITER_PATTERNS,
-  ISLAND_TYPE_PATTERN,
-  CONNECTOR_WORDS,
   COMMON_STREET_NAMES_PATTERN,
+  CONNECTOR_WORDS,
+  FACILITY_DELIMITER_PATTERNS,
+  GENERAL_DELIVERY_PATTERNS,
+  ISLAND_TYPE_PATTERN,
+  VALIDATION_PATTERNS,
+  ZIP_VALIDATION_PATTERNS,
 };

@@ -1,5 +1,5 @@
 import type { Region } from "../types/region.js";
-import { CA_PROVINCE_NAMES, CA_PROVINCE_ALTERNATIVES } from "./ca-provinces.js";
+import { CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES } from "./ca-provinces.js";
 
 // US States and territories mapping
 
@@ -68,143 +68,143 @@ const US_STATE_ALTERNATIVES: Record<string, string> = {
   // Alabama
   ala: "AL",
   bama: "AL",
-  
+
   // Arizona
   ariz: "AZ",
-  
+
   // Arkansas
   ark: "AR",
-  
+
   // California
   cal: "CA",
   cali: "CA",
   calif: "CA",
-  
+
   // Colorado
   colo: "CO",
-  
+
   // Connecticut
   conn: "CT",
-  
+
   // Delaware
   del: "DE",
-  
+
   // District of Columbia
   dc: "DC",
-  
+
   // Florida
   fla: "FL",
-  
+
   // Illinois
   ill: "IL",
-  
+
   // Indiana
   ind: "IN",
-  
+
   // Kansas
   kan: "KS",
   kans: "KS",
-  
+
   // Kentucky
   ky: "KY",
   kent: "KY",
-  
+
   // Louisiana
   la: "LA",
   lou: "LA",
-  
+
   // Massachusetts
   mass: "MA",
-  
+
   // Michigan
   mich: "MI",
-  
+
   // Minnesota
   minn: "MN",
-  
+
   // Mississippi
   miss: "MS",
-  
+
   // Missouri
   mo: "MO",
-  
+
   // Montana
   mont: "MT",
-  
+
   // Nebraska
   neb: "NE",
   nebr: "NE",
-  
+
   // Nevada
   nev: "NV",
-  
+
   // New Hampshire
   "new hamp": "NH",
   "new hampsh": "NH",
-  
+
   // New Jersey
   "new jers": "NJ",
-  
+
   // New Mexico
   "new mex": "NM",
   "new mexic": "NM",
-  
+
   // North Carolina
   "n carolina": "NC",
   "north car": "NC",
-  
+
   // North Dakota
   "n dakota": "ND",
   "north dak": "ND",
-  
+
   // Oklahoma
   okla: "OK",
-  
+
   // Oregon
   ore: "OR",
   oreg: "OR",
-  
+
   // Pennsylvania
   penn: "PA",
   pa: "PA",
   penna: "PA",
   pennsyl: "PA",
-  
+
   // Rhode Island
   "rhode isl": "RI",
-  
+
   // South Carolina
   "s carolina": "SC",
   "south car": "SC",
-  
+
   // South Dakota
   "s dakota": "SD",
   "south dak": "SD",
-  
+
   // Tennessee
   tenn: "TN",
-  
+
   // Texas
   tex: "TX",
-  
+
   // Vermont
   vt: "VT",
-  
+
   // Virginia
   va: "VA",
   virg: "VA",
-  
+
   // Washington
   wash: "WA",
-  
+
   // West Virginia
   "west va": "WV",
   "west virg": "WV",
-  
+
   // Wisconsin
   wis: "WI",
   wisc: "WI",
-  
+
   // Wyoming
   wyo: "WY",
 };
@@ -224,27 +224,34 @@ const US_REGIONS: Region[] = Object.entries(US_STATES).map(([name, abbr]) => ({
 
 // US state expansions (reverse mapping from abbreviations to full names)
 const US_STATE_EXPANSIONS: Record<string, string> = Object.fromEntries(
-  Object.entries(US_STATE_NAMES).map(([name, abbr]) => [abbr.toLowerCase(), name])
+  Object.entries(US_STATE_NAMES).map(([name, abbr]) => [abbr.toLowerCase(), name]),
 );
 
 // Combined US and Canadian state/province normalization function
 // Converts full state/province names to standard abbreviations (lowercase output)
 function normalizeStateProvinceName(stateName: string): string | undefined {
   const normalizedInput = stateName.toLowerCase().replace(/\./g, "").trim();
-  
+
   // Check US states first (convert to lowercase to match existing usage)
   const usState = US_STATES[normalizedInput];
   if (usState) {
     return usState.toLowerCase();
   }
-  
+
   // Check Canadian provinces (convert to lowercase to match existing usage)
   const caProvince = CA_PROVINCE_NAMES[normalizedInput] || CA_PROVINCE_ALTERNATIVES[normalizedInput];
   if (caProvince) {
     return caProvince.toLowerCase();
   }
-  
+
   return undefined;
 }
 
-export { US_REGIONS, US_STATES, US_STATE_NAMES, US_STATE_ALTERNATIVES, US_STATE_EXPANSIONS, normalizeStateProvinceName };
+export {
+  normalizeStateProvinceName,
+  US_REGIONS,
+  US_STATE_ALTERNATIVES,
+  US_STATE_EXPANSIONS,
+  US_STATE_NAMES,
+  US_STATES,
+};

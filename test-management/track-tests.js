@@ -3,42 +3,42 @@
 // Test tracking script for monitoring test counts and regressions
 // Programmatically extracts test results from Vitest JSON output
 
-import { execSync } from 'child_process';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { execSync } from "child_process";
+import { existsSync, readFileSync, writeFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const RESULTS_FILE = join(__dirname, 'test-results.json');
+const RESULTS_FILE = join(__dirname, "test-results.json");
 
 function runTests() {
   try {
-    console.log('Running tests and extracting results programmatically...');
-    const jsonOutput = execSync('pnpm test:run --reporter=json', {
-      encoding: 'utf8',
-      stdio: 'pipe',
+    console.log("Running tests and extracting results programmatically...");
+    const jsonOutput = execSync("pnpm test:run --reporter=json", {
+      encoding: "utf8",
+      stdio: "pipe",
     });
 
     try {
-      console.log('Parsing JSON output...');
+      console.log("Parsing JSON output...");
 
       // Extract JSON from pnpm output - look for the line that starts with {
-      const lines = jsonOutput.split('\n');
-      const jsonLine = lines.find(line => line.trim().startsWith('{'));
+      const lines = jsonOutput.split("\n");
+      const jsonLine = lines.find((line) => line.trim().startsWith("{"));
 
       if (!jsonLine) {
-        throw new Error('No JSON line found in output');
+        throw new Error("No JSON line found in output");
       }
 
       const testResults = JSON.parse(jsonLine);
 
-      if (testResults && typeof testResults.numTotalTests === 'number') {
+      if (testResults && typeof testResults.numTotalTests === "number") {
         const totalTests = testResults.numTotalTests;
         const passedTests = testResults.numPassedTests || 0;
         const failedTests = testResults.numFailedTests || 0;
 
         console.log(
-          `Total Tests: ${totalTests}, Passed: ${passedTests} (${((passedTests / totalTests) * 100).toFixed(1)}%), Failed: ${failedTests}`
+          `Total Tests: ${totalTests}, Passed: ${passedTests} (${((passedTests / totalTests) * 100).toFixed(1)}%), Failed: ${failedTests}`,
         );
 
         return {
@@ -48,24 +48,24 @@ function runTests() {
           percentage: ((passedTests / totalTests) * 100).toFixed(1),
         };
       } else {
-        console.log('Invalid JSON structure, missing numTotalTests');
-        console.log('JSON keys:', Object.keys(testResults));
-        throw new Error('Invalid JSON structure');
+        console.log("Invalid JSON structure, missing numTotalTests");
+        console.log("JSON keys:", Object.keys(testResults));
+        throw new Error("Invalid JSON structure");
       }
     } catch (jsonError) {
-      console.log('JSON parsing failed:', jsonError.message);
-      console.log('Output preview:', jsonOutput.substring(0, 200) + '...');
+      console.log("JSON parsing failed:", jsonError.message);
+      console.log("Output preview:", jsonOutput.substring(0, 200) + "...");
       return parseTextOutput(jsonOutput);
     }
   } catch (error) {
-    console.error('Error running tests:', error.message);
+    console.error("Error running tests:", error.message);
     return null;
   }
 }
 
 function parseTextOutput(output) {
   // Fallback text parsing method - scan for Vitest summary patterns
-  const lines = output.split('\n');
+  const lines = output.split("\n");
 
   // Look for various Vitest output patterns
   for (const line of lines) {
@@ -77,7 +77,7 @@ function parseTextOutput(output) {
       const failed = total - passed;
 
       console.log(
-        `Total Tests: ${total}, Passed: ${passed} (${((passed / total) * 100).toFixed(1)}%), Failed: ${failed}`
+        `Total Tests: ${total}, Passed: ${passed} (${((passed / total) * 100).toFixed(1)}%), Failed: ${failed}`,
       );
       return {
         total: total,
@@ -96,17 +96,17 @@ function parseTextOutput(output) {
         total: passed,
         passed: passed,
         failed: 0,
-        percentage: '100.0',
+        percentage: "100.0",
       };
     }
   }
 
-  console.log('Could not parse test results from output');
+  console.log("Could not parse test results from output");
   return {
     total: 0,
     passed: 0,
     failed: 0,
-    percentage: '0.0',
+    percentage: "0.0",
   };
 }
 
@@ -117,10 +117,10 @@ function getCurrentTimestamp() {
 function getBaselineFailures() {
   if (existsSync(RESULTS_FILE)) {
     try {
-      const data = JSON.parse(readFileSync(RESULTS_FILE, 'utf8'));
+      const data = JSON.parse(readFileSync(RESULTS_FILE, "utf8"));
       return data.regressionAnalysis?.baseline || 0;
     } catch (error) {
-      console.warn('Could not read baseline from test results, using default');
+      console.warn("Could not read baseline from test results, using default");
       return 0;
     }
   }
@@ -132,13 +132,13 @@ function analyzeRegression(currentFailures, previousFailures) {
 
   if (regressionCount > 0) {
     return {
-      status: 'REGRESSION',
+      status: "REGRESSION",
       count: regressionCount,
       message: `REGRESSION DETECTED: ${regressionCount} additional test failures!`,
     };
   } else if (regressionCount < 0) {
     return {
-      status: 'IMPROVEMENT',
+      status: "IMPROVEMENT",
       count: Math.abs(regressionCount),
       message: `IMPROVEMENT: ${Math.abs(regressionCount)} fewer test failures!`,
     };
@@ -146,15 +146,15 @@ function analyzeRegression(currentFailures, previousFailures) {
     // No change - different messages based on current state
     if (currentFailures === 0) {
       return {
-        status: 'STABLE',
+        status: "STABLE",
         count: 0,
-        message: 'All tests passing - maintaining 100% success rate',
+        message: "All tests passing - maintaining 100% success rate",
       };
     } else {
       return {
-        status: 'STABLE',
+        status: "STABLE",
         count: 0,
-        message: 'No regression detected - test results stable',
+        message: "No regression detected - test results stable",
       };
     }
   }
@@ -162,7 +162,7 @@ function analyzeRegression(currentFailures, previousFailures) {
 
 function updateTestResults(testData) {
   if (!testData) {
-    console.error('No test data to update');
+    console.error("No test data to update");
     return;
   }
 
@@ -174,11 +174,11 @@ function updateTestResults(testData) {
 
   if (existsSync(RESULTS_FILE)) {
     try {
-      const prevData = JSON.parse(readFileSync(RESULTS_FILE, 'utf8'));
+      const prevData = JSON.parse(readFileSync(RESULTS_FILE, "utf8"));
       previousFailures = prevData.testSummary.failed || 0;
       isFirstRun = false;
     } catch (error) {
-      console.warn('Could not read previous test results, treating as first run');
+      console.warn("Could not read previous test results, treating as first run");
     }
   }
 
@@ -211,34 +211,32 @@ function updateTestResults(testData) {
   writeFileSync(RESULTS_FILE, JSON.stringify(results, null, 2));
 
   // Output results
-  console.log('\n' + '='.repeat(60));
-  console.log('TEST RESULTS SUMMARY');
-  console.log('='.repeat(60));
+  console.log("\n" + "=".repeat(60));
+  console.log("TEST RESULTS SUMMARY");
+  console.log("=".repeat(60));
   console.log(`Total Tests: ${total}`);
   console.log(`Passed: ${passed} (${percentage}%)`);
   console.log(`Failed: ${failed}`);
   console.log(`Baseline: ${comparisonBase} failures`);
   console.log(regression.message);
-  console.log('='.repeat(60));
+  console.log("=".repeat(60));
 
   // Exit with error code if regression detected
-  if (regression.status === 'REGRESSION') {
-    console.error('\nCOMMIT BLOCKED: Regression detected!');
-    console.error(
-      `You must fix the ${regression.count} additional failing tests before committing.`
-    );
+  if (regression.status === "REGRESSION") {
+    console.error("\nCOMMIT BLOCKED: Regression detected!");
+    console.error(`You must fix the ${regression.count} additional failing tests before committing.`);
     process.exit(1);
   }
 
-  console.log('\nTest tracking updated successfully');
+  console.log("\nTest tracking updated successfully");
   return results;
 }
 
 function getGitCommit() {
   try {
-    return execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+    return execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
   } catch {
-    return 'unknown';
+    return "unknown";
   }
 }
 

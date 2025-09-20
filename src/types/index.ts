@@ -1,52 +1,40 @@
 // Export all types from the types directory
 
 export type { AddressParser } from "./address-parser";
+export type { BatchParseError, BatchParseOptions, BatchParseResult, BatchParseStats } from "./batch-parse";
+export type { ParseOptions } from "./parse-options";
 export type { ParsedAddress } from "./parsed-address";
 export type { ParsedIntersection } from "./parsed-intersection";
-export type { ParseOptions } from "./parse-options";
 export type { Region } from "./region";
 export type { SubRegion } from "./sub-region";
-export type { 
-  BatchParseOptions, 
-  BatchParseError, 
-  BatchParseStats, 
-  BatchParseResult 
-} from "./batch-parse";
-export type {
-  ValidationError,
-  AddressValidationResult,
-  ValidationOptions
-} from "./validation";
+export type { AddressValidationResult, ValidationError, ValidationOptions } from "./validation";
 
 export type {
+  AddressAbbreviations,
   AddressFormattingOptions,
-  USPSFormattingOptions,
   CanadaPostFormattingOptions,
   FormattedAddress,
-  AddressAbbreviations,
+  USPSFormattingOptions,
 } from "./formatting";
 
 export type {
   AddressComparisonOptions,
-  AddressSimilarityResult,
+  AddressComparisonResult,
   AddressDifference,
   AddressMatchType,
-  AddressComparisonResult,
+  AddressSimilarityResult,
   FuzzyMatchOptions,
 } from "./comparison";
 
-export type {
-  CleanAddressOptions,
-  CleanAddressResult,
-} from "./clean-address";
+export type { CleanAddressOptions, CleanAddressResult } from "./clean-address";
 
 export type {
-  TestCaseBase,
-  AddressParsingTestCase,
-  AddressFormattingTestCase,
-  AddressValidationTestCase,
   AddressComparisonTestCase,
-  CleanAddressTestCase,
+  AddressFormattingTestCase,
+  AddressParsingTestCase,
+  AddressValidationTestCase,
   BatchProcessingTestCase,
+  CleanAddressTestCase,
   TestCase,
+  TestCaseBase,
 } from "./test-schema";

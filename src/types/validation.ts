@@ -30,4 +30,4 @@ interface ValidationOptions {
   country?: "CA" | "US" | "auto"; // Country context for validation rules
 }
 
-export type { ValidationError, AddressValidationResult, ValidationOptions };
+export type { AddressValidationResult, ValidationError, ValidationOptions };

@@ -6,18 +6,18 @@ import { hasValidAddressComponents, setValidatedPostalCode } from "../utils/addr
 // Parse informal addresses as a fallback when standard parsing fails
 function parseInformalAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   const patterns = buildPatterns();
-  
+
   // Check if input contains valid address components
   if (!hasValidAddressComponents(address)) {
     return null;
   }
-  
+
   // Simple fallback pattern
   const parts = address.split(/\s*,\s*/);
   if (parts.length === 0) return null;
 
   const result: ParsedAddress = {};
-  
+
   // Try to extract number from first part
   const firstPart = parts[0];
   const numberMatch = firstPart.match(new RegExp(`^\\s*${patterns.number}\\s+(.+)$`));
