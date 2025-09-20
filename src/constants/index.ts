@@ -45,9 +45,10 @@ export { FRENCH_PREPOSITIONS } from "./french-prepositions";
 export { STREET_NAME_ACRONYMS } from "./street-name-acronyms";
 export { COUNTRIES } from "./countries";
 export type { CountryCode } from "./countries";
-export { VALIDATION_PATTERNS } from "./validation-patterns";
-export { CITY_PATTERNS } from "./city-patterns";
+export { VALIDATION_PATTERNS } from "../patterns/validation-patterns";
+export { CITY_PATTERNS } from "../patterns/city-patterns";
 export { PO_BOX_PATTERNS, INTERSECTION_PATTERNS, COMMON_PARSER_PATTERNS } from "./parser-patterns";
+export { STATE_NAME_TO_ABBREVIATION } from "./state-mappings";
 export { 
   COMMON_STREET_NAMES_PATTERN,
   GENERAL_DELIVERY_PATTERNS,
@@ -55,7 +56,7 @@ export {
   FACILITY_DELIMITER_PATTERNS,
   ISLAND_TYPE_PATTERN,
   CONNECTOR_WORDS
-} from "./patterns";
+} from "../patterns/general-patterns";
 export { 
   POSTAL_CODE_TO_PROVINCE, 
   TERRITORY_POSTAL_RANGES,

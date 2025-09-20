@@ -4,14 +4,14 @@ import type { ParsedAddress } from "./index";
 
 // Address comparison options
 interface AddressComparisonOptions {
-  ignoreCase?: boolean;
-  ignorePunctuation?: boolean;
-  normalizeStreetTypes?: boolean;
-  normalizeDirections?: boolean;
-  normalizeStates?: boolean;
-  fuzzyMatching?: boolean;
-  strictPostalCode?: boolean;
-  requireExactMatch?: boolean;
+  ignoreCase?: boolean; // Whether to ignore case when comparing text
+  ignorePunctuation?: boolean; // Whether to ignore punctuation marks
+  normalizeStreetTypes?: boolean; // Whether to normalize street type abbreviations
+  normalizeDirections?: boolean; // Whether to normalize directional abbreviations
+  normalizeStates?: boolean; // Whether to normalize state/province names
+  fuzzyMatching?: boolean; // Whether to use fuzzy string matching
+  strictPostalCode?: boolean; // Whether postal codes must match exactly
+  requireExactMatch?: boolean; // Whether all fields must match exactly
 }
 
 // Address similarity result
@@ -20,11 +20,11 @@ interface AddressSimilarityResult {
   isMatch: boolean; // Whether addresses are considered a match
   confidence: number; // 0-1 confidence in the match
   details: {
-    streetScore: number;
-    cityScore: number;
-    stateScore: number;
-    postalScore: number;
-    overallScore: number;
+    streetScore: number; // Street name similarity score
+    cityScore: number; // City name similarity score
+    stateScore: number; // State/province similarity score
+    postalScore: number; // Postal code similarity score
+    overallScore: number; // Combined overall similarity score
   };
   differences: AddressDifference[];
   suggestions?: string[];
@@ -32,11 +32,11 @@ interface AddressSimilarityResult {
 
 // Address difference details
 interface AddressDifference {
-  field: keyof ParsedAddress;
-  value1: string | undefined;
-  value2: string | undefined;
-  type: "missing" | "different" | "similar" | "typo";
-  confidence: number;
+  field: keyof ParsedAddress; // Which address field differs
+  value1: string | undefined; // Value from first address
+  value2: string | undefined; // Value from second address
+  type: "missing" | "different" | "similar" | "typo"; // Type of difference
+  confidence: number; // Confidence in the difference assessment
 }
 
 // Address match types
@@ -44,11 +44,11 @@ type AddressMatchType = "exact" | "strong" | "moderate" | "weak" | "none";
 
 // Address comparison result
 interface AddressComparisonResult {
-  isSame: boolean;
-  matchType: AddressMatchType;
-  similarity: AddressSimilarityResult;
-  normalizedAddress1: ParsedAddress;
-  normalizedAddress2: ParsedAddress;
+  isSame: boolean; // Whether addresses are considered the same
+  matchType: AddressMatchType; // Type of match found
+  similarity: AddressSimilarityResult; // Detailed similarity analysis
+  normalizedAddress1: ParsedAddress; // First address after normalization
+  normalizedAddress2: ParsedAddress; // Second address after normalization
 }
 
 // Fuzzy matching options

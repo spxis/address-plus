@@ -10,7 +10,7 @@ import type {
   FuzzyMatchOptions
 } from "../types";
 
-import { US_STREET_TYPES, DIRECTIONAL_MAP } from "../constants";
+import { US_STREET_TYPES, DIRECTIONAL_MAP, STATE_NAME_TO_ABBREVIATION } from "../constants";
 
 // Default comparison options
 const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {
@@ -215,29 +215,8 @@ function normalizeAddressForComparison(
   // Normalize states (simple implementation)
   if (options.normalizeStates && normalized.state) {
     // Convert full state names to abbreviations for comparison
-    const stateMap: Record<string, string> = {
-      "california": "ca", "texas": "tx", "florida": "fl", "new york": "ny",
-      "illinois": "il", "pennsylvania": "pa", "ohio": "oh", "georgia": "ga",
-      "north carolina": "nc", "michigan": "mi", "new jersey": "nj", "virginia": "va",
-      "washington": "wa", "arizona": "az", "massachusetts": "ma", "tennessee": "tn",
-      "indiana": "in", "missouri": "mo", "maryland": "md", "wisconsin": "wi",
-      "colorado": "co", "minnesota": "mn", "south carolina": "sc", "alabama": "al",
-      "louisiana": "la", "kentucky": "ky", "oregon": "or", "oklahoma": "ok",
-      "connecticut": "ct", "utah": "ut", "iowa": "ia", "nevada": "nv",
-      "arkansas": "ar", "mississippi": "ms", "kansas": "ks", "new mexico": "nm",
-      "nebraska": "ne", "west virginia": "wv", "idaho": "id", "hawaii": "hi",
-      "new hampshire": "nh", "maine": "me", "montana": "mt", "rhode island": "ri",
-      "delaware": "de", "south dakota": "sd", "north dakota": "nd", "alaska": "ak",
-      "vermont": "vt", "wyoming": "wy", "district of columbia": "dc",
-      // Canadian provinces
-      "ontario": "on", "quebec": "qc", "british columbia": "bc", "alberta": "ab",
-      "manitoba": "mb", "saskatchewan": "sk", "nova scotia": "ns", "new brunswick": "nb",
-      "newfoundland and labrador": "nl", "prince edward island": "pe",
-      "northwest territories": "nt", "nunavut": "nu", "yukon": "yt",
-    };
-    
     const normalizedState = normalized.state.toLowerCase().replace(/\./g, "").trim();
-    const mappedState = stateMap[normalizedState];
+    const mappedState = STATE_NAME_TO_ABBREVIATION[normalizedState];
     if (mappedState) {
       normalized.state = mappedState;
     } else {
