@@ -37,7 +37,8 @@ export {
   US_STATES, 
   US_STATE_NAMES, 
   US_STATE_ALTERNATIVES,
-  US_STATE_EXPANSIONS
+  US_STATE_EXPANSIONS,
+  normalizeStateProvinceName
 } from "./us-states";
 export { US_STREET_TYPES, STREET_TYPE_EXPANSIONS } from "./us-street-types";
 export { STREET_TYPE_PROPER_CASE } from "./street-type-proper-case";
@@ -48,7 +49,6 @@ export type { CountryCode } from "./countries";
 export { VALIDATION_PATTERNS } from "../patterns/validation-patterns";
 export { CITY_PATTERNS } from "../patterns/city-patterns";
 export { PO_BOX_PATTERNS, INTERSECTION_PATTERNS, COMMON_PARSER_PATTERNS } from "./parser-patterns";
-export { STATE_NAME_TO_ABBREVIATION } from "./state-mappings";
 export { 
   COMMON_STREET_NAMES_PATTERN,
   GENERAL_DELIVERY_PATTERNS,

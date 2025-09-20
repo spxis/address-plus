@@ -10,7 +10,7 @@ import type {
   FuzzyMatchOptions
 } from "../types";
 
-import { US_STREET_TYPES, DIRECTIONAL_MAP, STATE_NAME_TO_ABBREVIATION } from "../constants";
+import { US_STREET_TYPES, DIRECTIONAL_MAP, normalizeStateProvinceName } from "../constants";
 
 // Default comparison options
 const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {
@@ -216,7 +216,7 @@ function normalizeAddressForComparison(
   if (options.normalizeStates && normalized.state) {
     // Convert full state names to abbreviations for comparison
     const normalizedState = normalized.state.toLowerCase().replace(/\./g, "").trim();
-    const mappedState = STATE_NAME_TO_ABBREVIATION[normalizedState];
+    const mappedState = normalizeStateProvinceName(normalizedState);
     if (mappedState) {
       normalized.state = mappedState;
     } else {

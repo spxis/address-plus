@@ -1,4 +1,5 @@
 import type { Region } from "../types/region.js";
+import { CA_PROVINCE_NAMES, CA_PROVINCE_ALTERNATIVES } from "./ca-provinces.js";
 
 // US States and territories mapping
 
@@ -226,4 +227,24 @@ const US_STATE_EXPANSIONS: Record<string, string> = Object.fromEntries(
   Object.entries(US_STATE_NAMES).map(([name, abbr]) => [abbr.toLowerCase(), name])
 );
 
-export { US_REGIONS, US_STATES, US_STATE_NAMES, US_STATE_ALTERNATIVES, US_STATE_EXPANSIONS };
+// Combined US and Canadian state/province normalization function
+// Converts full state/province names to standard abbreviations (lowercase output)
+function normalizeStateProvinceName(stateName: string): string | undefined {
+  const normalizedInput = stateName.toLowerCase().replace(/\./g, "").trim();
+  
+  // Check US states first (convert to lowercase to match existing usage)
+  const usState = US_STATES[normalizedInput];
+  if (usState) {
+    return usState.toLowerCase();
+  }
+  
+  // Check Canadian provinces (convert to lowercase to match existing usage)
+  const caProvince = CA_PROVINCE_NAMES[normalizedInput] || CA_PROVINCE_ALTERNATIVES[normalizedInput];
+  if (caProvince) {
+    return caProvince.toLowerCase();
+  }
+  
+  return undefined;
+}
+
+export { US_REGIONS, US_STATES, US_STATE_NAMES, US_STATE_ALTERNATIVES, US_STATE_EXPANSIONS, normalizeStateProvinceName };
