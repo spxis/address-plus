@@ -39,6 +39,18 @@ export { US_STREET_TYPES, STREET_TYPE_EXPANSIONS } from "./us-street-types";
 export { STREET_TYPE_PROPER_CASE } from "./street-type-proper-case";
 export { FRENCH_PREPOSITIONS } from "./french-prepositions";
 export { STREET_NAME_ACRONYMS } from "./street-name-acronyms";
+export { COUNTRIES } from "./countries";
+export type { CountryCode } from "./countries";
+export { VALIDATION_PATTERNS } from "./validation-patterns";
+export { CITY_PATTERNS } from "./city-patterns";
+export { 
+  COMMON_STREET_NAMES_PATTERN,
+  GENERAL_DELIVERY_PATTERNS,
+  ZIP_VALIDATION_PATTERNS,
+  FACILITY_DELIMITER_PATTERNS,
+  ISLAND_TYPE_PATTERN,
+  CONNECTOR_WORDS
+} from "./patterns";
 export { 
   POSTAL_CODE_TO_PROVINCE, 
   TERRITORY_POSTAL_RANGES,

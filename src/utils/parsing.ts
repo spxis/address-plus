@@ -9,7 +9,7 @@ import {
   SECONDARY_UNIT_TYPES,
   FACILITY_PATTERNS,
   getProvinceFromPostalCode,
-} from '../data';
+} from '../constants';
 import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from '../validation';
 import { ParsedAddress, ParseOptions } from '../types';
 import { capitalizeStreetName, capitalizeWords } from './capitalization';

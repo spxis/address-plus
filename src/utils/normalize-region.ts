@@ -1,6 +1,6 @@
 import levenshtein from "fast-levenshtein";
 
-import { REGIONS } from "../data/regions.js";
+import { REGIONS } from "../constants/regions.js";
 import type { Region } from "../types/region.js";
 
 // Region normalization utilities for fuzzy matching

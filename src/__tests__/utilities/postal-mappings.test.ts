@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getProvinceFromPostalCode } from "../../data/postal-code-provinces.js";
+import { getProvinceFromPostalCode } from "../../constants/postal-code-provinces.js";
 import testData from "../../../test-data/utilities/postal-mappings.json";
 
 describe("Postal Code to Province Mapping", () => {

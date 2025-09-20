@@ -17,7 +17,7 @@ import {
   CA_PROVINCE_NAMES,
   US_STREET_TYPES,
   SECONDARY_UNIT_TYPES
-} from "../data";
+} from "../constants";
 
 import { capitalize } from "../utils/capitalization";
 

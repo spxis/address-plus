@@ -2,8 +2,8 @@
  * String capitalization utilities for address parsing
  */
 
-import { FRENCH_PREPOSITIONS } from '../data/french-prepositions';
-import { STREET_NAME_ACRONYMS } from '../data/street-name-acronyms';
+import { FRENCH_PREPOSITIONS } from '../constants/french-prepositions';
+import { STREET_NAME_ACRONYMS } from '../constants/street-name-acronyms';
 
 /**
  * Super fast first letter capitalization - minimal footprint

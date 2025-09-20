@@ -7,8 +7,8 @@ import { parseInformalAddress } from "./parsers/informal-address-parser";
 import {
   DIRECTIONAL_MAP,
   SECONDARY_UNIT_TYPES,
-} from "./data";
-import { ALL_SUB_REGION_NAMES } from "./data/sub-regions";
+} from "./constants";
+import { ALL_SUB_REGION_NAMES } from "./constants/sub-regions";
 import {
   SECONDARY_UNIT_PATTERN,
   UNIT_TYPE_NUMBER_PATTERN,

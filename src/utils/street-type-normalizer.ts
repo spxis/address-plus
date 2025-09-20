@@ -1,4 +1,4 @@
-import { US_STREET_TYPES, CA_STREET_TYPES, STREET_TYPE_PROPER_CASE } from "../data";
+import { US_STREET_TYPES, CA_STREET_TYPES, STREET_TYPE_PROPER_CASE } from "../constants";
 
 /**
  * Normalize street type to standard format

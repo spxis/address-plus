@@ -63,7 +63,7 @@ export {
 } from "./batch-parser";
 
 // Export data and utilities for advanced usage
-export * from "./data";
+export * from "./constants";
 export * from "./utils";
 
 export default parser;

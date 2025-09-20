@@ -7,7 +7,7 @@ import { parseLocation } from "../index.js";
 import { formatAddress, formatUSPS, formatCanadaPost } from "../formatting/address-formatting.js";
 import type { CleanAddressOptions, CleanAddressResult } from "../types/clean-address.js";
 import type { ParsedAddress } from "../types/index.js";
-import { COUNTRIES } from "../constants.js";
+import { COUNTRIES } from "../constants";
 import { 
   STREET_TYPE_DETECTION_PATTERN,
   DIRECTION_EXPANSIONS,
@@ -15,7 +15,7 @@ import {
   STREET_TYPE_EXPANSIONS,
   UNIT_TYPE_EXPANSIONS,
   US_STATE_EXPANSIONS,
-} from "../data/index.js";
+} from "../constants/index.js";
 
 /**
  * Clean and normalize an address string with various formatting options

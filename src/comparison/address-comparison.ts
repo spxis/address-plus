@@ -12,7 +12,7 @@ import type {
   FuzzyMatchOptions
 } from "../types";
 
-import { US_STREET_TYPES, DIRECTIONAL_MAP } from "../data";
+import { US_STREET_TYPES, DIRECTIONAL_MAP } from "../constants";
 
 // Default comparison options
 const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {

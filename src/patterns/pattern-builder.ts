@@ -9,10 +9,11 @@ import {
   DIRECTIONAL_MAP,
   US_STATES,
   US_STREET_TYPES,
-} from "../data";
-import { VALIDATION_PATTERNS } from "../constants";
-import { UNIT_TYPE_KEYWORDS, WRITTEN_NUMBERS } from "./address";
+  UNIT_TYPE_KEYWORDS,
+  WRITTEN_NUMBERS
+} from "../constants";
 import { ZIP_CODE_REGEX_PATTERN } from "../validation";
+import { VALIDATION_PATTERNS } from "../constants";
 
 export interface AddressPatterns {
   number: string;
@@ -51,7 +52,7 @@ export function buildPatterns(): AddressPatterns {
     .join('|');
   
   // Create separate pattern for state abbreviations (2-3 chars) vs full names
-  const stateAbbrevs = Object.values(US_STATES).concat(Object.values(CA_PROVINCES))
+  const stateAbbrevs = (Object.values(US_STATES).concat(Object.values(CA_PROVINCES)) as string[])
     .filter((v, i, arr) => arr.indexOf(v) === i && v.length <= 3)
     .sort((a, b) => b.length - a.length)
     .join('|');
