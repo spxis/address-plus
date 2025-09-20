@@ -1,12 +1,8 @@
 import type { Region } from "../types/region.js";
 
-/**
- * Canadian provinces and territories mapping
- */
+// Canadian provinces and territories mapping
 
-/**
- * Official Canadian province and territory names in English mapped to their abbreviations
- */
+// Official Canadian province and territory names in English mapped to their abbreviations
 const CA_PROVINCE_NAMES_EN: Record<string, string> = {
   alberta: "AB",
   "british columbia": "BC",
@@ -23,9 +19,7 @@ const CA_PROVINCE_NAMES_EN: Record<string, string> = {
   yukon: "YT",
 };
 
-/**
- * Official Canadian province and territory names in French mapped to their abbreviations
- */
+// Official Canadian province and territory names in French mapped to their abbreviations
 const CA_PROVINCE_NAMES_FR: Record<string, string> = {
   alberta: "AB",                          // Same in French
   "colombie-britannique": "BC",
@@ -42,17 +36,13 @@ const CA_PROVINCE_NAMES_FR: Record<string, string> = {
   yukon: "YT",                            // Same in French
 };
 
-/**
- * Combined official Canadian province and territory names (English and French)
- */
+// Combined official Canadian province and territory names (English and French)
 const CA_PROVINCE_NAMES: Record<string, string> = {
   ...CA_PROVINCE_NAMES_EN,
   ...CA_PROVINCE_NAMES_FR,
 };
 
-/**
- * Common shortened forms, abbreviations, and alternative names for Canadian provinces
- */
+// Common shortened forms, abbreviations, and alternative names for Canadian provinces
 const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
   // Alberta
   alb: "AB",
@@ -94,17 +84,13 @@ const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
   sask: "SK",
 };
 
-/**
- * Combined mapping of all Canadian province names and alternatives to their abbreviations
- */
+// Combined mapping of all Canadian province names and alternatives to their abbreviations
 const CA_PROVINCES: Record<string, string> = {
   ...CA_PROVINCE_NAMES,
   ...CA_PROVINCE_ALTERNATIVES,
 };
 
-/**
- * Array of Canadian provinces and territories as Region objects for fuzzy matching
- */
+// Array of Canadian provinces and territories as Region objects for fuzzy matching
 const CA_REGIONS: Region[] = Object.entries(CA_PROVINCES).map(([name, abbr]) => ({
   abbr,
   country: "CA",

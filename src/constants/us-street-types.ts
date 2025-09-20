@@ -1,10 +1,6 @@
-/**
- * US Street Types (USPS official abbreviations)
- */
+// US Street Types (USPS official abbreviations)
 
-/**
- * Mapping of US street types and their variations to official USPS abbreviations
- */
+// Mapping of US street types and their variations to official USPS abbreviations
 const US_STREET_TYPES: Record<string, string> = {
   allee: "aly",
   alley: "aly",

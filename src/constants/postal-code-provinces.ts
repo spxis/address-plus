@@ -1,13 +1,9 @@
-/**
- * Canadian postal code to province mapping
- * Based on Canada Post guidelines: https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/postal-codes.page
- */
+// Canadian postal code to province mapping
+// Based on Canada Post guidelines: https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/postal-codes.page
 
-/**
- * Map postal code first letter to province abbreviation
- * Canadian postal codes follow the pattern: Letter-Digit-Letter Digit-Letter-Digit
- * The first letter indicates the province/territory
- */
+// Map postal code first letter to province abbreviation
+// Canadian postal codes follow the pattern: Letter-Digit-Letter Digit-Letter-Digit
+// The first letter indicates the province/territory
 const POSTAL_CODE_TO_PROVINCE: Record<string, string> = {
   // Newfoundland and Labrador
   A: "NL",
@@ -50,10 +46,8 @@ const POSTAL_CODE_TO_PROVINCE: Record<string, string> = {
   Y: "YT"
 };
 
-/**
- * More specific postal code ranges for territories
- * These ranges help distinguish between NT, NU, and YT within X prefix
- */
+// More specific postal code ranges for territories
+// These ranges help distinguish between NT, NU, and YT within X prefix
 const TERRITORY_POSTAL_RANGES: Array<{ pattern: RegExp; province: string }> = [
   // Yukon Territory - Y prefix
   { pattern: /^Y/, province: "YT" },
@@ -65,11 +59,9 @@ const TERRITORY_POSTAL_RANGES: Array<{ pattern: RegExp; province: string }> = [
   { pattern: /^X[01]/, province: "NT" }
 ];
 
-/**
- * Extract province from Canadian postal code
- * @param postalCode - Canadian postal code (e.g., "M5V 3A8", "K1A 0A6")
- * @returns Province abbreviation (e.g., "ON", "QC") or null if not Canadian
- */
+// Extract province from Canadian postal code
+// @param postalCode - Canadian postal code (e.g., "M5V 3A8", "K1A 0A6")
+// @returns Province abbreviation (e.g., "ON", "QC") or null if not Canadian
 function getProvinceFromPostalCode(postalCode: string): string | null {
   if (!postalCode) return null;
   
