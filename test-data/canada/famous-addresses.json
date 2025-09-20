@@ -1,9 +1,9 @@
 {
-  "$schema": "../schemas/test-file.json",
-  "name": "Canadian Famous Locations",
-  "description": "Famous Canadian locations and landmarks for address parsing validation",
+  "$schema": "../../schemas/test-file.json",
+  "name": "Canadian Famous Addresses",
+  "description": "Famous Canadian locations and landmarks with standard and edge case parsing scenarios",
   "tests": {
-    "famous": [
+    "standard": [
       {
         "input": "24 Sussex Drive Ottawa ON K1M 1M4",
         "expected": {
@@ -386,6 +386,195 @@
           "country": "CA"
         },
         "description": "Legislative Assembly - Nunavut"
+      }
+    ],
+    "edgeCases": [
+      {
+        "input": "24 Sussex Dr., Ottawa, ON K1M 1M4",
+        "expected": {
+          "number": "24",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1M 1M4",
+          "country": "CA"
+        },
+        "description": "Prime Minister's residence - abbreviated with periods"
+      },
+      {
+        "input": "111 Wellington St., Room 309-S, Ottawa, Ontario K1A 0A6",
+        "expected": {
+          "number": "111",
+          "street": "Wellington",
+          "type": "St",
+          "secUnitType": "Room",
+          "secUnitNum": "309-S",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A6",
+          "country": "CA"
+        },
+        "description": "Parliament Hill - with room and full province"
+      },
+      {
+        "input": "53-55 Water St., Suite 400, Vancouver, British Columbia V6B 1A1",
+        "expected": {
+          "number": "53-55",
+          "street": "Water",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V6B 1A1",
+          "country": "CA"
+        },
+        "description": "Gastown Vancouver - with suite and full province"
+      },
+      {
+        "input": "301 Front St. W., Unit 1200, Toronto, ON M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "1200",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "description": "CN Tower area - abbreviated with unit"
+      },
+      {
+        "input": "100 Queen St., Floor 15, Ottawa, ON K1P 1J9",
+        "expected": {
+          "number": "100",
+          "street": "Queen",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "15",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J9",
+          "country": "CA"
+        },
+        "description": "ByWard Market - abbreviated with floor"
+      },
+      {
+        "input": "1 Blue Jays Way, Gate 3, Toronto, Ontario M5V 1J1",
+        "expected": {
+          "number": "1",
+          "street": "Blue Jays",
+          "type": "Way",
+          "secUnitType": "Gate",
+          "secUnitNum": "3",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 1J1",
+          "country": "CA"
+        },
+        "description": "Rogers Centre - with gate and full province"
+      },
+      {
+        "input": "1661 Barnet Hwy., Building C, Burnaby, BC V5A 4N6",
+        "expected": {
+          "number": "1661",
+          "street": "Barnet",
+          "type": "Hwy",
+          "secUnitType": "Building",
+          "secUnitNum": "C",
+          "city": "Burnaby",
+          "state": "BC",
+          "zip": "V5A 4N6",
+          "country": "CA"
+        },
+        "description": "BCIT Burnaby - abbreviated highway with building"
+      },
+      {
+        "input": "2220 University Dr. N.W., Calgary, Alberta T2N 1N4",
+        "expected": {
+          "number": "2220",
+          "street": "University",
+          "type": "Dr",
+          "suffix": "NW",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2N 1N4",
+          "country": "CA"
+        },
+        "description": "University of Calgary - periods in directional"
+      },
+      {
+        "input": "8888 University Dr., Office 250, Burnaby, BC V5A 1S6",
+        "expected": {
+          "number": "8888",
+          "street": "University",
+          "type": "Dr",
+          "secUnitType": "Office",
+          "secUnitNum": "250",
+          "city": "Burnaby",
+          "state": "BC",
+          "zip": "V5A 1S6",
+          "country": "CA"
+        },
+        "description": "Simon Fraser University - with office"
+      },
+      {
+        "input": "11211 Saskatchewan Dr., Edmonton, AB T6G 2M9",
+        "expected": {
+          "number": "11211",
+          "street": "Saskatchewan",
+          "type": "Dr",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T6G 2M9",
+          "country": "CA"
+        },
+        "description": "University of Alberta - abbreviated drive"
+      },
+      {
+        "input": "200 Main St., Level 3, Winnipeg, Manitoba R3C 1A8",
+        "expected": {
+          "number": "200",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Level",
+          "secUnitNum": "3",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3C 1A8",
+          "country": "CA"
+        },
+        "description": "Manitoba Legislative Building - with level and full province"
+      },
+      {
+        "input": "2405 Legislative Dr., Regina, SK S4S 0B3",
+        "expected": {
+          "number": "2405",
+          "street": "Legislative",
+          "type": "Dr",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4S 0B3",
+          "country": "CA"
+        },
+        "description": "Saskatchewan Legislative Building - abbreviated"
+      },
+      {
+        "input": "706 Queen St., Fredericton, New Brunswick E3B 1C2",
+        "expected": {
+          "number": "706",
+          "street": "Queen",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1C2",
+          "country": "CA"
+        },
+        "description": "New Brunswick Legislative Building - full province name"
       }
     ]
   }

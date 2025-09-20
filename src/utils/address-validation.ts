@@ -2,7 +2,7 @@
 
 import type { ParsedAddress, ParsedIntersection, ParseOptions } from "../types";
 import { VALIDATION_PATTERNS } from "../constants";
-import { validatePostalCode } from "../validation";
+import { validatePostalCode } from "../constants";
 import { buildPatterns } from "../patterns/pattern-builder";
 
 // Check if input contains recognizable address components

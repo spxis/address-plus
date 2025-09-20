@@ -27,7 +27,7 @@ export {
   validateAddress,
   isValidAddress,
   getValidationErrors,
-} from "./validation/comprehensive-validation";
+} from "./utils/comprehensive-validation";
 
 // Formatting functions
 export {
@@ -35,14 +35,14 @@ export {
   formatUSPS,
   formatCanadaPost,
   getAddressAbbreviations,
-} from "./formatting/address-formatting";
+} from "./utils/address-formatting";
 
 // Comparison functions
 export {
   compareAddresses,
   isSameAddress,
   getAddressSimilarity,
-} from "./comparison/address-comparison";
+} from "./utils/address-comparison";
 
 // Clean address functions
 export {

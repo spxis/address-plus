@@ -12,7 +12,7 @@ import {
   UNIT_TYPE_KEYWORDS,
   WRITTEN_NUMBERS
 } from "../constants";
-import { ZIP_CODE_REGEX_PATTERN } from "../validation";
+import { ZIP_CODE_REGEX_PATTERN } from "./postal";
 import { VALIDATION_PATTERNS } from "../constants";
 
 export interface AddressPatterns {

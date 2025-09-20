@@ -1,7 +1,7 @@
 import { COUNTRIES } from "../constants";
 import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "../types";
-import { hasValidAddressComponents, setValidatedPostalCode } from "../validation/address-validation";
+import { hasValidAddressComponents, setValidatedPostalCode } from "../utils/address-validation";
 
 /**
  * Parse informal addresses as a fallback when standard parsing fails

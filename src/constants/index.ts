@@ -15,9 +15,14 @@ export {
 export { CA_STREET_TYPES } from "./ca-street-types";
 export { DIRECTIONAL_MAP, DIRECTION_EXPANSIONS } from "./directionals";
 export { FACILITY_PATTERNS, FACILITY_DELIMITER_PATTERN } from "../patterns/facility";
-export { ZIP_CODE_PATTERN, validatePostalCode } from "../validation";
-export type { PostalValidationResult } from "../validation";
-export { CANADIAN_POSTAL_CODE_PATTERN } from "../patterns/postal";
+export { validatePostalCode } from "../utils/postal-validation";
+export type { PostalValidationResult } from "../utils/postal-validation";
+export { 
+  ZIP_CODE_PATTERN,
+  CANADIAN_POSTAL_CODE_PATTERN,
+  CANADIAN_POSTAL_LIBERAL_PATTERN,
+  ZIP_CODE_REGEX_PATTERN
+} from "../patterns/postal";
 export { 
   SECONDARY_UNIT_PATTERN, 
   STREET_TYPE_DETECTION_PATTERN,
@@ -26,7 +31,6 @@ export {
   WRITTEN_NUMBERS,
   PARENTHETICAL_PATTERN 
 } from "../patterns/address";
-export { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../validation";
 export { SECONDARY_UNIT_TYPES, UNIT_TYPE_EXPANSIONS } from "./secondary-unit-types";
 export { 
   US_REGIONS, 

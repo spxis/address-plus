@@ -4,7 +4,7 @@
  */
 
 import { parseLocation } from "../index.js";
-import { formatAddress, formatUSPS, formatCanadaPost } from "../formatting/address-formatting.js";
+import { formatAddress, formatUSPS, formatCanadaPost } from "./address-formatting.js";
 import type { CleanAddressOptions, CleanAddressResult } from "../types/clean-address.js";
 import type { ParsedAddress } from "../types/index.js";
 import { COUNTRIES } from "../constants";

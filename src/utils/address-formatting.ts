@@ -1,6 +1,4 @@
-/**
- * Address formatting utilities for standardized output formats
- */
+// Address formatting utilities for standardized output formats
 
 import type { 
   ParsedAddress, 
@@ -31,10 +29,8 @@ const UNIT_ABBREVIATIONS: Record<string, string> = {
   room: "Rm"
 };
 
-/**
- * Format address using standard conventions
- */
-export function formatAddress(
+// Format address using standard conventions
+function formatAddress(
   address: ParsedAddress,
   options: AddressFormattingOptions = {}
 ): FormattedAddress {
@@ -92,10 +88,8 @@ export function formatAddress(
   };
 }
 
-/**
- * Format address using USPS standards
- */
-export function formatUSPS(
+// Format address using USPS standards
+function formatUSPS(
   address: ParsedAddress,
   options: USPSFormattingOptions = {}
 ): FormattedAddress {
@@ -140,10 +134,8 @@ export function formatUSPS(
   };
 }
 
-/**
- * Format address using Canada Post standards
- */
-export function formatCanadaPost(
+// Format address using Canada Post standards
+function formatCanadaPost(
   address: ParsedAddress,
   options: CanadaPostFormattingOptions = {}
 ): FormattedAddress {
@@ -191,10 +183,8 @@ export function formatCanadaPost(
   };
 }
 
-/**
- * Get all available abbreviations for address formatting
- */
-export function getAddressAbbreviations(): AddressAbbreviations {
+// Get all available abbreviations for address formatting
+function getAddressAbbreviations(): AddressAbbreviations {
   // Create properly capitalized versions of the mappings
   const streetTypes: Record<string, string> = {};
   for (const [key, value] of Object.entries(US_STREET_TYPES)) {
@@ -340,3 +330,5 @@ function abbreviateUnitType(unitType: string): string {
   const normalized = unitType.replace(/[^a-zA-Z]/g, "").toLowerCase();
   return UNIT_ABBREVIATIONS[normalized] || unitType;
 }
+
+export { formatAddress, formatUSPS, formatCanadaPost, getAddressAbbreviations };

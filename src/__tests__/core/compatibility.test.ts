@@ -8,8 +8,6 @@
  */
 
 import { describe, expect, it, test } from "vitest";
-import { readFileSync } from "fs";
-import { join } from "path";
 
 import { 
   parseAddress as ourParseAddress, 
@@ -18,18 +16,15 @@ import {
   parseLocation
 } from "../../index";
 
-import testDataFile from "../../../test-data/comparison/parse-address-comparison.json";
-import snakeCaseTestDataFile from "../../../test-data/utilities/snake-case-compatibility.json";
+import testDataFile from "../../../test-data/core/compatibility.json";
 
 // Dynamic import helper for CommonJS module compatibility
 async function getParseAddress() {
   const parseAddressModule = await import("parse-address");
   return parseAddressModule.default || parseAddressModule;
 }
-import multipleParserTestCases from "../../../test-data/parsing/multiple-parser-functions.json";
 
 // Constants
-const TEST_DATA_ROOT_PATH = "../../../test-data";
 
 // Types
 interface ComparisonTestCase {
@@ -61,45 +56,20 @@ function loadSchemaTestData<T>(testDataFile: any): T {
   return testDataFile;
 }
 
-// Helper Functions
-function loadTestData(country: "us" | "canada", filename: string): any[] {
-  const filePath = join(__dirname, TEST_DATA_ROOT_PATH, country, filename);
-  const data = JSON.parse(readFileSync(filePath, "utf-8"));
-  
-  // Handle new object-of-arrays structure
-  if (!data.tests) {
-    return [];
-  }
-  
-  // If tests is already an array, return it
-  if (Array.isArray(data.tests)) {
-    return data.tests;
-  }
-  
-  // If tests is an object, flatten all arrays within it
-  const allTests: any[] = [];
-  for (const [key, value] of Object.entries(data.tests)) {
-    if (Array.isArray(value)) {
-      allTests.push(...value);
-    } else if (typeof value === 'object' && value !== null) {
-      // Handle single test case objects
-      allTests.push(value);
-    }
-  }
-  
-  return allTests;
-}
-
-// Extract test data
+// Extract test data from consolidated file
 const testData = loadSchemaTestData<TestData>(testDataFile);
-// Extract test cases from the new structure
-const allTests = (testData as any).tests ? Object.values((testData as any).tests).flat() : [];
-const testCases = allTests;
-const keyTestCase = allTests.find((test: any) => test.id === "key") || allTests[0];
-const snakeCaseData = loadSchemaTestData<any>(snakeCaseTestDataFile);
-const snakeCaseTestCases = snakeCaseData.tests ? Object.values(snakeCaseData.tests).flat() : (snakeCaseData.compatibilityTests || snakeCaseData.testCases || snakeCaseData);
-const multipleParserData = loadSchemaTestData<any>(multipleParserTestCases);
-const multipleParserArray = multipleParserData.tests ? Object.values(multipleParserData.tests).flat() : (multipleParserData.testCases || multipleParserData);
+// Extract different test groups from the consolidated structure
+const parseAddressComparisonTests = (testData as any).tests.parseAddressComparison || [];
+const snakeCaseTestCases = (testData as any).tests.snakeCaseCompatibility || [];
+const multipleParserArray = (testData as any).tests.multipleParserFunctions || [];
+const usBasicAddresses = (testData as any).tests.usBasicAddresses || [];
+const canadaBasicAddresses = (testData as any).tests.canadaBasicAddresses || [];
+const intersections = (testData as any).tests.intersections || [];
+const usSpecialFormats = (testData as any).tests.usSpecialFormats || [];
+
+// For backward compatibility with existing code
+const testCases = parseAddressComparisonTests;
+const keyTestCase = parseAddressComparisonTests.find((test: any) => test.id === "key") || parseAddressComparisonTests[0];
 
 describe("Compatibility Tests", () => {
   
@@ -167,9 +137,8 @@ describe("Compatibility Tests", () => {
   describe("Comprehensive JSON Data Validation", () => {
     
     describe("US Address Parsing - Basic Addresses", () => {
-      const basicAddresses = loadTestData("us", "basic.json");
       
-      basicAddresses.forEach((testCase, index) => {
+      usBasicAddresses.forEach((testCase, index) => {
         it(`should parse basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = ourParseAddress(testCase.input);
           expect(result).toBeTruthy();
@@ -185,9 +154,8 @@ describe("Compatibility Tests", () => {
     });
 
     describe("US Address Parsing - Special Addresses", () => {
-      const specialAddresses = loadTestData("us", "special.json");
       
-      specialAddresses.forEach((testCase, index) => {
+      usSpecialFormats.forEach((testCase, index) => {
         it(`should parse special address ${index + 1}: "${testCase.input}"`, () => {
           const result = ourParseAddress(testCase.input);
           
@@ -208,9 +176,8 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Canadian Address Parsing - Basic Addresses", () => {
-      const basicAddresses = loadTestData("canada", "basic.json");
       
-      basicAddresses.forEach((testCase, index) => {
+      canadaBasicAddresses.forEach((testCase, index) => {
         it(`should parse Canadian basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = ourParseAddress(testCase.input);
           
@@ -231,7 +198,6 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Intersection Parsing", () => {
-      const intersections = loadTestData("us", "intersections.json");
       
       intersections.forEach((testCase, index) => {
         it(`should parse intersection ${index + 1}: "${testCase.input}"`, () => {

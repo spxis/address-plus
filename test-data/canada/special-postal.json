@@ -1,5 +1,5 @@
 {
-  "$schema": "../schemas/test-file.json",
+  "$schema": "../../schemas/test-file.json",
   "name": "Canadian Special Postal Codes",
   "description": "Special Canadian postal code formats and validation scenarios",
   "tests": {

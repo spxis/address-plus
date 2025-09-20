@@ -3,7 +3,7 @@ import {
   validateAddress, 
   isValidAddress, 
   getValidationErrors 
-} from "../../validation/comprehensive-validation";
+} from "../../utils/comprehensive-validation";
 import testData from "../../../test-data/validation/comprehensive-validation.json";
 
 // Extract test cases from new structure

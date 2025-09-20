@@ -10,7 +10,7 @@ import {
   FACILITY_PATTERNS,
   getProvinceFromPostalCode,
 } from '../constants';
-import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from '../validation';
+import { ZIP_CODE_PATTERN, CANADIAN_POSTAL_CODE_PATTERN } from '../patterns/postal';
 import { ParsedAddress, ParseOptions } from '../types';
 import { capitalizeStreetName, capitalizeWords } from './capitalization';
 

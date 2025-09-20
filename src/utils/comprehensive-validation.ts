@@ -9,7 +9,7 @@ import type {
   ValidationOptions 
 } from "../types";
 import { parseLocation } from "../parser";
-import { validatePostalCode } from "../validation";
+import { validatePostalCode } from "../constants";
 import { normalizeRegion } from "../utils";
 
 // Constants for validation scoring

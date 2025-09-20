@@ -1,12 +1,8 @@
-/**
- * Case conversion utilities for backward compatibility
- */
+// Case conversion utilities for backward compatibility
 
 import type { ParsedAddress } from "../types";
 
-/**
- * Mapping of camelCase field names to snake_case equivalents
- */
+// Mapping of camelCase field names to snake_case equivalents
 const FIELD_NAME_MAPPING: Record<string, string> = {
   secUnitType: 'sec_unit_type',
   secUnitNum: 'sec_unit_num',
@@ -17,10 +13,8 @@ const FIELD_NAME_MAPPING: Record<string, string> = {
   zipValid: 'zip_valid',
 };
 
-/**
- * Convert a camelCase ParsedAddress to snake_case for backward compatibility
- */
-export function toSnakeCase(address: ParsedAddress): Record<string, any> {
+// Convert a camelCase ParsedAddress to snake_case for backward compatibility
+function toSnakeCase(address: ParsedAddress): Record<string, any> {
   const result: Record<string, any> = {};
   
   for (const [key, value] of Object.entries(address)) {
@@ -33,10 +27,8 @@ export function toSnakeCase(address: ParsedAddress): Record<string, any> {
   return result;
 }
 
-/**
- * Convert a snake_case object to camelCase ParsedAddress
- */
-export function toCamelCase(address: Record<string, any>): ParsedAddress {
+// Convert a snake_case object to camelCase ParsedAddress
+function toCamelCase(address: Record<string, any>): ParsedAddress {
   const result: ParsedAddress = {};
   const reverseMapping = Object.fromEntries(
     Object.entries(FIELD_NAME_MAPPING).map(([camel, snake]) => [snake, camel])
@@ -53,4 +45,4 @@ export function toCamelCase(address: Record<string, any>): ParsedAddress {
 }
 
 // Exports at end of file as per AGENTS.md guidelines
-export { FIELD_NAME_MAPPING };
+export { FIELD_NAME_MAPPING, toSnakeCase, toCamelCase };

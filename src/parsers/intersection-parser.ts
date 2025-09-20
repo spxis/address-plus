@@ -2,7 +2,7 @@ import { CITY_PATTERNS } from "../constants";
 import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedIntersection, ParseOptions } from "../types";
 import { normalizeStreetType } from "../utils/street-type-normalizer";
-import { setValidatedPostalCode } from "../validation/address-validation";
+import { setValidatedPostalCode } from "../utils/address-validation";
 
 /**
  * Parse intersection addresses (e.g., "Main St & Elm Ave")

@@ -58,25 +58,28 @@ function loadTestData(country: "us" | "canada", filename: string): any[] {
 const usBasicAddresses = loadTestData("us", "basic.json");
 const usCompatibilityTests = loadTestData("us", "compatibility.json");
 const usIntersections = loadTestData("us", "intersections.json");
-const usFacilities = loadTestData("us", "facilities.json");
-const usUnitsAndBoxes = loadTestData("us", "units-and-boxes.json");
-const usEdgeCases = loadTestData("us", "edge-cases.json");
+// Load consolidated secondary units data
+const allSecondaryUnitsData = loadTestData("us", "secondary-units.json");
+// Extract units and boxes (first 8 items) and facilities (remaining items)
+const usUnitsAndBoxes = allSecondaryUnitsData.slice(0, 8);
+const usFacilities = allSecondaryUnitsData.slice(8);
+// Load consolidated special cases data
+const allSpecialCasesData = loadTestData("us", "special-cases.json");
+// Extract formats (first 9 items) and edge cases (remaining items)
+const usSpecialAddresses = allSpecialCasesData.slice(0, 9);
+const usEdgeCases = allSpecialCasesData.slice(9);
 
-// Filter out complex famous addresses that are moved to TODO
-const allUsFamousAddresses = loadTestData("us", "famous.json");
-const usFamousAddresses = allUsFamousAddresses.filter((testCase: any, index: number) => {
+// Load consolidated famous addresses data
+const allFamousData = loadTestData("us", "famous-addresses.json");
+// Extract standard addresses (first 13 items) and edge cases (remaining items)
+const usFamousAddresses = allFamousData.slice(0, 13).filter((testCase: any, index: number) => {
   // Keep only famous addresses that don't have complex parsing issues (exclude Times Square)
   return ![4].includes(index);
 });
-
-// Filter out complex famous edge cases that are moved to TODO  
-const allUsFamousEdgeAddresses = loadTestData("us", "famous-edge.json");
-const usFamousEdgeAddresses = allUsFamousEdgeAddresses.filter((testCase: any, index: number) => {
+const usFamousEdgeAddresses = allFamousData.slice(13).filter((testCase: any, index: number) => {
   // Keep only famous edge cases that don't have complex parsing issues
   return ![2, 10].includes(index);
 });
-
-const usSpecialAddresses = loadTestData("us", "special.json");
 
 // Filter out complex unusual types that are moved to TODO
 const allUsUnusualTypes = loadTestData("us", "unusual-types.json");
@@ -87,12 +90,18 @@ const usUnusualTypes = allUsUnusualTypes.filter((testCase: any, index: number) =
 const usNullCases = loadTestData("us", "null-cases.json");
 
 const canadaBasicAddresses = loadTestData("canada", "basic.json");
-const canadaFacilities = loadTestData("canada", "facilities.json");
 const canadaSpecialPostal = loadTestData("canada", "special-postal.json");
-const canadaEdgeCases = loadTestData("canada", "edge-cases.json");
-const canadaFamousAddresses = loadTestData("canada", "famous.json");
-const canadaFamousEdgeAddresses = loadTestData("canada", "famous-edge.json");
-const canadaSpecialAlt = loadTestData("canada", "special.json");
+// Load consolidated Canadian famous addresses data
+const allCanadaFamousData = loadTestData("canada", "famous-addresses.json");
+// Extract standard addresses (first 29 items) and edge cases (remaining items)
+const canadaFamousAddresses = allCanadaFamousData.slice(0, 29);
+const canadaFamousEdgeAddresses = allCanadaFamousData.slice(29);
+// Load consolidated Canadian special cases data
+const allCanadaSpecialData = loadTestData("canada", "special-cases.json");
+// Extract formats (4 tests), edge cases (7 tests), and facilities (5 tests)
+const canadaSpecialAlt = allCanadaSpecialData.slice(0, 4);
+const canadaEdgeCases = allCanadaSpecialData.slice(4, 11);
+const canadaFacilities = allCanadaSpecialData.slice(11);
 const canadaNullCases = loadTestData("canada", "null-cases.json");
 
 describe("Core Address Parser Tests", () => {

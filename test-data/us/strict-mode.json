@@ -1,5 +1,5 @@
 {
-  "$schema": "../schemas/test-file.json",
+  "$schema": "../../schemas/test-file.json",
   "name": "US Strict Mode Tests",
   "description": "US address parsing tests with strict validation mode enabled",
   "tests": {

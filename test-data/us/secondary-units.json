@@ -1,8 +1,109 @@
 {
   "$schema": "../../schemas/test-file.json",
-  "name": "US Facilities and Institutions",
-  "description": "US facility addresses with varied formatting - em dash, comma, newline, and space separators to reflect real-world diversity",
+  "name": "US Secondary Units",
+  "description": "US address parsing for secondary unit types including PO boxes, apartment designations, and facility addresses with varied formatting",
   "tests": {
+    "unitsAndBoxes": [
+      {
+        "input": "Post office Box 3094 Collierville TN 38027",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "3094",
+          "city": "Collierville",
+          "state": "TN",
+          "zip": "38027"
+        },
+        "description": "Full 'Post office Box' format"
+      },
+      {
+        "input": "P.O. box 3094 Collierville TN 38027",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "3094",
+          "city": "Collierville",
+          "state": "TN",
+          "zip": "38027"
+        },
+        "description": "Abbreviated 'P.O. box' format with periods"
+      },
+      {
+        "input": "POBox 3094 Collierville TN 38027",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "3094",
+          "city": "Collierville",
+          "state": "TN",
+          "zip": "38027"
+        },
+        "description": "Compact 'POBox' format without spaces"
+      },
+      {
+        "input": "#42 233 S Wacker Dr 60606",
+        "expected": {
+          "secUnitType": "#",
+          "secUnitNum": "42",
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606"
+        },
+        "description": "Hash symbol unit prefix format"
+      },
+      {
+        "input": "lt42 99 Some Road, Some City LA",
+        "expected": {
+          "secUnitType": "Lot",
+          "secUnitNum": "42",
+          "number": "99",
+          "street": "Some",
+          "type": "Rd",
+          "city": "Some City",
+          "state": "LA"
+        },
+        "description": "Lot number unit designation"
+      },
+      {
+        "input": "233 S Wacker Dr lobby 60606",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Lobby",
+          "zip": "60606"
+        },
+        "description": "Lobby as secondary unit designation"
+      },
+      {
+        "input": "(233 S Wacker Dr lobby 60606)",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Lobby",
+          "zip": "60606"
+        },
+        "description": "Address enclosed in parentheses"
+      },
+      {
+        "input": "789 Pine St Apt 4B, Seattle, WA 98101",
+        "expected": {
+          "number": "789",
+          "street": "Pine",
+          "type": "St",
+          "unit": "Apt 4B",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "description": "Apartment designation with alphanumeric unit number"
+      }
+    ],
     "facilities": [
       {
         "input": "Fenway Park – 4 Jersey Street, Boston MA 02215",

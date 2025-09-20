@@ -3,9 +3,9 @@ import {
   compareAddresses,
   isSameAddress,
   getAddressSimilarity,
-} from "../../comparison/address-comparison";
+} from "../../utils/address-comparison";
 import type { ParsedAddress } from "../../types";
-import testData from "../../../test-data/comparison/address-comparison-unified.json";
+import testData from "../../../test-data/comparison/address-comparison.json";
 
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];

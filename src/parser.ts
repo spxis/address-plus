@@ -14,9 +14,8 @@ import {
   UNIT_TYPE_NUMBER_PATTERN,
   UNIT_TYPE_KEYWORDS,
 } from "./patterns/address";
-import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "./validation";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN, ZIP_CODE_PATTERN } from "./constants";
 import { FACILITY_INDICATORS, FACILITY_PATTERNS, MUSIC_SQUARE_EAST_PATTERN } from "./patterns/facility";
-import { ZIP_CODE_PATTERN } from "./validation";
 import { 
   VALIDATION_PATTERNS, 
   CITY_PATTERNS,
@@ -34,7 +33,7 @@ import {
 } from "./utils";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 import { buildPatterns } from "./patterns/pattern-builder";
-import { hasValidAddressComponents, setValidatedPostalCode } from "./validation/address-validation";
+import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
 import { toSnakeCase } from "./utils/case-converter";
 
 // Parse a location string into address components

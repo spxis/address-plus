@@ -1,0 +1,218 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Canadian Special Cases",
+  "description": "Special address formats, edge cases, and facilities for Canadian addresses",
+  "tests": {
+    "formats": [
+      {
+        "input": "PO Box 123 Station A Toronto ON M5W 1A1",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "123",
+          "place": "Station A",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5W 1A1",
+          "country": "CA"
+        },
+        "description": "Canadian PO Box with station designation"
+      },
+      {
+        "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
+        "expected": {
+          "secUnitType": "Case Postale",
+          "secUnitNum": "456",
+          "place": "Succursale Centre-ville",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3C 3P8",
+          "country": "CA"
+        },
+        "description": "French postal box with branch office"
+      },
+      {
+        "input": "General Delivery Iqaluit NU X0A 0H0",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "description": "General delivery service in Nunavut"
+      },
+      {
+        "input": "Box 789 Yellowknife NT X1A 2N1",
+        "expected": {
+          "secUnitType": "Box",
+          "secUnitNum": "789",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N1",
+          "country": "CA"
+        },
+        "description": "Simple box address in Northwest Territories"
+      }
+    ],
+    "edgeCases": [
+      {
+        "input": "C.P. 5678, Succursale A, Ville-Marie, QC H3B 1X9",
+        "expected": {
+          "secUnitType": "CP",
+          "secUnitNum": "5678",
+          "city": "Ville-Marie",
+          "state": "QC",
+          "zip": "H3B 1X9",
+          "country": "CA"
+        },
+        "description": "French PO Box (Casier Postal) with branch"
+      },
+      {
+        "input": "321 Trans-Canada Highway, Km 125, Kamloops, BC V2C 5N1",
+        "expected": {
+          "number": "321",
+          "street": "Trans-Canada",
+          "type": "Hwy",
+          "city": "Kamloops",
+          "state": "BC",
+          "zip": "V2C 5N1",
+          "country": "CA"
+        },
+        "description": "Highway with kilometer marker"
+      },
+      {
+        "input": "100 Route Transcanadienne, Mile 42, Calgary, AB T3E 7H4",
+        "expected": {
+          "number": "100",
+          "street": "Transcanadienne",
+          "type": "Rte",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T3E 7H4",
+          "country": "CA"
+        },
+        "description": "French Trans-Canada route with mile marker"
+      },
+      {
+        "input": "General Delivery, Inuvik, NT X0E 0T0",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Inuvik",
+          "state": "NT",
+          "zip": "X0E 0T0",
+          "country": "CA"
+        },
+        "description": "General delivery in northern territory"
+      },
+      {
+        "input": "P.O. Box 9999, Station Main, Halifax, NS B3J 3A7",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "9999",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A7",
+          "country": "CA"
+        },
+        "description": "PO Box with station designation"
+      },
+      {
+        "input": "888 Confederation Trail, Point 15, Summerside, PE C1N 4J6",
+        "expected": {
+          "number": "888",
+          "street": "Confederation",
+          "type": "Trl",
+          "city": "Summerside",
+          "state": "PE",
+          "zip": "C1N 4J6",
+          "country": "CA"
+        },
+        "description": "Trail with point designation"
+      },
+      {
+        "input": "159 Duckworth Street, Level 3, St. John's, NL A1C 1G4",
+        "expected": {
+          "number": "159",
+          "street": "Duckworth",
+          "type": "St",
+          "secUnitType": "Level",
+          "secUnitNum": "3",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 1G4",
+          "country": "CA"
+        },
+        "description": "Historic street with level designation"
+      }
+    ],
+    "facilities": [
+      {
+        "input": "Rogers Place – 10220 104 Avenue NW, Edmonton AB T5J 0H6",
+        "expected": {
+          "place": "Rogers Place",
+          "number": "10220",
+          "street": "104",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 0H6"
+        },
+        "description": "Rogers Place arena with em dash separator - Edmonton"
+      },
+      {
+        "input": "Canadian Museum for Human Rights: 85 Israel Asper Way, Winnipeg MB R3C 0L5",
+        "expected": {
+          "place": "Canadian Museum for Human Rights",
+          "number": "85",
+          "street": "Israel Asper",
+          "type": "Way",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3C 0L5"
+        },
+        "description": "Museum address with colon separator"
+      },
+      {
+        "input": "Legislative Assembly of New Brunswick - 706 Queen Street, Fredericton NB E3B 1C5",
+        "expected": {
+          "place": "Legislative Assembly of New Brunswick",
+          "number": "706",
+          "street": "Queen",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1C5"
+        },
+        "description": "Legislative building with dash separator"
+      },
+      {
+        "input": "CN Tower | 301 Front Street West, Toronto ON M5V 2T6",
+        "expected": {
+          "place": "CN Tower",
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6"
+        },
+        "description": "Landmark with pipe separator"
+      },
+      {
+        "input": "Royal Ontario Museum; 100 Queen's Park, Toronto ON M5S 2C6",
+        "expected": {
+          "place": "Royal Ontario Museum",
+          "number": "100",
+          "street": "Queen's",
+          "type": "Park",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5S 2C6"
+        },
+        "description": "Museum with semicolon separator"
+      }
+    ]
+  }
+}

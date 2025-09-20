@@ -4,7 +4,7 @@ import {
   formatUSPS,
   formatCanadaPost,
   getAddressAbbreviations,
-} from "../../formatting/address-formatting";
+} from "../../utils/address-formatting";
 import type { ParsedAddress } from "../../types";
 import testData from "../../../test-data/formatting/address-formatting.json";
 
