@@ -1,0 +1,171 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Fuzzy Matching Tests",
+  "description": "Test cases for fuzzy matching of misspelled region names (US states and Canadian provinces)",
+  "tests": {
+    "usStates": [
+      {
+        "input": "Alabma",
+        "expected": {
+          "abbr": "AL",
+          "country": "US"
+        },
+        "description": "Missing 'a' in Alabama"
+      },
+      {
+        "input": "Calfornia",
+        "expected": {
+          "abbr": "CA",
+          "country": "US"
+        },
+        "description": "Missing 'i' in California"
+      },
+      {
+        "input": "Florda",
+        "expected": {
+          "abbr": "FL",
+          "country": "US"
+        },
+        "description": "Missing 'i' in Florida"
+      },
+      {
+        "input": "Illinoiss",
+        "expected": {
+          "abbr": "IL",
+          "country": "US"
+        },
+        "description": "Extra 's' in Illinois"
+      },
+      {
+        "input": "New Yrok",
+        "expected": {
+          "abbr": "NY",
+          "country": "US"
+        },
+        "description": "Transposed 'o' and 'r' in New York"
+      },
+      {
+        "input": "Pensylvania",
+        "expected": {
+          "abbr": "PA",
+          "country": "US"
+        },
+        "description": "Missing 'n' in Pennsylvania"
+      },
+      {
+        "input": "Texa",
+        "expected": {
+          "abbr": "TX",
+          "country": "US"
+        },
+        "description": "Missing 's' in Texas"
+      },
+      {
+        "input": "Washingto",
+        "expected": {
+          "abbr": "WA",
+          "country": "US"
+        },
+        "description": "Missing 'n' in Washington"
+      }
+    ],
+    "canadianProvinces": [
+      {
+        "input": "Albert",
+        "expected": {
+          "abbr": "AB",
+          "country": "CA"
+        },
+        "description": "Missing 'a' in Alberta"
+      },
+      {
+        "input": "British Columbi",
+        "expected": {
+          "abbr": "BC",
+          "country": "CA"
+        },
+        "description": "Missing 'a' in British Columbia"
+      },
+      {
+        "input": "Manitob",
+        "expected": {
+          "abbr": "MB",
+          "country": "CA"
+        },
+        "description": "Missing 'a' in Manitoba"
+      },
+      {
+        "input": "New Brunswic",
+        "expected": {
+          "abbr": "NB",
+          "country": "CA"
+        },
+        "description": "Missing 'k' in New Brunswick"
+      },
+      {
+        "input": "Newfoundlan",
+        "expected": {
+          "abbr": "NL",
+          "country": "CA"
+        },
+        "description": "Missing 'd' in Newfoundland"
+      },
+      {
+        "input": "Noth West Territories",
+        "expected": {
+          "abbr": "NT",
+          "country": "CA"
+        },
+        "description": "Missing 'r' in North West Territories"
+      },
+      {
+        "input": "Nova Scoti",
+        "expected": {
+          "abbr": "NS",
+          "country": "CA"
+        },
+        "description": "Missing 'a' in Nova Scotia"
+      },
+      {
+        "input": "Ontari",
+        "expected": {
+          "abbr": "ON",
+          "country": "CA"
+        },
+        "description": "Missing 'o' in Ontario"
+      },
+      {
+        "input": "Prince Edward Islan",
+        "expected": {
+          "abbr": "PE",
+          "country": "CA"
+        },
+        "description": "Missing 'd' in Prince Edward Island"
+      },
+      {
+        "input": "Quebe",
+        "expected": {
+          "abbr": "QC",
+          "country": "CA"
+        },
+        "description": "Missing 'c' in Quebec"
+      },
+      {
+        "input": "Saskatchewa",
+        "expected": {
+          "abbr": "SK",
+          "country": "CA"
+        },
+        "description": "Missing 'n' in Saskatchewan"
+      },
+      {
+        "input": "Yuko",
+        "expected": {
+          "abbr": "YT",
+          "country": "CA"
+        },
+        "description": "Missing 'n' in Yukon"
+      }
+    ]
+  }
+}

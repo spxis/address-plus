@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import testData from "../../../test-data/formatting/address-formatting.json";
+import testData from "../../../test-data/utilities/address-formatting.json";
 import type { ParsedAddress } from "../../types";
 import type { FormattingTestCase, FormattingTestData } from "../../types/test-data-types";
 import { formatAddress, formatCanadaPost, formatUSPS, getAddressAbbreviations } from "../../utils/address-formatting";

@@ -3,6 +3,125 @@
   "name": "Exact Match Test Cases",
   "description": "Test cases for exact matching of abbreviations and full names",
   "tests": {
-    "exactMatches": []
+    "abbreviationTests": {
+      "cases": [
+        {
+          "input": "CA",
+          "expected": {
+            "abbr": "CA",
+            "country": "US"
+          },
+          "description": "California abbreviation"
+        },
+        {
+          "input": "NY",
+          "expected": {
+            "abbr": "NY",
+            "country": "US"
+          },
+          "description": "New York abbreviation"
+        },
+        {
+          "input": "ON",
+          "expected": {
+            "abbr": "ON",
+            "country": "CA"
+          },
+          "description": "Ontario abbreviation"
+        },
+        {
+          "input": "BC",
+          "expected": {
+            "abbr": "BC",
+            "country": "CA"
+          },
+          "description": "British Columbia abbreviation"
+        }
+      ]
+    },
+    "nameTests": {
+      "cases": [
+        {
+          "input": "California",
+          "expected": {
+            "abbr": "CA",
+            "country": "US"
+          },
+          "description": "California full name"
+        },
+        {
+          "input": "New York",
+          "expected": {
+            "abbr": "NY",
+            "country": "US"
+          },
+          "description": "New York full name"
+        },
+        {
+          "input": "Ontario",
+          "expected": {
+            "abbr": "ON",
+            "country": "CA"
+          },
+          "description": "Ontario full name"
+        },
+        {
+          "input": "British Columbia",
+          "expected": {
+            "abbr": "BC",
+            "country": "CA"
+          },
+          "description": "British Columbia full name"
+        }
+      ]
+    },
+    "caseInsensitiveTests": {
+      "cases": [
+        {
+          "input": "ca",
+          "expected": {
+            "abbr": "CA",
+            "country": "US"
+          },
+          "description": "lowercase California abbreviation"
+        },
+        {
+          "input": "california",
+          "expected": {
+            "abbr": "CA",
+            "country": "US"
+          },
+          "description": "lowercase California full name"
+        },
+        {
+          "input": "ONTARIO",
+          "expected": {
+            "abbr": "ON",
+            "country": "CA"
+          },
+          "description": "uppercase Ontario full name"
+        }
+      ]
+    },
+    "periodsTests": {
+      "cases": [
+        {
+          "input": "C.A.",
+          "expected": {
+            "abbr": "CA",
+            "country": "US"
+          },
+          "description": "California abbreviation with periods"
+        },
+        {
+          "input": "N.Y.",
+          "expected": {
+            "abbr": "NY",
+            "country": "US"
+          },
+          "description": "New York abbreviation with periods"
+        }
+      ]
+    }
   }
 }

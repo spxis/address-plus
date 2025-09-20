@@ -71,6 +71,14 @@
           "country": "US"
         },
         "description": "Should match exact abbreviation over fuzzy match"
+      },
+      {
+        "input": "TX ",
+        "expected": {
+          "abbr": "TX",
+          "country": "US"
+        },
+        "description": "Texas abbreviation with trailing space should still match"
       }
     ]
   }
