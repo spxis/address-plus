@@ -163,6 +163,125 @@
         "expected": null
       }
     ],
+    "camelCaseCompatibility": [
+      {
+        "description": "should handle PO Box addresses with camelCase",
+        "input": "P.O. Box 123, Anytown CA 90210",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "123"
+        }
+      },
+      {
+        "description": "should handle intersections with camelCase",
+        "input": "Main St & Elm Ave, Anytown CA",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": {
+          "street1": "Main",
+          "street2": "Elm",
+          "type1": "St",
+          "type2": "Ave"
+        }
+      },
+      {
+        "description": "should handle general delivery with camelCase",
+        "input": "General Delivery, Smalltown MT 59718",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": {
+          "generalDelivery": true
+        }
+      },
+      {
+        "description": "should ensure camelCase format for all fields",
+        "input": "#42 233 S Wacker Dr 60606",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": {
+          "secUnitType": "#",
+          "secUnitNum": "42",
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606",
+          "country": "US"
+        }
+      },
+      {
+        "description": "should preserve all other fields in camelCase",
+        "input": "123 Main St Apartment 4B, Anytown CA 90210",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Anytown",
+          "state": "CA",
+          "zip": "90210",
+          "country": "US"
+        }
+      },
+      {
+        "description": "should handle Canadian addresses with camelCase",
+        "input": "123 Main St, Toronto ON M5V 3A8",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 3A8",
+          "country": "CA"
+        }
+      },
+      {
+        "description": "should handle precedence over useSnakeCase option",
+        "input": "100 N Main St Unit 502, Anytown CA 12345",
+        "options": {
+          "useCamelCase": true,
+          "useSnakeCase": true
+        },
+        "expected": {
+          "number": "100",
+          "prefix": "N",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "502",
+          "city": "Anytown",
+          "state": "CA",
+          "zip": "12345",
+          "country": "US"
+        },
+        "notExpected": [
+          "sec_unit_type",
+          "sec_unit_num"
+        ]
+      },
+      {
+        "description": "should return null in camelCase mode when parsing fails",
+        "input": "",
+        "options": {
+          "useCamelCase": true
+        },
+        "expected": null
+      }
+    ],
     "multipleParserFunctions": [
       {
         "description": "Test all parser functions with standard address",

@@ -27,7 +27,7 @@ import { buildPatterns } from "./patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "./types";
 import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
 import { capitalizeStreetName } from "./utils/capitalization";
-import { toSnakeCase } from "./utils/case-converter";
+import { toCamelCase, toSnakeCase } from "./utils/case-converter";
 import { detectCountry, parseStateProvince } from "./utils/parsing";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
@@ -48,20 +48,14 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   const patterns = buildPatterns();
   if (new RegExp(patterns.intersection, "i").test(original)) {
     const result = parseIntersection(original, options);
-    if (result && options.useSnakeCase) {
-      return toSnakeCase(result) as any;
-    }
-    return result;
+    return applyCaseConversion(result, options);
   }
 
   // Check for PO Box
   const poBoxMatch = original.match(new RegExp(`^\\s*${patterns.poBox}`, "i"));
   if (poBoxMatch) {
     const result = parsePoBox(original, options);
-    if (result && options.useSnakeCase) {
-      return toSnakeCase(result) as any;
-    }
-    return result;
+    return applyCaseConversion(result, options);
   }
 
   // Try standard address parsing
@@ -942,12 +936,26 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   // Return result if we have meaningful components
   const finalResult = result.number || result.street || result.generalDelivery ? result : null;
 
-  // Convert to snake_case if requested for backward compatibility
-  if (finalResult && options.useSnakeCase) {
-    return toSnakeCase(finalResult) as any;
+  // Apply case conversion based on options
+  return applyCaseConversion(finalResult, options);
+}
+
+// Helper function to apply case conversion based on options
+function applyCaseConversion(result: ParsedAddress | null, options: ParseOptions): ParsedAddress | null {
+  if (!result) {
+    return null;
   }
 
-  return finalResult;
+  // useCamelCase takes precedence over useSnakeCase
+  if (options.useCamelCase) {
+    return toCamelCase(result as any);
+  }
+  
+  if (options.useSnakeCase) {
+    return toSnakeCase(result) as any;
+  }
+
+  return result;
 }
 
 // Parse informal addresses (fallback)

@@ -53,6 +53,7 @@ const testData = loadSchemaTestData<TestData>(testDataFile);
 // Extract different test groups from the consolidated structure
 const parseAddressComparisonTests = (testData as any).tests.parseAddressComparison || [];
 const snakeCaseTestCases = (testData as any).tests.snakeCaseCompatibility || [];
+const camelCaseTestCases = (testData as any).tests.camelCaseCompatibility || [];
 const multipleParserArray = (testData as any).tests.multipleParserFunctions || [];
 const usBasicAddresses = (testData as any).tests.usBasicAddresses || [];
 const canadaBasicAddresses = (testData as any).tests.canadaBasicAddresses || [];
@@ -83,6 +84,33 @@ describe("Compatibility Tests", () => {
         });
 
         // Check fields that should not exist (for snake_case mode)
+        if (testCase.notExpected) {
+          testCase.notExpected.forEach((field: string) => {
+            expect((result as any)[field]).toBeUndefined();
+          });
+        }
+      });
+    });
+  });
+
+  describe("Camel Case Compatibility", () => {
+    camelCaseTestCases.forEach((testCase: any, index: number) => {
+      test(testCase.description, () => {
+        const result = parseLocation(testCase.input, testCase.options);
+
+        if (testCase.expected === null) {
+          expect(result).toBeNull();
+          return;
+        }
+
+        expect(result).toBeTruthy();
+
+        // Check expected fields
+        Object.keys(testCase.expected).forEach((key) => {
+          expect((result as any)[key]).toBe((testCase.expected as any)[key]);
+        });
+
+        // Check fields that should not exist (for precedence test)
         if (testCase.notExpected) {
           testCase.notExpected.forEach((field: string) => {
             expect((result as any)[field]).toBeUndefined();
