@@ -138,8 +138,8 @@ console.log(address);
 //   number: '456',
 //   street: 'Oak',
 //   type: 'St',
-//   sec_unit_type: 'Suite',
-//   sec_unit_num: '100',
+//   secUnitType: 'Suite',
+//   secUnitNum: '100',
 //   city: 'Boston',
 //   state: 'MA',
 //   zip: '02101',
@@ -170,8 +170,8 @@ The parser returns structured objects with the following possible fields:
 | `street`        | Street name                  | `"Main"`, `"Broadway"`, `"Martin Luther King Jr"` |
 | `type`          | Street type (abbreviated)    | `"St"`, `"Ave"`, `"Blvd"`, `"Dr"`                 |
 | `suffix`        | Directional suffix           | `"N"`, `"SW"`, `"E"`                              |
-| `sec_unit_type` | Secondary unit type          | `"Apt"`, `"Suite"`, `"Unit"`, `"#"`               |
-| `sec_unit_num`  | Secondary unit number        | `"4B"`, `"100"`, `"C-22"`                         |
+| `secUnitType`   | Secondary unit type          | `"Apt"`, `"Suite"`, `"Unit"`, `"#"`               |
+| `secUnitNum`    | Secondary unit number        | `"4B"`, `"100"`, `"C-22"`                         |
 | `city`          | City name                    | `"New York"`, `"Los Angeles"`                     |
 | `state`         | State/province (abbreviated) | `"NY"`, `"CA"`, `"QC"`, `"ON"`                    |
 | `zip`           | ZIP/postal code              | `"10001"`, `"90210"`, `"H3C 1G1"`                 |
