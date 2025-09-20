@@ -1,5 +1,8 @@
 // Main address parser implementation - based on the original parse-address library patterns
 
+import { DIRECTIONAL_MAP, SECONDARY_UNIT_TYPES } from "./constants/index";
+import { ALL_SUB_REGION_NAMES } from "./constants/sub-regions";
+import { parseInformalAddress } from "./parsers/informal-address-parser";
 import { parseIntersection } from "./parsers/intersection-parser";
 import { parsePoBox } from "./parsers/po-box-parser";
 import {
@@ -22,7 +25,10 @@ import {
 import { CANADIAN_POSTAL_LIBERAL_PATTERN, CITY_PATTERNS, ZIP_CODE_PATTERN } from "./patterns/location-patterns";
 import { buildPatterns } from "./patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "./types";
+import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
+import { capitalizeStreetName } from "./utils/capitalization";
 import { toSnakeCase } from "./utils/case-converter";
+import { detectCountry, parseStateProvince } from "./utils/parsing";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
 // Parse a location string into address components
