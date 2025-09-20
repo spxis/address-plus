@@ -1,7 +1,72 @@
 import { describe, expect, it } from "vitest";
 
 import testData from "../../../test-data/validation/comprehensive-validation.json";
+import type { ValidationOptions } from "../../types/validation";
 import { getValidationErrors, isValidAddress, validateAddress } from "../../utils/comprehensive-validation";
+
+interface ValidationTestCase {
+  name: string;
+  description?: string;
+  input: string;
+  expected: {
+    isValid?: boolean;
+    confidence?: number;
+    confidenceGreaterThan?: number;
+    completeness?: number;
+    completenessGreaterThan?: number;
+    completenessLessThan?: number;
+    errorCodes?: string[];
+    errorsLength?: number;
+    errorsLengthGreaterThan?: number;
+    warningsLengthGreaterThan?: number;
+    parsedAddress?: Record<string, any>;
+    parsedAddressNull?: boolean;
+    firstErrorCode?: string;
+    suggestionsLengthGreaterThan?: number;
+    suggestionContains?: string;
+  };
+  options?: ValidationOptions;
+}
+
+interface IsValidTestCase {
+  name: string;
+  description?: string;
+  input?: string | string[];
+  expected?: boolean | boolean[];
+  tests?: Array<{
+    input: string;
+    expected: boolean;
+    options?: ValidationOptions;
+  }>;
+}
+
+interface GetValidationErrorsTestCase {
+  name: string;
+  description?: string;
+  input: string;
+  expected: {
+    errorsLengthGreaterThan?: number;
+    allSeverityTypes?: string[];
+    errorSeverityCount?: number;
+  };
+  options?: ValidationOptions;
+}
+
+interface ConfidenceScoringTestCase {
+  name: string;
+  description?: string;
+  inputs: {
+    complete?: string;
+    incomplete?: string;
+    identical?: string[];
+    different?: string[];
+  };
+  expected: {
+    confidenceComparison?: string;
+    confidencesEqual?: boolean;
+    confidencesDifferent?: boolean;
+  };
+}
 
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
@@ -12,7 +77,7 @@ const confidenceScoringTests = testData.tests?.confidenceScoring || [];
 
 describe("Address Validation API", () => {
   describe("validateAddress", () => {
-    validateAddressTests.forEach(({ name, description, input, expected, options }: any) => {
+    validateAddressTests.forEach(({ name, description, input, expected, options }: ValidationTestCase) => {
       it(`should ${name}`, () => {
         const result = validateAddress(input, options);
 
@@ -59,8 +124,8 @@ describe("Address Validation API", () => {
         }
 
         if (expected.errorCodes) {
-          expected.errorCodes.forEach((code: any) => {
-            expect(result.errors.some((e: any) => e.code === code)).toBe(true);
+          expected.errorCodes.forEach((code: string) => {
+            expect(result.errors.some((e) => e.code === code)).toBe(true);
           });
         }
 
@@ -73,23 +138,23 @@ describe("Address Validation API", () => {
         }
 
         if (expected.suggestionContains) {
-          expect(result.suggestions.some((s: any) => s.includes(expected.suggestionContains))).toBe(true);
+          expect(result.suggestions.some((s: string) => s.includes(expected.suggestionContains!))).toBe(true);
         }
       });
     });
   });
 
   describe("isValidAddress", () => {
-    isValidAddressTests.forEach(({ name, description, input, expected, tests }: any) => {
+    isValidAddressTests.forEach(({ name, description, input, expected, tests }: IsValidTestCase) => {
       if (Array.isArray(input) && Array.isArray(expected)) {
         it(`should ${name}`, () => {
-          input.forEach((addr: any, index: number) => {
-            expect(isValidAddress(addr)).toBe(expected[index]);
+          (input as string[]).forEach((addr: string, index: number) => {
+            expect(isValidAddress(addr)).toBe((expected as boolean[])[index]);
           });
         });
       } else if (tests) {
         it(`should ${name}`, () => {
-          tests.forEach(({ input: testInput, options, expected: testExpected }: any) => {
+          tests.forEach(({ input: testInput, expected: testExpected, options }) => {
             expect(isValidAddress(testInput, options)).toBe(testExpected);
           });
         });
@@ -98,7 +163,7 @@ describe("Address Validation API", () => {
   });
 
   describe("getValidationErrors", () => {
-    getValidationErrorsTests.forEach(({ name, description, input, expected, options }: any) => {
+    getValidationErrorsTests.forEach(({ name, description, input, expected, options }: GetValidationErrorsTestCase) => {
       it(`should ${name}`, () => {
         const errors = getValidationErrors(input, options);
 
@@ -107,18 +172,18 @@ describe("Address Validation API", () => {
         }
 
         if (expected.allSeverityTypes) {
-          expect(errors.every((e: any) => expected.allSeverityTypes.includes(e.severity))).toBe(true);
+          expect(errors.every((e) => expected.allSeverityTypes!.includes(e.severity))).toBe(true);
         }
 
         if (expected.errorSeverityCount !== undefined) {
-          expect(errors.filter((e: any) => e.severity === "error")).toHaveLength(expected.errorSeverityCount);
+          expect(errors.filter((e) => e.severity === "error")).toHaveLength(expected.errorSeverityCount);
         }
       });
     });
   });
 
   describe("Confidence Scoring", () => {
-    confidenceScoringTests.forEach(({ name, description, inputs, expected }: any) => {
+    confidenceScoringTests.forEach(({ name, description, inputs, expected }: ConfidenceScoringTestCase) => {
       it(`should ${name}`, () => {
         if (expected.confidenceComparison === "complete > incomplete" && inputs.complete && inputs.incomplete) {
           const complete = validateAddress(inputs.complete);
@@ -126,9 +191,9 @@ describe("Address Validation API", () => {
           expect(complete.confidence).toBeGreaterThan(incomplete.confidence);
         }
 
-        if (expected.completenessComparison === "withZip > withoutZip" && inputs.withZip && inputs.withoutZip) {
-          const withZip = validateAddress(inputs.withZip);
-          const withoutZip = validateAddress(inputs.withoutZip);
+        if (expected.confidenceComparison === "withZip > withoutZip" && inputs.complete && inputs.incomplete) {
+          const withZip = validateAddress(inputs.complete);
+          const withoutZip = validateAddress(inputs.incomplete);
           expect(withZip.completeness).toBeGreaterThan(withoutZip.completeness);
         }
       });

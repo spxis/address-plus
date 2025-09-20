@@ -22,7 +22,7 @@ import {
   parseLocationsBatch,
 } from "../../batch-parser";
 import type { ParsedAddress, ParsedIntersection } from "../../types";
-import type { BatchParseOptions } from "../../types/batch-parse";
+import type { BatchParseOptions, BatchParseResult } from "../../types/batch-parse";
 
 // Test data paths
 const BATCH_TEST_DATA_PATH = "../../../test-data/batch/batch-test.json";
@@ -46,11 +46,17 @@ interface BatchTestData {
   batchTests: BatchTestCase[];
 }
 
-interface SimpleFunctionTestData {
+interface BatchParseFunctionTestData {
   parseLocations: Array<{
     description: string;
     addresses: string[];
-    options?: BatchParseOptions;
+    expectedResults?: (ParsedAddress | null)[];
+    expectedSuccessCount?: number;
+    expectedFailureCount?: number;
+  }>;
+  parseAddresses: Array<{
+    description: string;
+    addresses: string[];
     expectedResults?: (ParsedAddress | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
@@ -58,7 +64,6 @@ interface SimpleFunctionTestData {
   parseInformalAddresses: Array<{
     description: string;
     addresses: string[];
-    options?: BatchParseOptions;
     expectedResults?: (ParsedAddress | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
@@ -66,7 +71,6 @@ interface SimpleFunctionTestData {
   parseIntersections: Array<{
     description: string;
     addresses: string[];
-    options?: BatchParseOptions;
     expectedResults?: (ParsedIntersection | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
@@ -75,17 +79,15 @@ interface SimpleFunctionTestData {
     description: string;
     addresses: string[];
     options?: BatchParseOptions;
-    expectedResults?: any[];
+    expectedResults?: (ParsedAddress | null)[];
     expectedSuccessCount?: number;
     expectedFailureCount?: number;
   }>;
-}
-
-interface AdvancedFunctionTestData {
+}interface AdvancedFunctionTestData {
   withStatistics: Array<{
     description: string;
     addresses: string[];
-    options?: any;
+    options?: BatchParseOptions;
     expectedStats?: {
       total: number;
       successful: number;
@@ -127,7 +129,7 @@ interface AdvancedFunctionTestData {
   options: Array<{
     description: string;
     addresses: string[];
-    options?: any;
+    options?: BatchParseOptions;
     expectedStats?: {
       total: number;
       successful: number;
@@ -152,7 +154,7 @@ function loadBatchTestData(): BatchTestData {
   return data.tests;
 }
 
-function loadSimpleFunctionTestData(): SimpleFunctionTestData {
+function loadSimpleFunctionTestData(): BatchParseFunctionTestData {
   const filePath = join(__dirname, SIMPLE_FUNCTIONS_PATH);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
   return data.tests;
@@ -179,14 +181,18 @@ describe("Batch Address Processing Tests", () => {
 
       // Test specific expected results from JSON data
       if (testCase.expectedResults) {
-        testCase.expectedResults.forEach((expected, index) => {
+        testCase.expectedResults.forEach((expected: ParsedAddress | null, index: number) => {
           const result = results[index];
-          expect(result).toBeTruthy();
-          expect(result?.number).toBe(expected.number);
-          expect(result?.street).toBe(expected.street);
-          if (expected.city) expect(result?.city).toBe(expected.city);
-          if (expected.state) expect(result?.state).toBe(expected.state);
-          if (expected.zip) expect(result?.zip).toBe(expected.zip);
+          if (expected === null) {
+            expect(result).toBeNull();
+          } else {
+            expect(result).toBeTruthy();
+            expect(result?.number).toBe(expected.number);
+            expect(result?.street).toBe(expected.street);
+            if (expected.city) expect(result?.city).toBe(expected.city);
+            if (expected.state) expect(result?.state).toBe(expected.state);
+            if (expected.zip) expect(result?.zip).toBe(expected.zip);
+          }
         });
       }
     });
@@ -217,13 +223,17 @@ describe("Batch Address Processing Tests", () => {
 
       // Test specific expected results
       if (testCase.expectedResults) {
-        testCase.expectedResults.forEach((expected: any, index: number) => {
+        testCase.expectedResults.forEach((expected: ParsedIntersection | null, index: number) => {
           const result = results[index];
-          expect(result).toBeTruthy();
-          expect(result?.street1).toBe(expected.street1);
-          expect(result?.street2).toBe(expected.street2);
-          if (expected.city) expect(result?.city).toBe(expected.city);
-          if (expected.state) expect(result?.state).toBe(expected.state);
+          if (expected === null) {
+            expect(result).toBeNull();
+          } else {
+            expect(result).toBeTruthy();
+            expect(result?.street1).toBe(expected.street1);
+            expect(result?.street2).toBe(expected.street2);
+            if (expected.city) expect(result?.city).toBe(expected.city);
+            if (expected.state) expect(result?.state).toBe(expected.state);
+          }
         });
       }
     });
@@ -398,7 +408,11 @@ describe("Batch Address Processing Tests", () => {
       test(`${testCase.name}: ${testCase.description}`, () => {
         const { addresses, expectedSuccessCount, expectedFailureCount, testFunction, expectStats } = testCase;
 
-        let result: any;
+        let result:
+          | (ParsedAddress | null)[]
+          | (ParsedIntersection | null)[]
+          | BatchParseResult<ParsedAddress>
+          | BatchParseResult<ParsedIntersection>;
 
         // Call the appropriate function based on testFunction name
         switch (testFunction) {
@@ -431,22 +445,30 @@ describe("Batch Address Processing Tests", () => {
         }
 
         if (expectStats) {
-          // Test batch functions with statistics
-          expect(result.results).toHaveLength(addresses.length);
-          expect(result.stats.total).toBe(addresses.length);
-          expect(result.stats.successful).toBe(expectedSuccessCount);
-          expect(result.stats.failed).toBe(expectedFailureCount);
-          expect(result.stats.duration).toBeGreaterThan(0);
-          expect(result.errors).toHaveLength(expectedFailureCount);
+          // Test batch functions with statistics (type guard to ensure BatchParseResult)
+          if ("results" in result && "stats" in result && "errors" in result) {
+            expect(result.results).toHaveLength(addresses.length);
+            expect(result.stats.total).toBe(addresses.length);
+            expect(result.stats.successful).toBe(expectedSuccessCount);
+            expect(result.stats.failed).toBe(expectedFailureCount);
+            expect(result.stats.duration).toBeGreaterThan(0);
+            expect(result.errors).toHaveLength(expectedFailureCount);
+          } else {
+            throw new Error("Expected BatchParseResult but got array result");
+          }
         } else {
-          // Test simple array functions
-          expect(result).toHaveLength(addresses.length);
+          // Test simple array functions (type guard to ensure array)
+          if (Array.isArray(result)) {
+            expect(result).toHaveLength(addresses.length);
 
-          const successCount = result.filter((r: any) => r !== null).length;
-          const failureCount = result.filter((r: any) => r === null).length;
+            const successCount = result.filter((r: ParsedAddress | ParsedIntersection | null) => r !== null).length;
+            const failureCount = result.filter((r: ParsedAddress | ParsedIntersection | null) => r === null).length;
 
-          expect(successCount).toBe(expectedSuccessCount);
-          expect(failureCount).toBe(expectedFailureCount);
+            expect(successCount).toBe(expectedSuccessCount);
+            expect(failureCount).toBe(expectedFailureCount);
+          } else {
+            throw new Error("Expected array result but got BatchParseResult");
+          }
         }
       });
     });

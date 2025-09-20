@@ -4,6 +4,27 @@ import testData from "../../../test-data/utilities/address-formatting.json";
 import type { ParsedAddress } from "../../types";
 import { formatAddress, formatCanadaPost, formatUSPS, getAddressAbbreviations } from "../../utils/address-formatting";
 
+interface FormattingTestCase {
+  description: string;
+  input: Record<string, any>;
+  expected: {
+    lines?: string[];
+    singleLine?: string;
+    format?: string;
+    shouldNotContain?: string;
+    shouldContain?: string;
+    regex?: string;
+    country?: string;
+    hasProperties?: string[];
+    streetTypes?: Record<string, any>;
+    directions?: Record<string, any>;
+    states?: Record<string, any>;
+    provinces?: Record<string, any>;
+    unitTypes?: Record<string, any>;
+  };
+  options?: Record<string, any>;
+}
+
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
 const formatAddressTests = testData.tests?.formatAddress || allTests;
@@ -14,7 +35,7 @@ const edgeCasesTests = testData.tests?.edgeCases || [];
 
 describe("Address Formatting API", () => {
   describe("formatAddress", () => {
-    formatAddressTests.forEach((testCase: any, index: number) => {
+    formatAddressTests.forEach((testCase: FormattingTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatAddress(testCase.input as ParsedAddress, testCase.options);
 
@@ -26,27 +47,27 @@ describe("Address Formatting API", () => {
           expect(result.singleLine).toBe(testCase.expected.singleLine);
         }
 
-        if ((testCase.expected as any).format) {
-          expect(result.format).toBe((testCase.expected as any).format);
+        if (testCase.expected.format) {
+          expect(result.format).toBe(testCase.expected.format);
         }
 
-        if ((testCase.expected as any).shouldNotContain) {
-          expect(result.lines.join(" ")).not.toContain((testCase.expected as any).shouldNotContain);
+        if (testCase.expected.shouldNotContain) {
+          expect(result.lines.join(" ")).not.toContain(testCase.expected.shouldNotContain);
         }
 
-        if ((testCase.expected as any).shouldContain) {
-          expect(result.lines.join(" ")).toContain((testCase.expected as any).shouldContain);
+        if (testCase.expected.shouldContain) {
+          expect(result.lines.join(" ")).toContain(testCase.expected.shouldContain);
         }
 
-        if ((testCase.expected as any).regex) {
-          expect(result.lines.join(" ")).toMatch(new RegExp((testCase.expected as any).regex));
+        if (testCase.expected.regex) {
+          expect(result.lines.join(" ")).toMatch(new RegExp(testCase.expected.regex));
         }
       });
     });
   });
 
   describe("formatUSPS", () => {
-    formatUSPSTests.forEach((testCase: any, index: number) => {
+    formatUSPSTests.forEach((testCase: FormattingTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatUSPS(testCase.input as ParsedAddress, testCase.options);
 
@@ -54,15 +75,15 @@ describe("Address Formatting API", () => {
           expect(result.lines).toEqual(testCase.expected.lines);
         }
 
-        if ((testCase.expected as any).format) {
-          expect(result.format).toBe((testCase.expected as any).format);
+        if (testCase.expected.format) {
+          expect(result.format).toBe(testCase.expected.format);
         }
       });
     });
   });
 
   describe("formatCanadaPost", () => {
-    formatCanadaPostTests.forEach((testCase: any, index: number) => {
+    formatCanadaPostTests.forEach((testCase: FormattingTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatCanadaPost(testCase.input as ParsedAddress, testCase.options);
 
@@ -70,59 +91,59 @@ describe("Address Formatting API", () => {
           expect(result.lines).toEqual(testCase.expected.lines);
         }
 
-        if ((testCase.expected as any).format) {
-          expect(result.format).toBe((testCase.expected as any).format);
+        if (testCase.expected.format) {
+          expect(result.format).toBe(testCase.expected.format);
         }
 
-        if ((testCase.expected as any).country) {
-          expect(result.country).toBe((testCase.expected as any).country);
+        if (testCase.expected.country) {
+          expect(result.country).toBe(testCase.expected.country);
         }
 
-        if ((testCase.expected as any).regex) {
-          expect(result.lines.join(" ")).toMatch(new RegExp((testCase.expected as any).regex));
+        if (testCase.expected.regex) {
+          expect(result.lines.join(" ")).toMatch(new RegExp(testCase.expected.regex));
         }
       });
     });
   });
 
   describe("getAddressAbbreviations", () => {
-    getAddressAbbreviationsTests.forEach((testCase: any, index: number) => {
+    getAddressAbbreviationsTests.forEach((testCase: FormattingTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = getAddressAbbreviations();
 
-        if ((testCase.expected as any).hasProperties) {
-          (testCase.expected as any).hasProperties.forEach((prop: string) => {
+        if (testCase.expected.hasProperties) {
+          testCase.expected.hasProperties.forEach((prop: string) => {
             expect(result).toHaveProperty(prop);
           });
         }
 
-        if ((testCase.expected as any).streetTypes) {
-          Object.keys((testCase.expected as any).streetTypes).forEach((key) => {
-            expect((result.streetTypes as any)[key]).toBe((testCase.expected as any).streetTypes[key]);
+        if (testCase.expected.streetTypes) {
+          Object.keys(testCase.expected.streetTypes).forEach((key) => {
+            expect((result.streetTypes as Record<string, any>)[key]).toBe(testCase.expected.streetTypes![key]);
           });
         }
 
-        if ((testCase.expected as any).directions) {
-          Object.keys((testCase.expected as any).directions).forEach((key) => {
-            expect((result.directions as any)[key]).toBe((testCase.expected as any).directions[key]);
+        if (testCase.expected.directions) {
+          Object.keys(testCase.expected.directions).forEach((key) => {
+            expect((result.directions as Record<string, any>)[key]).toBe(testCase.expected.directions![key]);
           });
         }
 
-        if ((testCase.expected as any).states) {
-          Object.keys((testCase.expected as any).states).forEach((key) => {
-            expect((result.states as any)[key]).toBe((testCase.expected as any).states[key]);
+        if (testCase.expected.states) {
+          Object.keys(testCase.expected.states).forEach((key) => {
+            expect((result.states as Record<string, any>)[key]).toBe(testCase.expected.states![key]);
           });
         }
 
-        if ((testCase.expected as any).provinces) {
-          Object.keys((testCase.expected as any).provinces).forEach((key) => {
-            expect((result.provinces as any)[key]).toBe((testCase.expected as any).provinces[key]);
+        if (testCase.expected.provinces) {
+          Object.keys(testCase.expected.provinces).forEach((key) => {
+            expect((result.provinces as Record<string, any>)[key]).toBe(testCase.expected.provinces![key]);
           });
         }
 
-        if ((testCase.expected as any).unitTypes) {
-          Object.keys((testCase.expected as any).unitTypes).forEach((key) => {
-            expect((result.unitTypes as any)[key]).toBe((testCase.expected as any).unitTypes[key]);
+        if (testCase.expected.unitTypes) {
+          Object.keys(testCase.expected.unitTypes).forEach((key) => {
+            expect((result.unitTypes as Record<string, any>)[key]).toBe(testCase.expected.unitTypes![key]);
           });
         }
       });
@@ -130,7 +151,7 @@ describe("Address Formatting API", () => {
   });
 
   describe("Edge Cases", () => {
-    edgeCasesTests.forEach((testCase: any, index: number) => {
+    edgeCasesTests.forEach((testCase: FormattingTestCase, index: number) => {
       it(`should ${testCase.description} (test ${index + 1})`, () => {
         const result = formatAddress(testCase.input as ParsedAddress, testCase.options);
 

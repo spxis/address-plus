@@ -7,12 +7,13 @@ import { compareAddresses, getAddressSimilarity, isSameAddress } from "../../uti
 interface ComparisonTestCase {
   description: string;
   input: {
-    address1: ParsedAddress;
-    address2: ParsedAddress;
+    address1: Record<string, any>;
+    address2: Record<string, any>;
+    options?: Record<string, any>;
   };
   expected: {
     isSame: boolean;
-    similarity?: number;
+    similarity: number;
     score?: number;
   };
 }
@@ -20,8 +21,8 @@ interface ComparisonTestCase {
 interface SimilarityTestCase {
   description: string;
   input: {
-    address1: ParsedAddress;
-    address2: ParsedAddress;
+    address1: Record<string, any>;
+    address2: Record<string, any>;
   };
   expected: {
     similarity: number;
@@ -31,19 +32,24 @@ interface SimilarityTestCase {
 interface EdgeCaseTestCase {
   description: string;
   input: {
-    address1: ParsedAddress;
-    address2: ParsedAddress;
+    address1: Record<string, any> | null;
+    address2: Record<string, any> | null;
+    options?: Record<string, any>;
   };
   expected: {
     isSame: boolean;
     similarity?: number;
+    similarityLessThan?: number;
+    comparison?: {
+      score?: number;
+    };
   };
 }
 
 // Extract test cases from new structure
 const allTests = testData.tests ? Object.values(testData.tests).flat() : [];
-const compareAddressesTests: ComparisonTestCase[] = testData.tests?.compareAddresses || allTests;
-const edgeCasesTests: EdgeCaseTestCase[] = testData.tests?.edgeCases || [];
+const compareAddressesTests = testData.tests?.compareAddresses || allTests;
+const edgeCasesTests = testData.tests?.edgeCases || [];
 
 describe("Address Comparison API", () => {
   describe("compareAddresses", () => {
@@ -90,7 +96,7 @@ describe("Address Comparison API", () => {
         const result = compareAddresses(
           testCase.input.address1 as ParsedAddress,
           testCase.input.address2 as ParsedAddress,
-          (testCase.input as any).options,
+          testCase.input.options,
         );
 
         if (testCase.expected.isSame !== undefined) {
@@ -101,8 +107,8 @@ describe("Address Comparison API", () => {
           expect(result.similarity.score).toBeCloseTo(testCase.expected.similarity, 1);
         }
 
-        if ((testCase.expected as any).similarityLessThan !== undefined) {
-          expect(result.similarity.score).toBeLessThan((testCase.expected as any).similarityLessThan);
+        if (testCase.expected.similarityLessThan !== undefined) {
+          expect(result.similarity.score).toBeLessThan(testCase.expected.similarityLessThan);
         }
 
         if (testCase.expected.comparison?.score !== undefined) {

@@ -7,7 +7,13 @@ import { normalizeRegion } from "../../utils/normalize-region";
 
 interface TestCase {
   input: string;
-  expected: any;
+  expected: { abbr: string; country: "CA" | "US" } | null;
+  description: string;
+}
+
+interface FuzzyMatchTestCase {
+  input: string;
+  expected: { abbr: string; country: "CA" | "US" };
   description: string;
 }
 
@@ -16,18 +22,18 @@ interface NullTestCase {
   description: string;
 }
 
-function loadTestData(filename: string): any {
+function loadTestData(filename: string): Record<string, any> {
   const filePath: string = join(__dirname, "../../../test-data/regions", filename);
-  const data: any = JSON.parse(readFileSync(filePath, "utf-8"));
+  const data: Record<string, any> = JSON.parse(readFileSync(filePath, "utf-8"));
 
   // Return the tests object which contains the reorganized data
   return data.tests || data;
 }
 
 describe("Normalize Region", () => {
-  const exactMatchData = loadTestData("exact-match-cases.json") as any;
-  const edgeCasesData = loadTestData("edge-cases.json") as any;
-  const fuzzyMatchingData = loadTestData("fuzzy-matching.json") as any;
+  const exactMatchData = loadTestData("exact-match-cases.json");
+  const edgeCasesData = loadTestData("edge-cases.json");
+  const fuzzyMatchingData = loadTestData("fuzzy-matching.json");
 
   describe("exact abbreviation matches", () => {
     if (exactMatchData?.abbreviationTests?.cases) {
@@ -138,7 +144,7 @@ describe("Normalize Region", () => {
   describe("fuzzy matching", () => {
     describe("US states", () => {
       if (fuzzyMatchingData?.usStates) {
-        fuzzyMatchingData.usStates.forEach(({ input, expected, description }: TestCase) => {
+        fuzzyMatchingData.usStates.forEach(({ input, expected, description }: FuzzyMatchTestCase) => {
           it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
             expect(normalizeRegion(input)).toEqual(expected);
           });
@@ -152,7 +158,7 @@ describe("Normalize Region", () => {
 
     describe("Canadian provinces", () => {
       if (fuzzyMatchingData?.canadianProvinces) {
-        fuzzyMatchingData.canadianProvinces.forEach(({ input, expected, description }: TestCase) => {
+        fuzzyMatchingData.canadianProvinces.forEach(({ input, expected, description }: FuzzyMatchTestCase) => {
           it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
             expect(normalizeRegion(input)).toEqual(expected);
           });

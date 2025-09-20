@@ -8,47 +8,6 @@ import canadaStrictModeTestDataFile from "../../../test-data/canada/strict-mode.
 import usStrictModeTestDataFile from "../../../test-data/us/strict-mode.json";
 import { parseLocation } from "../../parser";
 
-// Helper function to extract test data from objects with $schema
-function loadSchemaTestData<T>(testDataFile: any): T {
-  // If the imported data has $schema property, extract everything except $schema
-  if (testDataFile && typeof testDataFile === "object" && "$schema" in testDataFile) {
-    const { $schema, ...data } = testDataFile;
-    return data as T;
-  }
-  return testDataFile;
-}
-
-// Helper function to extract test arrays from the new object-of-arrays structure
-function extractTestsFromData(data: any): any[] {
-  if (!data.tests) {
-    return [];
-  }
-
-  // If tests is already an array, return it
-  if (Array.isArray(data.tests)) {
-    return data.tests;
-  }
-
-  // If tests is an object, flatten all arrays within it
-  const allTests: any[] = [];
-  for (const [key, value] of Object.entries(data.tests)) {
-    if (Array.isArray(value)) {
-      allTests.push(...value);
-    } else if (typeof value === "object" && value !== null) {
-      // Handle single test case objects
-      allTests.push(value);
-    }
-  }
-
-  return allTests;
-}
-
-// Extract test data
-const usStrictModeData = loadSchemaTestData<any>(usStrictModeTestDataFile);
-const usStrictModeTestData = extractTestsFromData(usStrictModeData);
-const canadaStrictModeData = loadSchemaTestData<any>(canadaStrictModeTestDataFile);
-const canadaStrictModeTestData = extractTestsFromData(canadaStrictModeData);
-
 // Expected result interface for postal/ZIP validation
 interface PostalExpectedResult {
   zip: string | null; // ZIP/postal code value
@@ -68,6 +27,60 @@ interface StrictModeTestCase {
     plus4?: string; // Direct plus4 for simple cases
   };
 }
+
+// Test data structure for strict mode tests
+interface StrictModeTestData {
+  tests: StrictModeTestCase[] | { [key: string]: StrictModeTestCase[] | StrictModeTestCase };
+}
+
+// Helper function to extract test data from objects with $schema
+function loadSchemaTestData<T>(testDataFile: T): T {
+  // If the imported data has $schema property, extract everything except $schema
+  if (testDataFile && typeof testDataFile === "object" && "$schema" in testDataFile) {
+    const { $schema, ...data } = testDataFile as { $schema: string; [key: string]: unknown };
+
+    return data as T;
+  }
+
+  return testDataFile;
+}
+
+// Test data structure for strict mode tests
+interface StrictModeTestData {
+  tests: StrictModeTestCase[] | { [key: string]: StrictModeTestCase[] | StrictModeTestCase };
+}
+
+// Helper function to extract test arrays from the new object-of-arrays structure
+function extractTestsFromData(data: StrictModeTestData): StrictModeTestCase[] {
+  if (!data.tests) {
+    return [];
+  }
+
+  // If tests is already an array, return it
+  if (Array.isArray(data.tests)) {
+    return data.tests;
+  }
+
+  // If tests is an object, flatten all arrays within it
+  const allTests: StrictModeTestCase[] = [];
+
+  for (const [key, value] of Object.entries(data.tests)) {
+    if (Array.isArray(value)) {
+      allTests.push(...value);
+    } else if (typeof value === "object" && value !== null) {
+      // Handle single test case objects
+      allTests.push(value);
+    }
+  }
+
+  return allTests;
+}
+
+// Extract test data
+const usStrictModeData = loadSchemaTestData<StrictModeTestData>(usStrictModeTestDataFile);
+const usStrictModeTestData = extractTestsFromData(usStrictModeData);
+const canadaStrictModeData = loadSchemaTestData<StrictModeTestData>(canadaStrictModeTestDataFile);
+const canadaStrictModeTestData = extractTestsFromData(canadaStrictModeData);
 
 describe("Strict Mode - Core Working Functionality", () => {
   describe("US ZIP Code Validation", () => {
