@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import testData from "../../../test-data/comparison/address-comparison.json";
 import type { ParsedAddress } from "../../types";
 import { compareAddresses, getAddressSimilarity, isSameAddress } from "../../utils/address-comparison";
 

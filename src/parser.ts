@@ -4,6 +4,7 @@ import { DIRECTIONAL_MAP, SECONDARY_UNIT_TYPES } from "./constants/index";
 import { ALL_SUB_REGION_NAMES } from "./constants/sub-regions";
 import { parseInformalAddress } from "./parsers/informal-address-parser";
 import { parseIntersection } from "./parsers/intersection-parser";
+import { createParser, parseAddress, parser, setParseLocationImpl } from "./parsers/parser-orchestrator";
 import { parsePoBox } from "./parsers/po-box-parser";
 import {
   FACILITY_INDICATORS,
@@ -951,7 +952,6 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 }
 
 // Parse informal addresses (fallback)
-import { createParser, parseAddress, parser, setParseLocationImpl } from "./parsers/parser-orchestrator";
 
 // Inject parseLocation implementation to break circular dependency
 setParseLocationImpl(parseLocation);

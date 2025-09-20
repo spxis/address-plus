@@ -4,6 +4,7 @@
 
 import { describe, expect, test } from "vitest";
 
+import canadaStrictModeTestDataFile from "../../../test-data/canada/strict-mode.json";
 import usStrictModeTestDataFile from "../../../test-data/us/strict-mode.json";
 import { parseLocation } from "../../parser";
 
