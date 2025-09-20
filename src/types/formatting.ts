@@ -1,11 +1,9 @@
-/**
- * Types for address formatting functions
- */
+// Types for address formatting functions
 
 import type { ParsedAddress } from "./index";
 
 // Address formatting options
-export interface AddressFormattingOptions {
+interface AddressFormattingOptions {
   includeCountry?: boolean;
   includeSecondaryUnit?: boolean;
   upperCase?: boolean;
@@ -17,7 +15,7 @@ export interface AddressFormattingOptions {
 }
 
 // USPS formatting options
-export interface USPSFormattingOptions {
+interface USPSFormattingOptions {
   includeDeliveryLine?: boolean;
   includeLastLine?: boolean;
   includeBarcode?: boolean;
@@ -25,7 +23,7 @@ export interface USPSFormattingOptions {
 }
 
 // Canada Post formatting options
-export interface CanadaPostFormattingOptions {
+interface CanadaPostFormattingOptions {
   includeDeliveryLine?: boolean;
   includeLastLine?: boolean;
   bilingualLabels?: boolean;
@@ -33,7 +31,7 @@ export interface CanadaPostFormattingOptions {
 }
 
 // Formatted address result
-export interface FormattedAddress {
+interface FormattedAddress {
   lines: string[];
   singleLine: string;
   deliveryLine?: string;
@@ -43,10 +41,18 @@ export interface FormattedAddress {
 }
 
 // Address component abbreviations
-export interface AddressAbbreviations {
+interface AddressAbbreviations {
   streetTypes: Record<string, string>;
   directions: Record<string, string>;
   states: Record<string, string>;
   provinces: Record<string, string>;
   unitTypes: Record<string, string>;
 }
+
+export type {
+  AddressFormattingOptions,
+  USPSFormattingOptions,
+  CanadaPostFormattingOptions,
+  FormattedAddress,
+  AddressAbbreviations
+};

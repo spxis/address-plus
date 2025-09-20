@@ -1,11 +1,9 @@
-/**
- * Types for clean address string functionality
- */
+// Types for clean address string functionality
 
 import type { AddressFormattingOptions } from "./formatting";
 
 // Clean address options
-export interface CleanAddressOptions extends AddressFormattingOptions {
+interface CleanAddressOptions extends AddressFormattingOptions {
   format?: "standard" | "usps" | "canada-post";
   removeExtraSpaces?: boolean;
   standardizeCase?: "upper" | "lower" | "title" | "none";
@@ -13,8 +11,10 @@ export interface CleanAddressOptions extends AddressFormattingOptions {
 }
 
 // Clean address result
-export interface CleanAddressResult {
+interface CleanAddressResult {
   cleanedAddress: string;
   wasModified: boolean;
   changes: string[];
 }
+
+export type { CleanAddressOptions, CleanAddressResult };

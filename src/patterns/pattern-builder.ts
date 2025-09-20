@@ -1,7 +1,5 @@
-/**
- * Pattern building utilities for address parsing
- * Constructs regex patterns from data constants
- */
+// Pattern building utilities for address parsing
+// Constructs regex patterns from data constants
 
 import {
   CA_PROVINCES,
@@ -15,7 +13,7 @@ import {
 import { ZIP_CODE_REGEX_PATTERN } from "./postal";
 import { VALIDATION_PATTERNS } from "../constants";
 
-export interface AddressPatterns {
+interface AddressPatterns {
   number: string;
   fraction: string;
   directional: string;
@@ -29,10 +27,8 @@ export interface AddressPatterns {
   secUnit: string;
 }
 
-/**
- * Build regex patterns for address parsing
- */
-export function buildPatterns(): AddressPatterns {
+// Build regex patterns for address parsing
+function buildPatterns(): AddressPatterns {
   const streetTypes = Object.keys(US_STREET_TYPES).concat(Object.values(US_STREET_TYPES))
     .concat(Object.keys(CA_STREET_TYPES)).concat(Object.values(CA_STREET_TYPES))
     .filter((v, i, arr) => arr.indexOf(v) === i)
@@ -78,3 +74,6 @@ export function buildPatterns(): AddressPatterns {
     secUnit: String.raw`(?:(${UNIT_TYPE_KEYWORDS}|#)\s+([a-z0-9-]+))`
   };
 }
+
+export type { AddressPatterns };
+export { buildPatterns };
