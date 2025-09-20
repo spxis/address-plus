@@ -94,26 +94,24 @@ function processBatch<T>(
   };
 }
 
-/**
- * Parse multiple addresses using the main parseLocation function
- * 
- * @param addresses Array of address strings to parse
- * @param options Batch parsing options
- * @returns Array of parsed address results (null for failed parses)
- * 
- * @example
- * ```typescript
- * const addresses = [
- *   "123 Main St, New York NY 10001",
- *   "456 Oak Ave, Los Angeles CA 90210",
- *   "789 Pine Rd, Chicago IL 60601"
- * ];
- * 
- * const results = parseLocations(addresses);
- * console.log(`Processed ${results.length} addresses`);
- * ```
- */
-export function parseLocations(
+// Parse multiple addresses using the main parseLocation function
+// 
+// @param addresses Array of address strings to parse
+// @param options Batch parsing options
+// @returns Array of parsed address results (null for failed parses)
+// 
+// @example
+// ```typescript
+// const addresses = [
+//   "123 Main St, New York NY 10001",
+//   "456 Oak Ave, Los Angeles CA 90210",
+//   "789 Pine Rd, Chicago IL 60601"
+// ];
+// 
+// const results = parseLocations(addresses);
+// console.log(`Processed ${results.length} addresses`);
+// ```
+function parseLocations(
   addresses: string[], 
   options?: ParseOptions
 ): (ParsedAddress | null)[] {
@@ -125,14 +123,12 @@ export function parseLocations(
   return result.results as (ParsedAddress | null)[];
 }
 
-/**
- * Parse multiple addresses using the parseAddress function with detailed results
- * 
- * @param addresses Array of address strings to parse
- * @param options Batch parsing options
- * @returns Array of parsed address results (null for failed parses)
- */
-export function parseAddresses(
+// Parse multiple addresses using the parseAddress function with detailed results
+// 
+// @param addresses Array of address strings to parse
+// @param options Batch parsing options
+// @returns Array of parsed address results (null for failed parses)
+function parseAddresses(
   addresses: string[], 
   options?: ParseOptions
 ): (ParsedAddress | null)[] {
@@ -144,14 +140,12 @@ export function parseAddresses(
   return result.results as (ParsedAddress | null)[];
 }
 
-/**
- * Parse multiple addresses using the parseInformalAddress function
- * 
- * @param addresses Array of address strings to parse
- * @param options Batch parsing options
- * @returns Array of parsed address results (null for failed parses)
- */
-export function parseInformalAddresses(
+// Parse multiple addresses using the parseInformalAddress function
+// 
+// @param addresses Array of address strings to parse
+// @param options Batch parsing options
+// @returns Array of parsed address results (null for failed parses)
+function parseInformalAddresses(
   addresses: string[], 
   options?: ParseOptions
 ): (ParsedAddress | null)[] {
@@ -163,14 +157,12 @@ export function parseInformalAddresses(
   return result.results as (ParsedAddress | null)[];
 }
 
-/**
- * Parse multiple intersection addresses
- * 
- * @param addresses Array of intersection strings to parse
- * @param options Batch parsing options
- * @returns Array of parsed intersection results (null for failed parses)
- */
-export function parseIntersections(
+// Parse multiple intersection addresses
+// 
+// @param addresses Array of intersection strings to parse
+// @param options Batch parsing options
+// @returns Array of parsed intersection results (null for failed parses)
+function parseIntersections(
   addresses: string[], 
   options?: ParseOptions
 ): (ParsedIntersection | null)[] {
@@ -182,77 +174,80 @@ export function parseIntersections(
   return result.results as (ParsedIntersection | null)[];
 }
 
-/**
- * Parse multiple addresses with full batch processing features including error tracking and statistics
- * 
- * @param addresses Array of address strings to parse
- * @param options Extended batch parsing options
- * @returns Complete batch processing result with errors and statistics
- * 
- * @example
- * ```typescript
- * const addresses = [
- *   "123 Main St, New York NY 10001",
- *   "invalid address",
- *   "456 Oak Ave, Los Angeles CA 90210"
- * ];
- * 
- * const result = parseLocationsBatch(addresses, { 
- *   stopOnError: false,
- *   includeStats: true 
- * });
- * 
- * console.log(`Processed ${result.stats.total} addresses`);
- * console.log(`Success rate: ${result.stats.successful}/${result.stats.total}`);
- * console.log(`Errors: ${result.errors.length}`);
- * console.log(`Average time per address: ${result.stats.averagePerAddress}ms`);
- * ```
- */
-export function parseLocationsBatch(
+// Parse multiple addresses with full batch processing features including error tracking and statistics
+// 
+// @param addresses Array of address strings to parse
+// @param options Extended batch parsing options
+// @returns Complete batch processing result with errors and statistics
+// 
+// @example
+// ```typescript
+// const addresses = [
+//   "123 Main St, New York NY 10001",
+//   "invalid address",
+//   "456 Oak Ave, Los Angeles CA 90210"
+// ];
+// 
+// const result = parseLocationsBatch(addresses, { 
+//   stopOnError: false,
+//   includeStats: true 
+// });
+// 
+// console.log(`Processed ${result.stats.total} addresses`);
+// console.log(`Success rate: ${result.stats.successful}/${result.stats.total}`);
+// console.log(`Errors: ${result.errors.length}`);
+// console.log(`Average time per address: ${result.stats.averagePerAddress}ms`);
+// ```
+function parseLocationsBatch(
   addresses: string[], 
   options?: BatchParseOptions
 ): BatchParseResult<ParsedAddress> {
   return processBatch(addresses, parseLocation, options) as BatchParseResult<ParsedAddress>;
 }
 
-/**
- * Parse multiple addresses using parseAddress with full batch processing features
- * 
- * @param addresses Array of address strings to parse
- * @param options Extended batch parsing options
- * @returns Complete batch processing result with errors and statistics
- */
-export function parseAddressesBatch(
+// Parse multiple addresses using parseAddress with full batch processing features
+// 
+// @param addresses Array of address strings to parse
+// @param options Extended batch parsing options
+// @returns Complete batch processing result with errors and statistics
+function parseAddressesBatch(
   addresses: string[], 
   options?: BatchParseOptions
 ): BatchParseResult<ParsedAddress> {
   return processBatch(addresses, parseAddress, options) as BatchParseResult<ParsedAddress>;
 }
 
-/**
- * Parse multiple addresses using parseInformalAddress with full batch processing features
- * 
- * @param addresses Array of address strings to parse
- * @param options Extended batch parsing options
- * @returns Complete batch processing result with errors and statistics
- */
-export function parseInformalAddressesBatch(
+// Parse multiple addresses using parseInformalAddress with full batch processing features
+// 
+// @param addresses Array of address strings to parse
+// @param options Extended batch parsing options
+// @returns Complete batch processing result with errors and statistics
+function parseInformalAddressesBatch(
   addresses: string[], 
   options?: BatchParseOptions
 ): BatchParseResult<ParsedAddress> {
   return processBatch(addresses, parseInformalAddress, options) as BatchParseResult<ParsedAddress>;
 }
 
-/**
- * Parse multiple intersections with full batch processing features
- * 
- * @param addresses Array of intersection strings to parse
- * @param options Extended batch parsing options
- * @returns Complete batch processing result with errors and statistics
- */
-export function parseIntersectionsBatch(
+// Parse multiple intersections with full batch processing features
+// 
+// @param addresses Array of intersection strings to parse
+// @param options Extended batch parsing options
+// @returns Complete batch processing result with errors and statistics
+function parseIntersectionsBatch(
   addresses: string[], 
   options?: BatchParseOptions
 ): BatchParseResult<ParsedIntersection> {
   return processBatch(addresses, parseIntersection, options) as BatchParseResult<ParsedIntersection>;
 }
+
+export {
+  parseLocations,
+  parseAddresses,
+  parseInformalAddresses,
+  parseIntersections,
+  parseLocationsBatch,
+  parseAddressesBatch,
+  parseInformalAddressesBatch,
+  parseIntersectionsBatch
+};

@@ -4,10 +4,8 @@ import type { ParsedIntersection, ParseOptions } from "../types";
 import { normalizeStreetType } from "../utils/street-type-normalizer";
 import { setValidatedPostalCode } from "../utils/address-validation";
 
-/**
- * Parse intersection addresses (e.g., "Main St & Elm Ave")
- */
-export function parseIntersection(address: string, options: ParseOptions = {}): ParsedIntersection | null {
+// Parse intersection addresses (e.g., "Main St & Elm Ave")
+function parseIntersection(address: string, options: ParseOptions = {}): ParsedIntersection | null {
   const patterns = buildPatterns();
   
   // Split on intersection indicators
@@ -110,3 +108,5 @@ export function parseIntersection(address: string, options: ParseOptions = {}): 
 
   return result;
 }
+
+export { parseIntersection };

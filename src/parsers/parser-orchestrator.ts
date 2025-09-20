@@ -5,27 +5,21 @@ import { parseIntersection } from "./intersection-parser";
 // Forward declaration - parseLocation will be injected
 let parseLocationImpl: (address: string, options?: ParseOptions) => ParsedAddress | null;
 
-/**
- * Set the parseLocation implementation (used to break circular dependency)
- */
-export function setParseLocationImpl(impl: (address: string, options?: ParseOptions) => ParsedAddress | null) {
+// Set the parseLocation implementation (used to break circular dependency)
+function setParseLocationImpl(impl: (address: string, options?: ParseOptions) => ParsedAddress | null) {
   parseLocationImpl = impl;
 }
 
-/**
- * Parse address (compatibility alias)
- */
-export function parseAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
+// Parse address (compatibility alias)
+function parseAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!parseLocationImpl) {
     throw new Error("parseLocation implementation not set");
   }
   return parseLocationImpl(address, options);
 }
 
-/**
- * Create address parser instance
- */
-export function createParser(defaultOptions: ParseOptions = {}): AddressParser {
+// Create address parser instance
+function createParser(defaultOptions: ParseOptions = {}): AddressParser {
   return {
     parseAddress: (address: string, options?: ParseOptions) => 
       parseAddress(address, { ...defaultOptions, ...options }),
@@ -39,4 +33,6 @@ export function createParser(defaultOptions: ParseOptions = {}): AddressParser {
 }
 
 // Export default parser instance
-export const parser = createParser();
+const parser = createParser();
+
+export { setParseLocationImpl, parseAddress, createParser, parser };

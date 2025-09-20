@@ -5,10 +5,8 @@ import { detectCountry, parseStateProvince } from "../utils";
 import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../constants";
 import { setValidatedPostalCode } from "../utils/address-validation";
 
-/**
- * Parse PO Box addresses
- */
-export function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress | null {
+// Parse PO Box addresses
+function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress | null {
   const patterns = buildPatterns();
 
   // Try a flexible parse that supports both US and CA formats, with optional commas
@@ -150,10 +148,8 @@ export function parsePoBox(address: string, options: ParseOptions = {}): ParsedA
   return result;
 }
 
-/**
- * Normalize PO Box type to standard format
- */
-export function normalizePoBoxType(type: string): string {
+// Normalize PO Box type to standard format
+function normalizePoBoxType(type: string): string {
   // Normalize to proper case format - capitalize first letter of each word
   const cleaned = type.replace(VALIDATION_PATTERNS.NORMALIZE_SPACES, ' ').trim();
 
@@ -178,3 +174,5 @@ export function normalizePoBoxType(type: string): string {
     word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   ).join(' ');
 }
+
+export { parsePoBox, normalizePoBoxType };

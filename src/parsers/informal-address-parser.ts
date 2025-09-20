@@ -3,10 +3,8 @@ import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { hasValidAddressComponents, setValidatedPostalCode } from "../utils/address-validation";
 
-/**
- * Parse informal addresses as a fallback when standard parsing fails
- */
-export function parseInformalAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
+// Parse informal addresses as a fallback when standard parsing fails
+function parseInformalAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   const patterns = buildPatterns();
   
   // Check if input contains valid address components
@@ -42,3 +40,5 @@ export function parseInformalAddress(address: string, options: ParseOptions = {}
 
   return result;
 }
+
+export { parseInformalAddress };
