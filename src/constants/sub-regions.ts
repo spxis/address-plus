@@ -11,7 +11,7 @@ import type { SubRegion } from "../types";
 
 // Comprehensive sub-regions for US and Canadian addresses
 // Includes boroughs, parishes, districts, and other administrative subdivisions
-export const ALL_SUB_REGIONS: SubRegion[] = [
+const ALL_SUB_REGIONS: SubRegion[] = [
   {
     "name": "calgary",
     "parentCity": "",
@@ -12919,15 +12919,15 @@ export const ALL_SUB_REGIONS: SubRegion[] = [
 ];
 
 // Quick lookup sets for performance
-export const SUB_REGION_NAMES = new Set(ALL_SUB_REGIONS.map(sr => sr.name));
+const SUB_REGION_NAMES = new Set(ALL_SUB_REGIONS.map(sr => sr.name));
 
-export const SUB_REGION_MAP = new Map(
+const SUB_REGION_MAP = new Map(
   ALL_SUB_REGIONS.map(sr => [sr.name, sr])
 );
 
 // Flattened alias lookup for fast sub-region matching
 // Includes all primary names and aliases pointing to original SubRegion objects
-export const SUB_REGION_ALIAS_MAP = new Map<string, SubRegion>();
+const SUB_REGION_ALIAS_MAP = new Map<string, SubRegion>();
 ALL_SUB_REGIONS.forEach(sr => {
   // Add primary name
   SUB_REGION_ALIAS_MAP.set(sr.name, sr);
@@ -12941,16 +12941,32 @@ ALL_SUB_REGIONS.forEach(sr => {
 });
 
 // Set of all searchable names (primary + aliases) for quick existence checks
-export const ALL_SUB_REGION_NAMES = new Set(SUB_REGION_ALIAS_MAP.keys());
+const ALL_SUB_REGION_NAMES = new Set(SUB_REGION_ALIAS_MAP.keys());
 
 // Get sub-regions by country
-export const US_SUB_REGIONS = ALL_SUB_REGIONS.filter(sr => sr.country === "US");
-export const CA_SUB_REGIONS = ALL_SUB_REGIONS.filter(sr => sr.country === "CA");
+const US_SUB_REGIONS = ALL_SUB_REGIONS.filter(sr => sr.country === "US");
+const CA_SUB_REGIONS = ALL_SUB_REGIONS.filter(sr => sr.country === "CA");
 
 // Get sub-regions by type
-export const BOROUGHS = ALL_SUB_REGIONS.filter(sr => sr.type === "borough");
-export const PARISHES = ALL_SUB_REGIONS.filter(sr => sr.type === "parish");
-export const DISTRICTS = ALL_SUB_REGIONS.filter(sr => sr.type === "district");
-export const WARDS = ALL_SUB_REGIONS.filter(sr => sr.type === "ward");
-export const ARRONDISSEMENTS = ALL_SUB_REGIONS.filter(sr => sr.type === "arrondissement");
-export const QUADRANTS = ALL_SUB_REGIONS.filter(sr => sr.type === "quadrant");
+const BOROUGHS = ALL_SUB_REGIONS.filter(sr => sr.type === "borough");
+const PARISHES = ALL_SUB_REGIONS.filter(sr => sr.type === "parish");
+const DISTRICTS = ALL_SUB_REGIONS.filter(sr => sr.type === "district");
+const WARDS = ALL_SUB_REGIONS.filter(sr => sr.type === "ward");
+const ARRONDISSEMENTS = ALL_SUB_REGIONS.filter(sr => sr.type === "arrondissement");
+const QUADRANTS = ALL_SUB_REGIONS.filter(sr => sr.type === "quadrant");
+
+export {
+  ALL_SUB_REGIONS,
+  SUB_REGION_NAMES,
+  SUB_REGION_MAP,
+  SUB_REGION_ALIAS_MAP,
+  ALL_SUB_REGION_NAMES,
+  US_SUB_REGIONS,
+  CA_SUB_REGIONS,
+  BOROUGHS,
+  PARISHES,
+  DISTRICTS,
+  WARDS,
+  ARRONDISSEMENTS,
+  QUADRANTS
+};

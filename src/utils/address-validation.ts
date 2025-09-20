@@ -6,7 +6,7 @@ import { validatePostalCode } from "../constants";
 import { buildPatterns } from "../patterns/pattern-builder";
 
 // Check if input contains recognizable address components
-export function hasValidAddressComponents(address: string): boolean {
+function hasValidAddressComponents(address: string): boolean {
   const patterns = buildPatterns();
   
   // Basic validation
@@ -44,7 +44,7 @@ export function hasValidAddressComponents(address: string): boolean {
 }
 
 // Validate and set postal code if validation is enabled
-export function setValidatedPostalCode(result: ParsedAddress | ParsedIntersection, zipCode: string, options: ParseOptions): void {
+function setValidatedPostalCode(result: ParsedAddress | ParsedIntersection, zipCode: string, options: ParseOptions): void {
   const validation = validatePostalCode(zipCode);
   
   // In strict mode, only set ZIP if valid
@@ -74,3 +74,5 @@ export function setValidatedPostalCode(result: ParsedAddress | ParsedIntersectio
     (result as ParsedAddress).zipValid = validation.isValid;
   }
 }
+
+export { hasValidAddressComponents, setValidatedPostalCode };
