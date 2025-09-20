@@ -1,5 +1,6 @@
 // Address formatting utilities for standardized output formats
 
+import { CA_PROVINCE_NAMES, DIRECTIONAL_MAP, US_STATE_NAMES, US_STREET_TYPES } from "../constants";
 import type {
   AddressAbbreviations,
   AddressFormattingOptions,
@@ -8,9 +9,6 @@ import type {
   ParsedAddress,
   USPSFormattingOptions,
 } from "../types";
-
-import { CA_PROVINCE_NAMES, DIRECTIONAL_MAP, US_STATE_NAMES, US_STREET_TYPES } from "../constants";
-
 import { capitalize } from "../utils/capitalization";
 
 // Simple unit type abbreviations for formatting
@@ -38,7 +36,7 @@ function formatAddress(address: ParsedAddress, options: AddressFormattingOptions
   const lines: string[] = [];
 
   // Build delivery line (street address)
-  let deliveryLine = buildDeliveryLine(address, {
+  const deliveryLine = buildDeliveryLine(address, {
     includeSecondaryUnit,
     abbreviateStreetTypes,
     abbreviateDirections,
@@ -50,7 +48,7 @@ function formatAddress(address: ParsedAddress, options: AddressFormattingOptions
   }
 
   // Build last line (city, state, postal)
-  let lastLine = buildLastLine(address, {
+  const lastLine = buildLastLine(address, {
     abbreviateStates,
     separator,
   });
@@ -84,7 +82,7 @@ function formatUSPS(address: ParsedAddress, options: USPSFormattingOptions = {})
   const lines: string[] = [];
 
   // USPS specific delivery line with unit after street
-  let deliveryLine = buildDeliveryLine(address, {
+  const deliveryLine = buildDeliveryLine(address, {
     includeSecondaryUnit: true,
     abbreviateStreetTypes: true,
     abbreviateDirections: true,
@@ -97,7 +95,7 @@ function formatUSPS(address: ParsedAddress, options: USPSFormattingOptions = {})
   }
 
   // Build last line (city, state, postal)
-  let lastLine = buildLastLine(address, {
+  const lastLine = buildLastLine(address, {
     abbreviateStates: true,
     separator: " ",
   });
@@ -123,7 +121,7 @@ function formatCanadaPost(address: ParsedAddress, options: CanadaPostFormattingO
   const lines: string[] = [];
 
   // Canada Post specific formatting
-  let deliveryLine = buildDeliveryLine(address, {
+  const deliveryLine = buildDeliveryLine(address, {
     includeSecondaryUnit: true,
     abbreviateStreetTypes: true,
     abbreviateDirections: true,

@@ -9,16 +9,12 @@
 //
 // All tests use JSON data files for maintainability and consistency.
 
-import { describe, expect, test } from "vitest";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-import { 
-  parseAddress, 
-  parseInformalAddress, 
-  parseIntersection, 
-  parseLocation 
-} from "../../parser";
+import { describe, expect, test } from "vitest";
+
+import { parseAddress, parseInformalAddress, parseIntersection, parseLocation } from "../../parser";
 
 // Constants
 const TEST_DATA_BASE_PATH = "../../../test-data";
@@ -27,28 +23,28 @@ const TEST_DATA_BASE_PATH = "../../../test-data";
 function loadTestData(country: "us" | "canada", filename: string): any[] {
   const filePath = join(__dirname, TEST_DATA_BASE_PATH, country, filename);
   const data = JSON.parse(readFileSync(filePath, "utf-8"));
-  
+
   // Handle new object-of-arrays structure
   if (!data.tests) {
     return [];
   }
-  
+
   // If tests is already an array, return it
   if (Array.isArray(data.tests)) {
     return data.tests;
   }
-  
+
   // If tests is an object, flatten all arrays within it
   const allTests: any[] = [];
   for (const [key, value] of Object.entries(data.tests)) {
     if (Array.isArray(value)) {
       allTests.push(...value);
-    } else if (typeof value === 'object' && value !== null) {
+    } else if (typeof value === "object" && value !== null) {
       // Handle single test case objects
       allTests.push(value);
     }
   }
-  
+
   return allTests;
 }
 
@@ -103,18 +99,16 @@ const canadaFacilities = allCanadaSpecialData.slice(11);
 const canadaNullCases = loadTestData("canada", "null-cases.json");
 
 describe("Core Address Parser Tests", () => {
-  
   describe("US Address Parsing", () => {
-    
     describe("Basic Addresses", () => {
       usBasicAddresses.forEach((testCase, index) => {
         test(`should parse US basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -126,11 +120,11 @@ describe("Core Address Parser Tests", () => {
       usCompatibilityTests.forEach((testCase, index) => {
         test(`should handle compatibility case ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -142,11 +136,11 @@ describe("Core Address Parser Tests", () => {
       usIntersections.forEach((testCase, index) => {
         test(`should parse intersection ${index + 1}: "${testCase.input}"`, () => {
           const result = parseIntersection(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -158,11 +152,11 @@ describe("Core Address Parser Tests", () => {
       usFacilities.forEach((testCase, index) => {
         test(`should parse facility ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -174,11 +168,11 @@ describe("Core Address Parser Tests", () => {
       usUnitsAndBoxes.forEach((testCase, index) => {
         test(`should parse unit/box ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -190,11 +184,11 @@ describe("Core Address Parser Tests", () => {
       usEdgeCases.forEach((testCase, index) => {
         test(`should handle edge case ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -206,15 +200,17 @@ describe("Core Address Parser Tests", () => {
       usFamousAddresses.forEach((testCase, index) => {
         test(`should parse famous address ${index + 1}: "${testCase.input}"`, () => {
           const result = parseAddress(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               if (testCase.expected[key] !== undefined) {
                 const actualValue = (result as any)?.[key];
                 const expectedValue = testCase.expected[key];
-                expect(actualValue, `Expected ${key} to be "${expectedValue}" but got "${actualValue}"`).toBe(expectedValue);
+                expect(actualValue, `Expected ${key} to be "${expectedValue}" but got "${actualValue}"`).toBe(
+                  expectedValue,
+                );
               }
             });
           }
@@ -226,16 +222,16 @@ describe("Core Address Parser Tests", () => {
       usFamousEdgeAddresses.forEach((testCase, index) => {
         test(`should parse famous edge case ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -247,16 +243,16 @@ describe("Core Address Parser Tests", () => {
       usSpecialAddresses.forEach((testCase, index) => {
         test(`should parse special address ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -268,16 +264,16 @@ describe("Core Address Parser Tests", () => {
       usUnusualTypes.forEach((testCase, index) => {
         test(`should parse unusual type ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -287,16 +283,15 @@ describe("Core Address Parser Tests", () => {
   });
 
   describe("Canadian Address Parsing", () => {
-    
     describe("Basic Addresses", () => {
       canadaBasicAddresses.forEach((testCase, index) => {
         test(`should parse Canadian basic address ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -308,11 +303,11 @@ describe("Core Address Parser Tests", () => {
       canadaFacilities.forEach((testCase, index) => {
         test(`should parse Canadian facility ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -324,11 +319,11 @@ describe("Core Address Parser Tests", () => {
       canadaSpecialPostal.forEach((testCase, index) => {
         test(`should handle Canadian special postal ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -340,16 +335,16 @@ describe("Core Address Parser Tests", () => {
       canadaEdgeCases.forEach((testCase, index) => {
         test(`should handle Canadian edge case ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -361,16 +356,16 @@ describe("Core Address Parser Tests", () => {
       canadaFamousAddresses.forEach((testCase, index) => {
         test(`should parse Canadian famous address ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -382,16 +377,16 @@ describe("Core Address Parser Tests", () => {
       canadaFamousEdgeAddresses.forEach((testCase, index) => {
         test(`should parse Canadian famous edge case ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -403,16 +398,16 @@ describe("Core Address Parser Tests", () => {
       canadaSpecialAlt.forEach((testCase, index) => {
         test(`should parse Canadian special alt ${index + 1}: "${testCase.input}"`, () => {
           const result = parseLocation(testCase.input);
-          
+
           if (testCase.expected === null) {
             expect(result).toBeNull();
             return;
           }
-          
+
           expect(result).toBeTruthy();
-          
+
           if (testCase.expected) {
-            Object.keys(testCase.expected).forEach(key => {
+            Object.keys(testCase.expected).forEach((key) => {
               expect((result as any)?.[key]).toBe(testCase.expected[key]);
             });
           }
@@ -422,7 +417,6 @@ describe("Core Address Parser Tests", () => {
   });
 
   describe("Alternative Parser Functions", () => {
-    
     describe("parseAddress Function Tests", () => {
       describe("US Basic Addresses with parseAddress", () => {
         usBasicAddresses.forEach((testCase, index) => {
@@ -430,7 +424,7 @@ describe("Core Address Parser Tests", () => {
             const result = parseAddress(testCase.input);
             expect(result).toBeTruthy();
             if (testCase.expected) {
-              Object.keys(testCase.expected).forEach(key => {
+              Object.keys(testCase.expected).forEach((key) => {
                 expect((result as any)?.[key]).toBe(testCase.expected[key]);
               });
             }
@@ -741,15 +735,7 @@ describe("Core Address Parser Tests", () => {
     });
 
     // Legacy hardcoded null cases
-    const legacyNullTestCases = [
-      "",
-      "   ",
-      "xyz",
-      "abcdef", 
-      "completely wrong",
-      "12345",
-      "!@#$%"
-    ];
+    const legacyNullTestCases = ["", "   ", "xyz", "abcdef", "completely wrong", "12345", "!@#$%"];
 
     legacyNullTestCases.forEach((testInput, index) => {
       test(`should return null for legacy invalid input ${index + 1}: "${testInput}"`, () => {

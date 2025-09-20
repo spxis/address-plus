@@ -13,6 +13,7 @@ import {
 import { parseLocation } from "../index.js";
 import type { CleanAddressOptions, CleanAddressResult } from "../types/clean-address.js";
 import type { ParsedAddress } from "../types/index.js";
+
 import { formatAddress, formatCanadaPost, formatUSPS } from "./address-formatting.js";
 
 // Clean and normalize an address string with various formatting options
@@ -62,7 +63,7 @@ function cleanAddressDetailed(addressString: string, options: CleanAddressOption
   }
 
   // Start with basic formatting - always use standard format initially
-  let formattedResult = formatAddress(parsedAddress);
+  const formattedResult = formatAddress(parsedAddress);
   let formattedAddress = formattedResult.singleLine;
 
   // Apply expansion of abbreviations to the formatted result if requested

@@ -1,4 +1,5 @@
 import type { AddressParser, ParsedAddress, ParseOptions } from "../types";
+
 import { parseInformalAddress } from "./informal-address-parser";
 import { parseIntersection } from "./intersection-parser";
 
@@ -6,7 +7,7 @@ import { parseIntersection } from "./intersection-parser";
 let parseLocationImpl: (address: string, options?: ParseOptions) => ParsedAddress | null;
 
 // Set the parseLocation implementation (used to break circular dependency)
-function setParseLocationImpl(impl: (address: string, options?: ParseOptions) => ParsedAddress | null) {
+function setParseLocationImpl(impl: (address: string, options?: ParseOptions) => ParsedAddress | null): void {
   parseLocationImpl = impl;
 }
 

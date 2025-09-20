@@ -5,7 +5,8 @@
     "es2022": true
   },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -14,11 +15,11 @@
   },
   "plugins": ["@typescript-eslint", "import", "prettier", "perfectionist"],
   "rules": {
+    "prefer-const": "error",
     "prettier/prettier": "error",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/prefer-const": "error",
     "import/order": [
       "error",
       {

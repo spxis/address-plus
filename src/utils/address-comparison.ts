@@ -1,5 +1,6 @@
 // Address comparison and similarity utilities for deduplication and matching
 
+import { DIRECTIONAL_MAP, normalizeStateProvinceName, US_STREET_TYPES } from "../constants";
 import type {
   AddressComparisonOptions,
   AddressComparisonResult,
@@ -8,8 +9,6 @@ import type {
   AddressSimilarityResult,
   ParsedAddress,
 } from "../types";
-
-import { DIRECTIONAL_MAP, normalizeStateProvinceName, US_STREET_TYPES } from "../constants";
 
 // Default comparison options
 const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {
@@ -174,7 +173,7 @@ function normalizeAddressForComparison(
 
   // Remove punctuation
   if (options.ignorePunctuation) {
-    const removePunctuation = (str: string) => str.replace(/[^\w\s]/g, "").trim();
+    const removePunctuation = (str: string): string => str.replace(/[^\w\s]/g, "").trim();
     if (normalized.street) normalized.street = removePunctuation(normalized.street);
     if (normalized.city) normalized.city = removePunctuation(normalized.city);
   }

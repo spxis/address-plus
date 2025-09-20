@@ -109,7 +109,7 @@ const FACILITY_PATTERNS_FR = [
 const FACILITY_PATTERNS: RegExp[] = [...FACILITY_PATTERNS_EN, ...FACILITY_PATTERNS_FR];
 
 // Facility delimiter pattern for inline address parsing
-const FACILITY_DELIMITER_PATTERN = /(?:[:;|\u2013\u2014\-]|\s{2,})/;
+const FACILITY_DELIMITER_PATTERN = /(?:[:;|\u2013\u2014-]|\s{2,})/;
 
 // Pattern for Music Square East special case
 const MUSIC_SQUARE_EAST_PATTERN = /^(.*square)\s+(east)\s*$/i;
