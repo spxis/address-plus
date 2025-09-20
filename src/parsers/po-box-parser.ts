@@ -58,10 +58,8 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   // Optional station/succursale/RPO/RR segments
   // Capture patterns like: Station A | Succursale Centre-ville | RPO University Village | RR 2 | R.R. 3
   // Look for these at the beginning of the remaining string after the PO Box number
-  let stationPart: RegExpMatchArray | null = null;
   const stationMatch = rest.match(PO_BOX_PATTERNS.STATION_PATTERN);
   if (stationMatch) {
-    stationPart = stationMatch;
     // Remove the matched station part from rest
     rest = rest.slice(stationMatch[0].length).trim().replace(/^,\s*/, "");
     const kind = stationMatch[1].toLowerCase();
@@ -69,7 +67,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
     if (kind.startsWith("rr")) {
       result.rr = value || undefined;
       if (value) {
-        (result as any).ruralRoute = `RR ${value}`;
+        (result as Record<string, any>).ruralRoute = `RR ${value}`;
       }
     } else if (kind === "rpo") {
       result.rpo = value || undefined;

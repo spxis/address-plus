@@ -7,7 +7,7 @@ import { parseIntersection } from "./intersection-parser";
 let parseLocationImpl: (address: string, options?: ParseOptions) => ParsedAddress | null;
 
 // Set the parseLocation implementation (used to break circular dependency)
-function setParseLocationImpl(impl: (address: string, options?: ParseOptions) => ParsedAddress | null) {
+function setParseLocationImpl(impl: (address: string, options?: ParseOptions) => ParsedAddress | null): void {
   parseLocationImpl = impl;
 }
 

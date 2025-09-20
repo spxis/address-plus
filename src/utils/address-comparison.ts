@@ -173,7 +173,7 @@ function normalizeAddressForComparison(
 
   // Remove punctuation
   if (options.ignorePunctuation) {
-    const removePunctuation = (str: string) => str.replace(/[^\w\s]/g, "").trim();
+    const removePunctuation = (str: string): string => str.replace(/[^\w\s]/g, "").trim();
     if (normalized.street) normalized.street = removePunctuation(normalized.street);
     if (normalized.city) normalized.city = removePunctuation(normalized.city);
   }
