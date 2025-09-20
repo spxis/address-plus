@@ -27,8 +27,7 @@ function loadTestData(filename: string): any {
 describe("Normalize Region", () => {
   const exactMatchData = loadTestData("exact-match-cases.json") as any;
   const edgeCasesData = loadTestData("edge-cases.json") as any;
-  const usStatesFuzzyData = loadTestData("us-states-fuzzy.json") as any;
-  const canadianProvincesFuzzyData = loadTestData("ca-provinces-fuzzy.json") as any;
+  const fuzzyMatchingData = loadTestData("fuzzy-matching.json") as any;
 
   describe("exact abbreviation matches", () => {
     if (exactMatchData?.abbreviationTests?.cases) {
@@ -136,31 +135,33 @@ describe("Normalize Region", () => {
     });
   });
 
-  describe("fuzzy matching - US states", () => {
-    if (usStatesFuzzyData?.fuzzyMatching) {
-      usStatesFuzzyData.fuzzyMatching.forEach(({ input, expected, description }: TestCase) => {
-        it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
-          expect(normalizeRegion(input)).toEqual(expected);
+  describe("fuzzy matching", () => {
+    describe("US states", () => {
+      if (fuzzyMatchingData?.usStates) {
+        fuzzyMatchingData.usStates.forEach(({ input, expected, description }: TestCase) => {
+          it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
+            expect(normalizeRegion(input)).toEqual(expected);
+          });
         });
-      });
-    } else {
-      it("should skip - no test data available", () => {
-        expect(true).toBe(true);
-      });
-    }
-  });
+      } else {
+        it("should skip - no test data available", () => {
+          expect(true).toBe(true);
+        });
+      }
+    });
 
-  describe("fuzzy matching - Canadian provinces", () => {
-    if (canadianProvincesFuzzyData?.fuzzyMatching) {
-      canadianProvincesFuzzyData.fuzzyMatching.forEach(({ input, expected, description }: TestCase) => {
-        it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
-          expect(normalizeRegion(input)).toEqual(expected);
+    describe("Canadian provinces", () => {
+      if (fuzzyMatchingData?.canadianProvinces) {
+        fuzzyMatchingData.canadianProvinces.forEach(({ input, expected, description }: TestCase) => {
+          it(`should fuzzy match: "${input}" → ${expected.abbr} (${description})`, () => {
+            expect(normalizeRegion(input)).toEqual(expected);
+          });
         });
-      });
-    } else {
-      it("should skip - no test data available", () => {
-        expect(true).toBe(true);
-      });
-    }
+      } else {
+        it("should skip - no test data available", () => {
+          expect(true).toBe(true);
+        });
+      }
+    });
   });
 });
