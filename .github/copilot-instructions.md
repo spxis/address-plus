@@ -86,6 +86,9 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 - Reference constants throughout the component to ensure DRY code.
 - **Use descriptive constant names and group related constants together.**
 - **Export constants from dedicated files in `src/data/` for reusability.**
+- **NEVER use inline constants or regular expressions in code** - all constants must be imported from appropriate files under `/src/constants/` or `/src/patterns/`
+- **All regex patterns must be defined in `/src/patterns/` and imported** - no inline regex literals allowed
+- **String constants, arrays, and configuration objects must be exported from `/src/constants/`** and imported where needed
 
 ## Data Architecture
 

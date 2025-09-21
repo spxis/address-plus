@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Informal Address Parser Tests",
+  "description": "Test cases for parseInformalAddress function with edge cases that might fail standard parsing",
+  "tests": {
+    "informalCases": [
+      {
+        "input": "123 Main Street",
+        "expected": {
+          "number": "123",
+          "street": "Main Street"
+        },
+        "description": "Simple address with number and street"
+      },
+      {
+        "input": "456 Oak Ave, City 90210",
+        "expected": {
+          "number": "456",
+          "street": "Oak Ave",
+          "zip": "90210"
+        },
+        "description": "Address with city and ZIP code"
+      },
+      {
+        "input": "Simple Address Format",
+        "expected": {
+          "street": "Simple Address Format"
+        },
+        "description": "Address without number (should be lenient)"
+      }
+    ]
+  }
+}

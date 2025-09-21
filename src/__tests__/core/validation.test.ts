@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import testData from "../../../test-data/validation/comprehensive-validation.json";
+import testData from "../../../test-data/core/comprehensive-validation.json";
 import type { ValidationOptions } from "../../types/validation";
 import { getValidationErrors, isValidAddress, validateAddress } from "../../utils/comprehensive-validation";
 import type { 

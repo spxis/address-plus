@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/test-file.json",
   "name": "Canadian Basic Address Tests",
-  "description": "Basic Canadian address parsing test cases including French street names, postal codes, and province variations",
+  "description": "Basic Canadian address parsing test cases covering standard address formats and famous addresses",
   "tests": {
     "basic": [
       {
@@ -141,6 +141,580 @@
           "zip": "M3B 3K4"
         },
         "description": "Address with directional suffix 'North' abbreviated to 'N'"
+      }
+    ],
+    "famous-addresses-standard": [
+      {
+        "input": "24 Sussex Drive Ottawa ON K1M 1M4",
+        "expected": {
+          "number": "24",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1M 1M4",
+          "country": "CA"
+        },
+        "description": "Prime Minister's residence - Ottawa"
+      },
+      {
+        "input": "111 Wellington Street Ottawa ON K1A 0A6",
+        "expected": {
+          "number": "111",
+          "street": "Wellington",
+          "type": "St",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A6",
+          "country": "CA"
+        },
+        "description": "Parliament Hill Centre Block - Ottawa"
+      },
+      {
+        "input": "53-55 Water Street Vancouver BC V6B 1A1",
+        "expected": {
+          "number": "53-55",
+          "street": "Water",
+          "type": "St",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V6B 1A1",
+          "country": "CA"
+        },
+        "description": "Historic Gastown district - Vancouver"
+      },
+      {
+        "input": "301 Front Street West Toronto ON M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "description": "CN Tower vicinity - Toronto"
+      },
+      {
+        "input": "100 Queen Street Ottawa ON K1P 1J9",
+        "expected": {
+          "number": "100",
+          "street": "Queen",
+          "type": "St",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J9",
+          "country": "CA"
+        },
+        "description": "Parliamentary precinct area - Ottawa"
+      },
+      {
+        "input": "1 Blue Jays Way Toronto ON M5V 1J1",
+        "expected": {
+          "number": "1",
+          "street": "Blue Jays",
+          "type": "Way",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 1J1",
+          "country": "CA"
+        },
+        "description": "Rogers Centre (SkyDome) - Toronto"
+      },
+      {
+        "input": "233 Queen Street Ottawa ON K1A 0H6",
+        "expected": {
+          "number": "233",
+          "street": "Queen",
+          "type": "St",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0H6",
+          "country": "CA"
+        },
+        "description": "Government buildings district - Ottawa"
+      },
+      {
+        "input": "675 Belleville Street Victoria BC V8W 9W2",
+        "expected": {
+          "number": "675",
+          "street": "Belleville",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 9W2",
+          "country": "CA"
+        },
+        "description": "BC Parliament Buildings area - Victoria"
+      },
+      {
+        "input": "85 Canada Olympic Road SW Calgary AB T3B 5R5",
+        "expected": {
+          "number": "85",
+          "street": "Canada Olympic",
+          "type": "Rd",
+          "suffix": "SW",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T3B 5R5",
+          "country": "CA"
+        },
+        "description": "Canada Olympic Park - Calgary"
+      },
+      {
+        "input": "405 6 Avenue SE Calgary AB T2G 2E9",
+        "expected": {
+          "number": "405",
+          "street": "6",
+          "type": "Ave",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2G 2E9",
+          "country": "CA"
+        },
+        "description": "Downtown Calgary with numbered avenue and directional suffix"
+      },
+      {
+        "input": "1900 Heritage Drive SW Calgary AB T2V 2X3",
+        "expected": {
+          "number": "1900",
+          "street": "Heritage",
+          "type": "Dr",
+          "suffix": "SW",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2V 2X3",
+          "country": "CA"
+        },
+        "description": "Heritage Park area - Calgary"
+      },
+      {
+        "input": "3401 Ridgeway Drive Mississauga ON L5L 5Y6",
+        "expected": {
+          "number": "3401",
+          "street": "Ridgeway",
+          "type": "Dr",
+          "city": "Mississauga",
+          "state": "ON",
+          "zip": "L5L 5Y6",
+          "country": "CA"
+        },
+        "description": "Mississauga residential area without directional suffix"
+      },
+      {
+        "input": "1 Rideau Street Ottawa ON K1N 8S7",
+        "expected": {
+          "number": "1",
+          "street": "Rideau",
+          "type": "St",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1N 8S7",
+          "country": "CA"
+        },
+        "description": "Rideau Centre shopping area - Ottawa"
+      },
+      {
+        "input": "1000 Palladium Drive Ottawa ON K2V 1A5",
+        "expected": {
+          "number": "1000",
+          "street": "Palladium",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K2V 1A5",
+          "country": "CA"
+        },
+        "description": "Canadian Tire Centre area - Ottawa"
+      },
+      {
+        "input": "1 Harbour Square Toronto ON M5J 1A6",
+        "expected": {
+          "number": "1",
+          "street": "Harbour",
+          "type": "Sq",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5J 1A6",
+          "country": "CA"
+        },
+        "description": "Harbourfront area with square street type - Toronto"
+      },
+      {
+        "input": "1000 Finch Avenue West Toronto ON M3J 2V5",
+        "expected": {
+          "number": "1000",
+          "street": "Finch",
+          "type": "Ave",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M3J 2V5",
+          "country": "CA"
+        },
+        "description": "North Toronto with west directional suffix"
+      },
+      {
+        "input": "1 University Avenue Toronto ON M5J 2P1",
+        "expected": {
+          "number": "1",
+          "street": "University",
+          "type": "Ave",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5J 2P1",
+          "country": "CA"
+        },
+        "description": "Downtown Toronto financial district on University Avenue"
+      },
+      {
+        "input": "100 Laurier Street Gatineau QC J8X 4H4",
+        "expected": {
+          "number": "100",
+          "street": "Laurier",
+          "type": "St",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 4H4",
+          "country": "CA"
+        },
+        "description": "Gatineau municipal area - Quebec"
+      },
+      {
+        "input": "999 Canada Place Vancouver BC V6C 3T4",
+        "expected": {
+          "number": "999",
+          "street": "Canada",
+          "type": "Pl",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V6C 3T4",
+          "country": "CA"
+        },
+        "description": "Canada Place waterfront convention center - Vancouver"
+      },
+      {
+        "input": "317 Dundas Street West Toronto ON M5T 1G4",
+        "expected": {
+          "number": "317",
+          "street": "Dundas",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5T 1G4",
+          "country": "CA"
+        },
+        "description": "Art Gallery of Toronto area with west directional suffix"
+      },
+      {
+        "input": "380 Sussex Drive Ottawa ON K1N 9N4",
+        "expected": {
+          "number": "380",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1N 9N4",
+          "country": "CA"
+        },
+        "description": "Rideau Hall area on Sussex Drive - Ottawa"
+      },
+      {
+        "input": "200 Main Street Winnipeg MB R3C 1A8",
+        "expected": {
+          "number": "200",
+          "street": "Main",
+          "type": "St",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3C 1A8",
+          "country": "CA"
+        },
+        "description": "Manitoba Legislative Building area - Manitoba"
+      },
+      {
+        "input": "2405 Legislative Drive Regina SK S4S 0B3",
+        "expected": {
+          "number": "2405",
+          "street": "Legislative",
+          "type": "Dr",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4S 0B3",
+          "country": "CA"
+        },
+        "description": "Saskatchewan Legislative Building - Saskatchewan"
+      },
+      {
+        "input": "706 Queen Street Fredericton NB E3B 1C2",
+        "expected": {
+          "number": "706",
+          "street": "Queen",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1C2",
+          "country": "CA"
+        },
+        "description": "New Brunswick Legislative Building - New Brunswick"
+      },
+      {
+        "input": "1741 Argyle Street Halifax NS B3J 3A8",
+        "expected": {
+          "number": "1741",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A8",
+          "country": "CA"
+        },
+        "description": "Province House - Nova Scotia"
+      },
+      {
+        "input": "165 Richmond Street Charlottetown PE C1A 1J1",
+        "expected": {
+          "number": "165",
+          "street": "Richmond",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 1J1",
+          "country": "CA"
+        },
+        "description": "Province House - Prince Edward Island"
+      },
+      {
+        "input": "4601 52nd Avenue Yellowknife NT X1A 2L9",
+        "expected": {
+          "number": "4601",
+          "street": "52nd",
+          "type": "Ave",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2L9",
+          "country": "CA"
+        },
+        "description": "Legislative Assembly - Northwest Territories"
+      },
+      {
+        "input": "2071 2nd Avenue Whitehorse YT Y1A 1A8",
+        "expected": {
+          "number": "2071",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1A8",
+          "country": "CA"
+        },
+        "description": "Yukon Legislative Building - Yukon"
+      },
+      {
+        "input": "926 Federal Road Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "926",
+          "street": "Federal",
+          "type": "Rd",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "description": "Legislative Assembly - Nunavut"
+      }
+    ],
+    "famous-addresses-edgeCases": [
+      {
+        "input": "24 Sussex Dr., Ottawa, ON K1M 1M4",
+        "expected": {
+          "number": "24",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1M 1M4",
+          "country": "CA"
+        },
+        "description": "Prime Minister's residence - abbreviated with periods"
+      },
+      {
+        "input": "111 Wellington St., Room 309-S, Ottawa, Ontario K1A 0A6",
+        "expected": {
+          "number": "111",
+          "street": "Wellington",
+          "type": "St",
+          "secUnitType": "Room",
+          "secUnitNum": "309-S",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A6",
+          "country": "CA"
+        },
+        "description": "Parliament Hill - with room and full province"
+      },
+      {
+        "input": "53-55 Water St., Suite 400, Vancouver, British Columbia V6B 1A1",
+        "expected": {
+          "number": "53-55",
+          "street": "Water",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V6B 1A1",
+          "country": "CA"
+        },
+        "description": "Gastown Vancouver - with suite and full province"
+      },
+      {
+        "input": "301 Front St. W., Unit 1200, Toronto, ON M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "1200",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "description": "CN Tower area - abbreviated with unit"
+      },
+      {
+        "input": "100 Queen St., Floor 15, Ottawa, ON K1P 1J9",
+        "expected": {
+          "number": "100",
+          "street": "Queen",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "15",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J9",
+          "country": "CA"
+        },
+        "description": "ByWard Market - abbreviated with floor"
+      },
+      {
+        "input": "1 Blue Jays Way, Gate 3, Toronto, Ontario M5V 1J1",
+        "expected": {
+          "number": "1",
+          "street": "Blue Jays",
+          "type": "Way",
+          "secUnitType": "Gate",
+          "secUnitNum": "3",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 1J1",
+          "country": "CA"
+        },
+        "description": "Rogers Centre - with gate and full province"
+      },
+      {
+        "input": "1661 Barnet Hwy., Building C, Burnaby, BC V5A 4N6",
+        "expected": {
+          "number": "1661",
+          "street": "Barnet",
+          "type": "Hwy",
+          "secUnitType": "Building",
+          "secUnitNum": "C",
+          "city": "Burnaby",
+          "state": "BC",
+          "zip": "V5A 4N6",
+          "country": "CA"
+        },
+        "description": "BCIT Burnaby - abbreviated highway with building"
+      },
+      {
+        "input": "2220 University Dr. N.W., Calgary, Alberta T2N 1N4",
+        "expected": {
+          "number": "2220",
+          "street": "University",
+          "type": "Dr",
+          "suffix": "NW",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2N 1N4",
+          "country": "CA"
+        },
+        "description": "University of Calgary - periods in directional"
+      },
+      {
+        "input": "8888 University Dr., Office 250, Burnaby, BC V5A 1S6",
+        "expected": {
+          "number": "8888",
+          "street": "University",
+          "type": "Dr",
+          "secUnitType": "Office",
+          "secUnitNum": "250",
+          "city": "Burnaby",
+          "state": "BC",
+          "zip": "V5A 1S6",
+          "country": "CA"
+        },
+        "description": "Simon Fraser University - with office"
+      },
+      {
+        "input": "11211 Saskatchewan Dr., Edmonton, AB T6G 2M9",
+        "expected": {
+          "number": "11211",
+          "street": "Saskatchewan",
+          "type": "Dr",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T6G 2M9",
+          "country": "CA"
+        },
+        "description": "University of Alberta - abbreviated drive"
+      },
+      {
+        "input": "200 Main St., Level 3, Winnipeg, Manitoba R3C 1A8",
+        "expected": {
+          "number": "200",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Level",
+          "secUnitNum": "3",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3C 1A8",
+          "country": "CA"
+        },
+        "description": "Manitoba Legislative Building - with level and full province"
+      },
+      {
+        "input": "2405 Legislative Dr., Regina, SK S4S 0B3",
+        "expected": {
+          "number": "2405",
+          "street": "Legislative",
+          "type": "Dr",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4S 0B3",
+          "country": "CA"
+        },
+        "description": "Saskatchewan Legislative Building - abbreviated"
+      },
+      {
+        "input": "706 Queen St., Fredericton, New Brunswick E3B 1C2",
+        "expected": {
+          "number": "706",
+          "street": "Queen",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1C2",
+          "country": "CA"
+        },
+        "description": "New Brunswick Legislative Building - full province name"
       }
     ]
   }

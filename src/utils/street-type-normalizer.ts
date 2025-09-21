@@ -1,8 +1,9 @@
 import { CA_STREET_TYPES, STREET_TYPE_PROPER_CASE, US_STREET_TYPES } from "../constants";
+import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
 
 // Normalize street type to standard format
 function normalizeStreetType(type: string): string {
-  const normalized = type.toLowerCase().replace(/\./g, "");
+  const normalized = type.toLowerCase().replace(UTILITY_PATTERNS.REMOVE_PERIODS, "");
   const mappedType = US_STREET_TYPES[normalized] || CA_STREET_TYPES[normalized];
 
   if (mappedType) {

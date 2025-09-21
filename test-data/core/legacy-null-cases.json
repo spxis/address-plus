@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Legacy Null Cases",
+  "description": "Legacy hardcoded null test cases that should return null",
+  "tests": {
+    "nullCases": [
+      {
+        "input": "",
+        "description": "Empty string"
+      },
+      {
+        "input": "   ",
+        "description": "Whitespace only string"
+      },
+      {
+        "input": "xyz",
+        "description": "Random 3-letter string"
+      },
+      {
+        "input": "abcdef",
+        "description": "Random 6-letter string"
+      },
+      {
+        "input": "completely wrong",
+        "description": "Completely unrelated phrase"
+      },
+      {
+        "input": "12345",
+        "description": "Numbers only"
+      },
+      {
+        "input": "!@#$%",
+        "description": "Special characters only"
+      }
+    ]
+  }
+}

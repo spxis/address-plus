@@ -11,6 +11,7 @@ import {
   US_STATE_EXPANSIONS,
 } from "../constants/index.js";
 import { parseLocation } from "../index.js";
+import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
 import type { CleanAddressOptions, CleanAddressResult } from "../types/clean-address.js";
 import type { ParsedAddress } from "../types/index.js";
 
@@ -127,7 +128,7 @@ function expandAddressAbbreviations(address: ParsedAddress): void {
 
   // Unit type expansions
   if (address.secUnitType) {
-    const expanded = SECONDARY_UNIT_TYPES[address.secUnitType.toLowerCase().replace(/[^a-z]/g, "")];
+    const expanded = SECONDARY_UNIT_TYPES[address.secUnitType.toLowerCase().replace(UTILITY_PATTERNS.NON_ALPHA, "")];
     if (expanded) address.secUnitType = expanded;
   }
 }

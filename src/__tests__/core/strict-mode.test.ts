@@ -6,7 +6,7 @@ import { describe, expect, test } from "vitest";
 
 import canadaStrictModeTestDataFile from "../../../test-data/canada/strict-mode.json";
 import usStrictModeTestDataFile from "../../../test-data/us/strict-mode.json";
-import { parseLocation } from "../../parser";
+import { parseLocation } from "../../index";
 import type { PostalExpectedResult, StrictModeTestCase, StrictModeTestData } from "../types/test-interfaces";
 
 // Helper function to extract test data from objects with $schema
@@ -58,7 +58,7 @@ describe("Strict Mode - Core Working Functionality", () => {
     usStrictModeTestData.forEach((testCase: StrictModeTestCase) => {
       test(`${testCase.description}`, () => {
         if (testCase.expected.strict) {
-          const strictResult = parseLocation(testCase.address, { strict: true });
+          const strictResult = parseLocation(testCase.input, { strict: true });
 
           if (testCase.expected.strict.zip === null) {
             expect(strictResult?.zip).toBeUndefined();
@@ -70,15 +70,15 @@ describe("Strict Mode - Core Working Functionality", () => {
         }
 
         if (testCase.expected.permissive) {
-          const permissiveResult = parseLocation(testCase.address, { strict: false });
+          const permissiveResult = parseLocation(testCase.input, { strict: false });
 
           expect(permissiveResult?.zip).toBe(testCase.expected.permissive.zip);
           expect(permissiveResult?.zipValid).toBe(testCase.expected.permissive.zipValid);
         }
 
         if (!testCase.expected.strict && !testCase.expected.permissive) {
-          const strictResult = parseLocation(testCase.address, { strict: true });
-          const permissiveResult = parseLocation(testCase.address, { strict: false });
+          const strictResult = parseLocation(testCase.input, { strict: true });
+          const permissiveResult = parseLocation(testCase.input, { strict: false });
 
           expect(strictResult?.zip).toBe(testCase.expected.zip);
           expect(strictResult?.zipValid).toBe(testCase.expected.zipValid);
@@ -99,7 +99,7 @@ describe("Strict Mode - Core Working Functionality", () => {
       test(`${testCase.description}`, () => {
         // Test strict mode if specified
         if (testCase.expected.strict) {
-          const strictResult = parseLocation(testCase.address, { strict: true });
+          const strictResult = parseLocation(testCase.input, { strict: true });
 
           if (testCase.expected.strict.zip === null) {
             expect(strictResult?.zip).toBeUndefined();
@@ -112,7 +112,7 @@ describe("Strict Mode - Core Working Functionality", () => {
 
         // Test permissive mode if specified
         if (testCase.expected.permissive) {
-          const permissiveResult = parseLocation(testCase.address, { strict: false });
+          const permissiveResult = parseLocation(testCase.input, { strict: false });
 
           expect(permissiveResult?.zip).toBe(testCase.expected.permissive.zip);
           expect(permissiveResult?.zipValid).toBe(testCase.expected.permissive.zipValid);
@@ -120,8 +120,8 @@ describe("Strict Mode - Core Working Functionality", () => {
 
         // Test both modes for basic cases
         if (!testCase.expected.strict && !testCase.expected.permissive) {
-          const strictResult = parseLocation(testCase.address, { strict: true });
-          const permissiveResult = parseLocation(testCase.address, { strict: false });
+          const strictResult = parseLocation(testCase.input, { strict: true });
+          const permissiveResult = parseLocation(testCase.input, { strict: false });
 
           expect(strictResult?.zip).toBe(testCase.expected.zip);
           expect(strictResult?.zipValid).toBe(testCase.expected.zipValid);

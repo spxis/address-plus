@@ -399,7 +399,7 @@ interface PostalExpectedResult {
 
 interface StrictModeTestCase {
   description: string;
-  address: string;
+  input: string;
   expected: {
     strict?: PostalExpectedResult;
     permissive?: PostalExpectedResult;

@@ -6,7 +6,7 @@
     "strictMode": [
       {
         "description": "Valid Canadian postal code with space",
-        "address": "123 Main St, Toronto ON M5V 1A1",
+        "input": "123 Main St, Toronto ON M5V 1A1",
         "expected": {
           "zip": "M5V 1A1",
           "zipValid": true
@@ -14,7 +14,7 @@
       },
       {
         "description": "Valid Canadian postal code without space",
-        "address": "123 Main St, Toronto ON M5V1A1",
+        "input": "123 Main St, Toronto ON M5V1A1",
         "expected": {
           "zip": "M5V 1A1",
           "zipValid": true
@@ -22,7 +22,7 @@
       },
       {
         "description": "Valid Canadian postal code with dash (normalizes to space)",
-        "address": "123 Main St, Toronto ON M5V-1A1",
+        "input": "123 Main St, Toronto ON M5V-1A1",
         "expected": {
           "zip": "M5V 1A1",
           "zipValid": true
@@ -30,7 +30,7 @@
       },
       {
         "description": "Valid Canadian postal code without space - Montreal",
-        "address": "123 Main St, Montreal QC H3C1G1",
+        "input": "123 Main St, Montreal QC H3C1G1",
         "expected": {
           "zip": "H3C 1G1",
           "zipValid": true
@@ -38,7 +38,7 @@
       },
       {
         "description": "Invalid Canadian postal - wrong pattern - strict rejects",
-        "address": "123 Main St, Toronto ON ABC123",
+        "input": "123 Main St, Toronto ON ABC123",
         "expected": {
           "strict": {
             "zip": null,
@@ -48,7 +48,7 @@
       },
       {
         "description": "Invalid Canadian postal - too short - strict rejects",
-        "address": "123 Main St, Toronto ON XYZ",
+        "input": "123 Main St, Toronto ON XYZ",
         "expected": {
           "strict": {
             "zip": null,
@@ -58,7 +58,7 @@
       },
       {
         "description": "Invalid Canadian postal - wrong format with hyphen",
-        "address": "123 Main St, Toronto ON M5V-1A1",
+        "input": "123 Main St, Toronto ON M5V-1A1",
         "expected": {
           "zip": "M5V 1A1",
           "zipValid": true

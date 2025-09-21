@@ -25,6 +25,7 @@ import {
 } from "./patterns/core-patterns";
 import { CANADIAN_POSTAL_LIBERAL_PATTERN, CITY_PATTERNS, ZIP_CODE_PATTERN } from "./patterns/location-patterns";
 import { buildPatterns } from "./patterns/pattern-builder";
+import { BASIC_VALIDATION_PATTERNS, DIGIT_PATTERNS, ROAD_NAME_PATTERNS, UTILITY_PATTERNS } from "./patterns/parser-patterns";
 import type { ParsedAddress, ParseOptions } from "./types";
 import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
 import { capitalizeStreetName } from "./utils/capitalization";
@@ -70,9 +71,9 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
 }
 
 // Simple validation to check if address contains basic components
-function hasValidAddressComponents(address: string): boolean {
+function hasValidAddressComponentsLocal(address: string): boolean {
   // Basic check for numbers and letters
-  return /\d/.test(address) && /[a-zA-Z]/.test(address) && address.trim().length > 3;
+  return BASIC_VALIDATION_PATTERNS.HAS_DIGITS.test(address) && BASIC_VALIDATION_PATTERNS.HAS_LETTERS.test(address) && address.trim().length > 3;
 }
 
 // Parse standard addresses with number, street, type, city, state, zip
@@ -80,12 +81,12 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   const patterns = buildPatterns();
 
   // Check if input contains valid address components
-  if (!hasValidAddressComponents(address)) {
+  if (!hasValidAddressComponentsLocal(address)) {
     return null;
   }
 
   // Normalize newlines to commas for consistent parsing
-  const normalizedAddress = address.replace(/\n/g, ", ");
+  const normalizedAddress = address.replace(BASIC_VALIDATION_PATTERNS.NEWLINE_TO_COMMA, ", ");
 
   // Split by comma to handle comma-separated components
   const commaParts = normalizedAddress.split(",").map((p) => p.trim());
@@ -207,7 +208,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     // No commas, try to parse city/state/zip from the end
     let remainingText = address.trim();
     // Special-case: strip leading General Delivery (with optional comma/space)
-    const leadingGeneralDelivery = remainingText.match(/^\s*(general\s+delivery)\b[\s,]*/i);
+    const leadingGeneralDelivery = remainingText.match(BASIC_VALIDATION_PATTERNS.LEADING_GENERAL_DELIVERY);
     if (leadingGeneralDelivery) {
       isGeneralDelivery = true;
       remainingText = remainingText.slice(leadingGeneralDelivery[0].length).trim();
@@ -461,7 +462,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           statePart = cityStateAbbrevMatch[2].trim();
 
           // Remove any trailing comma from beforeState
-          const cleanBeforeState = beforeState.replace(/,+\s*$/, "").trim();
+          const cleanBeforeState = beforeState.replace(BASIC_VALIDATION_PATTERNS.TRAILING_COMMAS, "").trim();
 
           // Split the part before state to get address and city
           const beforeStateParts = cleanBeforeState
@@ -475,7 +476,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           } else if (beforeStateParts.length === 1) {
             // One part before state - could be address or city
             // Heuristic: if it has numbers, it's probably address; if not, city
-            if (/\d/.test(beforeStateParts[0])) {
+            if (DIGIT_PATTERNS.HAS_DIGIT.test(beforeStateParts[0])) {
               addressPart = beforeStateParts[0];
             } else {
               cityPart = beforeStateParts[0];
@@ -491,7 +492,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
             statePart = cityStateFullMatch[2].trim();
 
             // Remove any trailing comma from beforeState
-            const cleanBeforeState = beforeState.replace(/,+\s*$/, "").trim();
+            const cleanBeforeState = beforeState.replace(BASIC_VALIDATION_PATTERNS.TRAILING_COMMAS, "").trim();
 
             // Split the part before state to get address and city
             const beforeStateParts = cleanBeforeState
@@ -504,7 +505,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
               cityPart = beforeStateParts[beforeStateParts.length - 1];
             } else if (beforeStateParts.length === 1) {
               // One part before state
-              if (/\d/.test(beforeStateParts[0])) {
+              if (DIGIT_PATTERNS.HAS_DIGIT.test(beforeStateParts[0])) {
                 addressPart = beforeStateParts[0];
               } else {
                 cityPart = beforeStateParts[0];
@@ -641,7 +642,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     result.number = numberMatch[1];
 
     // Capitalize written numbers (One, Two, etc.)
-    if (/^[a-zA-Z]+$/.test(result.number)) {
+    if (BASIC_VALIDATION_PATTERNS.LETTERS_ONLY.test(result.number)) {
       result.number = result.number.charAt(0).toUpperCase() + result.number.slice(1).toLowerCase();
     }
 
@@ -788,16 +789,28 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   if (!result.type) {
     // Allow optional whitespace before directional, and also handle cases like "O." (French) or attached without extra tokens
     // IMPORTANT: Require at least one whitespace before directional so we don't
-    // accidentally capture the trailing letter in words like "Street" as "E".
+    // accidentally capture the trailing letter in words like "Street" as "E" or "Pass" as "S".
     // Support dotted forms like "O." but only when separated by whitespace.
-    const suffixMatch = remaining.match(new RegExp(`^(.*?)\s+(${patterns.directional.slice(1, -1)})\.?\s*$`, "i"));
+    // Avoid matching directionals that are part of road names like "County Road 250 East" or "1st Street North West"
+    const suffixMatch = remaining.match(new RegExp(`^(.*?)\\s+(${patterns.directional.slice(1, -1)})\\.?\\s*$`, "i"));
     if (suffixMatch) {
-      remaining = suffixMatch[1].trim();
+      const beforeDirectional = suffixMatch[1].trim();
       const dirRaw = suffixMatch[2].toLowerCase();
-      // Try multiple directional formats: exact match, without dot, with dot
-      const normalizedDirectional =
-        DIRECTIONAL_MAP[dirRaw] || DIRECTIONAL_MAP[dirRaw.replace(/\.$/, "")] || DIRECTIONAL_MAP[dirRaw + "."];
-      result.suffix = normalizedDirectional || suffixMatch[2].toUpperCase();
+      
+      // Don't extract directionals that are clearly part of road names
+      const isPartOfRoadName = (
+        ROAD_NAME_PATTERNS.NUMBERED_ROAD.test(beforeDirectional) || // "County Road 250", "State Highway 1A"
+        ROAD_NAME_PATTERNS.ORDINAL_STREET.test(beforeDirectional) || // "1st Street", "42nd Avenue"
+        ROAD_NAME_PATTERNS.DIRECTIONAL_STREET.test(beforeDirectional) // "North Street", "West Avenue"
+      );
+      
+      if (!isPartOfRoadName) {
+        remaining = beforeDirectional;
+        // Try multiple directional formats: exact match, without dot, with dot
+        const normalizedDirectional =
+          DIRECTIONAL_MAP[dirRaw] || DIRECTIONAL_MAP[dirRaw.replace(BASIC_VALIDATION_PATTERNS.TRAILING_DOT, "")] || DIRECTIONAL_MAP[dirRaw + "."];
+        result.suffix = normalizedDirectional || suffixMatch[2].toUpperCase();
+      }
     }
   }
 
@@ -830,7 +843,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       // English pattern with directional: "Main St West" or "Front Street West"
       result.street = capitalizeStreetName(streetTypeWithDirectionalMatch[1].trim());
       result.type = normalizeStreetType(streetTypeWithDirectionalMatch[2]);
-      const dirRaw = streetTypeWithDirectionalMatch[3].toLowerCase().replace(/\.$/, ""); // Remove trailing dot
+      const dirRaw = streetTypeWithDirectionalMatch[3].toLowerCase().replace(BASIC_VALIDATION_PATTERNS.TRAILING_DOT, ""); // Remove trailing dot
       const normalizedDirectional =
         DIRECTIONAL_MAP[dirRaw] ||
         DIRECTIONAL_MAP[dirRaw + "."] ||
@@ -902,7 +915,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   }
   if (statePart) {
     // Use parseStateProvince to properly normalize state names to abbreviations
-    const cleanedState = statePart.replace(/\./g, "").trim();
+    const cleanedState = statePart.replace(BASIC_VALIDATION_PATTERNS.REMOVE_PERIODS, "").trim();
     const stateInfo = parseStateProvince(cleanedState);
     result.state = stateInfo.state || cleanedState.toUpperCase();
   }

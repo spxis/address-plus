@@ -1,6 +1,7 @@
 import levenshtein from "fast-levenshtein";
 
 import { REGIONS } from "../constants/regions.js";
+import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
 import type { Region } from "../types/region.js";
 
 // Region normalization utilities for fuzzy matching
@@ -15,7 +16,7 @@ function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } 
     return null;
   }
 
-  const clean = input.trim().replace(/\./g, "").toLowerCase();
+  const clean = input.trim().replace(UTILITY_PATTERNS.REMOVE_PERIODS, "").toLowerCase();
 
   // Return null for empty strings after trimming
   if (clean === "") {
