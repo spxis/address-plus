@@ -194,7 +194,7 @@ test("clean shows the address typed, cleaned, then as its post office writes it"
 
 test("the new tools speak Japanese with the page", async ({ page }, testInfo) => {
   const errors = await open(page, "?lang=ja");
-  await expect(page.locator(at("bulk-summary"))).toContainText("11 件中 10 件を読み取り");
+  await expect(page.locator(at("bulk-summary"))).toContainText("11件中10件を読み取り");
   await expect(page.locator(at("japan-panel"))).toContainText("日本の住所を部分ごとに");
   await expect(page.locator(at("japan-answer"))).toContainText("配達先：京都府");
   await expect(page.locator(at("parse-copy-code"))).toHaveText("コードをコピー");
