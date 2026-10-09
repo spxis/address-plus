@@ -17,6 +17,10 @@ for (const scheme of ["light", "dark"]) {
       await type(page, "compare-first", "100 Queen Street West, Toronto, Ontario M5H 2N2 ".repeat(5));
       await type(page, "postal-input", "Hokkaido");
       await type(page, "clean-input", "742 evergreen terrace,springfield ,  il 62704 ".repeat(6));
+      await type(page, "japan-input", "〒604-8571 京都府京都市中京区寺町通御池上る上本能寺前町488".repeat(3));
+      await type(page, "bulk-input", "1600PennsylvaniaAvenueNorthwestWashingtonDistrictOfColumbia20500 ".repeat(4));
+      await page.locator('[data-testid="corpus-load"]').click();
+      await page.waitForSelector('[data-testid="corpus-bar-japan"]');
       for (const summary of await page.locator("details.fam-fold summary").all()) await summary.click();
       await noSidewaysScroll(page);
       const paper = await page
@@ -70,7 +74,7 @@ test("the fields are real fields: no zoom on a phone, no autocorrect", async ({ 
       spellcheck: one.spellcheck,
     })),
   );
-  expect(fields.length).toBe(7);
+  expect(fields.length).toBe(9);
   for (const one of fields) {
     expect(one.size).toBeGreaterThanOrEqual(16);
     expect(one.spellcheck).toBe(false);

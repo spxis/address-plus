@@ -2,6 +2,8 @@
 
 **Try it:** [the demo](https://johnmorrisdotca.github.io/address-plus/), in your browser with nothing to install · [API reference](https://johnmorrisdotca.github.io/address-plus/api.html)
 
+The demo parses, validates, formats, compares and cleans an address as you type; takes a pasted list of addresses from all three countries and saves the results as CSV, JSON or text; takes a Japanese address apart, each part beside its reading and romaji; and runs the whole test corpus, 2,723 cases, in your browser, listing the few still wrong. Every panel copies its call as code or a link that opens the page as you left it. Nothing you type leaves the page.
+
 <table align="center">
 <tr>
 <td align="center" valign="top">

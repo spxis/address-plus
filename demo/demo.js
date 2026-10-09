@@ -1,6 +1,7 @@
 // The demo page's own script: one panel for each job the package does. Type in a panel and its answer is written
 // as you type, from the package's own functions (bundled into ./lib/index.js when the site is built), in the
 // language the header's chooser picks. Everything typed or returned is set as text, never as HTML.
+import { BULK_SAMPLE, setUpExtras } from "./extras.js";
 import {
   cleanAddressDetailed,
   compareAddresses,
@@ -425,8 +426,43 @@ function clean() {
   const standardizeCase = $("clean-case").querySelector('[aria-pressed="true"]')?.dataset.case ?? "title";
   const out = $("clean-answer");
   const result = cleanAddressDetailed(text, { standardizeCase });
+  // Typed, then cleaned, then as the post office writes it: the three side by side.
+  const parsed = parseLocation(result.cleanedAddress);
+  let postalLine = say("clean_no_postal");
+  let postalCall = "";
+  if (parsed?.country === "JP") {
+    postalLine = formatJapanese(parsed, { multiline: false });
+    postalCall = "formatJapanese";
+  } else if (parsed?.country === "CA") {
+    postalLine = formatCanadaPost(parsed).singleLine;
+    postalCall = "formatCanadaPost";
+  } else if (parsed !== null) {
+    postalLine = formatUSPS(parsed).lines.join(" / ");
+    postalCall = "formatUSPS";
+  }
+  const chain = document.createElement("ol");
+  chain.className = "chain";
+  chain.dataset.testid = "clean-chain";
+  for (const [label, value] of [
+    [say("clean_typed"), text],
+    [say("clean_cleaned"), result.cleanedAddress],
+    [
+      postalCall === "" ? say("clean_postal") : say("clean_postal_as", { format: say(`clean_formats`)[postalCall] }),
+      postalLine,
+    ],
+  ]) {
+    const step = document.createElement("li");
+    const name = document.createElement("span");
+    name.className = "step";
+    name.textContent = label;
+    const shown = document.createElement("span");
+    shown.className = "value";
+    shown.textContent = value;
+    step.append(name, shown);
+    chain.append(step);
+  }
   facts(out, [
-    [say("clean_cleaned"), result.cleanedAddress, "cleanedAddress"],
+    [say("clean_steps"), chain],
     [say("clean_modified"), yes(result.wasModified), "wasModified"],
     [say("clean_changes"), result.changes.length === 0 ? say("none") : result.changes.join(" · "), "changes"],
   ]);
@@ -517,6 +553,19 @@ const PANELS = {
       ["japan", "〒１００－０００５　東京都千代田区丸の内１－２－３"],
     ],
   },
+  japan: {
+    run: () => extras.japan(),
+    inputs: ["japan-input"],
+    examples: [
+      ["kyoto", "〒604-8571 京都府京都市中京区寺町通御池上る上本能寺前町488"],
+      ["tokyo", "東京都千代田区丸の内一丁目二番三号 サンプルビル五階"],
+      ["sapporo", "〒060-0001 北海道札幌市中央区北1条西2丁目"],
+      ["romaji", "Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan"],
+      ["rural", "長野県北佐久郡軽井沢町大字軽井沢1323番地1"],
+      ["sakai", "大阪府堺市堺区熊野町東3丁1番9号"],
+      ["merged", "埼玉県浦和市高砂3-15-1"],
+    ],
+  },
 };
 
 /** The example buttons, labelled in the page's language; each holds the full address as its hover text. */
@@ -537,6 +586,7 @@ function fillExamples() {
           });
           panel.run();
           press();
+          remember();
         });
         return button;
       }),
@@ -570,6 +620,126 @@ function render() {
   language.say();
   fillExamples();
   for (const panel of Object.values(PANELS)) panel.run();
+  extras.bulk();
+  extras.corpusView();
+}
+
+// ----- links and copies -------------------------------------------------------------------------------------
+
+// What a link to the page holds: each box by its own name in the address, and each option. A box or option at its
+// first value is left out, so a link says only what was changed. The list goes in only while it is short enough
+// for an address bar.
+const BOXES = {
+  parse: "parse-input",
+  validate: "validate-input",
+  format: "format-input",
+  first: "compare-first",
+  second: "compare-second",
+  postal: "postal-input",
+  clean: "clean-input",
+  japan: "japan-input",
+  list: "bulk-input",
+};
+const LONGEST_LIST_IN_A_LINK = 1500;
+const OPTIONS = {
+  strict: {
+    read: () => ($("validate-strict").getAttribute("aria-pressed") === "true" ? "1" : ""),
+    write: (value) => $("validate-strict").setAttribute("aria-pressed", String(value === "1")),
+  },
+  block: chosen("format-style", "style"),
+  case: chosen("clean-case", "case"),
+};
+// The names each panel's link carries.
+const PANEL_STATE = {
+  parse: ["parse"],
+  validate: ["validate", "strict"],
+  format: ["format", "block"],
+  compare: ["first", "second"],
+  postal: ["postal"],
+  clean: ["clean", "case"],
+  japan: ["japan"],
+};
+
+/** An option set by a row of choices: which one is pressed. */
+function chosen(id, attribute) {
+  return {
+    read: () => $(id).querySelector('[aria-pressed="true"]')?.dataset[attribute] ?? "",
+    write: (value) => {
+      const buttons = [...$(id).querySelectorAll("button")];
+      if (!buttons.some((button) => button.dataset[attribute] === value)) return;
+      for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset[attribute] === value));
+    },
+  };
+}
+
+// The list starts with a mixed sample in it, so the table has something to show.
+$("bulk-input").value = BULK_SAMPLE;
+const valueOf = (name) => (name in BOXES ? $(BOXES[name]).value : OPTIONS[name].read());
+const FIRST = Object.fromEntries([...Object.keys(BOXES), ...Object.keys(OPTIONS)].map((name) => [name, valueOf(name)]));
+
+/** The page's address with the given names set from what is on the page now. */
+function linkWith(names, hash = "") {
+  const url = new URL(window.location.href);
+  for (const name of [...Object.keys(BOXES), ...Object.keys(OPTIONS)]) url.searchParams.delete(name);
+  for (const name of names) {
+    const value = valueOf(name);
+    if (value === FIRST[name]) continue;
+    if (name === "list" && value.length > LONGEST_LIST_IN_A_LINK) continue;
+    url.searchParams.set(name, value);
+  }
+  url.hash = hash;
+  return url.toString();
+}
+
+/** Keep the address bar in step with the page, so a reload or a copied address opens it as it is. */
+function remember() {
+  window.history.replaceState(
+    null,
+    "",
+    linkWith([...Object.keys(BOXES), ...Object.keys(OPTIONS)], window.location.hash),
+  );
+}
+
+/** Fill the page from its address: ?parse=…, ?strict=1 and the rest. */
+function restore() {
+  const params = new URL(window.location.href).searchParams;
+  for (const [name, id] of Object.entries(BOXES)) if (params.has(name)) $(id).value = params.get(name);
+  for (const [name, option] of Object.entries(OPTIONS)) if (params.has(name)) option.write(params.get(name));
+}
+
+/** Copy text, with the older way for a browser that will not let a page write to the clipboard. */
+async function copy(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.append(area);
+    area.select();
+    const done = document.execCommand("copy");
+    area.remove();
+    return done;
+  }
+}
+
+for (const button of document.querySelectorAll("[data-copy]")) {
+  button.addEventListener("click", async () => {
+    const panel = button.dataset.panel;
+    const what = button.dataset.copy;
+    const text = what === "code" ? $(`${panel}-call`).textContent : linkWith(PANEL_STATE[panel], `#${panel}`);
+    const done = await copy(text);
+    const said = document.querySelector(`[data-testid="${panel}-copied"]`);
+    said.textContent = done ? say(what === "code" ? "copied_code" : "copied_link") : say("copy_failed");
+    said.dataset.copied = what;
+    clearTimeout(said.timer);
+    said.timer = setTimeout(() => {
+      said.textContent = "";
+    }, 2500);
+  });
 }
 
 for (const panel of Object.values(PANELS)) {
@@ -577,6 +747,7 @@ for (const panel of Object.values(PANELS)) {
     $(id).addEventListener("input", () => {
       panel.run();
       press();
+      remember();
     });
   }
 }
@@ -584,9 +755,31 @@ $("validate-strict").addEventListener("click", (event) => {
   const button = event.currentTarget;
   button.setAttribute("aria-pressed", String(button.getAttribute("aria-pressed") !== "true"));
   validate();
+  remember();
 });
-choices("format-style", format);
-choices("clean-case", clean);
+choices("format-style", () => {
+  format();
+  remember();
+});
+choices("clean-case", () => {
+  clean();
+  remember();
+});
 
+const extras = setUpExtras({
+  $,
+  say,
+  facts,
+  note,
+  fine,
+  badge,
+  lines,
+  quote,
+  show,
+  json,
+  choices,
+  remember,
+});
+restore();
 render();
 document.querySelector("main").dataset.ready = "true";

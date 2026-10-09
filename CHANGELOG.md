@@ -11,6 +11,8 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 - `docs/MIGRATING_FROM_PARSE_ADDRESS.md`: moving from parse-address, with every call and field mapped, the answers that differ on purpose shown side by side, and a before and after.
 - `streetDirections` on a Japanese address: Kyoto's street directions (`寺町通御池上る`), apart from the town they lead to (`上本能寺前町`). `formatJapanese` and `formatJapaneseEnglish` write them back before the town.
 
+- The demo page: a "Paste a list" panel that parses, checks and formats a list of addresses and saves it as CSV, JSON or TXT; "Japan, part by part", each part of a Japanese address beside its reading, romaji and code; the test corpus, loaded on request and run in the browser; a "Copy code" and a "Copy link" under every panel, with the page's state kept in its address; and cleaning shown step by step, ending in the post office's format.
+
 ### Changed
 
 - Two numbers straight after a Japanese town are ban and go, not chome and ban: `寿町2-31` is 2番31号, and `丸の内1-2` now gives ban 1 and go 2 where it gave chome 1 and ban 2. A chome written as such (`1丁目2-3`) is unchanged, as are three numbers. In Geolonia's test set 899 of 907 such pairs are ban and go. The same in romaji (`58-9 Shirakaba-cho`).

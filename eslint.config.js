@@ -47,14 +47,24 @@ export default tseslint.config(
     files: ["demo/**/*.js", "e2e/**/*.mjs", "scripts/*.mjs", "playwright.config.mjs"],
     languageOptions: {
       globals: {
+        clearTimeout: "readonly",
         console: "readonly",
         document: "readonly",
         familyLanguage: "readonly",
+        fetch: "readonly",
         getComputedStyle: "readonly",
+        navigator: "readonly",
         Node: "readonly",
+        setTimeout: "readonly",
         URL: "readonly",
         window: "readonly",
       },
     },
+  },
+  // The demo's own tools save files and copy to the clipboard: Blob is declared here only, since a shared script
+  // declares it for itself.
+  {
+    files: ["demo/**/*.js"],
+    languageOptions: { globals: { Blob: "readonly" } },
   },
 );

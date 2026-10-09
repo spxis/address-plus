@@ -19,7 +19,7 @@ const TYPES = {
 export async function serve(page) {
   if (!existsSync(join(site, "index.html")))
     throw new Error("site/ is not built: run `pnpm site` first (`pnpm test:demo` does)");
-  await page.route("http://address-plus.test/**", (route) => {
+  await page.route(/^https?:\/\/address-plus\.test\//, (route) => {
     const { pathname } = new URL(route.request().url());
     const file = join(site, decodeURIComponent(pathname.endsWith("/") ? `${pathname}index.html` : pathname));
     if (!existsSync(file)) return route.fulfill({ status: 404, body: "" });
@@ -40,11 +40,14 @@ function listen(page) {
 
 export const at = (id) => `[data-testid="${id}"]`;
 
-/** Open a page of the demo with a query and wait until its panels are written; returns what the page complains of. */
-export async function open(page, query = "", path = "") {
+/**
+ * Open a page of the demo with a query and wait until its panels are written; returns what the page complains of.
+ * `secure` opens it over https, as GitHub Pages serves it, where a page may use the clipboard.
+ */
+export async function open(page, query = "", path = "", { secure = false } = {}) {
   const errors = listen(page);
   await serve(page);
-  await page.goto(`http://address-plus.test/${path}${query}`);
+  await page.goto(`${secure ? "https" : "http"}://address-plus.test/${path}${query}`);
   if (path === "") await page.waitForSelector('main[data-ready="true"]');
   return errors;
 }

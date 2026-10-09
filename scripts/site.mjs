@@ -1,7 +1,7 @@
 // Builds the static demo for GitHub Pages into ./site: the page, written here from the family's shared header and
 // footer, with the family's stylesheet, the page's own, its script and words, the library bundled for the browser,
 // and the API reference made from the source.
-import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 
 import { build } from "tsup";
 
@@ -41,6 +41,10 @@ const choices = (name, label, attribute, options) =>
     )
     .join("")}</div>`;
 
+/** Under each call: copy the call as code, and copy a link that opens the page with this panel's input in it. */
+const shareTools = (name) =>
+  `<div class="tools" data-testid="${name}-tools"><button type="button" class="fam-button" data-copy="code" data-panel="${name}" data-testid="${name}-copy-code" data-say="copy_code" data-say-title="copy_code_tip"></button><button type="button" class="fam-button" data-copy="link" data-panel="${name}" data-testid="${name}-copy-link" data-say="copy_link" data-say-title="copy_link_tip"></button><span class="copied fam-muted" data-testid="${name}-copied" aria-live="polite"></span></div>`;
+
 /** A panel: its title and the function it shows, what it does, what to type, the examples, the answer, the call and the JSON. */
 const panel = ({
   name,
@@ -49,7 +53,8 @@ const panel = ({
   help,
   options = "",
   exampleHelp,
-}) => `<section class="fam-panels job" id="${name}" aria-labelledby="${name}-title" data-testid="${name}-panel">
+  wide = false,
+}) => `<section class="fam-panels job${wide ? " wide" : ""}" id="${name}" aria-labelledby="${name}-title" data-testid="${name}-panel">
         <div class="fam-panel">
           <h2 id="${name}-title"><span data-say="${name}_title"></span> <code>${code}</code></h2>
           <p class="blurb" data-say="${name}_blurb"></p>
@@ -57,6 +62,7 @@ const panel = ({
           ${exampleRow(name, exampleHelp)}
           <div class="answer" id="${name}-answer" data-testid="${name}-answer" aria-live="polite"></div>
           <pre class="call" id="${name}-call" data-testid="${name}-call" aria-label="the call"></pre>
+          ${shareTools(name)}
           <details class="fam-fold" data-testid="${name}-fold">
             <summary data-say="json"></summary>
             <pre class="json" id="${name}-json" data-testid="${name}-json"></pre>
@@ -174,7 +180,76 @@ const panels = [
       "例を入れます：すべて大文字、小文字で空白の乱れた住所、カナダの住所、全角数字の日本の住所。",
     ],
   }),
+  panel({
+    name: "japan",
+    code: "parseJapaneseAddress · formatJapanese · formatJapaneseEnglish · validateJapaneseAddress",
+    fields: field("japan-input", "input", "〒604-8571 京都府京都市中京区寺町通御池上る上本能寺前町488"),
+    help: [
+      "Type a Japanese address in Japanese script or in romaji. Each part is shown in Japanese beside its reading and romaji from the tables.",
+      "日本の住所を、日本語またはローマ字で入力します。各部分を日本語で、データにある読み・ローマ字と並べて表示します。",
+    ],
+    exampleHelp: [
+      "Fill the box with an example: Kyoto's street directions, a Tokyo block in kanji numerals, a Sapporo grid town, romaji in English order, a rural 大字 land lot, Sakai's 丁, and a city merged away in 2001.",
+      "例を入れます：京都の通り名、漢数字で書いた東京の番地、札幌の条丁目、英語の順に書いたローマ字、大字の地番、堺市の「丁」、2001年に合併して今はない市。",
+    ],
+    wide: true,
+  }),
 ];
+
+const bulkHelp = [
+  "Paste a list of addresses, one to a line, from the US, Canada or Japan, mixed as they come. Each line is parsed, checked and written the post office's way.",
+  "住所の一覧を、1行に1件ずつ貼り付けます。米国、カナダ、日本の住所が混ざっていてもかまいません。1行ずつ解析し、検証して、郵便の書式で書き直します。",
+];
+const bulkActionsHelp = [
+  "Fill the box with a mixed list to try, or empty it.",
+  "試しに、国が混ざった住所の一覧を入れるか、入力欄を空にします。",
+];
+const bulkDownloadHelp = [
+  "Save the table: CSV for a spreadsheet, JSON with every field, or TXT with one cleaned address per line.",
+  "表を保存します。表計算ソフト用の CSV、全項目入りの JSON、整えた住所を1行に1件ずつ並べた TXT から選べます。",
+];
+
+/** Paste a list: every line parsed, checked and formatted, in a table to save as CSV, JSON or text. */
+const bulkSection = `<section class="fam-panels job wide" id="bulk" aria-labelledby="bulk-title" data-testid="bulk-panel">
+        <div class="fam-panel">
+          <h2 id="bulk-title"><span data-say="bulk_title"></span> <code>parseLocations · validateAddress · formatUSPS · formatCanadaPost · formatJapanese</code></h2>
+          <p class="blurb" data-say="bulk_blurb"></p>
+          ${row(bulkHelp, `<label class="fam-label" for="bulk-input" data-say="bulk_list"></label><textarea id="bulk-input" class="fam-field bulk-input" data-testid="bulk-input" rows="7" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off"></textarea>`)}
+          ${row(bulkActionsHelp, `<span class="fam-label" data-say="bulk_try"></span><div class="tools"><button type="button" class="fam-button" data-testid="bulk-sample" data-say="bulk_sample" data-say-title="bulk_sample_tip"></button><button type="button" class="fam-button" data-testid="bulk-clear" data-say="bulk_clear" data-say-title="bulk_clear_tip"></button></div>`)}
+          <div class="bulk-summary" id="bulk-summary" data-testid="bulk-summary" aria-live="polite"></div>
+          <div class="bulk-wrap" data-testid="bulk-wrap" tabindex="0" data-say-label="bulk_table"><table class="bulk-table" id="bulk-table" data-testid="bulk-table"></table></div>
+          ${row(bulkDownloadHelp, `<span class="fam-label" data-say="bulk_save"></span><div class="tools"><button type="button" class="fam-button" data-download="csv" data-testid="bulk-csv" data-say-title="bulk_csv_tip">CSV</button><button type="button" class="fam-button" data-download="json" data-testid="bulk-json" data-say-title="bulk_json_tip">JSON</button><button type="button" class="fam-button" data-download="txt" data-testid="bulk-txt" data-say-title="bulk_txt_tip">TXT</button></div>`)}
+          <pre class="call" id="bulk-call" data-testid="bulk-call" aria-label="the call"></pre>
+        </div>
+      </section>`;
+
+const corpusFilterHelp = [
+  "Narrow the list: one country's cases, only the cases the parser still gets wrong, or the cases whose input holds what you type.",
+  "一覧を絞り込みます。国ごと、まだ正しく読めない例だけ、または入力した文字を含む例だけを表示できます。",
+];
+
+/** The test corpus, fetched only when asked for, every case run in this browser against what it expects. */
+const corpusSection = `<section class="fam-panels job wide" id="corpus" aria-labelledby="corpus-title" data-testid="corpus-panel">
+        <div class="fam-panel">
+          <h2 id="corpus-title"><span data-say="corpus_title"></span> <code>test-data/corpus</code></h2>
+          <p class="blurb" data-say="corpus_blurb"></p>
+          <div class="tools"><button type="button" class="fam-button" data-primary="true" data-testid="corpus-load" data-say="corpus_load"></button></div>
+          <div class="corpus-summary" data-testid="corpus-summary" aria-live="polite"></div>
+          <div class="corpus-filters" data-testid="corpus-filters" hidden>
+            ${row(
+              corpusFilterHelp,
+              `${choices("corpus-country", "corpus_country", "country", [
+                { say: "corpus_all", value: "all", pressed: true },
+                { say: "corpus_us", value: "us", pressed: false },
+                { say: "corpus_canada", value: "canada", pressed: false },
+                { say: "corpus_japan", value: "japan", pressed: false },
+              ])}<button type="button" class="fam-button" id="corpus-wrong" data-testid="corpus-wrong" aria-pressed="false" data-say="corpus_wrong" data-say-title="corpus_wrong_tip"></button>${field("corpus-search", "corpus_search", "")}`,
+            )}
+          </div>
+          <p class="fam-fine" data-testid="corpus-count" aria-live="polite"></p>
+          <ol class="corpus-list" data-testid="corpus-list"></ol>
+        </div>
+      </section>`;
 
 /** The page, from the panels and the lines of "Using it" with their answers. */
 function page(uses) {
@@ -198,7 +273,10 @@ function page(uses) {
     <main>
       ${header({ id, links: [{ href: "api.html", say: "pageApi" }] })}
       <div class="jobs">
-      ${panels.join("\n      ")}
+      ${panels.slice(0, 6).join("\n      ")}
+      ${bulkSection}
+      ${panels.slice(6).join("\n      ")}
+      ${corpusSection}
       </div>
       ${familyUnreviewed({ id })}
       <section class="more" aria-labelledby="more-title">
@@ -244,6 +322,31 @@ await build({
   silent: true,
 });
 writeFileSync("site/index.html", page(uses));
+// The corpus, for the page's corpus browser: every case with what it is checked on, and nothing else (no sources or
+// descriptions), fetched by the page only when asked for.
+const corpus = ["us", "canada", "japan"].flatMap((country) =>
+  readdirSync(`test-data/corpus/${country}`)
+    .filter((file) => file.endsWith(".json") && file !== "parity.json")
+    .sort()
+    .flatMap((file) => {
+      const data = JSON.parse(readFileSync(`test-data/corpus/${country}/${file}`, "utf8"));
+      return Object.entries(data.tests).flatMap(([group, cases]) =>
+        cases.map((one) => ({
+          country,
+          file: file.replace(/\.json$/, ""),
+          group,
+          name: one.name,
+          input: one.input,
+          expected: one.expected,
+          ...(one.options ? { options: one.options } : {}),
+          ...(one.partial ? { partial: true } : {}),
+          ...(one.ignoreCase ? { ignoreCase: one.ignoreCase } : {}),
+          ...(one.todo ? { todo: true, todoNote: one.todoNote } : {}),
+        })),
+      );
+    }),
+);
+writeFileSync("site/corpus.json", JSON.stringify(corpus));
 // The API reference, made from the source: every export of every entry point, each function with an example.
 writeFileSync("site/api.css", API_CSS);
 writeFileSync("site/api.html", apiPage({ api, examples }));
