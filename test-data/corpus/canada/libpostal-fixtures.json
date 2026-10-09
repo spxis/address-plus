@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "libpostal Canadian Fixtures",
+  "description": "The Canadian street addresses in libpostal's parser tests (MIT licence, github.com/openvenues/libpostal test/test_parser.c), converted to this library's fields. The two bare place names (LaSalle Montréal QC) are left out.",
+  "tests": {
+    "libpostal": [
+      {
+        "name": "libpostal Canadian case 1",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "332 Menzies Street, Victoria, BC V8V 2G9",
+        "expected": {
+          "number": "332",
+          "street": "Menzies",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8V 2G9",
+          "country": "CA"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal Canadian case 2",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "123 Main St SE\nMontreal QC H3Z 2Y7",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "SE",
+          "city": "Montreal",
+          "state": "QC",
+          "zip": "H3Z 2Y7",
+          "country": "CA"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal Canadian case 3",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "123 Main St SE Montréal QC H3Z 2Y7",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "SE",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3Z 2Y7",
+          "country": "CA"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"Main St SE Montréal\" (want \"Main\"); type: absent (want \"St\"); suffix: absent (want \"SE\"); city: absent (want \"Montréal\")"
+      }
+    ]
+  }
+}

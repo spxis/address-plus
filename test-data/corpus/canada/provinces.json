@@ -1,0 +1,976 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Provinces and Territories",
+  "description": "Every province and territory by its two-letter code, its English name, its French name where that differs, with no commas, and by older and informal abbreviations. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "code": [
+      {
+        "name": "ON",
+        "description": "Ontario by Canada Post's two-letter code",
+        "input": "2916 Maple St, Toronto, ON M5H 2N2",
+        "expected": {
+          "number": "2916",
+          "street": "Maple",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "QC",
+        "description": "Quebec by Canada Post's two-letter code",
+        "input": "3127 Birchwood St, Québec, QC G1R 4S9",
+        "expected": {
+          "number": "3127",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "BC",
+        "description": "British Columbia by Canada Post's two-letter code",
+        "input": "3338 Tamarack St, Victoria, BC V8W 1P6",
+        "expected": {
+          "number": "3338",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "AB",
+        "description": "Alberta by Canada Post's two-letter code",
+        "input": "3549 Spruce St, Edmonton, AB T5J 2R7",
+        "expected": {
+          "number": "3549",
+          "street": "Spruce",
+          "type": "St",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "MB",
+        "description": "Manitoba by Canada Post's two-letter code",
+        "input": "3760 Cedarvale St, Winnipeg, MB R3B 1B9",
+        "expected": {
+          "number": "3760",
+          "street": "Cedarvale",
+          "type": "St",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "SK",
+        "description": "Saskatchewan by Canada Post's two-letter code",
+        "input": "3971 Algonquin St, Regina, SK S4P 3C8",
+        "expected": {
+          "number": "3971",
+          "street": "Algonquin",
+          "type": "St",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NS",
+        "description": "Nova Scotia by Canada Post's two-letter code",
+        "input": "4182 Laurentian St, Halifax, NS B3J 3A5",
+        "expected": {
+          "number": "4182",
+          "street": "Laurentian",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NB",
+        "description": "New Brunswick by Canada Post's two-letter code",
+        "input": "4393 Huron St, Fredericton, NB E3B 1E9",
+        "expected": {
+          "number": "4393",
+          "street": "Huron",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "PE",
+        "description": "Prince Edward Island by Canada Post's two-letter code",
+        "input": "4604 Frontenac St, Charlottetown, PE C1A 4B7",
+        "expected": {
+          "number": "4604",
+          "street": "Frontenac",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NL",
+        "description": "Newfoundland and Labrador by Canada Post's two-letter code",
+        "input": "4815 Rideau St, St. John's, NL A1C 5M2",
+        "expected": {
+          "number": "4815",
+          "street": "Rideau",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "YT",
+        "description": "Yukon by Canada Post's two-letter code",
+        "input": "126 Maple St, Whitehorse, YT Y1A 1C2",
+        "expected": {
+          "number": "126",
+          "street": "Maple",
+          "type": "St",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NT",
+        "description": "Northwest Territories by Canada Post's two-letter code",
+        "input": "337 Birchwood St, Yellowknife, NT X1A 2N4",
+        "expected": {
+          "number": "337",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NU",
+        "description": "Nunavut by Canada Post's two-letter code",
+        "input": "548 Tamarack St, Iqaluit, NU X0A 0H0",
+        "expected": {
+          "number": "548",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      }
+    ],
+    "englishName": [
+      {
+        "name": "Ontario",
+        "description": "Ontario written out in English",
+        "input": "2916 Maple St, Toronto, Ontario M5H 2N2",
+        "expected": {
+          "number": "2916",
+          "street": "Maple",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Quebec",
+        "description": "Quebec written out in English",
+        "input": "3127 Birchwood St, Québec, Quebec G1R 4S9",
+        "expected": {
+          "number": "3127",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "British Columbia",
+        "description": "British Columbia written out in English",
+        "input": "3338 Tamarack St, Victoria, British Columbia V8W 1P6",
+        "expected": {
+          "number": "3338",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Alberta",
+        "description": "Alberta written out in English",
+        "input": "3549 Spruce St, Edmonton, Alberta T5J 2R7",
+        "expected": {
+          "number": "3549",
+          "street": "Spruce",
+          "type": "St",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Manitoba",
+        "description": "Manitoba written out in English",
+        "input": "3760 Cedarvale St, Winnipeg, Manitoba R3B 1B9",
+        "expected": {
+          "number": "3760",
+          "street": "Cedarvale",
+          "type": "St",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Saskatchewan",
+        "description": "Saskatchewan written out in English",
+        "input": "3971 Algonquin St, Regina, Saskatchewan S4P 3C8",
+        "expected": {
+          "number": "3971",
+          "street": "Algonquin",
+          "type": "St",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Nova Scotia",
+        "description": "Nova Scotia written out in English",
+        "input": "4182 Laurentian St, Halifax, Nova Scotia B3J 3A5",
+        "expected": {
+          "number": "4182",
+          "street": "Laurentian",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "New Brunswick",
+        "description": "New Brunswick written out in English",
+        "input": "4393 Huron St, Fredericton, New Brunswick E3B 1E9",
+        "expected": {
+          "number": "4393",
+          "street": "Huron",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Prince Edward Island",
+        "description": "Prince Edward Island written out in English",
+        "input": "4604 Frontenac St, Charlottetown, Prince Edward Island C1A 4B7",
+        "expected": {
+          "number": "4604",
+          "street": "Frontenac",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Newfoundland and Labrador",
+        "description": "Newfoundland and Labrador written out in English",
+        "input": "4815 Rideau St, St. John's, Newfoundland and Labrador A1C 5M2",
+        "expected": {
+          "number": "4815",
+          "street": "Rideau",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Yukon",
+        "description": "Yukon written out in English",
+        "input": "126 Maple St, Whitehorse, Yukon Y1A 1C2",
+        "expected": {
+          "number": "126",
+          "street": "Maple",
+          "type": "St",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Northwest Territories",
+        "description": "Northwest Territories written out in English",
+        "input": "337 Birchwood St, Yellowknife, Northwest Territories X1A 2N4",
+        "expected": {
+          "number": "337",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Nunavut",
+        "description": "Nunavut written out in English",
+        "input": "548 Tamarack St, Iqaluit, Nunavut X0A 0H0",
+        "expected": {
+          "number": "548",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      }
+    ],
+    "frenchName": [
+      {
+        "name": "Québec",
+        "description": "Quebec written out in French",
+        "input": "3127 Birchwood St, Québec, Québec G1R 4S9",
+        "expected": {
+          "number": "3127",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Colombie-Britannique",
+        "description": "British Columbia written out in French",
+        "input": "3338 Tamarack St, Victoria, Colombie-Britannique V8W 1P6",
+        "expected": {
+          "number": "3338",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Nouvelle-Écosse",
+        "description": "Nova Scotia written out in French",
+        "input": "4182 Laurentian St, Halifax, Nouvelle-Écosse B3J 3A5",
+        "expected": {
+          "number": "4182",
+          "street": "Laurentian",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Nouveau-Brunswick",
+        "description": "New Brunswick written out in French",
+        "input": "4393 Huron St, Fredericton, Nouveau-Brunswick E3B 1E9",
+        "expected": {
+          "number": "4393",
+          "street": "Huron",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Île-du-Prince-Édouard",
+        "description": "Prince Edward Island written out in French",
+        "input": "4604 Frontenac St, Charlottetown, Île-du-Prince-Édouard C1A 4B7",
+        "expected": {
+          "number": "4604",
+          "street": "Frontenac",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "state: \"ÎLE-DU-PRINCE-ÉDOUARD\" (want \"PE\")"
+      },
+      {
+        "name": "Terre-Neuve-et-Labrador",
+        "description": "Newfoundland and Labrador written out in French",
+        "input": "4815 Rideau St, St. John's, Terre-Neuve-et-Labrador A1C 5M2",
+        "expected": {
+          "number": "4815",
+          "street": "Rideau",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Territoires du Nord-Ouest",
+        "description": "Northwest Territories written out in French",
+        "input": "337 Birchwood St, Yellowknife, Territoires du Nord-Ouest X1A 2N4",
+        "expected": {
+          "number": "337",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      }
+    ],
+    "noCommas": [
+      {
+        "name": "ON without commas",
+        "description": "Ontario by its code, no commas anywhere",
+        "input": "2916 Maple St Toronto ON M5H 2N2",
+        "expected": {
+          "number": "2916",
+          "street": "Maple",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "QC without commas",
+        "description": "Quebec by its code, no commas anywhere",
+        "input": "3127 Birchwood St Québec QC G1R 4S9",
+        "expected": {
+          "number": "3127",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "street: \"Birchwood St Québec\" (want \"Birchwood\"); type: absent (want \"St\"); city: absent (want \"Québec\")"
+      },
+      {
+        "name": "BC without commas",
+        "description": "British Columbia by its code, no commas anywhere",
+        "input": "3338 Tamarack St Victoria BC V8W 1P6",
+        "expected": {
+          "number": "3338",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "AB without commas",
+        "description": "Alberta by its code, no commas anywhere",
+        "input": "3549 Spruce St Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "3549",
+          "street": "Spruce",
+          "type": "St",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "MB without commas",
+        "description": "Manitoba by its code, no commas anywhere",
+        "input": "3760 Cedarvale St Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "3760",
+          "street": "Cedarvale",
+          "type": "St",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "SK without commas",
+        "description": "Saskatchewan by its code, no commas anywhere",
+        "input": "3971 Algonquin St Regina SK S4P 3C8",
+        "expected": {
+          "number": "3971",
+          "street": "Algonquin",
+          "type": "St",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NS without commas",
+        "description": "Nova Scotia by its code, no commas anywhere",
+        "input": "4182 Laurentian St Halifax NS B3J 3A5",
+        "expected": {
+          "number": "4182",
+          "street": "Laurentian",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NB without commas",
+        "description": "New Brunswick by its code, no commas anywhere",
+        "input": "4393 Huron St Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "4393",
+          "street": "Huron",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "PE without commas",
+        "description": "Prince Edward Island by its code, no commas anywhere",
+        "input": "4604 Frontenac St Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "4604",
+          "street": "Frontenac",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NL without commas",
+        "description": "Newfoundland and Labrador by its code, no commas anywhere",
+        "input": "4815 Rideau St St. John's NL A1C 5M2",
+        "expected": {
+          "number": "4815",
+          "street": "Rideau",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "street: \"Rideau St St. John's\" (want \"Rideau\"); type: absent (want \"St\"); city: absent (want \"St. John's\")"
+      },
+      {
+        "name": "YT without commas",
+        "description": "Yukon by its code, no commas anywhere",
+        "input": "126 Maple St Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "126",
+          "street": "Maple",
+          "type": "St",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NT without commas",
+        "description": "Northwest Territories by its code, no commas anywhere",
+        "input": "337 Birchwood St Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "337",
+          "street": "Birchwood",
+          "type": "St",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NU without commas",
+        "description": "Nunavut by its code, no commas anywhere",
+        "input": "548 Tamarack St Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "548",
+          "street": "Tamarack",
+          "type": "St",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      }
+    ],
+    "alternative": [
+      {
+        "name": "PQ read as QC",
+        "description": "Province written as the old code for Quebec",
+        "input": "759 Water St, Québec, PQ G1R 4S9",
+        "expected": {
+          "number": "759",
+          "street": "Water",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "state: \"PQ\" (want \"QC\")"
+      },
+      {
+        "name": "Que. read as QC",
+        "description": "Province written as the traditional abbreviation Que.",
+        "input": "970 Water St, Québec, Que. G1R 4S9",
+        "expected": {
+          "number": "970",
+          "street": "Water",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "state: \"QUE\" (want \"QC\")"
+      },
+      {
+        "name": "Ont. read as ON",
+        "description": "Province written as the traditional abbreviation Ont.",
+        "input": "1181 Water St, Toronto, Ont. M5H 2N2",
+        "expected": {
+          "number": "1181",
+          "street": "Water",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "B.C. read as BC",
+        "description": "Province written as B.C. with periods",
+        "input": "1392 Water St, Victoria, B.C. V8W 1P6",
+        "expected": {
+          "number": "1392",
+          "street": "Water",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Alta. read as AB",
+        "description": "Province written as the traditional abbreviation Alta.",
+        "input": "1603 Water St, Edmonton, Alta. T5J 2R7",
+        "expected": {
+          "number": "1603",
+          "street": "Water",
+          "type": "St",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Man. read as MB",
+        "description": "Province written as the traditional abbreviation Man.",
+        "input": "1814 Water St, Winnipeg, Man. R3B 1B9",
+        "expected": {
+          "number": "1814",
+          "street": "Water",
+          "type": "St",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Sask. read as SK",
+        "description": "Province written as the traditional abbreviation Sask.",
+        "input": "2025 Water St, Regina, Sask. S4P 3C8",
+        "expected": {
+          "number": "2025",
+          "street": "Water",
+          "type": "St",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "N.S. read as NS",
+        "description": "Province written as N.S. with periods",
+        "input": "2236 Water St, Halifax, N.S. B3J 3A5",
+        "expected": {
+          "number": "2236",
+          "street": "Water",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "N.B. read as NB",
+        "description": "Province written as N.B. with periods",
+        "input": "2447 Water St, Fredericton, N.B. E3B 1E9",
+        "expected": {
+          "number": "2447",
+          "street": "Water",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "P.E.I. read as PE",
+        "description": "Province written as P.E.I. with periods",
+        "input": "2658 Water St, Charlottetown, P.E.I. C1A 4B7",
+        "expected": {
+          "number": "2658",
+          "street": "Water",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "PEI read as PE",
+        "description": "Province written as PEI without periods",
+        "input": "2869 Water St, Charlottetown, PEI C1A 4B7",
+        "expected": {
+          "number": "2869",
+          "street": "Water",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "NF read as NL",
+        "description": "Province written as the old code for Newfoundland",
+        "input": "3080 Water St, St. John's, NF A1C 5M2",
+        "expected": {
+          "number": "3080",
+          "street": "Water",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "state: \"NF\" (want \"NL\")"
+      },
+      {
+        "name": "Nfld. read as NL",
+        "description": "Province written as the traditional abbreviation Nfld.",
+        "input": "3291 Water St, St. John's, Nfld. A1C 5M2",
+        "expected": {
+          "number": "3291",
+          "street": "Water",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
+        "todo": true,
+        "todoNote": "state: \"NFLD\" (want \"NL\")"
+      },
+      {
+        "name": "Newfoundland read as NL",
+        "description": "Province written as Newfoundland alone",
+        "input": "3502 Water St, St. John's, Newfoundland A1C 5M2",
+        "expected": {
+          "number": "3502",
+          "street": "Water",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "N.W.T. read as NT",
+        "description": "Province written as N.W.T. with periods",
+        "input": "3713 Water St, Yellowknife, N.W.T. X1A 2N4",
+        "expected": {
+          "number": "3713",
+          "street": "Water",
+          "type": "St",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Yukon Territory read as YT",
+        "description": "Province written as the former name Yukon Territory",
+        "input": "3924 Water St, Whitehorse, Yukon Territory Y1A 1C2",
+        "expected": {
+          "number": "3924",
+          "street": "Water",
+          "type": "St",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      },
+      {
+        "name": "Qc read as QC",
+        "description": "Province written as Qc, the code in mixed case as Quebec writes it",
+        "input": "4135 Water St, Québec, Qc G1R 4S9",
+        "expected": {
+          "number": "4135",
+          "street": "Water",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
+      }
+    ]
+  }
+}

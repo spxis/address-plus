@@ -1,0 +1,1075 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Formatting Variants",
+  "description": "The same addresses in lowercase and capitals, without commas, with the postal code unspaced, in Canada Post's printed block, on two lines and followed by the country. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "letterCase": [
+      {
+        "name": "lowercase 301 Front St W",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "301 front st w, toronto on m5v 2t6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 301 Front St W",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "301 FRONT ST W, TORONTO ON M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 1 Sussex Dr",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "1 sussex dr, ottawa on k1a 0a1",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 1 Sussex Dr",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "1 SUSSEX DR, OTTAWA ON K1A 0A1",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 453 W 12th Ave",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "453 w 12th ave, vancouver bc v5y 1v4",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 453 W 12th Ave",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "453 W 12TH AVE, VANCOUVER BC V5Y 1V4",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 800 Macleod Trail SE",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "800 macleod trail se, calgary ab t2p 2m5",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 800 Macleod Trail SE",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "800 MACLEOD TRAIL SE, CALGARY AB T2P 2M5",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 1841 Argyle St",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "1841 argyle st, halifax ns b3j 3a5",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 1841 Argyle St",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "1841 ARGYLE ST, HALIFAX NS B3J 3A5",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 275 rue Notre-Dame Est",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "275 rue notre-dame est, montréal qc h2y 1c6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 275 rue Notre-Dame Est",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "275 RUE NOTRE-DAME EST, MONTRÉAL QC H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 10 New Gower St",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "10 new gower st, st. john's nl a1c 5m2",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 10 New Gower St",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "10 NEW GOWER ST, ST. JOHN'S NL A1C 5M2",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      },
+      {
+        "name": "lowercase 2121 2nd Ave",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "2121 2nd ave, whitehorse yt y1a 1c2",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "capitals 2121 2nd Ave",
+        "description": "Whole address in capitals, as Canada Post prints it; free-text fields are compared without regard to case",
+        "input": "2121 2ND AVE, WHITEHORSE YT Y1A 1C2",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, capital letters"
+      }
+    ],
+    "spacing": [
+      {
+        "name": "no commas 301 Front St W",
+        "description": "Address with no commas",
+        "input": "301 Front St W Toronto ON M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "postal code without its space 301 Front St W",
+        "description": "Postal code written without the space",
+        "input": "301 Front St W, Toronto, ON M5V2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 1 Sussex Dr",
+        "description": "Address with no commas",
+        "input": "1 Sussex Dr Ottawa ON K1A 0A1",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "postal code without its space 1 Sussex Dr",
+        "description": "Postal code written without the space",
+        "input": "1 Sussex Dr, Ottawa, ON K1A0A1",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 453 W 12th Ave",
+        "description": "Address with no commas",
+        "input": "453 W 12th Ave Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "postal code without its space 453 W 12th Ave",
+        "description": "Postal code written without the space",
+        "input": "453 W 12th Ave, Vancouver, BC V5Y1V4",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 800 Macleod Trail SE",
+        "description": "Address with no commas",
+        "input": "800 Macleod Trail SE Calgary AB T2P 2M5",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "postal code without its space 800 Macleod Trail SE",
+        "description": "Postal code written without the space",
+        "input": "800 Macleod Trail SE, Calgary, AB T2P2M5",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 1841 Argyle St",
+        "description": "Address with no commas",
+        "input": "1841 Argyle St Halifax NS B3J 3A5",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "postal code without its space 1841 Argyle St",
+        "description": "Postal code written without the space",
+        "input": "1841 Argyle St, Halifax, NS B3J3A5",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 275 rue Notre-Dame Est",
+        "description": "Address with no commas",
+        "input": "275 rue Notre-Dame Est Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Notre-Dame Est Montréal\" (want \"Notre-Dame\"); suffix: absent (want \"E\"); city: absent (want \"Montréal\")"
+      },
+      {
+        "name": "postal code without its space 275 rue Notre-Dame Est",
+        "description": "Postal code written without the space",
+        "input": "275 rue Notre-Dame Est, Montréal, QC H2Y1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 10 New Gower St",
+        "description": "Address with no commas",
+        "input": "10 New Gower St St. John's NL A1C 5M2",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"New Gower St St. John's\" (want \"New Gower\"); type: absent (want \"St\"); city: absent (want \"St. John's\")"
+      },
+      {
+        "name": "postal code without its space 10 New Gower St",
+        "description": "Postal code written without the space",
+        "input": "10 New Gower St, St. John's, NL A1C5M2",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 2121 2nd Ave",
+        "description": "Address with no commas",
+        "input": "2121 2nd Ave Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "postal code without its space 2121 2nd Ave",
+        "description": "Postal code written without the space",
+        "input": "2121 2nd Ave, Whitehorse, YT Y1A1C2",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      }
+    ],
+    "multiline": [
+      {
+        "name": "Canada Post block 301 Front St W",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "301 FRONT ST W\nTORONTO ON  M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 301 Front St W",
+        "description": "Street line and municipality line on separate lines",
+        "input": "301 Front St W\nToronto, ON M5V 2T6",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 1 Sussex Dr",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "1 SUSSEX DR\nOTTAWA ON  K1A 0A1",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 1 Sussex Dr",
+        "description": "Street line and municipality line on separate lines",
+        "input": "1 Sussex Dr\nOttawa, ON K1A 0A1",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 453 W 12th Ave",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "453 W 12TH AVE\nVANCOUVER BC  V5Y 1V4",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 453 W 12th Ave",
+        "description": "Street line and municipality line on separate lines",
+        "input": "453 W 12th Ave\nVancouver, BC V5Y 1V4",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 800 Macleod Trail SE",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "800 MACLEOD TRAIL SE\nCALGARY AB  T2P 2M5",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 800 Macleod Trail SE",
+        "description": "Street line and municipality line on separate lines",
+        "input": "800 Macleod Trail SE\nCalgary, AB T2P 2M5",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 1841 Argyle St",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "1841 ARGYLE ST\nHALIFAX NS  B3J 3A5",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 1841 Argyle St",
+        "description": "Street line and municipality line on separate lines",
+        "input": "1841 Argyle St\nHalifax, NS B3J 3A5",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 275 rue Notre-Dame Est",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "275 RUE NOTRE-DAME EST\nMONTRÉAL QC  H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 275 rue Notre-Dame Est",
+        "description": "Street line and municipality line on separate lines",
+        "input": "275 rue Notre-Dame Est\nMontréal, QC H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 10 New Gower St",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "10 NEW GOWER ST\nST. JOHN'S NL  A1C 5M2",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 10 New Gower St",
+        "description": "Street line and municipality line on separate lines",
+        "input": "10 New Gower St\nSt. John's, NL A1C 5M2",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "Canada Post block 2121 2nd Ave",
+        "description": "Canada Post's printed form: capitals, two lines, two spaces before the postal code",
+        "input": "2121 2ND AVE\nWHITEHORSE YT  Y1A 1C2",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, address block"
+      },
+      {
+        "name": "two lines 2121 2nd Ave",
+        "description": "Street line and municipality line on separate lines",
+        "input": "2121 2nd Ave\nWhitehorse, YT Y1A 1C2",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus"
+      }
+    ],
+    "trailingCountry": [
+      {
+        "name": "trailing Canada 301 Front St W",
+        "description": "Address followed by the country after a comma",
+        "input": "301 Front St W, Toronto ON M5V 2T6, Canada",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Toronto ON M5V 2T6, Canada\" (want \"Toronto\"); state: absent (want \"ON\"); zip: absent (want \"M5V 2T6\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 301 Front St W",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "301 Front St W\nToronto ON  M5V 2T6\nCANADA",
+        "expected": {
+          "number": "301",
+          "street": "Front",
+          "type": "St",
+          "suffix": "W",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5V 2T6",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Toronto ON  M5V 2T6, CANADA\" (want \"Toronto\"); state: absent (want \"ON\"); zip: absent (want \"M5V 2T6\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 1 Sussex Dr",
+        "description": "Address followed by the country after a comma",
+        "input": "1 Sussex Dr, Ottawa ON K1A 0A1, Canada",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Ottawa ON K1A 0A1, Canada\" (want \"Ottawa\"); state: absent (want \"ON\"); zip: absent (want \"K1A 0A1\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 1 Sussex Dr",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "1 Sussex Dr\nOttawa ON  K1A 0A1\nCANADA",
+        "expected": {
+          "number": "1",
+          "street": "Sussex",
+          "type": "Dr",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A1",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Ottawa ON  K1A 0A1, CANADA\" (want \"Ottawa\"); state: absent (want \"ON\"); zip: absent (want \"K1A 0A1\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 453 W 12th Ave",
+        "description": "Address followed by the country after a comma",
+        "input": "453 W 12th Ave, Vancouver BC V5Y 1V4, Canada",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Vancouver BC V5Y 1V4, Canada\" (want \"Vancouver\"); state: absent (want \"BC\"); zip: absent (want \"V5Y 1V4\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 453 W 12th Ave",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "453 W 12th Ave\nVancouver BC  V5Y 1V4\nCANADA",
+        "expected": {
+          "number": "453",
+          "prefix": "W",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Vancouver BC  V5Y 1V4, CANADA\" (want \"Vancouver\"); state: absent (want \"BC\"); zip: absent (want \"V5Y 1V4\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 800 Macleod Trail SE",
+        "description": "Address followed by the country after a comma",
+        "input": "800 Macleod Trail SE, Calgary AB T2P 2M5, Canada",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Calgary AB T2P 2M5, Canada\" (want \"Calgary\"); state: absent (want \"AB\"); zip: absent (want \"T2P 2M5\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 800 Macleod Trail SE",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "800 Macleod Trail SE\nCalgary AB  T2P 2M5\nCANADA",
+        "expected": {
+          "number": "800",
+          "street": "Macleod",
+          "type": "Trl",
+          "suffix": "SE",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Calgary AB  T2P 2M5, CANADA\" (want \"Calgary\"); state: absent (want \"AB\"); zip: absent (want \"T2P 2M5\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 1841 Argyle St",
+        "description": "Address followed by the country after a comma",
+        "input": "1841 Argyle St, Halifax NS B3J 3A5, Canada",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Halifax NS B3J 3A5, Canada\" (want \"Halifax\"); state: absent (want \"NS\"); zip: absent (want \"B3J 3A5\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 1841 Argyle St",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "1841 Argyle St\nHalifax NS  B3J 3A5\nCANADA",
+        "expected": {
+          "number": "1841",
+          "street": "Argyle",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Halifax NS  B3J 3A5, CANADA\" (want \"Halifax\"); state: absent (want \"NS\"); zip: absent (want \"B3J 3A5\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 275 rue Notre-Dame Est",
+        "description": "Address followed by the country after a comma",
+        "input": "275 rue Notre-Dame Est, Montréal QC H2Y 1C6, Canada",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Montréal QC H2Y 1C6, Canada\" (want \"Montréal\"); state: absent (want \"QC\"); zip: absent (want \"H2Y 1C6\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 275 rue Notre-Dame Est",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "275 rue Notre-Dame Est\nMontréal QC  H2Y 1C6\nCANADA",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Montréal QC  H2Y 1C6, CANADA\" (want \"Montréal\"); state: absent (want \"QC\"); zip: absent (want \"H2Y 1C6\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 10 New Gower St",
+        "description": "Address followed by the country after a comma",
+        "input": "10 New Gower St, St. John's NL A1C 5M2, Canada",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"St. John's NL A1C 5M2, Canada\" (want \"St. John's\"); state: absent (want \"NL\"); zip: absent (want \"A1C 5M2\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 10 New Gower St",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "10 New Gower St\nSt. John's NL  A1C 5M2\nCANADA",
+        "expected": {
+          "number": "10",
+          "street": "New Gower",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"St. John's NL  A1C 5M2, CANADA\" (want \"St. John's\"); state: absent (want \"NL\"); zip: absent (want \"A1C 5M2\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "trailing Canada 2121 2nd Ave",
+        "description": "Address followed by the country after a comma",
+        "input": "2121 2nd Ave, Whitehorse YT Y1A 1C2, Canada",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Whitehorse YT Y1A 1C2, Canada\" (want \"Whitehorse\"); state: absent (want \"YT\"); zip: absent (want \"Y1A 1C2\"); country: absent (want \"CA\")"
+      },
+      {
+        "name": "Canada on its own line 2121 2nd Ave",
+        "description": "Address followed by the country on a line of its own, as mail from abroad is written",
+        "input": "2121 2nd Ave\nWhitehorse YT  Y1A 1C2\nCANADA",
+        "expected": {
+          "number": "2121",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
+        "todo": true,
+        "todoNote": "city: \"Whitehorse YT  Y1A 1C2, CANADA\" (want \"Whitehorse\"); state: absent (want \"YT\"); zip: absent (want \"Y1A 1C2\"); country: absent (want \"CA\")"
+      }
+    ]
+  }
+}

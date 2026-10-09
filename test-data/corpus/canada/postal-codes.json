@@ -1,0 +1,568 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Postal Codes",
+  "description": "Postal codes with and without the space, in lowercase and with a hyphen, the province run into the code, every first letter Canada Post assigns, rural codes, and the X codes the Northwest Territories and Nunavut share. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "formats": [
+      {
+        "name": "postal code with the space",
+        "description": "Postal code written with the space; it is reported in capitals with one space",
+        "input": "4909 Bay St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "4909",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "postal code without the space",
+        "description": "Postal code written without the space; it is reported in capitals with one space",
+        "input": "220 Bay St, Toronto ON M5H2N2",
+        "expected": {
+          "number": "220",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "postal code in lowercase",
+        "description": "Postal code written in lowercase; it is reported in capitals with one space",
+        "input": "431 Bay St, Toronto ON m5h 2n2",
+        "expected": {
+          "number": "431",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "postal code in lowercase without the space",
+        "description": "Postal code written in lowercase without the space; it is reported in capitals with one space",
+        "input": "642 Bay St, Toronto ON m5h2n2",
+        "expected": {
+          "number": "642",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "postal code with a hyphen",
+        "description": "Postal code written with a hyphen; it is reported in capitals with one space",
+        "input": "853 Bay St, Toronto ON M5H-2N2",
+        "expected": {
+          "number": "853",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "postal code with two spaces in the middle",
+        "description": "Postal code written with two spaces in the middle; it is reported in capitals with one space",
+        "input": "1064 Bay St, Toronto ON M5H  2N2",
+        "expected": {
+          "number": "1064",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "two spaces between province and postal code, as Canada Post prints it",
+        "description": "Last line with two spaces between province and postal code, as Canada Post prints it",
+        "input": "1275 Bay St, Toronto ON  M5H 2N2",
+        "expected": {
+          "number": "1275",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "a comma between province and postal code",
+        "description": "Last line with a comma between province and postal code",
+        "input": "1486 Bay St, Toronto ON, M5H 2N2",
+        "expected": {
+          "number": "1486",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes",
+        "todo": true,
+        "todoNote": "city: \"Toronto ON\" (want \"Toronto\"); state: absent (want \"ON\")"
+      },
+      {
+        "name": "province and postal code run together",
+        "description": "Last line with province and postal code run together",
+        "input": "1697 Bay St, Toronto ONM5H2N1",
+        "expected": {
+          "number": "1697",
+          "street": "Bay",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      }
+    ],
+    "firstLetter": [
+      {
+        "name": "A postal code in St. John's",
+        "description": "Postal code beginning with A, which Canada Post assigns to NL",
+        "input": "1908 Main St, St. John's NL A1C 5M2",
+        "expected": {
+          "number": "1908",
+          "street": "Main",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 5M2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "B postal code in Halifax",
+        "description": "Postal code beginning with B, which Canada Post assigns to NS",
+        "input": "2119 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "2119",
+          "street": "Main",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "C postal code in Charlottetown",
+        "description": "Postal code beginning with C, which Canada Post assigns to PE",
+        "input": "2330 Main St, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "2330",
+          "street": "Main",
+          "type": "St",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "E postal code in Fredericton",
+        "description": "Postal code beginning with E, which Canada Post assigns to NB",
+        "input": "2541 Main St, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "2541",
+          "street": "Main",
+          "type": "St",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "G postal code in Québec",
+        "description": "Postal code beginning with G, which Canada Post assigns to QC",
+        "input": "2752 Main St, Québec QC G1R 4S9",
+        "expected": {
+          "number": "2752",
+          "street": "Main",
+          "type": "St",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "H postal code in Montréal",
+        "description": "Postal code beginning with H, which Canada Post assigns to QC",
+        "input": "2963 Main St, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "2963",
+          "street": "Main",
+          "type": "St",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "J postal code in Gatineau",
+        "description": "Postal code beginning with J, which Canada Post assigns to QC",
+        "input": "3174 Main St, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "3174",
+          "street": "Main",
+          "type": "St",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "K postal code in Ottawa",
+        "description": "Postal code beginning with K, which Canada Post assigns to ON",
+        "input": "3385 Main St, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "3385",
+          "street": "Main",
+          "type": "St",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "L postal code in Hamilton",
+        "description": "Postal code beginning with L, which Canada Post assigns to ON",
+        "input": "3596 Main St, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "3596",
+          "street": "Main",
+          "type": "St",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "M postal code in Toronto",
+        "description": "Postal code beginning with M, which Canada Post assigns to ON",
+        "input": "3807 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "3807",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "N postal code in London",
+        "description": "Postal code beginning with N, which Canada Post assigns to ON",
+        "input": "4018 Main St, London ON N6A 4L9",
+        "expected": {
+          "number": "4018",
+          "street": "Main",
+          "type": "St",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "P postal code in Sudbury",
+        "description": "Postal code beginning with P, which Canada Post assigns to ON",
+        "input": "4229 Main St, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "4229",
+          "street": "Main",
+          "type": "St",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "R postal code in Winnipeg",
+        "description": "Postal code beginning with R, which Canada Post assigns to MB",
+        "input": "4440 Main St, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "4440",
+          "street": "Main",
+          "type": "St",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "S postal code in Regina",
+        "description": "Postal code beginning with S, which Canada Post assigns to SK",
+        "input": "4651 Main St, Regina SK S4P 3C8",
+        "expected": {
+          "number": "4651",
+          "street": "Main",
+          "type": "St",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "T postal code in Calgary",
+        "description": "Postal code beginning with T, which Canada Post assigns to AB",
+        "input": "4862 Main St, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "4862",
+          "street": "Main",
+          "type": "St",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "V postal code in Vancouver",
+        "description": "Postal code beginning with V, which Canada Post assigns to BC",
+        "input": "173 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "173",
+          "street": "Main",
+          "type": "St",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "X postal code in Yellowknife",
+        "description": "Postal code beginning with X, which Canada Post assigns to NT",
+        "input": "384 Main St, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "384",
+          "street": "Main",
+          "type": "St",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "Y postal code in Whitehorse",
+        "description": "Postal code beginning with Y, which Canada Post assigns to YT",
+        "input": "595 Main St, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "595",
+          "street": "Main",
+          "type": "St",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "K (rural) postal code in Lakefield",
+        "description": "Postal code beginning with K, which Canada Post assigns to ON; a 0 in second place marks a rural area",
+        "input": "806 Main St, Lakefield ON K0L 2H0",
+        "expected": {
+          "number": "806",
+          "street": "Main",
+          "type": "St",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "G (rural) postal code in Sainte-Flavie",
+        "description": "Postal code beginning with G, which Canada Post assigns to QC; a 0 in second place marks a rural area",
+        "input": "1017 Main St, Sainte-Flavie QC G0J 2L0",
+        "expected": {
+          "number": "1017",
+          "street": "Main",
+          "type": "St",
+          "city": "Sainte-Flavie",
+          "state": "QC",
+          "zip": "G0J 2L0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      }
+    ],
+    "northwestTerritoriesAndNunavut": [
+      {
+        "name": "Yellowknife NT X1A 2N4",
+        "description": "X postal codes are shared by the Northwest Territories and Nunavut; the province must be read from the text",
+        "input": "1228 Mackenzie Rd, Yellowknife, NT X1A 2N4",
+        "expected": {
+          "number": "1228",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "Inuvik NT X0E 0T0",
+        "description": "X postal codes are shared by the Northwest Territories and Nunavut; the province must be read from the text",
+        "input": "1439 Mackenzie Rd, Inuvik, NT X0E 0T0",
+        "expected": {
+          "number": "1439",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "city": "Inuvik",
+          "state": "NT",
+          "zip": "X0E 0T0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "Hay River NT X0E 0R0",
+        "description": "X postal codes are shared by the Northwest Territories and Nunavut; the province must be read from the text",
+        "input": "1650 Mackenzie Rd, Hay River, NT X0E 0R0",
+        "expected": {
+          "number": "1650",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "city": "Hay River",
+          "state": "NT",
+          "zip": "X0E 0R0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "Iqaluit NU X0A 0H0",
+        "description": "X postal codes are shared by the Northwest Territories and Nunavut; the province must be read from the text",
+        "input": "1861 Mackenzie Rd, Iqaluit, NU X0A 0H0",
+        "expected": {
+          "number": "1861",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "Cambridge Bay NU X0B 0C0",
+        "description": "X postal codes are shared by the Northwest Territories and Nunavut; the province must be read from the text",
+        "input": "2072 Mackenzie Rd, Cambridge Bay, NU X0B 0C0",
+        "expected": {
+          "number": "2072",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "city": "Cambridge Bay",
+          "state": "NU",
+          "zip": "X0B 0C0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "Rankin Inlet NU X0C 0G0",
+        "description": "X postal codes are shared by the Northwest Territories and Nunavut; the province must be read from the text",
+        "input": "2283 Mackenzie Rd, Rankin Inlet, NU X0C 0G0",
+        "expected": {
+          "number": "2283",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "city": "Rankin Inlet",
+          "state": "NU",
+          "zip": "X0C 0G0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "no province, Iqaluit X0A 0H0",
+        "description": "X postal code with the province left out; the parse must still find the postal code and the country",
+        "input": "2494 Mackenzie Rd, Iqaluit X0A 0H0",
+        "expected": {
+          "number": "2494",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      },
+      {
+        "name": "no province, Yellowknife X1A 2N4",
+        "description": "X postal code with the province left out; the parse must still find the postal code and the country",
+        "input": "2705 Mackenzie Rd, Yellowknife X1A 2N4",
+        "expected": {
+          "number": "2705",
+          "street": "Mackenzie",
+          "type": "Rd",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
+      }
+    ]
+  }
+}
