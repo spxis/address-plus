@@ -1,17 +1,18 @@
 # address-plus
 
-A modern, TypeScript‑first address parser and normalizer for US and Canada. Supports USPS and Canada Post formats, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
+A modern, TypeScript‑first address parser and normalizer for the US, Canada and Japan. Supports USPS and Canada Post formats, Japanese addresses written in Japanese or in romaji, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
 
 ## Features
 
 - **US Address Parsing**: Full USPS format support with street types, directionals, and secondary units
 - **Canadian Address Parsing**: Canada Post bilingual support (English/French)
+- **Japanese Address Parsing**: Addresses in Japanese (〒100-0005 東京都千代田区丸の内1丁目2番3号) or romaji (1-2-3 Marunouchi, Chiyoda-ku, Tokyo), with every prefecture and municipality and the prefecture each postal code delivers to
 - **Facility Detection**: Extracts business/landmark names with various separators
 - **Intersection Parsing**: Handles street intersections with multiple formats, and knows "Newfoundland and Labrador" is a province, not two streets
 - **Postal Codes Know Their Region**: Finds the state or province a ZIP or postal code belongs to, lists the codes a region uses, and flags an address whose code names another region
 - **Comprehensive Address Components**: Numbers, streets, units, cities, states, postal codes
 - **Batch Processing**: Efficiently process multiple addresses with performance statistics
-- **One Small Dependency**: `fast-levenshtein`, for fuzzy state and province names
+- **One Small Dependency**: `fast-levenshtein`, for fuzzy state and province names (kanji numerals are read with `@johnmorrisdotca/hikidashi`, bundled into the build)
 - **TypeScript First**: Full type definitions included
 - **Drop-in Replacement**: API compatible with parse-address
 
@@ -352,6 +353,166 @@ validateAddress("1 Main St, Beverly Hills, NY 90210").warnings;
 // [{ field: 'zip', code: 'POSTAL_REGION_MISMATCH', message: 'ZIP code 90210 belongs to CA, not NY', severity: 'warning' }]
 ```
 
+## Japanese Addresses
+
+`parseLocation` reads a Japanese address written either way it is usually written, and returns the same fields for both:
+
+```javascript
+import { parseLocation } from "@johnmorrisdotca/address-plus";
+
+// In Japanese, from the largest part to the smallest
+parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階");
+
+// In romaji, in English order
+parseLocation("Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan");
+
+// Both give
+// {
+//   country: 'JP', postalCode: '100-0005',
+//   prefecture: '東京都', prefectureCode: '13', prefectureRomaji: 'Tokyo',
+//   municipality: '千代田区', municipalityCode: '13101', municipalityRomaji: 'Chiyoda-ku',
+//   town: '丸の内' (or 'Marunouchi'), chome: '1', ban: '2', go: '3', block: '1-2-3',
+//   building: '丸ビル' (or 'Marunouchi Bldg'), floor: '5',
+//   ...and the shared fields below
+// }
+```
+
+An address is read as Japanese when it is in Japanese script, ends with Japan, or names a prefecture beside a Japanese postal code (`NNN-NNNN`) or a romaji designator (`-ku`, `-shi`, `-ken`). A US or Canadian address that only mentions a Japanese place, such as `100 Tokyo Ave, Brooklyn, NY 11201`, is still read as US or Canadian. `{ country: "JP" }` skips the detection.
+
+The parser reads what people actually type:
+
+- full-width digits and letters (`１－２－３`, `５Ｆ`), every kind of dash, and the long-vowel mark `ー` between digits, while a `ー` inside a name such as ハーバー stays;
+- the block as `1丁目2番3号`, `1-2-3`, `1の2の3`, `一丁目二番三号`, `2番地3` or a lone `488`; kanji numerals that belong to a name (三番町, 麻布十番, 北一条西) are left alone;
+- a postal code after 〒 or not, with or without its hyphen, at the start or the end;
+- 日本 or Japan at either end;
+- a prefecture left out (千代田区丸の内1-2-3 is in Tokyo) or written without its designator (東京千代田区);
+- a designated city without its ward (大阪市, Sapporo), and a town or village without its district (当別町 for 石狩郡当別町);
+- romaji with or without macrons, and with `-to`, `-do`, `-fu`, `-ken`, `Prefecture`, `Pref.`, `City` or `Metropolis`;
+- a building, its floor (`5階`, `5F`, `地下1階`) and its room (`501号室`, or `501号` after a building name).
+
+### Fields
+
+| Field                | Example                       | Meaning                                                       |
+| -------------------- | ----------------------------- | ------------------------------------------------------------- |
+| `postalCode`         | `100-0005`                    | 郵便番号, always written `NNN-NNNN`                           |
+| `prefecture`         | `東京都`                      | 都道府県, the official name                                   |
+| `prefectureCode`     | `13`                          | JIS X 0401 code, `01` (Hokkaido) to `47` (Okinawa)            |
+| `prefectureRomaji`   | `Tokyo`                       | The name English addresses use                                |
+| `municipality`       | `千代田区`                    | 市区町村, with the district for a town or village (石狩郡当別町) |
+| `municipalityCode`   | `13101`                       | JIS X 0402 code                                               |
+| `municipalityRomaji` | `Chiyoda-ku`                  | Romaji with its designators: `Sapporo-shi Chuo-ku`            |
+| `town`               | `丸の内`                      | 町名 or 大字, without the chome; as written                   |
+| `chome`              | `1`                           | 丁目                                                          |
+| `ban`                | `2`                           | 番 or 番地                                                    |
+| `go`                 | `3`                           | 号                                                            |
+| `block`              | `1-2-3`                       | The numbered block as one string                              |
+| `building`           | `丸ビル`                      | The building's name                                           |
+| `floor`              | `5`                           | 階; `B1` for a basement floor                                 |
+| `room`               | `501`                         | 号室                                                          |
+
+Two numbers after a town are ambiguous: in a city, `丸の内1-2` is 1丁目2番; in a rural town with no chome, `大字下里12-3` is 12番地3. A pair is read as chome and ban unless the town is named with 大字 or 字, or the first number is 100 or more, and then as ban and go. `block` is the same either way, so read `block` when the parts must be certain.
+
+The shared fields are filled too, so the rest of the library treats the address like any other:
+
+| Shared field | Holds for Japan                    |
+| ------------ | ---------------------------------- |
+| `country`    | `JP`                               |
+| `state`      | the prefecture's JIS code (`13`)   |
+| `city`       | the municipality (`千代田区`)      |
+| `street`     | the town (`丸の内`)                |
+| `number`     | the block (`1-2-3`)                |
+| `zip`        | the postal code (`100-0005`)       |
+| `place`      | the building (`丸ビル`)            |
+
+`{ useSnakeCase: true }` gives the Japanese fields in snake_case as well: `postal_code`, `prefecture_code`, `municipality_romaji`.
+
+### Formatting
+
+```javascript
+import { formatJapanese, formatJapaneseEnglish, parseLocation } from "@johnmorrisdotca/address-plus";
+
+const address = parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階");
+
+formatJapanese(address);
+// 〒100-0005
+// 東京都千代田区丸の内1-2-3
+// 丸ビル5階
+
+formatJapanese(address, { blockStyle: "markers" }); // ...丸の内1丁目2番3号
+formatJapanese(address, { multiline: false, includePostalCode: false }); // 東京都千代田区丸の内1-2-3 丸ビル5階
+
+formatJapaneseEnglish(parseLocation("Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"));
+// Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
+```
+
+`formatJapaneseEnglish` writes the prefecture and municipality in romaji from the tables, whichever script the address came in, with a ward before its city (`Chuo-ku, Sapporo-shi`). The town and building have no romaji in the tables, so they are written as they were parsed: from an address in Japanese they stay in Japanese (`丸ビル 5F, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan`). A municipality the tables do not know keeps the name it was written with.
+
+`formatJapanese` writes the prefecture and municipality in kanji from the tables. A town or building parsed from romaji is kept in romaji and set off with spaces, so the scripts do not run together: `東京都千代田区 Marunouchi 1-2-3`, then `Marunouchi Bldg 5階`.
+
+### Validation
+
+`validateAddress` checks a Japanese address against the tables:
+
+| Code                               | Severity                                              | When                                                         |
+| ---------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------ |
+| `POSTAL_REGION_MISMATCH`           | warning; error with `strictPostalValidation: true`    | The postal code delivers to another prefecture               |
+| `UNRECOGNIZED_POSTAL_CODE`         | warning; error with `strictPostalValidation: true`    | No Japanese postal code begins with its first three digits   |
+| `INVALID_POSTAL_FORMAT`            | warning; error with `strictPostalValidation: true`    | The postal code is not `NNN-NNNN`                            |
+| `MUNICIPALITY_PREFECTURE_MISMATCH` | warning                                               | The municipality is in another prefecture than the one named |
+| `UNRECOGNIZED_MUNICIPALITY`        | warning                                               | The municipality is not in the tables                        |
+| `AMBIGUOUS_MUNICIPALITY`           | warning                                               | Two prefectures have a municipality of that name (府中市), and neither a prefecture nor a postal code says which |
+
+```javascript
+validateAddress("〒530-0001 東京都千代田区丸の内1-2-3").warnings;
+// [{ field: 'zip', code: 'POSTAL_REGION_MISMATCH', message: 'Postal code 530-0001 belongs to 大阪府, not 東京都', severity: 'warning' }]
+
+validateAddress("東京都大阪市北区梅田1-1").warnings;
+// [{ field: 'city', code: 'MUNICIPALITY_PREFECTURE_MISMATCH', message: '大阪市北区 is in 大阪府, not 東京都', ... }, ...]
+```
+
+When the prefecture written and the municipality disagree, the parser keeps both as written and leaves the judgement to validation. The municipality findings stay warnings even in strict mode, since the tables can trail a merger of municipalities.
+
+### Lookups
+
+```javascript
+import {
+  findMunicipalitiesByName,
+  findMunicipalitiesByRomaji,
+  findPrefecture,
+  getPostalPrefixesForPrefecture,
+  getPrefectureFromJapanesePostalCode,
+} from "@johnmorrisdotca/address-plus";
+
+findPrefecture("Osaka Prefecture"); // { code: '27', name: '大阪府', kana: 'オオサカフ', romaji: 'Osaka-fu' }
+getPrefectureFromJapanesePostalCode("100-0005"); // '13'
+getPostalPrefixesForPrefecture("沖縄県"); // ['900', '901', …, '907'] (a JIS code or romaji works too)
+findMunicipalitiesByRomaji("Chuo-ku, Sapporo"); // [札幌市中央区]
+findMunicipalitiesByName("府中市"); // [Tokyo's 府中市, Hiroshima's 府中市]
+```
+
+The tables are exported as `JP_PREFECTURES`, `JP_MUNICIPALITIES`, `JP_DESIGNATED_CITIES` (the twenty cities with wards, which the parser accepts without a ward), `JP_POSTAL_PREFIXES` and `JP_POSTAL_EXCEPTIONS` (the 236 codes that belong to another prefecture than the rest of their three-digit prefix).
+
+### Japan Only
+
+`@johnmorrisdotca/address-plus/jp` is the Japanese module on its own: the parser, the formatters, `validateJapaneseAddress`, the lookups and the tables, without the US and Canadian parser.
+
+```javascript
+import { formatJapaneseEnglish, parseJapaneseAddress } from "@johnmorrisdotca/address-plus/jp";
+
+formatJapaneseEnglish(parseJapaneseAddress("2-1 Kasumigaseki 1-chome, Chiyoda-ku, Tokyo"));
+// 1-2-1 Kasumigaseki, Chiyoda-ku, Tokyo, Japan
+```
+
+### Data
+
+The tables in `src/constants/jp/` are generated, and `pnpm data:jp` regenerates them:
+
+- prefectures and municipalities, with their JIS codes, readings and romaji, from Geolonia 住所データ (MIT), [github.com/geolonia/japanese-addresses](https://github.com/geolonia/japanese-addresses);
+- the prefecture each postal code delivers to, from Japan Post's postal code file (KEN_ALL.CSV) through [jp-postal](https://www.npmjs.com/package/jp-postal) (MIT);
+- kanji numerals are read with [hikidashi](https://www.npmjs.com/package/@johnmorrisdotca/hikidashi) (MIT), bundled into the build.
+
+Geolonia's data predates Hamamatsu's reorganisation of its wards on 1 January 2024, so its new wards `中央区`, `浜名区` and `天竜区` are not yet in the tables: `浜松市中央区元城町103-2` is read as 浜松市 (22130) with the town `中央区元城町`.
+
 ## Batch Processing
 
 Process multiple addresses efficiently with built-in batch functions:
@@ -486,7 +647,7 @@ Batch processing provides several advantages over individual parsing:
 ## Quality Assurance
 
 - **Comprehensive test suite**: Vitest runs every parsing scenario from JSON test data, for the US, Canada and each other country
-- **Multi-format support**: Extensive test coverage for US and Canadian addresses
+- **Multi-format support**: Extensive test coverage for US, Canadian and Japanese addresses, including every Japanese prefecture and municipality and 1,000 generated Japanese records from REST in Pieces
 - **Edge case testing**: Validation of complex parsing scenarios and error conditions
 - **Type tests**: `tsd` checks the published type definitions
 - **Package check**: `pnpm test:package` packs the built package, installs it in a clean project, and proves that `require`, `import` and the types work for each entry point
