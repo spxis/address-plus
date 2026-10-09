@@ -70,6 +70,7 @@ const JAPAN_CORE_FIELDS: CorpusField[] = [
   "postalCode",
   "prefecture",
   "municipality",
+  "streetDirections",
   "town",
   "chome",
   "ban",

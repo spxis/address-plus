@@ -11,14 +11,16 @@ import {
   KANJI_NUMERAL_AFTER_CHOME,
   KANJI_NUMERAL_GO,
   KANJI_POSITIONAL_DIGITS,
+  LOOKALIKE_CITY,
   NO_BETWEEN_DIGITS,
   SPACES,
 } from "./patterns";
 
 // The text with full-width digits, letters and punctuation folded to ASCII and half-width katakana to
-// full-width. NFKC does both, and leaves the long-vowel mark ー alone.
+// full-width. NFKC does both, and leaves the long-vowel mark ー alone. 巿 (futsu, U+5DFF), which looks like 市
+// and is typed for it by mistake, becomes 市: no place in Japan is named with it.
 function foldWidth(text: string): string {
-  return text.normalize("NFKC");
+  return text.normalize("NFKC").replace(LOOKALIKE_CITY, "市");
 }
 
 // A run of kanji numerals as a number: 二十三 is 23, and 一〇一 is 101, read digit by digit, since a

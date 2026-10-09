@@ -151,9 +151,7 @@
           "ban": "3",
           "go": "7"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 92",
-        "todo": true,
-        "todoNote": "ban: \"7\" (want \"3\"); go: absent (want \"7\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 92"
       },
       {
         "name": "line 102",
@@ -257,9 +255,7 @@
           "ban": "3",
           "go": "7"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 162",
-        "todo": true,
-        "todoNote": "ban: \"7\" (want \"3\"); go: absent (want \"7\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 162"
       },
       {
         "name": "line 172",
@@ -348,9 +344,7 @@
           "ban": "22",
           "go": "3"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 222",
-        "todo": true,
-        "todoNote": "ban: \"3\" (want \"22\"); go: absent (want \"3\"); chome: \"22\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 222"
       },
       {
         "name": "line 232",
@@ -557,9 +551,7 @@
           "ban": "56",
           "go": "21"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 362",
-        "todo": true,
-        "todoNote": "ban: \"21\" (want \"56\"); go: absent (want \"21\"); chome: \"56\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 362"
       },
       {
         "name": "line 372",
@@ -588,9 +580,7 @@
           "ban": "17",
           "go": "10"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 382",
-        "todo": true,
-        "todoNote": "ban: \"10\" (want \"17\"); go: absent (want \"10\"); chome: \"17\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 382"
       },
       {
         "name": "line 392",
@@ -1024,9 +1014,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 672",
-        "todo": true,
-        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 672"
       },
       {
         "name": "line 682",
@@ -1144,9 +1132,7 @@
           "ban": "18",
           "go": "4"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 752",
-        "todo": true,
-        "todoNote": "ban: \"4\" (want \"18\"); go: absent (want \"4\"); chome: \"18\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 752"
       },
       {
         "name": "line 762",
@@ -1280,9 +1266,7 @@
           "ban": "3",
           "go": "13"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 842",
-        "todo": true,
-        "todoNote": "ban: \"13\" (want \"3\"); go: absent (want \"13\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 842"
       },
       {
         "name": "line 852",
@@ -1401,9 +1385,7 @@
           "ban": "3",
           "go": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 922",
-        "todo": true,
-        "todoNote": "ban: \"2\" (want \"3\"); go: absent (want \"2\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 922"
       },
       {
         "name": "line 932",
@@ -1609,9 +1591,7 @@
           "ban": "5",
           "go": "23"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1062",
-        "todo": true,
-        "todoNote": "ban: \"23\" (want \"5\"); go: absent (want \"23\"); chome: \"5\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1062"
       },
       {
         "name": "line 1072",
@@ -1700,9 +1680,7 @@
           "ban": "1",
           "go": "5"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1122",
-        "todo": true,
-        "todoNote": "ban: \"5\" (want \"1\"); go: absent (want \"5\"); chome: \"1\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1122"
       },
       {
         "name": "line 1132",
@@ -1746,9 +1724,7 @@
           "ban": "5",
           "go": "8"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1152",
-        "todo": true,
-        "todoNote": "ban: \"8\" (want \"5\"); go: absent (want \"8\"); chome: \"5\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1152"
       },
       {
         "name": "line 1162",
@@ -1865,9 +1841,7 @@
           "ban": "4",
           "go": "18"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1232",
-        "todo": true,
-        "todoNote": "ban: \"18\" (want \"4\"); go: absent (want \"18\"); chome: \"4\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1232"
       },
       {
         "name": "line 1242",
@@ -2090,9 +2064,7 @@
           "ban": "25",
           "go": "9"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1392",
-        "todo": true,
-        "todoNote": "ban: \"9\" (want \"25\"); go: absent (want \"9\"); chome: \"25\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1392"
       },
       {
         "name": "line 1402",
@@ -2134,9 +2106,7 @@
           "ban": "35",
           "go": "137"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1422",
-        "todo": true,
-        "todoNote": "ban: \"137\" (want \"35\"); go: absent (want \"137\"); chome: \"35\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1422"
       },
       {
         "name": "line 1432",
@@ -2315,9 +2285,7 @@
           "ban": "4",
           "go": "24"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1552",
-        "todo": true,
-        "todoNote": "ban: \"24\" (want \"4\"); go: absent (want \"24\"); chome: \"4\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1552"
       },
       {
         "name": "line 1562",
@@ -2346,9 +2314,7 @@
           "ban": "41",
           "go": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1572",
-        "todo": true,
-        "todoNote": "ban: \"2\" (want \"41\"); go: absent (want \"2\"); chome: \"41\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1572"
       },
       {
         "name": "line 1582",
@@ -2377,9 +2343,7 @@
           "ban": "18",
           "go": "36"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1592",
-        "todo": true,
-        "todoNote": "ban: \"36\" (want \"18\"); go: absent (want \"36\"); chome: \"18\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1592"
       },
       {
         "name": "line 1602",
@@ -2437,9 +2401,7 @@
           "ban": "5",
           "go": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1632",
-        "todo": true,
-        "todoNote": "ban: \"2\" (want \"5\"); go: absent (want \"2\"); chome: \"5\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1632"
       },
       {
         "name": "line 1642",
@@ -2483,9 +2445,7 @@
           "ban": "3",
           "go": "25"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1662",
-        "todo": true,
-        "todoNote": "ban: \"25\" (want \"3\"); go: absent (want \"25\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 1662"
       },
       {
         "name": "line 1672",
@@ -3127,9 +3087,7 @@
           "ban": "3",
           "go": "10"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2092",
-        "todo": true,
-        "todoNote": "ban: \"10\" (want \"3\"); go: absent (want \"10\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2092"
       },
       {
         "name": "line 2102",
@@ -3232,9 +3190,7 @@
           "ban": "4",
           "go": "3"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2162",
-        "todo": true,
-        "todoNote": "ban: \"3\" (want \"4\"); go: absent (want \"3\"); chome: \"4\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2162"
       },
       {
         "name": "line 2172",
@@ -3546,9 +3502,7 @@
           "ban": "26",
           "go": "11"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2372",
-        "todo": true,
-        "todoNote": "ban: \"11\" (want \"26\"); go: absent (want \"11\"); chome: \"26\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2372"
       },
       {
         "name": "line 2382",
@@ -3710,9 +3664,7 @@
           "ban": "4",
           "go": "4"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2482",
-        "todo": true,
-        "todoNote": "go: absent (want \"4\"); chome: \"4\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2482"
       },
       {
         "name": "line 2492",
@@ -3739,9 +3691,7 @@
           "ban": "22",
           "go": "8"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2502",
-        "todo": true,
-        "todoNote": "ban: \"8\" (want \"22\"); go: absent (want \"8\"); chome: \"22\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2502"
       },
       {
         "name": "line 2512",
@@ -4624,9 +4574,7 @@
           "ban": "4",
           "go": "4"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3092",
-        "todo": true,
-        "todoNote": "town: \"竜神橋町1丁\" (want \"竜神橋町\"); chome: \"4\" (want \"1\"); go: absent (want \"4\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3092"
       },
       {
         "name": "line 3102",
@@ -4655,9 +4603,7 @@
           "ban": "35",
           "go": "26"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3112",
-        "todo": true,
-        "todoNote": "ban: \"26\" (want \"35\"); go: absent (want \"26\"); chome: \"35\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3112"
       },
       {
         "name": "line 3122",
@@ -4821,9 +4767,7 @@
           "ban": "15",
           "go": "19"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3222",
-        "todo": true,
-        "todoNote": "ban: \"19\" (want \"15\"); go: absent (want \"19\"); chome: \"15\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3222"
       },
       {
         "name": "line 3232",
@@ -4927,9 +4871,7 @@
           "ban": "24",
           "go": "16"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3292",
-        "todo": true,
-        "todoNote": "ban: \"16\" (want \"24\"); go: absent (want \"16\"); chome: \"24\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3292"
       },
       {
         "name": "line 3312",
@@ -5119,9 +5061,7 @@
           "ban": "5",
           "go": "3"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3442",
-        "todo": true,
-        "todoNote": "ban: \"3\" (want \"5\"); go: absent (want \"3\"); chome: \"5\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3442"
       },
       {
         "name": "line 3452",
@@ -5136,9 +5076,7 @@
           "go": "28",
           "building": "(単身)、12-3(ファミリー)"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3452",
-        "todo": true,
-        "todoNote": "ban: \"28\" (want \"12\"); go: absent (want \"28\"); chome: \"12\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3452"
       },
       {
         "name": "line 3462",
@@ -5239,9 +5177,7 @@
           "ban": "10",
           "go": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3522",
-        "todo": true,
-        "todoNote": "ban: \"2\" (want \"10\"); go: absent (want \"2\"); chome: \"10\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3522"
       },
       {
         "name": "line 3532",
@@ -5492,9 +5428,7 @@
           "ban": "10",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3692",
-        "todo": true,
-        "todoNote": "ban: \"1\" (want \"10\"); go: absent (want \"1\"); chome: \"10\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3692"
       },
       {
         "name": "line 3702",
@@ -5582,9 +5516,7 @@
           "ban": "6",
           "go": "43"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3752",
-        "todo": true,
-        "todoNote": "ban: \"43\" (want \"6\"); go: absent (want \"43\"); chome: \"6\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3752"
       },
       {
         "name": "line 3762",
@@ -5627,9 +5559,7 @@
           "ban": "33",
           "go": "15"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3782",
-        "todo": true,
-        "todoNote": "ban: \"15\" (want \"33\"); go: absent (want \"15\"); chome: \"33\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 3782"
       },
       {
         "name": "line 3792",
@@ -6029,9 +5959,7 @@
           "ban": "7",
           "go": "7"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4062",
-        "todo": true,
-        "todoNote": "go: absent (want \"7\"); chome: \"7\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4062"
       },
       {
         "name": "line 4072",
@@ -6075,9 +6003,7 @@
           "ban": "1",
           "go": "4"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4092",
-        "todo": true,
-        "todoNote": "ban: \"4\" (want \"1\"); go: absent (want \"4\"); chome: \"1\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4092"
       },
       {
         "name": "line 4102",
@@ -6121,9 +6047,7 @@
           "ban": "18",
           "go": "22"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4122",
-        "todo": true,
-        "todoNote": "ban: \"22\" (want \"18\"); go: absent (want \"22\"); chome: \"18\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4122"
       },
       {
         "name": "line 4132",
@@ -6407,9 +6331,7 @@
           "ban": "13",
           "go": "26"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4312",
-        "todo": true,
-        "todoNote": "ban: \"26\" (want \"13\"); go: absent (want \"26\"); chome: \"13\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4312"
       },
       {
         "name": "line 4322",
@@ -6826,9 +6748,7 @@
           "ban": "18",
           "go": "25"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4592",
-        "todo": true,
-        "todoNote": "ban: \"25\" (want \"18\"); go: absent (want \"25\"); chome: \"18\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4592"
       },
       {
         "name": "line 4602",
@@ -6961,9 +6881,7 @@
           "ban": "24",
           "go": "46"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4682",
-        "todo": true,
-        "todoNote": "ban: \"46\" (want \"24\"); go: absent (want \"46\"); chome: \"24\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4682"
       },
       {
         "name": "line 4692",
@@ -7022,9 +6940,7 @@
           "ban": "37",
           "go": "4"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4722",
-        "todo": true,
-        "todoNote": "ban: \"4\" (want \"37\"); go: absent (want \"4\"); chome: \"37\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4722"
       },
       {
         "name": "line 4732",
@@ -7108,7 +7024,7 @@
         "expected": {
           "country": "JP",
           "prefecture": "千葉県",
-          "municipality": "鎌ケ谷市",
+          "municipality": "鎌ヶ谷市",
           "town": "道野辺本町",
           "chome": "1",
           "ban": "3",
@@ -7307,9 +7223,7 @@
           "ban": "27",
           "go": "29"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4932",
-        "todo": true,
-        "todoNote": "ban: \"29\" (want \"27\"); go: absent (want \"29\"); chome: \"27\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 4932"
       },
       {
         "name": "line 4942",
@@ -7923,9 +7837,7 @@
           "ban": "2",
           "go": "18"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5352",
-        "todo": true,
-        "todoNote": "town: \"蔵前町3丁\" (want \"蔵前町\"); chome: \"2\" (want \"3\"); ban: \"18\" (want \"2\"); go: absent (want \"18\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5352"
       },
       {
         "name": "line 5362",
@@ -7968,9 +7880,7 @@
           "ban": "53",
           "go": "15"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5382",
-        "todo": true,
-        "todoNote": "ban: \"15\" (want \"53\"); go: absent (want \"15\"); chome: \"53\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5382"
       },
       {
         "name": "line 5392",
@@ -8269,9 +8179,7 @@
           "ban": "24",
           "go": "4"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5582",
-        "todo": true,
-        "todoNote": "ban: \"4\" (want \"24\"); go: absent (want \"4\"); chome: \"24\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5582"
       },
       {
         "name": "line 5592",
@@ -8285,9 +8193,7 @@
           "ban": "10",
           "go": "9"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5592",
-        "todo": true,
-        "todoNote": "ban: \"9\" (want \"10\"); go: absent (want \"9\"); chome: \"10\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5592"
       },
       {
         "name": "line 5602",
@@ -8763,9 +8669,7 @@
           "ban": "3",
           "go": "9"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5912",
-        "todo": true,
-        "todoNote": "ban: \"9\" (want \"3\"); go: absent (want \"9\"); chome: \"3\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5912"
       },
       {
         "name": "line 5922",
@@ -8884,9 +8788,7 @@
           "ban": "8",
           "go": "10"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5992",
-        "todo": true,
-        "todoNote": "ban: \"10\" (want \"8\"); go: absent (want \"10\"); chome: \"8\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5992"
       },
       {
         "name": "line 6002",
@@ -9303,9 +9205,7 @@
           "ban": "2",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6272",
-        "todo": true,
-        "todoNote": "ban: \"1\" (want \"2\"); go: absent (want \"1\"); chome: \"2\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6272"
       },
       {
         "name": "line 6282",
@@ -9349,9 +9249,7 @@
           "ban": "15",
           "go": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6302",
-        "todo": true,
-        "todoNote": "ban: \"2\" (want \"15\"); go: absent (want \"2\"); chome: \"15\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6302"
       },
       {
         "name": "line 6312",
@@ -9499,9 +9397,7 @@
           "ban": "41",
           "go": "6"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6402",
-        "todo": true,
-        "todoNote": "ban: \"6\" (want \"41\"); go: absent (want \"6\"); chome: \"41\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6402"
       },
       {
         "name": "line 6412",
@@ -9885,9 +9781,7 @@
           "ban": "13",
           "go": "12"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6662",
-        "todo": true,
-        "todoNote": "ban: \"12\" (want \"13\"); go: absent (want \"12\"); chome: \"13\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6662"
       },
       {
         "name": "line 6672",
@@ -10139,9 +10033,7 @@
           "ban": "24",
           "go": "21"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6832",
-        "todo": true,
-        "todoNote": "ban: \"21\" (want \"24\"); go: absent (want \"21\"); chome: \"24\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6832"
       },
       {
         "name": "line 6842",
@@ -10215,9 +10107,7 @@
           "ban": "1",
           "go": "6"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6882",
-        "todo": true,
-        "todoNote": "ban: \"6\" (want \"1\"); go: absent (want \"6\"); chome: \"1\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6882"
       },
       {
         "name": "line 6892",
@@ -10560,9 +10450,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7142",
-        "todo": true,
-        "todoNote": "municipality: \"千葉市\" (want \"市川市\"); town: \"川市八幡\" (want \"八幡\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7142"
       }
     ],
     "notedByGeolonia": [
@@ -10577,9 +10465,7 @@
           "town": "7番町",
           "ban": "19"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7106",
-        "todo": true,
-        "todoNote": "town: absent (want \"7番町\"); ban: \"7\" (want \"19\"); building: \"町19\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7106"
       },
       {
         "name": "line 7111",
@@ -10636,9 +10522,7 @@
           "ban": "537",
           "go": "50"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7134",
-        "todo": true,
-        "todoNote": "streetDirections: absent (want \"河原町二条下ル\"); town: \"河原町二条下ル一之舟入町\" (want \"一之舟入町\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7134"
       },
       {
         "name": "line 7135",
@@ -10652,9 +10536,7 @@
           "ban": "8",
           "go": "10"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7135",
-        "todo": true,
-        "todoNote": "ban: \"10\" (want \"8\"); go: absent (want \"10\"); chome: \"8\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7135"
       },
       {
         "name": "line 7136",
@@ -10668,9 +10550,7 @@
           "ban": "8",
           "go": "10"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7136",
-        "todo": true,
-        "todoNote": "ban: \"10\" (want \"8\"); go: absent (want \"10\"); chome: \"8\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7136"
       },
       {
         "name": "line 7137",
@@ -10698,9 +10578,7 @@
           "town": "市川",
           "chome": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7138",
-        "todo": true,
-        "todoNote": "municipality: absent (want \"市川市\"); town: \"巿川巿巿川\" (want \"市川\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7138"
       },
       {
         "name": "line 7145",
@@ -10761,9 +10639,7 @@
           "go": "1",
           "building": "レジデンス億万101"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7155",
-        "todo": true,
-        "todoNote": "building: \"-レジデンス億万101\" (want \"レジデンス億万101\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7155"
       },
       {
         "name": "line 7156",
@@ -10823,9 +10699,7 @@
           "town": "上之町",
           "ban": "999"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7159",
-        "todo": true,
-        "todoNote": "municipality: \"京都市\" (want \"京都市下京区\"); town: \"下京区上之町\" (want \"上之町\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7159"
       },
       {
         "name": "line 7160",
@@ -10838,9 +10712,7 @@
           "town": "土樋",
           "ban": "999"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7160",
-        "todo": true,
-        "todoNote": "municipality: \"仙台市\" (want \"仙台市若林区\"); town: \"若林区土樋\" (want \"土樋\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7160"
       },
       {
         "name": "line 7161",
@@ -10853,9 +10725,7 @@
           "town": "字三保野",
           "ban": "888"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7161",
-        "todo": true,
-        "todoNote": "municipality: absent (want \"上北郡横浜町\"); town: \"上北郡 横浜町字三保野\" (want \"字三保野\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7161"
       },
       {
         "name": "line 7162",
@@ -10869,9 +10739,7 @@
           "ban": "12",
           "go": "345"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7162",
-        "todo": true,
-        "todoNote": "ban: \"345\" (want \"12\"); go: absent (want \"345\"); chome: \"12\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7162"
       },
       {
         "name": "line 7163",
@@ -10927,9 +10795,7 @@
           "ban": "12",
           "go": "345"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7166",
-        "todo": true,
-        "todoNote": "ban: \"345\" (want \"12\"); go: absent (want \"345\"); chome: \"12\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7166"
       },
       {
         "name": "line 7167",
@@ -10943,9 +10809,7 @@
           "ban": "24",
           "go": "56"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7167",
-        "todo": true,
-        "todoNote": "ban: \"56\" (want \"24\"); go: absent (want \"56\"); chome: \"24\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7167"
       },
       {
         "name": "line 7168",
@@ -11066,9 +10930,7 @@
           "streetDirections": "西中筋通北小路通上る",
           "town": "丸屋町"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7176",
-        "todo": true,
-        "todoNote": "streetDirections: absent (want \"西中筋通北小路通上る\"); town: \"西中筋通北小路通上る丸屋町\" (want \"丸屋町\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7176"
       },
       {
         "name": "line 7178",
@@ -11193,9 +11055,7 @@
           "go": "2",
           "room": "403"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7186",
-        "todo": true,
-        "todoNote": "building: \"-\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7186"
       },
       {
         "name": "line 7188",
@@ -11302,9 +11162,7 @@
           "go": "23",
           "room": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 261",
-        "todo": true,
-        "todoNote": "room: absent (want \"2\"); building: \"-2\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 261"
       },
       {
         "name": "line 464",
@@ -11521,9 +11379,7 @@
           "ban": "316",
           "building": "(忠庵町)"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2340",
-        "todo": true,
-        "todoNote": "town: \"忠庵町柳馬場通松原下ル(忠庵町)\" (want \"忠庵町\"); streetDirections: absent (want \"柳馬場通松原下ル\"); building: absent (want \"(忠庵町)\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 2340"
       },
       {
         "name": "line 3199",
@@ -11576,7 +11432,7 @@
         "expected": {
           "country": "JP",
           "prefecture": "千葉県",
-          "municipality": "鎌ケ谷市",
+          "municipality": "鎌ヶ谷市",
           "town": "中佐津間",
           "chome": "2",
           "ban": "15",
@@ -12045,9 +11901,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5239",
-        "todo": true,
-        "todoNote": "town: \"東三国ケ丘町1丁\" (want \"東三国ケ丘町\"); go: absent (want \"1\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5239"
       },
       {
         "name": "line 5277",
@@ -12125,9 +11979,7 @@
           "ban": "32",
           "go": "5"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5517",
-        "todo": true,
-        "todoNote": "ban: \"5\" (want \"32\"); go: absent (want \"5\"); chome: \"32\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5517"
       },
       {
         "name": "line 5646",
@@ -12266,9 +12118,7 @@
           "ban": "366",
           "go": "2"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5974",
-        "todo": true,
-        "todoNote": "town: \"高辻堀川町西堀川通高辻下る\" (want \"高辻堀川町\"); streetDirections: absent (want \"西堀川通高辻下る\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 5974"
       },
       {
         "name": "line 5986",
@@ -12297,9 +12147,7 @@
           "ban": "2",
           "go": "8"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6204",
-        "todo": true,
-        "todoNote": "ban: \"8\" (want \"2\"); go: absent (want \"8\"); chome: \"2\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6204"
       },
       {
         "name": "line 6263",
@@ -12376,9 +12224,7 @@
           "ban": "17",
           "go": "16"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6661",
-        "todo": true,
-        "todoNote": "ban: \"16\" (want \"17\"); go: absent (want \"16\"); chome: \"17\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 6661"
       },
       {
         "name": "line 6814",
@@ -12450,9 +12296,7 @@
           "town": "12番丁",
           "ban": "45"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7108",
-        "todo": true,
-        "todoNote": "town: absent (want \"12番丁\"); ban: \"12\" (want \"45\"); building: \"丁45\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/addresses/addresses.csv at commit 4e694d6, line 7108"
       },
       {
         "name": "line 7113",

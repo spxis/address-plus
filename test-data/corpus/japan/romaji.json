@@ -211,9 +211,7 @@
           "building": "Sample Bldg",
           "floor": "5"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: absent (want \"千代田区\"); town: \"Sample Bldg 5F Marunouchi Chiyoda-ku\" (want \"Marunouchi\"); building: absent (want \"Sample Bldg\"); floor: absent (want \"5\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "〒 before a romaji address",
@@ -229,9 +227,7 @@
           "go": "3",
           "postalCode": "100-0005"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: absent (want \"千代田区\"); town: absent (want \"Marunouchi\"); building: \"Marunouchi, Chiyoda-ku, Tokyo\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ],
     "designators": [
@@ -327,9 +323,7 @@
           "ban": "1323",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"1\" (want \"1323\"); go: absent (want \"1\"); chome: \"1323\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "town as -cho without its district",
@@ -343,9 +337,7 @@
           "ban": "58",
           "go": "9"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"9\" (want \"58\"); go: absent (want \"9\"); chome: \"58\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "City for -ku",
@@ -360,9 +352,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "country: absent (want \"JP\"); prefecture: absent (want \"東京都\"); municipality: absent (want \"千代田区\"); town: absent (want \"Marunouchi\"); chome: absent (want \"1\"); ban: absent (want \"2\"); go: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "Prefecture spelt out",
@@ -438,9 +428,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "parse returned null"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "Japanese order with commas",

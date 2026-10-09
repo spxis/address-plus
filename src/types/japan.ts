@@ -26,6 +26,7 @@ interface JapaneseAddressFields {
   municipality?: string; // 千代田区
   municipalityCode?: string; // JIS code: "13101"
   municipalityRomaji?: string; // Chiyoda-ku
+  streetDirections?: string; // Kyoto's street directions before the town (通り名): 寺町通御池上る
   town?: string; // 丸の内 (大字・町名), without the chome
   chome?: string; // 丁目: "1"
   ban?: string; // 番 (番地): "2"

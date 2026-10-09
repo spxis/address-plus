@@ -264,11 +264,12 @@
         }
       },
       {
-        "name": "read a Kyoto street name as the town and a lone number as the ban",
+        "name": "read a Kyoto street name and direction apart from the town, and a lone number as the ban",
         "input": "京都府京都市中京区寺町通御池上る上本能寺前町488",
         "expected": {
           "municipalityCode": "26104",
-          "town": "寺町通御池上る上本能寺前町",
+          "streetDirections": "寺町通御池上る",
+          "town": "上本能寺前町",
           "ban": "488",
           "chome": null,
           "block": "488"
@@ -294,14 +295,15 @@
         }
       },
       {
-        "name": "read a pair after a rural town without 大字 as chome and ban",
+        "name": "read a pair after a town without 大字 as ban and go",
         "input": "山梨県北杜市大泉町谷戸2-3",
         "expected": {
           "municipalityCode": "19209",
           "town": "大泉町谷戸",
-          "chome": "2",
-          "ban": "3",
-          "block": "2-3"
+          "block": "2-3",
+          "ban": "2",
+          "go": "3",
+          "chome": null
         }
       },
       {

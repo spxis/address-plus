@@ -59,9 +59,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "横浜市中区",
@@ -118,9 +116,7 @@
           "ban": "602",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"学校町通\" (want \"学校町通1番町\"); ban: \"1\" (want \"602\"); go: absent (want \"1\"); building: \"町602-1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "静岡市葵区",
@@ -134,9 +130,7 @@
           "ban": "5",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"1\" (want \"5\"); go: absent (want \"1\"); chome: \"5\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "浜松市中央区",
@@ -181,9 +175,7 @@
           "town": "上本能寺前町",
           "ban": "488"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "streetDirections: absent (want \"寺町通御池上る\"); town: \"寺町通御池上る上本能寺前町\" (want \"上本能寺前町\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "大阪市北区",
@@ -212,9 +204,7 @@
           "ban": "3",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"1\" (want \"3\"); go: absent (want \"1\"); chome: \"3\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "神戸市中央区",
@@ -273,9 +263,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "福岡市中央区",
@@ -304,9 +292,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ],
     "withoutPrefecture": [
@@ -350,9 +336,7 @@
           "ban": "5",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"1\" (want \"5\"); go: absent (want \"1\"); chome: \"5\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "大阪市北区 without the prefecture",
@@ -438,9 +422,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: \"北区\" (want \"大阪市北区\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "city and ward with a space",
@@ -454,9 +436,7 @@
           "ban": "721",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: \"京都市\" (want \"京都市下京区\"); town: \"下京区東塩小路町\" (want \"東塩小路町\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "city and ward with a space, Sendai",
@@ -471,9 +451,7 @@
           "ban": "7",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: \"仙台市\" (want \"仙台市青葉区\"); town: \"青葉区国分町\" (want \"国分町\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ]
   }

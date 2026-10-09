@@ -105,9 +105,7 @@
           "building": "サンプルビル",
           "room": "101"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "building: \"サンプルビル一〇一号室\" (want \"サンプルビル\"); room: absent (want \"101\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "numeral in a town name kept (三番町)",
@@ -163,9 +161,7 @@
           "town": "二階堂",
           "ban": "421"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"2階堂\" (want \"二階堂\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "numeral in a town name kept (四谷)",
@@ -195,9 +191,7 @@
           "ban": "2",
           "go": "27"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"豊洲四-\" (want \"豊洲\"); chome: \"2\" (want \"4\"); ban: \"27\" (want \"2\"); go: absent (want \"27\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "kanji block with hyphens only",
@@ -212,9 +206,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"丸の内一-二-三\" (want \"丸の内\"); chome: absent (want \"1\"); ban: absent (want \"2\"); go: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ],
     "widths": [
@@ -522,9 +514,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"丸の内1─2─\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "dash U+2501 box-drawing heavy horizontal",
@@ -539,9 +529,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"丸の内1━2━\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "dash U+FE63 small hyphen-minus",
@@ -571,9 +559,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"丸の内1⁃2⁃\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "dash U+02D7 modifier minus",
@@ -588,9 +574,7 @@
           "ban": "2",
           "go": "3"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"丸の内1˗2˗\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "dash ー between full-width digits",
@@ -766,9 +750,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "chome written 丁 without 目",
@@ -783,9 +765,7 @@
           "ban": "1",
           "go": "9"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"熊野町東3丁\" (want \"熊野町東\"); chome: absent (want \"3\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "chome written 丁 then hyphens",
@@ -800,9 +780,7 @@
           "ban": "1",
           "go": "9"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"熊野町東3丁\" (want \"熊野町東\"); chome: \"1\" (want \"3\"); ban: \"9\" (want \"1\"); go: absent (want \"9\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "four numbers: the last is a room",
@@ -833,9 +811,7 @@
           "ban": "14",
           "go": "イ22"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: absent (want \"14\"); go: absent (want \"イ22\"); building: \"14-イ22\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "town with 番 then 町 (学校町通1番町)",
@@ -849,9 +825,7 @@
           "ban": "602",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "town: \"学校町通\" (want \"学校町通1番町\"); ban: \"1\" (want \"602\"); go: absent (want \"1\"); building: \"町602-1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ]
   }

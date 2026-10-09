@@ -190,9 +190,7 @@
           "ban": "2",
           "go": "27"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "town: \"豊洲 四-\" (want \"豊洲\"); chome: \"2\" (want \"4\"); ban: \"27\" (want \"2\"); go: absent (want \"27\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       }
     ],
     "letteredNumbers": [
@@ -210,9 +208,7 @@
           "go": "イ22",
           "building": "ジオロニアマンション"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "ban: absent (want \"14\"); go: absent (want \"イ22\"); building: \"14ーイ22 ジオロニアマンション\" (want \"ジオロニアマンション\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       },
       {
         "name": "Latin letter in the go",
@@ -228,9 +224,7 @@
           "go": "A22",
           "building": "ジオロニアマンション"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "ban: absent (want \"14\"); go: absent (want \"A22\"); building: \"14ーA22 ジオロニアマンション\" (want \"ジオロニアマンション\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       },
       {
         "name": "kanji numerals, a heavy dash and a letter",
@@ -246,9 +240,7 @@
           "go": "A22",
           "building": "ジオロニアマンション"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "ban: absent (want \"14\"); go: absent (want \"A22\"); building: \"一四━A二二 ジオロニアマンション\" (want \"ジオロニアマンション\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       }
     ],
     "nanao": [
@@ -292,9 +284,7 @@
           "ban": "45",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "town: \"藤橋町 亥\" (want \"藤橋町亥\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       },
       {
         "name": "藤橋町亥 pattern 4",
@@ -308,9 +298,7 @@
           "ban": "45",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "town: \"藤橋町 亥\" (want \"藤橋町亥\"); ban: \"1\" (want \"45\"); go: absent (want \"1\"); chome: \"45\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       },
       {
         "name": "藤橋町亥 pattern 5",
@@ -324,9 +312,7 @@
           "ban": "45",
           "go": "1"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "town: \"藤橋町 亥\" (want \"藤橋町亥\"); ban: \"1\" (want \"45\"); go: absent (want \"1\"); chome: \"45\" (want absent)"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       }
     ],
     "textForms": [
@@ -471,9 +457,7 @@
           "prefecture": "岐阜県",
           "municipality": "飛騨市"
         },
-        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
-        "todo": true,
-        "todoNote": "municipality: \"飛驒市\" (want \"飛騨市\")"
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
       },
       {
         "name": "騨 in a city",

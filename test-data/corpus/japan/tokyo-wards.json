@@ -196,9 +196,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "中野区",

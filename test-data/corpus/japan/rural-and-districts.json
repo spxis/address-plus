@@ -168,9 +168,7 @@
           "ban": "58",
           "go": "9"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"9\" (want \"58\"); go: absent (want \"9\"); chome: \"58\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "district written, no prefecture",
@@ -240,9 +238,7 @@
           "ban": "1323",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: absent (want \"北佐久郡軽井沢町\"); town: \"北佐久郡 軽井沢町大字軽井沢\" (want \"大字軽井沢\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ]
   }

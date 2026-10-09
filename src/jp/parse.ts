@@ -6,11 +6,13 @@
 // Both end up in the same ParsedAddress: the Japan-specific fields, plus the shared ones so that
 // formatting, comparison and validation treat the result like any other address.
 //
-// How a pair of numbers is read. 1-2-3 is always chome, ban and go. Two numbers are ambiguous: in a
-// city, 丸の内1-2 is 1丁目2番; in a rural town with no chome, 大字下里12-3 is 12番地3. The parser reads
-// a pair as chome and ban unless the town is named with 大字 or 字, which only rural towns are, or the
-// first number is too high to be a chome (100 or more), and then as ban and go. A rural town written without 大字 (北杜市大泉町谷戸2-3) is read the city way; the
-// block is "2-3" either way, so a caller that needs certainty should read block rather than the parts.
+// How a pair of numbers is read. 1-2-3 is always chome, ban and go. Two numbers are ambiguous: 丸の内1-2 could be
+// 1丁目2番, and 寿町2-31 is 2番31号. A pair written straight after the town is read as ban and go, because that is
+// what it almost always is: of the 907 addresses in Geolonia's test set that end in a bare pair after the town,
+// 899 are ban and go, since a person in a town of chome writes all three numbers. A chome written as such (1丁目2-3)
+// is kept, and the pair after it is ban and go. Three numbers in a town named with 大字 or 字, or whose first
+// number is 100 or more (too high for a chome), are ban, go and a room. The block is "2-31" either way, so a caller
+// that needs certainty should read block rather than the parts.
 
 import {
   findMunicipalitiesByRomaji,
@@ -19,6 +21,7 @@ import {
   municipalitiesAtStart,
   prefectureAtStart,
   prefectureShortAtStart,
+  prefectureShortName,
   prefectureShortRomaji,
 } from "../constants/jp";
 import type { JapaneseMunicipality, JapanesePrefecture } from "../types/japan";
@@ -32,14 +35,21 @@ import {
   BLOCK_CHOME,
   BLOCK_HYPHENATED,
   BLOCK_START,
+  BUILDING_LEAD,
   CAMEL_CASE_CAPITAL,
   COMBINING_MARKS,
   COMMA_SPLIT,
   DIGIT,
+  DIGITS_ONLY,
+  ENGLISH_MUNICIPALITY_WORD,
   FLOOR,
   HYPHENATED_POSTAL_CODE,
+  KYOTO_DIRECTION,
+  KYOTO_TOWN_FIRST,
+  LATIN_LETTER,
   LEADING_COUNTRY,
   LEADING_POSTAL_CODE,
+  LINE_BREAK,
   MARKED_POSTAL_CODE,
   PART_TRIM,
   POSTAL_CODE_SHAPE,
@@ -50,11 +60,13 @@ import {
   ROMAJI_DESIGNATOR_WORD,
   ROMAJI_FLOOR,
   ROMAJI_MUNICIPALITY_DESIGNATOR,
+  ROMAJI_PART_END,
   ROMAJI_ROOM,
   ROOM,
   RURAL_TOWN,
   SEPARATORS_AT_END,
   SEPARATORS_AT_START,
+  SPACE_INSIDE_JAPANESE,
   TRAILING_COUNTRY,
   TRAILING_POSTAL_CODE,
   WHITESPACE_RUN,
@@ -62,11 +74,15 @@ import {
   WRITTEN_MUNICIPALITY,
 } from "./patterns";
 
-// No town runs to a hundred chome, so a pair whose first number is that high is ban and go: 北郡山町248-4.
+// No town runs to a hundred chome, so three numbers whose first is that high are ban, go and a room.
 const LOWEST_NUMBER_NOT_A_CHOME = 100;
+
+// Kyoto's prefecture, the one place whose addresses carry street directions (通り名).
+const KYOTO_PREFECTURE_CODE = "26";
 
 interface Block {
   ban?: string;
+  streetDirections?: string;
   chome?: string;
   go?: string;
   room?: string;
@@ -85,6 +101,9 @@ interface Fields extends Block, BuildingParts {
   postalCode?: string;
   prefecture?: JapanesePrefecture;
 }
+
+// The municipalities matched at the start of a text, as municipalitiesAtStart returns them.
+type MunicipalityMatch = NonNullable<ReturnType<typeof municipalitiesAtStart>>;
 
 // Text with its leading and trailing commas and spaces taken off.
 const trimSeparators = (text: string): string => text.replace(SEPARATORS_AT_START, "").replace(SEPARATORS_AT_END, "");
@@ -139,15 +158,17 @@ function blockStart(text: string): number {
   return -1;
 }
 
-// The numbers of a block written 1-2-3, 1-2 or 1-2-3-405, as chome, ban, go and room. A pair is chome
-// and ban in a city and ban and go in a rural town (see the note at the top of this file).
+// The numbers of a block written 1-2-3, 1-2 or 1-2-3-405, as chome, ban, go and room (see the note at the top
+// of this file for how a pair and three numbers are read).
 function hyphenatedBlock(numbers: string[], town: string | undefined, chome: string | undefined): Block {
   const [first, second, third, fourth] = numbers;
   if (chome !== undefined) return { ban: first, chome, go: second, room: third };
-  if (third !== undefined) return { ban: second, chome: first, go: third, room: fourth };
-  if ((town && RURAL_TOWN.test(town)) || Number(first) >= LOWEST_NUMBER_NOT_A_CHOME) return { ban: first, go: second };
+  if (third === undefined) return { ban: first, go: second };
+  if ((town && RURAL_TOWN.test(town)) || Number(first) >= LOWEST_NUMBER_NOT_A_CHOME) {
+    return { ban: first, go: second, room: third };
+  }
 
-  return { ban: second, chome: first };
+  return { ban: second, chome: first, go: third, room: fourth };
 }
 
 // The town and block at the start of the text, and whatever follows them.
@@ -160,7 +181,7 @@ function splitTownAndBlock(text: string): { block: Block; rest: string } {
 
     return { block: { town: town || undefined }, rest: space < 0 ? "" : text.slice(space) };
   }
-  const town = text.slice(0, start).trim() || undefined;
+  const town = text.slice(0, start).replace(SPACE_INSIDE_JAPANESE, "").trim() || undefined;
   let rest = text.slice(start);
   let chome: string | undefined;
   const chomeHit = rest.match(BLOCK_CHOME);
@@ -171,7 +192,10 @@ function splitTownAndBlock(text: string): { block: Block; rest: string } {
 
   const banGo = rest.match(BLOCK_BAN_GO);
   if (banGo) {
-    return { block: { ban: banGo[1], chome, go: banGo[2], town }, rest: rest.slice(banGo[0].length) };
+    return {
+      block: { ban: banGo[1], chome, go: banGo[2], room: banGo[3], town },
+      rest: rest.slice(banGo[0].length),
+    };
   }
   const hyphenated = rest.match(BLOCK_HYPHENATED);
   if (hyphenated) {
@@ -188,7 +212,7 @@ function splitTownAndBlock(text: string): { block: Block; rest: string } {
 // The building, floor and room in what follows the block. 号 after a building is a room (サンプルビル501号),
 // as 号室 is; after the block it was the go, and the block has already taken it.
 function splitBuilding(text: string): BuildingParts {
-  let rest = trimSeparators(text);
+  let rest = trimSeparators(text.replace(BUILDING_LEAD, ""));
   if (!rest) return {};
   let floor: string | undefined;
   const floorHit = rest.match(FLOOR);
@@ -206,6 +230,23 @@ function splitBuilding(text: string): BuildingParts {
   const building = trimSeparators(rest.replace(WHITESPACE_RUN, " ")) || undefined;
 
   return { building, floor, room };
+}
+
+// A Kyoto town written with its street directions, split into the town and the directions: 寺町通御池上る上本能寺前町
+// is the town 上本能寺前町, found north (上る) of the corner of 寺町通 and 御池. Words in brackets after the
+// directions, often the town again, are set aside for the building.
+function kyotoTown(town: string): { aside?: string; streetDirections?: string; town?: string } {
+  const directions = [...town.matchAll(KYOTO_DIRECTION)];
+  const last = directions[directions.length - 1];
+  if (!last) return { town };
+  const end = last.index! + last[0].length;
+  const locator = town.slice(0, end);
+  const after = town.slice(end).trim();
+  if (after && !after.startsWith("(")) return { streetDirections: locator, town: after };
+  const first = locator.match(KYOTO_TOWN_FIRST);
+  if (!first) return { aside: after || undefined, town };
+
+  return { aside: after || undefined, streetDirections: locator.slice(first[1].length), town: first[1] };
 }
 
 const blockOf = (chome?: string, ban?: string, go?: string): string | undefined =>
@@ -235,6 +276,7 @@ function assemble(fields: Fields): ParsedAddress {
     address.municipalityCode = fields.municipality.code;
     address.municipalityRomaji = fields.municipality.romaji;
   }
+  if (fields.streetDirections) address.streetDirections = fields.streetDirections;
   if (fields.town) {
     address.town = fields.town;
     address.street = fields.town;
@@ -257,10 +299,41 @@ function assemble(fields: Fields): ParsedAddress {
   return address;
 }
 
+// The municipalities at the start of the text, read as if the spaces were not there, so that 京都市 下京区 and
+// 上北郡 横浜町 are found whole. The match is the longer of the text as written and the text without spaces.
+function municipalitiesAtStartAcrossSpaces(text: string, prefectureCode?: string): MunicipalityMatch | null {
+  const asWritten = municipalitiesAtStart(text, prefectureCode);
+  const positions: number[] = [];
+  let compact = "";
+  for (let index = 0; index < text.length; index++) {
+    if (/\s/.test(text[index])) continue;
+    positions.push(index);
+    compact += text[index];
+  }
+  if (compact === text) return asWritten;
+  const joined = municipalitiesAtStart(compact, prefectureCode);
+  if (!joined || (asWritten && asWritten.matched.length >= joined.matched.length)) return asWritten;
+  const end = positions[joined.matched.length - 1] + 1;
+
+  return { ...joined, rest: text.slice(end) };
+}
+
+// A ward written with its prefecture but not its city, 大阪府北区, as the ward of the city named like the
+// prefecture (大阪市北区), or null when that city has no such ward.
+function namesakeWard(text: string, prefecture: JapanesePrefecture): MunicipalityMatch | null {
+  const namesakeCity = `${prefectureShortName(prefecture)}市`;
+  const ward = municipalitiesAtStartAcrossSpaces(`${namesakeCity}${text}`, prefecture.code);
+  if (!ward || ward.matched.length <= namesakeCity.length) return null;
+
+  return { ...ward, matched: ward.matched.slice(namesakeCity.length) };
+}
+
 // The prefecture and municipality at the start of a Japanese-script address, and the text after them.
 // The prefecture is read first by its full name; then the municipality, in that prefecture or, when it
-// is not there, anywhere (validation then reports the mismatch); then, failing both, a prefecture
-// written without its designator (東京千代田区), which is tried last because 大阪市 opens with 大阪.
+// is not there, anywhere (validation then reports the mismatch). With no prefecture written in full, a
+// prefecture written without its designator is tried too (東京千代田区, 千葉市川市), and whichever reading takes
+// in more of the text wins, so 千葉市川市 is 千葉 and 市川市 while 大阪市北区 stays 大阪市北区. A ward written with
+// its prefecture but not its city (大阪府北区) is the ward of the city named like the prefecture.
 function prefectureAndMunicipality(
   text: string,
   postalCode: string | undefined,
@@ -272,16 +345,22 @@ function prefectureAndMunicipality(
     prefecture = full.prefecture;
     rest = trimSeparators(full.rest);
   }
-  let found = (prefecture && municipalitiesAtStart(rest, prefecture.code)) || municipalitiesAtStart(rest);
-  if (!prefecture && !found) {
+  let found =
+    (prefecture && (municipalitiesAtStartAcrossSpaces(rest, prefecture.code) ?? namesakeWard(rest, prefecture))) ||
+    municipalitiesAtStartAcrossSpaces(rest);
+  if (!prefecture) {
     const short = prefectureShortAtStart(rest);
-    const inShort = short && municipalitiesAtStart(trimSeparators(short.rest), short.prefecture.code);
-    if (short && inShort) {
+    const afterShort = short ? trimSeparators(short.rest) : "";
+    const inShort = short && municipalitiesAtStartAcrossSpaces(afterShort, short.prefecture.code);
+    const consumedPlain = found ? rest.length - found.rest.length : 0;
+    const consumedShort = inShort ? rest.length - inShort.rest.length : 0;
+    if (short && inShort && consumedShort > consumedPlain) {
       prefecture = short.prefecture;
       found = inShort;
+    } else if (short && !found && !afterShort) {
+      return { prefecture: short.prefecture, rest: "" };
     }
   }
-
   if (found) {
     rest = trimSeparators(found.rest);
     const municipality = chooseMunicipality(found.municipalities, prefecture, postalCode);
@@ -307,9 +386,18 @@ function parseJapaneseScript(text: string): ParsedAddress | null {
     place.prefecture = findPrefecture(getPrefectureFromJapanesePostalCode(postalCode) ?? "") ?? undefined;
   }
   const { block, rest } = splitTownAndBlock(place.rest);
-  const building = splitBuilding(rest);
+  const kyoto = place.prefecture?.code === KYOTO_PREFECTURE_CODE && block.town ? kyotoTown(block.town) : {};
+  const building = splitBuilding([kyoto.aside, rest].filter(Boolean).join(" "));
 
-  return assemble({ ...place, ...block, ...building, postalCode, room: building.room ?? block.room });
+  return assemble({
+    ...place,
+    ...block,
+    ...building,
+    postalCode,
+    room: building.room ?? block.room,
+    streetDirections: kyoto.streetDirections,
+    town: kyoto.town ?? block.town,
+  });
 }
 
 // The prefecture named in the comma-separated parts of a romaji address, looked for from the end: a
@@ -343,7 +431,7 @@ function takeRomajiMunicipality(
   parts: string[],
   prefecture: JapanesePrefecture | undefined,
   postalCode: string | undefined,
-): Pick<Fields, "municipality" | "municipalityName"> {
+): Pick<Fields, "municipality" | "municipalityName"> & { at?: number } {
   for (let index = parts.length - 1; index >= 0; index--) {
     if (index > 0) {
       const joined = findMunicipalitiesByRomaji(`${parts[index - 1]} ${parts[index]}`, prefecture?.code);
@@ -351,7 +439,7 @@ function takeRomajiMunicipality(
       if (municipality) {
         parts.splice(index - 1, 2);
 
-        return { municipality };
+        return { at: index - 1, municipality };
       }
     }
     const alone = findMunicipalitiesByRomaji(parts[index], prefecture?.code);
@@ -360,7 +448,7 @@ function takeRomajiMunicipality(
       const name = parts[index];
       parts.splice(index, 1);
 
-      return municipality ? { municipality } : { municipalityName: name };
+      return municipality ? { at: index, municipality } : { at: index, municipalityName: name };
     }
   }
   // Not in the table, but written as a municipality: the last part with a designator.
@@ -368,7 +456,7 @@ function takeRomajiMunicipality(
     if (ROMAJI_MUNICIPALITY_DESIGNATOR.test(parts[index]) && !ROMAJI_BLOCK.test(parts[index])) {
       const [name] = parts.splice(index, 1);
 
-      return { municipalityName: name };
+      return { at: index, municipalityName: name };
     }
   }
 
@@ -389,9 +477,9 @@ function romajiTownAndBlock(part: string): Block {
   const numbers = rest.match(ROMAJI_BLOCK);
   if (numbers) {
     rest = rest.replace(numbers[0], " ");
+    // A pair is ban and go, after a chome or alone, as in Japanese script (see the note at the top of this file).
     if (numbers[3] !== undefined) [chome, ban, go] = [numbers[1], numbers[2], numbers[3]];
-    else if (chome) [ban, go] = [numbers[1], numbers[2]];
-    else [chome, ban] = [numbers[1], numbers[2]];
+    else [ban, go] = [numbers[1], numbers[2]];
   }
 
   return { ban, chome, go, town: trimSeparators(rest.replace(WHITESPACE_RUN, " ")) || undefined };
@@ -423,19 +511,29 @@ function romajiBuilding(parts: readonly string[]): BuildingParts {
 
 // A romaji address: Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan.
 function parseRomaji(text: string): ParsedAddress | null {
-  const plain = text.normalize("NFKD").replace(COMBINING_MARKS, "").normalize("NFKC").replace(WHITESPACE_RUN, " ");
+  const plain = text
+    .normalize("NFKD")
+    .replace(COMBINING_MARKS, "")
+    .normalize("NFKC")
+    .trim()
+    .replace(LINE_BREAK, ", ")
+    .replace(WHITESPACE_RUN, " ");
   const { postalCode, rest } = takePostalCode(withoutCountry(plain));
   const parts = withoutCountry(rest)
+    .replace(ROMAJI_PART_END, "$1, ")
     .split(COMMA_SPLIT)
     .map((part) => part.replace(PART_TRIM, "").trim())
     .filter(Boolean);
 
   let prefecture = takeRomajiPrefecture(parts);
-  const { municipality, municipalityName } = takeRomajiMunicipality(parts, prefecture, postalCode);
+  const { at, municipality, municipalityName } = takeRomajiMunicipality(parts, prefecture, postalCode);
   if (!prefecture && municipality) prefecture = findPrefecture(municipality.prefecture) ?? undefined;
   if (!prefecture && !municipality && !municipalityName) return null;
 
   const blockAt = parts.findIndex((part) => ROMAJI_BLOCK.test(part) || ROMAJI_CHOME.test(part));
+  // In English order the building comes before the block, and whatever is left after the municipality is a
+  // region the tables do not know (a misspelt prefecture), not a building.
+  if (at !== undefined && blockAt >= 0 && blockAt < at) parts.splice(at);
   let block: Block = {};
   if (blockAt >= 0) {
     block = romajiTownAndBlock(parts[blockAt]);
@@ -459,11 +557,25 @@ function looksJapanese(text: string): boolean {
   const hasPostal = HYPHENATED_POSTAL_CODE.test(plain) || TRAILING_POSTAL_CODE.test(plain);
   const hasDesignator = ROMAJI_DESIGNATOR_WORD.test(plain);
   const words = plain.split(WORD_SPLIT);
+  // A prefecture by name: findPrefecture also reads a JIS code, and 34 in a street number is not Hiroshima.
   const namesPrefecture = words.some(
-    (word, index) => findPrefecture(word) !== null || findPrefecture(`${word} ${words[index + 1] ?? ""}`) !== null,
+    (word, index) =>
+      !DIGITS_ONLY.test(word) &&
+      (findPrefecture(word) !== null || findPrefecture(`${word} ${words[index + 1] ?? ""}`) !== null),
   );
 
-  return namesPrefecture && (hasPostal || hasDesignator);
+  return namesPrefecture && (hasPostal || hasDesignator || namesMunicipality(plain));
+}
+
+// Whether a comma-separated part of a romaji text is a municipality the tables know written with an English word,
+// Chiyoda City or Kiso Village, for an address that has no -ku or -shi. The word is required: without it, USA
+// would be 宇佐市 (Usa-shi).
+function namesMunicipality(text: string): boolean {
+  return text.split(COMMA_SPLIT).some((part) => {
+    const name = part.replace(PART_TRIM, "");
+
+    return ENGLISH_MUNICIPALITY_WORD.test(name) && findMunicipalitiesByRomaji(name).length > 0;
+  });
 }
 
 // The result with snake_case keys, the Japanese fields included: postal_code, prefecture_code.
@@ -482,7 +594,10 @@ function snakeCased(address: ParsedAddress): ParsedAddress {
 // @example parseJapaneseAddress("東京都千代田区丸の内1-2-3") → { prefecture: "東京都", municipality: "千代田区", town: "丸の内", chome: "1", ban: "2", go: "3", … }
 function parseJapaneseAddress(text: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!text || typeof text !== "string") return null;
-  const result = hasJapaneseScript(text) ? parseJapaneseScript(text) : parseRomaji(text);
+  // 〒 or 郵便番号 on an address otherwise in romaji does not make it Japanese script.
+  const withoutMark = text.replace(POSTAL_MARK, "");
+  const inRomaji = !hasJapaneseScript(text) || (!hasJapaneseScript(withoutMark) && LATIN_LETTER.test(withoutMark));
+  const result = inRomaji ? parseRomaji(text) : parseJapaneseScript(text);
   if (result && options.useSnakeCase) return snakeCased(result);
 
   return result;

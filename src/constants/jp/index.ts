@@ -33,6 +33,16 @@ const DISTRICT_PREFIX = /^.+?郡(?=.+[町村]$)/;
 // A ward of a designated city: 札幌市中央区 is 札幌市 and 中央区.
 const DESIGNATED_CITY_WARD = /^(.+?市)(.+区)$/;
 
+// Characters written for one another in municipality names, folded only to match them, never in what is
+// returned: the small ヶ and ヵ beside ケ and カ (鎌ヶ谷市, 鎌ケ谷市), and old or variant forms of a kanji
+// (飛驒市 for 飛騨市, 﨑 for 崎, 髙 for 高). Each pair is one character for one, so a match keeps its length.
+const VARIANT_CHARACTERS: Readonly<Record<string, string>> = { ヶ: "ケ", ヵ: "カ", 驒: "騨", 﨑: "崎", 髙: "高" };
+const VARIANT_CHARACTER = /[ヶヵ驒﨑髙]/g;
+
+// A spelling with its variant characters folded.
+const foldVariants = (text: string): string =>
+  text.replace(VARIANT_CHARACTER, (character) => VARIANT_CHARACTERS[character] ?? character);
+
 // The romaji designator each prefecture designator is written with.
 const PREFECTURE_DESIGNATOR_ROMAJI: Readonly<Record<string, string>> = { 府: "fu", 県: "ken", 道: "do", 都: "to" };
 
@@ -161,11 +171,12 @@ const japaneseSpellings = (municipality: JapaneseMunicipality): string[] => {
   return withoutDistrict === municipality.name ? [municipality.name] : [municipality.name, withoutDistrict];
 };
 
-// Every Japanese spelling to the municipalities it can mean; 府中市 is in Tokyo and in Hiroshima.
+// Every Japanese spelling, with its variant characters folded, to the municipalities it can mean; 府中市 is in
+// Tokyo and in Hiroshima.
 const MUNICIPALITIES_BY_SPELLING: ReadonlyMap<string, readonly JapaneseMunicipality[]> = (() => {
   const map = new Map<string, JapaneseMunicipality[]>();
   for (const municipality of ALL_MUNICIPALITIES) {
-    for (const spelling of japaneseSpellings(municipality)) {
+    for (const spelling of japaneseSpellings(municipality).map(foldVariants)) {
       if (!map.has(spelling)) map.set(spelling, []);
       map.get(spelling)!.push(municipality);
     }
@@ -274,10 +285,13 @@ function municipalitiesAtStart(
   text: string,
   prefectureCode?: string,
 ): { matched: string; municipalities: JapaneseMunicipality[]; rest: string } | null {
+  const folded = foldVariants(text);
   for (const spelling of SPELLINGS_LONGEST_FIRST) {
-    if (!text.startsWith(spelling)) continue;
+    if (!folded.startsWith(spelling)) continue;
     const municipalities = inPrefecture(MUNICIPALITIES_BY_SPELLING.get(spelling) ?? [], prefectureCode);
-    if (municipalities.length > 0) return { matched: spelling, municipalities, rest: text.slice(spelling.length) };
+    if (municipalities.length > 0) {
+      return { matched: text.slice(0, spelling.length), municipalities, rest: text.slice(spelling.length) };
+    }
   }
 
   return null;
@@ -286,7 +300,7 @@ function municipalitiesAtStart(
 // The municipalities a Japanese name could mean, narrowed to one prefecture when it is known.
 // @example findMunicipalitiesByName("府中市") → [Tokyo's 府中市, Hiroshima's 府中市]; findMunicipalitiesByName("当別町") → [石狩郡当別町]
 function findMunicipalitiesByName(name: string, prefectureCode?: string): JapaneseMunicipality[] {
-  return inPrefecture(MUNICIPALITIES_BY_SPELLING.get(name) ?? [], prefectureCode);
+  return inPrefecture(MUNICIPALITIES_BY_SPELLING.get(foldVariants(name)) ?? [], prefectureCode);
 }
 
 // The municipalities a romaji name could mean, narrowed to one prefecture when it is known. When the
@@ -296,16 +310,21 @@ function findMunicipalitiesByName(name: string, prefectureCode?: string): Japane
 function findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[] {
   const key = romajiKey(text);
   if (!key) return [];
+  const written = designatorOf(text);
   let found: JapaneseMunicipality[] = [];
   for (const index of [MUNICIPALITIES_BY_ROMAJI, MUNICIPALITIES_BY_ROMAJI_WITHOUT_DISTRICT, MUNICIPALITIES_BY_WARD]) {
     found = inPrefecture(index.get(key) ?? [], prefectureCode);
+    // A ward found by its own name must not contradict the designator written: Urawa-shi, a city merged away
+    // in 2001, is not 浦和区, the ward of さいたま市 that took its name.
+    if (index === MUNICIPALITIES_BY_WARD && written.length > 0) {
+      found = found.filter((municipality) => written.includes(designatorOf(municipality.romaji)[0]));
+    }
     if (found.length > 0) break;
   }
   if (found.length < 2) return found;
 
   // Names that differ only in their designator, 木曽町 (Kiso-machi) and 木祖村 (Kiso-mura), are told
   // apart by the designator written, when there is one.
-  const written = designatorOf(text);
   const matching = found.filter((municipality) => written.includes(designatorOf(municipality.romaji)[0]));
 
   return matching.length > 0 ? matching : found;

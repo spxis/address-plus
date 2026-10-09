@@ -53,6 +53,11 @@ function floorInJapanese(floor: string): string {
 const isRomaji = (name: string | undefined): boolean =>
   name !== undefined && LATIN_LETTER.test(name) && !hasJapaneseScript(name);
 
+// The town as it is written on an envelope: in Kyoto, after its street directions (寺町通御池上る上本能寺前町).
+function townWithDirections(address: ParsedAddress): string | undefined {
+  return [address.streetDirections, address.town].filter(Boolean).join("") || undefined;
+}
+
 // Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then サンプルビル5階501号室.
 // The prefecture and municipality are always in kanji, from the tables. A town or building parsed from
 // romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run
@@ -64,9 +69,10 @@ function formatJapanese(address: ParsedAddress, options: JapaneseFormattingOptio
 
   const block = blockStyle === "markers" ? blockWithMarkers(address) : (address.block ?? "");
   const region = [address.prefecture, address.municipality].filter(Boolean).join("");
-  const place = isRomaji(address.town)
-    ? [region, address.town, block].filter(Boolean).join(" ")
-    : [region, address.town, block].filter(Boolean).join("");
+  const town = townWithDirections(address);
+  const place = isRomaji(town)
+    ? [region, town, block].filter(Boolean).join(" ")
+    : [region, town, block].filter(Boolean).join("");
   if (place) lines.push(place);
 
   const building = [
@@ -100,9 +106,10 @@ function formatJapaneseEnglish(address: ParsedAddress, options: JapaneseEnglishF
   if (address.room) parts.push(`Room ${address.room}`);
   // A chome on its own reads as part of the town: Kita 1-jo Nishi 3-chome, not 3 Kita 1-jo Nishi.
   const chomeOnly = address.chome && !address.ban && !address.go;
+  const town = townWithDirections(address);
   const street = chomeOnly
-    ? [address.town, `${address.chome}-chome`].filter(Boolean).join(" ")
-    : [address.block, address.town].filter(Boolean).join(" ");
+    ? [town, `${address.chome}-chome`].filter(Boolean).join(" ")
+    : [address.block, town].filter(Boolean).join(" ");
   if (street) parts.push(street);
   const municipality = address.municipalityRomaji
     ? municipalityInEnglishOrder(address.municipalityRomaji)

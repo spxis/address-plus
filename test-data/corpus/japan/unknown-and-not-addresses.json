@@ -33,9 +33,7 @@
           "ban": "6",
           "go": "8"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "ban: \"8\" (want \"6\"); go: absent (want \"8\"); chome: \"6\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "保谷市, merged into 西東京市 in 2001",
@@ -63,9 +61,7 @@
           "ban": "15",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: \"さいたま市浦和区\" (want \"Urawa-shi\"); municipalityCode: \"11107\" (want null)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "old kanji in a municipality (驒)",
@@ -79,26 +75,22 @@
           "ban": "2",
           "go": "22"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: \"飛驒市\" (want \"飛騨市\"); ban: \"22\" (want \"2\"); go: absent (want \"22\"); chome: \"2\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
-        "name": "ヶ for ケ in a municipality",
-        "description": "鎌ヶ谷市 written with the small ヶ",
-        "input": "千葉県鎌ヶ谷市新鎌ケ谷2丁目6-1",
+        "name": "ケ for ヶ in a municipality",
+        "description": "鎌ヶ谷市 written with a full-size ケ",
+        "input": "千葉県鎌ケ谷市新鎌ケ谷2丁目6-1",
         "expected": {
           "country": "JP",
           "prefecture": "千葉県",
-          "municipality": "鎌ケ谷市",
+          "municipality": "鎌ヶ谷市",
           "town": "新鎌ケ谷",
           "chome": "2",
           "ban": "6",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: \"鎌ヶ谷市\" (want \"鎌ケ谷市\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "the look-alike 巿 for 市",
@@ -113,9 +105,7 @@
           "ban": "1",
           "go": "1"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "municipality: absent (want \"市川市\"); town: \"巿川巿八幡\" (want \"八幡\")"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       }
     ],
     "misspelt": [
@@ -168,9 +158,7 @@
           "country": "JP",
           "prefecture": "東京都"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "parse returned null"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "a romaji misspelling of the prefecture",
@@ -188,9 +176,7 @@
         "options": {
           "country": "JP"
         },
-        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
-        "todo": true,
-        "todoNote": "building: \"Tokio\" (want absent)"
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
       },
       {
         "name": "an ambiguous city without a prefecture",
