@@ -109,7 +109,9 @@ function takePostalCode(text: string): { postalCode?: string; rest: string } {
 }
 
 // Of the municipalities a name could mean, the one the prefecture or postal code points to, or none
-// when the choice cannot be made.
+// when the choice cannot be made. A ward named with only its prefecture (Kita-ku, Osaka) is the ward
+// of the city that shares the prefecture's name, 大阪市北区 rather than 堺市北区, as such an address is
+// always meant.
 function chooseMunicipality(
   candidates: readonly JapaneseMunicipality[],
   prefecture: JapanesePrefecture | undefined,
@@ -118,8 +120,12 @@ function chooseMunicipality(
   if (candidates.length === 1) return candidates[0];
   const prefectureCode = prefecture?.code ?? (postalCode ? getPrefectureFromJapanesePostalCode(postalCode) : null);
   const narrowed = prefectureCode ? candidates.filter((candidate) => candidate.prefecture === prefectureCode) : [];
+  if (narrowed.length === 1) return narrowed[0];
+  const namesake = findPrefecture(prefectureCode ?? "");
+  const cityPrefix = namesake ? `${prefectureShortRomaji(namesake)}-shi ` : "";
+  const inNamesakeCity = cityPrefix ? narrowed.filter((candidate) => candidate.romaji.startsWith(cityPrefix)) : [];
 
-  return narrowed.length === 1 ? narrowed[0] : undefined;
+  return inNamesakeCity.length === 1 ? inNamesakeCity[0] : undefined;
 }
 
 // Where the block starts: the first number followed by a block marker, a dash and another number, or

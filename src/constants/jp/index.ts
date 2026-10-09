@@ -207,6 +207,11 @@ const indexByRomaji = (
 
 const MUNICIPALITIES_BY_ROMAJI = indexByRomaji((municipality) => romajiKey(municipality.romaji));
 
+// A designated city's ward by its own name, for "Kita-ku, Osaka": asked only when nothing else is found.
+const MUNICIPALITIES_BY_WARD = indexByRomaji((municipality) =>
+  DESIGNATED_CITY_WARD.test(municipality.name) ? romajiKey(municipality.romaji.split(" ").slice(1).join(" ")) : "",
+);
+
 // The same without the district, for "Tobetsu-cho, Hokkaido": asked only when the full key finds nothing.
 const MUNICIPALITIES_BY_ROMAJI_WITHOUT_DISTRICT = indexByRomaji((municipality) =>
   romajiKey(municipality.romaji.replace(ROMAJI_DISTRICT_WORD, "")),
@@ -284,23 +289,24 @@ function findMunicipalitiesByName(name: string, prefectureCode?: string): Japane
   return inPrefecture(MUNICIPALITIES_BY_SPELLING.get(name) ?? [], prefectureCode);
 }
 
-// The municipalities a romaji name could mean, narrowed to one prefecture when it is known. A town
-// written without its district (Tobetsu-cho) is looked up without it when the full name finds nothing.
+// The municipalities a romaji name could mean, narrowed to one prefecture when it is known. When the
+// full name finds nothing, a town written without its district (Tobetsu-cho) is looked up without it,
+// and then a ward written without its city (Kita-ku), which can mean several.
 // @example findMunicipalitiesByRomaji("Chiyoda-ku", "13") → [千代田区]; findMunicipalitiesByRomaji("Chuo-ku, Sapporo") → [札幌市中央区]
 function findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[] {
   const key = romajiKey(text);
   if (!key) return [];
-  const full = inPrefecture(MUNICIPALITIES_BY_ROMAJI.get(key) ?? [], prefectureCode);
-  const found =
-    full.length > 0 ? full : inPrefecture(MUNICIPALITIES_BY_ROMAJI_WITHOUT_DISTRICT.get(key) ?? [], prefectureCode);
+  let found: JapaneseMunicipality[] = [];
+  for (const index of [MUNICIPALITIES_BY_ROMAJI, MUNICIPALITIES_BY_ROMAJI_WITHOUT_DISTRICT, MUNICIPALITIES_BY_WARD]) {
+    found = inPrefecture(index.get(key) ?? [], prefectureCode);
+    if (found.length > 0) break;
+  }
   if (found.length < 2) return found;
 
   // Names that differ only in their designator, 木曽町 (Kiso-machi) and 木祖村 (Kiso-mura), are told
   // apart by the designator written, when there is one.
   const written = designatorOf(text);
-  const matching = written
-    ? found.filter((municipality) => written.includes(designatorOf(municipality.romaji)[0]))
-    : [];
+  const matching = found.filter((municipality) => written.includes(designatorOf(municipality.romaji)[0]));
 
   return matching.length > 0 ? matching : found;
 }
