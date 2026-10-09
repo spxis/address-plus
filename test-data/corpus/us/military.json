@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schemas/test-file.json",
   "name": "US Military and Diplomatic Addresses",
-  "description": "APO, FPO and DPO addresses with the AA, AE and AP state codes. The delivery line (PSC, CMR, UNIT, ship) has no field of its own yet, so these cases check only the last line and are partial. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "description": "APO, FPO and DPO addresses with the AA, AE and AP state codes. The delivery line (PSC, CMR, UNIT, ship) is reported in military, as written. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
   "tests": {
     "military": [
       {
@@ -9,13 +9,13 @@
         "description": "Military or diplomatic address: Army or Air Force post office in Europe. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "PSC 802 Box 74, APO AE 09499",
         "expected": {
+          "military": "PSC 802 Box 74",
           "city": "APO",
           "state": "AE",
           "zip": "09499",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -23,6 +23,7 @@
         "description": "Military or diplomatic address: on two lines with ZIP+4. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "PSC 802 Box 74\nAPO AE 09499-0074",
         "expected": {
+          "military": "PSC 802 Box 74",
           "city": "APO",
           "state": "AE",
           "zip": "09499",
@@ -30,7 +31,6 @@
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -38,13 +38,13 @@
         "description": "Military or diplomatic address: unit and box in the Pacific. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "Unit 2050 Box 4190, APO AP 96278",
         "expected": {
+          "military": "Unit 2050 Box 4190",
           "city": "APO",
           "state": "AP",
           "zip": "96278",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -52,6 +52,7 @@
         "description": "Military or diplomatic address: Pacific, two lines, ZIP+4. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "Unit 2050 Box 4190\nAPO AP 96278-2050",
         "expected": {
+          "military": "Unit 2050 Box 4190",
           "city": "APO",
           "state": "AP",
           "zip": "96278",
@@ -59,7 +60,6 @@
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -67,13 +67,13 @@
         "description": "Military or diplomatic address: community mail room. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "CMR 450 Box 1234, APO AE 09180",
         "expected": {
+          "military": "CMR 450 Box 1234",
           "city": "APO",
           "state": "AE",
           "zip": "09180",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -81,13 +81,13 @@
         "description": "Military or diplomatic address: fleet post office in Europe. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "PSC 1005 Box 37, FPO AE 09593",
         "expected": {
+          "military": "PSC 1005 Box 37",
           "city": "FPO",
           "state": "AE",
           "zip": "09593",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -95,13 +95,13 @@
         "description": "Military or diplomatic address: ship's name in the Pacific. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "USS George Washington CVN 73, FPO AP 96616",
         "expected": {
+          "military": "USS George Washington CVN 73",
           "city": "FPO",
           "state": "AP",
           "zip": "96616",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -109,13 +109,13 @@
         "description": "Military or diplomatic address: ship's name in Europe. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "USS Mitscher DDG 57, FPO AE 09579",
         "expected": {
+          "military": "USS Mitscher DDG 57",
           "city": "FPO",
           "state": "AE",
           "zip": "09579",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -123,13 +123,13 @@
         "description": "Military or diplomatic address: diplomatic post office. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "Unit 8400 Box 2000, DPO AE 09498",
         "expected": {
+          "military": "Unit 8400 Box 2000",
           "city": "DPO",
           "state": "AE",
           "zip": "09498",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -137,13 +137,13 @@
         "description": "Military or diplomatic address: diplomatic post office in the Pacific. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "Unit 4200 Box 100, DPO AP 96520",
         "expected": {
+          "military": "Unit 4200 Box 100",
           "city": "DPO",
           "state": "AP",
           "zip": "96520",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -151,13 +151,13 @@
         "description": "Military or diplomatic address: Armed Forces Americas. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "PSC 1234 Box 5678, APO AA 34020",
         "expected": {
+          "military": "PSC 1234 Box 5678",
           "city": "APO",
           "state": "AA",
           "zip": "34020",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -165,13 +165,13 @@
         "description": "Military or diplomatic address: fleet post office in the Americas. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "Unit 3100 Box 50, FPO AA 34090",
         "expected": {
+          "military": "Unit 3100 Box 50",
           "city": "FPO",
           "state": "AA",
           "zip": "34090",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -179,13 +179,13 @@
         "description": "Military or diplomatic address: in lowercase. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "psc 802 box 74, apo ae 09499",
         "expected": {
+          "military": "psc 802 box 74",
           "city": "APO",
           "state": "AE",
           "zip": "09499",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
@@ -193,13 +193,13 @@
         "description": "Military or diplomatic address: on one line, no commas. The city line is APO, FPO or DPO and the state AA, AE or AP",
         "input": "PSC 802 BOX 74 APO AE 09499",
         "expected": {
+          "military": "PSC 802 BOX 74",
           "city": "APO",
           "state": "AE",
           "zip": "09499",
           "country": "US"
         },
         "ignoreCase": ["city"],
-        "partial": true,
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       }
     ]

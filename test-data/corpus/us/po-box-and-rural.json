@@ -356,6 +356,7 @@
         "description": "Highway contract route address, standard form",
         "input": "HC 68 Box 23A, Ruidoso, NM 88345",
         "expected": {
+          "highwayContract": "68",
           "ruralRoute": "HC 68",
           "secUnitType": "Box",
           "secUnitNum": "23A",
@@ -371,6 +372,7 @@
         "description": "Highway contract route address, spelled out",
         "input": "Highway Contract 68 Box 23A, Ruidoso, NM 88345",
         "expected": {
+          "highwayContract": "68",
           "ruralRoute": "HC 68",
           "secUnitType": "Box",
           "secUnitNum": "23A",
@@ -386,6 +388,7 @@
         "description": "Highway contract route address, the old Star Route form, which Pub 28 standardizes to HC",
         "input": "Star Route 68 Box 23A, Ruidoso, NM 88345",
         "expected": {
+          "highwayContract": "68",
           "ruralRoute": "HC 68",
           "secUnitType": "Box",
           "secUnitNum": "23A",
@@ -401,6 +404,7 @@
         "description": "Highway contract route address, with a comma before the box",
         "input": "HC 68, Box 23A, Ruidoso, NM 88345",
         "expected": {
+          "highwayContract": "68",
           "ruralRoute": "HC 68",
           "secUnitType": "Box",
           "secUnitNum": "23A",
