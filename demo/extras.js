@@ -1,6 +1,8 @@
 // The demo's larger tools, beside the six panels in demo.js: a list pasted whole and saved as CSV, JSON or text; a
 // Japanese address taken apart, each part beside its reading and romaji; and the test corpus, fetched only when asked
 // for and run in this browser. Everything typed or returned is set as text, never as HTML.
+import { australia, formatAustraliaPost } from "./lib/au.js";
+import { formatRoyalMail, unitedKingdom } from "./lib/gb.js";
 import {
   findMunicipalityByCode,
   findPrefecture,
@@ -13,6 +15,10 @@ import {
   validateAddress,
   validateJapaneseAddress,
 } from "./lib/index.js";
+
+// Australia and the United Kingdom are read by their own modules, handed to the parser and the validator.
+const COUNTRIES = [australia, unitedKingdom];
+const BRITISH = new Set(["GB", "JE", "GY", "IM"]);
 
 // The most lines the list reads at once, so a paste of a whole file cannot stall the page.
 const BULK_LIMIT = 500;
@@ -48,10 +54,46 @@ const CORE = {
     "room",
     "country",
   ],
+  au: [
+    "building",
+    "secUnitType",
+    "secUnitNum",
+    "floorType",
+    "floor",
+    "lot",
+    "number",
+    "street",
+    "type",
+    "suffix",
+    "city",
+    "state",
+    "zip",
+    "country",
+  ],
+  gb: [
+    "subBuilding",
+    "secUnitType",
+    "secUnitNum",
+    "floorType",
+    "floor",
+    "building",
+    "number",
+    "dependentThoroughfare",
+    "street",
+    "type",
+    "doubleDependentLocality",
+    "locality",
+    "city",
+    "county",
+    "bfpo",
+    "zip",
+    "nation",
+    "country",
+  ],
 };
 CORE.canada = CORE.us;
 
-// A mixed list for the "try" button: tidy and untidy, three countries, one line that is not an address.
+// A mixed list for the "try" button: tidy and untidy, five countries, one line that is not an address.
 export const BULK_SAMPLE = [
   "1600 Pennsylvania Ave NW, Washington, DC 20500",
   "350 FIFTH AVENUE, NEW YORK, NY 10118",
@@ -63,6 +105,10 @@ export const BULK_SAMPLE = [
   "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階",
   "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
   "〒530-0001 東京都千代田区丸の内1-2-3",
+  "3/12 Smith St, Parramatta NSW 2150",
+  "LEVEL 6 51 JACOBSON ST, BRISBANE VIC 4000",
+  "Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA",
+  "10 downing street, london sw1a2aa",
   "see attached",
 ].join("\n");
 
@@ -229,7 +275,7 @@ export function setUpExtras(kit) {
 
   /** One line of the list, read, checked and written the post office's way. */
   function readLine(input) {
-    const parsed = parseLocation(input);
+    const parsed = parseLocation(input, { countries: COUNTRIES });
     if (parsed === null) return { input, parsed: null, findings: [], formatted: "" };
     const findings =
       parsed.country === "JP"
@@ -238,11 +284,13 @@ export function setUpExtras(kit) {
             return [...check.errors, ...check.warnings];
           })()
         : (() => {
-            const check = validateAddress(input);
+            const check = validateAddress(input, { countries: COUNTRIES });
             return [...check.errors, ...check.warnings];
           })();
     let formatted;
-    if (parsed.country === "JP") formatted = formatJapanese(parsed, { multiline: false });
+    if (parsed.country === "AU") formatted = formatAustraliaPost(parsed).lines.join(", ");
+    else if (BRITISH.has(parsed.country)) formatted = formatRoyalMail(parsed).lines.join(", ");
+    else if (parsed.country === "JP") formatted = formatJapanese(parsed, { multiline: false });
     else if (parsed.country === "CA") formatted = formatCanadaPost(parsed).lines.join(", ");
     else formatted = formatUSPS(parsed).lines.join(", ");
     return { input, parsed, findings, formatted };
@@ -254,7 +302,7 @@ export function setUpExtras(kit) {
     parsed.country === "JP"
       ? [parsed.streetDirections, parsed.town].filter(Boolean).join("")
       : [parsed.prefix, parsed.street, parsed.type, parsed.suffix].filter(Boolean).join(" ");
-  const regionOf = (parsed) => (parsed.country === "JP" ? parsed.prefecture : parsed.state);
+  const regionOf = (parsed) => (parsed.country === "JP" ? parsed.prefecture : (parsed.state ?? parsed.nation));
   const COLUMNS = [
     ["input", (row) => row.input],
     ["country", (row) => row.parsed?.country ?? ""],
@@ -305,10 +353,11 @@ export function setUpExtras(kit) {
     }
     // The summary: how many were read, by country, and how many hold together, with a bar for the shares.
     // A line read without a country (a street alone) is read, but counted apart from those a country was found for.
-    const counts = { US: 0, CA: 0, JP: 0, other: 0, none: 0 };
+    const counts = { US: 0, CA: 0, JP: 0, AU: 0, GB: 0, other: 0, none: 0 };
     let clean = 0;
     for (const row of bulkRows) {
-      counts[row.parsed === null ? "none" : (row.parsed.country ?? "other")] += 1;
+      const country = row.parsed?.country;
+      counts[row.parsed === null ? "none" : BRITISH.has(country) ? "GB" : (country ?? "other")] += 1;
       if (row.parsed && row.findings.length === 0) clean += 1;
     }
     const read = bulkRows.length - counts.none;
@@ -366,7 +415,7 @@ export function setUpExtras(kit) {
     table.replaceChildren(head, body);
     show(
       "bulk-call",
-      `parseLocations(lines).map((address) => address?.country)\n  // ${JSON.stringify(bulkRows.map((row) => row.parsed?.country ?? null))}`,
+      `lines.map((line) => parseLocation(line, { countries: [australia, unitedKingdom] })?.country ?? null)\n  // ${JSON.stringify(bulkRows.map((row) => row.parsed?.country ?? null))}`,
     );
     setDownloads(true);
   }
@@ -381,7 +430,8 @@ export function setUpExtras(kit) {
     return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
   };
 
-  // The CSV has every column of the table, then the Japanese fields, so one file serves every country.
+  // The CSV has every column of the table, then the Japanese fields, then Australia's and the UK's own, so one file
+  // serves every country.
   const JAPAN_COLUMNS = [
     "prefecture",
     "municipality",
@@ -393,6 +443,14 @@ export function setUpExtras(kit) {
     "building",
     "floor",
     "room",
+    "floorType",
+    "lot",
+    "subBuilding",
+    "dependentThoroughfare",
+    "locality",
+    "county",
+    "nation",
+    "bfpo",
   ];
 
   /** The file a download button saves: its name, its type and its text. */
@@ -486,7 +544,8 @@ export function setUpExtras(kit) {
       if (!response.ok) throw new Error(String(response.status));
       const cases = await response.json();
       corpus = cases.map((testCase) => {
-        const result = parseLocation(testCase.input, testCase.options);
+        // Every case is read with the country modules, as the package's own suites read them.
+        const result = parseLocation(testCase.input, { ...testCase.options, countries: COUNTRIES });
         return { ...testCase, result, passes: passes(testCase, result) };
       });
       button.hidden = true;
@@ -503,7 +562,7 @@ export function setUpExtras(kit) {
     const summary = document.querySelector('[data-testid="corpus-summary"]');
     const rows = document.createElement("div");
     rows.className = "corpus-bars";
-    for (const country of ["us", "canada", "japan"]) {
+    for (const country of ["us", "canada", "japan", "au", "gb"]) {
       const cases = corpus.filter((one) => one.country === country);
       const passing = cases.filter((one) => one.passes).length;
       const line = document.createElement("div");

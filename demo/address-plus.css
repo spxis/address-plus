@@ -335,6 +335,12 @@
 [data-kind="JP"] {
   --kind: #2f7a4f;
 }
+[data-kind="AU"] {
+  --kind: #7a4f8f;
+}
+[data-kind="GB"] {
+  --kind: #3d7f86;
+}
 [data-kind="other"] {
   --kind: #b08a2e;
 }

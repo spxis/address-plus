@@ -3,6 +3,20 @@
 // language the header's chooser picks. Everything typed or returned is set as text, never as HTML.
 import { BULK_SAMPLE, setUpExtras } from "./extras.js";
 import {
+  australia,
+  compareAustralianAddresses,
+  formatAustraliaPost,
+  getStatesForAustralianPostcode,
+} from "./lib/au.js";
+import {
+  compareUKAddresses,
+  formatRoyalMail,
+  GB_NATIONS,
+  GB_POSTCODE_AREAS,
+  parseUKPostcode,
+  unitedKingdom,
+} from "./lib/gb.js";
+import {
   cleanAddressDetailed,
   compareAddresses,
   findPrefecture,
@@ -25,6 +39,10 @@ import {
   validateAddress,
 } from "./lib/index.js";
 import { WORDS } from "./words.js";
+
+// Australia and the United Kingdom are modules of their own; every panel hands them to the parser.
+const COUNTRIES = [australia, unitedKingdom];
+const WITH_MODULES = "{ countries: [australia, unitedKingdom] }";
 
 // The order the fields of a parsed address are listed in. A Japanese address lists its own fields; the shared
 // ones (state, city, street, number, zip) hold the same values again and are left to the JSON.
@@ -57,6 +75,43 @@ const FIELDS_WEST = [
   "plus4",
   "country",
 ];
+// Australia's fields and the United Kingdom's, each in the order its post office writes them.
+const FIELDS_AU = [
+  "building",
+  "secUnitType",
+  "secUnitNum",
+  "floorType",
+  "floor",
+  "lot",
+  "number",
+  "street",
+  "type",
+  "suffix",
+  "city",
+  "state",
+  "zip",
+  "country",
+];
+const FIELDS_GB = [
+  "subBuilding",
+  "secUnitType",
+  "secUnitNum",
+  "floorType",
+  "floor",
+  "building",
+  "number",
+  "dependentThoroughfare",
+  "street",
+  "type",
+  "doubleDependentLocality",
+  "locality",
+  "city",
+  "county",
+  "bfpo",
+  "zip",
+  "nation",
+  "country",
+];
 const FIELDS_JAPAN = [
   "postalCode",
   "prefecture",
@@ -80,6 +135,7 @@ const FIELDS_JAPAN = [
 const US_ZIP = /^\d{5}(-\d{4})?$/;
 const CANADIAN_POSTAL = /^[A-Za-z]\d[A-Za-z]( ?\d[A-Za-z]\d)?$/;
 const JAPANESE_POSTAL = /^〒?\s*\d{3}-?\d{4}$/;
+const AUSTRALIAN_POSTCODE = /^\d{4}$/;
 
 const language = familyLanguage({ id: "address-plus", words: WORDS, onChange: () => render() });
 /** A line of the page in its language, with each `{name}` filled in from `values`. */
@@ -184,21 +240,54 @@ const show = (id, text) => {
 };
 const countryName = (code) => (code ? `${code} · ${say("country")[code] ?? code}` : "");
 
+/** A nation of the United Kingdom by its code and its name in the page's language (from kuni, through the tables). */
+const nationName = (code) => {
+  const nation = GB_NATIONS.find((one) => one.code === code);
+  return nation ? `${code} · ${ja() ? nation.nameJa : nation.name}` : code;
+};
+
+/** An address read the way every panel reads one: with the two country modules, and a country if one is picked. */
+const read = (text, country = "auto") =>
+  parseLocation(text, country === "auto" ? { countries: COUNTRIES } : { country, countries: COUNTRIES });
+const BRITISH = new Set(["GB", "JE", "GY", "IM"]);
+/** The post office format of an address read by a country module, or null for the core's countries. */
+function moduleFormat(address) {
+  if (address?.country === "AU") return { format: formatAustraliaPost(address), call: "formatAustraliaPost" };
+  if (BRITISH.has(address?.country)) return { format: formatRoyalMail(address), call: "formatRoyalMail" };
+  return null;
+}
+
 // ----- parse ------------------------------------------------------------------------------------------------
 
 /** The fields of a parsed address as rows of the field table. */
 function fieldRows(address) {
-  const order = address.country === "JP" ? FIELDS_JAPAN : FIELDS_WEST;
+  const order =
+    address.country === "JP"
+      ? FIELDS_JAPAN
+      : address.country === "AU"
+        ? FIELDS_AU
+        : BRITISH.has(address.country)
+          ? FIELDS_GB
+          : FIELDS_WEST;
   const labels = say("fields");
   return order
     .filter((key) => address[key] !== undefined && address[key] !== "")
-    .map((key) => [labels[key] ?? key, key === "country" ? countryName(address[key]) : String(address[key]), key]);
+    .map((key) => [
+      labels[key] ?? key,
+      key === "country"
+        ? countryName(address[key])
+        : key === "nation"
+          ? nationName(address[key])
+          : String(address[key]),
+      key,
+    ]);
 }
 
 function parse() {
   const text = $("parse-input").value;
+  const country = $("parse-country").querySelector('[aria-pressed="true"]')?.dataset.country ?? "auto";
   const out = $("parse-answer");
-  const address = parseLocation(text);
+  const address = read(text, country);
   if (address === null) note(out, say("parse_none"));
   else {
     facts(out, fieldRows(address));
@@ -209,7 +298,7 @@ function parse() {
     address?.country === "JP" ? (address.block ?? address.prefecture) : (address?.street ?? address?.street1);
   show(
     "parse-call",
-    `parseLocation(${quote(text)})  // ${address === null ? "null" : `{ country: ${quote(address.country)}${lead ? `, … ${quote(lead)}` : ""} }`}`,
+    `parseLocation(${quote(text)}, { ${country === "auto" ? "" : `country: ${quote(country)}, `}countries: [australia, unitedKingdom] })  // ${address === null ? "null" : `{ country: ${quote(address.country)}${lead ? `, … ${quote(lead)}` : ""} }`}`,
   );
 }
 
@@ -219,7 +308,7 @@ function validate() {
   const text = $("validate-input").value;
   const strict = $("validate-strict").getAttribute("aria-pressed") === "true";
   const out = $("validate-answer");
-  const result = validateAddress(text, strict ? { strictPostalValidation: true } : {});
+  const result = validateAddress(text, { countries: COUNTRIES, ...(strict ? { strictPostalValidation: true } : {}) });
   const pairs = [
     [say("validate_valid"), badge(result.isValid), "isValid"],
     [say("validate_confidence"), percent(result.confidence), "confidence"],
@@ -237,7 +326,7 @@ function validate() {
   const first = result.errors[0] ?? result.warnings[0];
   show(
     "validate-call",
-    `validateAddress(${quote(text)}${strict ? ", { strictPostalValidation: true }" : ""})  // { isValid: ${result.isValid}${first ? `, ${result.errors.length > 0 ? "errors" : "warnings"}: [${quote(first.code)}${result.errors.length + result.warnings.length > 1 ? ", …" : ""}]` : ""} }`,
+    `validateAddress(${quote(text)}, { countries: [australia, unitedKingdom]${strict ? ", strictPostalValidation: true" : ""} })  // { isValid: ${result.isValid}${first ? `, ${result.errors.length > 0 ? "errors" : "warnings"}: [${quote(first.code)}${result.errors.length + result.warnings.length > 1 ? ", …" : ""}]` : ""} }`,
   );
 }
 
@@ -247,11 +336,29 @@ function format() {
   const text = $("format-input").value;
   const blockStyle = $("format-style").querySelector('[aria-pressed="true"]')?.dataset.style ?? "hyphen";
   const out = $("format-answer");
-  const address = parseLocation(text);
+  const address = read(text);
   if (address === null) {
     note(out, say("format_none"));
     json("format", null);
-    show("format-call", `parseLocation(${quote(text)})  // null`);
+    show("format-call", `parseLocation(${quote(text)}, ${WITH_MODULES})  // null`);
+    return;
+  }
+  const byModule = moduleFormat(address);
+  if (byModule) {
+    const { format: formatted, call } = byModule;
+    facts(out, [
+      [
+        say(call === "formatAustraliaPost" ? "format_australia" : "format_royal"),
+        lines(formatted.lines.join("\n")),
+        "lines",
+      ],
+      [say("format_single"), formatted.singleLine, "singleLine"],
+    ]);
+    json("format", formatted);
+    show(
+      "format-call",
+      `${call}(parseLocation(${quote(text)}, ${WITH_MODULES})).lines  // ${JSON.stringify(formatted.lines)}`,
+    );
     return;
   }
   if (address.country === "JP") {
@@ -286,13 +393,46 @@ function compare() {
   const first = $("compare-first").value;
   const second = $("compare-second").value;
   const out = $("compare-answer");
-  const one = parseLocation(first);
-  const two = parseLocation(second);
+  const one = read(first);
+  const two = read(second);
   const called = `compareAddresses(parseLocation(${quote(first)}), parseLocation(${quote(second)}))`;
   if (one === null || two === null) {
     note(out, say("compare_none"));
     json("compare", null);
-    show("compare-call", `parseLocation(${quote(one === null ? first : second)})  // null`);
+    show("compare-call", `parseLocation(${quote(one === null ? first : second)}, ${WITH_MODULES})  // null`);
+    return;
+  }
+  // Two Australian or two British addresses are compared by their own module, which knows their forms.
+  const both =
+    one.country === "AU" && two.country === "AU"
+      ? "AU"
+      : BRITISH.has(one.country) && BRITISH.has(two.country)
+        ? "GB"
+        : null;
+  if (both) {
+    const call = both === "AU" ? "compareAustralianAddresses" : "compareUKAddresses";
+    const result = both === "AU" ? compareAustralianAddresses(one, two) : compareUKAddresses(one, two);
+    const pairs = [[say("compare_same"), badge(result.isSame), "isSame"]];
+    if (result.differences.length > 0) {
+      const items = document.createElement("ul");
+      items.className = "findings";
+      for (const difference of result.differences) {
+        const item = document.createElement("li");
+        const field = document.createElement("code");
+        field.textContent = difference.field;
+        const said = document.createElement("span");
+        said.textContent = `${quote(difference.first ?? "")} · ${quote(difference.second ?? "")}`;
+        item.append(field, said);
+        items.append(item);
+      }
+      pairs.push([say("compare_differences"), items, "differences"]);
+    } else pairs.push([say("compare_differences"), say("none"), "differences"]);
+    facts(out, pairs);
+    json("compare", result);
+    show(
+      "compare-call",
+      `${call}(parseLocation(${quote(first)}, ${WITH_MODULES}), parseLocation(${quote(second)}, ${WITH_MODULES}))\n  // { isSame: ${result.isSame}${result.differences.length > 0 ? `, differences: [${result.differences.map((one) => quote(one.field)).join(", ")}]` : ""} }`,
+    );
     return;
   }
   const result = compareAddresses(one, two);
@@ -360,7 +500,26 @@ function postal() {
   const kinds = say("postal_kinds");
   let called = "";
   let answer = null;
-  if (US_ZIP.test(text)) {
+  const british = parseUKPostcode(text);
+  if (AUSTRALIAN_POSTCODE.test(text)) {
+    const states = getStatesForAustralianPostcode(text);
+    called = `getStatesForAustralianPostcode(${quote(text)})  // ${JSON.stringify(states)}`;
+    answer = states;
+    facts(out, [
+      [say("postal_kind"), kinds.au],
+      [say("postal_region"), states.length > 0 ? states.join(" · ") : say("postal_unknown")],
+    ]);
+  } else if (british) {
+    called = `parseUKPostcode(${quote(text)})  // { postcode: ${quote(british.postcode)}, country: ${quote(british.country)}${british.nation ? `, nation: ${quote(british.nation)}` : ""} }`;
+    answer = british;
+    const area = GB_POSTCODE_AREAS[british.area];
+    facts(out, [
+      [say("postal_kind"), kinds.gb],
+      [say("postal_region"), british.nation ? nationName(british.nation) : countryName(british.country)],
+      [say("postal_area"), area ? `${british.area} · ${area.name}` : british.area],
+      [say("postal_district"), british.district],
+    ]);
+  } else if (US_ZIP.test(text)) {
     const state = getStateFromZip(text);
     called = `getStateFromZip(${quote(text)})  // ${quote(state)}`;
     answer = state;
@@ -427,10 +586,14 @@ function clean() {
   const out = $("clean-answer");
   const result = cleanAddressDetailed(text, { standardizeCase });
   // Typed, then cleaned, then as the post office writes it: the three side by side.
-  const parsed = parseLocation(result.cleanedAddress);
+  const parsed = read(result.cleanedAddress);
   let postalLine = say("clean_no_postal");
   let postalCall = "";
-  if (parsed?.country === "JP") {
+  const byModule = moduleFormat(parsed);
+  if (byModule) {
+    postalLine = byModule.format.lines.join(" / ");
+    postalCall = byModule.call;
+  } else if (parsed?.country === "JP") {
     postalLine = formatJapanese(parsed, { multiline: false });
     postalCall = "formatJapanese";
   } else if (parsed?.country === "CA") {
@@ -491,6 +654,10 @@ const PANELS = {
       ["kanji", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室"],
       ["romaji", "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"],
       ["fullwidth", "〒５３０－０００１ 大阪府大阪市北区梅田３－１－１"],
+      ["australia", "3/12 Smith St, Parramatta NSW 2150"],
+      ["level", "Level 6, 51 Jacobson St, Brisbane QLD 4000"],
+      ["flat", "Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA"],
+      ["london", "10 Downing Street, London SW1A 2AA"],
     ],
   },
   validate: {
@@ -503,6 +670,8 @@ const PANELS = {
       ["complete", "1600 Pennsylvania Ave NW, Washington, DC 20500"],
       ["japan", "〒100-0005 東京都千代田区丸の内1-2-3"],
       ["short", "123 Main St"],
+      ["australia", "1 Main St, Sydney VIC 2000"],
+      ["jersey", "12 Bath Street, St Helier JE2 4ST"],
     ],
   },
   format: {
@@ -514,6 +683,8 @@ const PANELS = {
       ["us", "123 Main Street Apt 4, Anytown, NY 12345"],
       ["canada", "100 Queen Street West, Toronto, Ontario M5H 2N2"],
       ["pobox", "PO Box 1234, Springfield, IL 62701"],
+      ["australia", "Unit 3/12 Smith Street, Parramatta NSW 2150"],
+      ["uk", "Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA"],
     ],
   },
   compare: {
@@ -524,6 +695,8 @@ const PANELS = {
       ["typo", ["123 Main Street, Anytown, NY 12345", "125 Main Street, Anytown, NY 12345"]],
       ["canada", ["100 Queen St W, Toronto, ON M5H 2N2", "100 Queen Street West, Toronto, Ontario M5H2N2"]],
       ["fullwidth", ["東京都千代田区丸の内1丁目2番3号", "東京都千代田区丸の内１－２－３"]],
+      ["australia", ["3/12 Smith Street, Parramatta NSW 2150", "Unit 3, 12 Smith St, PARRAMATTA New South Wales 2150"]],
+      ["uk", ["10 Downing Street, London SW1A 2AA", "10 DOWNING ST, LONDON, SW1A2AA"]],
       ["different", ["123 Main St, Springfield, IL 62701", "456 Oak Ave, Portland, OR 97201"]],
     ],
   },
@@ -537,6 +710,10 @@ const PANELS = {
       "H3G",
       "100-0005",
       "５３０－０００１",
+      "2620",
+      "SW1A 2AA",
+      "CH5 1AA",
+      "JE2 3AB",
       "WA",
       "Quebec",
       "大阪府",
@@ -551,6 +728,8 @@ const PANELS = {
       ["spaces", "742 evergreen terrace,springfield ,  il 62704"],
       ["canada", "  10 wellington   street , ottawa , on k1a 0a6"],
       ["japan", "〒１００－０００５　東京都千代田区丸の内１－２－３"],
+      ["australia", "  3/12  smith st , parramatta  nsw 2150"],
+      ["uk", "flat 2 , 14 high st ,  london   nw9 0aa"],
     ],
   },
   japan: {
@@ -647,11 +826,12 @@ const OPTIONS = {
     write: (value) => $("validate-strict").setAttribute("aria-pressed", String(value === "1")),
   },
   block: chosen("format-style", "style"),
+  country: chosen("parse-country", "country"),
   case: chosen("clean-case", "case"),
 };
 // The names each panel's link carries.
 const PANEL_STATE = {
-  parse: ["parse"],
+  parse: ["parse", "country"],
   validate: ["validate", "strict"],
   format: ["format", "block"],
   compare: ["first", "second"],
@@ -755,6 +935,10 @@ $("validate-strict").addEventListener("click", (event) => {
   const button = event.currentTarget;
   button.setAttribute("aria-pressed", String(button.getAttribute("aria-pressed") !== "true"));
   validate();
+  remember();
+});
+choices("parse-country", () => {
+  parse();
   remember();
 });
 choices("format-style", () => {
