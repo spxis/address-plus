@@ -86,6 +86,7 @@ const ROMAJI_BUILDING_WORD = /\b(?:bldg\.?|building|tower|mansion|heights|court|
 const ROMAJI_MUNICIPALITY_DESIGNATOR = /-(?:ku|shi|cho|machi|mura|son)\b|\b(?:city|ward|town|village)\b/i;
 const ROMAJI_DESIGNATOR_WORD = /-(?:ku|shi|cho|machi|mura|son|gun|to|do|fu|ken)\b/i;
 const COMMA_SPLIT = /\s*,\s*/;
+const LATIN_LETTER = /[A-Za-z]/;
 const WORD_SPLIT = /[,\s]+/;
 const PART_TRIM = /^[\s〒]+|[\s.]+$/g;
 const COMBINING_MARKS = /[\u0300-\u036f]/g;
@@ -110,6 +111,7 @@ export {
   KANJI_NUMERAL_AFTER_CHOME,
   KANJI_NUMERAL_GO,
   KANJI_POSITIONAL_DIGITS,
+  LATIN_LETTER,
   LEADING_COUNTRY,
   LEADING_POSTAL_CODE,
   MARKED_POSTAL_CODE,

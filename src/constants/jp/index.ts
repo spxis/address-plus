@@ -333,9 +333,13 @@ function getPrefectureFromJapanesePostalCode(postalCode: string): string | null 
 }
 
 // The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above.
-// A prefix on a border is listed under the prefecture most of its codes belong to.
-// @example getPostalPrefixesForPrefecture("47") → ["900", "901", …, "907"]
-function getPostalPrefixesForPrefecture(prefectureCode: string): string[] {
+// The prefecture may be given by JIS code, name or romaji, as findPrefecture reads it. A prefix on a
+// border is listed under the prefecture most of its codes belong to.
+// @example getPostalPrefixesForPrefecture("47") → ["900", "901", …, "907"]; getPostalPrefixesForPrefecture("沖縄県") → the same
+function getPostalPrefixesForPrefecture(prefecture: string): string[] {
+  const prefectureCode = findPrefecture(prefecture)?.code;
+  if (!prefectureCode) return [];
+
   return Object.entries(JP_POSTAL_PREFIXES)
     .filter(([, code]) => code === prefectureCode)
     .map(([prefix]) => prefix)

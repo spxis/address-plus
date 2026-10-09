@@ -37,11 +37,19 @@ describe("Japanese lookups", () => {
   });
 
   describe("getPostalPrefixesForPrefecture", () => {
-    (prefixesForPrefecture as JapaneseValueCase<string, string[]>[]).forEach(({ name, input, expected }) => {
-      it(`should ${name}`, () => {
-        expect(getPostalPrefixesForPrefecture(input)).toEqual(expected);
-      });
-    });
+    (prefixesForPrefecture as (JapaneseValueCase<string, string[]> & { sameAs?: string })[]).forEach(
+      ({ name, input, expected, sameAs }) => {
+        it(`should ${name}`, () => {
+          const prefixes = getPostalPrefixesForPrefecture(input);
+          if (sameAs) {
+            expect(prefixes.length).toBeGreaterThan(0);
+            expect(prefixes).toEqual(getPostalPrefixesForPrefecture(sameAs));
+          } else {
+            expect(prefixes).toEqual(expected);
+          }
+        });
+      },
+    );
   });
 
   describe("findMunicipalitiesByRomaji", () => {

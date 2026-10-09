@@ -2,6 +2,8 @@
 // English order for a form that expects the street first.
 
 import type { ParsedAddress } from "../types/parsed-address";
+import { hasJapaneseScript } from "./normalize";
+import { LATIN_LETTER } from "./patterns";
 
 interface JapaneseFormattingOptions {
   blockStyle?: "hyphen" | "markers"; // 1-2-3 (default) or 1丁目2番3号
@@ -33,16 +35,26 @@ function floorInJapanese(floor: string): string {
   return floor.startsWith(BASEMENT_PREFIX) ? `地下${floor.slice(BASEMENT_PREFIX.length)}階` : `${floor}階`;
 }
 
+// Whether a name was written in Latin letters rather than Japanese: Marunouchi, Marunouchi Bldg.
+const isRomaji = (name: string | undefined): boolean =>
+  name !== undefined && LATIN_LETTER.test(name) && !hasJapaneseScript(name);
+
 // 〒100-0005
 // 東京都千代田区丸の内1-2-3
 // 丸ビル5階501号室
+// The prefecture and municipality are always in kanji, from the tables. A town or building parsed from
+// romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run
+// together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
 function formatJapanese(address: ParsedAddress, options: JapaneseFormattingOptions = {}): string {
   const { blockStyle = "hyphen", includePostalCode = true, multiline = true } = options;
   const lines: string[] = [];
   if (includePostalCode && address.postalCode) lines.push(`〒${address.postalCode}`);
 
   const block = blockStyle === "markers" ? blockWithMarkers(address) : (address.block ?? "");
-  const place = [address.prefecture, address.municipality, address.town, block].filter(Boolean).join("");
+  const region = [address.prefecture, address.municipality].filter(Boolean).join("");
+  const place = isRomaji(address.town)
+    ? [region, address.town, block].filter(Boolean).join(" ")
+    : [region, address.town, block].filter(Boolean).join("");
   if (place) lines.push(place);
 
   const building = [
@@ -51,7 +63,7 @@ function formatJapanese(address: ParsedAddress, options: JapaneseFormattingOptio
     address.room && `${address.room}号室`,
   ]
     .filter(Boolean)
-    .join("");
+    .join(isRomaji(address.building) ? " " : "");
   if (building) lines.push(building);
 
   return lines.join(multiline ? "\n" : " ");
@@ -64,8 +76,10 @@ function municipalityInEnglishOrder(romaji: string): string {
 }
 
 // Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
-// The town and building are written as they were parsed: romaji when the address came in romaji, and
-// Japanese when it came in Japanese, since the tables hold no romaji for towns.
+// The prefecture and municipality are always romaji, from the tables (a municipality the tables do not
+// know keeps the name it was written with). The town and building are written as they were parsed:
+// romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold
+// no romaji for towns, and a reading guessed from kanji would often be wrong.
 function formatJapaneseEnglish(address: ParsedAddress, options: JapaneseEnglishFormattingOptions = {}): string {
   const { includeCountry = true, includePostalCode = true } = options;
   const parts: string[] = [];

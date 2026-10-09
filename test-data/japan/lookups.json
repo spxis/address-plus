@@ -4,55 +4,211 @@
   "description": "The lookups over the Japanese tables: prefectures by any spelling, the prefecture a postal code delivers to and back, municipalities by Japanese name and by romaji, and the designated cities the parser adds to Geolonia's wards.",
   "tests": {
     "findPrefecture": [
-      { "name": "find Tokyo by its name", "input": "東京都", "expected": "13" },
-      { "name": "find Tokyo without its designator", "input": "東京", "expected": "13" },
-      { "name": "find Tokyo by its JIS code", "input": "13", "expected": "13" },
-      { "name": "find Tokyo by its reading", "input": "トウキョウト", "expected": "13" },
-      { "name": "find Tokyo by its romaji", "input": "Tokyo", "expected": "13" },
-      { "name": "find Tokyo written Tokyo-to", "input": "Tokyo-to", "expected": "13" },
-      { "name": "find Tokyo written Tokyo Metropolis", "input": "Tokyo Metropolis", "expected": "13" },
-      { "name": "find Tokyo written with macrons", "input": "Tōkyō", "expected": "13" },
-      { "name": "find Osaka written Osaka Prefecture", "input": "Osaka Prefecture", "expected": "27" },
-      { "name": "find Osaka written Osaka-fu", "input": "Osaka-fu", "expected": "27" },
-      { "name": "find Kyoto written Kyoto-fu", "input": "Kyoto-fu", "expected": "26" },
-      { "name": "find Aichi written Aichi-ken", "input": "Aichi-ken", "expected": "23" },
-      { "name": "find Miyagi written Miyagi Pref.", "input": "Miyagi Pref.", "expected": "04" },
-      { "name": "find Hokkaido written Hokkaido-do", "input": "Hokkaido-do", "expected": "01" },
-      { "name": "find Hokkaido by its full name only", "input": "北海道", "expected": "01" },
-      { "name": "find Gunma under either spelling", "input": "Gunma", "expected": "10" },
-      { "name": "find Gunma written Gumma, as the table does", "input": "Gumma", "expected": "10" },
-      { "name": "find nothing for a city's name", "input": "Boston", "expected": null },
-      { "name": "find nothing for an empty string", "input": "", "expected": null }
+      {
+        "name": "find Tokyo by its name",
+        "input": "東京都",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo without its designator",
+        "input": "東京",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo by its JIS code",
+        "input": "13",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo by its reading",
+        "input": "トウキョウト",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo by its romaji",
+        "input": "Tokyo",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo written Tokyo-to",
+        "input": "Tokyo-to",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo written Tokyo Metropolis",
+        "input": "Tokyo Metropolis",
+        "expected": "13"
+      },
+      {
+        "name": "find Tokyo written with macrons",
+        "input": "Tōkyō",
+        "expected": "13"
+      },
+      {
+        "name": "find Osaka written Osaka Prefecture",
+        "input": "Osaka Prefecture",
+        "expected": "27"
+      },
+      {
+        "name": "find Osaka written Osaka-fu",
+        "input": "Osaka-fu",
+        "expected": "27"
+      },
+      {
+        "name": "find Kyoto written Kyoto-fu",
+        "input": "Kyoto-fu",
+        "expected": "26"
+      },
+      {
+        "name": "find Aichi written Aichi-ken",
+        "input": "Aichi-ken",
+        "expected": "23"
+      },
+      {
+        "name": "find Miyagi written Miyagi Pref.",
+        "input": "Miyagi Pref.",
+        "expected": "04"
+      },
+      {
+        "name": "find Hokkaido written Hokkaido-do",
+        "input": "Hokkaido-do",
+        "expected": "01"
+      },
+      {
+        "name": "find Hokkaido by its full name only",
+        "input": "北海道",
+        "expected": "01"
+      },
+      {
+        "name": "find Gunma under either spelling",
+        "input": "Gunma",
+        "expected": "10"
+      },
+      {
+        "name": "find Gunma written Gumma, as the table does",
+        "input": "Gumma",
+        "expected": "10"
+      },
+      {
+        "name": "find nothing for a city's name",
+        "input": "Boston",
+        "expected": null
+      },
+      {
+        "name": "find nothing for an empty string",
+        "input": "",
+        "expected": null
+      }
     ],
     "postalToPrefecture": [
-      { "name": "resolve 100-0005 to Tokyo", "input": "100-0005", "expected": "13" },
-      { "name": "resolve a code without a hyphen", "input": "1000005", "expected": "13" },
-      { "name": "resolve a full-width code", "input": "１００－０００５", "expected": "13" },
-      { "name": "resolve 530-0001 to Osaka", "input": "530-0001", "expected": "27" },
-      { "name": "resolve 060-0001 to Hokkaido", "input": "060-0001", "expected": "01" },
-      { "name": "resolve 900-0000 to Okinawa", "input": "900-0000", "expected": "47" },
+      {
+        "name": "resolve 100-0005 to Tokyo",
+        "input": "100-0005",
+        "expected": "13"
+      },
+      {
+        "name": "resolve a code without a hyphen",
+        "input": "1000005",
+        "expected": "13"
+      },
+      {
+        "name": "resolve a full-width code",
+        "input": "１００－０００５",
+        "expected": "13"
+      },
+      {
+        "name": "resolve 530-0001 to Osaka",
+        "input": "530-0001",
+        "expected": "27"
+      },
+      {
+        "name": "resolve 060-0001 to Hokkaido",
+        "input": "060-0001",
+        "expected": "01"
+      },
+      {
+        "name": "resolve 900-0000 to Okinawa",
+        "input": "900-0000",
+        "expected": "47"
+      },
       {
         "name": "resolve a code on the Tochigi side of a prefix most of whose codes are Ibaraki's",
         "input": "311-4411",
         "expected": "09"
       },
-      { "name": "return nothing for a short code", "input": "100-000", "expected": null },
-      { "name": "return nothing for a prefix no code begins with", "input": "000-0000", "expected": null }
+      {
+        "name": "return nothing for a short code",
+        "input": "100-000",
+        "expected": null
+      },
+      {
+        "name": "return nothing for a prefix no code begins with",
+        "input": "000-0000",
+        "expected": null
+      }
     ],
     "prefixesForPrefecture": [
       {
         "name": "list Okinawa's prefixes",
         "input": "47",
         "expected": ["900", "901", "902", "903", "904", "905", "906", "907"]
+      },
+      {
+        "name": "list Okinawa's prefixes by its name",
+        "input": "沖縄県",
+        "expected": ["900", "901", "902", "903", "904", "905", "906", "907"]
+      },
+      {
+        "name": "list Osaka's prefixes by its name, the same as by its code",
+        "input": "大阪府",
+        "sameAs": "27"
+      },
+      {
+        "name": "list Osaka's prefixes by its romaji, the same as by its code",
+        "input": "Osaka",
+        "sameAs": "27"
+      },
+      {
+        "name": "list nothing for a name that is no prefecture",
+        "input": "Boston",
+        "expected": []
       }
     ],
     "municipalitiesByRomaji": [
-      { "name": "find Chiyoda-ku in Tokyo", "input": "Chiyoda-ku", "prefecture": "13", "expected": ["13101"] },
-      { "name": "find a ward written before its city", "input": "Chuo-ku, Sapporo", "expected": ["01101"] },
-      { "name": "find a ward written in table order", "input": "Sapporo-shi Chuo-ku", "expected": ["01101"] },
-      { "name": "find a ward written Minato City", "input": "Minato City", "prefecture": "13", "expected": ["13103"] },
-      { "name": "find a town without its district", "input": "Tobetsu-cho", "prefecture": "01", "expected": ["01303"] },
-      { "name": "find a designated city alone", "input": "Sapporo", "prefecture": "01", "expected": ["01100"] },
+      {
+        "name": "find Chiyoda-ku in Tokyo",
+        "input": "Chiyoda-ku",
+        "prefecture": "13",
+        "expected": ["13101"]
+      },
+      {
+        "name": "find a ward written before its city",
+        "input": "Chuo-ku, Sapporo",
+        "expected": ["01101"]
+      },
+      {
+        "name": "find a ward written in table order",
+        "input": "Sapporo-shi Chuo-ku",
+        "expected": ["01101"]
+      },
+      {
+        "name": "find a ward written Minato City",
+        "input": "Minato City",
+        "prefecture": "13",
+        "expected": ["13103"]
+      },
+      {
+        "name": "find a town without its district",
+        "input": "Tobetsu-cho",
+        "prefecture": "01",
+        "expected": ["01303"]
+      },
+      {
+        "name": "find a designated city alone",
+        "input": "Sapporo",
+        "prefecture": "01",
+        "expected": ["01100"]
+      },
       {
         "name": "tell Kiso-machi from Kiso-mura by the designator",
         "input": "Kiso-machi",
@@ -65,32 +221,81 @@
         "prefecture": "20",
         "expected": ["20425"]
       },
-      { "name": "read Kiso Village as Kiso-mura", "input": "Kiso Village", "prefecture": "20", "expected": ["20425"] },
-      { "name": "find both Fuchu-shi without a prefecture", "input": "Fuchu-shi", "expected": ["13206", "34208"] },
-      { "name": "find nothing for a name not in the table", "input": "Springfield", "expected": [] }
+      {
+        "name": "read Kiso Village as Kiso-mura",
+        "input": "Kiso Village",
+        "prefecture": "20",
+        "expected": ["20425"]
+      },
+      {
+        "name": "find both Fuchu-shi without a prefecture",
+        "input": "Fuchu-shi",
+        "expected": ["13206", "34208"]
+      },
+      {
+        "name": "find nothing for a name not in the table",
+        "input": "Springfield",
+        "expected": []
+      }
     ],
     "municipalitiesByName": [
-      { "name": "find both 府中市", "input": "府中市", "expected": ["13206", "34208"] },
-      { "name": "find 府中市 in Hiroshima", "input": "府中市", "prefecture": "34", "expected": ["34208"] },
-      { "name": "find a town by its name without the district", "input": "当別町", "expected": ["01303"] },
-      { "name": "find a designated city", "input": "大阪市", "expected": ["27100"] },
-      { "name": "find every 池田町", "input": "池田町", "expected": ["01644", "18382", "20481", "21404"] }
+      {
+        "name": "find both 府中市",
+        "input": "府中市",
+        "expected": ["13206", "34208"]
+      },
+      {
+        "name": "find 府中市 in Hiroshima",
+        "input": "府中市",
+        "prefecture": "34",
+        "expected": ["34208"]
+      },
+      {
+        "name": "find a town by its name without the district",
+        "input": "当別町",
+        "expected": ["01303"]
+      },
+      {
+        "name": "find a designated city",
+        "input": "大阪市",
+        "expected": ["27100"]
+      },
+      {
+        "name": "find every 池田町",
+        "input": "池田町",
+        "expected": ["01644", "18382", "20481", "21404"]
+      }
     ],
     "designatedCities": [
       {
         "name": "give Sapporo the code before its first ward's",
         "input": "札幌市",
-        "expected": { "code": "01100", "prefecture": "01", "kana": "サッポロシ", "romaji": "Sapporo-shi" }
+        "expected": {
+          "code": "01100",
+          "prefecture": "01",
+          "kana": "サッポロシ",
+          "romaji": "Sapporo-shi"
+        }
       },
       {
         "name": "give Kawasaki a code ending in 30",
         "input": "川崎市",
-        "expected": { "code": "14130", "prefecture": "14", "kana": "カワサキシ", "romaji": "Kawasaki-shi" }
+        "expected": {
+          "code": "14130",
+          "prefecture": "14",
+          "kana": "カワサキシ",
+          "romaji": "Kawasaki-shi"
+        }
       },
       {
         "name": "give Osaka its own code although its first ward is 27102",
         "input": "大阪市",
-        "expected": { "code": "27100", "prefecture": "27", "kana": "オオサカシ", "romaji": "Osaka-shi" }
+        "expected": {
+          "code": "27100",
+          "prefecture": "27",
+          "kana": "オオサカシ",
+          "romaji": "Osaka-shi"
+        }
       }
     ]
   }

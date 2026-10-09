@@ -48,10 +48,12 @@ export type { CountryCode } from "./countries";
 export { DIRECTIONAL_MAP, DIRECTION_EXPANSIONS } from "./directionals";
 export { FRENCH_PREPOSITIONS } from "./french-prepositions";
 export {
+  JP_DESIGNATED_CITIES,
   JP_MUNICIPALITIES,
   JP_POSTAL_EXCEPTIONS,
   JP_POSTAL_PREFIXES,
   JP_PREFECTURES,
+  findMunicipalitiesByName,
   findMunicipalitiesByRomaji,
   findMunicipalityByCode,
   findPrefecture,

@@ -73,7 +73,10 @@ const fetchInputs = async (): Promise<{ geolonia: string; postal: string }> => {
   if (!postal) {
     console.log("Fetching jp-postal from npm ...");
     execFileSync("npm", ["pack", "jp-postal", "--pack-destination", dir], { stdio: "ignore" });
-    const tarball = execFileSync("ls", [dir]).toString().split("\n").find((f) => f.startsWith("jp-postal-"));
+    const tarball = execFileSync("ls", [dir])
+      .toString()
+      .split("\n")
+      .find((f) => f.startsWith("jp-postal-"));
     if (!tarball) throw new Error("npm pack jp-postal produced no tarball");
     execFileSync("tar", ["-xzf", join(dir, tarball), "-C", dir]);
     postal = join(dir, "package", "index.mjs");
