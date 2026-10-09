@@ -1,6 +1,8 @@
 // Canadian postal code to province mapping
 // Based on Canada Post guidelines: https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/postal-codes.page
 
+import { normalizeRegion } from "../utils/normalize-region";
+
 // Map postal code first letter to province abbreviation
 // Canadian postal codes follow the pattern: Letter-Digit-Letter Digit-Letter-Digit
 // The first letter indicates the province/territory
@@ -102,7 +104,9 @@ const TERRITORY_POSTAL_PREFIXES: Record<string, string[]> = {
 // @returns Prefixes (e.g., ["G", "H", "J"]), or an empty array for an unknown province
 // @example getPostalPrefixesForProvince('NU') → ['X0A', 'X0B', 'X0C']
 function getPostalPrefixesForProvince(province: string): string[] {
-  const code = (province ?? "").trim().toUpperCase();
+  // A name ("Quebec", "Québec") is resolved to its code first; a code passes through unchanged.
+  const region = normalizeRegion(province ?? "");
+  const code = region?.country === "CA" ? region.abbr : (province ?? "").trim().toUpperCase();
   const territory = TERRITORY_POSTAL_PREFIXES[code];
   if (territory) return [...territory];
   return Object.entries(POSTAL_CODE_TO_PROVINCE)
@@ -111,9 +115,9 @@ function getPostalPrefixesForProvince(province: string): string[] {
 }
 
 export {
+  getPostalPrefixesForProvince,
+  getProvinceFromPostalCode,
   POSTAL_CODE_TO_PROVINCE,
   TERRITORY_POSTAL_PREFIXES,
   TERRITORY_POSTAL_RANGES,
-  getPostalPrefixesForProvince,
-  getProvinceFromPostalCode,
 };

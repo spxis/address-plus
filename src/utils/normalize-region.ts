@@ -1,5 +1,6 @@
 import levenshtein from "fast-levenshtein";
 
+import { findPrefecture } from "../constants/jp/index.js";
 import { REGIONS } from "../constants/regions.js";
 import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
 import type { Region } from "../types/region.js";
@@ -35,7 +36,14 @@ function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } 
     return { abbr: exactName.abbr, country: exactName.country };
   }
 
-  // 3. Fuzzy match on name
+  // A Japanese prefecture's name is never a misspelt state or province: Osaka is not Alaska, nor Kyoto
+  // Colorado.
+  if (findPrefecture(clean)) {
+    return null;
+  }
+
+  // 3. Fuzzy match on name: the whole input must be close to the whole name, within one edit for five
+  // letters or fewer and within a quarter of its length beyond that.
   let best: { region: Region; dist: number } | null = null;
   for (const region of REGIONS) {
     const dist = levenshtein.get(clean, region.name.toLowerCase());
@@ -44,10 +52,7 @@ function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } 
     }
   }
 
-  // Accept if reasonably close (tune threshold)
-  // Additional check: for short inputs (3 chars or less), require a closer match
-  // to avoid false positives with random strings
-  const threshold = clean.length <= 3 ? 1 : 3;
+  const threshold = clean.length <= 5 ? 1 : Math.max(1, Math.floor(clean.length / 4));
   if (best && best.dist <= threshold) {
     return { abbr: best.region.abbr, country: best.region.country };
   }

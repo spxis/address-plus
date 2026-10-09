@@ -66,6 +66,11 @@
         "name": "return nothing for an unknown state",
         "input": "XX",
         "expected": []
+      },
+      {
+        "name": "accept a state by its name",
+        "input": "New York",
+        "expectedFirst": "005"
       }
     ],
     "prefixesForProvince": [
@@ -98,6 +103,16 @@
         "name": "return nothing for an unknown province",
         "input": "ZZ",
         "expected": []
+      },
+      {
+        "name": "accept a province by its English name",
+        "input": "Quebec",
+        "expected": ["G", "H", "J"]
+      },
+      {
+        "name": "accept a province by its French name",
+        "input": "Québec",
+        "expected": ["G", "H", "J"]
       }
     ],
     "regionConnectors": [

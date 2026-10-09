@@ -79,6 +79,26 @@
           "country": "US"
         },
         "description": "Texas abbreviation with trailing space should still match"
+      },
+      {
+        "input": "Osaka",
+        "expected": null,
+        "description": "A Japanese prefecture is not a misspelt state: Osaka is not Alaska"
+      },
+      {
+        "input": "Tokyo",
+        "expected": null,
+        "description": "A Japanese prefecture is not a misspelt state: Tokyo is not Ohio"
+      },
+      {
+        "input": "Kyoto",
+        "expected": null,
+        "description": "A Japanese prefecture is not a misspelt state: Kyoto is not Colorado"
+      },
+      {
+        "input": "Hokkaido",
+        "expected": null,
+        "description": "A Japanese prefecture is never fuzzy-matched to a state or province"
       }
     ]
   }

@@ -4,6 +4,8 @@
 // - Returns a single 2-letter code, or undefined if invalid/unmapped
 // - Covers all 50 states, DC, territories, and military/diplomatic (AA/AE/AP)
 
+import { normalizeRegion } from "../utils/normalize-region";
+
 type StateCode =
   | "AL"
   | "AK"
@@ -235,7 +237,9 @@ const pad = (value: number, length: number): string => String(value).padStart(le
 // @returns Prefixes in ascending order (e.g., ["010", …, "027"]), or an empty array for an unknown state
 // @example getZipPrefixesForState('RI') → ['028', '029']
 function getZipPrefixesForState(state: string): string[] {
-  const code = (state ?? "").trim().toUpperCase();
+  // A name ("New York") or a misspelling is resolved to its code first; a code passes through unchanged.
+  const region = normalizeRegion(state ?? "");
+  const code = region?.country === "US" ? region.abbr : (state ?? "").trim().toUpperCase();
   const prefixes: string[] = [];
 
   for (const { start, end, code: owner } of ZIP5_EXACT_OVERRIDES) {

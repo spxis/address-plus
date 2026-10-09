@@ -3,12 +3,14 @@
 
 import { COUNTRIES } from "../constants";
 import {
+  CA_PROVINCE_NAMES as CA_PROVINCE_NAMES_TO_CODES,
   DIRECTION_EXPANSIONS,
   PROVINCE_EXPANSIONS,
   SECONDARY_UNIT_TYPES,
   STREET_TYPE_DETECTION_PATTERN,
   STREET_TYPE_EXPANSIONS,
   US_STATE_EXPANSIONS,
+  US_STATE_NAMES as US_STATE_NAMES_TO_CODES,
 } from "../constants/index.js";
 import { parseLocation } from "../index.js";
 import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
@@ -147,90 +149,44 @@ function applyCaseStandardization(text: string, caseType: "upper" | "lower" | "t
   }
 }
 
-// Smart title case that preserves state/province codes
+// State and province codes, kept in capitals where a state goes: before the ZIP or postal code, before a comma
+// or at the end. Elsewhere "De", "La" or "In" are words ("Rue de la Paix"), not Delaware or Louisiana.
+const REGION_CODES: Set<string> = new Set([
+  ...Object.values(US_STATE_NAMES_TO_CODES),
+  ...Object.values(CA_PROVINCE_NAMES_TO_CODES),
+]);
+
+// Directions, always in capitals.
+const DIRECTION_CODES: Set<string> = new Set(["N", "S", "E", "W", "NE", "NW", "SE", "SW"]);
+
+// Title-case one word. A word holding a digit is a number, a unit or part of a postal code: a short one goes
+// to capitals ("2B", "M5H", "2N2", "D304"), except an ordinal's ending ("1st", "22nd"). Letters after a hyphen
+// or an apostrophe start a new word.
+function titleCaseWord(word: string): string {
+  if (/\d/.test(word)) {
+    if (/^\d+(?:st|nd|rd|th)$/i.test(word)) return word.toLowerCase();
+    return word.length <= 4 ? word.toUpperCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }
+  if (DIRECTION_CODES.has(word.toUpperCase())) return word.toUpperCase();
+  return word
+    .toLowerCase()
+    .replace(/(^|[-'’])(\p{L})/gu, (_whole: string, before: string, letter: string) => before + letter.toUpperCase());
+}
+
+// Smart title case that keeps directions, state and province codes, postal codes, units and "PO Box" in
+// their usual form.
 function applySmartTitleCase(text: string): string {
-  // First apply regular title case
-  let result = text.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-
-  // Then fix known state/province codes that should be uppercase
-  const stateProvinceCodes = [
-    // US States
-    "AL",
-    "AK",
-    "AZ",
-    "AR",
-    "CA",
-    "CO",
-    "CT",
-    "DE",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OK",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
-    "DC",
-    // Canadian Provinces
-    "AB",
-    "BC",
-    "MB",
-    "NB",
-    "NL",
-    "NS",
-    "NT",
-    "NU",
-    "ON",
-    "PE",
-    "QC",
-    "SK",
-    "YT",
-  ];
-
-  // Fix state codes that got converted to title case
-  stateProvinceCodes.forEach((code) => {
-    const titleCaseCode = code.charAt(0) + code.substr(1).toLowerCase(); // e.g. "Ca" for "CA"
-    // Use word boundaries to avoid replacing parts of other words
-    const regex = new RegExp(`\\b${titleCaseCode}\\b`, "g");
-    result = result.replace(regex, code);
-  });
-
-  return result;
+  const pieces = text.split(/(\s+|,)/);
+  return pieces
+    .map((piece: string, index: number) => {
+      if (/^\s*$|^,$/.test(piece)) return piece;
+      const next = pieces.slice(index + 1).find((later: string) => !/^\s*$/.test(later));
+      const inStatePlace = next === undefined || next === "," || /\d/.test(next);
+      if (REGION_CODES.has(piece.toUpperCase()) && inStatePlace) return piece.toUpperCase();
+      return titleCaseWord(piece);
+    })
+    .join("")
+    .replace(/\bPo Box\b/g, "PO Box");
 }
 
 // Apply string-level abbreviation expansion

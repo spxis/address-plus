@@ -83,7 +83,7 @@
           "abbreviateStates": true
         },
         "expected": {
-          "lines": ["Apt 42 789 N Elm Blvd E", "Springfield IL 62701-1234"]
+          "lines": ["789 N Elm Blvd E Apt 42", "Springfield IL 62701-1234"]
         },
         "description": "Include secondary units"
       },
@@ -169,10 +169,28 @@
           "abbreviateStreetTypes": true
         },
         "expected": {
-          "lines": ["Apt  42  789  North  Elm  Blvd  East", "Springfield  Illinois  62701-1234"],
+          "lines": ["789  North  Elm  Blvd  East  Apt  42", "Springfield  Illinois  62701-1234"],
           "shouldContain": "  "
         },
         "description": "Use custom separator"
+      },
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Anytown",
+          "state": "NY",
+          "zip": "12345",
+          "country": "US"
+        },
+        "options": {},
+        "expected": {
+          "lines": ["123 Main St Apartment 4", "Anytown NY 12345"]
+        },
+        "description": "Put the unit after the street, never before the number"
       }
     ],
     "formatUSPS": [
@@ -320,6 +338,26 @@
           "lines": ["456 OAK AVE", "TORONTO ON"]
         },
         "description": "Handle addresses without postal codes"
+      },
+      {
+        "input": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "options": {},
+        "expected": {
+          "lines": ["4-123 MAIN ST", "TORONTO ON  M5H 2N2"],
+          "format": "canada-post",
+          "country": "CA"
+        },
+        "description": "Join the unit to the civic number with a hyphen, unit first, as Canada Post writes it"
       }
     ],
     "getAddressAbbreviations": [

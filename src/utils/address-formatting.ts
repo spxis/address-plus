@@ -21,6 +21,35 @@ const UNIT_ABBREVIATIONS: Record<string, string> = {
   room: "Rm",
 };
 
+// French street types, which Canada Post writes before the name.
+const FRENCH_TYPES_FIRST: Set<string> = new Set([
+  "rue",
+  "ch",
+  "rang",
+  "mtée",
+  "côte",
+  "imp",
+  "crois",
+  "tsse",
+  "cercle",
+  "car",
+  "cours",
+  "rdpt",
+  "allée",
+  "quai",
+  "parc",
+  "pte",
+  "île",
+  "sent",
+  "rle",
+  "aut",
+  "carref",
+  "voie",
+]);
+
+// A street name opening with a French particle: "des Pins", "de la Montagne", "d'Youville".
+const FRENCH_PARTICLE_START = /^(?:de|du|des|la|le|les|d'|l')(?:\s|(?<=')\S)/;
+
 // Format address using standard conventions
 function formatAddress(address: ParsedAddress, options: AddressFormattingOptions = {}): FormattedAddress {
   const {
@@ -87,7 +116,6 @@ function formatUSPS(address: ParsedAddress, options: USPSFormattingOptions = {})
     abbreviateStreetTypes: true,
     abbreviateDirections: true,
     separator: " ",
-    uspsOrder: true, // Units come after street address for USPS
   });
 
   if (includeDeliveryLine && deliveryLine) {
@@ -126,6 +154,7 @@ function formatCanadaPost(address: ParsedAddress, options: CanadaPostFormattingO
     abbreviateStreetTypes: true,
     abbreviateDirections: true,
     separator: " ",
+    canadaPostUnit: true,
   });
 
   if (includeDeliveryLine && deliveryLine) {
@@ -182,21 +211,17 @@ function buildDeliveryLine(
     abbreviateStreetTypes: boolean;
     abbreviateDirections: boolean;
     separator: string;
-    uspsOrder?: boolean; // New option for USPS unit ordering
+    canadaPostUnit?: boolean; // Write the unit before the civic number with a hyphen, as Canada Post does
   },
 ): string {
   const parts: string[] = [];
-
-  // Add unit prefix if it exists (unless USPS order)
-  if (options.includeSecondaryUnit && address.secUnitType && address.secUnitNum && !options.uspsOrder) {
-    const unitType = options.abbreviateStreetTypes ? abbreviateUnitType(address.secUnitType) : address.secUnitType;
-    parts.push(unitType);
-    parts.push(address.secUnitNum);
-  }
+  const hasUnit = options.includeSecondaryUnit && !!address.secUnitType;
+  // Canada Post joins the unit to the civic number, unit first: "4-123 Main St".
+  const hyphenUnit = hasUnit && options.canadaPostUnit && !!address.secUnitNum && !!address.number;
 
   // Add street number
   if (address.number) {
-    parts.push(address.number);
+    parts.push(hyphenUnit ? `${address.secUnitNum}-${address.number}` : address.number);
   }
 
   // Add directional prefix
@@ -205,16 +230,18 @@ function buildDeliveryLine(
     parts.push(prefix);
   }
 
-  // Add street name
+  // Add street name and type. A French type goes before the name, as it was written ("rue des Jardins",
+  // "boulevard René-Lévesque"); so does any type before a name that opens with a French particle.
+  const streetType =
+    address.type && (options.abbreviateStreetTypes ? abbreviateStreetType(address.type) : address.type);
+  const typeFirst =
+    !!streetType &&
+    (FRENCH_TYPES_FIRST.has(address.type!.toLowerCase()) || FRENCH_PARTICLE_START.test(address.street ?? ""));
+  if (streetType && typeFirst) parts.push(streetType);
   if (address.street) {
     parts.push(address.street);
   }
-
-  // Add street type
-  if (address.type) {
-    const streetType = options.abbreviateStreetTypes ? abbreviateStreetType(address.type) : address.type;
-    parts.push(streetType);
-  }
+  if (streetType && !typeFirst) parts.push(streetType);
 
   // Add directional suffix
   if (address.suffix) {
@@ -222,11 +249,17 @@ function buildDeliveryLine(
     parts.push(suffix);
   }
 
-  // Add unit suffix for USPS order (after street address)
-  if (options.includeSecondaryUnit && address.secUnitType && address.secUnitNum && options.uspsOrder) {
-    const unitType = options.abbreviateStreetTypes ? abbreviateUnitType(address.secUnitType) : address.secUnitType;
-    parts.push(unitType);
-    parts.push(address.secUnitNum);
+  // The unit goes after the street, as USPS Publication 28 and Canada Post's English form both write it:
+  // "123 Main St Apt 4". A pound sign is joined to its number ("#4"); a unit with no number stands alone.
+  if (hasUnit && !hyphenUnit) {
+    const unitType = options.abbreviateStreetTypes ? abbreviateUnitType(address.secUnitType!) : address.secUnitType!;
+    if (!address.secUnitNum) {
+      parts.push(unitType);
+    } else if (unitType === "#") {
+      parts.push(`#${address.secUnitNum}`);
+    } else {
+      parts.push(unitType, address.secUnitNum);
+    }
   }
 
   // Add unit suffix if it exists and not already added as prefix

@@ -32,7 +32,7 @@
       {
         "name": "abbreviation expansion",
         "input": "321 elm st apt 5 dallas tx 75201",
-        "expected": "Apartment 5 321 Elm Street, Dallas Texas 75201",
+        "expected": "321 Elm Street Apartment 5, Dallas Texas 75201",
         "options": {
           "expandAbbreviations": true,
           "standardizeCase": "title",
@@ -67,7 +67,7 @@
       {
         "name": "Canadian address with expansion",
         "input": "222 king st w apt 10 toronto on m5h 1k4",
-        "expected": "222 King Street West Apartment 10 Toronto Ontario M5h 1k4",
+        "expected": "222 King Street West Apartment 10 Toronto Ontario M5H 1K4",
         "options": {
           "expandAbbreviations": true,
           "standardizeCase": "title"
@@ -162,7 +162,7 @@
       {
         "name": "standard format with abbreviations",
         "input": "123 Main Street Apt 2B, Anytown California 90210",
-        "expected": "Apartment 2b 123 Main St, Anytown CA 90210",
+        "expected": "123 Main St Apartment 2B, Anytown CA 90210",
         "expectContains": ["Main St", "CA"],
         "options": {
           "format": "standard"
@@ -171,7 +171,7 @@
       {
         "name": "standard format without abbreviations",
         "input": "123 Main St Apt 2B, Anytown CA 90210",
-        "expected": "Apartment 2b 123 Main Street, Anytown California 90210",
+        "expected": "123 Main Street Apartment 2B, Anytown California 90210",
         "expectContains": ["Main Street", "California"],
         "options": {
           "format": "standard",
@@ -201,13 +201,13 @@
       {
         "name": "address with secondary unit prefix",
         "input": "Apt 5 123 Main St, Anytown CA 90210",
-        "expected": "Apartment 5 123 Main St, Anytown CA 90210",
+        "expected": "123 Main St Apartment 5, Anytown CA 90210",
         "options": {}
       },
       {
         "name": "address with directional suffix",
         "input": "456 Pine St SW, Seattle WA 98101",
-        "expected": "456 Pine St Sw, Seattle WA 98101",
+        "expected": "456 Pine St SW, Seattle WA 98101",
         "options": {}
       },
       {
@@ -221,6 +221,36 @@
         "input": "123 Main St",
         "expected": "123 Main St",
         "options": {}
+      },
+      {
+        "name": "unit stays after the street",
+        "input": "123 Main Street Apt 4, Anytown, NY 12345",
+        "expected": "123 Main St Apartment 4, Anytown NY 12345",
+        "options": {}
+      },
+      {
+        "name": "title case keeps a postal code and a directional in capitals",
+        "input": "100 nw main st, toronto on m5h 2n2",
+        "expected": "100 NW Main St, Toronto ON M5H 2N2",
+        "options": {
+          "standardizeCase": "title"
+        }
+      },
+      {
+        "name": "title case keeps PO Box",
+        "input": "po box 1234, helena, mt 59601",
+        "expected": "PO Box 1234, Helena MT 59601",
+        "options": {
+          "standardizeCase": "title"
+        }
+      },
+      {
+        "name": "title case leaves a word that spells a state code alone",
+        "input": "10 rue de la gauchetière, montréal qc h3b 2m3",
+        "expected": "10 Rue De La Gauchetière, Montréal QC H3B 2M3",
+        "options": {
+          "standardizeCase": "title"
+        }
       }
     ],
     "additionalTests": [
