@@ -2,6 +2,15 @@
 
 This directory contains utility scripts for development, debugging, and maintenance.
 
+## Australian and British Tables
+
+`countries/update-country-data.ts` (`pnpm data:countries`) writes the `*.data.ts` files under `src/constants/au/` and
+`src/constants/gb/`: the Australian states and the British nations copied from kuni (a devDependency), the Australian
+postcodes that cross a state border from the ABS's Postal Areas allocation file (CC BY 4.0), and the British postcode
+districts and their nations from Ordnance Survey's Code-Point Open (OGL v3). Without arguments it downloads both
+inputs (about 35 MB); `--abs <POA_2021_AUST.xlsx>` and `--codepoint <folder>` read copies already on disk. It needs
+`unzip`. `docs/COUNTRIES.md` lists every source and its licence.
+
 ## Sub-regions Data Pipeline
 
 The `sub-regions/` directory contains a modular TypeScript pipeline for automatically fetching, normalizing, and merging authoritative sub-region data for both the United States and Canada.

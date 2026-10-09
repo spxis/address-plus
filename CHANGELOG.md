@@ -4,6 +4,20 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+### Added
+
+- Australia, as a module of its own: `@johnmorrisdotca/address-plus/au`. `parseAustralianAddress` reads an address the way Australia Post and AS4590 lay one out: a unit before a slash (`3/12 Smith St`) or with its type, a level, a lot, a range, a building's name and the twelve postal delivery types (PO Box, GPO Box, Locked Bag, Private Bag, RMB, RSD, RMS, CMB, CMA, CPA, MS, Care PO), then the suburb, the state by code or name and the postcode; street types come back as AS4590's abbreviations. `validateAustralianAddress` checks the postcode against Australia Post's blocks for each state, letting the 14 postcodes that cross a border (from the ABS's Postal Areas, CC BY 4.0) pass with either state. `formatAustraliaPost`, `compareAustralianAddresses`, `looksAustralian`, the postcode lookups and the tables (`AU_STATES`, `AU_POSTCODE_RANGES`, `AU_STREET_TYPES` and the rest) come with it.
+- The United Kingdom, as a module of its own: `@johnmorrisdotca/address-plus/gb`. `parseUKAddress` reads the parts of Royal Mail's Postcode Address File (a flat or a named part of a building, a floor, the building's name, the number, a dependent thoroughfare, the thoroughfare with its descriptor in full, the dependent localities, the post town, a county and the postcode wherever it is written), BFPO, GIR 0AA, and Jersey, Guernsey and the Isle of Man (`country` `JE`, `GY`, `IM`). `parseUKPostcode` and `isValidUKPostcode` hold Royal Mail's grammar with the letters each place allows; `getNationFromUKPostcode` gives the nation, district by district across the borders of Wales and Scotland. `validateUKAddress` checks the area, and in Great Britain the district against Ordnance Survey's Code-Point Open (OGL v3). `formatRoyalMail`, `compareUKAddresses`, `looksBritish` and the tables come with it.
+- A `countries` option on `parseLocation` and `validateAddress`: hand them `australia` and `unitedKingdom` and they read those addresses beside the US, Canadian and Japanese ones, by the country hint (`country: "AU"`) or each module's own detection. A hint naming a country whose module was not passed throws a `TypeError` saying how to pass it. Without `countries`, nothing changes; the main entry point grows by under 1 KB, and `/au` (16 KB, 7 KB gzipped) and `/gb` (20 KB, 9 KB gzipped) cost only those who import them.
+- `docs/COUNTRIES.md`: the country-module design, how an address finds its country (a British postcode and a Canadian one, four digits and a short ZIP code, `3/12` and `4-123`), the fields each country fills, every data source with its licence, and how to add the next country.
+- Australian and British corpora, 266 and 190 original cases (`test-data/corpus/au/`, `test-data/corpus/gb/`), with libpostal's 29 British fixtures and its Manx one written again as original addresses of the same shapes. Eight British cases are still wrong, each explained in `docs/TEST_COVERAGE.md`.
+- `pnpm data:countries` regenerates the Australian and British tables: the states and nations with their English and Japanese names from kuni (a devDependency; the rows are copied, so the package keeps one runtime dependency), the border postcodes from the ABS, and the postcode districts and their nations from Code-Point Open.
+- The demo reads Australian and British addresses in every panel, with examples for each, a country choice on the parse panel, both in the pasted list, and their corpora in the corpus panel.
+
+### Fixed
+
+- `docs/TEST_COVERAGE.md` said libpostal's parser fixtures hold only US and Canadian addresses. They also hold 29 British ones, 7 French, 3 German and a few from about twenty other countries, and none from Australia.
+
 ## 1.4.0 - 2026-10-09
 
 ### Added

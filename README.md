@@ -2,7 +2,7 @@
 
 **Try it:** [the demo](https://johnmorrisdotca.github.io/address-plus/), in your browser with nothing to install · [API reference](https://johnmorrisdotca.github.io/address-plus/api.html)
 
-The demo parses, validates, formats, compares and cleans an address as you type; takes a pasted list of addresses from all three countries and saves the results as CSV, JSON or text; takes a Japanese address apart, each part beside its reading and romaji; and runs the whole test corpus, 2,723 cases, in your browser, listing the few still wrong. Every panel copies its call as code or a link that opens the page as you left it. Nothing you type leaves the page.
+The demo parses, validates, formats, compares and cleans an address as you type; takes a pasted list of addresses from all five countries and saves the results as CSV, JSON or text; takes a Japanese address apart, each part beside its reading and romaji; and runs the whole test corpus, 3,179 cases, in your browser, listing the few still wrong. Every panel copies its call as code or a link that opens the page as you left it. Nothing you type leaves the page.
 
 <table align="center">
 <tr>
@@ -23,13 +23,14 @@ The demo parses, validates, formats, compares and cleans an address as you type;
 </tr>
 </table>
 
-A modern, TypeScript‑first address parser and normalizer for the US, Canada and Japan. Supports USPS and Canada Post formats, Japanese addresses written in Japanese or in romaji, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
+A modern, TypeScript‑first address parser and normalizer for the US, Canada and Japan, with Australia and the United Kingdom as modules of their own. Supports USPS, Canada Post, Australia Post and Royal Mail formats, Japanese addresses written in Japanese or in romaji, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
 
 ## Features
 
 - **US Address Parsing**: Full USPS format support with street types, directionals, and secondary units
 - **Canadian Address Parsing**: Canada Post bilingual support (English/French)
 - **Japanese Address Parsing**: Addresses in Japanese (〒100-0005 東京都千代田区丸の内1丁目2番3号) or romaji (1-2-3 Marunouchi, Chiyoda-ku, Tokyo), with every prefecture and municipality and the prefecture each postal code delivers to
+- **Australia and the United Kingdom**: `/au` reads `3/12 Smith St, Parramatta NSW 2150` the Australia Post way, and `/gb` reads `Flat 2, 14 High Street, London NW9 0AA` the Royal Mail way, each with its own validator, formatter and postcode lookups; a country costs only the callers who import it
 - **Facility Detection**: Extracts business/landmark names with various separators
 - **Intersection Parsing**: Handles street intersections with multiple formats, and knows "Newfoundland and Labrador" is a province, not two streets
 - **Postal Codes Know Their Region**: Finds the state or province a ZIP or postal code belongs to, lists the codes a region uses, and flags an address whose code names another region
@@ -250,7 +251,7 @@ parseIntersection("Highway 101 & Interstate 280");
 
 ## API Reference
 
-Every export of both entry points (`@johnmorrisdotca/address-plus` and `@johnmorrisdotca/address-plus/jp`), with its signature, what it does, each parameter, what it returns and a worked example, is in the [full API reference](docs/api.md), also on the [demo site](https://johnmorrisdotca.github.io/address-plus/api.html). The same TSDoc ships in the type definitions, so your editor shows it on hover. The two main functions are described here.
+Every export of every entry point (`@johnmorrisdotca/address-plus`, `/jp`, `/au` and `/gb`), with its signature, what it does, each parameter, what it returns and a worked example, is in the [full API reference](docs/api.md), also on the [demo site](https://johnmorrisdotca.github.io/address-plus/api.html). The same TSDoc ships in the type definitions, so your editor shows it on hover. The two main functions are described here.
 
 ### `parseLocation(address: string): ParsedAddress | null`
 
@@ -548,6 +549,91 @@ The tables in `src/constants/jp/` are generated, and `pnpm data:jp` regenerates 
 
 Geolonia's data predates Hamamatsu's reorganisation of its wards on 1 January 2024, so its new wards `中央区`, `浜名区` and `天竜区` are not yet in the tables: `浜松市中央区元城町103-2` is read as 浜松市 (22130) with the town `中央区元城町`.
 
+## Australian and British Addresses
+
+Australia and the United Kingdom are modules of their own, so they cost only the callers who import them. Each has
+its own parser, validator, formatter and comparer, and a module object to hand to `parseLocation` and
+`validateAddress`, which then read its addresses beside the US, Canadian and Japanese ones:
+
+```javascript
+import { parseLocation, validateAddress } from "@johnmorrisdotca/address-plus";
+import { australia } from "@johnmorrisdotca/address-plus/au";
+import { unitedKingdom } from "@johnmorrisdotca/address-plus/gb";
+
+const countries = [australia, unitedKingdom];
+
+parseLocation("3/12 Smith St, Parramatta NSW 2150", { countries });
+// { secUnitType: 'Unit', secUnitNum: '3', number: '12', street: 'Smith', type: 'St',
+//   city: 'Parramatta', state: 'NSW', zip: '2150', zipValid: true, country: 'AU' }
+
+parseLocation("Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA", { countries });
+// { secUnitType: 'Flat', secUnitNum: '2', building: 'Rose Court', number: '14', street: 'High', type: 'Street',
+//   locality: 'Kingsbury', city: 'London', zip: 'NW9 0AA', zipValid: true, nation: 'ENG', country: 'GB' }
+
+parseLocation("12 Smith St, Parramatta", { country: "AU", countries }); // the hint: read as Australian
+validateAddress("1 Main St, Sydney VIC 2000", { countries }).warnings[0].message;
+// 'Postcode 2000 belongs to NSW, not VIC'
+```
+
+With no hint, an address is Australian when it ends with a state and an Australian postcode (or `Australia`; after
+`WA` the postcode must be Western Australia's, so `Seattle, WA 9810` stays American), and British when it holds a
+postcode in Royal Mail's grammar near its end, or ends with the United Kingdom or a nation. A Canadian postal code is
+never taken for a British one: it ends in a digit. Without `countries`, nothing changes. When the country is known, pass
+it: the hint is the reliable path. [docs/COUNTRIES.md](docs/COUNTRIES.md) has the design, the detection rules, the
+fields each country fills and where its data comes from.
+
+### Australia
+
+```javascript
+import {
+  formatAustraliaPost,
+  getStatesForAustralianPostcode,
+  parseAustralianAddress,
+  validateAustralianAddress,
+} from "@johnmorrisdotca/address-plus/au";
+
+const address = parseAustralianAddress("Level 6, 51 Jacobson Street, Brisbane Qld 4000");
+formatAustraliaPost(address).lines; // ['LEVEL 6 51 JACOBSON ST', 'BRISBANE QLD 4000']
+formatAustraliaPost(parseAustralianAddress("Unit 3, 12 Smith St, Parramatta NSW 2150"), { unitStyle: "slash" }).lines;
+// ['3/12 SMITH ST', 'PARRAMATTA NSW 2150']
+getStatesForAustralianPostcode("2620"); // ['NSW', 'ACT']: Queanbeyan, and suburbs of Canberra
+```
+
+It reads a unit before a slash (`3/12`) or with its type (`Unit 3`, `U3`, `Shop 5`, `Suite 2.01`), a level (`Level 6`,
+`L6`, `Ground Floor`), a lot (`Lot 12`), a range (`12-14`), a building's name, and the postal deliveries `PO Box`,
+`GPO Box`, `Locked Bag`, `Private Bag`, `RMB`, `RSD`, `RMS`, `CMB`, `CMA`, `CPA`, `MS` and `Care PO`. Street types come
+back as AS4590's abbreviations (`St`, `Pde`, `Cres`). The validator checks the postcode against Australia Post's
+blocks for each state, and lets a postcode that crosses a border (from the Australian Bureau of Statistics' Postal
+Areas, CC BY 4.0) pass with either state. The formatter writes Australia Post's layout: the last two lines in capitals,
+the unit and level before the number.
+
+### The United Kingdom
+
+```javascript
+import {
+  formatRoyalMail,
+  getNationFromUKPostcode,
+  parseUKAddress,
+  parseUKPostcode,
+} from "@johnmorrisdotca/address-plus/gb";
+
+formatRoyalMail(parseUKAddress("10 Downing St, London, sw1a2aa")).lines; // ['10 Downing Street', 'LONDON', 'SW1A 2AA']
+parseUKPostcode("ec1a1bb"); // { postcode: 'EC1A 1BB', outward: 'EC1A', inward: '1BB', area: 'EC', district: 'EC1A', ... }
+getNationFromUKPostcode("CH5 1AA"); // 'WLS': CH5 is in Wales, though most of CH is in England
+parseUKAddress("12 Bath Street, St Helier JE2 4ST").country; // 'JE': Jersey uses Royal Mail's postcodes but is not the UK
+```
+
+It reads the parts of Royal Mail's Postcode Address File: a flat (`Flat 2`, Glasgow's `Flat 2/1`) or a named part of
+a building (`Basement Flat`), a floor, the building's name, the number, a dependent thoroughfare, the thoroughfare (its
+descriptor in full, `Street` for `St`), the dependent localities, the post town, a county and the postcode, wherever it
+is written; `BFPO 105` and `GIR 0AA` too. The validator checks the postcode's grammar (the letters each place allows),
+its area, and in Great Britain its district against Ordnance Survey's Code-Point Open (OGL v3; contains Royal Mail data
+© Royal Mail copyright and database right 2026). Northern Ireland's districts are not in the open data, so a BT postcode
+is checked to its area only.
+
+The corpora (`test-data/corpus/au/`, 266 cases, and `test-data/corpus/gb/`, 190, with libpostal's British fixtures
+written again as original addresses) are described in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md).
+
 ## Batch Processing
 
 Process multiple addresses efficiently with built-in batch functions:
@@ -683,7 +769,7 @@ Batch processing provides several advantages over individual parsing:
 
 - **Comprehensive test suite**: Vitest runs every parsing scenario from JSON test data, for the US, Canada and each other country
 - **Multi-format support**: Extensive test coverage for US, Canadian and Japanese addresses, including every Japanese prefecture and municipality and 1,000 generated Japanese records from REST in Pieces
-- **Address corpora**: 2,723 cases from USPS Publication 28, Canada Post's guidelines, libpostal, parse-address's shapes and Geolonia's Japanese test addresses, with every case still wrong listed and explained in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md)
+- **Address corpora**: 3,179 cases from USPS Publication 28, Canada Post's guidelines, Australia Post's and Royal Mail's rules, libpostal, parse-address's shapes and Geolonia's Japanese test addresses, with every case still wrong listed and explained in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md)
 - **Documented examples that run**: every export's TSDoc example is run against the built package by `pnpm docs:check`
 - **Edge case testing**: Validation of complex parsing scenarios and error conditions
 - **Type tests**: `tsd` checks the published type definitions
@@ -693,7 +779,7 @@ Batch processing provides several advantages over individual parsing:
 ## Performance
 
 - **One small dependency**: `fast-levenshtein`, for fuzzy state and province names; hikidashi is bundled in
-- **Size**: the whole library, minified for the browser with every table (US, Canada, and Japan's 1,894 municipalities and its postal prefixes), is about 600 KB, 107 KB gzipped; the `/jp` entry point and tree-shaking take what a caller does not use
+- **Size**: the whole library, minified for the browser with every table (US, Canada, and Japan's 1,894 municipalities and its postal prefixes), is about 600 KB, 107 KB gzipped; the `/jp` entry point and tree-shaking take what a caller does not use. `/au` is 16 KB (7 KB gzipped) and `/gb` 20 KB (9 KB gzipped), and neither is in the main entry point
 - **Fast**: Regex-based parsing optimized for performance
 - **Memory efficient**: Minimal object allocation
 

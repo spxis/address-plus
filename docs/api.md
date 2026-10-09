@@ -1,6 +1,6 @@
 # API reference
 
-Every export of every entry point of @johnmorrisdotca/address-plus 1.3.0, with its signature, its TSDoc (what it does, each parameter, what it returns) and one example with the answer it gives. Made from the source by `pnpm docs:make`, and `pnpm docs:check` holds every example's answer to the built package; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html. Editors show the same TSDoc on hover, from the published type definitions.
+Every export of every entry point of @johnmorrisdotca/address-plus 1.4.0, with its signature, its TSDoc (what it does, each parameter, what it returns) and one example with the answer it gives. Made from the source by `pnpm docs:make`, and `pnpm docs:check` holds every example's answer to the built package; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html. Editors show the same TSDoc on hover, from the published type definitions.
 
 ## @johnmorrisdotca/address-plus
 
@@ -307,6 +307,80 @@ A validation case in the package's JSON test files: an address and the verdict a
 ```js
 ({ input: "123 Main St", expected: { isValid: false } }).expected.isValid
 // false
+```
+
+### AustralianAddressFields
+
+type
+
+```ts
+interface AustralianAddressFields {
+  floorType?: string; // A level or floor: Level, Floor, Ground Floor, Lower Ground Floor, Upper Ground Floor, Basement, Mezzanine
+  lot?: string; // A lot number where a street number is not yet given: the 12 in "Lot 12 Smith Rd"
+}
+```
+
+The fields an Australian address fills beside the shared ones. The shared fields keep their meaning: `number` is the street number, `street` and `type` the street's name and its type (Australia Post's abbreviation, `St`, `Pde`, `Cres`), `secUnitType` and `secUnitNum` the unit (`Unit 3`) or the postal delivery (`PO Box 37`, `Locked Bag 801`), `city` the suburb or town, `state` the state's code and `zip` the postcode.
+
+```js
+parseAustralianAddress("Level 6, 51 Jacobson St, Brisbane QLD 4000")?.floorType
+// "Level"
+```
+
+### AustralianPostcodeRange
+
+type
+
+```ts
+interface AustralianPostcodeRange {
+  state: AustralianStateCode;
+  from: string; // First postcode of the block: "2000"
+  to: string; // Last postcode of the block: "2599"
+  use: "delivery" | "po-box"; // Street delivery, or PO boxes and large-volume receivers (NSW 1000 to 1999, VIC 8000 to 8999, QLD 9000 to 9999)
+}
+```
+
+One block of postcodes Australia Post allocates to a state or territory: every postcode from `from` to `to`, inclusive, written as four digits.
+
+```js
+AU_POSTCODE_RANGES.find((range) => range.state === "TAS")
+// {"state":"TAS","from":"7000","to":"7999","use":"delivery"}
+```
+
+### AustralianState
+
+type
+
+```ts
+interface AustralianState {
+  code: AustralianStateCode; // The code on an envelope: VIC
+  iso: string; // ISO 3166-2: AU-VIC
+  name: string; // English: Victoria
+  nameJa: string; // Japanese: ビクトリア州
+  kind: "state" | "territory"; // The ACT and the NT are territories
+}
+```
+
+An Australian state or territory in the tables: Australia Post's code, the ISO 3166-2 code, and its name in English and in Japanese (from kuni, which takes them from Unicode CLDR and Wikidata).
+
+```js
+findAustralianState("Victoria")
+// {"code":"VIC","iso":"AU-VIC","name":"Victoria","nameJa":"ビクトリア州","kind":"state"}
+```
+
+### AustralianStateCode
+
+type
+
+```ts
+type AustralianStateCode = "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+```
+
+The code of an Australian state or territory, as Australia Post writes it on the last line of an address.
+
+```js
+getStateFromAustralianPostcode("3000")
+// "VIC"
 ```
 
 ### BatchParseError
@@ -843,6 +917,85 @@ parseLocation("100 Queen St W, Toronto, ON M5H 2N2")?.country
 // "CA"
 ```
 
+### CountryComparison
+
+type
+
+```ts
+interface CountryComparison {
+  isSame: boolean;
+  differences: CountryDifference[];
+}
+```
+
+What a country module's comparer returns: whether the two addresses are the same delivery point, and every field that differs once both are in the same form (letter case, punctuation, a street type written out or abbreviated).
+
+```js
+compareAustralianAddresses(parseAustralianAddress("3/12 Smith Street, Parramatta NSW 2150"), parseAustralianAddress("Unit 3, 12 Smith St, PARRAMATTA NSW 2150")).isSame
+// true
+```
+
+### CountryDifference
+
+type
+
+```ts
+interface CountryDifference {
+  field: string;
+  first?: string;
+  second?: string;
+}
+```
+
+One way two addresses differ, as a country module's comparer reports it: the field, and its value in each address after both were put in the same form.
+
+```js
+compareUKAddresses(parseUKAddress("10 High Street, Bath BA1 1AA"), parseUKAddress("12 High St, Bath BA1 1AA")).differences
+// [{"field":"number","first":"10","second":"12"}]
+```
+
+### CountryModule
+
+type
+
+```ts
+interface CountryModule {
+  code: string; // The country's ISO 3166-1 code: AU, GB
+  codes: readonly string[]; // Every country code the module reads; GB also reads Jersey (JE), Guernsey (GY) and the Isle of Man (IM)
+  name: string; // The country's name in English
+  detect(address: string): boolean; // Whether the address is surely this country's, with no hint
+  parse(address: string, options?: ParseOptions): ParsedAddress | null;
+  validate(address: ParsedAddress, options?: ValidationOptions): CountryValidation;
+  format(address: ParsedAddress): FormattedAddress;
+  compare(first: ParsedAddress, second: ParsedAddress): CountryComparison;
+}
+```
+
+A country's address module: its codes, how to tell its addresses apart, and its parser, validator, formatter and comparer. Import one from its entry point (`australia` from `@johnmorrisdotca/address-plus/au`, `unitedKingdom` from `@johnmorrisdotca/address-plus/gb`) and hand it to `parseLocation` and `validateAddress` in `countries`.
+
+```js
+australia.codes
+// ["AU"]
+```
+
+### CountryValidation
+
+type
+
+```ts
+interface CountryValidation {
+  errors: ValidationError[];
+  warnings: ValidationError[];
+}
+```
+
+What a country module's validator returns: the errors and the warnings it found.
+
+```js
+validateAustralianAddress(parseAustralianAddress("1 Main St, Sydney VIC 2000")).warnings.map((one) => one.code)
+// ["POSTAL_REGION_MISMATCH"]
+```
+
 ### default
 
 const
@@ -1127,7 +1280,7 @@ interface FormattedAddress {
   deliveryLine?: string; // Street address line
   lastLine?: string; // City/state/postal line
   country?: string; // Country designation
-  format: "standard" | "usps" | "canada-post" | "international"; // Formatting standard used
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
 }
 ```
 
@@ -1879,10 +2032,10 @@ parseAddressesBatch(["10 Main St, Anytown, NY 12345", "PO Box 12, Springfield, I
 type
 
 ```ts
-interface ParsedAddress extends JapaneseAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP"; // Detected country
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
@@ -2127,7 +2280,7 @@ function
 parseLocation(address: string, options?: ParseOptions): ParsedAddress | null
 ```
 
-Parses a US, Canadian or Japanese address into its parts. The country is detected from the text (a state, a province, a postal code, Japanese script or romaji designators) unless `options.country` names it. A Japanese address fills its own fields (`prefecture`, `municipality`, `town`, `chome`, `ban`, `go`) and the shared ones that stand for them.
+Parses a US, Canadian or Japanese address into its parts. The country is detected from the text (a state, a province, a postal code, Japanese script or romaji designators) unless `options.country` names it. A Japanese address fills its own fields (`prefecture`, `municipality`, `town`, `chome`, `ban`, `go`) and the shared ones that stand for them. Australia and the United Kingdom are read too when their modules are passed in `options.countries` (`australia` from `/au`, `unitedKingdom` from `/gb`): `options.country` picks one, or each module's own detection decides, before the US, Canada and Japan are tried.
 
 - `address`: The address as one string; commas, line breaks and full-width characters are all read.
 - `options`: How to parse: the country, strict postal codes, snake_case keys and the rest (see `ParseOptions`).
@@ -2182,7 +2335,8 @@ type
 
 ```ts
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
@@ -2682,6 +2836,87 @@ The fields every case in the package's JSON test files has: a name or descriptio
 // "WA"
 ```
 
+### UKAddressFields
+
+type
+
+```ts
+interface UKAddressFields {
+  subBuilding?: string; // A part of a building with no number: "Basement Flat", "Stables Flat"
+  dependentThoroughfare?: string; // A thoroughfare inside another: the "Seastone Cottages" of "1A Seastone Cottages, Station Road"
+  doubleDependentLocality?: string; // A locality inside the dependent locality, written above it
+  county?: string; // A county, when one is written; Royal Mail no longer needs it
+  nation?: UKNationCode; // The nation the postcode delivers to, from the tables
+  bfpo?: string; // A British Forces Post Office number: the 105 of "BFPO 105"
+}
+```
+
+The fields an address in the United Kingdom fills beside the shared ones. The shared fields keep their meaning: `number` is the building number, `street` and `type` the thoroughfare's name and its descriptor in full (`Upper` and `Street`, as Royal Mail writes it), `secUnitType` and `secUnitNum` a flat or unit (`Flat 2`) or a PO Box, `building` the building's name, `locality` the dependent locality, `city` the post town and `zip` the postcode.
+
+```js
+parseUKAddress("Flat 2, Rose Court, 14 High Street, Kingsbury, LONDON NW9 0AA")?.locality
+// "Kingsbury"
+```
+
+### UKNation
+
+type
+
+```ts
+interface UKNation {
+  code: UKNationCode;
+  iso: string; // GB-SCT
+  name: string; // Scotland
+  nameJa: string; // スコットランド
+}
+```
+
+A nation of the United Kingdom in the tables: its code, its ISO 3166-2 code, and its name in English and in Japanese (from kuni, which takes them from Unicode CLDR and Wikidata).
+
+```js
+GB_NATIONS.find((nation) => nation.code === "SCT")
+// {"code":"SCT","iso":"GB-SCT","name":"Scotland","nameJa":"スコットランド"}
+```
+
+### UKNationCode
+
+type
+
+```ts
+type UKNationCode = "ENG" | "NIR" | "SCT" | "WLS";
+```
+
+The code of one of the four nations of the United Kingdom, as ISO 3166-2:GB writes it after `GB-`.
+
+```js
+getNationFromUKPostcode("CF10 1AA")
+// "WLS"
+```
+
+### UKPostcode
+
+type
+
+```ts
+interface UKPostcode {
+  postcode: string; // Capitals, one space: EC1A 1BB
+  outward: string; // EC1A
+  inward: string; // 1BB
+  area: string; // EC
+  district: string; // EC1A, the same as the outward code
+  sector: string; // EC1A 1
+  country: "GB" | "GY" | "IM" | "JE";
+  nation?: UKNationCode; // Absent outside the United Kingdom, and for a non-geographic area (BX, BF)
+}
+```
+
+A postcode taken apart: the outward code (area and district) and the inward code (sector and unit), and where it delivers. `country` is `GB` for the United Kingdom and `JE`, `GY` or `IM` for Jersey, Guernsey and the Isle of Man, which use Royal Mail's postcodes but are not part of the United Kingdom.
+
+```js
+parseUKPostcode("ec1a1bb")
+// {"postcode":"EC1A 1BB","outward":"EC1A","inward":"1BB","area":"EC","district":"EC1A","sector":"EC1A 1","country":"GB","nation":"ENG"}
+```
+
 ### UNIT_TYPE_KEYWORDS
 
 const
@@ -2830,7 +3065,7 @@ function
 validateAddress(addressString: string, options?: ValidationOptions): AddressValidationResult
 ```
 
-Checks an address: whether it has what an address needs, whether its ZIP or postal code is well formed and belongs to the state, province or prefecture named, and how sure the parser is.
+Checks an address: whether it has what an address needs, whether its ZIP or postal code is well formed and belongs to the state, province or prefecture named, and how sure the parser is. With country modules in `options.countries`, an Australian or British address is checked by its module's validator.
 
 - `addressString`: The address as one string.
 - `options`: What to require and how strict to be (see `ValidationOptions`).
@@ -2928,7 +3163,8 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "auto"; // Country context for validation rules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 ```
 
@@ -3430,10 +3666,10 @@ normalizeJapaneseAddressText("〒１００-０００５ 東京都千代田区丸
 type
 
 ```ts
-interface ParsedAddress extends JapaneseAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP"; // Detected country
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
@@ -3495,7 +3731,8 @@ type
 
 ```ts
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
@@ -3567,7 +3804,1209 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "auto"; // Country context for validation rules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
+}
+```
+
+Options for the validators: which parts an address must have, which kinds are allowed, and whether a postal code that does not match its region is an error.
+
+```js
+validateAddress("123 Main St", { requirePostalCode: true }).errors.map((error) => error.code)
+// ["MISSING_POSTAL_CODE"]
+```
+
+
+## @johnmorrisdotca/address-plus/au
+
+### AU_CROSS_BORDER_POSTCODES
+
+const
+
+```ts
+AU_CROSS_BORDER_POSTCODES: Readonly<Record<string, readonly AustralianStateCode[]>>
+```
+
+The postcodes whose area lies in more than one state or territory, each with the states it lies in, the one with most of it first. Read from the Australian Bureau of Statistics' Postal Areas (ASGS Edition 3, CC BY 4.0), which approximate Australia Post's postcodes by mesh blocks, so a state with a sliver of a postcode's area is listed too. An address naming any of these states passes the postcode check.
+
+```js
+AU_CROSS_BORDER_POSTCODES["2620"]
+// ["NSW","ACT"]
+```
+
+### AU_EXTERNAL_TERRITORY_POSTCODES
+
+const
+
+```ts
+AU_EXTERNAL_TERRITORY_POSTCODES: readonly string[]
+```
+
+The postcodes the Australian Bureau of Statistics places, wholly or partly, in the Other Territories: Jervis Bay, Norfolk Island, Christmas Island and the Cocos (Keeling) Islands. Which state's code Australia Post writes beside each is not in the open data, so the validator does not judge the state given with one.
+
+```js
+AU_EXTERNAL_TERRITORY_POSTCODES
+// ["2540","2899","6798","6799"]
+```
+
+### AU_POSTCODE_RANGES
+
+const
+
+```ts
+AU_POSTCODE_RANGES: readonly AustralianPostcodeRange[]
+```
+
+The blocks of postcodes Australia Post allocates to each state and territory. A postcode outside every block is not Australian. A few postcodes near a border also serve towns across it (`AU_CROSS_BORDER_POSTCODES`), and the external territories have postcodes inside a state's block (`AU_EXTERNAL_TERRITORY_POSTCODES`).
+
+```js
+AU_POSTCODE_RANGES.filter((range) => range.state === "ACT").map((range) => `${range.from}-${range.to}`)
+// ["0200-0299","2600-2618","2900-2920"]
+```
+
+### AU_STATES
+
+const
+
+```ts
+AU_STATES: readonly AustralianState[]
+```
+
+The six states and two territories of Australia, in order of their codes, each with Australia Post's code, the ISO 3166-2 code and its name in English and in Japanese. Copied from kuni when the tables are made.
+
+```js
+AU_STATES.map((state) => state.code)
+// ["ACT","NSW","NT","QLD","SA","TAS","VIC","WA"]
+```
+
+### AU_STREET_TYPES
+
+const
+
+```ts
+AU_STREET_TYPES: Readonly<Record<string, string>>
+```
+
+Australia's street types: each AS4590 abbreviation, in proper case as the parser reports it, with the word it stands for. The parser also reads the word itself, and a few spellings people use (`Boulevarde`, `Crs`, `Tce`).
+
+```js
+AU_STREET_TYPES.Pde
+// "Parade"
+```
+
+### australia
+
+const
+
+```ts
+australia: CountryModule
+```
+
+Australia's module, for `parseLocation` and `validateAddress`: pass it in `countries`, and an address that ends with a state and its postcode (or `Australia`) is read as Australian; `country: "AU"` reads any address as one.
+
+```js
+parseLocation("3/12 Smith St, Parramatta NSW 2150", { countries: [australia] })?.secUnitNum
+// "3"
+```
+
+### AustralianAddressFields
+
+type
+
+```ts
+interface AustralianAddressFields {
+  floorType?: string; // A level or floor: Level, Floor, Ground Floor, Lower Ground Floor, Upper Ground Floor, Basement, Mezzanine
+  lot?: string; // A lot number where a street number is not yet given: the 12 in "Lot 12 Smith Rd"
+}
+```
+
+The fields an Australian address fills beside the shared ones. The shared fields keep their meaning: `number` is the street number, `street` and `type` the street's name and its type (Australia Post's abbreviation, `St`, `Pde`, `Cres`), `secUnitType` and `secUnitNum` the unit (`Unit 3`) or the postal delivery (`PO Box 37`, `Locked Bag 801`), `city` the suburb or town, `state` the state's code and `zip` the postcode.
+
+```js
+parseAustralianAddress("Level 6, 51 Jacobson St, Brisbane QLD 4000")?.floorType
+// "Level"
+```
+
+### AustralianPostcodeRange
+
+type
+
+```ts
+interface AustralianPostcodeRange {
+  state: AustralianStateCode;
+  from: string; // First postcode of the block: "2000"
+  to: string; // Last postcode of the block: "2599"
+  use: "delivery" | "po-box"; // Street delivery, or PO boxes and large-volume receivers (NSW 1000 to 1999, VIC 8000 to 8999, QLD 9000 to 9999)
+}
+```
+
+One block of postcodes Australia Post allocates to a state or territory: every postcode from `from` to `to`, inclusive, written as four digits.
+
+```js
+AU_POSTCODE_RANGES.find((range) => range.state === "TAS")
+// {"state":"TAS","from":"7000","to":"7999","use":"delivery"}
+```
+
+### AustralianState
+
+type
+
+```ts
+interface AustralianState {
+  code: AustralianStateCode; // The code on an envelope: VIC
+  iso: string; // ISO 3166-2: AU-VIC
+  name: string; // English: Victoria
+  nameJa: string; // Japanese: ビクトリア州
+  kind: "state" | "territory"; // The ACT and the NT are territories
+}
+```
+
+An Australian state or territory in the tables: Australia Post's code, the ISO 3166-2 code, and its name in English and in Japanese (from kuni, which takes them from Unicode CLDR and Wikidata).
+
+```js
+findAustralianState("Victoria")
+// {"code":"VIC","iso":"AU-VIC","name":"Victoria","nameJa":"ビクトリア州","kind":"state"}
+```
+
+### AustralianStateCode
+
+type
+
+```ts
+type AustralianStateCode = "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+```
+
+The code of an Australian state or territory, as Australia Post writes it on the last line of an address.
+
+```js
+getStateFromAustralianPostcode("3000")
+// "VIC"
+```
+
+### AustraliaPostFormattingOptions
+
+type
+
+```ts
+interface AustraliaPostFormattingOptions {
+  unitStyle?: "words" | "slash"; // "UNIT 3 12 SMITH ST" (the default) or "3/12 SMITH ST"
+  wideSpacing?: boolean; // Two spaces before the state and before the postcode, as Australia Post prefers on a typed label
+  includeCountry?: boolean; // AUSTRALIA as the last line, for mail from abroad
+}
+```
+
+Options for `formatAustraliaPost`.
+
+```js
+formatAustraliaPost(parseAustralianAddress("Unit 3, 12 Smith St, Parramatta NSW 2150"), { unitStyle: "slash" }).lines
+// ["3/12 SMITH ST","PARRAMATTA NSW 2150"]
+```
+
+### compareAustralianAddresses
+
+function
+
+```ts
+compareAustralianAddresses(first: ParsedAddress, second: ParsedAddress): CountryComparison
+```
+
+Compares two Australian addresses field by field: the unit, level, lot, number, street, suburb, state and postcode. Letter case, punctuation, a street type written out or abbreviated (`Street`, `St`) and a state by name or code are not differences.
+
+- `first`: The first address, as `parseAustralianAddress` returns it.
+- `second`: The second address.
+- Returns: Whether they are the same delivery point, and each field that differs.
+
+```js
+compareAustralianAddresses(parseAustralianAddress("12 Smith Street, Parramatta NSW 2150"), parseAustralianAddress("14 Smith St, Parramatta New South Wales 2150"))
+// {"isSame":false,"differences":[{"field":"number","first":"12","second":"14"}]}
+```
+
+### CountryComparison
+
+type
+
+```ts
+interface CountryComparison {
+  isSame: boolean;
+  differences: CountryDifference[];
+}
+```
+
+What a country module's comparer returns: whether the two addresses are the same delivery point, and every field that differs once both are in the same form (letter case, punctuation, a street type written out or abbreviated).
+
+```js
+compareAustralianAddresses(parseAustralianAddress("3/12 Smith Street, Parramatta NSW 2150"), parseAustralianAddress("Unit 3, 12 Smith St, PARRAMATTA NSW 2150")).isSame
+// true
+```
+
+### CountryDifference
+
+type
+
+```ts
+interface CountryDifference {
+  field: string;
+  first?: string;
+  second?: string;
+}
+```
+
+One way two addresses differ, as a country module's comparer reports it: the field, and its value in each address after both were put in the same form.
+
+```js
+compareUKAddresses(parseUKAddress("10 High Street, Bath BA1 1AA"), parseUKAddress("12 High St, Bath BA1 1AA")).differences
+// [{"field":"number","first":"10","second":"12"}]
+```
+
+### CountryModule
+
+type
+
+```ts
+interface CountryModule {
+  code: string; // The country's ISO 3166-1 code: AU, GB
+  codes: readonly string[]; // Every country code the module reads; GB also reads Jersey (JE), Guernsey (GY) and the Isle of Man (IM)
+  name: string; // The country's name in English
+  detect(address: string): boolean; // Whether the address is surely this country's, with no hint
+  parse(address: string, options?: ParseOptions): ParsedAddress | null;
+  validate(address: ParsedAddress, options?: ValidationOptions): CountryValidation;
+  format(address: ParsedAddress): FormattedAddress;
+  compare(first: ParsedAddress, second: ParsedAddress): CountryComparison;
+}
+```
+
+A country's address module: its codes, how to tell its addresses apart, and its parser, validator, formatter and comparer. Import one from its entry point (`australia` from `@johnmorrisdotca/address-plus/au`, `unitedKingdom` from `@johnmorrisdotca/address-plus/gb`) and hand it to `parseLocation` and `validateAddress` in `countries`.
+
+```js
+australia.codes
+// ["AU"]
+```
+
+### CountryValidation
+
+type
+
+```ts
+interface CountryValidation {
+  errors: ValidationError[];
+  warnings: ValidationError[];
+}
+```
+
+What a country module's validator returns: the errors and the warnings it found.
+
+```js
+validateAustralianAddress(parseAustralianAddress("1 Main St, Sydney VIC 2000")).warnings.map((one) => one.code)
+// ["POSTAL_REGION_MISMATCH"]
+```
+
+### expandAustralianStreetType
+
+function
+
+```ts
+expandAustralianStreetType(type: string): string
+```
+
+The word an AS4590 street type stands for: `Pde` is `Parade`. Any other text comes back as it is.
+
+- `type`: The abbreviation, in any letter case.
+- Returns: The word.
+
+```js
+expandAustralianStreetType("CRES")
+// "Crescent"
+```
+
+### findAustralianState
+
+function
+
+```ts
+findAustralianState(text: string): AustralianState | null
+```
+
+Finds an Australian state or territory by its code (`VIC`, `AU-VIC`, `Vic.`) or its name in English or Japanese (`Victoria`, `ビクトリア州`), in any letter case.
+
+- `text`: The code or the name.
+- Returns: The state, or `null` when nothing matches.
+
+```js
+findAustralianState("n.s.w.")?.name
+// "New South Wales"
+```
+
+### formatAustraliaPost
+
+function
+
+```ts
+formatAustraliaPost(address: ParsedAddress, options?: AustraliaPostFormattingOptions): FormattedAddress
+```
+
+Writes an Australian address as Australia Post asks: the building's name, then the delivery line (unit and level before the number, the street type abbreviated), then the suburb, state and postcode, both in capitals with no punctuation. A postal delivery (`PO BOX 37`) takes the delivery line's place.
+
+- `address`: The address as `parseAustralianAddress` returns it.
+- `options`: The unit's style, the spacing of the last line, and whether to add AUSTRALIA (see `AustraliaPostFormattingOptions`).
+- Returns: The lines, the same on one line, the delivery line and the last line.
+
+```js
+formatAustraliaPost(parseAustralianAddress("Level 6, 51 Jacobson Street, Brisbane Qld 4000")).lines
+// ["LEVEL 6 51 JACOBSON ST","BRISBANE QLD 4000"]
+```
+
+### FormattedAddress
+
+type
+
+```ts
+interface FormattedAddress {
+  lines: string[]; // Individual address lines
+  singleLine: string; // Single-line representation
+  deliveryLine?: string; // Street address line
+  lastLine?: string; // City/state/postal line
+  country?: string; // Country designation
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
+}
+```
+
+A formatted address: its lines, and the same on one line.
+
+```js
+formatUSPS(parseLocation("123 Main St, Anytown, NY 12345"))
+// {"lines":["123 MAIN ST","ANYTOWN NY 12345"],"singleLine":"123 Main St, Anytown NY 12345","deliveryLine":"123 Main St","lastLine":"Anytown NY 12345","country":"US","format":"usps"}
+```
+
+### getPostcodeRangesForAustralianState
+
+function
+
+```ts
+getPostcodeRangesForAustralianState(state: string): AustralianPostcodeRange[]
+```
+
+The blocks of postcodes Australia Post allocates to a state or territory.
+
+- `state`: The state's code or name.
+- Returns: The blocks, in order; an empty array for something that is not a state.
+
+```js
+getPostcodeRangesForAustralianState("Victoria").map((range) => `${range.from}-${range.to}`)
+// ["3000-3999","8000-8999"]
+```
+
+### getStateFromAustralianPostcode
+
+function
+
+```ts
+getStateFromAustralianPostcode(postcode: string): AustralianStateCode | undefined
+```
+
+The state or territory whose block of postcodes a postcode is in. A postcode that also serves a town across a border still gives the state of its block; `getStatesForAustralianPostcode` gives them all.
+
+- `postcode`: Four digits, with or without spaces around them.
+- Returns: The state's code, or `undefined` when the text is not four digits or no block holds it.
+
+```js
+getStateFromAustralianPostcode("2620")
+// "NSW"
+```
+
+### getStatesForAustralianPostcode
+
+function
+
+```ts
+getStatesForAustralianPostcode(postcode: string): AustralianStateCode[]
+```
+
+Every state or territory a postcode serves: its block's state, and for a postcode that crosses a border, the states across it too, the one with most of the postcode's area first.
+
+- `postcode`: Four digits.
+- Returns: The states' codes; an empty array when the postcode is not in any block.
+
+```js
+getStatesForAustralianPostcode("0872")
+// ["NT","SA","WA"]
+```
+
+### looksAustralian
+
+function
+
+```ts
+looksAustralian(text: string): boolean
+```
+
+Whether an address is surely Australian, with no hint: it ends with `Australia`, or with a state and an Australian postcode (`NSW 2150`, `Victoria 3000`, `VIC 2000`, whose postcode is Sydney's). `WA` needs one of Western Australia's postcodes (`WA 6000`), since `WA 9810` is a Washington ZIP code cut short. A postcode alone is not enough: four digits end addresses in many countries.
+
+- `text`: The address as one string.
+- Returns: `true` when the address is Australian beyond doubt, `false` otherwise.
+
+```js
+[looksAustralian("12 Smith St, Parramatta NSW 2150"), looksAustralian("123 Main St, Seattle, WA 9810")]
+// [true,false]
+```
+
+### parseAustralianAddress
+
+function
+
+```ts
+parseAustralianAddress(text: string, options?: ParseOptions): ParsedAddress | null
+```
+
+Parses an Australian address into its parts, as Australia Post lays one out: the delivery line, then the suburb or town, the state and the postcode. Reads a unit written `3/12`, `Unit 3/12`, `Unit 3, 12` or `U3 12`; a level (`Level 6`, `L6`, `Ground Floor`); a lot (`Lot 12`); a range of numbers (`12-14`); a building's name on a line of its own; and the postal deliveries `PO Box`, `GPO Box`, `Locked Bag`, `Private Bag`, `RMB`, `RSD`, `RMS`, `CMB`, `CMA`, `CPA`, `MS` and `Care PO`. The street type is reported as AS4590's abbreviation (`St`, `Pde`, `Cres`). A state is written by its code or its name; a trailing `Australia` is dropped.
+
+- `text`: The address as one string; commas and line breaks both separate its parts.
+- `options`: `useSnakeCase` gives snake_case keys; the other options are not used.
+- Returns: The parts found, with `country: "AU"`, or `null` when the text is empty or has nothing but a state.
+
+```js
+parseAustralianAddress("Unit 3/12 Smith St, Parramatta NSW 2150")
+// {"secUnitType":"Unit","secUnitNum":"3","number":"12","street":"Smith","type":"St","city":"Parramatta","state":"NSW","zip":"2150","zipValid":true,"country":"AU"}
+```
+
+### ParsedAddress
+
+type
+
+```ts
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
+  city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
+  compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
+  fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
+  generalDelivery?: boolean; // General delivery indicator
+  highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
+  locality?: string; // Sub-city locality (borough, district, neighborhood), or a Puerto Rico urbanization
+  military?: string; // Military delivery line ("PSC 802 Box 74", "Unit 2050 Box 4190"); state is AA, AE or AP
+  number?: string; // Street number
+  place?: string; // Place name (landmark, POI, building, monument, etc.)
+  plus4?: string; // Extended ZIP+4 code
+  postalValid?: boolean; // Postal code validation status
+  postalType?: "zip" | "postal"; // Postal code type (zip or postal)
+  prefix?: string; // Directional prefix (N, S, E, W, etc.)
+  rpo?: string; // Retail Postal Outlet (Canada Post) identifier
+  rr?: string; // Rural Route number (RR/R.R.)
+  ruralRoute?: string; // Rural route or similar
+  secUnitNum?: string; // Secondary unit number
+  secUnitType?: string; // Secondary unit type (apt, suite, etc.)
+  secondary?: string; // Legacy properties for backward compatibility
+  site?: string; // Site number on a Canadian rural route (the 6 in "SITE 6 COMP 10 RR 8")
+  state?: string; // State/Province code; AA, AE or AP for a military address
+  station?: string; // Station or Succursale identifier (e.g., Station A, Succ. Centre-ville)
+  street?: string; // Street name
+  suffix?: string; // Directional suffix
+  type?: string; // Street type/suffix (St, Ave, Rd, etc.)
+  unit?: string; // Legacy unit property for backward compatibility
+  zip?: string; // ZIP or postal code
+  zipValid?: boolean; // ZIP/postal code format validation (true if format is valid)
+}
+```
+
+What `parseLocation` returns: every part it found, each absent when the address has none. A Japanese address fills its own fields and the shared ones that stand for them: `state` the prefecture's JIS code, `city` the municipality, `street` the town, `number` the block, `zip` the postal code.
+
+```js
+parseLocation("123 Main St Apt 4, Anytown, NY 12345")
+// {"number":"123","secUnitType":"Apartment","secUnitNum":"4","unit":"Apt 4","street":"Main","type":"St","city":"Anytown","state":"NY","zip":"12345","zipValid":true,"country":"US"}
+```
+
+### ParseOptions
+
+type
+
+```ts
+interface ParseOptions {
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  normalize?: boolean; // Whether to normalize street types and directions
+  validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
+  language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
+  extractFacilities?: boolean; // Whether to extract facility names
+  parseParenthetical?: boolean; // Whether to parse parenthetical information
+  strict?: boolean; // Whether to only extract valid ZIP/postal codes (strict mode) - true: Only extract codes that pass format validation, false (default): Extract all codes but indicate validity with zipValid field
+  useSnakeCase?: boolean; // Whether to return field names in snake_case format for backward compatibility - true: Return snake_case field names (sec_unit_type, sec_unit_num, etc.), false (default): Return camelCase field names (secUnitType, secUnitNum, etc.)
+}
+```
+
+Options for every parser: the country, strict postal codes, snake_case keys and the rest. Every one is optional.
+
+```js
+parseLocation("東京都千代田区丸の内1-2-3", { country: "JP", useSnakeCase: true })?.prefecture_code
+// "13"
+```
+
+### validateAustralianAddress
+
+function
+
+```ts
+validateAustralianAddress(address: ParsedAddress, options?: ValidationOptions): CountryValidation
+```
+
+Checks an Australian address against Australia Post's blocks of postcodes: the postcode is four digits, some state's block holds it, and it is the state named, or one it serves across a border (from the ABS's Postal Areas). Also warns when the state, the postcode or the suburb is missing.
+
+- `address`: The address as `parseAustralianAddress` (or `parseLocation` with the module) returns it.
+- `options`: `strictPostalValidation: true` makes the postcode findings errors; the rest are not used.
+- Returns: The errors and warnings, each with its field, code and message.
+
+```js
+validateAustralianAddress(parseAustralianAddress("1 Main St, Sydney VIC 2000")).warnings[0].message
+// "Postcode 2000 belongs to NSW, not VIC"
+```
+
+### ValidationError
+
+type
+
+```ts
+interface ValidationError {
+  field: string; // Field name where error occurred
+  code: string; // Error code identifier
+  message: string; // Human-readable error message
+  severity: "error" | "warning" | "info"; // Severity level of the validation issue
+}
+```
+
+One finding of a validator: the field it is about, its code, a message, and how serious it is.
+
+```js
+validateAddress("123 Main St, Seattle, NY 98101").warnings[0]
+// {"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"ZIP code 98101 belongs to WA, not NY","severity":"warning"}
+```
+
+### ValidationOptions
+
+type
+
+```ts
+interface ValidationOptions {
+  requireStreetNumber?: boolean; // Whether street number is required
+  requireStreetName?: boolean; // Whether street name is required
+  requireCity?: boolean; // Whether city is required
+  requireState?: boolean; // Whether state/province is required
+  requirePostalCode?: boolean; // Whether postal code is required
+  allowPOBox?: boolean; // Whether PO Box addresses are allowed
+  allowRuralRoute?: boolean; // Whether rural route addresses are allowed
+  allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
+  strictPostalValidation?: boolean; // Whether to use strict postal code validation
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
+}
+```
+
+Options for the validators: which parts an address must have, which kinds are allowed, and whether a postal code that does not match its region is an error.
+
+```js
+validateAddress("123 Main St", { requirePostalCode: true }).errors.map((error) => error.code)
+// ["MISSING_POSTAL_CODE"]
+```
+
+
+## @johnmorrisdotca/address-plus/gb
+
+### compareUKAddresses
+
+function
+
+```ts
+compareUKAddresses(first: ParsedAddress, second: ParsedAddress): CountryComparison
+```
+
+Compares two addresses in the United Kingdom field by field: the flat, the building, the number, the thoroughfare, the post town and the postcode. Letter case, punctuation, a descriptor abbreviated (`St`, `Rd`) and the postcode's space are not differences. The localities and the county are left out, since Royal Mail needs neither when the postcode is given.
+
+- `first`: The first address, as `parseUKAddress` returns it.
+- `second`: The second address.
+- Returns: Whether they are the same delivery point, and each field that differs.
+
+```js
+compareUKAddresses(parseUKAddress("10 Downing Street, London SW1A 2AA"), parseUKAddress("10 DOWNING ST, LONDON, SW1A2AA")).isSame
+// true
+```
+
+### CountryComparison
+
+type
+
+```ts
+interface CountryComparison {
+  isSame: boolean;
+  differences: CountryDifference[];
+}
+```
+
+What a country module's comparer returns: whether the two addresses are the same delivery point, and every field that differs once both are in the same form (letter case, punctuation, a street type written out or abbreviated).
+
+```js
+compareAustralianAddresses(parseAustralianAddress("3/12 Smith Street, Parramatta NSW 2150"), parseAustralianAddress("Unit 3, 12 Smith St, PARRAMATTA NSW 2150")).isSame
+// true
+```
+
+### CountryDifference
+
+type
+
+```ts
+interface CountryDifference {
+  field: string;
+  first?: string;
+  second?: string;
+}
+```
+
+One way two addresses differ, as a country module's comparer reports it: the field, and its value in each address after both were put in the same form.
+
+```js
+compareUKAddresses(parseUKAddress("10 High Street, Bath BA1 1AA"), parseUKAddress("12 High St, Bath BA1 1AA")).differences
+// [{"field":"number","first":"10","second":"12"}]
+```
+
+### CountryModule
+
+type
+
+```ts
+interface CountryModule {
+  code: string; // The country's ISO 3166-1 code: AU, GB
+  codes: readonly string[]; // Every country code the module reads; GB also reads Jersey (JE), Guernsey (GY) and the Isle of Man (IM)
+  name: string; // The country's name in English
+  detect(address: string): boolean; // Whether the address is surely this country's, with no hint
+  parse(address: string, options?: ParseOptions): ParsedAddress | null;
+  validate(address: ParsedAddress, options?: ValidationOptions): CountryValidation;
+  format(address: ParsedAddress): FormattedAddress;
+  compare(first: ParsedAddress, second: ParsedAddress): CountryComparison;
+}
+```
+
+A country's address module: its codes, how to tell its addresses apart, and its parser, validator, formatter and comparer. Import one from its entry point (`australia` from `@johnmorrisdotca/address-plus/au`, `unitedKingdom` from `@johnmorrisdotca/address-plus/gb`) and hand it to `parseLocation` and `validateAddress` in `countries`.
+
+```js
+australia.codes
+// ["AU"]
+```
+
+### CountryValidation
+
+type
+
+```ts
+interface CountryValidation {
+  errors: ValidationError[];
+  warnings: ValidationError[];
+}
+```
+
+What a country module's validator returns: the errors and the warnings it found.
+
+```js
+validateAustralianAddress(parseAustralianAddress("1 Main St, Sydney VIC 2000")).warnings.map((one) => one.code)
+// ["POSTAL_REGION_MISMATCH"]
+```
+
+### findUKNation
+
+function
+
+```ts
+findUKNation(text: string): (typeof GB_NATIONS)[number] | null
+```
+
+Finds a nation of the United Kingdom by its code (`SCT`, `GB-SCT`) or its name in English or Japanese.
+
+- `text`: The code or the name.
+- Returns: The nation, or `null` when nothing matches.
+
+```js
+findUKNation("wales")?.code
+// "WLS"
+```
+
+### formatRoyalMail
+
+function
+
+```ts
+formatRoyalMail(address: ParsedAddress, options?: RoyalMailFormattingOptions): FormattedAddress
+```
+
+Writes an address in the United Kingdom as Royal Mail asks: the flat or part of the building, the floor, the building's name, the number with the dependent thoroughfare or the thoroughfare, the localities, then the post town and the postcode in capitals, each on its own line. A forces address ends `BFPO 105`.
+
+- `address`: The address as `parseUKAddress` returns it.
+- `options`: Whether to keep a county and to add the country (see `RoyalMailFormattingOptions`).
+- Returns: The lines, the same on one line, the delivery line (the number and thoroughfare) and the last line.
+
+```js
+formatRoyalMail(parseUKAddress("Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA")).lines
+// ["Flat 2","Rose Court","14 High Street","Kingsbury","LONDON","NW9 0AA"]
+```
+
+### FormattedAddress
+
+type
+
+```ts
+interface FormattedAddress {
+  lines: string[]; // Individual address lines
+  singleLine: string; // Single-line representation
+  deliveryLine?: string; // Street address line
+  lastLine?: string; // City/state/postal line
+  country?: string; // Country designation
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
+}
+```
+
+A formatted address: its lines, and the same on one line.
+
+```js
+formatUSPS(parseLocation("123 Main St, Anytown, NY 12345"))
+// {"lines":["123 MAIN ST","ANYTOWN NY 12345"],"singleLine":"123 Main St, Anytown NY 12345","deliveryLine":"123 Main St","lastLine":"Anytown NY 12345","country":"US","format":"usps"}
+```
+
+### GB_DISTRICT_NATIONS
+
+const
+
+```ts
+GB_DISTRICT_NATIONS: Readonly<Record<string, readonly UKNationCode[]>>
+```
+
+The postcode districts not wholly in the nation of their area, each with the nations its postcodes lie in, the one with most of them first: the districts that cross the borders of Wales and of Scotland, and those wholly across one (CH5 to CH8 are in Wales, though most of the CH area is in England). From Code-Point Open (OGL v3).
+
+```js
+[GB_DISTRICT_NATIONS["TD15"], GB_DISTRICT_NATIONS["CH5"]]
+// [["ENG","SCT"],["WLS"]]
+```
+
+### GB_NATIONS
+
+const
+
+```ts
+GB_NATIONS: readonly UKNation[]
+```
+
+The four nations of the United Kingdom, in order of their codes, each with its ISO 3166-2 code and its name in English and in Japanese. Copied from kuni when the tables are made.
+
+```js
+GB_NATIONS.map((nation) => nation.name)
+// ["England","Northern Ireland","Scotland","Wales"]
+```
+
+### GB_POSTCODE_AREAS
+
+const
+
+```ts
+GB_POSTCODE_AREAS: Readonly<Record<string, UKPostcodeArea>>
+```
+
+Every postcode area Royal Mail uses: the 121 of the United Kingdom, the three Crown Dependencies (`GY`, `IM`, `JE`), and the two that are not places, `BF` (the British Forces Post Office) and `BX` (addresses kept for organisations wherever they are). Each with the town it is named for, its country and its nation.
+
+```js
+[GB_POSTCODE_AREAS.CF.nation, GB_POSTCODE_AREAS.JE.country]
+// ["WLS","JE"]
+```
+
+### GB_POSTCODE_DISTRICTS
+
+const
+
+```ts
+GB_POSTCODE_DISTRICTS: Readonly<Record<string, string>>
+```
+
+Every postcode district in Great Britain, by area: the numbered districts as runs, then those with a letter. Read from Ordnance Survey's Code-Point Open (OGL v3; contains Royal Mail data © Royal Mail copyright and database right). Northern Ireland's BT area is not in it, so its districts are not listed.
+
+```js
+GB_POSTCODE_DISTRICTS["EC"]
+// "1A,1M,1N,1P,1R,1V,1Y,2A,2M,2N,2P,2R,2V,2Y,3A,3M,3N,3P,3R,3V,4A,4M,4N,4P,4R,4V,4Y"
+```
+
+### GB_THOROUGHFARE_DESCRIPTORS
+
+const
+
+```ts
+GB_THOROUGHFARE_DESCRIPTORS: Readonly<Record<string, readonly string[]>>
+```
+
+The thoroughfare descriptors the parser takes off the end of a street's name and reports, in full, as `type` (`High Street` is street `High`, type `Street`), with the abbreviations it reads for each. A street ending in none of them (`Kingsway`, `The Strand`) has no type.
+
+```js
+GB_THOROUGHFARE_DESCRIPTORS.Road
+// ["RD"]
+```
+
+### getNationFromUKPostcode
+
+function
+
+```ts
+getNationFromUKPostcode(postcode: string): UKNationCode | undefined
+```
+
+The nation of the United Kingdom a postcode delivers to, by its area, or by its district where the district crosses the border with Wales or with Scotland (the nation most of its postcodes are in).
+
+- `postcode`: The postcode.
+- Returns: `ENG`, `NIR`, `SCT` or `WLS`; `undefined` for a postcode outside the United Kingdom, one that is not a place (BFPO), or text that is not a postcode.
+
+```js
+["CH5 1AA", "BT1 1AA", "EH1 1YZ", "JE2 3AB"].map(getNationFromUKPostcode)
+// ["WLS","NIR","SCT",null]
+```
+
+### getNationsForUKPostcode
+
+function
+
+```ts
+getNationsForUKPostcode(postcode: string): UKNationCode[]
+```
+
+Every nation a postcode's district delivers to: one for most, two for the districts along the borders of Wales and of Scotland (from Code-Point Open), the nation with most of the district's postcodes first.
+
+- `postcode`: The postcode.
+- Returns: The nations; an empty array outside the United Kingdom or for text that is not a postcode.
+
+```js
+getNationsForUKPostcode("SY10 7AA")
+// ["ENG","WLS"]
+```
+
+### isValidUKPostcode
+
+function
+
+```ts
+isValidUKPostcode(postcode: string): boolean
+```
+
+Whether a postcode follows Royal Mail's grammar: one of the six shapes (`M2 5BQ`, `M34 4AB`, `CR0 2YR`, `DN16 9AA`, `W1A 4ZZ`, `EC1A 1HQ`) with the letters each place allows, or `GIR 0AA`. Letter case and the space do not matter. Whether the postcode is in use is a different question; `parseUKPostcode` and the validator also check its area and district.
+
+- `postcode`: The postcode.
+- Returns: `true` when it has a postcode's shape and letters.
+
+```js
+["EC1A 1BB", "sw1a1aa", "GIR 0AA", "Q1 1AA", "M5V 1A1"].map(isValidUKPostcode)
+// [true,true,true,false,false]
+```
+
+### looksBritish
+
+function
+
+```ts
+looksBritish(text: string): boolean
+```
+
+Whether an address is surely British, with no hint: it ends with the United Kingdom or one of its nations (or Jersey, Guernsey or the Isle of Man), or it holds a full postcode in Royal Mail's grammar whose area Royal Mail uses, or `BFPO` and a number. A Canadian postal code never passes: it ends in a digit (`M5V 1A1`), a British postcode in two letters (`W1A 0AX`).
+
+- `text`: The address as one string.
+- Returns: `true` when the address is British beyond doubt, `false` otherwise.
+
+```js
+[looksBritish("10 Downing Street, London SW1A 2AA"), looksBritish("100 Queen St W, Toronto, ON M5H 2N2")]
+// [true,false]
+```
+
+### ParsedAddress
+
+type
+
+```ts
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
+  city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
+  compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
+  fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
+  generalDelivery?: boolean; // General delivery indicator
+  highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
+  locality?: string; // Sub-city locality (borough, district, neighborhood), or a Puerto Rico urbanization
+  military?: string; // Military delivery line ("PSC 802 Box 74", "Unit 2050 Box 4190"); state is AA, AE or AP
+  number?: string; // Street number
+  place?: string; // Place name (landmark, POI, building, monument, etc.)
+  plus4?: string; // Extended ZIP+4 code
+  postalValid?: boolean; // Postal code validation status
+  postalType?: "zip" | "postal"; // Postal code type (zip or postal)
+  prefix?: string; // Directional prefix (N, S, E, W, etc.)
+  rpo?: string; // Retail Postal Outlet (Canada Post) identifier
+  rr?: string; // Rural Route number (RR/R.R.)
+  ruralRoute?: string; // Rural route or similar
+  secUnitNum?: string; // Secondary unit number
+  secUnitType?: string; // Secondary unit type (apt, suite, etc.)
+  secondary?: string; // Legacy properties for backward compatibility
+  site?: string; // Site number on a Canadian rural route (the 6 in "SITE 6 COMP 10 RR 8")
+  state?: string; // State/Province code; AA, AE or AP for a military address
+  station?: string; // Station or Succursale identifier (e.g., Station A, Succ. Centre-ville)
+  street?: string; // Street name
+  suffix?: string; // Directional suffix
+  type?: string; // Street type/suffix (St, Ave, Rd, etc.)
+  unit?: string; // Legacy unit property for backward compatibility
+  zip?: string; // ZIP or postal code
+  zipValid?: boolean; // ZIP/postal code format validation (true if format is valid)
+}
+```
+
+What `parseLocation` returns: every part it found, each absent when the address has none. A Japanese address fills its own fields and the shared ones that stand for them: `state` the prefecture's JIS code, `city` the municipality, `street` the town, `number` the block, `zip` the postal code.
+
+```js
+parseLocation("123 Main St Apt 4, Anytown, NY 12345")
+// {"number":"123","secUnitType":"Apartment","secUnitNum":"4","unit":"Apt 4","street":"Main","type":"St","city":"Anytown","state":"NY","zip":"12345","zipValid":true,"country":"US"}
+```
+
+### ParseOptions
+
+type
+
+```ts
+interface ParseOptions {
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  normalize?: boolean; // Whether to normalize street types and directions
+  validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
+  language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
+  extractFacilities?: boolean; // Whether to extract facility names
+  parseParenthetical?: boolean; // Whether to parse parenthetical information
+  strict?: boolean; // Whether to only extract valid ZIP/postal codes (strict mode) - true: Only extract codes that pass format validation, false (default): Extract all codes but indicate validity with zipValid field
+  useSnakeCase?: boolean; // Whether to return field names in snake_case format for backward compatibility - true: Return snake_case field names (sec_unit_type, sec_unit_num, etc.), false (default): Return camelCase field names (secUnitType, secUnitNum, etc.)
+}
+```
+
+Options for every parser: the country, strict postal codes, snake_case keys and the rest. Every one is optional.
+
+```js
+parseLocation("東京都千代田区丸の内1-2-3", { country: "JP", useSnakeCase: true })?.prefecture_code
+// "13"
+```
+
+### parseUKAddress
+
+function
+
+```ts
+parseUKAddress(text: string, options?: ParseOptions): ParsedAddress | null
+```
+
+Parses an address in the United Kingdom (or Jersey, Guernsey and the Isle of Man, which share Royal Mail's postcodes) into the parts of Royal Mail's Postcode Address File: a flat or unit (`secUnitType`, `secUnitNum`) or a named part of a building (`subBuilding`), a floor, the building's name, the number, a dependent thoroughfare, the thoroughfare (its name in `street`, its descriptor in full in `type`), the dependent localities, the post town in `city`, a county, and the postcode in `zip` with the nation it delivers to. The postcode is found wherever it is written and normalised to capitals with one space; `BFPO 105` is read as a forces address.
+
+- `text`: The address as one string; commas and line breaks both separate its parts.
+- `options`: `useSnakeCase` gives snake_case keys; the other options are not used.
+- Returns: The parts found, with `country` `GB` (or `JE`, `GY`, `IM`), or `null` when the text is empty.
+
+```js
+parseUKAddress("Flat 14, Ziggurat Building, 60-66 Saffron Hill, London EC1N 8QX")
+// {"secUnitType":"Flat","secUnitNum":"14","building":"Ziggurat Building","number":"60-66","street":"Saffron","type":"Hill","city":"London","zip":"EC1N 8QX","zipValid":true,"nation":"ENG","country":"GB"}
+```
+
+### parseUKPostcode
+
+function
+
+```ts
+parseUKPostcode(postcode: string): UKPostcode | null
+```
+
+Takes a postcode apart: outward code, inward code, area, district and sector, and says where it delivers: the country (`GB`, or `JE`, `GY` or `IM` for the Crown Dependencies) and, in the United Kingdom, the nation. A district that crosses a border gives the nation most of its postcodes are in; `getNationsForUKPostcode` gives them all.
+
+- `postcode`: The postcode, in any letter case, with or without its space.
+- Returns: The parts, or `null` when it does not follow the grammar or its area is not one Royal Mail uses.
+
+```js
+parseUKPostcode("JE2 3AB")
+// {"postcode":"JE2 3AB","outward":"JE2","inward":"3AB","area":"JE","district":"JE2","sector":"JE2 3","country":"JE"}
+```
+
+### RoyalMailFormattingOptions
+
+type
+
+```ts
+interface RoyalMailFormattingOptions {
+  includeCounty?: boolean; // Keep a county that was written, on the line after the post town; Royal Mail does not need it
+  includeCountry?: boolean; // UNITED KINGDOM as the last line, for mail from abroad (or JERSEY, GUERNSEY, ISLE OF MAN)
+}
+```
+
+Options for `formatRoyalMail`.
+
+```js
+formatRoyalMail(parseUKAddress("10 Downing Street, London SW1A 2AA"), { includeCountry: true }).lines
+// ["10 Downing Street","LONDON","SW1A 2AA","UNITED KINGDOM"]
+```
+
+### UKAddressFields
+
+type
+
+```ts
+interface UKAddressFields {
+  subBuilding?: string; // A part of a building with no number: "Basement Flat", "Stables Flat"
+  dependentThoroughfare?: string; // A thoroughfare inside another: the "Seastone Cottages" of "1A Seastone Cottages, Station Road"
+  doubleDependentLocality?: string; // A locality inside the dependent locality, written above it
+  county?: string; // A county, when one is written; Royal Mail no longer needs it
+  nation?: UKNationCode; // The nation the postcode delivers to, from the tables
+  bfpo?: string; // A British Forces Post Office number: the 105 of "BFPO 105"
+}
+```
+
+The fields an address in the United Kingdom fills beside the shared ones. The shared fields keep their meaning: `number` is the building number, `street` and `type` the thoroughfare's name and its descriptor in full (`Upper` and `Street`, as Royal Mail writes it), `secUnitType` and `secUnitNum` a flat or unit (`Flat 2`) or a PO Box, `building` the building's name, `locality` the dependent locality, `city` the post town and `zip` the postcode.
+
+```js
+parseUKAddress("Flat 2, Rose Court, 14 High Street, Kingsbury, LONDON NW9 0AA")?.locality
+// "Kingsbury"
+```
+
+### UKNation
+
+type
+
+```ts
+interface UKNation {
+  code: UKNationCode;
+  iso: string; // GB-SCT
+  name: string; // Scotland
+  nameJa: string; // スコットランド
+}
+```
+
+A nation of the United Kingdom in the tables: its code, its ISO 3166-2 code, and its name in English and in Japanese (from kuni, which takes them from Unicode CLDR and Wikidata).
+
+```js
+GB_NATIONS.find((nation) => nation.code === "SCT")
+// {"code":"SCT","iso":"GB-SCT","name":"Scotland","nameJa":"スコットランド"}
+```
+
+### UKNationCode
+
+type
+
+```ts
+type UKNationCode = "ENG" | "NIR" | "SCT" | "WLS";
+```
+
+The code of one of the four nations of the United Kingdom, as ISO 3166-2:GB writes it after `GB-`.
+
+```js
+getNationFromUKPostcode("CF10 1AA")
+// "WLS"
+```
+
+### UKPostcode
+
+type
+
+```ts
+interface UKPostcode {
+  postcode: string; // Capitals, one space: EC1A 1BB
+  outward: string; // EC1A
+  inward: string; // 1BB
+  area: string; // EC
+  district: string; // EC1A, the same as the outward code
+  sector: string; // EC1A 1
+  country: "GB" | "GY" | "IM" | "JE";
+  nation?: UKNationCode; // Absent outside the United Kingdom, and for a non-geographic area (BX, BF)
+}
+```
+
+A postcode taken apart: the outward code (area and district) and the inward code (sector and unit), and where it delivers. `country` is `GB` for the United Kingdom and `JE`, `GY` or `IM` for Jersey, Guernsey and the Isle of Man, which use Royal Mail's postcodes but are not part of the United Kingdom.
+
+```js
+parseUKPostcode("ec1a1bb")
+// {"postcode":"EC1A 1BB","outward":"EC1A","inward":"1BB","area":"EC","district":"EC1A","sector":"EC1A 1","country":"GB","nation":"ENG"}
+```
+
+### UKPostcodeArea
+
+type
+
+```ts
+interface UKPostcodeArea {
+  name: string;
+  country: "GB" | "GY" | "IM" | "JE";
+  nation?: UKNationCode;
+}
+```
+
+A postcode area: the town Royal Mail names it for, the country it delivers to (`GB`, or `JE`, `GY` and `IM` for the Crown Dependencies), and for the United Kingdom the nation, absent for an area that is not a place (`BF`, `BX`).
+
+```js
+GB_POSTCODE_AREAS.BT
+// {"name":"Northern Ireland","country":"GB","nation":"NIR"}
+```
+
+### unitedKingdom
+
+const
+
+```ts
+unitedKingdom: CountryModule
+```
+
+The United Kingdom's module, for `parseLocation` and `validateAddress`: pass it in `countries`, and an address with a British postcode (or ending with the United Kingdom or a nation) is read as British; `country: "GB"` reads any address as one. It reads Jersey (`JE`), Guernsey (`GY`) and the Isle of Man (`IM`) too.
+
+```js
+parseLocation("221B Baker Street, London NW1 6XE", { countries: [unitedKingdom] })?.number
+// "221B"
+```
+
+### validateUKAddress
+
+function
+
+```ts
+validateUKAddress(address: ParsedAddress, options?: ValidationOptions): CountryValidation
+```
+
+Checks an address in the United Kingdom against Royal Mail's postcode grammar and the tables: the postcode is well formed, Royal Mail uses its area, and in Great Britain Code-Point Open lists its district. Says when a postcode is Jersey's, Guernsey's or the Isle of Man's, which are not part of the UK, and warns when the postcode or the post town is missing.
+
+- `address`: The address as `parseUKAddress` (or `parseLocation` with the module) returns it.
+- `options`: `strictPostalValidation: true` makes the postcode findings errors; the rest are not used.
+- Returns: The errors and warnings, each with its field, code and message.
+
+```js
+validateUKAddress(parseUKAddress("1 High Street, London EC9Z 1AA")).warnings.map((one) => one.code)
+// ["INVALID_POSTAL_FORMAT"]
+```
+
+### ValidationError
+
+type
+
+```ts
+interface ValidationError {
+  field: string; // Field name where error occurred
+  code: string; // Error code identifier
+  message: string; // Human-readable error message
+  severity: "error" | "warning" | "info"; // Severity level of the validation issue
+}
+```
+
+One finding of a validator: the field it is about, its code, a message, and how serious it is.
+
+```js
+validateAddress("123 Main St, Seattle, NY 98101").warnings[0]
+// {"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"ZIP code 98101 belongs to WA, not NY","severity":"warning"}
+```
+
+### ValidationOptions
+
+type
+
+```ts
+interface ValidationOptions {
+  requireStreetNumber?: boolean; // Whether street number is required
+  requireStreetName?: boolean; // Whether street name is required
+  requireCity?: boolean; // Whether city is required
+  requireState?: boolean; // Whether state/province is required
+  requirePostalCode?: boolean; // Whether postal code is required
+  allowPOBox?: boolean; // Whether PO Box addresses are allowed
+  allowRuralRoute?: boolean; // Whether rural route addresses are allowed
+  allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
+  strictPostalValidation?: boolean; // Whether to use strict postal code validation
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 ```
 
