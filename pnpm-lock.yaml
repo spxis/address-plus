@@ -18,6 +18,9 @@ importers:
       '@johnmorrisdotca/hikidashi':
         specifier: ^1.0.2
         version: 1.0.2
+      '@johnmorrisdotca/kuni':
+        specifier: 1.1.0
+        version: 1.1.0
       '@playwright/test':
         specifier: ^1.64.0
         version: 1.64.0
@@ -315,6 +318,10 @@ packages:
   '@johnmorrisdotca/hikidashi@1.0.2':
     resolution: {integrity: sha512-mfFFba0WP6k+6F8KmcREsLUNlrfpkGm3Y2IcgL0vNxj+GfcwyQjklUbxOK2fL+uoPAGl3ZN8CJb2RofB8qboYw==}
     engines: {node: '>=22'}
+
+  '@johnmorrisdotca/kuni@1.1.0':
+    resolution: {integrity: sha512-5GFfOXNtd0VOSAqp43wHc9vxS1VLMReHdgRBWmcdfbrJW9dVY+0fWxOBIXeGrWQoy4ZF7IhFGJbg8PZKfMMqCw==}
+    engines: {node: '>=24'}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2005,6 +2012,8 @@ snapshots:
       '@sinclair/typebox': 0.27.12
 
   '@johnmorrisdotca/hikidashi@1.0.2': {}
+
+  '@johnmorrisdotca/kuni@1.1.0': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
