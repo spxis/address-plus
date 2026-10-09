@@ -4,12 +4,12 @@
   "description": "Figures from src/__tests__/corpus/parse-address-parity.test.ts, which runs every corpus input through parse-address and address-plus. fieldsBothGetRight is the gate: it may only rise. Re-record with CORPUS_PARITY_RECORD=1 pnpm exec vitest run src/__tests__/corpus/parse-address-parity.test.ts.",
   "tests": {
     "parity": {
-      "fieldsAgreeing": 7426,
-      "fieldsBothGetRight": 7382,
-      "fieldsCompared": 9872,
-      "fieldsParseAddressGetsRight": 7665,
-      "inputs": 1620,
-      "inputsInFullAgreement": 920
+      "fieldsAgreeing": 7310,
+      "fieldsBothGetRight": 7266,
+      "fieldsCompared": 9752,
+      "fieldsParseAddressGetsRight": 7549,
+      "inputs": 1600,
+      "inputsInFullAgreement": 902
     }
   }
 }

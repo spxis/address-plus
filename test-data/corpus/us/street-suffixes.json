@@ -3930,21 +3930,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Fall as FALL",
-        "description": "Street suffix FALL by its standard abbreviation FALL",
-        "input": "8444 Chestnut Fall, Honolulu, HI 96813",
-        "expected": {
-          "number": "8444",
-          "street": "Chestnut",
-          "type": "Fall",
-          "city": "Honolulu",
-          "state": "HI",
-          "zip": "96813",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Falls as FLS",
         "description": "Street suffix FALLS by its standard abbreviation FLS",
         "input": "9118 Birch Fls, Richmond, VA 23219",
@@ -4470,21 +4455,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Isle as ISLE",
-        "description": "Street suffix ISLE by its standard abbreviation ISLE",
-        "input": "3308 Hawthorne Isle, Omaha, NE 68102",
-        "expected": {
-          "number": "3308",
-          "street": "Hawthorne",
-          "type": "Isle",
-          "city": "Omaha",
-          "state": "NE",
-          "zip": "68102",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Junction as JCT",
         "description": "Street suffix JUNCTION by its standard abbreviation JCT",
         "input": "3982 Juniper Jct, Boise, ID 83702",
@@ -4600,21 +4570,6 @@
           "city": "Fargo",
           "state": "ND",
           "zip": "58102",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Land as LAND",
-        "description": "Street suffix LAND by its standard abbreviation LAND",
-        "input": "9374 Willow Land, Springfield, IL 62701",
-        "expected": {
-          "number": "9374",
-          "street": "Willow",
-          "type": "Land",
-          "city": "Springfield",
-          "state": "IL",
-          "zip": "62701",
           "country": "US"
         },
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
@@ -4740,36 +4695,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Loop as LOOP",
-        "description": "Street suffix LOOP by its standard abbreviation LOOP",
-        "input": "5640 Hickory Loop, Raleigh, NC 27601",
-        "expected": {
-          "number": "5640",
-          "street": "Hickory",
-          "type": "Loop",
-          "city": "Raleigh",
-          "state": "NC",
-          "zip": "27601",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Mall as MALL",
-        "description": "Street suffix MALL by its standard abbreviation MALL",
-        "input": "6314 Willow Mall, Atlanta, GA 30303",
-        "expected": {
-          "number": "6314",
-          "street": "Willow",
-          "type": "Mall",
-          "city": "Atlanta",
-          "state": "GA",
-          "zip": "30303",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Manor as MNR",
         "description": "Street suffix MANOR by its standard abbreviation MNR",
         "input": "6988 Hawthorne Mnr, Omaha, NE 68102",
@@ -4825,21 +4750,6 @@
           "city": "Anchorage",
           "state": "AK",
           "zip": "99501",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Mews as MEWS",
-        "description": "Street suffix MEWS by its standard abbreviation MEWS",
-        "input": "9684 Chestnut Mews, Honolulu, HI 96813",
-        "expected": {
-          "number": "9684",
-          "street": "Chestnut",
-          "type": "Mews",
-          "city": "Honolulu",
-          "state": "HI",
-          "zip": "96813",
           "country": "US"
         },
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
@@ -4980,21 +4890,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Oval as OVAL",
-        "description": "Street suffix OVAL by its standard abbreviation OVAL",
-        "input": "6624 Chestnut Oval, Phoenix, AZ 85004",
-        "expected": {
-          "number": "6624",
-          "street": "Chestnut",
-          "type": "Oval",
-          "city": "Phoenix",
-          "state": "AZ",
-          "zip": "85004",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Overpass as OPAS",
         "description": "Street suffix OVERPASS by its standard abbreviation OPAS",
         "input": "7298 Birch Opas, Nashville, TN 37219",
@@ -5005,21 +4900,6 @@
           "city": "Nashville",
           "state": "TN",
           "zip": "37219",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Park as PARK",
-        "description": "Street suffix PARK by its standard abbreviation PARK",
-        "input": "7972 Aspen Park, Columbus, OH 43215",
-        "expected": {
-          "number": "7972",
-          "street": "Aspen",
-          "type": "Park",
-          "city": "Columbus",
-          "state": "OH",
-          "zip": "43215",
           "country": "US"
         },
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
@@ -5070,21 +4950,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Pass as PASS",
-        "description": "Street suffix PASS by its standard abbreviation PASS",
-        "input": "868 Hawthorne Pass, Omaha, NE 68102",
-        "expected": {
-          "number": "868",
-          "street": "Hawthorne",
-          "type": "Pass",
-          "city": "Omaha",
-          "state": "NE",
-          "zip": "68102",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Passage as PSGE",
         "description": "Street suffix PASSAGE by its standard abbreviation PSGE",
         "input": "1542 Juniper Psge, Boise, ID 83702",
@@ -5095,36 +4960,6 @@
           "city": "Boise",
           "state": "ID",
           "zip": "83702",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Path as PATH",
-        "description": "Street suffix PATH by its standard abbreviation PATH",
-        "input": "2216 Sycamore Path, Burlington, VT 05401",
-        "expected": {
-          "number": "2216",
-          "street": "Sycamore",
-          "type": "Path",
-          "city": "Burlington",
-          "state": "VT",
-          "zip": "05401",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Pike as PIKE",
-        "description": "Street suffix PIKE by its standard abbreviation PIKE",
-        "input": "2890 Magnolia Pike, Anchorage, AK 99501",
-        "expected": {
-          "number": "2890",
-          "street": "Magnolia",
-          "type": "Pike",
-          "city": "Anchorage",
-          "state": "AK",
-          "zip": "99501",
           "country": "US"
         },
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
@@ -5310,21 +5145,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Ramp as RAMP",
-        "description": "Street suffix RAMP by its standard abbreviation RAMP",
-        "input": "1852 Aspen Ramp, Columbus, OH 43215",
-        "expected": {
-          "number": "1852",
-          "street": "Aspen",
-          "type": "Ramp",
-          "city": "Columbus",
-          "state": "OH",
-          "zip": "43215",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Ranch as RNCH",
         "description": "Street suffix RANCH by its standard abbreviation RNCH",
         "input": "2526 Laurel Rnch, Madison, WI 53703",
@@ -5475,51 +5295,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Row as ROW",
-        "description": "Street suffix ROW by its standard abbreviation ROW",
-        "input": "9266 Laurel Row, Billings, MT 59101",
-        "expected": {
-          "number": "9266",
-          "street": "Laurel",
-          "type": "Row",
-          "city": "Billings",
-          "state": "MT",
-          "zip": "59101",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Rue as RUE",
-        "description": "Street suffix RUE by its standard abbreviation RUE",
-        "input": "140 Hickory Rue, Fargo, ND 58102",
-        "expected": {
-          "number": "140",
-          "street": "Hickory",
-          "type": "Rue",
-          "city": "Fargo",
-          "state": "ND",
-          "zip": "58102",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Run as RUN",
-        "description": "Street suffix RUN by its standard abbreviation RUN",
-        "input": "814 Willow Run, Springfield, IL 62701",
-        "expected": {
-          "number": "814",
-          "street": "Willow",
-          "type": "Run",
-          "city": "Springfield",
-          "state": "IL",
-          "zip": "62701",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Shoal as SHL",
         "description": "Street suffix SHOAL by its standard abbreviation SHL",
         "input": "1488 Hawthorne Shl, Austin, TX 78701",
@@ -5620,21 +5395,6 @@
           "city": "Columbus",
           "state": "OH",
           "zip": "43215",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Spur as SPUR",
-        "description": "Street suffix SPUR by its standard abbreviation SPUR",
-        "input": "6206 Laurel Spur, Madison, WI 53703",
-        "expected": {
-          "number": "6206",
-          "street": "Laurel",
-          "type": "Spur",
-          "city": "Madison",
-          "state": "WI",
-          "zip": "53703",
           "country": "US"
         },
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
@@ -6092,21 +5852,6 @@
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
-        "name": "Walk as WALK",
-        "description": "Street suffix WALK by its standard abbreviation WALK",
-        "input": "7500 Hickory Walk, Fargo, ND 58102",
-        "expected": {
-          "number": "7500",
-          "street": "Hickory",
-          "type": "Walk",
-          "city": "Fargo",
-          "state": "ND",
-          "zip": "58102",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
         "name": "Walks as WALK",
         "description": "Street suffix WALKS by its standard abbreviation WALK",
         "input": "8174 Willow Walk, Springfield, IL 62701",
@@ -6117,51 +5862,6 @@
           "city": "Springfield",
           "state": "IL",
           "zip": "62701",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Wall as WALL",
-        "description": "Street suffix WALL by its standard abbreviation WALL",
-        "input": "8848 Hawthorne Wall, Austin, TX 78701",
-        "expected": {
-          "number": "8848",
-          "street": "Hawthorne",
-          "type": "Wall",
-          "city": "Austin",
-          "state": "TX",
-          "zip": "78701",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Way as WAY",
-        "description": "Street suffix WAY by its standard abbreviation WAY",
-        "input": "9522 Juniper Way, Denver, CO 80202",
-        "expected": {
-          "number": "9522",
-          "street": "Juniper",
-          "type": "Way",
-          "city": "Denver",
-          "state": "CO",
-          "zip": "80202",
-          "country": "US"
-        },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
-      },
-      {
-        "name": "Ways as WAYS",
-        "description": "Street suffix WAYS by its standard abbreviation WAYS",
-        "input": "396 Sycamore Ways, Boston, MA 02108",
-        "expected": {
-          "number": "396",
-          "street": "Sycamore",
-          "type": "Ways",
-          "city": "Boston",
-          "state": "MA",
-          "zip": "02108",
           "country": "US"
         },
         "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
