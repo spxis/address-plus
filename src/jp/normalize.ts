@@ -34,8 +34,18 @@ function kanjiNumeralValue(numeral: string): string {
   return value === null ? numeral : String(value);
 }
 
-// Kanji numerals that stand for block, floor or room numbers become digits: 一丁目二番三号 → 1丁目2番3号.
-// A numeral that is part of a name stays: 北一条西, 三番町, 麻布十番, 一ノ瀬.
+/**
+ * Turns the kanji numerals that stand for block, floor or room numbers into digits: `一丁目二番三号` becomes `1丁目2番3号`. A
+ * numeral that is part of a name stays: `北一条西`, `三番町`, `麻布十番`, `二階堂`.
+ *
+ * @param text - Japanese text.
+ * @returns The text with those numerals as digits.
+ * @example
+ * ```ts
+ * kanjiNumeralsToDigits("二丁目十五番")
+ * // → "2丁目15番"
+ * ```
+ */
 function kanjiNumeralsToDigits(text: string): string {
   return text
     .replace(KANJI_BLOCK_NUMERAL, kanjiNumeralValue)
@@ -43,9 +53,18 @@ function kanjiNumeralsToDigits(text: string): string {
     .replace(KANJI_NUMERAL_GO, kanjiNumeralValue);
 }
 
-// The whole text made uniform: widths folded, spaces tidied, numerals as digits, and 1の2の3 or
-// １－２－３ written 1-2-3. The postal mark 〒 is kept, since it tells the parser where the code is.
-// @example normalizeJapaneseAddressText("〒１００-０００５ 東京都千代田区丸の内一丁目二番三号") → "〒100-0005 東京都千代田区丸の内1丁目2番3号"
+/**
+ * Makes the text of a Japanese address uniform, as the parser reads it: widths folded, spaces tidied, numerals as
+ * digits, and `1の2の3`, `１－２－３` or any other dash written `1-2-3`. The postal mark 〒 is kept.
+ *
+ * @param text - Japanese text.
+ * @returns The text made uniform.
+ * @example
+ * ```ts
+ * normalizeJapaneseAddressText("〒１００-０００５ 東京都千代田区丸の内一丁目二番三号")
+ * // → "〒100-0005 東京都千代田区丸の内1丁目2番3号"
+ * ```
+ */
 function normalizeJapaneseAddressText(text: string): string {
   const folded = foldWidth(text).replace(SPACES, " ").trim();
 

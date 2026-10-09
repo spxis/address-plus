@@ -1,5 +1,15 @@
 // Acronyms that should be capitalized specially in street names
 
+/**
+ * Acronyms written in capitals inside a street name (`US`, `FBI`), from their lower-case form, for
+ * `capitalizeStreetName`.
+ *
+ * @example
+ * ```ts
+ * STREET_NAME_ACRONYMS.get("fbi")
+ * // → "FBI"
+ * ```
+ */
 const STREET_NAME_ACRONYMS = new Map<string, string>([
   // Common country/state/civic acronyms used in roads
   ["us", "US"],

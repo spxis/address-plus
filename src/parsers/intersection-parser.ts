@@ -6,7 +6,20 @@ import { setValidatedPostalCode } from "../utils/address-validation";
 import { splitStreetAndCity } from "../utils/split-city";
 import { normalizeStreetType } from "../utils/street-type-normalizer";
 
-// Parse intersection addresses (e.g., "Main St & Elm Ave")
+/**
+ * Parses an intersection of two streets, joined by `&`, `and`, `at` or `@`, with the city, state and ZIP that may
+ * follow. With no comma before the city, the second street ends at its type, so the city may be any number of words.
+ *
+ * @param address - The intersection as one string, such as `Main St & Pine Ave, Tacoma, WA`.
+ * @param options - How to parse (see `ParseOptions`).
+ * @returns Both streets with their types and directionals, and the place, or `null` when the text does not name two
+ * streets. A street with no type has `type1` or `type2` set to an empty string, as in parse-address.
+ * @example
+ * ```ts
+ * parseIntersection("Main St and Pine St Tacoma WA")
+ * // → {"state":"WA","city":"Tacoma","street1":"Main","type1":"St","street2":"Pine","type2":"St"}
+ * ```
+ */
 function parseIntersection(address: string, options: ParseOptions = {}): ParsedIntersection | null {
   const patterns = buildPatterns();
 

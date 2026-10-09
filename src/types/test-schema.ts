@@ -1,7 +1,16 @@
 // Schema definitions for JSON test case files
 // Provides type safety and consistency for all test data structures
 
-// Base schema for individual test cases
+/**
+ * The fields every case in the package's JSON test files has: a name or description, the input, what is expected and
+ * the options. Exported for tools that read those files.
+ *
+ * @example
+ * ```ts
+ * ({ name: "a ZIP code", input: "98101", expected: "WA" }).expected
+ * // → "WA"
+ * ```
+ */
 interface TestCaseBase {
   name?: string; // Human-readable name or description of what this test case validates
   description?: string; // Human-readable description of what this test case validates (alternative to name)
@@ -16,7 +25,15 @@ interface TestFileSchema {
   [categoryName: string]: TestCaseBase[] | string | undefined; // Test cases organized by category/group name
 }
 
-// Address parsing test cases
+/**
+ * A parsing case in the package's JSON test files: an address and the fields expected from it.
+ *
+ * @example
+ * ```ts
+ * ({ input: "123 Main St, Anytown, NY 12345", expected: { number: "123", state: "NY" } }).expected.state
+ * // → "NY"
+ * ```
+ */
 interface AddressParsingTestCase extends TestCaseBase {
   input: string; // Input address string to parse
   expected: {
@@ -38,7 +55,15 @@ interface AddressParsingTestCase extends TestCaseBase {
   }; // Optional parsing configuration
 }
 
-// Address formatting test cases
+/**
+ * A formatting case in the package's JSON test files: an address and the text expected.
+ *
+ * @example
+ * ```ts
+ * ({ input: "123 main st", expected: "123 Main St" }).expected
+ * // → "123 Main St"
+ * ```
+ */
 interface AddressFormattingTestCase extends TestCaseBase {
   input: string; // Input address to format
   expected: string; // Expected formatted address string
@@ -49,7 +74,15 @@ interface AddressFormattingTestCase extends TestCaseBase {
   }; // Optional formatting configuration
 }
 
-// Address validation test cases
+/**
+ * A validation case in the package's JSON test files: an address and the verdict and codes expected.
+ *
+ * @example
+ * ```ts
+ * ({ input: "123 Main St", expected: { isValid: false } }).expected.isValid
+ * // → false
+ * ```
+ */
 interface AddressValidationTestCase extends TestCaseBase {
   input: string; // Input address string to validate
   expected: {
@@ -62,7 +95,15 @@ interface AddressValidationTestCase extends TestCaseBase {
   }; // Expected validation results
 }
 
-// Address comparison test cases
+/**
+ * A comparison case in the package's JSON test files: two addresses and the match expected.
+ *
+ * @example
+ * ```ts
+ * ({ input: ["123 Main St", "123 Main Street"], expected: { isSame: true } }).expected.isSame
+ * // → true
+ * ```
+ */
 interface AddressComparisonTestCase extends TestCaseBase {
   input: {
     address1: string;
@@ -76,7 +117,15 @@ interface AddressComparisonTestCase extends TestCaseBase {
   }; // Expected comparison results
 }
 
-// Clean address test cases
+/**
+ * A cleaning case in the package's JSON test files: an address and the tidied text expected.
+ *
+ * @example
+ * ```ts
+ * ({ input: "123 MAIN ST", expected: "123 Main St" }).expected
+ * // → "123 Main St"
+ * ```
+ */
 interface CleanAddressTestCase extends TestCaseBase {
   input: string; // Input address string to clean
   expected: {
@@ -91,7 +140,15 @@ interface CleanAddressTestCase extends TestCaseBase {
   }; // Optional cleaning configuration
 }
 
-// Batch processing test cases
+/**
+ * A batch case in the package's JSON test files: several addresses and the counts expected.
+ *
+ * @example
+ * ```ts
+ * ({ input: ["123 Main St"], expected: { successful: 1 } }).expected.successful
+ * // → 1
+ * ```
+ */
 interface BatchProcessingTestCase extends TestCaseBase {
   input: string[]; // Array of input addresses
   expected: {
@@ -109,7 +166,15 @@ interface BatchProcessingTestCase extends TestCaseBase {
   }; // Expected batch processing results
 }
 
-// Union type for all test cases
+/**
+ * Any case in the package's JSON test files.
+ *
+ * @example
+ * ```ts
+ * ({ input: "98101", expected: "WA" }).input
+ * // → "98101"
+ * ```
+ */
 type TestCase =
   | AddressParsingTestCase
   | AddressFormattingTestCase

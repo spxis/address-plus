@@ -4,7 +4,15 @@ import type { ParseOptions } from "./parse-options";
 import type { ParsedAddress } from "./parsed-address";
 import type { ParsedIntersection } from "./parsed-intersection";
 
-// Main address parser interface providing all parsing methods
+/**
+ * The shape of the default export: the four parsers parse-address's users call on one object.
+ *
+ * @example
+ * ```ts
+ * Object.keys(parser)
+ * // → ["parseLocation","parseIntersection","parseInformalAddress","parseAddress"]
+ * ```
+ */
 interface AddressParser {
   parseAddress(address: string, options?: ParseOptions): ParsedAddress | null;
   parseInformalAddress(address: string, options?: ParseOptions): ParsedAddress | null;

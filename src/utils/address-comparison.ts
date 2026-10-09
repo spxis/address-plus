@@ -22,7 +22,22 @@ const DEFAULT_COMPARISON_OPTIONS: Required<AddressComparisonOptions> = {
   requireExactMatch: false,
 };
 
-// Compare two addresses and determine if they are the same
+/**
+ * Compares two parsed addresses field by field, allowing for abbreviations (Street and St), state names and codes,
+ * letter case and small typos.
+ *
+ * @param address1 - The first address, as `parseLocation` returns it.
+ * @param address2 - The second address.
+ * @param options - How to compare: which parts to ignore and how close a fuzzy match must be (see
+ * `AddressComparisonOptions`).
+ * @returns Whether they are the same place, how strong the match is (`exact` to `none`), the similarity score from 0
+ * to 1 and every difference found.
+ * @example
+ * ```ts
+ * compareAddresses(parseLocation("123 Main Street, Anytown, NY 12345"), parseLocation("123 Main St, Anytown, New York 12345")).matchType
+ * // → "exact"
+ * ```
+ */
 function compareAddresses(
   address1: ParsedAddress,
   address2: ParsedAddress,
@@ -69,7 +84,19 @@ function compareAddresses(
   };
 }
 
-// Simple boolean check if two addresses are the same
+/**
+ * Whether two parsed addresses are the same place, by the same rules as `compareAddresses`.
+ *
+ * @param address1 - The first address, as `parseLocation` returns it.
+ * @param address2 - The second address.
+ * @param options - How to compare (see `AddressComparisonOptions`).
+ * @returns `true` when they match, `false` otherwise.
+ * @example
+ * ```ts
+ * isSameAddress(parseLocation("東京都千代田区丸の内1丁目2番3号"), parseLocation("東京都千代田区丸の内１－２－３"))
+ * // → true
+ * ```
+ */
 function isSameAddress(
   address1: ParsedAddress,
   address2: ParsedAddress,
@@ -79,7 +106,21 @@ function isSameAddress(
   return result.isSame;
 }
 
-// Get detailed similarity analysis between two addresses
+/**
+ * The similarity of two parsed addresses, part by part, without a verdict: the score and each part's score, and the
+ * differences.
+ *
+ * @param address1 - The first address, as `parseLocation` returns it.
+ * @param address2 - The second address.
+ * @param options - How to compare (see `AddressComparisonOptions`).
+ * @returns The overall score from 0 to 1, the street, city, state and postal scores, and each difference with its
+ * kind.
+ * @example
+ * ```ts
+ * getAddressSimilarity(parseLocation("123 Main Street, Anytown, NY 12345"), parseLocation("125 Main Street, Anytown, NY 12345")).differences
+ * // → [{"field":"number","value1":"123","value2":"125","type":"typo","confidence":0.6}]
+ * ```
+ */
 function getAddressSimilarity(
   address1: ParsedAddress,
   address2: ParsedAddress,

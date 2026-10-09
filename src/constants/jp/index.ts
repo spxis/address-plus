@@ -119,9 +119,17 @@ const commonStart = (texts: readonly string[]): string => {
   return start;
 };
 
-// The twenty designated cities (政令指定都市) as municipalities of their own. Geolonia lists only their
-// wards, but addresses often name the city alone (大阪市, Sapporo), and the city has a JIS code of its
-// own: its wards' codes with the last digit 0 (札幌市 01100, its wards 01101 to 01110; 川崎市 14130).
+/**
+ * The twenty designated cities (政令指定都市) as municipalities of their own. Geolonia lists only their wards, but addresses
+ * often name the city alone (`大阪市`, `Sapporo`), and the city has a JIS code of its own: its wards' codes with the last
+ * digit 0 (札幌市 01100).
+ *
+ * @example
+ * ```ts
+ * JP_DESIGNATED_CITIES.length
+ * // → 20
+ * ```
+ */
 const JP_DESIGNATED_CITIES: readonly JapaneseMunicipality[] = (() => {
   const wardsByCity = new Map<string, JapaneseMunicipality[]>();
   for (const municipality of JP_MUNICIPALITIES) {
@@ -247,8 +255,18 @@ const inPrefecture = (
     ? municipalities.filter((municipality) => municipality.prefecture === prefectureCode)
     : [...municipalities];
 
-// The prefecture a name, reading, romaji or JIS code refers to, or null.
-// @example findPrefecture("東京都") → Tokyo; findPrefecture("Osaka Prefecture") → Osaka; findPrefecture("13") → Tokyo
+/**
+ * The prefecture a name, reading, romaji spelling or JIS code refers to: `東京都`, `東京`, `トウキョウト`, `Tokyo`, `Osaka
+ * Prefecture`, `13`.
+ *
+ * @param text - The name, reading or code; letter case and macrons do not matter.
+ * @returns The prefecture, or `null` when the text names none.
+ * @example
+ * ```ts
+ * findPrefecture("Osaka Prefecture")?.name
+ * // → "大阪府"
+ * ```
+ */
 function findPrefecture(text: string): JapanesePrefecture | null {
   if (!text) return null;
   const clean = plainRomaji(text);
@@ -297,16 +315,37 @@ function municipalitiesAtStart(
   return null;
 }
 
-// The municipalities a Japanese name could mean, narrowed to one prefecture when it is known.
-// @example findMunicipalitiesByName("府中市") → [Tokyo's 府中市, Hiroshima's 府中市]; findMunicipalitiesByName("当別町") → [石狩郡当別町]
+/**
+ * The municipalities a Japanese name could mean: several when the name is shared (`府中市` is in Tokyo and in Hiroshima).
+ * A town or village may be named without its district (`当別町`).
+ *
+ * @param name - The municipality's name in Japanese.
+ * @param prefectureCode - A prefecture's JIS code, to look in that prefecture only.
+ * @returns Every match, an empty array when there is none.
+ * @example
+ * ```ts
+ * findMunicipalitiesByName("府中市").map((one) => one.code + " " + one.romaji)
+ * // → ["13206 Fuchu-shi","34208 Fuchu-shi"]
+ * ```
+ */
 function findMunicipalitiesByName(name: string, prefectureCode?: string): JapaneseMunicipality[] {
   return inPrefecture(MUNICIPALITIES_BY_SPELLING.get(foldVariants(name)) ?? [], prefectureCode);
 }
 
-// The municipalities a romaji name could mean, narrowed to one prefecture when it is known. When the
-// full name finds nothing, a town written without its district (Tobetsu-cho) is looked up without it,
-// and then a ward written without its city (Kita-ku), which can mean several.
-// @example findMunicipalitiesByRomaji("Chiyoda-ku", "13") → [千代田区]; findMunicipalitiesByRomaji("Chuo-ku, Sapporo") → [札幌市中央区]
+/**
+ * The municipalities a romaji name could mean, written with or without macrons and designators (`Chiyoda-ku`, `Chiyoda
+ * City`, `Sapporo-shi Chuo-ku`, `Chuo-ku, Sapporo`). A town written without its district, and then a ward written
+ * without its city, are looked up when the full name finds nothing.
+ *
+ * @param text - The name in romaji.
+ * @param prefectureCode - A prefecture's JIS code, to look in that prefecture only.
+ * @returns Every match, an empty array when there is none.
+ * @example
+ * ```ts
+ * findMunicipalitiesByRomaji("Chuo-ku, Sapporo").map((one) => one.name)
+ * // → ["札幌市中央区"]
+ * ```
+ */
 function findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[] {
   const key = romajiKey(text);
   if (!key) return [];
@@ -330,19 +369,48 @@ function findMunicipalitiesByRomaji(text: string, prefectureCode?: string): Japa
   return matching.length > 0 ? matching : found;
 }
 
-// All municipalities of a prefecture, by JIS code, the designated cities included.
+/**
+ * Every municipality of a prefecture, the designated cities included.
+ *
+ * @param prefectureCode - The prefecture's JIS code.
+ * @returns The municipalities, an empty array for an unknown code.
+ * @example
+ * ```ts
+ * municipalitiesOf("47").length
+ * // → 41
+ * ```
+ */
 function municipalitiesOf(prefectureCode: string): readonly JapaneseMunicipality[] {
   return MUNICIPALITIES_BY_PREFECTURE.get(prefectureCode) ?? [];
 }
 
-// The municipality with a JIS code, a designated city's included.
+/**
+ * The municipality with a JIS X 0402 code, a designated city's own code included.
+ *
+ * @param code - The five-digit code.
+ * @returns The municipality, or `null` for a code the tables do not have.
+ * @example
+ * ```ts
+ * findMunicipalityByCode("13101")?.name
+ * // → "千代田区"
+ * ```
+ */
 function findMunicipalityByCode(code: string): JapaneseMunicipality | null {
   return MUNICIPALITY_BY_CODE.get(code) ?? null;
 }
 
-// The JIS code of the prefecture a postal code delivers to, or null for a malformed code or one no
-// prefix in the table covers. Hyphens and full-width digits are accepted.
-// @example getPrefectureFromJapanesePostalCode("100-0005") → "13"; getPrefectureFromJapanesePostalCode("498-0000") → "23"
+/**
+ * The prefecture a Japanese postal code delivers to, from Japan Post's data: by its first three digits, and for the
+ * codes on the far side of a prefix that straddles a border, by the whole code.
+ *
+ * @param postalCode - The seven-digit code, with or without its hyphen, in either width.
+ * @returns The prefecture's JIS code, or `null` for a malformed code or one no Japanese code begins like.
+ * @example
+ * ```ts
+ * getPrefectureFromJapanesePostalCode("530-0001")
+ * // → "27"
+ * ```
+ */
 function getPrefectureFromJapanesePostalCode(postalCode: string): string | null {
   if (!postalCode) return null;
   const digits = postalCode.normalize("NFKC").replace(/\D/g, "");
@@ -351,10 +419,19 @@ function getPrefectureFromJapanesePostalCode(postalCode: string): string | null 
   return JP_POSTAL_EXCEPTIONS[digits] ?? JP_POSTAL_PREFIXES[digits.slice(0, 3)] ?? null;
 }
 
-// The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above.
-// The prefecture may be given by JIS code, name or romaji, as findPrefecture reads it. A prefix on a
-// border is listed under the prefecture most of its codes belong to.
-// @example getPostalPrefixesForPrefecture("47") → ["900", "901", …, "907"]; getPostalPrefixesForPrefecture("沖縄県") → the same
+/**
+ * The three-digit postal prefixes a prefecture's codes begin with, the reverse of
+ * `getPrefectureFromJapanesePostalCode`. A prefix on a border is listed under the prefecture most of its codes belong
+ * to.
+ *
+ * @param prefecture - The prefecture, by JIS code, name or romaji, as `findPrefecture` reads it.
+ * @returns The prefixes in ascending order, an empty array for an unknown prefecture.
+ * @example
+ * ```ts
+ * getPostalPrefixesForPrefecture("沖縄県")
+ * // → ["900","901","902","903","904","905","906","907"]
+ * ```
+ */
 function getPostalPrefixesForPrefecture(prefecture: string): string[] {
   const prefectureCode = findPrefecture(prefecture)?.code;
   if (!prefectureCode) return [];

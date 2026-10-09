@@ -4,11 +4,17 @@
 import { parseAddress, parseInformalAddress, parseIntersection, parseLocation } from "./parser";
 import type { AddressParser } from "./types";
 
-// Default export for API compatibility with parse-address
-// Usage: import parser from 'address-plus';
-//        parser.parseLocation('123 Main St, New York, NY 10001')
-//
-// Or: import { parseLocation } from 'address-plus';
+/**
+ * The default export, shaped like parse-address's module: `parseLocation`, `parseAddress`, `parseIntersection` and
+ * `parseInformalAddress` on one object, so `import parser from "@johnmorrisdotca/address-plus"` works where
+ * parse-address was imported. Named imports work too.
+ *
+ * @example
+ * ```ts
+ * parser.parseLocation("123 Main St, New York, NY 10001").zip
+ * // → "10001"
+ * ```
+ */
 const parser: AddressParser = {
   parseLocation,
   parseIntersection,

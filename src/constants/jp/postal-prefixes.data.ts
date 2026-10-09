@@ -2,6 +2,16 @@
 // Which prefecture (JIS code) a postal code delivers to: by its first three digits, and for the 236 codes on the far side of a prefix that straddles a border, by the whole code. From 120665 postal codes.
 // Source: Japan Post KEN_ALL.CSV through jp-postal (MIT), https://www.npmjs.com/package/jp-postal
 
+/**
+ * Each three-digit postal prefix, to the JIS code of the prefecture most of its codes deliver to. Generated from
+ * Japan Post's KEN_ALL.CSV through jp-postal (MIT).
+ *
+ * @example
+ * ```ts
+ * JP_POSTAL_PREFIXES["530"]
+ * // → "27"
+ * ```
+ */
 const JP_POSTAL_PREFIXES: Readonly<Record<string, string>> = {
   "100":"13",
   "101":"13",
@@ -953,6 +963,16 @@ const JP_POSTAL_PREFIXES: Readonly<Record<string, string>> = {
   "099":"01",
 };
 
+/**
+ * The postal codes that deliver to another prefecture than the rest of their three-digit prefix, each to that
+ * prefecture's JIS code. Generated from Japan Post's KEN_ALL.CSV through jp-postal (MIT).
+ *
+ * @example
+ * ```ts
+ * Object.keys(JP_POSTAL_EXCEPTIONS).length > 0
+ * // → true
+ * ```
+ */
 const JP_POSTAL_EXCEPTIONS: Readonly<Record<string, string>> = {
   "3114411":"09",
   "3491221":"09",

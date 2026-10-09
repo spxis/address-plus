@@ -5,7 +5,18 @@ import { buildPatterns } from "../patterns/pattern-builder";
 import { wholeWord } from "../patterns/word-boundary";
 import type { ParsedAddress, ParsedIntersection, ParseOptions } from "../types";
 
-// Check if input contains recognizable address components
+/**
+ * Whether a string looks like an address at all: a number and a street, a PO box, a postal code or another recognised
+ * part.
+ *
+ * @param address - The text to look at.
+ * @returns `true` when it holds something an address is made of.
+ * @example
+ * ```ts
+ * hasValidAddressComponents("123 Main St, Anytown, NY 12345")
+ * // → true
+ * ```
+ */
 function hasValidAddressComponents(address: string): boolean {
   const patterns = buildPatterns();
 
@@ -52,7 +63,22 @@ function hasValidAddressComponents(address: string): boolean {
   return false;
 }
 
-// Validate and set postal code if validation is enabled
+/**
+ * Sets a ZIP or postal code on a result, the way the parsers do: split into ZIP and ZIP+4, a Canadian code in capitals
+ * with one space, with `zipValid` set, and in strict mode only when the code is well formed. It changes the object it
+ * is given.
+ *
+ * @param result - The parsed address or intersection to set the code on.
+ * @param zipCode - The code as written.
+ * @param options - `strict` keeps a malformed code out (see `ParseOptions`).
+ * @example
+ * ```ts
+ * const parsed = { city: "Toronto", state: "ON" };
+ * setValidatedPostalCode(parsed, "m5h2n2", {});
+ * parsed
+ * // → {"city":"Toronto","state":"ON","zip":"M5H 2N2"}
+ * ```
+ */
 function setValidatedPostalCode(
   result: ParsedAddress | ParsedIntersection,
   zipCode: string,

@@ -1,7 +1,15 @@
 // Directional abbreviations for US and Canadian addresses
 
-// Mapping of directional words to their standard abbreviations
-// Supports both English and French (for Canada)
+/**
+ * Each directional word, in English or French, in lower case, to its abbreviation (`northwest` and `nord-ouest` to
+ * `NW` and `NO`).
+ *
+ * @example
+ * ```ts
+ * DIRECTIONAL_MAP["northwest"]
+ * // → "NW"
+ * ```
+ */
 const DIRECTIONAL_MAP: Record<string, string> = {
   // English
   east: "E",
@@ -70,7 +78,15 @@ const DIRECTIONAL_MAP: Record<string, string> = {
   "S.-E.": "SE",
 };
 
-// Direction expansions (reverse mapping from abbreviations to full names)
+/**
+ * Each directional abbreviation in lower case, to the word in full.
+ *
+ * @example
+ * ```ts
+ * DIRECTION_EXPANSIONS["ne"]
+ * // → "Northeast"
+ * ```
+ */
 const DIRECTION_EXPANSIONS: Record<string, string> = {
   n: "North",
   s: "South",

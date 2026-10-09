@@ -7,6 +7,7 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 ### Added
 
 - A Japanese address corpus of 1,118 cases (`test-data/corpus/japan/`): 837 of the real addresses in Geolonia's normalize-japanese-addresses tests (MIT), its 38 normaliser shapes, and original cases for kanji and full-width numerals, sixteen kinds of dash, postal codes, buildings, 大字 and 郡, Kyoto's street directions, Hokkaido's grids, the twenty designated cities, Tokyo's 23 wards, romaji and unknown places. `docs/TEST_COVERAGE.md` describes it.
+- TSDoc on every export, in the published type definitions, so an editor shows on hover what each function, table and type is, its parameters, what it returns (and what `null` or `undefined` means), and an example with its answer. `pnpm docs:check` runs every example against the built package. The API reference (`docs/api.md`) now lists the parameters and return value too.
 - `streetDirections` on a Japanese address: Kyoto's street directions (`寺町通御池上る`), apart from the town they lead to (`上本能寺前町`). `formatJapanese` and `formatJapaneseEnglish` write them back before the town.
 
 ### Changed

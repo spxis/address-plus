@@ -244,7 +244,7 @@ parseIntersection("Highway 101 & Interstate 280");
 
 ## API Reference
 
-Every export of both entry points (`@johnmorrisdotca/address-plus` and `@johnmorrisdotca/address-plus/jp`), with its signature and a worked example, is in the [full API reference](docs/api.md), also on the [demo site](https://johnmorrisdotca.github.io/address-plus/api.html). The two main functions are described here.
+Every export of both entry points (`@johnmorrisdotca/address-plus` and `@johnmorrisdotca/address-plus/jp`), with its signature, what it does, each parameter, what it returns and a worked example, is in the [full API reference](docs/api.md), also on the [demo site](https://johnmorrisdotca.github.io/address-plus/api.html). The same TSDoc ships in the type definitions, so your editor shows it on hover. The two main functions are described here.
 
 ### `parseLocation(address: string): ParsedAddress | null`
 

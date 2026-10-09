@@ -1,4 +1,12 @@
-// Options to control address parsing behavior
+/**
+ * Options for every parser: the country, strict postal codes, snake_case keys and the rest. Every one is optional.
+ *
+ * @example
+ * ```ts
+ * parseLocation("東京都千代田区丸の内1-2-3", { country: "JP", useSnakeCase: true })?.prefecture_code
+ * // → "13"
+ * ```
+ */
 interface ParseOptions {
   country?: "CA" | "US" | "JP" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese
   normalize?: boolean; // Whether to normalize street types and directions

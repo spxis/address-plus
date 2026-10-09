@@ -11,7 +11,18 @@ function setParseLocationImpl(impl: (address: string, options?: ParseOptions) =>
   parseLocationImpl = impl;
 }
 
-// Parse address (compatibility alias)
+/**
+ * Parses a street address. The same as `parseLocation`, kept under the name parse-address's users know.
+ *
+ * @param address - The address as one string.
+ * @param options - How to parse (see `ParseOptions`).
+ * @returns The parts found, or `null` when nothing can be read as an address.
+ * @example
+ * ```ts
+ * parseAddress("123 Main St Apt 4, Anytown, NY 12345")?.secUnitNum
+ * // → "4"
+ * ```
+ */
 function parseAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!parseLocationImpl) {
     throw new Error("parseLocation implementation not set");

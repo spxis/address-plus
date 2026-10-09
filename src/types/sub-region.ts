@@ -1,6 +1,16 @@
 // Sub-region type definition for address parsing
 // Represents administrative subdivisions like boroughs, parishes, districts, etc.
 
+/**
+ * An administrative part of a city (a borough, a parish, a ward, an arrondissement) that may be written where the city
+ * is expected.
+ *
+ * @example
+ * ```ts
+ * ({ name: "brooklyn", parentCity: "new york", state: "NY", country: "US", type: "borough" }).type
+ * // → "borough"
+ * ```
+ */
 interface SubRegion {
   name: string; // Primary normalized name (lowercase, trimmed)
   parentCity: string; // Parent city name (empty if not applicable)

@@ -1,7 +1,16 @@
 // Regex patterns for parser functions
 // These patterns are used by specific parsers and should not be confused with base patterns
 
-// PO Box parser patterns
+/**
+ * The regular expressions the PO box parser uses: the box itself, a station after it, a box number first, and a
+ * trailing comma.
+ *
+ * @example
+ * ```ts
+ * PO_BOX_PATTERNS.US_PO_BOX.exec("PO Box 123, Springfield, IL 62701")?.slice(1)
+ * // → ["123","Springfield","IL","62701"]
+ * ```
+ */
 const PO_BOX_PATTERNS = {
   // US PO Box strict pattern: indicator + number + city + state + zip
   US_PO_BOX:
@@ -18,7 +27,16 @@ const PO_BOX_PATTERNS = {
   TRAILING_COMMA: /,\s*$/,
 } as const;
 
-// Intersection parser patterns
+/**
+ * The regular expressions and pattern builders the intersection parser uses to find the city and each street with its
+ * type.
+ *
+ * @example
+ * ```ts
+ * INTERSECTION_PATTERNS.CITY_WITH_COMMA.exec("Pine St, Tacoma")?.[1]
+ * // → "Tacoma"
+ * ```
+ */
 const INTERSECTION_PATTERNS = {
   // Basic city pattern for intersection parsing
   BASIC_CITY: /\s+([A-Za-z\s]{1,30})\s*$/,
@@ -34,7 +52,16 @@ const INTERSECTION_PATTERNS = {
   STREET_SIMPLE: (directionalPattern: string) => new RegExp(`^(?:(${directionalPattern})\\s+)?(.+)$`, "i"),
 } as const;
 
-// Common parsing patterns
+/**
+ * Pattern builders the parsers share: a ZIP, a state or a postal code at the end of a text, and a city before a state.
+ * Each takes the source of a pattern wrapped in one pair of parentheses or anchors, which it strips.
+ *
+ * @example
+ * ```ts
+ * COMMON_PARSER_PATTERNS.ZIP_AT_END("(\\d{5})").exec("Tacoma WA 98402")?.[1]
+ * // → "98402"
+ * ```
+ */
 const COMMON_PARSER_PATTERNS = {
   // ZIP/Postal at end of string
   ZIP_AT_END: (zipPattern: string) => new RegExp(`\\s+(${zipPattern.slice(1, -1)})\\s*$`),

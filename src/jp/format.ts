@@ -5,12 +5,30 @@ import type { ParsedAddress } from "../types/parsed-address";
 import { hasJapaneseScript } from "./normalize";
 import { LATIN_LETTER, RURAL_TOWN } from "./patterns";
 
+/**
+ * Options for `formatJapanese`.
+ *
+ * @example
+ * ```ts
+ * formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers", includePostalCode: false })
+ * // → "東京都千代田区丸の内1丁目2番3号"
+ * ```
+ */
 interface JapaneseFormattingOptions {
   blockStyle?: "hyphen" | "markers"; // 1-2-3 (default) or 1丁目2番3号
   includePostalCode?: boolean; // 〒100-0005 on its own line; default true
   multiline?: boolean; // Lines joined with newlines (default) or one line with spaces
 }
 
+/**
+ * Options for `formatJapaneseEnglish`.
+ *
+ * @example
+ * ```ts
+ * formatJapaneseEnglish(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { includeCountry: false })
+ * // → "1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005"
+ * ```
+ */
 interface JapaneseEnglishFormattingOptions {
   includeCountry?: boolean; // ", Japan" at the end; default true
   includePostalCode?: boolean; // Default true
@@ -58,10 +76,23 @@ function townWithDirections(address: ParsedAddress): string | undefined {
   return [address.streetDirections, address.town].filter(Boolean).join("") || undefined;
 }
 
-// Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then サンプルビル5階501号室.
-// The prefecture and municipality are always in kanji, from the tables. A town or building parsed from
-// romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run
-// together: 東京都千代田区 Marunouchi 1-2-3, then Sample Bldg 5階.
+/**
+ * Writes a Japanese address in Japanese order, as an envelope is addressed: `〒100-0005`, then `東京都千代田区丸の内1-2-3`, then
+ * `サンプルビル5階501号室`. The prefecture and municipality are always in kanji, from the tables. A town or building parsed
+ * from romaji keeps its romaji, set off by spaces so the scripts do not run together. Kyoto's street directions are
+ * written before the town.
+ *
+ * @param address - The address, as `parseLocation` returns it for a Japanese address.
+ * @param options - The block's style (`1-2-3` or `1丁目2番3号`), the postal code, and lines or one line (see
+ * `JapaneseFormattingOptions`).
+ * @returns The address as text, its lines joined with newlines unless `options.multiline` is `false`; an empty string
+ * when the address has none of the parts.
+ * @example
+ * ```ts
+ * formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers", multiline: false })
+ * // → "〒100-0005 東京都千代田区丸の内1丁目2番3号"
+ * ```
+ */
 function formatJapanese(address: ParsedAddress, options: JapaneseFormattingOptions = {}): string {
   const { blockStyle = "hyphen", includePostalCode = true, multiline = true } = options;
   const lines: string[] = [];
@@ -93,11 +124,20 @@ function municipalityInEnglishOrder(romaji: string): string {
   return romaji.split(" ").reverse().join(", ");
 }
 
-// Sample Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
-// The prefecture and municipality are always romaji, from the tables (a municipality the tables do not
-// know keeps the name it was written with). The town and building are written as they were parsed:
-// romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold
-// no romaji for towns, and a reading guessed from kanji would often be wrong.
+/**
+ * Writes a Japanese address in English order, as a form from abroad expects: building, room, block, town,
+ * municipality, prefecture, postal code, Japan. The prefecture and municipality are always romaji, from the tables;
+ * the town and building are written as they were parsed, since the tables hold no romaji for towns.
+ *
+ * @param address - The address, as `parseLocation` returns it for a Japanese address.
+ * @param options - Whether to end with the postal code and with Japan (see `JapaneseEnglishFormattingOptions`).
+ * @returns The address as one line, its parts joined by commas.
+ * @example
+ * ```ts
+ * formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"))
+ * // → "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan"
+ * ```
+ */
 function formatJapaneseEnglish(address: ParsedAddress, options: JapaneseEnglishFormattingOptions = {}): string {
   const { includeCountry = true, includePostalCode = true } = options;
   const parts: string[] = [];

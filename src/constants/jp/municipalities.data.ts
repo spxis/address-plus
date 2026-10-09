@@ -4,6 +4,17 @@
 
 import type { JapaneseMunicipality } from "../../types/japan";
 
+/**
+ * Every municipality (市区町村) by JIS X 0402 code, with its prefecture, official name, reading and romaji; a
+ * designated city's wards are listed, and the city itself is in `JP_DESIGNATED_CITIES`. Generated from Geolonia
+ * 住所データ (MIT).
+ *
+ * @example
+ * ```ts
+ * JP_MUNICIPALITIES.find((one) => one.code === "13101")?.name
+ * // → "千代田区"
+ * ```
+ */
 const JP_MUNICIPALITIES: readonly JapaneseMunicipality[] = [
   {"code":"01101","prefecture":"01","name":"札幌市中央区","kana":"サッポロシチュウオウク","romaji":"Sapporo-shi Chuo-ku"},
   {"code":"01102","prefecture":"01","name":"札幌市北区","kana":"サッポロシキタク","romaji":"Sapporo-shi Kita-ku"},

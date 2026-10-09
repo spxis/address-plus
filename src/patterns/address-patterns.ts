@@ -1,8 +1,16 @@
 // Address-specific patterns for components, units, and facilities
 
-// Secondary unit designators that take a number or letter after them (USPS Publication 28 Appendix C2,
-// Canada Post's English and French unit words, and a few spellings people write). Longest first, so
-// "apartment" is tried before "apt" and "suite" before "su".
+/**
+ * The secondary unit designators that take a value after them, as one alternation for a regular expression, longest
+ * first so that `apartment` is tried before `apt`: USPS Publication 28 Appendix C2, Canada Post's English and French
+ * unit words, and a few spellings people write.
+ *
+ * @example
+ * ```ts
+ * new RegExp("^(?:" + UNIT_TYPE_KEYWORDS + ")$", "i").test("suite")
+ * // → true
+ * ```
+ */
 const UNIT_TYPE_KEYWORDS =
   "appartement|workstation|department|apartment|building|penthouse|hangar|hanger|trailer|office|" +
   "bureau|suite|floor|lobby|level|space|stall|unité|unite|booth|apt|ste|bldg|dept|hngr|trlr|unit|" +
@@ -44,10 +52,27 @@ const WRITTEN_NUMBERS_FR =
   "onzième|douzième|treizième|quatorzième|quinzième|seizième|" +
   "dix-septième|dix-huitième|dix-neuvième";
 
+/**
+ * House numbers written as words (`One`, `Twenty`), as one alternation for a regular expression, so `One Microsoft
+ * Way` is read as number 1.
+ *
+ * @example
+ * ```ts
+ * new RegExp("^(?:" + WRITTEN_NUMBERS + ")$", "i").test("one")
+ * // → true
+ * ```
+ */
 const WRITTEN_NUMBERS = WRITTEN_NUMBERS_EN + "|" + WRITTEN_NUMBERS_FR;
 
-// Secondary unit parsing patterns
-// A unit at the end of a street line: group 1 is the street before it, group 2 the unit text.
+/**
+ * A unit at the end of a street line: group 1 is the street before it, group 2 the unit.
+ *
+ * @example
+ * ```ts
+ * SECONDARY_UNIT_PATTERN.exec("123 Main St Apt 4")?.[2]
+ * // → "Apt 4"
+ * ```
+ */
 const SECONDARY_UNIT_PATTERN = new RegExp(
   `^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|(?:lt|lot)[a-z0-9]+|#\\s*[a-z0-9-]+|${ORDINAL_FLOOR.replace("(", "(?:")})\\s*$`,
   "iu",
@@ -59,24 +84,53 @@ const UNIT_PART_PATTERN = new RegExp(
   "iu",
 );
 
-// Pattern for detecting common street types in addresses
-// Used to determine if parsed address has valid street component
+/**
+ * Whether a text has a common street type in it, used to judge that a parse found a street.
+ *
+ * @example
+ * ```ts
+ * STREET_TYPE_DETECTION_PATTERN.test("123 Main Street")
+ * // → true
+ * ```
+ */
 const STREET_TYPE_DETECTION_PATTERN =
   /\b(street|st|avenue|ave|road|rd|drive|dr|boulevard|blvd|lane|ln|court|ct|place|pl|way|highway|hwy|parkway|pkwy|circle|cir|terrace|ter|trail|trl)\b/i;
 
-// Pattern for extracting unit type and number from a unit's text.
-// Groups: 1 designator and 2 value ("apt 123", "Apt. #4B"), 3 and 4 a lot run together ("lt42"), 5 the value
-// after a bare "#".
+/**
+ * A unit's designator and value: groups 1 and 2 (`apt 123`, `Apt. #4B`), groups 3 and 4 for a lot run together
+ * (`lt42`), group 5 for the value after a bare `#`.
+ *
+ * @example
+ * ```ts
+ * UNIT_TYPE_NUMBER_PATTERN.exec("Apt. #4B")?.slice(1, 3)
+ * // → ["Apt","4B"]
+ * ```
+ */
 const UNIT_TYPE_NUMBER_PATTERN = new RegExp(
   `(?<![\\p{L}\\p{N}])(${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}(${UNIT_VALUE})|(?<![\\p{L}\\p{N}])(lt|lot)([a-z0-9]+)|#\\s*([a-z0-9-]+)`,
   "iu",
 );
 
-// Pattern for extracting parenthetical information
-// Matches content within parentheses
+/**
+ * Words in parentheses inside an address; group 1 is what is inside them.
+ *
+ * @example
+ * ```ts
+ * PARENTHETICAL_PATTERN.exec("123 Main St (Rear)")?.[1]
+ * // → "Rear"
+ * ```
+ */
 const PARENTHETICAL_PATTERN = /\(([^)]+)\)/g;
 
-// Common facility type keywords used for identifying facility names
+/**
+ * Words that mark a place's name as a facility (`center`, `tower`, `hospital`, `université`), in lower case.
+ *
+ * @example
+ * ```ts
+ * FACILITY_INDICATORS.includes("hospital")
+ * // → true
+ * ```
+ */
 const FACILITY_INDICATORS = [
   "center",
   "centre",
@@ -125,13 +179,37 @@ const FACILITY_PATTERNS_FR = [
   /\b(parc|récréation|centre récréatif|centre communautaire|centre civique)\b/i,
 ];
 
-// Combined facility patterns for English and French
+/**
+ * The patterns that find a facility's name, in English and French.
+ *
+ * @example
+ * ```ts
+ * FACILITY_PATTERNS.some((pattern) => pattern.test("Empire State Building"))
+ * // → true
+ * ```
+ */
 const FACILITY_PATTERNS: RegExp[] = [...FACILITY_PATTERNS_EN, ...FACILITY_PATTERNS_FR];
 
-// Facility delimiter pattern for inline address parsing
+/**
+ * A facility's name followed by a comma or a dash and then the address.
+ *
+ * @example
+ * ```ts
+ * FACILITY_DELIMITER_PATTERN.test("City Hall - 100 Queen St W")
+ * // → true
+ * ```
+ */
 const FACILITY_DELIMITER_PATTERN = /(?:[:;|\u2013\u2014-]|\s{2,})/;
 
-// Pattern for Music Square East special case
+/**
+ * Nashville's Music Square East, whose name ends in a directional word that is part of it.
+ *
+ * @example
+ * ```ts
+ * MUSIC_SQUARE_EAST_PATTERN.test("1 Music Square East")
+ * // → true
+ * ```
+ */
 const MUSIC_SQUARE_EAST_PATTERN = /^(.*square)\s+(east)\s*$/i;
 
 export {

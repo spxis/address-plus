@@ -7,7 +7,17 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Capitalize the first letter of each word in a string
+/**
+ * Capitalizes the first letter of each word.
+ *
+ * @param text - The text.
+ * @returns The text with each word's first letter in capitals and the rest as written.
+ * @example
+ * ```ts
+ * capitalizeWords("new york city")
+ * // → "New York City"
+ * ```
+ */
 function capitalizeWords(text: string): string {
   // Capitalize by words and also handle hyphenated compounds (Saint-Laurent, René-Lévesque)
   return text
@@ -54,9 +64,19 @@ function titleWord(word: string, keepParticle: boolean): string {
     .join("-");
 }
 
-// Capitalize a street name. A word written in mixed case is kept as written ("O'Farrell", "De La Vina",
-// "d'Youville", "McKinley"); a word written all in lowercase or all in capitals is title-cased, except a
-// lowercase particle, which stays lowercase ("rue des Jardins" gives "des Jardins").
+/**
+ * Capitalizes a street name the way it is signed. A word written in mixed case is kept as written (`O'Farrell`,
+ * `McKinley`, `d'Youville`); a word all in lower case or all in capitals is title-cased, except a French particle
+ * written in lower case, which stays so (`rue des Jardins`).
+ *
+ * @param text - The street name.
+ * @returns The name capitalized.
+ * @example
+ * ```ts
+ * capitalizeStreetName("o'brien")
+ * // → "O'Brien"
+ * ```
+ */
 function capitalizeStreetName(text: string): string {
   const words = text.split(" ");
   const result = words.map((word: string) => {

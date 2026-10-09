@@ -50,7 +50,19 @@ const FRENCH_TYPES_FIRST: Set<string> = new Set([
 // A street name opening with a French particle: "des Pins", "de la Montagne", "d'Youville".
 const FRENCH_PARTICLE_START = /^(?:de|du|des|la|le|les|d'|l')(?:\s|(?<=')\S)/;
 
-// Format address using standard conventions
+/**
+ * Writes a parsed address back out as lines and as one line, with abbreviations or in full.
+ *
+ * @param address - The address, as `parseLocation` returns it.
+ * @param options - How to write it: abbreviated or in full, the letter case, the country (see
+ * `AddressFormattingOptions`).
+ * @returns The address as an array of lines and as one line.
+ * @example
+ * ```ts
+ * formatAddress(parseLocation("123 Main Street, Anytown, NY 12345")).singleLine
+ * // → "123 Main St, Anytown NY 12345"
+ * ```
+ */
 function formatAddress(address: ParsedAddress, options: AddressFormattingOptions = {}): FormattedAddress {
   const {
     includeCountry = false,
@@ -104,7 +116,19 @@ function formatAddress(address: ParsedAddress, options: AddressFormattingOptions
   };
 }
 
-// Format address using USPS standards
+/**
+ * Writes a parsed address the way USPS Publication 28 asks: capitals, standard abbreviations, the unit on the street
+ * line, and the city, state and ZIP+4 on the last.
+ *
+ * @param address - The address, as `parseLocation` returns it.
+ * @param options - USPS settings (see `USPSFormattingOptions`).
+ * @returns The address as lines and as one line.
+ * @example
+ * ```ts
+ * formatUSPS(parseLocation("123 Main Street Apt 4, Anytown, NY 12345")).lines
+ * // → ["123 MAIN ST APT 4","ANYTOWN NY 12345"]
+ * ```
+ */
 function formatUSPS(address: ParsedAddress, options: USPSFormattingOptions = {}): FormattedAddress {
   const { includeDeliveryLine = true, includeLastLine = true, standardizeCase = true } = options;
 
@@ -142,7 +166,19 @@ function formatUSPS(address: ParsedAddress, options: USPSFormattingOptions = {})
   };
 }
 
-// Format address using Canada Post standards
+/**
+ * Writes a parsed address the way Canada Post asks: capitals, the unit before the civic number joined by a hyphen, and
+ * the postal code two spaces after the province.
+ *
+ * @param address - The address, as `parseLocation` returns it.
+ * @param options - Canada Post settings (see `CanadaPostFormattingOptions`).
+ * @returns The address as lines and as one line.
+ * @example
+ * ```ts
+ * formatCanadaPost(parseLocation("100 Queen Street West, Toronto, Ontario M5H 2N2")).lines
+ * // → ["100 QUEEN ST W","TORONTO ON M5H 2N2"]
+ * ```
+ */
 function formatCanadaPost(address: ParsedAddress, options: CanadaPostFormattingOptions = {}): FormattedAddress {
   const { includeDeliveryLine = true, includeLastLine = true, standardizeCase = true } = options;
 
@@ -185,7 +221,16 @@ function formatCanadaPost(address: ParsedAddress, options: CanadaPostFormattingO
   };
 }
 
-// Get all available abbreviations for address formatting
+/**
+ * Every abbreviation the formatters use: street types, directionals, secondary units, states and provinces.
+ *
+ * @returns One map per kind, each from the full word to its abbreviation.
+ * @example
+ * ```ts
+ * getAddressAbbreviations().streetTypes.avenue
+ * // → "Ave"
+ * ```
+ */
 function getAddressAbbreviations(): AddressAbbreviations {
   // Create properly capitalized versions of the mappings
   const streetTypes: Record<string, string> = {};

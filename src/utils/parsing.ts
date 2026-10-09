@@ -22,15 +22,37 @@ const POSTAL_MATCH_PATTERN = /\b([A-Za-z]\d[A-Za-z])\s?(\d[A-Za-z]\d)\b/;
 const UNIT_NUMBER_PATTERN = /\b(apt|apartment|unit|ste|suite|#)\s*(\d+\w*)\b/i;
 const FRACTIONAL_NUMBER_PATTERN = new RegExp("^\\s*(\\d+(?:\\s*[-\\/]\\s*\\d+\\/\\d+|\\s+\\d+\\/\\d+)?)\\b");
 
-// Normalize text for consistent parsing
+/**
+ * Lower-cases a string, turns its periods, commas and semicolons into spaces, folds runs of spaces to one and trims
+ * it: the form the parsers compare words in.
+ *
+ * @param text - The text.
+ * @returns The text in lower case, without that punctuation, with single spaces and none at either end.
+ * @example
+ * ```ts
+ * normalizeText("  123   Main  St  ")
+ * // → "123 main st"
+ * ```
+ */
 function normalizeText(text: string): string {
   return text.toLowerCase().replace(/\s+/g, " ").replace(/[.,;]/g, " ").trim();
 }
 
 const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-// Build regex patterns from dictionary. Keys match as whole words in any alphabet, so "québec" is found
-// at the start of a string and "al" is not found inside "Montréal".
+/**
+ * A regular expression matching any key of a dictionary as a whole word, longest first. Words match in any alphabet,
+ * so `québec` is found at the start of a string and `al` is not found inside `Montréal`.
+ *
+ * @param dict - The dictionary whose keys are matched.
+ * @param capture - Whether to wrap the alternatives in a capturing group; default `true`.
+ * @returns The expression, case-insensitive.
+ * @example
+ * ```ts
+ * buildRegexFromDict({ street: "St", avenue: "Ave" }).test("avenue")
+ * // → true
+ * ```
+ */
 function buildRegexFromDict(dict: Record<string, string>, capture: boolean = true): RegExp {
   const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
   const pattern = keys.map(escapeRegExp).join("|");
@@ -40,7 +62,17 @@ function buildRegexFromDict(dict: Record<string, string>, capture: boolean = tru
 // The same search for one known word, used to take a match back out of the text.
 const wordPattern = (word: string, flags: string): RegExp => new RegExp(wholeWord(escapeRegExp(word)), flags);
 
-// Extract and normalize directional
+/**
+ * Takes a leading directional off a street (`NW Main St`), abbreviated.
+ *
+ * @param text - The street text.
+ * @returns The directional (`undefined` when there is none) and the text that remains.
+ * @example
+ * ```ts
+ * parseDirectional("NW Main St")
+ * // → {"direction":"NW","remaining":"Main St"}
+ * ```
+ */
 function parseDirectional(text: string): { direction: string | undefined; remaining: string } {
   const dirPattern = buildRegexFromDict(DIRECTIONAL_MAP);
   const match = text.match(dirPattern);
@@ -54,7 +86,18 @@ function parseDirectional(text: string): { direction: string | undefined; remain
   return { direction: undefined, remaining: text };
 }
 
-// Extract and normalize street type
+/**
+ * Takes the street type off the end of a street, abbreviated the USPS way.
+ *
+ * @param text - The street text.
+ * @param country - `US` or `CA`, for the types only one country uses.
+ * @returns The type's USPS abbreviation in lower case (`undefined` when there is none) and the text that remains.
+ * @example
+ * ```ts
+ * parseStreetType("Main Street")
+ * // → {"type":"st","remaining":"Main"}
+ * ```
+ */
 function parseStreetType(
   text: string,
   country: "US" | "CA" = COUNTRIES.UNITED_STATES,
@@ -72,7 +115,17 @@ function parseStreetType(
   return { type: undefined, remaining: text };
 }
 
-// Extract state or province
+/**
+ * Takes a US state or Canadian province off the end of a text, by code or by name.
+ *
+ * @param text - The text, such as `Anytown NY`.
+ * @returns The two-letter code (`undefined` when there is none), the text that remains, and the country it points to.
+ * @example
+ * ```ts
+ * parseStateProvince("Anytown NY")
+ * // → {"state":"NY","remaining":"Anytown","detectedCountry":"US"}
+ * ```
+ */
 function parseStateProvince(text: string): {
   state: string | undefined;
   remaining: string;
@@ -117,7 +170,18 @@ function parseStateProvince(text: string): {
   return { state: undefined, remaining: text };
 }
 
-// Extract postal code (ZIP or Canadian postal code)
+/**
+ * Takes a ZIP code, ZIP+4 or Canadian postal code off the end of a text.
+ *
+ * @param text - The text, such as `Toronto ON M5H 2N2`.
+ * @returns The code and its ZIP+4 (`undefined` when there is none), the text that remains, and the country and
+ * province the code points to.
+ * @example
+ * ```ts
+ * parsePostalCode("Toronto ON M5H 2N2")
+ * // → {"zip":"M5H 2N2","remaining":"Toronto ON","detectedCountry":"CA","detectedProvince":"ON"}
+ * ```
+ */
 function parsePostalCode(text: string): {
   zip: string | undefined;
   plus4: string | undefined;
@@ -154,7 +218,18 @@ function parsePostalCode(text: string): {
   return { zip: undefined, plus4: undefined, remaining: text };
 }
 
-// Parse secondary unit information (apartment, suite, etc.)
+/**
+ * Takes a secondary unit (apartment, suite, floor and the rest) off a street line.
+ *
+ * @param text - The street line.
+ * @returns The unit as written, its designator in full and its number (each `undefined` when there is none), and the
+ * text that remains.
+ * @example
+ * ```ts
+ * parseSecondaryUnit("123 Main St Apt 4")
+ * // → {"unit":"Apartment 4","secUnitType":"Apartment","secUnitNum":"4","remaining":"123 Main St"}
+ * ```
+ */
 function parseSecondaryUnit(text: string): {
   unit: string | undefined;
   secUnitType: string | undefined;
@@ -186,8 +261,17 @@ function parseSecondaryUnit(text: string): {
   return { unit: undefined, secUnitType: undefined, secUnitNum: undefined, remaining: text };
 }
 
-// Extract facility names
-// Parse facility information from address
+/**
+ * Takes a facility's name (a building, a park, a hospital) off the start of an address.
+ *
+ * @param text - The address text.
+ * @returns The facility (`undefined` when there is none) and the text that remains.
+ * @example
+ * ```ts
+ * parseFacility("Empire State Building, 350 5th Ave")
+ * // → {"facility":"Empire State Building","remaining":", 350 5th Ave"}
+ * ```
+ */
 function parseFacility(text: string): { facility: string | undefined; remaining: string } {
   for (const pattern of FACILITY_PATTERNS) {
     const match = text.match(pattern);
@@ -205,7 +289,17 @@ function parseFacility(text: string): { facility: string | undefined; remaining:
   return { facility: undefined, remaining: text };
 }
 
-// Parse parenthetical information
+/**
+ * Takes words in parentheses out of an address, such as `(Rear Entrance)`.
+ *
+ * @param text - The address text.
+ * @returns The words in the parentheses (`undefined` when there are none) and the text without them.
+ * @example
+ * ```ts
+ * parseParenthetical("123 Main St (Rear Entrance)")
+ * // → {"secondary":"Rear Entrance","remaining":"123 Main St"}
+ * ```
+ */
 function parseParenthetical(text: string): { secondary: string | undefined; remaining: string } {
   const parenMatch = text.match(/\(([^)]+)\)/);
   if (parenMatch) {
@@ -217,7 +311,17 @@ function parseParenthetical(text: string): { secondary: string | undefined; rema
   return { secondary: undefined, remaining: text };
 }
 
-// Extract street number (including fractional)
+/**
+ * Takes the house number off the start of a street line, with a fraction or a letter if it has one.
+ *
+ * @param text - The street line.
+ * @returns The number (`undefined` when there is none) and the text that remains.
+ * @example
+ * ```ts
+ * parseStreetNumber("123 Main St")
+ * // → {"number":"123","remaining":"Main St"}
+ * ```
+ */
 function parseStreetNumber(text: string): { number: string | undefined; remaining: string } {
   // Handle fractional numbers like "123 1/2" or "123-1/2"
   const fracMatch = text.match(FRACTIONAL_NUMBER_PATTERN);
@@ -238,7 +342,17 @@ function parseStreetNumber(text: string): { number: string | undefined; remainin
   return { number: undefined, remaining: text };
 }
 
-// Detect country from address components
+/**
+ * Which country a parsed address is in, from its postal code, then its state or province.
+ *
+ * @param address - The parsed address, or any object with its `zip` and `state`.
+ * @returns `US` or `CA`, or `undefined` when nothing says.
+ * @example
+ * ```ts
+ * detectCountry({ zip: "M5H 2N2" })
+ * // → "CA"
+ * ```
+ */
 function detectCountry(address: ParsedAddress): "US" | "CA" | undefined {
   if (address.state) {
     if (

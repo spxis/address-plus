@@ -90,23 +90,18 @@ function processBatch<T>(
   };
 }
 
-// Parse multiple addresses using the main parseLocation function
-//
-// @param addresses Array of address strings to parse
-// @param options Batch parsing options
-// @returns Array of parsed address results (null for failed parses)
-//
-// @example
-// ```typescript
-// const addresses = [
-//   "123 Main St, New York NY 10001",
-//   "456 Oak Ave, Los Angeles CA 90210",
-//   "789 Pine Rd, Chicago IL 60601"
-// ];
-//
-// const results = parseLocations(addresses);
-// console.log(`Processed ${results.length} addresses`);
-// ```
+/**
+ * Parses many addresses with `parseLocation`, in order.
+ *
+ * @param addresses - The addresses, one string each.
+ * @param options - How to parse every one of them (see `ParseOptions`).
+ * @returns One result per address, in the same order: the parts, or `null` where an address could not be read.
+ * @example
+ * ```ts
+ * parseLocations(["100 Queen St W, Toronto, ON M5H 2N2", "大阪府大阪市北区梅田3-1-1"]).map((one) => one?.country)
+ * // → ["CA","JP"]
+ * ```
+ */
 function parseLocations(addresses: string[], options?: ParseOptions): (ParsedAddress | null)[] {
   const batchOptions: BatchParseOptions = {
     ...options,
@@ -116,11 +111,18 @@ function parseLocations(addresses: string[], options?: ParseOptions): (ParsedAdd
   return result.results as (ParsedAddress | null)[];
 }
 
-// Parse multiple addresses using the parseAddress function with detailed results
-//
-// @param addresses Array of address strings to parse
-// @param options Batch parsing options
-// @returns Array of parsed address results (null for failed parses)
+/**
+ * Parses many street addresses with `parseAddress`, in order.
+ *
+ * @param addresses - The addresses, one string each.
+ * @param options - How to parse every one of them (see `ParseOptions`).
+ * @returns One result per address, in the same order, `null` where an address could not be read.
+ * @example
+ * ```ts
+ * parseAddresses(["10 Main St, Anytown, NY 12345", "PO Box 12, Springfield, IL 62701"]).map((one) => one?.city)
+ * // → ["Anytown","Springfield"]
+ * ```
+ */
 function parseAddresses(addresses: string[], options?: ParseOptions): (ParsedAddress | null)[] {
   const batchOptions: BatchParseOptions = {
     ...options,
@@ -130,11 +132,18 @@ function parseAddresses(addresses: string[], options?: ParseOptions): (ParsedAdd
   return result.results as (ParsedAddress | null)[];
 }
 
-// Parse multiple addresses using the parseInformalAddress function
-//
-// @param addresses Array of address strings to parse
-// @param options Batch parsing options
-// @returns Array of parsed address results (null for failed parses)
+/**
+ * Parses many loosely written addresses with `parseInformalAddress`, in order.
+ *
+ * @param addresses - The addresses, one string each.
+ * @param options - How to parse every one of them (see `ParseOptions`).
+ * @returns One result per address, in the same order, `null` where nothing could be read.
+ * @example
+ * ```ts
+ * parseInformalAddresses(["Downtown near City Hall, Springfield IL 62701"]).map((one) => one?.zip)
+ * // → ["62701"]
+ * ```
+ */
 function parseInformalAddresses(addresses: string[], options?: ParseOptions): (ParsedAddress | null)[] {
   const batchOptions: BatchParseOptions = {
     ...options,
@@ -144,11 +153,18 @@ function parseInformalAddresses(addresses: string[], options?: ParseOptions): (P
   return result.results as (ParsedAddress | null)[];
 }
 
-// Parse multiple intersection addresses
-//
-// @param addresses Array of intersection strings to parse
-// @param options Batch parsing options
-// @returns Array of parsed intersection results (null for failed parses)
+/**
+ * Parses many intersections with `parseIntersection`, in order.
+ *
+ * @param addresses - The intersections, one string each.
+ * @param options - How to parse every one of them (see `ParseOptions`).
+ * @returns One result per intersection, in the same order, `null` where one could not be read.
+ * @example
+ * ```ts
+ * parseIntersections(["Yonge St and Bloor St, Toronto, ON"]).map((one) => one?.street2)
+ * // → ["Bloor"]
+ * ```
+ */
 function parseIntersections(addresses: string[], options?: ParseOptions): (ParsedIntersection | null)[] {
   const batchOptions: BatchParseOptions = {
     ...options,
@@ -158,48 +174,52 @@ function parseIntersections(addresses: string[], options?: ParseOptions): (Parse
   return result.results as (ParsedIntersection | null)[];
 }
 
-// Parse multiple addresses with full batch processing features including error tracking and statistics
-//
-// @param addresses Array of address strings to parse
-// @param options Extended batch parsing options
-// @returns Complete batch processing result with errors and statistics
-//
-// @example
-// ```typescript
-// const addresses = [
-//   "123 Main St, New York NY 10001",
-//   "invalid address",
-//   "456 Oak Ave, Los Angeles CA 90210"
-// ];
-//
-// const result = parseLocationsBatch(addresses, {
-//   stopOnError: false,
-//   includeStats: true
-// });
-//
-// console.log(`Processed ${result.stats.total} addresses`);
-// console.log(`Success rate: ${result.stats.successful}/${result.stats.total}`);
-// console.log(`Errors: ${result.errors.length}`);
-// console.log(`Average time per address: ${result.stats.averagePerAddress}ms`);
-// ```
+/**
+ * Parses many addresses with `parseLocation`, and reports which failed and how long it took. A failure is recorded and
+ * the batch goes on, unless `options.stopOnError` is set.
+ *
+ * @param addresses - The addresses, one string each.
+ * @param options - How to parse, plus the batch settings (see `BatchParseOptions`).
+ * @returns The results in order (`null` for a failure), the errors with their index and input, and the counts and
+ * timing.
+ * @example
+ * ```ts
+ * parseLocationsBatch(["100 Queen St W, Toronto, ON M5H 2N2", "", "大阪府大阪市北区梅田3-1-1"]).stats.successful
+ * // → 2
+ * ```
+ */
 function parseLocationsBatch(addresses: string[], options?: BatchParseOptions): BatchParseResult<ParsedAddress> {
   return processBatch(addresses, parseLocation, options) as BatchParseResult<ParsedAddress>;
 }
 
-// Parse multiple addresses using parseAddress with full batch processing features
-//
-// @param addresses Array of address strings to parse
-// @param options Extended batch parsing options
-// @returns Complete batch processing result with errors and statistics
+/**
+ * Parses many street addresses with `parseAddress`, and reports which failed and how long it took.
+ *
+ * @param addresses - The addresses, one string each.
+ * @param options - How to parse, plus the batch settings (see `BatchParseOptions`).
+ * @returns The results in order (`null` for a failure), the errors, and the counts and timing.
+ * @example
+ * ```ts
+ * parseAddressesBatch(["10 Main St, Anytown, NY 12345", "PO Box 12, Springfield, IL 62701"]).stats.successful
+ * // → 2
+ * ```
+ */
 function parseAddressesBatch(addresses: string[], options?: BatchParseOptions): BatchParseResult<ParsedAddress> {
   return processBatch(addresses, parseAddress, options) as BatchParseResult<ParsedAddress>;
 }
 
-// Parse multiple addresses using parseInformalAddress with full batch processing features
-//
-// @param addresses Array of address strings to parse
-// @param options Extended batch parsing options
-// @returns Complete batch processing result with errors and statistics
+/**
+ * Parses many loosely written addresses with `parseInformalAddress`, and reports which failed and how long it took.
+ *
+ * @param addresses - The addresses, one string each.
+ * @param options - How to parse, plus the batch settings (see `BatchParseOptions`).
+ * @returns The results in order (`null` for a failure), the errors, and the counts and timing.
+ * @example
+ * ```ts
+ * parseInformalAddressesBatch(["Main St, Anytown NY"]).stats.successful
+ * // → 1
+ * ```
+ */
 function parseInformalAddressesBatch(
   addresses: string[],
   options?: BatchParseOptions,
@@ -207,11 +227,18 @@ function parseInformalAddressesBatch(
   return processBatch(addresses, parseInformalAddress, options) as BatchParseResult<ParsedAddress>;
 }
 
-// Parse multiple intersections with full batch processing features
-//
-// @param addresses Array of intersection strings to parse
-// @param options Extended batch parsing options
-// @returns Complete batch processing result with errors and statistics
+/**
+ * Parses many intersections with `parseIntersection`, and reports which failed and how long it took.
+ *
+ * @param addresses - The intersections, one string each.
+ * @param options - How to parse, plus the batch settings (see `BatchParseOptions`).
+ * @returns The results in order (`null` for a failure), the errors, and the counts and timing.
+ * @example
+ * ```ts
+ * parseIntersectionsBatch(["Yonge St and Bloor St, Toronto, ON"]).stats.successful
+ * // → 1
+ * ```
+ */
 function parseIntersectionsBatch(
   addresses: string[],
   options?: BatchParseOptions,

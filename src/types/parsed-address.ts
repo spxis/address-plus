@@ -3,6 +3,17 @@
 // state holds the prefecture's JIS code, city the municipality, street the town, number the block.
 import type { JapaneseAddressFields } from "./japan";
 
+/**
+ * What `parseLocation` returns: every part it found, each absent when the address has none. A Japanese address fills
+ * its own fields and the shared ones that stand for them: `state` the prefecture's JIS code, `city` the municipality,
+ * `street` the town, `number` the block, `zip` the postal code.
+ *
+ * @example
+ * ```ts
+ * parseLocation("123 Main St Apt 4, Anytown, NY 12345")
+ * // → {"number":"123","secUnitType":"Apartment","secUnitNum":"4","unit":"Apt 4","street":"Main","type":"St","city":"Anytown","state":"NY","zip":"12345","zipValid":true,"country":"US"}
+ * ```
+ */
 interface ParsedAddress extends JapaneseAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")

@@ -1,6 +1,15 @@
 // Types for address formatting functions
 
-// Address formatting options
+/**
+ * Options for `formatAddress` and `cleanAddress`: what to abbreviate, capitals, the unit, the country and the line
+ * separator.
+ *
+ * @example
+ * ```ts
+ * formatAddress(parseLocation("123 Main Street, Anytown, NY 12345"), { upperCase: true }).singleLine
+ * // → "123 MAIN ST, ANYTOWN NY 12345"
+ * ```
+ */
 interface AddressFormattingOptions {
   includeCountry?: boolean; // Whether to include country in formatted address
   includeSecondaryUnit?: boolean; // Whether to include unit/suite information
@@ -12,7 +21,15 @@ interface AddressFormattingOptions {
   usePlusCode?: boolean; // Whether to include Plus Code in formatting
 }
 
-// USPS formatting options
+/**
+ * Options for `formatUSPS`: which lines to include, and whether to set the letter case the USPS way.
+ *
+ * @example
+ * ```ts
+ * formatUSPS(parseLocation("123 Main St, Anytown, NY 12345"), { includeLastLine: false }).lines
+ * // → ["123 MAIN ST"]
+ * ```
+ */
 interface USPSFormattingOptions {
   includeDeliveryLine?: boolean; // Whether to include delivery line
   includeLastLine?: boolean; // Whether to include city/state/ZIP line
@@ -20,7 +37,16 @@ interface USPSFormattingOptions {
   standardizeCase?: boolean; // Whether to standardize case per USPS guidelines
 }
 
-// Canada Post formatting options
+/**
+ * Options for `formatCanadaPost`: which lines to include, bilingual labels, and whether to set the letter case the
+ * Canada Post way.
+ *
+ * @example
+ * ```ts
+ * formatCanadaPost(parseLocation("100 Queen St W, Toronto, ON M5H 2N2"), { includeDeliveryLine: false }).lines
+ * // → ["TORONTO ON M5H 2N2"]
+ * ```
+ */
 interface CanadaPostFormattingOptions {
   includeDeliveryLine?: boolean; // Whether to include delivery line
   includeLastLine?: boolean; // Whether to include city/province/postal line
@@ -28,7 +54,15 @@ interface CanadaPostFormattingOptions {
   standardizeCase?: boolean; // Whether to standardize case per Canada Post guidelines
 }
 
-// Formatted address result
+/**
+ * A formatted address: its lines, and the same on one line.
+ *
+ * @example
+ * ```ts
+ * formatUSPS(parseLocation("123 Main St, Anytown, NY 12345"))
+ * // → {"lines":["123 MAIN ST","ANYTOWN NY 12345"],"singleLine":"123 Main St, Anytown NY 12345","deliveryLine":"123 Main St","lastLine":"Anytown NY 12345","country":"US","format":"usps"}
+ * ```
+ */
 interface FormattedAddress {
   lines: string[]; // Individual address lines
   singleLine: string; // Single-line representation
@@ -38,7 +72,15 @@ interface FormattedAddress {
   format: "standard" | "usps" | "canada-post" | "international"; // Formatting standard used
 }
 
-// Address component abbreviations
+/**
+ * What `getAddressAbbreviations` returns: one map per kind of abbreviation.
+ *
+ * @example
+ * ```ts
+ * Object.keys(getAddressAbbreviations())
+ * // → ["streetTypes","directions","states","provinces","unitTypes"]
+ * ```
+ */
 interface AddressAbbreviations {
   streetTypes: Record<string, string>; // Street type abbreviation mappings
   directions: Record<string, string>; // Directional abbreviation mappings

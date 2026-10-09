@@ -4,7 +4,15 @@ import { CA_PROVINCE_ALTERNATIVES, CA_PROVINCE_NAMES } from "./ca-provinces.js";
 
 // US States and territories mapping
 
-// Official US state and territory names mapped to their abbreviations
+/**
+ * Every US state, DC and territory by its name in lower case, to its two-letter code.
+ *
+ * @example
+ * ```ts
+ * US_STATE_NAMES["new york"]
+ * // → "NY"
+ * ```
+ */
 const US_STATE_NAMES: Record<string, string> = {
   alabama: "AL",
   alaska: "AK",
@@ -64,7 +72,15 @@ const US_STATE_NAMES: Record<string, string> = {
   wyoming: "WY",
 };
 
-// Common shortened forms, abbreviations, and alternative names for US states
+/**
+ * Other ways US states are written (shortened forms, old abbreviations, `D.C.`), in lower case, to their codes.
+ *
+ * @example
+ * ```ts
+ * US_STATE_ALTERNATIVES["calif"]
+ * // → "CA"
+ * ```
+ */
 const US_STATE_ALTERNATIVES: Record<string, string> = {
   // Alabama
   ala: "AL",
@@ -210,26 +226,61 @@ const US_STATE_ALTERNATIVES: Record<string, string> = {
   wyo: "WY",
 };
 
-// Combined mapping of all US state names and alternatives to their abbreviations
+/**
+ * Every name and other spelling of a US state in lower case, to its code: `US_STATE_NAMES` and `US_STATE_ALTERNATIVES`
+ * together.
+ *
+ * @example
+ * ```ts
+ * US_STATES["mass"]
+ * // → "MA"
+ * ```
+ */
 const US_STATES: Record<string, string> = {
   ...US_STATE_NAMES,
   ...US_STATE_ALTERNATIVES,
 };
 
-// Array of US states and territories as Region objects for fuzzy matching
+/**
+ * Every name and other spelling of a US state, DC or territory as a `Region` object, for fuzzy matching by
+ * `normalizeRegion`.
+ *
+ * @example
+ * ```ts
+ * US_REGIONS.find((region) => region.abbr === "WA")?.name
+ * // → "washington"
+ * ```
+ */
 const US_REGIONS: Region[] = Object.entries(US_STATES).map(([name, abbr]) => ({
   abbr,
   country: "US",
   name,
 }));
 
-// US state expansions (reverse mapping from abbreviations to full names)
+/**
+ * Each US state's code in lower case, to its name in lower case: the reverse of `US_STATE_NAMES`.
+ *
+ * @example
+ * ```ts
+ * US_STATE_EXPANSIONS["wa"]
+ * // → "washington"
+ * ```
+ */
 const US_STATE_EXPANSIONS: Record<string, string> = Object.fromEntries(
   Object.entries(US_STATE_NAMES).map(([name, abbr]) => [abbr.toLowerCase(), name]),
 );
 
-// Combined US and Canadian state/province normalization function
-// Converts full state/province names to standard abbreviations (lowercase output)
+/**
+ * The code of a US state or Canadian province written in full, in lower case.
+ *
+ * @param stateName - The name in full, in English or French, any letter case.
+ * @returns The code in lower case, or `undefined` for a name that is not a state or province.
+ * @example
+ * ```ts
+ * normalizeStateProvinceName("Nova Scotia")
+ * // → "ns"
+ * ```
+ */
 function normalizeStateProvinceName(stateName: string): string | undefined {
   const normalizedInput = stateName.toLowerCase().replace(/\./g, "").trim();
 

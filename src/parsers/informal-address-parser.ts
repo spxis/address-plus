@@ -3,7 +3,19 @@ import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { hasValidAddressComponents, setValidatedPostalCode } from "../utils/address-validation";
 
-// Parse informal addresses as a fallback when standard parsing fails
+/**
+ * Reads an address written loosely, as a fallback when `parseLocation` finds no street address: a description such as
+ * `Downtown near City Hall` is kept whole as the street, with any ZIP code after it.
+ *
+ * @param address - The address as one string.
+ * @param options - How to parse (see `ParseOptions`).
+ * @returns The street and the ZIP code it could find, or `null` when the text is empty.
+ * @example
+ * ```ts
+ * parseInformalAddress("Downtown near City Hall, Springfield IL 62701")
+ * // → {"street":"Downtown near City Hall","zip":"62701","country":"US"}
+ * ```
+ */
 function parseInformalAddress(address: string, options: ParseOptions = {}): ParsedAddress | null {
   const patterns = buildPatterns();
 

@@ -22,6 +22,15 @@ import type { ParsedAddress } from "../types/parsed-address";
 import type { ValidationError, ValidationOptions } from "../types/validation";
 import { POSTAL_CODE_SHAPE } from "./patterns";
 
+/**
+ * What `validateJapaneseAddress` returns: the errors and the warnings found.
+ *
+ * @example
+ * ```ts
+ * validateJapaneseAddress(parseLocation("東京都大阪市北区梅田1-1")).warnings.map((one) => one.code)
+ * // → ["MUNICIPALITY_PREFECTURE_MISMATCH"]
+ * ```
+ */
 interface JapaneseValidation {
   errors: ValidationError[];
   warnings: ValidationError[];
@@ -94,8 +103,21 @@ function municipalityFindings(address: ParsedAddress): Finding[] {
   ];
 }
 
-// Errors and warnings for a parsed Japanese address.
-// @example validateJapaneseAddress(parseJapaneseAddress("〒530-0001 東京都千代田区丸の内1-2-3")) → one POSTAL_REGION_MISMATCH warning
+/**
+ * Checks a parsed Japanese address against the tables: the postal code's shape, whether any code begins with its first
+ * three digits, whether it delivers to the prefecture named, and whether the municipality is a real one in that
+ * prefecture.
+ *
+ * @param address - The address, as `parseLocation` returns it for a Japanese address.
+ * @param options - `strictPostalValidation` makes the postal findings errors rather than warnings; the municipality
+ * findings stay warnings.
+ * @returns The errors and the warnings, each with its field, code and message.
+ * @example
+ * ```ts
+ * validateJapaneseAddress(parseLocation("〒530-0001 東京都千代田区丸の内1-2-3")).warnings.map((one) => one.code)
+ * // → ["POSTAL_REGION_MISMATCH"]
+ * ```
+ */
 function validateJapaneseAddress(address: ParsedAddress, options: ValidationOptions = {}): JapaneseValidation {
   const errors: ValidationError[] = [];
   const warnings: ValidationError[] = [];

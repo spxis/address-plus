@@ -9,12 +9,13 @@
 - Vitest 5 for unit tests, `tsd` for the published type definitions.
 - ESLint 9 with the flat config in `eslint.config.js` (typescript-eslint's recommended rules), and Prettier with `prettier-plugin-organize-imports` (`.prettierrc.json`, `.prettierignore`). Prettier orders the imports; ESLint does not.
 - Style: double quotes, 120 columns, 2 spaces, `//` comments that say why, no emoji anywhere, exports gathered at the end of a file. A name starting with `_` may be unused.
+- Every public export has a TSDoc block (`/** */`) with a summary, `@param`, `@returns` and an `@example` ending in `// → <answer>`; `pnpm docs:check` holds each answer to the built package and checks the blocks reach `dist/*.d.ts`. The API reference (`docs/api.md`, `api.html`) is made from them.
 
 ## Commands
 
 | Command                  | What it does                                                                                               |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| `pnpm check`             | Everything CI runs, in this order: lint, typecheck, test, build, test:types, schema:validate, test:package |
+| `pnpm check`             | Everything CI runs, in this order: lint, typecheck, test, build, docs:check, test:types, schema:validate, test:package |
 | `pnpm lint`              | ESLint, then `prettier --check .`; `pnpm lint:fix` fixes what it can                                       |
 | `pnpm typecheck`         | `tsc -p tsconfig.check.json`: `src/**` including the tests, and `scripts/**/*.ts`                          |
 | `pnpm test`              | Vitest, once (`pnpm test:watch` to watch, `pnpm test:coverage` for coverage)                               |
@@ -22,6 +23,8 @@
 | `pnpm test:types`        | `tsd` on `src/__tests__/types.test-d.ts`; needs `dist/index.d.ts`, so build first                          |
 | `pnpm schema:validate`   | Validates every JSON file in `test-data/` against the schemas in `schemas/`                                |
 | `pnpm test:package`      | `scripts/check-package.mjs`; packs the built package and proves it works as a user installs it             |
+| `pnpm docs:check`        | `scripts/check-docs.mjs`: every export has TSDoc and an example whose answer the built package gives; needs `dist/` |
+| `pnpm docs:make`         | Writes `docs/api.md`, the API reference, from the TSDoc                                                    |
 | `pnpm data:jp`           | Regenerates the Japanese data tables (documented in `scripts/README.md`)                                   |
 | `pnpm data:sub-regions`  | Regenerates `src/constants/sub-regions.ts` from the Census and Statistics Canada                           |
 | `pnpm release <version>` | Cuts a release (below)                                                                                     |

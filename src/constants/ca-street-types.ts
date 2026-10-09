@@ -1,11 +1,18 @@
 // Canadian Street Types (Canada Post official abbreviations) - bilingual
 // Includes both English and French terms for comprehensive address parsing
 
-// Mapping of Canadian street types and their variations to official Canada Post abbreviations
-// Includes both English and French terms
-// Where USPS Publication 28 has the same word, the library reports the USPS abbreviation (Court is Ct, not
-// Canada Post's Crt; Park is Park): see the conventions in docs/TEST_COVERAGE.md. The words Pub 28 lacks
-// keep Canada Post's abbreviation.
+/**
+ * Every street type Canada Post lists, in English and French, with common spellings, in lower case, to the
+ * abbreviation the parser reports. Where USPS Publication 28 has the same word, the USPS abbreviation is used (Court
+ * is `Ct`, not Canada Post's `Crt`; see the conventions in docs/TEST_COVERAGE.md); the words Publication 28 lacks keep
+ * Canada Post's abbreviation.
+ *
+ * @example
+ * ```ts
+ * CA_STREET_TYPES["croissant"]
+ * // → "crois"
+ * ```
+ */
 const CA_STREET_TYPES: Record<string, string> = {
   // Canada Post types with no USPS equivalent, written in full as well as abbreviated
   circuit: "circt",

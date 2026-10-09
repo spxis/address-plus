@@ -1,7 +1,15 @@
 // Secondary unit types and abbreviations
 
-// Mapping of secondary unit types to their standardized proper case forms: USPS Publication 28
-// Appendix C2's words in full, and Canada Post's French unit words, which stay French.
+/**
+ * Each secondary unit designator, abbreviated or in full, in lower case, to the word the parser reports in full: USPS
+ * Publication 28 Appendix C2, and Canada Post's French unit words, which stay French.
+ *
+ * @example
+ * ```ts
+ * SECONDARY_UNIT_TYPES["ste"]
+ * // → "Suite"
+ * ```
+ */
 const SECONDARY_UNIT_TYPES: Record<string, string> = {
   app: "Appartement",
   appartement: "Appartement",

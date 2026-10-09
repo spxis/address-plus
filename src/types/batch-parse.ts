@@ -4,7 +4,16 @@ import type { ParseOptions } from "./parse-options";
 import type { ParsedAddress } from "./parsed-address";
 import type { ParsedIntersection } from "./parsed-intersection";
 
-// Extended options for batch processing operations
+/**
+ * Options for the batch parsers: the parse options, plus whether to stop at the first error and whether to include the
+ * statistics.
+ *
+ * @example
+ * ```ts
+ * parseLocationsBatch(["123 Main St, Anytown, NY 12345"], { country: "US" }).stats.total
+ * // → 1
+ * ```
+ */
 interface BatchParseOptions extends ParseOptions {
   stopOnError?: boolean; // Whether to stop processing on first error (default: false)
   parallel?: boolean; // Process addresses in parallel where possible (default: false)
@@ -12,14 +21,30 @@ interface BatchParseOptions extends ParseOptions {
   includeStats?: boolean; // Include performance statistics in result (default: true)
 }
 
-// Error information for failed address parsing
+/**
+ * One address a batch could not parse: its index, the input and the reason.
+ *
+ * @example
+ * ```ts
+ * parseLocationsBatch([""]).errors[0].index
+ * // → 0
+ * ```
+ */
 interface BatchParseError {
   index: number; // Index of the failed address in the input array
   error: string; // Error message describing what went wrong
   input: string; // Original input that failed to parse
 }
 
-// Performance statistics for batch operations
+/**
+ * The counts and timing of a batch: how many were parsed, how many failed, and how long it took.
+ *
+ * @example
+ * ```ts
+ * parseLocationsBatch(["123 Main St, Anytown, NY 12345", ""]).stats.failed
+ * // → 1
+ * ```
+ */
 interface BatchParseStats {
   total: number; // Total number of addresses processed
   successful: number; // Number of successfully parsed addresses
@@ -29,7 +54,15 @@ interface BatchParseStats {
   addressesPerSecond: number; // Addresses processed per second
 }
 
-// Complete result of a batch parsing operation
+/**
+ * What a batch parser returns: the results in order, the errors and the statistics.
+ *
+ * @example
+ * ```ts
+ * parseLocationsBatch(["123 Main St, Anytown, NY 12345"]).results.length
+ * // → 1
+ * ```
+ */
 interface BatchParseResult<T = ParsedAddress | ParsedIntersection> {
   results: (T | null)[]; // Array of parsed results (null for failed parses)
   errors: BatchParseError[]; // Array of errors that occurred during parsing

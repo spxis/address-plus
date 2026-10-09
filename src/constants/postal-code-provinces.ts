@@ -3,9 +3,16 @@
 
 import { normalizeRegion } from "../utils/normalize-region";
 
-// Map postal code first letter to province abbreviation
-// Canadian postal codes follow the pattern: Letter-Digit-Letter Digit-Letter-Digit
-// The first letter indicates the province/territory
+/**
+ * Each first letter of a Canadian postal code, to the province or territory it is assigned to. X is shared by the
+ * Northwest Territories and Nunavut and is resolved with `TERRITORY_POSTAL_RANGES`.
+ *
+ * @example
+ * ```ts
+ * POSTAL_CODE_TO_PROVINCE["V"]
+ * // → "BC"
+ * ```
+ */
 const POSTAL_CODE_TO_PROVINCE: Record<string, string> = {
   // Newfoundland and Labrador
   A: "NL",
@@ -48,8 +55,15 @@ const POSTAL_CODE_TO_PROVINCE: Record<string, string> = {
   Y: "YT",
 };
 
-// More specific postal code ranges for territories
-// These ranges help distinguish between NT, NU, and YT within X prefix
+/**
+ * The patterns that tell the Northwest Territories' X codes from Nunavut's, by their first three characters.
+ *
+ * @example
+ * ```ts
+ * TERRITORY_POSTAL_RANGES.find((range) => range.pattern.test("X0A"))?.province
+ * // → "NU"
+ * ```
+ */
 const TERRITORY_POSTAL_RANGES: Array<{ pattern: RegExp; province: string }> = [
   // Yukon Territory - Y prefix
   { pattern: /^Y/, province: "YT" },
@@ -61,9 +75,18 @@ const TERRITORY_POSTAL_RANGES: Array<{ pattern: RegExp; province: string }> = [
   { pattern: /^X[01]/, province: "NT" },
 ];
 
-// Extract province from Canadian postal code
-// @param postalCode - Canadian postal code (e.g., "M5V 3A8", "K1A 0A6")
-// @returns Province abbreviation (e.g., "ON", "QC") or null if not Canadian
+/**
+ * The province or territory a Canadian postal code is in, from its first letter, and for the X codes of the north, its
+ * first three characters.
+ *
+ * @param postalCode - The postal code, with or without its space.
+ * @returns The two-letter code, or `null` for a code that is not Canadian.
+ * @example
+ * ```ts
+ * getProvinceFromPostalCode("H3G 1P1")
+ * // → "QC"
+ * ```
+ */
 function getProvinceFromPostalCode(postalCode: string): string | null {
   if (!postalCode) return null;
 
@@ -91,18 +114,33 @@ function getProvinceFromPostalCode(postalCode: string): string | null {
   return province || null;
 }
 
-// The territories share X, so each one's codes are named by their first three characters.
+/**
+ * The first three characters of each territory's postal codes, since the territories share a first letter.
+ *
+ * @example
+ * ```ts
+ * TERRITORY_POSTAL_PREFIXES["NU"]
+ * // → ["X0A","X0B","X0C"]
+ * ```
+ */
 const TERRITORY_POSTAL_PREFIXES: Record<string, string[]> = {
   NU: ["X0A", "X0B", "X0C"],
   NT: ["X0E", "X0G", "X1A"],
   YT: ["Y"],
 };
 
-// The postal code prefixes a province or territory uses, the reverse of getProvinceFromPostalCode.
-// Every code starting with one of them belongs to that province.
-// @param province - Province abbreviation (e.g., "QC")
-// @returns Prefixes (e.g., ["G", "H", "J"]), or an empty array for an unknown province
-// @example getPostalPrefixesForProvince('NU') → ['X0A', 'X0B', 'X0C']
+/**
+ * The postal code prefixes a province or territory uses, the reverse of `getProvinceFromPostalCode`. Every code
+ * starting with one of them belongs to that province.
+ *
+ * @param province - The province or territory's two-letter code.
+ * @returns The prefixes, a letter or, for the territories, three characters; an empty array for an unknown code.
+ * @example
+ * ```ts
+ * getPostalPrefixesForProvince("NU")
+ * // → ["X0A","X0B","X0C"]
+ * ```
+ */
 function getPostalPrefixesForProvince(province: string): string[] {
   // A name ("Quebec", "Québec") is resolved to its code first; a code passes through unchanged.
   const region = normalizeRegion(province ?? "");

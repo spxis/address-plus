@@ -2,6 +2,15 @@
 // Maps lowercase abbreviations to their proper case equivalents
 // Used for standardizing street type formatting in parsed addresses
 
+/**
+ * Each street type abbreviation in lower case, to the way the parser reports it (`Ave`, `Xing`).
+ *
+ * @example
+ * ```ts
+ * STREET_TYPE_PROPER_CASE["xing"]
+ * // → "Xing"
+ * ```
+ */
 const STREET_TYPE_PROPER_CASE: Record<string, string> = {
   ave: "Ave",
   st: "St",

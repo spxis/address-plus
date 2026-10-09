@@ -546,9 +546,19 @@ function parseRomaji(text: string): ParsedAddress | null {
   return assemble({ ...block, ...building, municipality, municipalityName, postalCode, prefecture });
 }
 
-// Whether the text is a Japanese address, in either script. Romaji counts when it ends with Japan, or
-// names a prefecture beside a Japanese postal code (NNN-NNNN) or a hyphenated designator (-ku, -shi).
-// US and Canadian addresses that only mention a Japanese name (100 Tokyo Ave) do not count.
+/**
+ * Whether a text is a Japanese address: in Japanese script, ending with Japan, or naming a prefecture beside a
+ * Japanese postal code, a romaji designator (`-ku`, `-shi`) or a municipality written with an English word (`Chiyoda
+ * City`). A US address that only mentions a Japanese name (`100 Tokyo Ave`) does not count.
+ *
+ * @param text - The text.
+ * @returns `true` when the text should be read as Japanese.
+ * @example
+ * ```ts
+ * looksJapanese("1-2-3 Marunouchi, Chiyoda-ku, Tokyo")
+ * // → true
+ * ```
+ */
 function looksJapanese(text: string): boolean {
   if (!text || typeof text !== "string") return false;
   if (hasJapaneseScript(text)) return true;
@@ -590,8 +600,20 @@ function snakeCased(address: ParsedAddress): ParsedAddress {
   ) as ParsedAddress;
 }
 
-// A Japanese address in either script, or null when nothing in it names a place in Japan.
-// @example parseJapaneseAddress("東京都千代田区丸の内1-2-3") → { prefecture: "東京都", municipality: "千代田区", town: "丸の内", chome: "1", ban: "2", go: "3", … }
+/**
+ * Parses a Japanese address, in Japanese script or in romaji, into the Japanese fields and the shared ones.
+ * `parseLocation` calls it for any address that looks Japanese; call it directly to skip the detection.
+ *
+ * @param text - The address as one string, in either script, with or without 〒 and the postal code.
+ * @param options - `useSnakeCase` gives snake_case keys; the other options are ignored.
+ * @returns The parts found, or `null` when nothing in the text names a place in Japan (no prefecture, municipality or
+ * postal code).
+ * @example
+ * ```ts
+ * parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室")?.block
+ * // → "1-2-3"
+ * ```
+ */
 function parseJapaneseAddress(text: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!text || typeof text !== "string") return null;
   // 〒 or 郵便番号 on an address otherwise in romaji does not make it Japanese script.

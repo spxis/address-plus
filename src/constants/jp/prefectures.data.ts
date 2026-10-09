@@ -4,6 +4,16 @@
 
 import type { JapanesePrefecture } from "../../types/japan";
 
+/**
+ * The 47 prefectures in JIS X 0401 order, each with its code, official name, katakana reading and romaji.
+ * Generated from Geolonia 住所データ (MIT).
+ *
+ * @example
+ * ```ts
+ * JP_PREFECTURES.length
+ * // → 47
+ * ```
+ */
 const JP_PREFECTURES: readonly JapanesePrefecture[] = [
   {
     "code": "01",

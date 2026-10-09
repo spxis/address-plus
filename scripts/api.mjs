@@ -23,73 +23,23 @@ if (!FAMILY.some((one) => one.id === MEMBER.id)) FAMILY.push(MEMBER);
 export const ICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232f5d4a'/%3E%3Crect x='20' y='28' width='60' height='44' rx='5' fill='none' stroke='%23f3efe4' stroke-width='5'/%3E%3Cpath d='M22 31 50 54 78 31' fill='none' stroke='%23f3efe4' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E";
 
-// One example for every function, as code a reader could paste. The last line is the expression whose value is
-// shown; any lines before it set things up. Each is run against dist/index.js when the site is built.
-export const EXAMPLES = {
-  default: `parser.parseLocation("123 Main St, New York, NY 10001").zip`,
-  buildRegexFromDict: `buildRegexFromDict({ street: "St", avenue: "Ave" }).test("avenue")`,
-  capitalizeStreetName: `capitalizeStreetName("o'brien")`,
-  capitalizeWords: `capitalizeWords("new york city")`,
-  cleanAddress: `cleanAddress("350 FIFTH AVENUE, NEW YORK, NY 10118")`,
-  cleanAddressDetailed: `cleanAddressDetailed("742 evergreen terrace,springfield ,  il 62704")`,
-  compareAddresses: `compareAddresses(parseLocation("123 Main Street, Anytown, NY 12345"), parseLocation("123 Main St, Anytown, New York 12345")).matchType`,
-  detectCountry: `detectCountry({ zip: "M5H 2N2" })`,
-  findMunicipalitiesByName: `findMunicipalitiesByName("府中市").map((one) => one.code + " " + one.romaji)`,
-  findMunicipalitiesByRomaji: `findMunicipalitiesByRomaji("Chiyoda", "13").map((one) => one.name)`,
-  findMunicipalityByCode: `findMunicipalityByCode("13101")`,
-  findPrefecture: `findPrefecture("Osaka")`,
-  formatAddress: `formatAddress(parseLocation("123 Main Street, Anytown, NY 12345")).singleLine`,
-  formatCanadaPost: `formatCanadaPost(parseLocation("100 Queen Street West, Toronto, Ontario M5H 2N2")).lines`,
-  formatJapanese: `formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })`,
-  formatJapaneseEnglish: `formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"))`,
-  formatUSPS: `formatUSPS(parseLocation("123 Main Street Apt 4, Anytown, NY 12345")).lines`,
-  getAddressAbbreviations: `getAddressAbbreviations().streetTypes.avenue`,
-  getAddressSimilarity: `getAddressSimilarity(parseLocation("123 Main Street, Anytown, NY 12345"), parseLocation("125 Main Street, Anytown, NY 12345")).differences`,
-  getPostalPrefixesForPrefecture: `getPostalPrefixesForPrefecture("47")`,
-  getPostalPrefixesForProvince: `getPostalPrefixesForProvince("ON")`,
-  getPrefectureFromJapanesePostalCode: `getPrefectureFromJapanesePostalCode("530-0001")`,
-  getProvinceFromPostalCode: `getProvinceFromPostalCode("H3G 1P1")`,
-  getStateFromZip: `getStateFromZip("98101")`,
-  getValidationErrors: `getValidationErrors("123 Main St", { requirePostalCode: true })`,
-  getZipPrefixesForState: `getZipPrefixesForState("WA")`,
-  hasValidAddressComponents: `hasValidAddressComponents("123 Main St, Anytown, NY 12345")`,
-  isSameAddress: `isSameAddress(parseLocation("東京都千代田区丸の内1丁目2番3号"), parseLocation("東京都千代田区丸の内１－２－３"))`,
-  isValidAddress: `isValidAddress("123 Main St, Seattle, NY 98101", { strictPostalValidation: true })`,
-  kanjiNumeralsToDigits: `kanjiNumeralsToDigits("二丁目十五番")`,
-  looksJapanese: `looksJapanese("1-2-3 Marunouchi, Chiyoda-ku, Tokyo")`,
-  municipalitiesOf: `municipalitiesOf("47").length`,
-  normalizeJapaneseAddressText: `normalizeJapaneseAddressText("東京都千代田区丸の内１－２－３")`,
-  normalizeRegion: `normalizeRegion("British Columbia")`,
-  normalizeStateProvinceName: `normalizeStateProvinceName("Nova Scotia")`,
-  normalizeText: `normalizeText("  123   Main  St  ")`,
-  parseAddress: `parseAddress("1600 Pennsylvania Ave NW, Washington, DC 20500")`,
-  parseAddresses: `parseAddresses(["10 Main St, Anytown, NY 12345", "PO Box 12, Springfield, IL 62701"]).map((one) => one?.city)`,
-  parseAddressesBatch: `parseAddressesBatch(["10 Main St, Anytown, NY 12345", "PO Box 12, Springfield, IL 62701"]).stats.successful`,
-  parseDirectional: `parseDirectional("NW Main St")`,
-  parseFacility: `parseFacility("Empire State Building, 350 5th Ave")`,
-  parseInformalAddress: `parseInformalAddress("Main St near the post office, Anytown NY")`,
-  parseInformalAddresses: `parseInformalAddresses(["Main St, Anytown NY"]).length`,
-  parseInformalAddressesBatch: `parseInformalAddressesBatch(["Main St, Anytown NY"]).stats.successful`,
-  parseIntersection: `parseIntersection("Hollywood Blvd and Vine St, Los Angeles, CA")`,
-  parseIntersections: `parseIntersections(["Yonge St and Bloor St, Toronto, ON"])`,
-  parseIntersectionsBatch: `parseIntersectionsBatch(["Yonge St and Bloor St, Toronto, ON"]).stats.successful`,
-  parseJapaneseAddress: `parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室")`,
-  parseLocation: `parseLocation("1234 rue Sainte-Catherine O, Montréal, QC H3G 1P1")`,
-  parseLocations: `parseLocations(["100 Queen St W, Toronto, ON M5H 2N2", "大阪府大阪市北区梅田3-1-1"]).map((one) => one?.country)`,
-  parseLocationsBatch: `parseLocationsBatch(["100 Queen St W, Toronto, ON M5H 2N2", "大阪府大阪市北区梅田3-1-1"]).stats.successful`,
-  parseParenthetical: `parseParenthetical("123 Main St (Rear Entrance)")`,
-  parsePostalCode: `parsePostalCode("Toronto ON M5H 2N2")`,
-  parseSecondaryUnit: `parseSecondaryUnit("123 Main St Apt 4")`,
-  parseStateProvince: `parseStateProvince("Anytown NY")`,
-  parseStreetNumber: `parseStreetNumber("123 Main St")`,
-  parseStreetType: `parseStreetType("Main Street")`,
-  setValidatedPostalCode: `const parsed = { city: "Toronto", state: "ON" };
-setValidatedPostalCode(parsed, "m5h2n2", {});
-parsed`,
-  validateAddress: `validateAddress("〒530-0001 東京都千代田区丸の内1-2-3").warnings`,
-  validateJapaneseAddress: `validateJapaneseAddress(parseLocation("〒530-0001 東京都千代田区丸の内1-2-3"), { strictPostalValidation: true })`,
-  validatePostalCode: `validatePostalCode("K1A 0B1")`,
-};
+// Every export's example lives in its TSDoc, under @example, as a fenced block: the code, whose last line is the
+// expression shown, then a line `// → <answer>`. `exampleOf` takes the block apart; the site and the docs check run
+// the code against the built package, and the check holds the written answer to the real one.
+const FENCE = /^```\w*\s*$/;
+const ANSWER = /^\/\/ → (.*)$/;
+
+/** The code and the written answer of an @example block: { code, answer }. */
+export function exampleOf(text) {
+  const lines = text
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .filter((line) => !FENCE.test(line.trim()));
+  while (lines.length > 0 && lines.at(-1).trim() === "") lines.pop();
+  const last = lines.at(-1)?.trim().match(ANSWER);
+  if (last) lines.pop();
+  return { answer: last ? last[1] : undefined, code: lines.join("\n").trim() };
+}
 
 /** The source file an entry in `exports` is built from: ./dist/jp/index.js is src/jp/index.ts. */
 const sourceOf = (entry) =>
@@ -140,8 +90,30 @@ export function apiOf() {
       const declaration = target.declarations?.[0];
       const doc =
         ts.displayPartsToString(target.getDocumentationComment(checker)).trim() || leadingComment(declaration);
+      const tags = target.getJsDocTags(checker).map((tag) => ({
+        name: tag.name,
+        text: ts.displayPartsToString(tag.text ?? []).trim(),
+      }));
+      const params = tags
+        .filter((tag) => tag.name === "param")
+        .map((tag) => {
+          const [, name, text] = tag.text.match(/^(\S+)\s*(?:-\s*)?([\s\S]*)$/) ?? [];
+          return { name, text };
+        });
+      const returns = tags.find((tag) => tag.name === "returns")?.text;
+      const exampleTag = tags.find((tag) => tag.name === "example");
+      const example = exampleTag ? exampleOf(exampleTag.text) : undefined;
       let kind = "const";
       let signature = "";
+      // What a function takes and gives back, for the docs check: every parameter needs an @param, and anything
+      // but void an @returns.
+      let parameterNames = [];
+      let returnsVoid = true;
+      const callable = checker.getTypeOfSymbolAtLocation(target, declaration).getCallSignatures()[0];
+      if (callable && !(target.flags & (ts.SymbolFlags.TypeAlias | ts.SymbolFlags.Interface))) {
+        parameterNames = callable.getParameters().map((parameter) => parameter.name);
+        returnsVoid = checker.typeToString(callable.getReturnType()) === "void";
+      }
       if (target.flags & ts.SymbolFlags.Function) {
         kind = "function";
         const type = checker.getTypeOfSymbolAtLocation(target, declaration);
@@ -165,7 +137,17 @@ export function apiOf() {
         if (type.getCallSignatures().length > 0) kind = "function";
         signature = clip(`${symbol.name}: ${checker.typeToString(type, declaration, ts.TypeFormatFlags.NoTruncation)}`);
       }
-      return { name: symbol.name, kind, signature: kind === "function" ? clip(signature, 600) : signature, doc };
+      return {
+        name: symbol.name,
+        kind,
+        signature: kind === "function" ? clip(signature, 600) : signature,
+        doc,
+        params,
+        returns,
+        example,
+        parameterNames,
+        returnsVoid,
+      };
     });
     exports.sort((a, b) => a.name.localeCompare(b.name, "en"));
     return { entry: key, name, exports };
@@ -179,27 +161,32 @@ export function shown(value) {
   return clip(JSON.stringify(value), 360);
 }
 
-/**
- * Run each example against the built package, and every line of `extra` too: { [name]: { code, result } }.
- * A function with no example stops the build, so that a new export cannot reach the page without one.
- */
-export async function runExamples(api, extra = {}) {
+/** The package's own scope, as an example sees it: every named export, and the default export as `parser`. */
+export async function exampleScope() {
   const library = await import(pathToFileURL(join(root, "dist", "index.js")).href);
   const { default: parser, ...named } = library;
   const scope = { ...named, parser };
   const names = Object.keys(scope).filter((key) => /^[A-Za-z_$][\w$]*$/.test(key));
-  const run = (code) => {
+  return (code) => {
     const lines = code.trim().split("\n");
-    const body = `${lines.slice(0, -1).join("\n")}\nreturn (${lines.at(-1)});`;
+    const body = `${lines.slice(0, -1).join("\n")}\nreturn (${lines.at(-1).replace(/;$/, "")});`;
     return new Function(...names, body)(...names.map((key) => scope[key]));
   };
-  const missing = api.flatMap((entry) =>
-    entry.exports.filter((one) => one.kind === "function" && !(one.name in EXAMPLES)).map((one) => one.name),
-  );
+}
+
+/**
+ * Run each export's @example against the built package, and every line of `extra` too: { [name]: { code, result } }.
+ * An export with no example stops the build, so that a new export cannot reach the page without one.
+ */
+export async function runExamples(api, extra = {}) {
+  const run = await exampleScope();
+  const missing = api.flatMap((entry) => entry.exports.filter((one) => !one.example).map((one) => one.name));
   if (missing.length > 0)
-    throw new Error(`No example for ${[...new Set(missing)].join(", ")}: add one to EXAMPLES in scripts/api.mjs`);
+    throw new Error(`No @example for ${[...new Set(missing)].join(", ")}: add one to its TSDoc (pnpm docs:check)`);
+  const examples = {};
+  for (const entry of api) for (const one of entry.exports) examples[one.name] = one.example.code;
   const out = {};
-  for (const [name, code] of Object.entries({ ...EXAMPLES, ...extra })) out[name] = { code, result: shown(run(code)) };
+  for (const [name, code] of Object.entries({ ...examples, ...extra })) out[name] = { code, result: shown(run(code)) };
   return out;
 }
 
@@ -212,6 +199,16 @@ const exampleHtml = (example) =>
   example === undefined
     ? ""
     : `<pre class="api-example"><code>${escape(example.code)}\n// ${escape(example.result)}</code></pre>`;
+
+/** The parameters and what is returned, as a short list under the comment. */
+const tagsHtml = (one) => {
+  const rows = [
+    ...one.params.map((param) => `<li><code>${escape(param.name)}</code> ${proseInline(param.text)}</li>`),
+    ...(one.returns ? [`<li><b>Returns</b> ${proseInline(one.returns)}</li>`] : []),
+  ];
+  return rows.length === 0 ? "" : `<ul class="api-tags">${rows.join("")}</ul>`;
+};
+const proseInline = (text) => escape(text.replace(/\n/g, " ")).replace(/`([^`]+)`/g, "<code>$1</code>");
 
 /** The reference as one page's body, between the family's header and footer. */
 export function apiBody(api, examples) {
@@ -233,6 +230,7 @@ export function apiBody(api, examples) {
           <h3><span class="fam-badge">${one.kind}</span> ${escape(one.name)}</h3>
           <pre>${escape(one.signature)}</pre>
           ${one.doc === "" ? "" : prose(one.doc)}
+          ${tagsHtml(one)}
           ${exampleHtml(examples[one.name])}
         </article>`,
           )
@@ -252,13 +250,16 @@ export function apiMarkdown(api, examples) {
   const parts = [
     "# API reference",
     "",
-    `Every export of every entry point of ${pkg.name} ${pkg.version}, with its signature, its comment and, for each function, one example with the answer it gives. Made from the source by \`pnpm docs:make\`; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html.`,
+    `Every export of every entry point of ${pkg.name} ${pkg.version}, with its signature, its TSDoc (what it does, each parameter, what it returns) and one example with the answer it gives. Made from the source by \`pnpm docs:make\`, and \`pnpm docs:check\` holds every example's answer to the built package; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html. Editors show the same TSDoc on hover, from the published type definitions.`,
   ];
   for (const entry of api) {
     parts.push("", `## ${entry.name}`, "");
     for (const one of entry.exports) {
       parts.push(`### ${one.name}`, "", `${one.kind}`, "", `${fence}ts`, one.signature, fence, "");
-      if (one.doc !== "") parts.push(one.doc, "");
+      if (one.doc !== "") parts.push(one.doc.replace(/\n/g, " "), "");
+      for (const param of one.params) parts.push(`- \`${param.name}\`: ${param.text.replace(/\n/g, " ")}`);
+      if (one.returns) parts.push(`- Returns: ${one.returns.replace(/\n/g, " ")}`);
+      if (one.params.length > 0 || one.returns) parts.push("");
       const example = examples[one.name];
       if (example !== undefined) parts.push(`${fence}js`, example.code, `// ${example.result}`, fence, "");
     }
@@ -270,7 +271,7 @@ export function apiMarkdown(api, examples) {
 export const API_WORDS = {
   en: {
     pitch:
-      "Every export of every entry point, with its signature and its comment, and one example for each function with the answer it gives. Made from the source when the site is built, so it cannot fall behind the code.",
+      "Every export of every entry point, with its signature, what it does, each parameter and what it returns, and one example with the answer it gives. Made from the source when the site is built, so it cannot fall behind the code.",
     name: "",
     nameLink: "README",
     foot: "Made from the package's own source; every example was run against the built package.",
@@ -278,7 +279,7 @@ export const API_WORDS = {
   },
   ja: {
     pitch:
-      "すべてのエントリーポイントのすべてのエクスポートを、シグネチャとコメント付きで一覧にしています。関数にはそれぞれ例を一つ付け、その結果も載せています。サイトのビルド時にソースから生成するため、コードとずれることはありません。",
+      "すべてのエントリーポイントのすべてのエクスポートを、シグネチャ、働き、各引数、戻り値とともに一覧にしています。どのエクスポートにも例を一つ付け、その結果も載せています。サイトのビルド時にソースから生成するため、コードとずれることはありません。",
     name: "",
     nameLink: "README（英語）",
     foot: "このパッケージ自体のソースから生成しています。例はすべて、ビルドしたパッケージで実際に実行した結果です。",
@@ -302,6 +303,8 @@ export const API_CSS = `/* The API reference page: made by scripts/api.mjs. */
 .api-entry p { margin: 0; line-height: 1.5; max-width: 72ch; overflow-wrap: anywhere; }
 .api-entry p.api-names { max-width: none; }
 .api-entry pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.api-tags { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: .92rem; max-width: 72ch; }
+.api-tags li { overflow-wrap: anywhere; }
 .api-entry pre.api-example { background: color-mix(in srgb, var(--surface) 60%, var(--page)); }
 `;
 

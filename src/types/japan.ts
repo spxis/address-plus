@@ -1,5 +1,14 @@
 // Japanese addresses: a prefecture, a municipality, then the town and the numbered block within it.
 
+/**
+ * A prefecture (都道府県) in the tables: its JIS code, official name, katakana reading and romaji.
+ *
+ * @example
+ * ```ts
+ * findPrefecture("13")
+ * // → {"code":"13","name":"東京都","kana":"トウキョウト","romaji":"Tokyo-to"}
+ * ```
+ */
 interface JapanesePrefecture {
   code: string; // JIS X 0401 code, "01" (Hokkaido) to "47" (Okinawa)
   name: string; // Official name with its designator: 東京都, 大阪府, 北海道, 愛知県
@@ -7,6 +16,16 @@ interface JapanesePrefecture {
   romaji: string; // Romaji with the designator hyphenated on: Tokyo-to
 }
 
+/**
+ * A municipality (市区町村) in the tables: its JIS code, its prefecture's code, its official name with the district for a
+ * town or village in one, its reading and its romaji.
+ *
+ * @example
+ * ```ts
+ * findMunicipalityByCode("13101")
+ * // → {"code":"13101","prefecture":"13","name":"千代田区","kana":"チヨダク","romaji":"Chiyoda-ku"}
+ * ```
+ */
 interface JapaneseMunicipality {
   code: string; // JIS X 0402 code, five digits; the first two are the prefecture's
   prefecture: string; // The prefecture's JIS code
@@ -15,9 +34,16 @@ interface JapaneseMunicipality {
   romaji: string; // Romaji with designators hyphenated on: Chiyoda-ku, Sapporo-shi Chuo-ku, Ishikari-gun Tobetsu-cho
 }
 
-// What parseLocation returns for a Japanese address, on top of the shared ParsedAddress fields.
-// Every field is the normalised form: full-width and kanji numerals become ASCII digits, and the block
-// is split into its parts whichever way it was written (1丁目2番3号, 1-2-3, １－２－３).
+/**
+ * The fields a Japanese address fills on top of the shared ones. Every value is normalised: full-width and kanji
+ * numerals become ASCII digits, and the block is split into chome, ban and go whichever way it was written.
+ *
+ * @example
+ * ```ts
+ * parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号")?.municipalityCode
+ * // → "13101"
+ * ```
+ */
 interface JapaneseAddressFields {
   postalCode?: string; // 〒 code as NNN-NNNN
   prefecture?: string; // 東京都

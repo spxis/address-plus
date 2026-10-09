@@ -1,6 +1,14 @@
 // Core validation and formatting patterns used throughout address parsing
 
-// Basic validation patterns for text analysis
+/**
+ * Small regular expressions the validators share: letters, digits, a house number at the start, and the like.
+ *
+ * @example
+ * ```ts
+ * VALIDATION_PATTERNS.STARTS_WITH_NUMBER.test("123 Main St")
+ * // → true
+ * ```
+ */
 const VALIDATION_PATTERNS = {
   HAS_LETTERS: /[a-zA-Z]/,
   ALPHANUMERIC: /[a-zA-Z0-9]/g,
@@ -16,29 +24,69 @@ const VALIDATION_PATTERNS = {
   PO_BOX_NORMALIZE: /^p\.o\.\s*box$/i,
 } as const;
 
-// General delivery address patterns
+/**
+ * General delivery written alone or before a city.
+ *
+ * @example
+ * ```ts
+ * GENERAL_DELIVERY_PATTERNS.STANDARD.test("General Delivery")
+ * // → true
+ * ```
+ */
 const GENERAL_DELIVERY_PATTERNS = {
   // General delivery in English, Canada Post's GD and its French poste restante, with an optional station.
   STANDARD: /^(?:general\s+delivery|gd|poste\s+restante)(?:\s+(?:stn\.?|station|succ\.?|succursale)\s+\S.*)?$/i,
   WITH_CITY: /^\s*general\s+delivery\s+([^,]+?)\s+([A-Za-z]{2})\b/i,
 } as const;
 
-// ZIP code validation patterns
+/**
+ * The shape of something that could be a ZIP code.
+ *
+ * @example
+ * ```ts
+ * ZIP_VALIDATION_PATTERNS.POTENTIAL_ZIP.test("98101")
+ * // → true
+ * ```
+ */
 const ZIP_VALIDATION_PATTERNS = {
   POTENTIAL_ZIP: /\b([A-Z0-9]{3,9}(?:[-\s][A-Z0-9]{1,4})?)\s*$/i,
 } as const;
 
-// Facility delimiter patterns for inline address parsing
+/**
+ * The ways a facility's name is set off from an address: in parentheses, before a delimiter, or as a trailing island.
+ *
+ * @example
+ * ```ts
+ * FACILITY_DELIMITER_PATTERNS.PARENTHETICAL.test("(City Hall)")
+ * // → true
+ * ```
+ */
 const FACILITY_DELIMITER_PATTERNS = {
   PARENTHETICAL: /^(.*?)\s*\(([^)]+)\)\s*$/,
   DELIMITED: /^(.*?)\s*([:;|\u2013\u2014-])\s*(.+)$/,
   TRAILING_ISLAND: /^(.*?)(\s+)(\b.+\s+(?:Island|Isl\.?|Is\.?)\b.*)$/i,
 } as const;
 
-// Island type variations for special facility handling
+/**
+ * The words for an island, for addresses on one (`Island`, `Isle`, `Île`).
+ *
+ * @example
+ * ```ts
+ * ISLAND_TYPE_PATTERN.test("Island")
+ * // → true
+ * ```
+ */
 const ISLAND_TYPE_PATTERN = /^(island|is\.?|isl\.?|isle\.?|ils\.?)$/i;
 
-// Connector words to ignore when checking Title Case in facility names
+/**
+ * Small words (`of`, `the`, `and`) that may be in lower case inside a facility's name written in title case.
+ *
+ * @example
+ * ```ts
+ * CONNECTOR_WORDS.has("of")
+ * // → true
+ * ```
+ */
 const CONNECTOR_WORDS = new Set([
   "of",
   "the",
@@ -64,7 +112,15 @@ const CONNECTOR_WORDS = new Set([
   "y'",
 ]);
 
-// Common street names that should not be captured as part of city names
+/**
+ * Street names common enough that they must not be taken as part of a city's name.
+ *
+ * @example
+ * ```ts
+ * COMMON_STREET_NAMES_PATTERN.test("Main")
+ * // → true
+ * ```
+ */
 const COMMON_STREET_NAMES_PATTERN = new RegExp(
   "^(" +
     "broadway|main|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|" +

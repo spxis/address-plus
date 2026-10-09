@@ -81,7 +81,22 @@ const STREET_TYPE_ABBREVIATION_AT_END = /\s(?:st|ave|av|rd|dr|ln|blvd|ct|pl|hwy|
 const cityAndFullState = (patterns: ReturnType<typeof buildPatterns>): RegExp =>
   new RegExp(`^(?:(.+?)\\s+)??(${patterns.stateFullName.slice(1, -1)})\\s*$`, "i");
 
-// Parse a location string into address components
+/**
+ * Parses a US, Canadian or Japanese address into its parts. The country is detected from the text (a state, a
+ * province, a postal code, Japanese script or romaji designators) unless `options.country` names it. A Japanese
+ * address fills its own fields (`prefecture`, `municipality`, `town`, `chome`, `ban`, `go`) and the shared ones that
+ * stand for them.
+ *
+ * @param address - The address as one string; commas, line breaks and full-width characters are all read.
+ * @param options - How to parse: the country, strict postal codes, snake_case keys and the rest (see `ParseOptions`).
+ * @returns The parts found, or `null` when the text is empty or holds nothing that can be read as an address. A part
+ * that is not in the address is absent from the result, never an empty string.
+ * @example
+ * ```ts
+ * parseLocation("1600 Pennsylvania Ave NW, Washington, DC 20500")
+ * // → {"number":"1600","street":"Pennsylvania","type":"Ave","suffix":"NW","city":"Washington","state":"DC","zip":"20500","zipValid":true,"country":"US"}
+ * ```
+ */
 function parseLocation(address: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!address || typeof address !== "string") {
     return null;

@@ -24,7 +24,20 @@ const COMPLETENESS_WEIGHTS = {
   postalCode: 0.2,
 };
 
-// Validates an address string and returns detailed validation results
+/**
+ * Checks an address: whether it has what an address needs, whether its ZIP or postal code is well formed and belongs
+ * to the state, province or prefecture named, and how sure the parser is.
+ *
+ * @param addressString - The address as one string.
+ * @param options - What to require and how strict to be (see `ValidationOptions`).
+ * @returns Whether it is valid, the confidence and completeness from 0 to 1, every error and warning with its code,
+ * suggestions, and the parsed address (`null` when it could not be parsed).
+ * @example
+ * ```ts
+ * validateAddress("123 Main St, Seattle, NY 98101").warnings[0].code
+ * // → "POSTAL_REGION_MISMATCH"
+ * ```
+ */
 function validateAddress(addressString: string, options: ValidationOptions = {}): AddressValidationResult {
   const errors: ValidationError[] = [];
   const warnings: ValidationError[] = [];
@@ -111,7 +124,19 @@ function validateAddress(addressString: string, options: ValidationOptions = {})
   };
 }
 
-// Simple boolean check for address validity
+/**
+ * Whether an address passes `validateAddress`.
+ *
+ * @param addressString - The address as one string.
+ * @param options - What to require and how strict to be (see `ValidationOptions`).
+ * @returns `true` when it has no errors, `false` otherwise. Warnings do not make it invalid unless
+ * `strictPostalValidation` turns them into errors.
+ * @example
+ * ```ts
+ * isValidAddress("123 Main St, Seattle, NY 98101", { strictPostalValidation: true })
+ * // → false
+ * ```
+ */
 function isValidAddress(addressString: string, options: ValidationOptions = {}): boolean {
   const result = validateAddress(addressString, options);
 
@@ -134,7 +159,18 @@ function hasStrictRequirements(options: ValidationOptions): boolean {
   );
 }
 
-// Get only validation errors without full validation result
+/**
+ * The errors `validateAddress` finds, without the rest of its result.
+ *
+ * @param addressString - The address as one string.
+ * @param options - What to require and how strict to be (see `ValidationOptions`).
+ * @returns The errors, each with its field, code and message; an empty array when there are none.
+ * @example
+ * ```ts
+ * getValidationErrors("123 Main St, Seattle, NY 98101", { strictPostalValidation: true }).map((error) => error.code)
+ * // → ["POSTAL_REGION_MISMATCH"]
+ * ```
+ */
 function getValidationErrors(addressString: string, options: ValidationOptions = {}): ValidationError[] {
   const result = validateAddress(addressString, options);
   return [...result.errors, ...result.warnings];

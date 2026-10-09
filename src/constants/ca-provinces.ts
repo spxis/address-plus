@@ -2,7 +2,15 @@ import type { Region } from "../types/region.js";
 
 // Canadian provinces and territories mapping
 
-// Official Canadian province and territory names in English mapped to their abbreviations
+/**
+ * Every Canadian province and territory by its English name in lower case, to its two-letter code.
+ *
+ * @example
+ * ```ts
+ * CA_PROVINCE_NAMES_EN["british columbia"]
+ * // → "BC"
+ * ```
+ */
 const CA_PROVINCE_NAMES_EN: Record<string, string> = {
   alberta: "AB",
   "british columbia": "BC",
@@ -19,7 +27,15 @@ const CA_PROVINCE_NAMES_EN: Record<string, string> = {
   yukon: "YT",
 };
 
-// Official Canadian province and territory names in French mapped to their abbreviations
+/**
+ * Every Canadian province and territory by its French name in lower case, to its two-letter code.
+ *
+ * @example
+ * ```ts
+ * CA_PROVINCE_NAMES_FR["colombie-britannique"]
+ * // → "BC"
+ * ```
+ */
 const CA_PROVINCE_NAMES_FR: Record<string, string> = {
   alberta: "AB", // Same in French
   "colombie-britannique": "BC",
@@ -36,13 +52,30 @@ const CA_PROVINCE_NAMES_FR: Record<string, string> = {
   yukon: "YT", // Same in French
 };
 
-// Combined official Canadian province and territory names (English and French)
+/**
+ * Every Canadian province and territory by its English or French name, to its code.
+ *
+ * @example
+ * ```ts
+ * CA_PROVINCE_NAMES["québec"]
+ * // → "QC"
+ * ```
+ */
 const CA_PROVINCE_NAMES: Record<string, string> = {
   ...CA_PROVINCE_NAMES_EN,
   ...CA_PROVINCE_NAMES_FR,
 };
 
-// Common shortened forms, abbreviations, and alternative names for Canadian provinces
+/**
+ * Other ways Canadian provinces are written (old and informal abbreviations such as `PQ`, `Que.`, `Nfld.`), in lower
+ * case, to their codes.
+ *
+ * @example
+ * ```ts
+ * CA_PROVINCE_ALTERNATIVES["pq"]
+ * // → "QC"
+ * ```
+ */
 const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
   // Alberta
   alb: "AB",
@@ -90,30 +123,72 @@ const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
   sask: "SK",
 };
 
-// Combined mapping of all Canadian province names and alternatives to their abbreviations
+/**
+ * Every name and other spelling of a Canadian province, to its code: the names and the alternatives together.
+ *
+ * @example
+ * ```ts
+ * CA_PROVINCES["nfld"]
+ * // → "NL"
+ * ```
+ */
 const CA_PROVINCES: Record<string, string> = {
   ...CA_PROVINCE_NAMES,
   ...CA_PROVINCE_ALTERNATIVES,
 };
 
-// Array of Canadian provinces and territories as Region objects for fuzzy matching
+/**
+ * Every name and other spelling of a Canadian province or territory as a `Region` object, for fuzzy matching by
+ * `normalizeRegion`.
+ *
+ * @example
+ * ```ts
+ * CA_REGIONS.filter((region) => region.abbr === "QC").map((region) => region.name)
+ * // → ["quebec","québec","pq","que"]
+ * ```
+ */
 const CA_REGIONS: Region[] = Object.entries(CA_PROVINCES).map(([name, abbr]) => ({
   abbr,
   country: "CA",
   name,
 }));
 
-// Canadian province expansions (reverse mapping from abbreviations to full names)
-// Supports both English and French province names
+/**
+ * Each Canadian province's code in lower case, to its English name in lower case.
+ *
+ * @example
+ * ```ts
+ * PROVINCE_EXPANSIONS_EN["qc"]
+ * // → "quebec"
+ * ```
+ */
 const PROVINCE_EXPANSIONS_EN: Record<string, string> = Object.fromEntries(
   Object.entries(CA_PROVINCE_NAMES_EN).map(([name, abbr]) => [abbr.toLowerCase(), name]),
 );
 
+/**
+ * Each Canadian province's code in lower case, to its French name in lower case.
+ *
+ * @example
+ * ```ts
+ * PROVINCE_EXPANSIONS_FR["qc"]
+ * // → "québec"
+ * ```
+ */
 const PROVINCE_EXPANSIONS_FR: Record<string, string> = Object.fromEntries(
   Object.entries(CA_PROVINCE_NAMES_FR).map(([name, abbr]) => [abbr.toLowerCase(), name]),
 );
 
-// Combined expansions - defaults to English but includes French options
+/**
+ * Each Canadian province's code in lower case, to its name in lower case: English by default, the French names under
+ * their own keys.
+ *
+ * @example
+ * ```ts
+ * PROVINCE_EXPANSIONS["on"]
+ * // → "ontario"
+ * ```
+ */
 const PROVINCE_EXPANSIONS: Record<string, string> = {
   ...PROVINCE_EXPANSIONS_EN,
   // Add French alternatives with _fr suffix for explicit French usage

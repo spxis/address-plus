@@ -1,5 +1,14 @@
 // Types for address validation results and confidence scoring
 
+/**
+ * One finding of a validator: the field it is about, its code, a message, and how serious it is.
+ *
+ * @example
+ * ```ts
+ * validateAddress("123 Main St, Seattle, NY 98101").warnings[0]
+ * // → {"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"ZIP code 98101 belongs to WA, not NY","severity":"warning"}
+ * ```
+ */
 interface ValidationError {
   field: string; // Field name where error occurred
   code: string; // Error code identifier
@@ -7,6 +16,15 @@ interface ValidationError {
   severity: "error" | "warning" | "info"; // Severity level of the validation issue
 }
 
+/**
+ * What `validateAddress` returns.
+ *
+ * @example
+ * ```ts
+ * validateAddress("1600 Pennsylvania Ave NW, Washington, DC 20500").isValid
+ * // → true
+ * ```
+ */
 interface AddressValidationResult {
   isValid: boolean; // Whether the address passed validation
   confidence: number; // 0-1 score indicating parsing confidence
@@ -17,6 +35,16 @@ interface AddressValidationResult {
   parsedAddress: import("./parsed-address").ParsedAddress | null; // Parsed address result or null if parsing failed
 }
 
+/**
+ * Options for the validators: which parts an address must have, which kinds are allowed, and whether a postal code
+ * that does not match its region is an error.
+ *
+ * @example
+ * ```ts
+ * validateAddress("123 Main St", { requirePostalCode: true }).errors.map((error) => error.code)
+ * // → ["MISSING_POSTAL_CODE"]
+ * ```
+ */
 interface ValidationOptions {
   requireStreetNumber?: boolean; // Whether street number is required
   requireStreetName?: boolean; // Whether street name is required

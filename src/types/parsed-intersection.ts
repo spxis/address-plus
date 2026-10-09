@@ -1,4 +1,12 @@
-// Parsed intersection result containing two streets and location info
+/**
+ * What `parseIntersection` returns: two streets, each with its name, type and directionals, and the place.
+ *
+ * @example
+ * ```ts
+ * parseIntersection("Hollywood Blvd and Vine St, Los Angeles, CA")
+ * // → {"state":"CA","city":"Los Angeles","street1":"Hollywood","type1":"Blvd","street2":"Vine","type2":"St"}
+ * ```
+ */
 interface ParsedIntersection {
   street1?: string; // First street
   type1?: string; // First street type

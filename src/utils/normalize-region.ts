@@ -7,11 +7,18 @@ import type { Region } from "../types/region.js";
 
 // Region normalization utilities for fuzzy matching
 
-// Normalizes a region input string to find the best matching state/province
-// Supports exact matches and fuzzy matching for misspellings
-// @param input - The input string to normalize (state/province name or abbreviation)
-// @returns Object with abbreviation and country, or null if no match found
-// @example normalizeRegion('Calfornia') → { abbr: 'CA', country: 'US' }
+/**
+ * Finds the US state or Canadian province a name, code or misspelling means: `Calfornia`, `Que.`, `British Columbia`,
+ * `nfld`.
+ *
+ * @param input - A state or province name, code or abbreviation, in English or French.
+ * @returns Its code and country, or `null` when nothing is close enough.
+ * @example
+ * ```ts
+ * normalizeRegion("Calfornia")
+ * // → {"abbr":"CA","country":"US"}
+ * ```
+ */
 function normalizeRegion(input: string): { abbr: string; country: "CA" | "US" } | null {
   if (!input) {
     return null;

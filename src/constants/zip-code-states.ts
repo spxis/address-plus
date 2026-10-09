@@ -6,6 +6,15 @@
 
 import { normalizeRegion } from "../utils/normalize-region";
 
+/**
+ * A US state, DC or territory code that `getStateFromZip` can return.
+ *
+ * @example
+ * ```ts
+ * getStateFromZip("00901")
+ * // → "PR"
+ * ```
+ */
 type StateCode =
   | "AL"
   | "AK"
@@ -192,7 +201,18 @@ const ZIP3_RANGES: Zip3Range[] = [
   { start: "967", end: "968", code: "HI" },
 ];
 
-// Resolve a US ZIP code (5-digit or ZIP+4) to a 2-letter state/territory code.
+/**
+ * The state or territory a US ZIP code is in.
+ *
+ * @param zip - A five-digit ZIP or a ZIP+4, as a string or a number (a number loses its leading zeros, which are put
+ * back).
+ * @returns The two-letter code, or `undefined` for a ZIP no state uses or a malformed one.
+ * @example
+ * ```ts
+ * getStateFromZip("98101")
+ * // → "WA"
+ * ```
+ */
 function getStateFromZip(zip: string | number): StateCode | undefined {
   if (zip == null) return undefined;
 
@@ -230,12 +250,19 @@ function getStateFromZip(zip: string | number): StateCode | undefined {
 
 const pad = (value: number, length: number): string => String(value).padStart(length, "0");
 
-// The ZIP code prefixes a state or territory uses, the reverse of getStateFromZip.
-// Three digits where a whole block of a hundred belongs to it, five where only part of one does
-// (Guam's 96910–96932, for one). Every ZIP starting with one of them resolves to that state.
-// @param state - State or territory abbreviation (e.g., "MA")
-// @returns Prefixes in ascending order (e.g., ["010", …, "027"]), or an empty array for an unknown state
-// @example getZipPrefixesForState('RI') → ['028', '029']
+/**
+ * The ZIP code prefixes a state or territory uses, the reverse of `getStateFromZip`: three digits where a whole block
+ * of a hundred belongs to it, five where only part of one does. Every ZIP starting with one of them resolves to that
+ * state.
+ *
+ * @param state - The state or territory's two-letter code.
+ * @returns The prefixes in ascending order, or an empty array for an unknown code.
+ * @example
+ * ```ts
+ * getZipPrefixesForState("RI")
+ * // → ["028","029"]
+ * ```
+ */
 function getZipPrefixesForState(state: string): string[] {
   // A name ("New York") or a misspelling is resolved to its code first; a code passes through unchanged.
   const region = normalizeRegion(state ?? "");

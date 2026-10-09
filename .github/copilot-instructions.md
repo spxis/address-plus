@@ -37,7 +37,8 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 
 ## Comment Style & Documentation
 
-- **Use concise `//` single-line comments** instead of JSDoc blocks (`/** */`) for brevity.
+- **Every public export carries a TSDoc block** (`/** */`): a summary, an `@param` for each parameter, `@returns` saying what `null` or `undefined` means, and an `@example` in a fenced block whose last line is `// → <answer>`. Editors show it on hover from the published `.d.ts`. `pnpm docs:check` (part of `pnpm check`) fails on an export without one, on a missing `@param` or `@returns`, on a block the build drops, and on an example whose answer is not what the built package gives. The generated tables get theirs from their generator.
+- **Everything else uses concise `//` single-line comments**, not JSDoc blocks, for brevity.
 - **Never use emoji, icons, or symbols** in comments, documentation, or any text output.
 - Place comments above the code they describe, not inline unless necessary.
 - For interfaces and types, use inline comments after properties: `property: string; // Description`

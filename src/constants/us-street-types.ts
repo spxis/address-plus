@@ -1,6 +1,15 @@
 // US Street Types (USPS official abbreviations)
 
-// Mapping of US street types and their variations to official USPS abbreviations
+/**
+ * Every street type USPS Publication 28 lists, and the common spellings of each, in lower case, to its USPS
+ * abbreviation in lower case.
+ *
+ * @example
+ * ```ts
+ * US_STREET_TYPES["boulevard"]
+ * // → "blvd"
+ * ```
+ */
 const US_STREET_TYPES: Record<string, string> = {
   allee: "aly",
   alley: "aly",
@@ -509,7 +518,15 @@ const US_STREET_TYPES: Record<string, string> = {
   xrds: "xrds",
 };
 
-// Street type expansions (reverse mapping from abbreviations to full names)
+/**
+ * Each USPS street type abbreviation in lower case, to the word in full.
+ *
+ * @example
+ * ```ts
+ * STREET_TYPE_EXPANSIONS["blvd"]
+ * // → "Boulevard"
+ * ```
+ */
 const STREET_TYPE_EXPANSIONS: Record<string, string> = {
   ave: "Avenue",
   blvd: "Boulevard",

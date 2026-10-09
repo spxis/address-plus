@@ -2,7 +2,15 @@
 
 import { CANADIAN_POSTAL_CODE_PATTERN, ZIP_CODE_PATTERN } from "../patterns/location-patterns";
 
-// Postal code validation result
+/**
+ * What `validatePostalCode` returns: whether the code is well formed, its type, and the code written the standard way.
+ *
+ * @example
+ * ```ts
+ * validatePostalCode("98101")
+ * // → {"isValid":true,"type":"zip","formatted":"98101","message":"Valid US ZIP code format"}
+ * ```
+ */
 interface PostalValidationResult {
   isValid: boolean;
   type: "zip" | "postal" | null;
@@ -10,7 +18,17 @@ interface PostalValidationResult {
   message?: string;
 }
 
-// Validate if a postal code or ZIP code is in the correct format
+/**
+ * Checks the shape of a US ZIP code or a Canadian postal code.
+ *
+ * @param code - The code, with or without the space or the ZIP+4.
+ * @returns Whether it is well formed, its type (`zip` or `postal`), and the code written the standard way.
+ * @example
+ * ```ts
+ * validatePostalCode("k1a0b1")
+ * // → {"isValid":true,"type":"postal","formatted":"K1A 0B1","message":"Valid Canadian postal code format"}
+ * ```
+ */
 const validatePostalCode = (code: string): PostalValidationResult => {
   if (!code || typeof code !== "string") {
     return {

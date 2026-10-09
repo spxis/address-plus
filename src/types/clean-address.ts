@@ -2,7 +2,15 @@
 
 import type { AddressFormattingOptions } from "./formatting";
 
-// Clean address options
+/**
+ * Options for `cleanAddress`: which tidying to do, and the letter case to set.
+ *
+ * @example
+ * ```ts
+ * cleanAddress("123 main st, anytown, ny 12345", { standardizeCase: "upper" })
+ * // → "123 MAIN ST, ANYTOWN NY 12345"
+ * ```
+ */
 interface CleanAddressOptions extends AddressFormattingOptions {
   format?: "standard" | "usps" | "canada-post"; // Desired output format
   removeExtraSpaces?: boolean; // Whether to remove redundant spaces
@@ -10,7 +18,15 @@ interface CleanAddressOptions extends AddressFormattingOptions {
   expandAbbreviations?: boolean; // Whether to expand abbreviations to full forms
 }
 
-// Clean address result
+/**
+ * What `cleanAddressDetailed` returns: the tidied address and what changed.
+ *
+ * @example
+ * ```ts
+ * cleanAddressDetailed("123 main st, anytown, ny 12345").wasModified
+ * // → true
+ * ```
+ */
 interface CleanAddressResult {
   cleanedAddress: string; // The cleaned address string
   wasModified: boolean; // Whether any modifications were made
