@@ -8,153 +8,327 @@ import { JP_PREFECTURES } from "./prefectures.data";
 
 // Designators written after a name: 都道府県 on a prefecture, 市区町村 and 郡 on a municipality.
 const PREFECTURE_DESIGNATOR = /[都道府県]$/;
+const PREFECTURE_ROMAJI_DESIGNATOR = /-(?:to|do|fu|ken)$/;
 const ROMAJI_DESIGNATOR = /-(?:to|do|fu|ken|shi|ku|cho|machi|mura|son|gun)\b/g;
 const ENGLISH_DESIGNATOR = /\b(?:prefecture|pref\.?|metropolis|city|ward|town|village|district)\b/g;
+const COMBINING_MARKS = /[\u0300-\u036f]/g;
+const NOT_ROMAJI_LETTER = /[^a-z\s]/g;
+const WHITESPACE_RUN = /\s+/g;
+const ROMAJI_DISTRICT_WORD = /\S+-gun\b/i;
+const NOT_ROMAJI_DESIGNATOR_CHARACTER = /[^a-z\s-]/g;
+const TRAILING_ROMAJI_DESIGNATOR = /-(shi|ku|cho|machi|mura|son)$/;
+
+// The English word for a designator, to the romaji designators it can stand for.
+const ENGLISH_DESIGNATOR_ROMAJI: Readonly<Record<string, string[]>> = {
+  city: ["shi"],
+  town: ["cho", "machi"],
+  village: ["mura", "son"],
+  ward: ["ku"],
+};
+
+// A town or village inside a district (郡). Only these carry one: 郡山市, 蒲郡市, 大和郡山市, 郡上市 and
+// 小郡市 have 郡 in their own names.
+const DISTRICT_PREFIX = /^.+?郡(?=.+[町村]$)/;
+
+// A ward of a designated city: 札幌市中央区 is 札幌市 and 中央区.
+const DESIGNATED_CITY_WARD = /^(.+?市)(.+区)$/;
+
+// The romaji designator each prefecture designator is written with.
+const PREFECTURE_DESIGNATOR_ROMAJI: Readonly<Record<string, string>> = { 府: "fu", 県: "ken", 道: "do", 都: "to" };
+
+// Spellings in common use that the table's romaji does not have: Geolonia writes 群馬 as Gumma, the older
+// Hepburn, where most English text now writes Gunma.
+const PREFECTURE_ALIASES: Readonly<Record<string, string>> = { gunma: "10" };
+
+// Romaji without macrons, lower-cased, single-spaced: Tōkyō → tokyo.
+const plainRomaji = (text: string): string =>
+  text.normalize("NFKD").replace(COMBINING_MARKS, "").trim().replace(WHITESPACE_RUN, " ").toLowerCase();
 
 // 北海道 is the one prefecture whose designator is part of its name: nobody says 北海.
 const prefectureShortName = (prefecture: JapanesePrefecture): string =>
   prefecture.name === "北海道" ? prefecture.name : prefecture.name.replace(PREFECTURE_DESIGNATOR, "");
 
 // Tokyo, Osaka, Hokkaido: the form English addresses use.
-const prefectureShortRomaji = (prefecture: JapanesePrefecture): string => prefecture.romaji.replace(/-(?:to|do|fu|ken)$/, "");
+const prefectureShortRomaji = (prefecture: JapanesePrefecture): string =>
+  prefecture.romaji.replace(PREFECTURE_ROMAJI_DESIGNATOR, "");
 
-const PREFECTURE_BY_CODE: ReadonlyMap<string, JapanesePrefecture> = new Map(JP_PREFECTURES.map((p) => [p.code, p]));
+// The romaji designator for a prefecture: Tokyo-to, Hokkaido-do, Kyoto-fu, Aichi-ken.
+const prefectureDesignatorRomaji = (prefecture: JapanesePrefecture): string =>
+  PREFECTURE_DESIGNATOR_ROMAJI[prefecture.name.slice(-1)] ?? "";
 
-// Every spelling a prefecture goes by, lower-cased, to the prefecture.
-const PREFECTURE_BY_NAME: ReadonlyMap<string, JapanesePrefecture> = new Map(
-  JP_PREFECTURES.flatMap((p) => {
-    const short = prefectureShortRomaji(p).toLowerCase();
-    return [
-      [p.name, p],
-      [prefectureShortName(p), p],
-      [p.kana, p],
-      [p.romaji.toLowerCase(), p],
-      [short, p],
-      [`${short} prefecture`, p],
-      [`${short} pref`, p],
-      [`${short} pref.`, p],
-      [`${short} metropolis`, p],
-    ] as [string, JapanesePrefecture][];
-  }),
+// The English spellings of a prefecture, from the short romaji: osaka, osaka-fu, osaka fu, osaka prefecture.
+const romajiSpellings = (short: string, prefecture: JapanesePrefecture): string[] => {
+  const designator = prefectureDesignatorRomaji(prefecture);
+  const spellings = [
+    short,
+    `${short}-${designator}`,
+    `${short} ${designator}`,
+    `${short} prefecture`,
+    `${short} pref`,
+    `${short} pref.`,
+    `${short}-${designator} prefecture`,
+  ];
+  if (designator === "to") spellings.push(`${short} metropolis`, `${short} metropolitan`);
+
+  return spellings;
+};
+
+const PREFECTURE_BY_CODE: ReadonlyMap<string, JapanesePrefecture> = new Map(
+  JP_PREFECTURES.map((prefecture) => [prefecture.code, prefecture]),
 );
 
-const MUNICIPALITIES_BY_PREFECTURE: ReadonlyMap<string, readonly JapaneseMunicipality[]> = (() => {
-  const map = new Map<string, JapaneseMunicipality[]>();
-  for (const municipality of JP_MUNICIPALITIES) {
-    if (!map.has(municipality.prefecture)) map.set(municipality.prefecture, []);
-    map.get(municipality.prefecture)!.push(municipality);
+// Every spelling a prefecture goes by, lower-cased, to the prefecture.
+const PREFECTURE_BY_NAME: ReadonlyMap<string, JapanesePrefecture> = (() => {
+  const map = new Map<string, JapanesePrefecture>();
+  for (const prefecture of JP_PREFECTURES) {
+    const short = prefectureShortRomaji(prefecture).toLowerCase();
+    const spellings = [
+      prefecture.name,
+      prefectureShortName(prefecture),
+      prefecture.kana,
+      prefecture.romaji.toLowerCase(),
+      ...romajiSpellings(short, prefecture),
+    ];
+    for (const spelling of spellings) map.set(spelling, prefecture);
   }
+  for (const [alias, code] of Object.entries(PREFECTURE_ALIASES)) {
+    const prefecture = PREFECTURE_BY_CODE.get(code)!;
+    for (const spelling of romajiSpellings(alias, prefecture)) map.set(spelling, prefecture);
+  }
+
   return map;
 })();
 
-const MUNICIPALITY_BY_CODE: ReadonlyMap<string, JapaneseMunicipality> = new Map(JP_MUNICIPALITIES.map((m) => [m.code, m]));
+// The longest common start of a list of strings.
+const commonStart = (texts: readonly string[]): string => {
+  let start = texts[0] ?? "";
+  for (const text of texts) {
+    while (!text.startsWith(start)) start = start.slice(0, -1);
+  }
+
+  return start;
+};
+
+// The twenty designated cities (政令指定都市) as municipalities of their own. Geolonia lists only their
+// wards, but addresses often name the city alone (大阪市, Sapporo), and the city has a JIS code of its
+// own: its wards' codes with the last digit 0 (札幌市 01100, its wards 01101 to 01110; 川崎市 14130).
+const JP_DESIGNATED_CITIES: readonly JapaneseMunicipality[] = (() => {
+  const wardsByCity = new Map<string, JapaneseMunicipality[]>();
+  for (const municipality of JP_MUNICIPALITIES) {
+    const ward = municipality.name.match(DESIGNATED_CITY_WARD);
+    if (!ward) continue;
+    const key = `${municipality.prefecture}${ward[1]}`;
+    if (!wardsByCity.has(key)) wardsByCity.set(key, []);
+    wardsByCity.get(key)!.push(municipality);
+  }
+
+  return [...wardsByCity.values()].map((wards): JapaneseMunicipality => {
+    const first = [...wards].sort((left, right) => left.code.localeCompare(right.code))[0];
+    const lowest = Number(first.code);
+
+    return {
+      code: String(lowest - (lowest % 10)).padStart(5, "0"),
+      kana: commonStart(wards.map((ward) => ward.kana)),
+      name: first.name.match(DESIGNATED_CITY_WARD)![1],
+      prefecture: first.prefecture,
+      romaji: first.romaji.split(" ")[0],
+    };
+  });
+})();
+
+// Every municipality a lookup may answer with: the generated table and the designated cities.
+const ALL_MUNICIPALITIES: readonly JapaneseMunicipality[] = [...JP_MUNICIPALITIES, ...JP_DESIGNATED_CITIES];
+
+const MUNICIPALITIES_BY_PREFECTURE: ReadonlyMap<string, readonly JapaneseMunicipality[]> = (() => {
+  const map = new Map<string, JapaneseMunicipality[]>();
+  for (const municipality of ALL_MUNICIPALITIES) {
+    if (!map.has(municipality.prefecture)) map.set(municipality.prefecture, []);
+    map.get(municipality.prefecture)!.push(municipality);
+  }
+
+  return map;
+})();
+
+const MUNICIPALITY_BY_CODE: ReadonlyMap<string, JapaneseMunicipality> = new Map(
+  ALL_MUNICIPALITIES.map((municipality) => [municipality.code, municipality]),
+);
+
+// The ways a municipality is written in Japanese: its full name, and for a town or village in a district
+// the name without the district (当別町 for 石狩郡当別町), which is how most people write it.
+const japaneseSpellings = (municipality: JapaneseMunicipality): string[] => {
+  const withoutDistrict = municipality.name.replace(DISTRICT_PREFIX, "");
+
+  return withoutDistrict === municipality.name ? [municipality.name] : [municipality.name, withoutDistrict];
+};
+
+// Every Japanese spelling to the municipalities it can mean; 府中市 is in Tokyo and in Hiroshima.
+const MUNICIPALITIES_BY_SPELLING: ReadonlyMap<string, readonly JapaneseMunicipality[]> = (() => {
+  const map = new Map<string, JapaneseMunicipality[]>();
+  for (const municipality of ALL_MUNICIPALITIES) {
+    for (const spelling of japaneseSpellings(municipality)) {
+      if (!map.has(spelling)) map.set(spelling, []);
+      map.get(spelling)!.push(municipality);
+    }
+  }
+
+  return map;
+})();
+
+// The spellings, longest first, so the first one a text starts with is the longest match.
+const SPELLINGS_LONGEST_FIRST: readonly string[] = [...MUNICIPALITIES_BY_SPELLING.keys()].sort(
+  (left, right) => right.length - left.length,
+);
 
 // A romaji municipality reduced to its words without designators, sorted, so "Chuo-ku, Sapporo" and
-// "Sapporo-shi Chuo-ku" meet at "chuo sapporo".
+// "Sapporo-shi Chuo-ku" meet at "chuo sapporo". Macrons are dropped first: Chūō-ku is Chuo-ku.
 const romajiKey = (text: string): string =>
-  text
-    .toLowerCase()
+  plainRomaji(text)
     .replace(ROMAJI_DESIGNATOR, "")
     .replace(ENGLISH_DESIGNATOR, "")
-    .replace(/[^a-z\s]/g, " ")
+    .replace(NOT_ROMAJI_LETTER, " ")
     .trim()
-    .split(/\s+/)
+    .split(" ")
     .filter(Boolean)
     .sort()
     .join(" ");
 
-const MUNICIPALITIES_BY_ROMAJI: ReadonlyMap<string, readonly JapaneseMunicipality[]> = (() => {
+const indexByRomaji = (
+  keyOf: (municipality: JapaneseMunicipality) => string,
+): ReadonlyMap<string, readonly JapaneseMunicipality[]> => {
   const map = new Map<string, JapaneseMunicipality[]>();
-  for (const municipality of JP_MUNICIPALITIES) {
-    const key = romajiKey(municipality.romaji);
+  for (const municipality of ALL_MUNICIPALITIES) {
+    const key = keyOf(municipality);
     if (!map.has(key)) map.set(key, []);
     map.get(key)!.push(municipality);
   }
+
   return map;
-})();
+};
+
+const MUNICIPALITIES_BY_ROMAJI = indexByRomaji((municipality) => romajiKey(municipality.romaji));
+
+// The same without the district, for "Tobetsu-cho, Hokkaido": asked only when the full key finds nothing.
+const MUNICIPALITIES_BY_ROMAJI_WITHOUT_DISTRICT = indexByRomaji((municipality) =>
+  romajiKey(municipality.romaji.replace(ROMAJI_DISTRICT_WORD, "")),
+);
+
+// The designators a romaji municipality ends with, an English word standing for the ones it can mean:
+// "Kiso-mura" → ["mura"]; "Kiso Village" → ["mura", "son"]; "Sapporo-shi Chuo-ku" → ["ku"].
+const designatorOf = (text: string): string[] => {
+  const words = plainRomaji(text).replace(NOT_ROMAJI_DESIGNATOR_CHARACTER, " ").split(" ").filter(Boolean);
+  const last = words[words.length - 1] ?? "";
+  const hyphenated = last.match(TRAILING_ROMAJI_DESIGNATOR);
+  if (hyphenated) return [hyphenated[1]];
+
+  return ENGLISH_DESIGNATOR_ROMAJI[last] ?? [];
+};
+
+const inPrefecture = (
+  municipalities: readonly JapaneseMunicipality[],
+  prefectureCode?: string,
+): JapaneseMunicipality[] =>
+  prefectureCode
+    ? municipalities.filter((municipality) => municipality.prefecture === prefectureCode)
+    : [...municipalities];
 
 // The prefecture a name, reading, romaji or JIS code refers to, or null.
-// @example findPrefecture('東京都') → Tokyo; findPrefecture('Osaka Prefecture') → Osaka; findPrefecture('13') → Tokyo
+// @example findPrefecture("東京都") → Tokyo; findPrefecture("Osaka Prefecture") → Osaka; findPrefecture("13") → Tokyo
 function findPrefecture(text: string): JapanesePrefecture | null {
   if (!text) return null;
-  const clean = text.trim();
-  return PREFECTURE_BY_CODE.get(clean) ?? PREFECTURE_BY_NAME.get(clean.toLowerCase()) ?? null;
+  const clean = plainRomaji(text);
+
+  return PREFECTURE_BY_CODE.get(clean) ?? PREFECTURE_BY_NAME.get(clean) ?? null;
 }
 
-// The prefecture whose name opens the text, with what follows it.
+// The prefecture whose full name opens the text, with what follows it.
 function prefectureAtStart(text: string): { prefecture: JapanesePrefecture; rest: string } | null {
   for (const prefecture of JP_PREFECTURES) {
     if (text.startsWith(prefecture.name)) return { prefecture, rest: text.slice(prefecture.name.length) };
   }
-  // The designator is sometimes left off: 東京千代田区. 北海道 and the one-character stems are too short to guess.
+
+  return null;
+}
+
+// The prefecture whose name opens the text without its designator (東京千代田区), with what follows.
+// 北海道 has no shorter form. Asked only after the municipality tables, since 大阪市 and 京都市 open
+// with a prefecture's short name too.
+function prefectureShortAtStart(text: string): { prefecture: JapanesePrefecture; rest: string } | null {
   for (const prefecture of JP_PREFECTURES) {
     const short = prefectureShortName(prefecture);
-    if (short !== prefecture.name && short.length >= 2 && text.startsWith(short)) {
-      return { prefecture, rest: text.slice(short.length) };
-    }
+    if (short !== prefecture.name && text.startsWith(short)) return { prefecture, rest: text.slice(short.length) };
   }
+
   return null;
 }
 
-// The municipality whose name opens the text, with what follows it. Looks in one prefecture when it is
-// known, otherwise everywhere. A town or village is often written without its district (当別町 for
-// 石狩郡当別町), and a city with wards is sometimes written without the ward (札幌市), so both are tried.
-function municipalityAtStart(
+// The municipalities whose name opens the text, with what follows it. Looks in one prefecture when it
+// is known, otherwise everywhere. The longest spelling wins, so 大阪市北区 beats 大阪市; when several
+// municipalities share that spelling (府中市, 池田町) all of them are returned, for the caller to choose
+// between with whatever else it knows.
+function municipalitiesAtStart(
   text: string,
   prefectureCode?: string,
-): { municipality: JapaneseMunicipality; matched: string; rest: string } | null {
-  const candidates = prefectureCode ? (MUNICIPALITIES_BY_PREFECTURE.get(prefectureCode) ?? []) : JP_MUNICIPALITIES;
-  let best: { municipality: JapaneseMunicipality; matched: string } | null = null;
-  for (const municipality of candidates) {
-    const spellings = [municipality.name];
-    const afterDistrict = municipality.name.replace(/^.+?郡/, "");
-    if (afterDistrict !== municipality.name) spellings.push(afterDistrict);
-    for (const spelling of spellings) {
-      if (text.startsWith(spelling) && (!best || spelling.length > best.matched.length)) {
-        best = { municipality, matched: spelling };
-      }
-    }
+): { matched: string; municipalities: JapaneseMunicipality[]; rest: string } | null {
+  for (const spelling of SPELLINGS_LONGEST_FIRST) {
+    if (!text.startsWith(spelling)) continue;
+    const municipalities = inPrefecture(MUNICIPALITIES_BY_SPELLING.get(spelling) ?? [], prefectureCode);
+    if (municipalities.length > 0) return { matched: spelling, municipalities, rest: text.slice(spelling.length) };
   }
-  if (best) return { ...best, rest: text.slice(best.matched.length) };
 
-  // A city named without its ward: the first ward's row stands in for the city, and the ward is left out.
-  const city = text.match(/^(.+?市)/);
-  if (city) {
-    const wardCity = candidates.find((m) => m.name.startsWith(city[1]) && m.name !== city[1]);
-    if (wardCity) return { municipality: wardCity, matched: city[1], rest: text.slice(city[1].length) };
-  }
   return null;
 }
 
-// The municipalities a romaji name could mean, narrowed to one prefecture when it is known.
-// @example findMunicipalitiesByRomaji('Chiyoda-ku', '13') → [千代田区]; findMunicipalitiesByRomaji('Chuo-ku, Sapporo') → [札幌市中央区]
-function findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[] {
-  const found = MUNICIPALITIES_BY_ROMAJI.get(romajiKey(text)) ?? [];
-  return prefectureCode ? found.filter((m) => m.prefecture === prefectureCode) : [...found];
+// The municipalities a Japanese name could mean, narrowed to one prefecture when it is known.
+// @example findMunicipalitiesByName("府中市") → [Tokyo's 府中市, Hiroshima's 府中市]; findMunicipalitiesByName("当別町") → [石狩郡当別町]
+function findMunicipalitiesByName(name: string, prefectureCode?: string): JapaneseMunicipality[] {
+  return inPrefecture(MUNICIPALITIES_BY_SPELLING.get(name) ?? [], prefectureCode);
 }
 
-// All municipalities of a prefecture, by JIS code.
+// The municipalities a romaji name could mean, narrowed to one prefecture when it is known. A town
+// written without its district (Tobetsu-cho) is looked up without it when the full name finds nothing.
+// @example findMunicipalitiesByRomaji("Chiyoda-ku", "13") → [千代田区]; findMunicipalitiesByRomaji("Chuo-ku, Sapporo") → [札幌市中央区]
+function findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[] {
+  const key = romajiKey(text);
+  if (!key) return [];
+  const full = inPrefecture(MUNICIPALITIES_BY_ROMAJI.get(key) ?? [], prefectureCode);
+  const found =
+    full.length > 0 ? full : inPrefecture(MUNICIPALITIES_BY_ROMAJI_WITHOUT_DISTRICT.get(key) ?? [], prefectureCode);
+  if (found.length < 2) return found;
+
+  // Names that differ only in their designator, 木曽町 (Kiso-machi) and 木祖村 (Kiso-mura), are told
+  // apart by the designator written, when there is one.
+  const written = designatorOf(text);
+  const matching = written
+    ? found.filter((municipality) => written.includes(designatorOf(municipality.romaji)[0]))
+    : [];
+
+  return matching.length > 0 ? matching : found;
+}
+
+// All municipalities of a prefecture, by JIS code, the designated cities included.
 function municipalitiesOf(prefectureCode: string): readonly JapaneseMunicipality[] {
   return MUNICIPALITIES_BY_PREFECTURE.get(prefectureCode) ?? [];
 }
 
+// The municipality with a JIS code, a designated city's included.
 function findMunicipalityByCode(code: string): JapaneseMunicipality | null {
   return MUNICIPALITY_BY_CODE.get(code) ?? null;
 }
 
 // The JIS code of the prefecture a postal code delivers to, or null for a malformed code or one no
 // prefix in the table covers. Hyphens and full-width digits are accepted.
-// @example getPrefectureFromJapanesePostalCode('100-0005') → '13'; getPrefectureFromJapanesePostalCode('498-0000') → '23'
+// @example getPrefectureFromJapanesePostalCode("100-0005") → "13"; getPrefectureFromJapanesePostalCode("498-0000") → "23"
 function getPrefectureFromJapanesePostalCode(postalCode: string): string | null {
   if (!postalCode) return null;
   const digits = postalCode.normalize("NFKC").replace(/\D/g, "");
   if (digits.length !== 7) return null;
+
   return JP_POSTAL_EXCEPTIONS[digits] ?? JP_POSTAL_PREFIXES[digits.slice(0, 3)] ?? null;
 }
 
 // The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above.
 // A prefix on a border is listed under the prefecture most of its codes belong to.
-// @example getPostalPrefixesForPrefecture('47') → ['900', '901', …, '907']
+// @example getPostalPrefixesForPrefecture("47") → ["900", "901", …, "907"]
 function getPostalPrefixesForPrefecture(prefectureCode: string): string[] {
   return Object.entries(JP_POSTAL_PREFIXES)
     .filter(([, code]) => code === prefectureCode)
@@ -163,18 +337,21 @@ function getPostalPrefixesForPrefecture(prefectureCode: string): string[] {
 }
 
 export {
+  findMunicipalitiesByName,
   findMunicipalitiesByRomaji,
   findMunicipalityByCode,
   findPrefecture,
   getPostalPrefixesForPrefecture,
   getPrefectureFromJapanesePostalCode,
+  JP_DESIGNATED_CITIES,
   JP_MUNICIPALITIES,
   JP_POSTAL_EXCEPTIONS,
   JP_POSTAL_PREFIXES,
   JP_PREFECTURES,
+  municipalitiesAtStart,
   municipalitiesOf,
-  municipalityAtStart,
   prefectureAtStart,
+  prefectureShortAtStart,
   prefectureShortName,
   prefectureShortRomaji,
   romajiKey,

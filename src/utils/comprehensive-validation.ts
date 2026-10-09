@@ -1,9 +1,9 @@
 // Comprehensive address validation with confidence scoring and detailed error reporting
 
 import { getProvinceFromPostalCode, getStateFromZip, validatePostalCode } from "../constants";
+import { validateJapaneseAddress } from "../jp/validate";
 import { parseLocation } from "../parser";
 import type { AddressValidationResult, ParsedAddress, ValidationError, ValidationOptions } from "../types";
-import { validateJapaneseAddress } from "../jp/validate";
 import { normalizeRegion } from "../utils";
 
 // Constants for validation scoring
@@ -354,8 +354,8 @@ function checkCompletenessWarnings(address: ParsedAddress, warnings: ValidationE
 }
 
 function generateSuggestions(address: ParsedAddress, originalInput: string, suggestions: string[]): void {
-  // Suggest adding missing components
-  if (!address.type && address.street) {
+  // Suggest adding missing components; a Japanese address has no street type to add
+  if (!address.type && address.street && address.country !== "JP") {
     suggestions.push("Consider adding street type (St, Ave, Rd, etc.)");
   }
 
