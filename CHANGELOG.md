@@ -4,6 +4,8 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+## 1.2.0 - 2026-10-09
+
 ### Added
 
 - Japanese addresses: `parseLocation` recognises an address written in Japanese (`〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階`) or in romaji (`1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan`) and reads it into the postal code, prefecture, municipality, town, chome, ban, go, building, floor and room, with the prefecture's and municipality's JIS codes and romaji. US and Canadian addresses that only mention a Japanese place, such as `100 Tokyo Ave`, are still read as US and Canadian.
