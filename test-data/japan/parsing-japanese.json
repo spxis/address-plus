@@ -1,0 +1,351 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Parsing Japanese Addresses In Japanese",
+  "description": "Japanese addresses written in Japanese script, read by parseLocation into the Japan fields and the shared ones. Each expected object is matched as a subset of the result.",
+  "tests": {
+    "marunouchi": [
+      {
+        "name": "read the full address with 〒, markers, building and floor",
+        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階",
+        "expected": {
+          "country": "JP",
+          "postalCode": "100-0005",
+          "zip": "100-0005",
+          "prefecture": "東京都",
+          "prefectureCode": "13",
+          "prefectureRomaji": "Tokyo",
+          "state": "13",
+          "municipality": "千代田区",
+          "municipalityCode": "13101",
+          "municipalityRomaji": "Chiyoda-ku",
+          "city": "千代田区",
+          "town": "丸の内",
+          "street": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "block": "1-2-3",
+          "number": "1-2-3",
+          "building": "丸ビル",
+          "place": "丸ビル",
+          "floor": "5"
+        }
+      },
+      {
+        "name": "read the block written with hyphens",
+        "input": "東京都千代田区丸の内1-2-3",
+        "expected": {
+          "prefectureCode": "13",
+          "municipalityCode": "13101",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "block": "1-2-3"
+        }
+      },
+      {
+        "name": "read full-width digits and dashes",
+        "input": "東京都千代田区丸の内１－２－３",
+        "expected": { "municipalityCode": "13101", "town": "丸の内", "block": "1-2-3" }
+      },
+      {
+        "name": "read kanji numerals before the markers",
+        "input": "東京都千代田区丸の内一丁目二番三号",
+        "expected": { "municipalityCode": "13101", "town": "丸の内", "chome": "1", "ban": "2", "go": "3" }
+      },
+      {
+        "name": "read の between the numbers as a dash",
+        "input": "東京都千代田区丸の内1の2の3",
+        "expected": { "municipalityCode": "13101", "town": "丸の内", "block": "1-2-3" }
+      },
+      {
+        "name": "read kanji numerals joined by の",
+        "input": "東京都千代田区丸の内一の二の三",
+        "expected": { "municipalityCode": "13101", "town": "丸の内", "block": "1-2-3" }
+      },
+      {
+        "name": "read a full-width postal code, ideographic spaces and a full-width floor",
+        "input": "〒１００－０００５　東京都千代田区丸の内1-2-3　丸ビル５Ｆ",
+        "expected": {
+          "postalCode": "100-0005",
+          "prefectureCode": "13",
+          "municipalityCode": "13101",
+          "town": "丸の内",
+          "block": "1-2-3",
+          "building": "丸ビル",
+          "floor": "5"
+        }
+      },
+      {
+        "name": "infer Tokyo from the municipality when no prefecture is written",
+        "input": "千代田区丸の内1-2-3",
+        "expected": { "prefecture": "東京都", "prefectureCode": "13", "municipalityCode": "13101", "block": "1-2-3" }
+      },
+      {
+        "name": "read a prefecture written without 都",
+        "input": "東京千代田区丸の内1-1",
+        "expected": { "prefecture": "東京都", "municipalityCode": "13101", "town": "丸の内", "block": "1-1" }
+      }
+    ],
+    "postalCode": [
+      {
+        "name": "read a postal code with no hyphen",
+        "input": "〒1000005 東京都千代田区丸の内1-2-3",
+        "expected": { "postalCode": "100-0005", "zipValid": true }
+      },
+      {
+        "name": "read 〒 with no space before the prefecture",
+        "input": "〒100-0005東京都千代田区丸の内1-2-3",
+        "expected": { "postalCode": "100-0005", "prefecture": "東京都", "town": "丸の内" }
+      },
+      {
+        "name": "read a postal code at the end",
+        "input": "東京都港区六本木6-10-1, 106-6108",
+        "expected": { "postalCode": "106-6108", "municipalityCode": "13103", "town": "六本木", "block": "6-10-1" }
+      },
+      {
+        "name": "read a postal code with no mark at the start",
+        "input": "100-0005 東京都千代田区丸の内1-2-3",
+        "expected": { "postalCode": "100-0005", "municipalityCode": "13101" }
+      },
+      {
+        "name": "use the postal code for the prefecture when nothing else names it",
+        "input": "〒100-0005 丸の内1-2-3",
+        "expected": { "postalCode": "100-0005", "prefecture": "東京都", "town": "丸の内", "block": "1-2-3" }
+      }
+    ],
+    "country": [
+      {
+        "name": "take 日本 off the start",
+        "input": "日本 東京都港区六本木6-10-1",
+        "expected": { "prefectureCode": "13", "municipalityCode": "13103", "town": "六本木", "block": "6-10-1" }
+      },
+      {
+        "name": "take 日本 off the end rather than read it as a building",
+        "input": "東京都港区六本木6-10-1 日本",
+        "expected": { "municipalityCode": "13103", "block": "6-10-1", "building": null }
+      },
+      {
+        "name": "keep 日本橋 as a town, not the country",
+        "input": "東京都中央区日本橋1-1",
+        "expected": { "municipalityCode": "13102", "town": "日本橋", "block": "1-1" }
+      }
+    ],
+    "municipalities": [
+      {
+        "name": "read a designated city's ward",
+        "input": "北海道札幌市中央区北一条西3丁目",
+        "expected": {
+          "municipality": "札幌市中央区",
+          "municipalityCode": "01101",
+          "municipalityRomaji": "Sapporo-shi Chuo-ku",
+          "town": "北一条西",
+          "chome": "3",
+          "ban": null,
+          "block": "3"
+        }
+      },
+      {
+        "name": "read a designated city without its ward, and numbers inside the town's name",
+        "input": "札幌市北3条西6丁目",
+        "expected": {
+          "prefecture": "北海道",
+          "municipality": "札幌市",
+          "municipalityCode": "01100",
+          "municipalityRomaji": "Sapporo-shi",
+          "town": "北3条西",
+          "chome": "6"
+        }
+      },
+      {
+        "name": "read a town written with its district",
+        "input": "北海道石狩郡当別町",
+        "expected": { "municipality": "石狩郡当別町", "municipalityCode": "01303", "town": null, "block": null }
+      },
+      {
+        "name": "read a town written without its district",
+        "input": "北海道当別町",
+        "expected": { "municipality": "石狩郡当別町", "municipalityCode": "01303" }
+      },
+      {
+        "name": "read a Kyoto street name as the town and a lone number as the ban",
+        "input": "京都府京都市中京区寺町通御池上る上本能寺前町488",
+        "expected": {
+          "municipalityCode": "26104",
+          "town": "寺町通御池上る上本能寺前町",
+          "ban": "488",
+          "chome": null,
+          "block": "488"
+        }
+      },
+      {
+        "name": "read a municipality in hiragana",
+        "input": "埼玉県さいたま市大宮区大門町1-1",
+        "expected": {
+          "municipality": "さいたま市大宮区",
+          "municipalityCode": "11103",
+          "town": "大門町",
+          "block": "1-1"
+        }
+      },
+      {
+        "name": "read a town in hiragana",
+        "input": "沖縄県那覇市おもろまち1-1-1",
+        "expected": { "municipalityCode": "47201", "town": "おもろまち", "block": "1-1-1" }
+      },
+      {
+        "name": "read a pair after a rural town without 大字 as chome and ban",
+        "input": "山梨県北杜市大泉町谷戸2-3",
+        "expected": { "municipalityCode": "19209", "town": "大泉町谷戸", "chome": "2", "ban": "3", "block": "2-3" }
+      },
+      {
+        "name": "read a pair after a town named with 大字 as ban and go",
+        "input": "埼玉県比企郡小川町大字下里12-3",
+        "expected": {
+          "municipality": "比企郡小川町",
+          "town": "大字下里",
+          "ban": "12",
+          "go": "3",
+          "chome": null,
+          "block": "12-3"
+        }
+      },
+      {
+        "name": "read a pair whose first number is too high for a chome as ban and go",
+        "input": "奈良県大和郡山市北郡山町248-4",
+        "expected": {
+          "municipality": "大和郡山市",
+          "municipalityCode": "29203",
+          "ban": "248",
+          "go": "4",
+          "chome": null
+        }
+      },
+      {
+        "name": "prefer the longest name: the ward over its city",
+        "input": "大阪府大阪市北区梅田1-1",
+        "expected": { "municipality": "大阪市北区", "municipalityCode": "27127", "town": "梅田" }
+      },
+      {
+        "name": "read 大阪狭山市 whole rather than 大阪 and a remainder",
+        "input": "大阪狭山市狭山1-1",
+        "expected": {
+          "prefecture": "大阪府",
+          "municipality": "大阪狭山市",
+          "municipalityCode": "27231",
+          "town": "狭山"
+        }
+      },
+      {
+        "name": "read a city with 郡 in its own name",
+        "input": "愛知県蒲郡市旭町1-1",
+        "expected": { "municipality": "蒲郡市", "municipalityCode": "23214", "town": "旭町" }
+      },
+      {
+        "name": "use the postal code to choose between two cities of one name",
+        "input": "〒183-0023 府中市宮町1-1",
+        "expected": { "prefecture": "東京都", "municipality": "府中市", "municipalityCode": "13206" }
+      },
+      {
+        "name": "leave a name two prefectures share unsettled when nothing chooses",
+        "input": "府中市宮町1-1",
+        "expected": { "municipality": "府中市", "municipalityCode": null, "prefecture": null, "town": "宮町" }
+      },
+      {
+        "name": "keep a municipality named in another prefecture, for validation to report",
+        "input": "東京都大阪市北区梅田1-1",
+        "expected": { "prefecture": "東京都", "municipality": "大阪市北区", "municipalityCode": "27127" }
+      },
+      {
+        "name": "keep a municipality not in the table as written",
+        "input": "東京都架空市本町1-1",
+        "expected": { "prefecture": "東京都", "municipality": "架空市", "municipalityCode": null, "town": "本町" }
+      }
+    ],
+    "townNames": [
+      {
+        "name": "keep the kanji numeral in 三番町",
+        "input": "東京都千代田区三番町6-2",
+        "expected": { "town": "三番町", "block": "6-2" }
+      },
+      {
+        "name": "keep the kanji numeral in 麻布十番 while reading the block after it",
+        "input": "東京都港区麻布十番二丁目三番四号",
+        "expected": { "town": "麻布十番", "chome": "2", "ban": "3", "go": "4" }
+      },
+      {
+        "name": "keep the kanji numeral in 三ノ輪",
+        "input": "東京都台東区三ノ輪1-1",
+        "expected": { "town": "三ノ輪", "block": "1-1" }
+      },
+      {
+        "name": "read 番地 after a chome",
+        "input": "北海道札幌市中央区北1条西2丁目1番地",
+        "expected": { "town": "北1条西", "chome": "2", "ban": "1", "go": null }
+      }
+    ],
+    "buildings": [
+      {
+        "name": "read a building with no floor",
+        "input": "東京都新宿区西新宿2-8-1 東京都庁第一本庁舎",
+        "expected": {
+          "municipalityCode": "13104",
+          "town": "西新宿",
+          "block": "2-8-1",
+          "building": "東京都庁第一本庁舎",
+          "floor": null
+        }
+      },
+      {
+        "name": "read a building, a floor written F and a room written 号室",
+        "input": "大阪府大阪市北区梅田3-1-3 ノースゲートビル 15F 1501号室",
+        "expected": {
+          "municipalityCode": "27127",
+          "town": "梅田",
+          "block": "3-1-3",
+          "building": "ノースゲートビル",
+          "floor": "15",
+          "room": "1501"
+        }
+      },
+      {
+        "name": "read a building on the same line with no space",
+        "input": "〒100-0005東京都千代田区丸の内1-2-3丸ビル5階",
+        "expected": { "town": "丸の内", "block": "1-2-3", "building": "丸ビル", "floor": "5" }
+      },
+      {
+        "name": "read 号 after a building as the room",
+        "input": "東京都千代田区丸の内1-2-3丸ビル501号",
+        "expected": { "go": "3", "building": "丸ビル", "room": "501" }
+      },
+      {
+        "name": "read 号 after the block as the go",
+        "input": "東京都千代田区丸の内2丁目7番3号",
+        "expected": { "chome": "2", "ban": "7", "go": "3", "room": null, "building": null }
+      },
+      {
+        "name": "read a basement floor",
+        "input": "東京都千代田区丸の内1-2-3 丸ビル 地下1階",
+        "expected": { "building": "丸ビル", "floor": "B1" }
+      },
+      {
+        "name": "keep the long-vowel mark in a building's name while reading it as a dash between digits",
+        "input": "東京都港区台場1ー2ー3 ハーバーランド",
+        "expected": { "town": "台場", "block": "1-2-3", "building": "ハーバーランド" }
+      },
+      {
+        "name": "read a fourth number after the block as the room",
+        "input": "東京都千代田区丸の内1-2-3-405",
+        "expected": { "block": "1-2-3", "room": "405" }
+      }
+    ],
+    "rejected": [
+      {
+        "name": "return null for Japanese text that names no place",
+        "input": "こんにちは",
+        "expected": null
+      }
+    ]
+  }
+}

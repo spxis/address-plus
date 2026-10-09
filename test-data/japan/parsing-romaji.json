@@ -1,0 +1,202 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Parsing Japanese Addresses In Romaji",
+  "description": "Japanese addresses written in English order and romaji, read by parseLocation, and US and Canadian addresses that only mention a Japanese place name, which must stay US and Canadian. Each expected object is matched as a subset of the result; a null value means the field is absent.",
+  "tests": {
+    "romaji": [
+      {
+        "name": "read block, town, ward, prefecture, postal code and country",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+        "expected": {
+          "country": "JP",
+          "postalCode": "100-0005",
+          "prefecture": "東京都",
+          "prefectureCode": "13",
+          "prefectureRomaji": "Tokyo",
+          "municipality": "千代田区",
+          "municipalityCode": "13101",
+          "municipalityRomaji": "Chiyoda-ku",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "block": "1-2-3"
+        }
+      },
+      {
+        "name": "read a building and floor before the street",
+        "input": "Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+        "expected": {
+          "postalCode": "100-0005",
+          "municipalityCode": "13101",
+          "town": "Marunouchi",
+          "block": "1-2-3",
+          "building": "Marunouchi Bldg",
+          "floor": "5"
+        }
+      },
+      {
+        "name": "read the chome written after the town",
+        "input": "2-1 Kasumigaseki 1-chome, Chiyoda-ku, Tokyo",
+        "expected": {
+          "municipalityCode": "13101",
+          "town": "Kasumigaseki",
+          "chome": "1",
+          "ban": "2",
+          "go": "1",
+          "block": "1-2-1"
+        }
+      },
+      {
+        "name": "read a Sapporo town with its jo and a ward written before its city",
+        "input": "Kita 1-jo Nishi 3-chome, Chuo-ku, Sapporo, Hokkaido 060-0001",
+        "expected": {
+          "postalCode": "060-0001",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "municipalityCode": "01101",
+          "town": "Kita 1-jo Nishi",
+          "chome": "3",
+          "block": "3"
+        }
+      },
+      {
+        "name": "read a prefecture written with -to",
+        "input": "6-10-1 Roppongi, Minato-ku, Tokyo-to",
+        "expected": { "prefectureCode": "13", "municipalityCode": "13103", "town": "Roppongi", "block": "6-10-1" }
+      },
+      {
+        "name": "read Minato City and Tokyo Metropolis",
+        "input": "6-10-1 Roppongi, Minato City, Tokyo Metropolis 106-6108",
+        "expected": {
+          "postalCode": "106-6108",
+          "prefectureCode": "13",
+          "municipalityCode": "13103",
+          "town": "Roppongi"
+        }
+      },
+      {
+        "name": "read a ward and its city in two parts",
+        "input": "1-1 Daimoncho, Omiya-ku, Saitama-shi, Saitama 330-0854, Japan",
+        "expected": {
+          "postalCode": "330-0854",
+          "prefectureCode": "11",
+          "municipality": "さいたま市大宮区",
+          "municipalityCode": "11103",
+          "town": "Daimoncho",
+          "block": "1-1"
+        }
+      },
+      {
+        "name": "read Osaka Prefecture",
+        "input": "3-1-3 Umeda, Kita-ku, Osaka-shi, Osaka Prefecture 530-0001",
+        "expected": {
+          "postalCode": "530-0001",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "municipalityCode": "27127",
+          "town": "Umeda",
+          "block": "3-1-3"
+        }
+      },
+      {
+        "name": "read Pref. and a ward of Sendai",
+        "input": "1-1 Omachi, Aoba-ku, Sendai, Miyagi Pref. 980-0804",
+        "expected": { "prefecture": "宮城県", "municipalityCode": "04101", "town": "Omachi", "block": "1-1" }
+      },
+      {
+        "name": "read -fu and macrons",
+        "input": "1-2 Umeda, Kita-ku, Ōsaka-shi, Ōsaka-fu",
+        "expected": { "prefecture": "大阪府", "municipalityCode": "27127", "town": "Umeda", "block": "1-2" }
+      },
+      {
+        "name": "read -ken",
+        "input": "1-2 Honcho, Naka-ku, Yokohama-shi, Kanagawa-ken 231-0005",
+        "expected": {
+          "prefecture": "神奈川県",
+          "municipality": "横浜市中区",
+          "municipalityCode": "14104",
+          "town": "Honcho"
+        }
+      },
+      {
+        "name": "read Hokkaido-do and a designated city without its ward",
+        "input": "Sapporo, Hokkaido-do",
+        "expected": { "prefecture": "北海道", "municipality": "札幌市", "municipalityCode": "01100" }
+      },
+      {
+        "name": "read a town without its district",
+        "input": "Tobetsu-cho, Hokkaido",
+        "expected": { "municipality": "石狩郡当別町", "municipalityCode": "01303" }
+      },
+      {
+        "name": "read Gunma, which the table spells Gumma",
+        "input": "1-1-1 Otemachi, Maebashi, Gunma 371-0026",
+        "expected": { "prefecture": "群馬県", "municipality": "前橋市", "municipalityCode": "10201" }
+      },
+      {
+        "name": "read a room written Room",
+        "input": "North Gate Bldg 15F, Room 1501, 3-1-3 Umeda, Kita-ku, Osaka 530-0001",
+        "expected": { "building": "North Gate Bldg", "floor": "15", "room": "1501", "municipalityCode": "27127" }
+      },
+      {
+        "name": "read a postal code with no hyphen at the end",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 1000005",
+        "expected": { "postalCode": "100-0005", "municipalityCode": "13101" }
+      }
+    ],
+    "notJapanese": [
+      {
+        "name": "keep a Boston address on Japan Street American",
+        "input": "12 Japan St, Boston, MA 02110",
+        "expected": { "country": "US", "number": "12", "city": "Boston", "state": "MA", "zip": "02110" }
+      },
+      {
+        "name": "keep a Brooklyn address on Tokyo Avenue American",
+        "input": "100 Tokyo Ave, Apt 4, Brooklyn, NY 11201",
+        "expected": { "country": "US", "number": "100", "city": "Brooklyn", "state": "NY", "zip": "11201" }
+      },
+      {
+        "name": "keep a Toronto address on Osaka Drive Canadian",
+        "input": "5 Osaka Dr, Toronto ON M5V 3A8",
+        "expected": { "country": "CA", "number": "5", "city": "Toronto", "state": "ON" }
+      }
+    ],
+    "snakeCase": [
+      {
+        "name": "return the Japan fields in snake_case",
+        "input": "〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階",
+        "options": { "useSnakeCase": true },
+        "expected": {
+          "postal_code": "100-0005",
+          "prefecture": "東京都",
+          "prefecture_code": "13",
+          "prefecture_romaji": "Tokyo",
+          "municipality_code": "13101",
+          "municipality_romaji": "Chiyoda-ku",
+          "zip_valid": true,
+          "postal_type": "postal",
+          "block": "1-2-3",
+          "building": "丸ビル",
+          "floor": "5",
+          "postalCode": null,
+          "municipalityCode": null
+        }
+      }
+    ],
+    "countryOption": [
+      {
+        "name": "parse as Japanese when country JP is given",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo",
+        "options": { "country": "JP" },
+        "expected": { "country": "JP", "municipalityCode": "13101" }
+      },
+      {
+        "name": "parse as American when country US is given, whatever it mentions",
+        "input": "1 Tokyo-to Ave, Springfield, IL 62701",
+        "options": { "country": "US" },
+        "expected": { "country": "US" }
+      }
+    ]
+  }
+}

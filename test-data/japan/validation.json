@@ -1,0 +1,85 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Validating Japanese Addresses",
+  "description": "validateAddress on Japanese addresses: a postal code that delivers to another prefecture, a municipality in another prefecture, one not in the table, and one two prefectures share. A null code means no Japan-specific finding is expected.",
+  "tests": {
+    "findings": [
+      {
+        "name": "warn when the postal code delivers to another prefecture",
+        "input": "〒530-0001 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "isValid": true,
+          "code": "POSTAL_REGION_MISMATCH",
+          "severity": "warning",
+          "message": "Postal code 530-0001 belongs to 大阪府, not 東京都"
+        }
+      },
+      {
+        "name": "make the postal mismatch an error with strict postal validation",
+        "input": "〒530-0001 東京都千代田区丸の内1-2-3",
+        "options": { "strictPostalValidation": true },
+        "expected": {
+          "isValid": false,
+          "code": "POSTAL_REGION_MISMATCH",
+          "severity": "error",
+          "message": "Postal code 530-0001 belongs to 大阪府, not 東京都"
+        }
+      },
+      {
+        "name": "warn when the municipality is in another prefecture",
+        "input": "東京都大阪市北区梅田1-1",
+        "expected": {
+          "isValid": true,
+          "code": "MUNICIPALITY_PREFECTURE_MISMATCH",
+          "severity": "warning",
+          "message": "大阪市北区 is in 大阪府, not 東京都"
+        }
+      },
+      {
+        "name": "warn when the municipality is not in the table",
+        "input": "東京都架空市本町1-1",
+        "expected": {
+          "isValid": true,
+          "code": "UNRECOGNIZED_MUNICIPALITY",
+          "severity": "warning",
+          "message": "架空市 is not a municipality in the table"
+        }
+      },
+      {
+        "name": "warn when the municipality's name is shared and nothing chooses",
+        "input": "府中市宮町1-1",
+        "expected": {
+          "isValid": true,
+          "code": "AMBIGUOUS_MUNICIPALITY",
+          "severity": "warning",
+          "message": "府中市 could be in 東京都 or 広島県; add the prefecture or postal code"
+        }
+      },
+      {
+        "name": "warn when no postal code begins with the first three digits",
+        "input": "〒000-0000 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "isValid": true,
+          "code": "UNRECOGNIZED_POSTAL_CODE",
+          "severity": "warning",
+          "message": "No Japanese postal code begins with 000"
+        }
+      },
+      {
+        "name": "accept a correct address with no region finding",
+        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階",
+        "expected": { "isValid": true, "code": null, "noWarnings": true }
+      },
+      {
+        "name": "accept a correct romaji address with no region finding",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+        "expected": { "isValid": true, "code": null, "noWarnings": true }
+      },
+      {
+        "name": "accept a postal code on the far side of a border prefix",
+        "input": "〒311-4411 栃木県芳賀郡茂木町桧山123",
+        "expected": { "isValid": true, "code": null }
+      }
+    ]
+  }
+}

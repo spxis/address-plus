@@ -1,0 +1,126 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Normalising Japanese Address Text",
+  "description": "The text a Japanese address is reduced to before parsing: one width of digit, one kind of dash and space, and block numbers as digits, with the kanji numerals and long-vowel marks that belong to names left alone. Also which texts are recognised as Japanese addresses.",
+  "tests": {
+    "normalizeText": [
+      {
+        "name": "fold widths, tidy spaces and read kanji numerals",
+        "input": "〒１００－０００５　東京都千代田区丸の内一丁目二番三号",
+        "expected": "〒100-0005 東京都千代田区丸の内1丁目2番3号"
+      },
+      {
+        "name": "write 1の2の3 with dashes",
+        "input": "丸の内1の2の3",
+        "expected": "丸の内1-2-3"
+      },
+      {
+        "name": "write a long-vowel mark between digits as a dash",
+        "input": "台場1ー2ー3",
+        "expected": "台場1-2-3"
+      },
+      {
+        "name": "keep the long-vowel mark inside a name",
+        "input": "ハーバーランド1-1",
+        "expected": "ハーバーランド1-1"
+      },
+      {
+        "name": "fold half-width katakana to full-width",
+        "input": "ﾊｰﾊﾞｰﾗﾝﾄﾞ",
+        "expected": "ハーバーランド"
+      },
+      {
+        "name": "write a full-width F as F",
+        "input": "丸ビル５Ｆ",
+        "expected": "丸ビル5F"
+      }
+    ],
+    "kanjiNumerals": [
+      {
+        "name": "read chome, ban and go",
+        "input": "一丁目二番三号",
+        "expected": "1丁目2番3号"
+      },
+      {
+        "name": "read tens and hundreds",
+        "input": "二十三丁目四百八十八番地",
+        "expected": "23丁目488番地"
+      },
+      {
+        "name": "read numerals written digit by digit",
+        "input": "一〇一番地",
+        "expected": "101番地"
+      },
+      {
+        "name": "read a floor",
+        "input": "丸ビル五階",
+        "expected": "丸ビル5階"
+      },
+      {
+        "name": "keep the numeral in 北一条西 while reading the chome",
+        "input": "北一条西三丁目",
+        "expected": "北一条西3丁目"
+      },
+      {
+        "name": "keep the numeral in 三番町",
+        "input": "三番町",
+        "expected": "三番町"
+      },
+      {
+        "name": "keep the numeral in 麻布十番 before a chome",
+        "input": "麻布十番二丁目",
+        "expected": "麻布十番2丁目"
+      },
+      {
+        "name": "keep the numeral in 一ノ瀬",
+        "input": "一ノ瀬",
+        "expected": "一ノ瀬"
+      },
+      {
+        "name": "keep the numeral in 三軒茶屋",
+        "input": "三軒茶屋一丁目",
+        "expected": "三軒茶屋1丁目"
+      },
+      {
+        "name": "read a ban at the end after a chome",
+        "input": "丸の内一丁目二",
+        "expected": "丸の内1丁目2"
+      }
+    ],
+    "looksJapanese": [
+      { "name": "recognise kanji", "input": "東京都千代田区", "expected": true },
+      { "name": "recognise the postal mark alone", "input": "〒100-0005", "expected": true },
+      {
+        "name": "recognise romaji ending in Japan",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo, Japan",
+        "expected": true
+      },
+      {
+        "name": "recognise a prefecture beside a postal code",
+        "input": "1-2-3 Marunouchi, Tokyo 100-0005",
+        "expected": true
+      },
+      {
+        "name": "recognise a prefecture beside a designator",
+        "input": "6-10-1 Roppongi, Minato-ku, Tokyo",
+        "expected": true
+      },
+      { "name": "not take a US street named Japan", "input": "12 Japan St, Boston, MA 02110", "expected": false },
+      {
+        "name": "not take a US street named Tokyo",
+        "input": "100 Tokyo Ave, Apt 4, Brooklyn, NY 11201",
+        "expected": false
+      },
+      {
+        "name": "not take a Canadian street named Osaka",
+        "input": "5 Osaka Dr, Toronto ON M5V 3A8",
+        "expected": false
+      },
+      {
+        "name": "not take a ZIP+4 for a Japanese postal code",
+        "input": "1 Nara Way, Austin, TX 78701-1234",
+        "expected": false
+      }
+    ]
+  }
+}
