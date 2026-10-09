@@ -22,7 +22,8 @@ describe("the US, Canadian and Japanese corpora with the country modules handed 
       }
 
       expect(changed).toEqual([]);
-    });
+      // Each corpus is parsed twice over, which takes longer than the default five seconds on a busy machine.
+    }, 60_000);
   }
 });
 
