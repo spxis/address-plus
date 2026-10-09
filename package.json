@@ -1,6 +1,6 @@
 {
   "name": "@spxis/address-plus",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A modern, TypeScript‑first address parser and normalizer for US and Canada. Supports USPS and Canada Post formats, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.",
   "type": "module",
   "main": "dist/index.js",
@@ -13,6 +13,7 @@
       "require": "./dist/index.cjs"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -21,7 +22,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:types": "tsd",
+    "test:types": "tsd --files src/__tests__/types.test-d.ts",
     "test:track": "node test-management/track-tests.js",
     "test:regression": "node test-management/track-tests.js",
     "dev": "tsup --watch",

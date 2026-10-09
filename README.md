@@ -1,27 +1,17 @@
 # address-plus
 
-A modern, TypeScript‑first address parser and normalizer for US and Canada. Suppo// Typed intersection parsing
-const intersection: ParsedIntersection | null = parseIntersection('5th St and Broadway');
-
-// Batch processing with TypeScript
-import { parseLocationsBatch, type BatchParseResult } from '@spxis/address-plus';
-
-const addresses = ['123 Main St, NY 10001', '456 Oak Ave, CA 90210'];
-const result: BatchParseResult<ParsedAddress> = parseLocationsBatch(addresses);
-
-console.log(`Processed ${result.stats.successful}/${result.stats.total} addresses`);
-
-````s USPS and Canada Post formats, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
+A modern, TypeScript‑first address parser and normalizer for US and Canada. Supports USPS and Canada Post formats, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
 
 ## Features
 
 - **US Address Parsing**: Full USPS format support with street types, directionals, and secondary units
 - **Canadian Address Parsing**: Canada Post bilingual support (English/French)
 - **Facility Detection**: Extracts business/landmark names with various separators
-- **Intersection Parsing**: Handles street intersections with multiple formats
+- **Intersection Parsing**: Handles street intersections with multiple formats, and knows "Newfoundland and Labrador" is a province, not two streets
+- **Postal Codes Know Their Region**: Finds the state or province a ZIP or postal code belongs to, lists the codes a region uses, and flags an address whose code names another region
 - **Comprehensive Address Components**: Numbers, streets, units, cities, states, postal codes
 - **Batch Processing**: Efficiently process multiple addresses with performance statistics
-- **Zero Dependencies**: Lightweight and fast
+- **One Small Dependency**: `fast-levenshtein`, for fuzzy state and province names
 - **TypeScript First**: Full type definitions included
 - **Drop-in Replacement**: API compatible with parse-address
 
@@ -36,7 +26,7 @@ pnpm add @spxis/address-plus
 
 # yarn
 yarn add @spxis/address-plus
-````
+```
 
 ## Usage
 
@@ -331,6 +321,36 @@ The parser provides these validation-related fields:
 - Data cleaning and validation workflows
 - Parsing addresses with typos or non-standard formatting
 - Flexible input handling while maintaining validation awareness
+
+### Which Region A Code Belongs To
+
+A Canadian postal code's first letter, and a US ZIP code's first three digits, name the province or state they belong to. The lookups go both ways:
+
+```javascript
+import {
+  getProvinceFromPostalCode,
+  getStateFromZip,
+  getPostalPrefixesForProvince,
+  getZipPrefixesForState,
+} from "@spxis/address-plus";
+
+getProvinceFromPostalCode("R8M 8G0"); // 'MB'
+getStateFromZip("90210"); // 'CA'
+getStateFromZip("24926-5858"); // 'WV'
+
+// Every code starting with one of these belongs to that region.
+getPostalPrefixesForProvince("QC"); // ['G', 'H', 'J']
+getPostalPrefixesForProvince("NU"); // ['X0A', 'X0B', 'X0C'] (the territories share X)
+getZipPrefixesForState("RI"); // ['028', '029']
+getZipPrefixesForState("GU"); // ['96910', …, '96932'] (five digits where a region owns part of a block)
+```
+
+`validateAddress` uses them: an address whose code belongs to another region gets a `POSTAL_REGION_MISMATCH` warning, or an error with `strictPostalValidation: true`.
+
+```javascript
+validateAddress("1 Main St, Beverly Hills, NY 90210").warnings;
+// [{ field: 'zip', code: 'POSTAL_REGION_MISMATCH', message: 'ZIP code 90210 belongs to CA, not NY', severity: 'warning' }]
+```
 
 ## Batch Processing
 

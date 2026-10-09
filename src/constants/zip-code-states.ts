@@ -226,5 +226,39 @@ function getStateFromZip(zip: string | number): StateCode | undefined {
 // getStateFromZip('34012') -> 'AA'
 // getStateFromZip('96205') -> 'AP'
 
-export { getStateFromZip };
+const pad = (value: number, length: number): string => String(value).padStart(length, "0");
+
+// The ZIP code prefixes a state or territory uses, the reverse of getStateFromZip.
+// Three digits where a whole block of a hundred belongs to it, five where only part of one does
+// (Guam's 96910–96932, for one). Every ZIP starting with one of them resolves to that state.
+// @param state - State or territory abbreviation (e.g., "MA")
+// @returns Prefixes in ascending order (e.g., ["010", …, "027"]), or an empty array for an unknown state
+// @example getZipPrefixesForState('RI') → ['028', '029']
+function getZipPrefixesForState(state: string): string[] {
+  const code = (state ?? "").trim().toUpperCase();
+  const prefixes: string[] = [];
+
+  for (const { start, end, code: owner } of ZIP5_EXACT_OVERRIDES) {
+    if (owner !== code) continue;
+    const whole = start.endsWith("00") && end.endsWith("99");
+    const [from, to, length] = whole
+      ? [Number(start.slice(0, 3)), Number(end.slice(0, 3)), 3]
+      : [Number(start), Number(end), 5];
+    for (let n = from; n <= to; n++) prefixes.push(pad(n, length));
+  }
+
+  for (const { start, end, code: owner } of ZIP3_RANGES) {
+    if (owner !== code) continue;
+    for (let n = Number(start); n <= Number(end); n++) {
+      const prefix = pad(n, 3);
+      // A block an override hands to someone else (967 is Hawaii's, but 96799 is American Samoa's) stays,
+      // since most of it is still this state's; a block wholly overridden does not.
+      if (getStateFromZip(`${prefix}50`) === code || getStateFromZip(`${prefix}00`) === code) prefixes.push(prefix);
+    }
+  }
+
+  return [...new Set(prefixes)].sort();
+}
+
+export { getStateFromZip, getZipPrefixesForState };
 export type { StateCode };

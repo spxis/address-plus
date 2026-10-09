@@ -48,7 +48,13 @@ export type { CountryCode } from "./countries";
 export { DIRECTIONAL_MAP, DIRECTION_EXPANSIONS } from "./directionals";
 export { FRENCH_PREPOSITIONS } from "./french-prepositions";
 export { COMMON_PARSER_PATTERNS, INTERSECTION_PATTERNS, PO_BOX_PATTERNS } from "./parser-patterns";
-export { POSTAL_CODE_TO_PROVINCE, TERRITORY_POSTAL_RANGES, getProvinceFromPostalCode } from "./postal-code-provinces";
+export {
+  POSTAL_CODE_TO_PROVINCE,
+  TERRITORY_POSTAL_PREFIXES,
+  TERRITORY_POSTAL_RANGES,
+  getPostalPrefixesForProvince,
+  getProvinceFromPostalCode,
+} from "./postal-code-provinces";
 export { SECONDARY_UNIT_TYPES } from "./secondary-unit-types";
 export { STREET_NAME_ACRONYMS } from "./street-name-acronyms";
 export { STREET_TYPE_PROPER_CASE } from "./street-type-proper-case";
@@ -61,3 +67,5 @@ export {
   normalizeStateProvinceName,
 } from "./us-states";
 export { STREET_TYPE_EXPANSIONS, US_STREET_TYPES } from "./us-street-types";
+export { getStateFromZip, getZipPrefixesForState } from "./zip-code-states";
+export type { StateCode } from "./zip-code-states";

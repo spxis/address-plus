@@ -1,0 +1,134 @@
+{
+  "$schema": "../../schemas/test-file.json",
+  "name": "Postal Codes And Their Regions",
+  "description": "ZIP and postal codes resolved to their state or province and back, region names containing 'and', and addresses whose code names another region. The mismatched records are from REST in Pieces' seed-1 fixtures, which is where these faults were found.",
+  "tests": {
+    "zipToState": [
+      { "name": "resolve a Beverly Hills ZIP to California", "input": "90210", "expected": "CA" },
+      { "name": "resolve ZIP+4 by its first five digits", "input": "24926-5858", "expected": "WV" },
+      { "name": "resolve the IRS block to New York", "input": "00501", "expected": "NY" },
+      { "name": "resolve Guam before the Hawaii block", "input": "96910", "expected": "GU" },
+      { "name": "resolve American Samoa inside the Hawaii block", "input": "96799", "expected": "AS" },
+      { "name": "return nothing for a malformed ZIP", "input": "9021", "expected": null }
+    ],
+    "prefixesForState": [
+      { "name": "list Rhode Island's two blocks", "input": "RI", "expected": ["028", "029"] },
+      { "name": "list Puerto Rico's three blocks", "input": "PR", "expected": ["006", "007", "009"] },
+      {
+        "name": "keep Hawaii's blocks though one ZIP in them is American Samoa's",
+        "input": "HI",
+        "expected": ["967", "968"]
+      },
+      {
+        "name": "list Guam's exact ZIPs, since it owns only part of a block",
+        "input": "GU",
+        "expectedLength": 23,
+        "expectedFirst": "96910"
+      },
+      { "name": "accept a lower-case abbreviation", "input": "ri", "expected": ["028", "029"] },
+      { "name": "return nothing for an unknown state", "input": "XX", "expected": [] }
+    ],
+    "prefixesForProvince": [
+      { "name": "list Quebec's three letters", "input": "QC", "expected": ["G", "H", "J"] },
+      { "name": "list Ontario's five letters", "input": "ON", "expected": ["K", "L", "M", "N", "P"] },
+      {
+        "name": "name Nunavut by three characters, since it shares X",
+        "input": "NU",
+        "expected": ["X0A", "X0B", "X0C"]
+      },
+      {
+        "name": "name the Northwest Territories by three characters",
+        "input": "NT",
+        "expected": ["X0E", "X0G", "X1A"]
+      },
+      { "name": "list Yukon's letter", "input": "YT", "expected": ["Y"] },
+      { "name": "return nothing for an unknown province", "input": "ZZ", "expected": [] }
+    ],
+    "regionConnectors": [
+      {
+        "name": "read an address in Newfoundland and Labrador as an address, not an intersection",
+        "input": "4546 Marcos Junction, Pearlworth, Newfoundland and Labrador A1C 8G0",
+        "expected": {
+          "number": "4546",
+          "street": "Marcos",
+          "type": "Jct",
+          "city": "Pearlworth",
+          "state": "NL",
+          "zip": "A1C 8G0"
+        }
+      },
+      {
+        "name": "read Newfoundland & Labrador the same way",
+        "input": "12 Water St, St. John's, Newfoundland & Labrador A1C 1A1",
+        "expected": {
+          "number": "12",
+          "street": "Water",
+          "type": "St",
+          "city": "St. John's",
+          "state": "NL",
+          "zip": "A1C 1A1"
+        }
+      },
+      {
+        "name": "still read two streets joined by 'and' as an intersection",
+        "input": "5th St and Broadway",
+        "expected": { "street1": "5th", "type1": "St", "street2": "Broadway" }
+      },
+      {
+        "name": "still read an intersection in Newfoundland and Labrador as one",
+        "input": "Main St & 2nd Ave, Gander, Newfoundland and Labrador",
+        "expected": {
+          "street1": "Main",
+          "type1": "St",
+          "street2": "2nd",
+          "type2": "Ave",
+          "city": "Gander",
+          "state": "NL"
+        }
+      },
+      {
+        "name": "read an intersection joined by 'and' in Newfoundland and Labrador",
+        "input": "Main St and 2nd Ave, Gander, Newfoundland and Labrador",
+        "expected": { "street1": "Main", "street2": "2nd", "type2": "Ave", "state": "NL" }
+      }
+    ],
+    "regionMismatch": [
+      {
+        "name": "warn when a Manitoba postal code is given for Newfoundland and Labrador",
+        "input": "4546 Marcos Junction, Pearlworth, Newfoundland and Labrador R8M 8G0",
+        "expected": { "isValid": true, "severity": "warning", "message": "Postal code R8M 8G0 belongs to MB, not NL" }
+      },
+      {
+        "name": "warn when a PEI postal code is given for New Brunswick",
+        "input": "78079 Brakus Lake, Gananoque, New Brunswick C0J 6W2",
+        "expected": { "isValid": true, "severity": "warning", "message": "Postal code C0J 6W2 belongs to PE, not NB" }
+      },
+      {
+        "name": "warn when a California ZIP is given for New York",
+        "input": "1 Main St, Beverly Hills, NY 90210",
+        "expected": { "isValid": true, "severity": "warning", "message": "ZIP code 90210 belongs to CA, not NY" }
+      },
+      {
+        "name": "fail a mismatch under strict postal validation",
+        "input": "4546 Marcos Junction, Pearlworth, NL R8M 8G0",
+        "options": { "strictPostalValidation": true },
+        "expected": { "isValid": false, "severity": "error", "message": "Postal code R8M 8G0 belongs to MB, not NL" }
+      },
+      {
+        "name": "accept a code that belongs to its province",
+        "input": "12 Water St, St. John's, NL A1C 1A1",
+        "expected": { "isValid": true, "severity": null }
+      },
+      {
+        "name": "accept a code that belongs to its state",
+        "input": "1 Main St, Beverly Hills, CA 90210",
+        "expected": { "isValid": true, "severity": null }
+      },
+      {
+        "name": "accept a Nunavut code",
+        "input": "5 Main St, Iqaluit, NU X0A 0H0",
+        "expected": { "isValid": true, "severity": null }
+      }
+    ]
+  }
+}

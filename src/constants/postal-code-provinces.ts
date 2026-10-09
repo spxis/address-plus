@@ -89,4 +89,31 @@ function getProvinceFromPostalCode(postalCode: string): string | null {
   return province || null;
 }
 
-export { POSTAL_CODE_TO_PROVINCE, TERRITORY_POSTAL_RANGES, getProvinceFromPostalCode };
+// The territories share X, so each one's codes are named by their first three characters.
+const TERRITORY_POSTAL_PREFIXES: Record<string, string[]> = {
+  NU: ["X0A", "X0B", "X0C"],
+  NT: ["X0E", "X0G", "X1A"],
+  YT: ["Y"],
+};
+
+// The postal code prefixes a province or territory uses, the reverse of getProvinceFromPostalCode.
+// Every code starting with one of them belongs to that province.
+// @param province - Province abbreviation (e.g., "QC")
+// @returns Prefixes (e.g., ["G", "H", "J"]), or an empty array for an unknown province
+// @example getPostalPrefixesForProvince('NU') → ['X0A', 'X0B', 'X0C']
+function getPostalPrefixesForProvince(province: string): string[] {
+  const code = (province ?? "").trim().toUpperCase();
+  const territory = TERRITORY_POSTAL_PREFIXES[code];
+  if (territory) return [...territory];
+  return Object.entries(POSTAL_CODE_TO_PROVINCE)
+    .filter(([letter, owner]) => owner === code && letter !== "X")
+    .map(([letter]) => letter);
+}
+
+export {
+  POSTAL_CODE_TO_PROVINCE,
+  TERRITORY_POSTAL_PREFIXES,
+  TERRITORY_POSTAL_RANGES,
+  getPostalPrefixesForProvince,
+  getProvinceFromPostalCode,
+};

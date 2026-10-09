@@ -1,6 +1,6 @@
 // Comprehensive address validation with confidence scoring and detailed error reporting
 
-import { validatePostalCode } from "../constants";
+import { getProvinceFromPostalCode, getStateFromZip, validatePostalCode } from "../constants";
 import { parseLocation } from "../parser";
 import type { AddressValidationResult, ParsedAddress, ValidationError, ValidationOptions } from "../types";
 import { normalizeRegion } from "../utils";
@@ -78,6 +78,9 @@ function validateAddress(addressString: string, options: ValidationOptions = {})
 
   // Validate state/province
   validateStateProvince(parsedAddress, warnings);
+
+  // The postal code must belong to the state or province named
+  validatePostalRegion(parsedAddress, options, errors, warnings);
 
   // Check for incomplete addresses and add warnings
   checkCompletenessWarnings(parsedAddress, warnings);
@@ -270,6 +273,34 @@ function validateStateProvince(address: ParsedAddress, warnings: ValidationError
       });
     }
   }
+}
+
+// A Canadian postal code's first letter, and a US ZIP code's first three digits, name the province or
+// state they belong to. A code that names another one is a mistake in the address, however well formed.
+function validatePostalRegion(
+  address: ParsedAddress,
+  options: ValidationOptions,
+  errors: ValidationError[],
+  warnings: ValidationError[],
+): void {
+  if (!address.zip || !address.state) return;
+  const region = normalizeRegion(address.state);
+  if (!region) return;
+
+  const codeRegion =
+    region.country === "CA" ? getProvinceFromPostalCode(address.zip) : getStateFromZip(address.zip.trim());
+  // A code that names no region is reported by the format checks; silence here rather than a guess.
+  if (!codeRegion || codeRegion === region.abbr) return;
+  // X covers all three territories, and only some of its prefixes are told apart.
+  if (region.country === "CA" && /^X/i.test(address.zip.trim()) && ["NT", "NU"].includes(region.abbr)) return;
+
+  const finding: ValidationError = {
+    field: "zip",
+    code: "POSTAL_REGION_MISMATCH",
+    message: `${region.country === "CA" ? "Postal" : "ZIP"} code ${address.zip} belongs to ${codeRegion}, not ${region.abbr}`,
+    severity: options.strictPostalValidation ? "error" : "warning",
+  };
+  (options.strictPostalValidation ? errors : warnings).push(finding);
 }
 
 function checkCompletenessWarnings(address: ParsedAddress, warnings: ValidationError[]): void {

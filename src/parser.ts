@@ -31,6 +31,7 @@ import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/addre
 import { capitalizeStreetName } from "./utils/capitalization";
 import { toSnakeCase } from "./utils/case-converter";
 import { detectCountry, parseStateProvince } from "./utils/parsing";
+import { abbreviateRegionConnectors } from "./utils/region-connectors";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
 // Parse a location string into address components
@@ -48,8 +49,10 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
 
   // Check for intersection first
   const patterns = buildPatterns();
-  if (new RegExp(patterns.intersection, "i").test(original)) {
-    const result = parseIntersection(original, options);
+  // "Newfoundland and Labrador" is a province, not two streets meeting.
+  const connectorsChecked = abbreviateRegionConnectors(original);
+  if (new RegExp(patterns.intersection, "i").test(connectorsChecked)) {
+    const result = parseIntersection(connectorsChecked, options);
     if (result && options.useSnakeCase) {
       return toSnakeCase(result) as any;
     }
