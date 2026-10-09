@@ -3,10 +3,10 @@
  *
  * It packs the package, installs the tarball into a temporary project, and checks that
  *   - require() and import of the main entry both work and expose parseLocation;
- *   - the ./jp entry works from both and exposes parseJapaneseAddress;
- *   - the types of both entries resolve under the Node16 and bundler module resolutions;
+ *   - the ./jp, ./au and ./gb entries work from both and expose their parsers;
+ *   - the types of every entry resolve under the Node16 and bundler module resolutions;
  *   - the ./jp bundle, and every chunk it loads, carries none of the US street-type tables, so a Japan-only user does
- *     not ship them.
+ *     not ship them; and the ./au and ./gb bundles carry none of the US, Canadian or Japanese tables, nor each other's.
  *
  * It prints what it proved and exits non-zero on the first failure.
  */
@@ -20,6 +20,19 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const PACKAGE_NAME = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).name;
 // A word only the US street-type tables carry; the Japan entry has no use for it.
 const US_ONLY_WORD = "boulevard";
+// Words only one table carries: the US street types, the US and Canadian sub-regions, Japan's municipalities,
+// Australia's street types and Britain's postcode areas. A country entry must carry none but its own.
+const TABLE_WORDS = {
+  us: "trafficway",
+  subRegions: "burnaby",
+  japan: "千代田区",
+  australia: "Anchorage",
+  britain: "Galashiels",
+};
+const FORBIDDEN = {
+  au: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.britain],
+  gb: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.australia],
+};
 
 const proved = [];
 
@@ -89,10 +102,15 @@ function checkTypes(project) {
     [
       `import { parseLocation, type ParsedAddress } from "${PACKAGE_NAME}";`,
       `import { parseJapaneseAddress } from "${PACKAGE_NAME}/jp";`,
+      `import { australia, parseAustralianAddress } from "${PACKAGE_NAME}/au";`,
+      `import { parseUKAddress, unitedKingdom } from "${PACKAGE_NAME}/gb";`,
       "",
       "const us: ParsedAddress | null = parseLocation('1600 Pennsylvania Avenue NW, Washington, DC 20500');",
       "const jp = parseJapaneseAddress('東京都千代田区千代田1-1');",
-      "console.log(us, jp);",
+      "const au: ParsedAddress | null = parseAustralianAddress('3/12 Smith St, Parramatta NSW 2150');",
+      "const gb: ParsedAddress | null = parseUKAddress('10 Downing Street, London SW1A 2AA');",
+      "const either = parseLocation('10 Downing Street, London SW1A 2AA', { countries: [australia, unitedKingdom] });",
+      "console.log(us, jp, au, gb, either?.country);",
       "",
     ].join("\n"),
   );
@@ -115,7 +133,7 @@ function checkTypes(project) {
       ],
       project,
     );
-    prove(`types of both entry points resolve with moduleResolution ${resolution}`);
+    prove(`types of every entry point resolve with moduleResolution ${resolution}`);
   }
 }
 
@@ -135,6 +153,23 @@ function checkJpBundle(installed) {
   }
 }
 
+function checkCountryBundles(installed) {
+  for (const [country, words] of Object.entries(FORBIDDEN)) {
+    for (const file of [`dist/${country}/index.js`, `dist/${country}/index.cjs`]) {
+      const entry = join(installed, file);
+      if (!existsSync(entry)) fail(`${file} is missing from the packed package`);
+      const files = reachableFiles(entry);
+      for (const reached of files) {
+        const text = readFileSync(reached, "utf8");
+        const found = words.find((word) => text.includes(word));
+        if (found)
+          fail(`${file} carries another country's table: "${found}" appears in ${reached.slice(installed.length + 1)}`);
+      }
+      prove(`${file} and the ${files.length - 1} file(s) it loads carry no other country's tables`);
+    }
+  }
+}
+
 function main() {
   for (const file of [
     "dist/index.js",
@@ -143,6 +178,12 @@ function main() {
     "dist/jp/index.js",
     "dist/jp/index.cjs",
     "dist/jp/index.d.ts",
+    "dist/au/index.js",
+    "dist/au/index.cjs",
+    "dist/au/index.d.ts",
+    "dist/gb/index.js",
+    "dist/gb/index.cjs",
+    "dist/gb/index.d.ts",
   ]) {
     if (!existsSync(join(root, file))) fail(`${file} does not exist; run pnpm build first`);
   }
@@ -167,8 +208,11 @@ function main() {
 
     checkEntry(project, ".", "parseLocation");
     checkEntry(project, "./jp", "parseJapaneseAddress");
+    checkEntry(project, "./au", "parseAustralianAddress");
+    checkEntry(project, "./gb", "parseUKAddress");
     checkTypes(project);
     checkJpBundle(join(project, "node_modules", ...PACKAGE_NAME.split("/")));
+    checkCountryBundles(join(project, "node_modules", ...PACKAGE_NAME.split("/")));
   } finally {
     rmSync(scratch, { recursive: true, force: true });
   }

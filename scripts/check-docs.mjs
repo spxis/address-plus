@@ -50,7 +50,9 @@ for (const entry of api) {
 }
 
 // The published type definitions: the same exports, each with its comment and its example.
-const typings = ["dist/index.d.ts", "dist/jp/index.d.ts"].map((file) => join(root, file));
+const typings = ["dist/index.d.ts", "dist/jp/index.d.ts", "dist/au/index.d.ts", "dist/gb/index.d.ts"].map((file) =>
+  join(root, file),
+);
 if (typings.some((file) => !existsSync(file))) {
   problems.push("dist/*.d.ts is missing: run pnpm build first");
 } else {

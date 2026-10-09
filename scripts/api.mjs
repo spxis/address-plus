@@ -161,11 +161,15 @@ export function shown(value) {
   return clip(JSON.stringify(value), 360);
 }
 
-/** The package's own scope, as an example sees it: every named export, and the default export as `parser`. */
+/** The package's own scope, as an example sees it: every named export of every entry point, and the default as `parser`. */
 export async function exampleScope() {
   const library = await import(pathToFileURL(join(root, "dist", "index.js")).href);
   const { default: parser, ...named } = library;
-  const scope = { ...named, parser };
+  // The country entry points' exports join the scope, so an example may hand australia to parseLocation.
+  const countries = await Promise.all(
+    ["au", "gb"].map((entry) => import(pathToFileURL(join(root, "dist", entry, "index.js")).href)),
+  );
+  const scope = { ...Object.assign({}, ...countries), ...named, parser };
   const names = Object.keys(scope).filter((key) => /^[A-Za-z_$][\w$]*$/.test(key));
   return (code) => {
     const lines = code.trim().split("\n");
