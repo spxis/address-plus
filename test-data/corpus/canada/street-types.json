@@ -2531,9 +2531,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "chemin du Lac",
@@ -2548,9 +2546,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "côte de la Montagne",
@@ -2565,9 +2561,7 @@
           "zip": "G9A 5H3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"De la Montagne\" (want \"de la Montagne\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "croissant Sainte-Catherine",
@@ -2629,9 +2623,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "promenade Notre-Dame",
@@ -2691,9 +2683,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "sentier du Lac",
@@ -2708,9 +2698,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "terrasse de la Montagne",
@@ -2727,7 +2715,7 @@
         },
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
         "todo": true,
-        "todoNote": "type: \"Terr\" (want \"Tsse\"); street: \"De la Montagne\" (want \"de la Montagne\")"
+        "todoNote": "type: \"Terr\" (want \"Tsse\")"
       },
       {
         "name": "carré Sainte-Catherine",
@@ -2857,9 +2845,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "square du Lac",
@@ -2874,9 +2860,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "quai de la Montagne",
@@ -2959,9 +2943,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       }
     ],
     "frenchAbbreviation": [
@@ -2993,9 +2975,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "ch. du Lac",
@@ -3010,9 +2990,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "crois. Sainte-Catherine",

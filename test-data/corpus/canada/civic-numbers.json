@@ -593,9 +593,7 @@
           "zip": "M5H 2N2",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
-        "todo": true,
-        "todoNote": "city: absent (want \"Toronto\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
       },
       {
         "name": "123 Main St, Unit 4 in Vancouver",
@@ -612,9 +610,7 @@
           "zip": "V5Y 1V4",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
-        "todo": true,
-        "todoNote": "city: absent (want \"Vancouver\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
       },
       {
         "name": "123 Main St, Unit 4 in Halifax",
@@ -631,9 +627,7 @@
           "zip": "B3J 3A5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
-        "todo": true,
-        "todoNote": "city: absent (want \"Halifax\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
       },
       {
         "name": "123 Main St Suite 400 in Toronto",

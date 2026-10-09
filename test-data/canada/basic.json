@@ -73,7 +73,7 @@
         "expected": {
           "number": "567",
           "type": "Ave",
-          "street": "Des Pins",
+          "street": "des Pins",
           "state": "QC",
           "zip": "H2W 1S6",
           "suffix": "E",
@@ -101,7 +101,7 @@
         "expected": {
           "number": "22",
           "type": "Ch",
-          "street": "De la Côte-Sainte-Catherine",
+          "street": "de la Côte-Sainte-Catherine",
           "city": "Outremont",
           "state": "QC",
           "zip": "H2V 2A2"

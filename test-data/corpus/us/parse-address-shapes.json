@@ -105,9 +105,7 @@
           "state": "WA",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Pinecrest Hwy Suite 210 Wenatchee\" (want \"Pinecrest\"); type: absent (want \"Hwy\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"210\"); city: absent (want \"Wenatchee\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 08",
@@ -351,7 +349,7 @@
         },
         "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
         "todo": true,
-        "todoNote": "secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"B207\"); city: absent (want \"Ogden\")"
+        "todoNote": "secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"B207\")"
       },
       {
         "name": "shape 24",
@@ -423,9 +421,7 @@
           "state": "NY",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Cedar Ithaca\" (want \"Cedar\"); city: absent (want \"Ithaca\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 29",
@@ -600,7 +596,7 @@
         },
         "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
         "todo": true,
-        "todoNote": "secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"34\"); city: \"Ste 34\" (want absent)"
+        "todoNote": "street: \"Harlan Ave,\" (want \"Harlan\"); type: absent (want \"Ave\")"
       },
       {
         "name": "shape 41",
@@ -615,9 +611,7 @@
           "zip": "48906",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Commerce Row Lansing\" (want \"Commerce\"); type: absent (want \"Row\"); city: absent (want \"Lansing\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 42",

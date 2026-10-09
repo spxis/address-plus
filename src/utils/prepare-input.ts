@@ -51,6 +51,10 @@ const REGION_CODES: string = Object.values({ ...US_STATES, ...CA_PROVINCES })
   .join("|");
 const ENDS_WITH_REGION = new RegExp(String.raw`${WORD_START}(?:${REGION_CODES})\.?$`, "iu");
 
+// A two-letter code written with periods, standing alone: "D.C.", "N.Y", "B.C.".
+// Only where a state goes: before the ZIP or postal code, a comma, or the end.
+const DOTTED_CODE = /(?<![\p{L}\p{N}.])([a-z])\.\s?([a-z])\.?(?=\s*(?:,|$|\d{5}|[a-z]\d[a-z]))/giu;
+
 // Collapse runs of spaces and tabs, trim every line and drop empty ones.
 function tidySpaces(text: string): string {
   return text
@@ -129,6 +133,12 @@ function prepareInput(address: string): PreparedInput {
     const key = region.toLowerCase().replace(/\s+/g, " ");
     const code = CA_PROVINCES[key] ?? US_STATES[key] ?? region.toUpperCase();
     return ` ${code}`;
+  });
+
+  // "D.C.", "N.Y.": a state code written with periods.
+  text = text.replace(DOTTED_CODE, (whole: string, first: string, second: string) => {
+    const code = `${first}${second}`.toUpperCase();
+    return Object.values(US_STATES).includes(code) || Object.values(CA_PROVINCES).includes(code) ? code : whole;
   });
 
   // Semicolons, and a spaced dash after a street that starts with its number, separate parts as commas do.

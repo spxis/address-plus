@@ -18,9 +18,7 @@
           "country": "US"
         },
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
-        "todo": true,
-        "todoNote": "locality: absent (want \"URB Las Gladiolas\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
       },
       {
         "name": "URB Villa Carolina 25 Calle 3",
@@ -36,9 +34,7 @@
           "country": "US"
         },
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
-        "todo": true,
-        "todoNote": "locality: absent (want \"URB Villa Carolina\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
       },
       {
         "name": "Urb Royal Oak 123 Calle 1",
@@ -54,9 +50,7 @@
           "country": "US"
         },
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
-        "todo": true,
-        "todoNote": "locality: absent (want \"Urb Royal Oak\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
       },
       {
         "name": "URB Las Gladiolas 150 Calle A",
@@ -72,9 +66,7 @@
           "country": "US"
         },
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
-        "todo": true,
-        "todoNote": "locality: absent (want \"URB Las Gladiolas\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
       },
       {
         "name": "1250 Ave Ponce de Leon",
@@ -165,9 +157,7 @@
           "zip": "00830",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B",
-        "todo": true,
-        "todoNote": "street: \"Enighed\" (want \"Estate Enighed\"); type: \"Est\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
       },
       {
         "name": "14 Kongens Gade (VI)",

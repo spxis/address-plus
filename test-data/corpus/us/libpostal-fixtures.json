@@ -20,7 +20,7 @@
         },
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
         "todo": true,
-        "todoNote": "place: absent (want \"Black Alliance for Just Immigration\"); number: absent (want \"660\"); street: \"Black Alliance For Just Immigration 660 Nostrand\" (want \"Nostrand\"); city: \"N.Y.\" (want \"Brooklyn\"); state: absent (want \"NY\")"
+        "todoNote": "place: absent (want \"Black Alliance for Just Immigration\"); number: absent (want \"660\"); street: \"Black Alliance For Just Immigration 660 Nostrand\" (want \"Nostrand\")"
       },
       {
         "name": "libpostal case 2",
@@ -94,7 +94,7 @@
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
         "partial": true,
         "todo": true,
-        "todoNote": "place: absent (want \"Make the Road New York\"); number: absent (want \"92-10\"); street: \"Make The Road New York 92-10 Roosevelt Avenue Jackson\" (want \"Roosevelt\"); type: \"Hts\" (want \"Ave\")"
+        "todoNote": "place: absent (want \"Make the Road New York\"); number: absent (want \"92-10\"); street: \"Make the Road New York 92-10 Roosevelt Avenue Jackson\" (want \"Roosevelt\"); type: \"Hts\" (want \"Ave\")"
       },
       {
         "name": "libpostal case 6",
@@ -416,9 +416,7 @@
           "country": "US"
         },
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "partial": true,
-        "todo": true,
-        "todoNote": "street: \"Stone Way North Seattle\" (want \"Stone\"); type: absent (want \"Way\"); suffix: absent (want \"N\"); city: \"King County\" (want \"Seattle\")"
+        "partial": true
       },
       {
         "name": "libpostal case 26",
@@ -467,9 +465,7 @@
           "zip": "20500",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "city: absent (want \"Washington\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 29",
@@ -485,9 +481,7 @@
           "zip": "20500",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "city: absent (want \"Washington\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 30",
@@ -570,9 +564,7 @@
           "zip": "11211",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "street: \"5th St Apt. 3A Brooklyn\" (want \"5th\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"3A\"); city: absent (want \"Brooklyn\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 35",

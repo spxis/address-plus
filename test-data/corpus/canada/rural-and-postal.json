@@ -106,9 +106,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"Lakefield\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       }
     ],
     "siteAndCompartment": [

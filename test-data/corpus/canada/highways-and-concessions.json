@@ -52,9 +52,7 @@
           "zip": "K8N 4Z1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"Belleville\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
       },
       {
         "name": "2150 Trans-Canada Hwy",
@@ -188,7 +186,7 @@
         "ignoreCase": ["city"],
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
         "todo": true,
-        "todoNote": "secUnitType: absent (want \"Lot\"); secUnitNum: absent (want \"12\"); type: absent (want \"Conc\"); street: \"Lot 12\" (want \"4\"); city: \"Concession 4\" (want \"Smiths Falls\")"
+        "todoNote": "secUnitType: absent (want \"Lot\"); secUnitNum: absent (want \"12\"); type: absent (want \"Conc\"); street: \"Lot 12\" (want \"4\")"
       },
       {
         "name": "1234 Concession Road 6",

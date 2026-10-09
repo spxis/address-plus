@@ -120,8 +120,9 @@
         "input": "123 Maple Rochester, New York",
         "expected": {
           "number": "123",
-          "street": "Maple Rochester",
-          "state": "NY"
+          "street": "Maple",
+          "state": "NY",
+          "city": "Rochester"
         },
         "description": "Address where city name merges with street name"
       },
@@ -161,9 +162,11 @@
         "input": "2672 Industrial Row Troy, MI 48084",
         "expected": {
           "number": "2672",
-          "street": "Industrial Row Troy",
+          "street": "Industrial",
           "state": "MI",
-          "zip": "48084"
+          "zip": "48084",
+          "type": "Row",
+          "city": "Troy"
         },
         "description": "Street name incorporating city name in parsing"
       },

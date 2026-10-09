@@ -60,6 +60,18 @@ const PREFIX_UNIT_PATTERN = new RegExp(
 // A designator with no number at the end of a street line: group 1 the street, group 2 the designator.
 const STANDALONE_UNIT_AT_END_PATTERN = new RegExp(`^(.*?)\\s+(${STANDALONE_UNIT_KEYWORDS})\\.?\\s*$`, "iu");
 
+// Puerto Rico writes the type first, in Spanish order: "Calle A", "Ave Ponce de Leon".
+const SPANISH_ORDER_STATE = /^(?:pr|puerto\s+rico)$/i;
+
+// "URB Las Gladiolas", "Urb. Royal Oak": a Puerto Rico urbanization.
+const URBANIZATION_PATTERN = /^urb\.?\s+\S/i;
+
+// "King County", "Comté de Gatineau" is not a city.
+const COUNTY_PATTERN = /\s(?:county|parish|borough)$/i;
+
+// A part ending in a street type's abbreviation: "Canal Rd".
+const STREET_TYPE_ABBREVIATION_AT_END = /\s(?:st|ave|av|rd|dr|ln|blvd|ct|pl|hwy|pkwy|cir|ter|trl|cres)\.?$/i;
+
 // A city, then a state or province by its full name. The city is tried absent first, so "West Virginia"
 // on its own is the state, not the city West in Virginia; "Charleston West Virginia" still splits.
 const cityAndFullState = (patterns: ReturnType<typeof buildPatterns>): RegExp =>
@@ -86,7 +98,9 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   // Tidy spacing, a trailing country, a province in parentheses and the comma placements that only
   // move a part around, so the parsers below see one form of each.
   const prepared = prepareInput(original);
-  const text = prepared.text;
+  // "Newfoundland and Labrador" is a province, not two streets meeting: names holding a connector are
+  // written as their code before anything else reads the text.
+  const text = abbreviateRegionConnectors(prepared.text);
   const finish = (result: ParsedAddress | null): ParsedAddress | null => {
     if (!result) return null;
     if (!result.country && prepared.country) result.country = prepared.country;
@@ -95,10 +109,8 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
 
   // Check for intersection first
   const patterns = buildPatterns();
-  // "Newfoundland and Labrador" is a province, not two streets meeting.
-  const connectorsChecked = abbreviateRegionConnectors(text);
-  if (new RegExp(patterns.intersection, "i").test(connectorsChecked)) {
-    const result = parseIntersection(connectorsChecked, options);
+  if (new RegExp(patterns.intersection, "i").test(text)) {
+    const result = parseIntersection(text, options);
     if (result && options.useSnakeCase) {
       return toSnakeCase(result) as unknown as ParsedAddress;
     }
@@ -198,6 +210,7 @@ function parseStandardAddress(
   let facilityName = "";
   // Address part override when inline address found in first comma part
   let addressPartOverride: string | null = null;
+  let urbanization = "";
 
   if (commaParts.length > 1) {
     const firstPart = commaParts[0];
@@ -221,8 +234,18 @@ function parseStandardAddress(
     const hasHouseNumber = VALIDATION_PATTERNS.HOUSE_NUMBER_START.test(firstPart.trim()) || writtenNumberStreet;
     const startsWithNumber = VALIDATION_PATTERNS.STARTS_WITH_NUMBER.test(firstPart) || writtenNumberStreet;
 
+    // A Puerto Rico urbanization written above the street ("URB Las Gladiolas") is the locality.
+    if (URBANIZATION_PATTERN.test(firstPart)) {
+      urbanization = firstPart.trim();
+      addressStartIndex = 1;
+      excludedPartIndices.add(0);
+    }
+
+    // A first part that ends in an abbreviated street type is a street with no number ("Canal Rd").
+    const endsWithTypeAbbreviation = STREET_TYPE_ABBREVIATION_AT_END.test(firstPart.trim());
+
     // If it starts with a number, it's likely a street address, not a facility
-    if (!startsWithNumber && !hasHouseNumber) {
+    if (!startsWithNumber && !hasHouseNumber && !urbanization) {
       // Handle inline address separated by delimiter or parentheses
       const parenInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.PARENTHETICAL);
       const delimInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.DELIMITED);
@@ -266,6 +289,7 @@ function parseStandardAddress(
       // OR if it's a proper noun pattern (Title Case) without obvious street patterns
       if (
         !facilityName &&
+        !endsWithTypeAbbreviation &&
         ((hasMultipleWords && hasFacilityIndicator) ||
           (hasMultipleWords &&
             filteredWords.length >= 2 &&
@@ -282,6 +306,10 @@ function parseStandardAddress(
   // St, Unit 4, Toronto", "1234 River Rd, RR 2, Lakefield". Set aside now, so none is taken for the city.
   let secondaryUnitPart = "";
   let ruralRouteNumber = "";
+  const lastCommaPart = commaParts[commaParts.length - 1];
+  if (commaParts.length > 1 && UNIT_PART_PATTERN.test(lastCommaPart) && !/\d{5}/.test(lastCommaPart)) {
+    secondaryUnitPart = commaParts.pop()!.trim();
+  }
   for (let i = addressStartIndex + 1; i < commaParts.length - 1; i++) {
     const part = commaParts[i].trim();
     if (!secondaryUnitPart && UNIT_PART_PATTERN.test(part)) {
@@ -426,6 +454,8 @@ function parseStandardAddress(
         // Find the last non-excluded part that could be a city
         // But don't go back before the address start index (to skip facility names)
         for (let i = commaParts.length - 2; i >= Math.max(1, addressStartIndex); i--) {
+          // "Seattle, King County, WA": a county is not the city.
+          if (COUNTY_PATTERN.test(commaParts[i])) continue;
           if (!excludedPartIndices.has(i)) {
             // Set city if we haven't already parsed it from city/state pattern
             if (!cityPart) {
@@ -476,7 +506,18 @@ function parseStandardAddress(
       if (remainingAfterZip) {
         statePart = remainingAfterZip;
       }
-      if (commaParts.length > 2) {
+      // "Toronto ON M5H 2N2": the city and province share the last part.
+      const lastCityProvince = remainingAfterZip.match(
+        new RegExp(`^(.+?)\\s+(${patterns.stateAbbrev.slice(1, -1)})\\.?\\s*$`, "iu"),
+      );
+      const lastCityProvinceFull = lastCityProvince ? null : remainingAfterZip.match(cityAndFullState(patterns));
+      if (commaParts.length > 2 && lastCityProvince) {
+        cityPart = lastCityProvince[1].trim();
+        statePart = lastCityProvince[2].trim();
+      } else if (commaParts.length > 2 && lastCityProvinceFull?.[1]) {
+        cityPart = lastCityProvinceFull[1].trim();
+        statePart = lastCityProvinceFull[2].trim();
+      } else if (commaParts.length > 2) {
         // The last part before the postal code that is not a unit or a route set aside above.
         for (let i = commaParts.length - 2; i >= Math.max(1, addressStartIndex); i--) {
           if (!excludedPartIndices.has(i)) {
@@ -593,6 +634,16 @@ function parseStandardAddress(
           }
         }
       }
+    }
+  }
+
+  // With a state but no city part, the city may run on after the street: "1005 N Gravenstein Hwy Suite 500
+  // Sebastopol, CA", "2672 Industrial Row Troy, MI 48084".
+  if (commaParts.length > 1 && !cityPart && statePart && !isGeneralDelivery && !addressPartOverride) {
+    const split = splitStreetAndCity(addressPart, isCanadianContext(zipPart, statePart, options, countryHint));
+    if (split.city) {
+      cityPart = split.city;
+      addressPart = split.street;
     }
   }
 
@@ -889,8 +940,9 @@ function parseStandardAddress(
         result.street = capitalizeStreetName(streetTypeSuffixMatch[1].trim());
         result.type = normalizedType;
       }
-    } else if (streetTypePrefixMatch) {
-      // French pattern: "Rue Main"
+    } else if (streetTypePrefixMatch && (canadian || SPANISH_ORDER_STATE.test(statePart.trim()))) {
+      // French pattern: "Rue Main". Only in Canada: in "Avenue of the Americas" or "Estate Enighed" the
+      // type word is part of the name, and Pub 28 gives such a street no suffix.
       result.type = normalizeStreetType(streetTypePrefixMatch[1]);
       result.street = capitalizeStreetName(streetTypePrefixMatch[2].trim());
     } else {
@@ -962,6 +1014,8 @@ function parseStandardAddress(
   if (isGeneralDelivery) {
     result.generalDelivery = true;
   }
+
+  if (urbanization) result.locality = urbanization;
 
   // Add place if found (from either initial detection or middle parts)
   if (facilityName) {

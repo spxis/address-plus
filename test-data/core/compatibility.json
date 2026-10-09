@@ -262,8 +262,12 @@
         "expected": {
           "number": "1005",
           "prefix": "N",
-          "street": "Gravenstein Hwy Suite 500 Sebastopol",
-          "state": "CA"
+          "street": "Gravenstein",
+          "state": "CA",
+          "type": "Hwy",
+          "secUnitType": "Suite",
+          "secUnitNum": "500",
+          "city": "Sebastopol"
         },
         "description": "Highway address with unit in street field"
       },
@@ -431,7 +435,7 @@
         "expected": {
           "number": "567",
           "type": "Ave",
-          "street": "Des Pins",
+          "street": "des Pins",
           "state": "QC",
           "zip": "H2W 1S6",
           "suffix": "E",
@@ -459,7 +463,7 @@
         "expected": {
           "number": "22",
           "type": "Ch",
-          "street": "De la Côte-Sainte-Catherine",
+          "street": "de la Côte-Sainte-Catherine",
           "city": "Outremont",
           "state": "QC",
           "zip": "H2V 2A2"

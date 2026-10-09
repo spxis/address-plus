@@ -49,9 +49,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"Des Jardins\" (want \"des Jardins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "2, rue des Jardins without the comma",
@@ -66,9 +64,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"Des Jardins\" (want \"des Jardins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "1100, boulevard René-Lévesque Ouest",
@@ -147,9 +143,7 @@
           "zip": "H3T 1C1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"De la Côte-Sainte-Catherine\" (want \"de la Côte-Sainte-Catherine\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "3200, chemin de la Côte-Sainte-Catherine without the comma",
@@ -164,9 +158,7 @@
           "zip": "H3T 1C1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"De la Côte-Sainte-Catherine\" (want \"de la Côte-Sainte-Catherine\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "25, avenue des Pins",
@@ -181,9 +173,7 @@
           "zip": "H2W 1P9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "25, avenue des Pins without the comma",
@@ -198,9 +188,7 @@
           "zip": "H2W 1P9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "1, promenade Sussex",
@@ -245,9 +233,7 @@
           "zip": "G1R 3P7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"D'youville\" (want \"d'Youville\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "900, place d'Youville without the comma",
@@ -262,9 +248,7 @@
           "zip": "G1R 3P7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"D'youville\" (want \"d'Youville\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "150, rang Saint-Joseph",
@@ -419,9 +403,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"Des Jardins\" (want \"des Jardins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "25 rue Laurier, Gatineau (Québec) J8X 3Y9",
@@ -685,9 +667,7 @@
           "zip": "G1R 1N5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
-        "todo": true,
-        "todoNote": "city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators"
       },
       {
         "name": "10 rue Saint-Jean, appartement 4",
@@ -704,9 +684,7 @@
           "zip": "G1R 1N5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
-        "todo": true,
-        "todoNote": "city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators"
       },
       {
         "name": "10 rue Saint-Jean app 12",
@@ -741,9 +719,7 @@
           "zip": "G1K 3H1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
-        "todo": true,
-        "todoNote": "city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators"
       },
       {
         "name": "200 boulevard Charest Est, bureau 1200",
@@ -761,9 +737,7 @@
           "zip": "G1K 3H1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
-        "todo": true,
-        "todoNote": "city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators"
       },
       {
         "name": "4-110 rue Saint-Jean",
@@ -797,9 +771,7 @@
           "zip": "G1R 1N5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
-        "todo": true,
-        "todoNote": "city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators"
       },
       {
         "name": "10 rue Saint-Jean, suite 4",
@@ -816,9 +788,7 @@
           "zip": "G1R 1N5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
-        "todo": true,
-        "todoNote": "city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators"
       }
     ],
     "saints": [

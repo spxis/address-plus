@@ -77,8 +77,12 @@
         "expected": {
           "number": "1005",
           "prefix": "N",
-          "street": "Gravenstein Hwy Suite 500 Sebastopol",
-          "state": "CA"
+          "street": "Gravenstein",
+          "state": "CA",
+          "type": "Hwy",
+          "secUnitType": "Suite",
+          "secUnitNum": "500",
+          "city": "Sebastopol"
         },
         "description": "Highway address with unit in street field"
       },

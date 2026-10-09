@@ -281,8 +281,7 @@
         "input": "123 Avenue of the Americas, Mezzanine Level, New York, NY 10036",
         "expected": {
           "number": "123",
-          "type": "Ave",
-          "street": "Of The Americas",
+          "street": "Avenue of the Americas",
           "city": "New York",
           "state": "NY",
           "zip": "10036"

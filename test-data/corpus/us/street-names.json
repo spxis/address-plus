@@ -621,9 +621,7 @@
           "zip": "10009",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix",
-        "todo": true,
-        "todoNote": "street: \"A\" (want \"Avenue A\"); type: \"Ave\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix"
       },
       {
         "name": "Avenue of the Americas",
@@ -637,9 +635,7 @@
           "zip": "10036",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix",
-        "todo": true,
-        "todoNote": "street: \"Of The Americas\" (want \"Avenue of the Americas\"); type: \"Ave\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix"
       },
       {
         "name": "Broadway",
@@ -745,9 +741,7 @@
           "zip": "94108",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name",
-        "todo": true,
-        "todoNote": "street: \"O'farrell\" (want \"O'Farrell\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
       },
       {
         "name": "St. Charles Ave",
@@ -837,9 +831,7 @@
           "zip": "93101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name",
-        "todo": true,
-        "todoNote": "street: \"De la Vina\" (want \"De La Vina\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
       }
     ]
   }
