@@ -17,11 +17,8 @@ The pipeline consists of three main scripts:
 ### Usage
 
 ```bash
-# Run the complete pipeline (recommended)
-pnpm run update:sub-regions
-
-# Or run directly with tsx
-npx tsx scripts/sub-regions/update-sub-regions.ts
+# Run the complete pipeline
+pnpm data:sub-regions
 ```
 
 ### What it does
@@ -34,7 +31,7 @@ npx tsx scripts/sub-regions/update-sub-regions.ts
 
 ### Output
 
-The pipeline generates `src/data/sub-regions.ts` containing:
+The pipeline generates `src/constants/sub-regions.ts`, which is never edited by hand, containing:
 
 - `ALL_SUB_REGIONS` - Complete array of all sub-regions
 - `SUB_REGION_NAMES` - Set for fast lookup
@@ -76,9 +73,17 @@ The pipeline should be run periodically to keep sub-region data current:
 
 ### Dependencies
 
-- `node-fetch` - For HTTP requests to data APIs
-- `csv-parse` - For parsing CSV data from Statistics Canada
-- `@types/node-fetch` - TypeScript types for node-fetch
+- Node's built-in `fetch` for the HTTP requests to the data APIs, so there is no HTTP dependency
+- `pnpm data:sub-regions` runs the TypeScript directly with `node` (Node 24 strips the types), which is why the scripts import each other with the `.ts` extension
+
+## Japanese data
+
+`pnpm data:jp` regenerates the Japanese prefecture, municipality and postal-prefix tables (`src/constants/jp/*.data.ts`) with `scripts/jp/update-jp-data.ts`. Those files are generated and never edited by hand.
+
+## Package and release scripts
+
+- **check-package.mjs** (`pnpm test:package`) - After `pnpm build`, packs the package, installs the tarball in a temporary project and proves that `require`, `import` and the types work for both entry points, and that the `/jp` bundle carries no US street-type tables
+- **release.mjs** (`pnpm release <version>`) - Sets the version, moves the changelog's Unreleased entries under it, commits and tags; `node scripts/release.mjs --notes <version>` prints a version's changelog section. Its tests are in **release.test.mjs**
 
 ## Other Development Scripts
 
@@ -87,7 +92,6 @@ The pipeline should be run periodically to keep sub-region data current:
 - **analyze-json-failures.js** - Analyzes test failures in JSON test data files
 - **debug-directional.js** - Debug script for directional address parsing issues
 - **debug-patterns.js** - Debug script for address pattern parsing
-- **update-test-expectations.cjs** - Updates test expectations based on actual parser output
 
 ## Usage
 
@@ -102,9 +106,6 @@ node scripts/debug-directional.js
 
 # Debug general patterns
 node scripts/debug-patterns.js
-
-# Update test expectations
-node scripts/update-test-expectations.cjs
 ```
 
 Note: Some scripts may require the project to be built first (`pnpm build`).

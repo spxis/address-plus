@@ -8,20 +8,19 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 
 - **Use ES Modules exclusively** - no CommonJS (`require`/`module.exports`).
 - All files must use `import` and `export` statements.
-- Imports must appear at the top of the file.
-  - Group external packages first, then internal modules.
-  - Use `import/order` with `newlines-between: always` and alphabetize imports.
+- Imports must appear at the top of the file. `prettier-plugin-organize-imports` orders them; run `pnpm lint:fix`.
 - Exports must be placed at the end of the file.
-  - Enforce `exports/eof` rule when active.
-- Avoid parent-relative imports (`../..`) — use `@` alias instead.
+- Scripts run by plain `node` (`scripts/**/*.ts`) use relative imports with the `.ts` extension; everything under `src/` uses extensionless relative imports.
 
-## Sorting & Organization
+## Toolchain
 
-- Use `eslint-plugin-perfectionist` to sort:
-  - Imports, exports, named imports
-  - Variable declarations, object keys/types
-  - JSX props, enums, interfaces, classes
-- Use `prettier-plugin-organize-imports` to auto-format import blocks.
+- Node 24, pnpm 10, TypeScript 5.9, tsup 8.5, Vitest 5.
+- ESLint 9 with the flat config in `eslint.config.js` (typescript-eslint recommended). Prettier formats, with `prettier-plugin-organize-imports` ordering imports.
+- `pnpm check` runs everything CI runs: lint, typecheck, test, build, test:types, schema:validate, test:package. Run it before pushing.
+- Never disable a lint rule to get green. If a rule is wrong for this repository, change it in `eslint.config.js` with a comment saying why.
+- Two entry points are built: the package root and `./jp`. The `/jp` bundle must not carry the US street-type tables (`pnpm test:package` checks).
+- Files named `*.data.ts` and `src/constants/sub-regions.ts` are generated (`pnpm data:jp`, `pnpm data:sub-regions`); never edit them by hand, change the generator in `scripts/`.
+- Releases: add entries under `## Unreleased` in `CHANGELOG.md`, then `pnpm release <version>` from a clean `main`, then push the commit and the `v<version>` tag. The tag publishes. See `AGENTS.md`.
 
 ## Formatting Rules
 
@@ -54,14 +53,13 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 
 ## TypeScript Rules
 
-- Use `@typescript-eslint` parser and plugin.
-- Avoid `any` unless explicitly allowed.
+- Do not use `any`; the lint rejects it. Use `unknown` and narrow, or a real type.
 - Use consistent type imports.
 - **All props, state, and function signatures must be explicitly typed.**
 - **Add explicit types for variables when type inference is not clear.**
 - **Function parameters and return types must be explicitly declared.**
 - Use PascalCase, camelCase, or UPPER_CASE for variables.
-- Prefix unused parameters with `_` to satisfy lint rules.
+- Prefix an intentionally unused parameter or destructured name with `_`; any other unused name fails the lint.
 - Prefer async/await over `.then()` chains.
 - Use type annotations for better code clarity: `const result: ParsedAddress = parseLocation(input);`
 
@@ -115,10 +113,10 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 ## Package Management
 
 - **Always use `pnpm`** instead of `npm` or `yarn` for this project.
-- Run tests with: `pnpm test` or `pnpm run test:run`
+- Run tests with: `pnpm test`
 - Build with: `pnpm build`
 - Install dependencies with: `pnpm install`
-- The project is configured for pnpm (see `package.json` prepublishOnly script)
+- Run every check with: `pnpm check`
 
 ## Prompting Behavior
 
