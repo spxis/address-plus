@@ -1,6 +1,6 @@
 {
   "name": "@johnmorrisdotca/address-plus",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A modern, TypeScript‑first address parser and normalizer for the US, Canada and Japan, with Australia and the United Kingdom as modules of their own. Supports USPS, Canada Post, Australia Post and Royal Mail formats, Japanese addresses in Japanese or romaji, bilingual abbreviations, ZIP codes and postcodes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.",
   "type": "module",
   "main": "dist/index.js",

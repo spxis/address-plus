@@ -4,6 +4,8 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+## 1.5.0 - 2026-10-09
+
 ### Added
 
 - Australia, as a module of its own: `@johnmorrisdotca/address-plus/au`. `parseAustralianAddress` reads an address the way Australia Post and AS4590 lay one out: a unit before a slash (`3/12 Smith St`) or with its type, a level, a lot, a range, a building's name and the twelve postal delivery types (PO Box, GPO Box, Locked Bag, Private Bag, RMB, RSD, RMS, CMB, CMA, CPA, MS, Care PO), then the suburb, the state by code or name and the postcode; street types come back as AS4590's abbreviations. `validateAustralianAddress` checks the postcode against Australia Post's blocks for each state, letting the 14 postcodes that cross a border (from the ABS's Postal Areas, CC BY 4.0) pass with either state. `formatAustraliaPost`, `compareAustralianAddresses`, `looksAustralian`, the postcode lookups and the tables (`AU_STATES`, `AU_POSTCODE_RANGES`, `AU_STREET_TYPES` and the rest) come with it.
