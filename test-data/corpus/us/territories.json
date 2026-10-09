@@ -1,0 +1,286 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Territories and Freely Associated States",
+  "description": "Puerto Rico urbanizations and Spanish-order streets, Guam, the US Virgin Islands, American Samoa, the Northern Mariana Islands and the freely associated states that use US ZIP codes. Urbanization cases are partial: they check the URB line goes to locality and the rest parses. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "puertoRico": [
+      {
+        "name": "URB Las Gladiolas 150 Calle A",
+        "description": "Puerto Rico urbanization: the URB line names the development and goes in locality",
+        "input": "URB Las Gladiolas, 150 Calle A, San Juan, PR 00926",
+        "expected": {
+          "locality": "URB Las Gladiolas",
+          "number": "150",
+          "street": "Calle A",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00926",
+          "country": "US"
+        },
+        "partial": true,
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
+        "todo": true,
+        "todoNote": "locality: absent (want \"URB Las Gladiolas\")"
+      },
+      {
+        "name": "URB Villa Carolina 25 Calle 3",
+        "description": "Puerto Rico urbanization: the URB line names the development and goes in locality",
+        "input": "URB Villa Carolina, 25 Calle 3, Carolina, PR 00985",
+        "expected": {
+          "locality": "URB Villa Carolina",
+          "number": "25",
+          "street": "Calle 3",
+          "city": "Carolina",
+          "state": "PR",
+          "zip": "00985",
+          "country": "US"
+        },
+        "partial": true,
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
+        "todo": true,
+        "todoNote": "locality: absent (want \"URB Villa Carolina\")"
+      },
+      {
+        "name": "Urb Royal Oak 123 Calle 1",
+        "description": "Puerto Rico urbanization: the URB line names the development and goes in locality",
+        "input": "Urb Royal Oak, 123 Calle 1, Bayamon, PR 00961",
+        "expected": {
+          "locality": "Urb Royal Oak",
+          "number": "123",
+          "street": "Calle 1",
+          "city": "Bayamon",
+          "state": "PR",
+          "zip": "00961",
+          "country": "US"
+        },
+        "partial": true,
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
+        "todo": true,
+        "todoNote": "locality: absent (want \"Urb Royal Oak\")"
+      },
+      {
+        "name": "URB Las Gladiolas 150 Calle A",
+        "description": "Puerto Rico urbanization: the URB line names the development and goes in locality",
+        "input": "URB Las Gladiolas\n150 Calle A\nSan Juan PR 00926-3232",
+        "expected": {
+          "locality": "URB Las Gladiolas",
+          "number": "150",
+          "street": "Calle A",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00926",
+          "country": "US"
+        },
+        "partial": true,
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses",
+        "todo": true,
+        "todoNote": "locality: absent (want \"URB Las Gladiolas\")"
+      },
+      {
+        "name": "1250 Ave Ponce de Leon",
+        "description": "Puerto Rico street address: Spanish order: the street word comes first",
+        "input": "1250 Ave Ponce de Leon, San Juan, PR 00907",
+        "expected": {
+          "number": "1250",
+          "street": "Ponce de Leon",
+          "type": "Ave",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00907",
+          "country": "US"
+        },
+        "ignoreCase": ["street"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
+      },
+      {
+        "name": "100 Calle del Cristo",
+        "description": "Puerto Rico street address: CALLE is part of the street name, not a suffix",
+        "input": "100 Calle del Cristo, San Juan, PR 00901",
+        "expected": {
+          "number": "100",
+          "street": "Calle del Cristo",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00901",
+          "country": "US"
+        },
+        "ignoreCase": ["street"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
+      },
+      {
+        "name": "52 Calle Mendez Vigo",
+        "description": "Puerto Rico street address: Calle street in Mayaguez",
+        "input": "52 Calle Mendez Vigo, Mayaguez, PR 00680",
+        "expected": {
+          "number": "52",
+          "street": "Calle Mendez Vigo",
+          "city": "Mayaguez",
+          "state": "PR",
+          "zip": "00680",
+          "country": "US"
+        },
+        "ignoreCase": ["street"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Puerto Rico addresses"
+      }
+    ],
+    "islands": [
+      {
+        "name": "123 Marine Corps Dr (GU)",
+        "description": "Street address in Guam",
+        "input": "123 Marine Corps Dr, Tamuning, GU 96913",
+        "expected": {
+          "number": "123",
+          "street": "Marine Corps",
+          "type": "Dr",
+          "city": "Tamuning",
+          "state": "GU",
+          "zip": "96913",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "456 Chalan San Antonio (GU)",
+        "description": "Street address in Guam",
+        "input": "456 Chalan San Antonio, Tamuning, GU 96913",
+        "expected": {
+          "number": "456",
+          "street": "Chalan San Antonio",
+          "city": "Tamuning",
+          "state": "GU",
+          "zip": "96913",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "5000 Estate Enighed (VI)",
+        "description": "Street address in the US Virgin Islands",
+        "input": "5000 Estate Enighed, St John, VI 00830",
+        "expected": {
+          "number": "5000",
+          "street": "Estate Enighed",
+          "city": "St John",
+          "state": "VI",
+          "zip": "00830",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B",
+        "todo": true,
+        "todoNote": "street: \"Enighed\" (want \"Estate Enighed\"); type: \"Est\" (want absent)"
+      },
+      {
+        "name": "14 Kongens Gade (VI)",
+        "description": "Street address in the US Virgin Islands",
+        "input": "14 Kongens Gade, Charlotte Amalie, VI 00802",
+        "expected": {
+          "number": "14",
+          "street": "Kongens Gade",
+          "city": "Charlotte Amalie",
+          "state": "VI",
+          "zip": "00802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in American Samoa",
+        "description": "Post office box in American Samoa, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 1234, Pago Pago, AS 96799",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Pago Pago",
+          "state": "AS",
+          "zip": "96799",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in Northern Mariana Islands",
+        "description": "Post office box in Northern Mariana Islands, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 500, Saipan, MP 96950",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "500",
+          "city": "Saipan",
+          "state": "MP",
+          "zip": "96950",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in Marshall Islands",
+        "description": "Post office box in Marshall Islands, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 77, Majuro, MH 96960",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "77",
+          "city": "Majuro",
+          "state": "MH",
+          "zip": "96960",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in Federated States of Micronesia",
+        "description": "Post office box in Federated States of Micronesia, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 10, Palikir, FM 96941",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "10",
+          "city": "Palikir",
+          "state": "FM",
+          "zip": "96941",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in Palau",
+        "description": "Post office box in Palau, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 900, Koror, PW 96940",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "900",
+          "city": "Koror",
+          "state": "PW",
+          "zip": "96940",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in Guam",
+        "description": "Post office box in Guam, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 4000, Hagatna, GU 96932",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "4000",
+          "city": "Hagatna",
+          "state": "GU",
+          "zip": "96932",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PO Box in US Virgin Islands",
+        "description": "Post office box in US Virgin Islands, whose two-letter code Pub 28 lists beside the states",
+        "input": "PO Box 3000, Christiansted, VI 00822",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "3000",
+          "city": "Christiansted",
+          "state": "VI",
+          "zip": "00822",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      }
+    ]
+  }
+}

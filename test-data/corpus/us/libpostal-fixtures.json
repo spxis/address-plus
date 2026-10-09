@@ -1,0 +1,691 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "libpostal US Fixtures",
+  "description": "The US street addresses in libpostal's parser tests (MIT licence, github.com/openvenues/libpostal test/test_parser.c), with each labelled component converted to this library's fields: house to place, house_number to number, road split into prefix, street, type and suffix, unit and level to secUnitType and secUnitNum, postcode to zip and plus4. Queries that are not addresses (\"book stores near me\") and bare place names are left out.",
+  "tests": {
+    "libpostal": [
+      {
+        "name": "libpostal case 1",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "Black Alliance for Just Immigration 660 Nostrand Ave, Brooklyn, N.Y., 11216",
+        "expected": {
+          "place": "Black Alliance for Just Immigration",
+          "number": "660",
+          "street": "Nostrand",
+          "type": "Ave",
+          "city": "Brooklyn",
+          "state": "NY",
+          "zip": "11216",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "place: absent (want \"Black Alliance for Just Immigration\"); number: absent (want \"660\"); street: \"Black Alliance For Just Immigration 660 Nostrand\" (want \"Nostrand\"); city: \"N.Y.\" (want \"Brooklyn\"); state: absent (want \"NY\")"
+      },
+      {
+        "name": "libpostal case 2",
+        "description": "libpostal fixture whose neighbourhood or county has no field here; checks the street line and what can be checked of the last line",
+        "input": "Planned Parenthood, 44 Court St, 6th Floor, Brooklyn 11201",
+        "expected": {
+          "place": "Planned Parenthood",
+          "number": "44",
+          "street": "Court",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "6th",
+          "city": "Brooklyn",
+          "zip": "11201",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "partial": true,
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Floor\"); secUnitNum: absent (want \"6th\"); city: \"6th Floor\" (want \"Brooklyn\")"
+      },
+      {
+        "name": "libpostal case 3",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "Congresswoman Yvette Clarke 222 Lenox Road, Ste 1 Brooklyn New York 11226",
+        "expected": {
+          "place": "Congresswoman Yvette Clarke",
+          "number": "222",
+          "street": "Lenox",
+          "type": "Rd",
+          "secUnitType": "Suite",
+          "secUnitNum": "1",
+          "city": "Brooklyn",
+          "state": "NY",
+          "zip": "11226",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "place: absent (want \"Congresswoman Yvette Clarke\"); number: absent (want \"222\"); street: \"Congresswoman Yvette Clarke 222 Lenox\" (want \"Lenox\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"1\"); city: \"Ste 1 Brooklyn\" (want \"Brooklyn\")"
+      },
+      {
+        "name": "libpostal case 4",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "ACLU DC P.O. Box 11637 Washington, DC 20008 United States",
+        "expected": {
+          "place": "ACLU DC",
+          "secUnitType": "PO Box",
+          "secUnitNum": "11637",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20008",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "place: absent (want \"ACLU DC\"); secUnitType: absent (want \"PO Box\"); secUnitNum: absent (want \"11637\"); city: absent (want \"Washington\"); street: \"ACLU DC P.O. Box 11637 Washington\" (want absent)"
+      },
+      {
+        "name": "libpostal case 5",
+        "description": "libpostal fixture whose neighbourhood or county has no field here; checks the street line and what can be checked of the last line",
+        "input": "Make the Road New York 92-10 Roosevelt Avenue Jackson Heights Queens 11372",
+        "expected": {
+          "place": "Make the Road New York",
+          "number": "92-10",
+          "street": "Roosevelt",
+          "type": "Ave",
+          "zip": "11372",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "partial": true,
+        "todo": true,
+        "todoNote": "place: absent (want \"Make the Road New York\"); number: absent (want \"92-10\"); street: \"Make The Road New York 92-10 Roosevelt Avenue Jackson\" (want \"Roosevelt\"); type: \"Hts\" (want \"Ave\")"
+      },
+      {
+        "name": "libpostal case 6",
+        "description": "libpostal fixture whose neighbourhood or county has no field here; checks the street line and what can be checked of the last line",
+        "input": "Barboncino 781 Franklin Ave Crown Heights Brooklyn NYC NY 11216 USA",
+        "expected": {
+          "place": "Barboncino",
+          "number": "781",
+          "street": "Franklin",
+          "type": "Ave",
+          "state": "NY",
+          "zip": "11216",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "partial": true,
+        "todo": true,
+        "todoNote": "place: absent (want \"Barboncino\"); number: absent (want \"781\"); street: \"Barboncino 781 Franklin Ave Crown Heights Brooklyn NYC NY 11216\" (want \"Franklin\"); type: absent (want \"Ave\"); state: absent (want \"NY\"); zip: absent (want \"11216\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "libpostal case 7",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "103 BEAL PKWY SE, FT WALTON BEACH, FL",
+        "expected": {
+          "number": "103",
+          "street": "BEAL",
+          "type": "Pkwy",
+          "suffix": "SE",
+          "city": "FT WALTON BEACH",
+          "state": "FL",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "ignoreCase": ["street", "city"]
+      },
+      {
+        "name": "libpostal case 8",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "Canal Rd, Deltona FL",
+        "expected": {
+          "street": "Canal",
+          "type": "Rd",
+          "city": "Deltona",
+          "state": "FL",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"Canal Rd\" (want \"Canal\"); type: absent (want \"Rd\"); city: absent (want \"Deltona\"); state: absent (want \"FL\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "libpostal case 9",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "123 Main St # 456 Oakland CA 94789",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "456",
+          "city": "Oakland",
+          "state": "CA",
+          "zip": "94789",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 10",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "123 Main St Apt 456 Oakland CA 94789",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "456",
+          "city": "Oakland",
+          "state": "CA",
+          "zip": "94789",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 11",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "123 Main St Apt #456 Oakland CA 94789",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "456",
+          "city": "Oakland",
+          "state": "CA",
+          "zip": "94789",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"Main St Apt\" (want \"Main\"); type: absent (want \"St\"); secUnitType: \"#\" (want \"Apartment\")"
+      },
+      {
+        "name": "libpostal case 12",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "123 Main St Apt No. 456 Oakland CA 94789",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "456",
+          "city": "Oakland",
+          "state": "CA",
+          "zip": "94789",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"Main St Apt No. 456\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"456\")"
+      },
+      {
+        "name": "libpostal case 13",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "921 83 street, nyc",
+        "expected": {
+          "number": "921",
+          "street": "83",
+          "type": "St",
+          "city": "nyc"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 14",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "30 w 26 st",
+        "expected": {
+          "number": "30",
+          "prefix": "W",
+          "street": "26",
+          "type": "St"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "type: absent (want \"St\"); suffix: \"ST\" (want absent)"
+      },
+      {
+        "name": "libpostal case 15",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "30 West 26th Street Sixth Floor",
+        "expected": {
+          "number": "30",
+          "prefix": "W",
+          "street": "26th",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "Sixth"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"26th Street Sixth\" (want \"26th\"); type: absent (want \"St\"); secUnitNum: absent (want \"Sixth\")"
+      },
+      {
+        "name": "libpostal case 16",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "30 W 26th St 6th Fl",
+        "expected": {
+          "number": "30",
+          "prefix": "W",
+          "street": "26th",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "6th"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"26th St 6th\" (want \"26th\"); type: absent (want \"St\"); secUnitType: absent (want \"Floor\"); secUnitNum: absent (want \"6th\"); state: \"FL\" (want absent); country: \"US\" (want absent)"
+      },
+      {
+        "name": "libpostal case 17",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "301 Commons Park S, Stamford, CT 06902",
+        "expected": {
+          "number": "301",
+          "street": "Commons",
+          "type": "Park",
+          "suffix": "S",
+          "city": "Stamford",
+          "state": "CT",
+          "zip": "06902",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 18",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "912-914 8TH ST, CLARKSTON, WA 99403",
+        "expected": {
+          "number": "912-914",
+          "street": "8TH",
+          "type": "St",
+          "city": "CLARKSTON",
+          "state": "WA",
+          "zip": "99403",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "ignoreCase": ["street", "city"]
+      },
+      {
+        "name": "libpostal case 19",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "2120 E Hill Street #104 Signal Hill CA 90755",
+        "expected": {
+          "number": "2120",
+          "prefix": "E",
+          "street": "Hill",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "104",
+          "city": "Signal Hill",
+          "state": "CA",
+          "zip": "90755",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 20",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "1036-1038 MC CARROLL ST CLARKSTON WA 99403",
+        "expected": {
+          "number": "1036-1038",
+          "street": "MC CARROLL",
+          "type": "St",
+          "city": "CLARKSTON",
+          "state": "WA",
+          "zip": "99403",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "ignoreCase": ["street", "city"]
+      },
+      {
+        "name": "libpostal case 21",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "2455-B W BENCH RD OTHELLO WA 99344",
+        "expected": {
+          "number": "2455-B",
+          "prefix": "W",
+          "street": "BENCH",
+          "type": "Rd",
+          "city": "OTHELLO",
+          "state": "WA",
+          "zip": "99344",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "ignoreCase": ["street", "city"],
+        "todo": true,
+        "todoNote": "number: absent (want \"2455-B\"); prefix: absent (want \"W\"); street: \"2455-B W Bench\" (want \"BENCH\")"
+      },
+      {
+        "name": "libpostal case 22",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "473 Boston Rd, Wilbraham, MA",
+        "expected": {
+          "number": "473",
+          "street": "Boston",
+          "type": "Rd",
+          "city": "Wilbraham",
+          "state": "MA",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 23",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "25050 ALESSANDRO BLVD, STE B, MORENO VALLEY, CA, 92553-4313",
+        "expected": {
+          "number": "25050",
+          "street": "ALESSANDRO",
+          "type": "Blvd",
+          "secUnitType": "Suite",
+          "secUnitNum": "B",
+          "city": "MORENO VALLEY",
+          "state": "CA",
+          "zip": "92553",
+          "plus4": "4313",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "ignoreCase": ["street", "city"],
+        "todo": true,
+        "todoNote": "city: \"CA\" (want \"MORENO VALLEY\"); state: absent (want \"CA\")"
+      },
+      {
+        "name": "libpostal case 24",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "PO Box 1, Seattle, WA 98103",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98103",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 25",
+        "description": "libpostal fixture whose neighbourhood or county has no field here; checks the street line and what can be checked of the last line",
+        "input": "4411 Stone Way North Seattle, King County, WA 98103",
+        "expected": {
+          "number": "4411",
+          "street": "Stone",
+          "type": "Way",
+          "suffix": "N",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98103",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "partial": true,
+        "todo": true,
+        "todoNote": "street: \"Stone Way North Seattle\" (want \"Stone\"); type: absent (want \"Way\"); suffix: absent (want \"N\"); city: \"King County\" (want \"Seattle\")"
+      },
+      {
+        "name": "libpostal case 26",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "452 Maxwell Ave, Apt 3A\nRochester, NY 14619",
+        "expected": {
+          "number": "452",
+          "street": "Maxwell",
+          "type": "Ave",
+          "secUnitType": "Apartment",
+          "secUnitNum": "3A",
+          "city": "Rochester",
+          "state": "NY",
+          "zip": "14619",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 27",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "1600 Pennsylvania Ave NW, Washington DC 20500",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 28",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "1600 Pennsylvania Ave NW, Washington D.C 20500",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "city: absent (want \"Washington\")"
+      },
+      {
+        "name": "libpostal case 29",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "1600 Pennsylvania Ave NW, Washington D.C. 20500",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "suffix": "NW",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "city: absent (want \"Washington\")"
+      },
+      {
+        "name": "libpostal case 30",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "99-40 63rd Rd, Queens, NY 11374",
+        "expected": {
+          "number": "99-40",
+          "street": "63rd",
+          "type": "Rd",
+          "city": "Queens",
+          "state": "NY",
+          "zip": "11374",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 31",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "351 NW North St, Chehalis, WA 98532-1900",
+        "expected": {
+          "number": "351",
+          "prefix": "NW",
+          "street": "North",
+          "type": "St",
+          "city": "Chehalis",
+          "state": "WA",
+          "zip": "98532",
+          "plus4": "1900",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 32",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "2501 N Blackwelder Ave, Oklahoma City, Oklahoma 73106",
+        "expected": {
+          "number": "2501",
+          "prefix": "N",
+          "street": "Blackwelder",
+          "type": "Ave",
+          "city": "Oklahoma City",
+          "state": "OK",
+          "zip": "73106",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 33",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "1011 South Dr, Indiana, Pennsylvania 15705",
+        "expected": {
+          "number": "1011",
+          "street": "South",
+          "type": "Dr",
+          "city": "Indiana",
+          "state": "PA",
+          "zip": "15705",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"Dr\" (want \"South\"); type: absent (want \"Dr\"); prefix: \"S\" (want absent)"
+      },
+      {
+        "name": "libpostal case 34",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "444 South 5th St Apt. 3A Brooklyn, N.Y. 11211",
+        "expected": {
+          "number": "444",
+          "prefix": "S",
+          "street": "5th",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "3A",
+          "city": "Brooklyn",
+          "state": "NY",
+          "zip": "11211",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "street: \"5th St Apt. 3A Brooklyn\" (want \"5th\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"3A\"); city: absent (want \"Brooklyn\")"
+      },
+      {
+        "name": "libpostal case 35",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "Atrium Mall, 640 Arthur Kill Rd, Staten Island, NY 10312",
+        "expected": {
+          "place": "Atrium Mall",
+          "number": "640",
+          "street": "Arthur Kill",
+          "type": "Rd",
+          "city": "Staten Island",
+          "state": "NY",
+          "zip": "10312",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 36",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "5276 Old Mill Rd NE, Bainbridge Island, WA 98110",
+        "expected": {
+          "number": "5276",
+          "street": "Old Mill",
+          "type": "Rd",
+          "suffix": "NE",
+          "city": "Bainbridge Island",
+          "state": "WA",
+          "zip": "98110",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "libpostal case 37",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "1400 West Transport Road, Fayetteville, AR, 72704",
+        "expected": {
+          "number": "1400",
+          "prefix": "W",
+          "street": "Transport",
+          "type": "Rd",
+          "city": "Fayetteville",
+          "state": "AR",
+          "zip": "72704",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "city: \"AR\" (want \"Fayetteville\"); state: absent (want \"AR\")"
+      },
+      {
+        "name": "libpostal case 38",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "10 Amelia Village Circle, Fernandina Beach, FL, 32034",
+        "expected": {
+          "number": "10",
+          "street": "Amelia Village",
+          "type": "Cir",
+          "city": "Fernandina Beach",
+          "state": "FL",
+          "zip": "32034",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "city: absent (want \"Fernandina Beach\"); state: absent (want \"FL\"); secUnitType: \"Floor\" (want absent)"
+      },
+      {
+        "name": "libpostal case 39",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "5850 US Highway 431, STE 1, Albertville, AL, 35950-2049",
+        "expected": {
+          "number": "5850",
+          "street": "US Hwy 431",
+          "secUnitType": "Suite",
+          "secUnitNum": "1",
+          "city": "Albertville",
+          "state": "AL",
+          "zip": "35950",
+          "plus4": "2049",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "todo": true,
+        "todoNote": "city: \"AL\" (want \"Albertville\"); state: absent (want \"AL\")"
+      },
+      {
+        "name": "libpostal case 40",
+        "description": "libpostal fixture, its labelled components converted to this library's fields",
+        "input": "18312 SE Brooklyn CT Gresham OR",
+        "expected": {
+          "number": "18312",
+          "prefix": "SE",
+          "street": "Brooklyn",
+          "type": "Ct",
+          "city": "Gresham",
+          "state": "OR",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
+        "ignoreCase": ["street", "city"],
+        "todo": true,
+        "todoNote": "type: \"Crt\" (want \"Ct\")"
+      }
+    ]
+  }
+}

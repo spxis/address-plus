@@ -1,0 +1,1153 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Formatting Variants",
+  "description": "The same addresses in lowercase and capitals, without commas, with extra spaces, punctuation variants, on several lines and followed by the country. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "letterCase": [
+      {
+        "name": "lowercase 1005 N Gravenstein Hwy",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "1005 n gravenstein hwy, sebastopol, ca 95472",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 1005 N Gravenstein Hwy",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "1005 N GRAVENSTEIN HWY, SEBASTOPOL, CA 95472",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 742 Evergreen Ter",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "742 evergreen ter, springfield, il 62704",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 742 Evergreen Ter",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "742 EVERGREEN TER, SPRINGFIELD, IL 62704",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 350 5th Ave Fl 34",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "350 5th ave fl 34, new york, ny 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 350 5th Ave Fl 34",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "350 5TH AVE FL 34, NEW YORK, NY 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 1600 Amphitheatre Pkwy",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "1600 amphitheatre pkwy, mountain view, ca 94043",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 1600 Amphitheatre Pkwy",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "1600 AMPHITHEATRE PKWY, MOUNTAIN VIEW, CA 94043",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 4059 Mt Lee Dr",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "4059 mt lee dr, hollywood, ca 90068",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 4059 Mt Lee Dr",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "4059 MT LEE DR, HOLLYWOOD, CA 90068",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 233 S Wacker Dr Ste 3500",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "233 s wacker dr ste 3500, chicago, il 60606",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 233 S Wacker Dr Ste 3500",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "233 S WACKER DR STE 3500, CHICAGO, IL 60606",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 2200 Mission College Blvd",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "2200 mission college blvd, santa clara, ca 95054",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 2200 Mission College Blvd",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "2200 MISSION COLLEGE BLVD, SANTA CLARA, CA 95054",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      },
+      {
+        "name": "lowercase 100 Universal City Plz",
+        "description": "Whole address in lowercase; free-text fields are compared without regard to case",
+        "input": "100 universal city plz, universal city, ca 91608",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "uppercase 100 Universal City Plz",
+        "description": "Whole address in capitals, as Pub 28 prints it; free-text fields are compared without regard to case",
+        "input": "100 UNIVERSAL CITY PLZ, UNIVERSAL CITY, CA 91608",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), uppercase letters"
+      }
+    ],
+    "punctuation": [
+      {
+        "name": "period after the suffix",
+        "description": "Punctuation variant: period after the suffix",
+        "input": "123 Main St., Springfield, IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "periods after the directional and the suffix",
+        "description": "Punctuation variant: periods after the directional and the suffix",
+        "input": "123 N. Main St., Springfield, IL 62701",
+        "expected": {
+          "number": "123",
+          "prefix": "N",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no spaces after the commas",
+        "description": "Punctuation variant: no spaces after the commas",
+        "input": "123 Main St.,Springfield,IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "semicolons instead of commas",
+        "description": "Punctuation variant: semicolons instead of commas",
+        "input": "123 Main Street; Springfield; IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Main Street; Springfield;\" (want \"Main\"); type: absent (want \"St\"); city: absent (want \"Springfield\")"
+      },
+      {
+        "name": "full stop at the end",
+        "description": "Punctuation variant: full stop at the end",
+        "input": "123 Main St, Springfield, IL 62701.",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a dash between street and city",
+        "description": "Punctuation variant: a dash between street and city",
+        "input": "123 Main St - Springfield, IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Main St - Springfield\" (want \"Main\"); type: absent (want \"St\"); city: absent (want \"Springfield\")"
+      }
+    ],
+    "spacing": [
+      {
+        "name": "no commas 1005 N Gravenstein Hwy",
+        "description": "Address with no commas",
+        "input": "1005 N Gravenstein Hwy Sebastopol CA 95472",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 1005 N Gravenstein Hwy",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  1005  N  Gravenstein  Hwy ,  Sebastopol ,  CA   95472  ",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 742 Evergreen Ter",
+        "description": "Address with no commas",
+        "input": "742 Evergreen Ter Springfield IL 62704",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 742 Evergreen Ter",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  742  Evergreen  Ter ,  Springfield ,  IL   62704  ",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 350 5th Ave Fl 34",
+        "description": "Address with no commas",
+        "input": "350 5th Ave Fl 34 New York NY 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 350 5th Ave Fl 34",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  350  5th  Ave  Fl  34 ,  New York ,  NY   10118  ",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 1600 Amphitheatre Pkwy",
+        "description": "Address with no commas",
+        "input": "1600 Amphitheatre Pkwy Mountain View CA 94043",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Amphitheatre Pkwy Mountain\" (want \"Amphitheatre\"); type: \"Vw\" (want \"Pkwy\"); city: absent (want \"Mountain View\")"
+      },
+      {
+        "name": "extra spaces 1600 Amphitheatre Pkwy",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  1600  Amphitheatre  Pkwy ,  Mountain View ,  CA   94043  ",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 4059 Mt Lee Dr",
+        "description": "Address with no commas",
+        "input": "4059 Mt Lee Dr Hollywood CA 90068",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 4059 Mt Lee Dr",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  4059  Mt  Lee  Dr ,  Hollywood ,  CA   90068  ",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Mt  Lee\" (want \"Mt Lee\")"
+      },
+      {
+        "name": "no commas 233 S Wacker Dr Ste 3500",
+        "description": "Address with no commas",
+        "input": "233 S Wacker Dr Ste 3500 Chicago IL 60606",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 233 S Wacker Dr Ste 3500",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  233  S  Wacker  Dr  Ste  3500 ,  Chicago ,  IL   60606  ",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "no commas 2200 Mission College Blvd",
+        "description": "Address with no commas",
+        "input": "2200 Mission College Blvd Santa Clara CA 95054",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 2200 Mission College Blvd",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  2200  Mission  College  Blvd ,  Santa Clara ,  CA   95054  ",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Mission  College\" (want \"Mission College\")"
+      },
+      {
+        "name": "no commas 100 Universal City Plz",
+        "description": "Address with no commas",
+        "input": "100 Universal City Plz Universal City CA 91608",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "extra spaces 100 Universal City Plz",
+        "description": "Doubled spaces between words and around commas",
+        "input": "  100  Universal  City  Plz ,  Universal City ,  CA   91608  ",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Universal  City\" (want \"Universal City\")"
+      }
+    ],
+    "multiline": [
+      {
+        "name": "two lines 1005 N Gravenstein Hwy",
+        "description": "Delivery line and last line on separate lines",
+        "input": "1005 N Gravenstein Hwy\nSebastopol, CA 95472",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 1005 N Gravenstein Hwy",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "1005 N Gravenstein Hwy\r\nSebastopol CA 95472",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 742 Evergreen Ter",
+        "description": "Delivery line and last line on separate lines",
+        "input": "742 Evergreen Ter\nSpringfield, IL 62704",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 742 Evergreen Ter",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "742 Evergreen Ter\r\nSpringfield IL 62704",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 350 5th Ave Fl 34",
+        "description": "Delivery line and last line on separate lines",
+        "input": "350 5th Ave Fl 34\nNew York, NY 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 350 5th Ave Fl 34",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "350 5th Ave Fl 34\r\nNew York NY 10118",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 1600 Amphitheatre Pkwy",
+        "description": "Delivery line and last line on separate lines",
+        "input": "1600 Amphitheatre Pkwy\nMountain View, CA 94043",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 1600 Amphitheatre Pkwy",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "1600 Amphitheatre Pkwy\r\nMountain View CA 94043",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 4059 Mt Lee Dr",
+        "description": "Delivery line and last line on separate lines",
+        "input": "4059 Mt Lee Dr\nHollywood, CA 90068",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 4059 Mt Lee Dr",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "4059 Mt Lee Dr\r\nHollywood CA 90068",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 233 S Wacker Dr Ste 3500",
+        "description": "Delivery line and last line on separate lines",
+        "input": "233 S Wacker Dr Ste 3500\nChicago, IL 60606",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 233 S Wacker Dr Ste 3500",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "233 S Wacker Dr Ste 3500\r\nChicago IL 60606",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 2200 Mission College Blvd",
+        "description": "Delivery line and last line on separate lines",
+        "input": "2200 Mission College Blvd\nSanta Clara, CA 95054",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 2200 Mission College Blvd",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "2200 Mission College Blvd\r\nSanta Clara CA 95054",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two lines 100 Universal City Plz",
+        "description": "Delivery line and last line on separate lines",
+        "input": "100 Universal City Plz\nUniversal City, CA 91608",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), address block"
+      },
+      {
+        "name": "two lines with CRLF 100 Universal City Plz",
+        "description": "Delivery line and last line separated by a Windows line ending",
+        "input": "100 Universal City Plz\r\nUniversal City CA 91608",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "unit on a line of its own",
+        "description": "Multiline address with the unit on a line of its own",
+        "input": "123 Main St\nApt 4\nSpringfield, IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line"
+      },
+      {
+        "name": "unit on the line above, as Pub 28 allows",
+        "description": "Multiline address with the unit on the line above, as Pub 28 allows",
+        "input": "Apt 4\n123 Main St\nSpringfield, IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "unit on the street line, no commas",
+        "description": "Multiline address with the unit on the street line, no commas",
+        "input": "123 Main St Apt 4\nSpringfield IL 62701",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line"
+      }
+    ],
+    "trailingCountry": [
+      {
+        "name": "trailing USA 1005 N Gravenstein Hwy",
+        "description": "Address followed by the country",
+        "input": "1005 N Gravenstein Hwy, Sebastopol, CA 95472, USA",
+        "expected": {
+          "number": "1005",
+          "prefix": "N",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "city": "Sebastopol",
+          "state": "CA",
+          "zip": "95472",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Sebastopol, CA 95472, USA\" (want \"Sebastopol\"); state: absent (want \"CA\"); zip: absent (want \"95472\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 742 Evergreen Ter",
+        "description": "Address followed by the country",
+        "input": "742 Evergreen Ter, Springfield, IL 62704, USA",
+        "expected": {
+          "number": "742",
+          "street": "Evergreen",
+          "type": "Ter",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62704",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Springfield, IL 62704, USA\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62704\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 350 5th Ave Fl 34",
+        "description": "Address followed by the country",
+        "input": "350 5th Ave Fl 34, New York, NY 10118, USA",
+        "expected": {
+          "number": "350",
+          "street": "5th",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "34",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10118",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"New York, NY 10118, USA\" (want \"New York\"); state: absent (want \"NY\"); zip: absent (want \"10118\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 1600 Amphitheatre Pkwy",
+        "description": "Address followed by the country",
+        "input": "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+        "expected": {
+          "number": "1600",
+          "street": "Amphitheatre",
+          "type": "Pkwy",
+          "city": "Mountain View",
+          "state": "CA",
+          "zip": "94043",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Mountain View, CA 94043, USA\" (want \"Mountain View\"); state: absent (want \"CA\"); zip: absent (want \"94043\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 4059 Mt Lee Dr",
+        "description": "Address followed by the country",
+        "input": "4059 Mt Lee Dr, Hollywood, CA 90068, USA",
+        "expected": {
+          "number": "4059",
+          "street": "Mt Lee",
+          "type": "Dr",
+          "city": "Hollywood",
+          "state": "CA",
+          "zip": "90068",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Hollywood, CA 90068, USA\" (want \"Hollywood\"); state: absent (want \"CA\"); zip: absent (want \"90068\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 233 S Wacker Dr Ste 3500",
+        "description": "Address followed by the country",
+        "input": "233 S Wacker Dr Ste 3500, Chicago, IL 60606, USA",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "secUnitType": "Suite",
+          "secUnitNum": "3500",
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60606",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Chicago, IL 60606, USA\" (want \"Chicago\"); state: absent (want \"IL\"); zip: absent (want \"60606\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 2200 Mission College Blvd",
+        "description": "Address followed by the country",
+        "input": "2200 Mission College Blvd, Santa Clara, CA 95054, USA",
+        "expected": {
+          "number": "2200",
+          "street": "Mission College",
+          "type": "Blvd",
+          "city": "Santa Clara",
+          "state": "CA",
+          "zip": "95054",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Santa Clara, CA 95054, USA\" (want \"Santa Clara\"); state: absent (want \"CA\"); zip: absent (want \"95054\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing USA 100 Universal City Plz",
+        "description": "Address followed by the country",
+        "input": "100 Universal City Plz, Universal City, CA 91608, USA",
+        "expected": {
+          "number": "100",
+          "street": "Universal City",
+          "type": "Plz",
+          "city": "Universal City",
+          "state": "CA",
+          "zip": "91608",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Universal City, CA 91608, USA\" (want \"Universal City\"); state: absent (want \"CA\"); zip: absent (want \"91608\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing United States",
+        "description": "Address followed by the country as United States",
+        "input": "123 Main St, Springfield, IL 62701, United States",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Springfield, IL 62701, United States\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62701\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing US without a comma",
+        "description": "Address followed by the country as US without a comma",
+        "input": "123 Main St, Springfield, IL 62701 US",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "trailing U.S.A. with periods",
+        "description": "Address followed by the country as U.S.A. with periods",
+        "input": "123 Main St, Springfield, IL 62701, U.S.A.",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Springfield, IL 62701, U.S.A.\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62701\"); country: absent (want \"US\")"
+      },
+      {
+        "name": "trailing the full name on its own line",
+        "description": "Address followed by the country as the full name on its own line",
+        "input": "123 Main St, Springfield, IL 62701\nUnited States of America",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "city: \"Springfield, IL 62701, United States of America\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62701\"); country: absent (want \"US\")"
+      }
+    ]
+  }
+}

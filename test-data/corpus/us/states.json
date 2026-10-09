@@ -1,0 +1,2537 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US States and Territories",
+  "description": "Every state, the District of Columbia and the inhabited territories, by two-letter code, by full name and with no commas, each in its capital. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "abbreviation": [
+      {
+        "name": "AL",
+        "description": "Alabama by its two-letter code",
+        "input": "3914 Willow St, Montgomery, AL 36104",
+        "expected": {
+          "number": "3914",
+          "street": "Willow",
+          "type": "St",
+          "city": "Montgomery",
+          "state": "AL",
+          "zip": "36104",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AK",
+        "description": "Alaska by its two-letter code",
+        "input": "4251 Hawthorne St, Juneau, AK 99801",
+        "expected": {
+          "number": "4251",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Juneau",
+          "state": "AK",
+          "zip": "99801",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AZ",
+        "description": "Arizona by its two-letter code",
+        "input": "4588 Juniper St, Phoenix, AZ 85004",
+        "expected": {
+          "number": "4588",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AR",
+        "description": "Arkansas by its two-letter code",
+        "input": "4925 Sycamore St, Little Rock, AR 72201",
+        "expected": {
+          "number": "4925",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Little Rock",
+          "state": "AR",
+          "zip": "72201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "CA",
+        "description": "California by its two-letter code",
+        "input": "5262 Magnolia St, Sacramento, CA 95814",
+        "expected": {
+          "number": "5262",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Sacramento",
+          "state": "CA",
+          "zip": "95814",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "CO",
+        "description": "Colorado by its two-letter code",
+        "input": "5599 Chestnut St, Denver, CO 80202",
+        "expected": {
+          "number": "5599",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "CT",
+        "description": "Connecticut by its two-letter code",
+        "input": "5936 Birch St, Hartford, CT 06103",
+        "expected": {
+          "number": "5936",
+          "street": "Birch",
+          "type": "St",
+          "city": "Hartford",
+          "state": "CT",
+          "zip": "06103",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "DE",
+        "description": "Delaware by its two-letter code",
+        "input": "6273 Aspen St, Dover, DE 19901",
+        "expected": {
+          "number": "6273",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Dover",
+          "state": "DE",
+          "zip": "19901",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "FL",
+        "description": "Florida by its two-letter code",
+        "input": "6610 Laurel St, Tallahassee, FL 32301",
+        "expected": {
+          "number": "6610",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Tallahassee",
+          "state": "FL",
+          "zip": "32301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "GA",
+        "description": "Georgia by its two-letter code",
+        "input": "6947 Hickory St, Atlanta, GA 30303",
+        "expected": {
+          "number": "6947",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "HI",
+        "description": "Hawaii by its two-letter code",
+        "input": "7284 Willow St, Honolulu, HI 96813",
+        "expected": {
+          "number": "7284",
+          "street": "Willow",
+          "type": "St",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96813",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "ID",
+        "description": "Idaho by its two-letter code",
+        "input": "7621 Hawthorne St, Boise, ID 83702",
+        "expected": {
+          "number": "7621",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "IL",
+        "description": "Illinois by its two-letter code",
+        "input": "7958 Juniper St, Springfield, IL 62701",
+        "expected": {
+          "number": "7958",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "IN",
+        "description": "Indiana by its two-letter code",
+        "input": "8295 Sycamore St, Indianapolis, IN 46204",
+        "expected": {
+          "number": "8295",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Indianapolis",
+          "state": "IN",
+          "zip": "46204",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "IA",
+        "description": "Iowa by its two-letter code",
+        "input": "8632 Magnolia St, Des Moines, IA 50309",
+        "expected": {
+          "number": "8632",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Des Moines",
+          "state": "IA",
+          "zip": "50309",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "KS",
+        "description": "Kansas by its two-letter code",
+        "input": "8969 Chestnut St, Topeka, KS 66603",
+        "expected": {
+          "number": "8969",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Topeka",
+          "state": "KS",
+          "zip": "66603",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "KY",
+        "description": "Kentucky by its two-letter code",
+        "input": "9306 Birch St, Frankfort, KY 40601",
+        "expected": {
+          "number": "9306",
+          "street": "Birch",
+          "type": "St",
+          "city": "Frankfort",
+          "state": "KY",
+          "zip": "40601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "LA",
+        "description": "Louisiana by its two-letter code",
+        "input": "9643 Aspen St, Baton Rouge, LA 70802",
+        "expected": {
+          "number": "9643",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "zip": "70802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "ME",
+        "description": "Maine by its two-letter code",
+        "input": "180 Laurel St, Augusta, ME 04330",
+        "expected": {
+          "number": "180",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Augusta",
+          "state": "ME",
+          "zip": "04330",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MD",
+        "description": "Maryland by its two-letter code",
+        "input": "517 Hickory St, Annapolis, MD 21401",
+        "expected": {
+          "number": "517",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Annapolis",
+          "state": "MD",
+          "zip": "21401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MA",
+        "description": "Massachusetts by its two-letter code",
+        "input": "854 Willow St, Boston, MA 02108",
+        "expected": {
+          "number": "854",
+          "street": "Willow",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MI",
+        "description": "Michigan by its two-letter code",
+        "input": "1191 Hawthorne St, Lansing, MI 48933",
+        "expected": {
+          "number": "1191",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Lansing",
+          "state": "MI",
+          "zip": "48933",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MN",
+        "description": "Minnesota by its two-letter code",
+        "input": "1528 Juniper St, Saint Paul, MN 55102",
+        "expected": {
+          "number": "1528",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Saint Paul",
+          "state": "MN",
+          "zip": "55102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MS",
+        "description": "Mississippi by its two-letter code",
+        "input": "1865 Sycamore St, Jackson, MS 39201",
+        "expected": {
+          "number": "1865",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Jackson",
+          "state": "MS",
+          "zip": "39201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MO",
+        "description": "Missouri by its two-letter code",
+        "input": "2202 Magnolia St, Jefferson City, MO 65101",
+        "expected": {
+          "number": "2202",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Jefferson City",
+          "state": "MO",
+          "zip": "65101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MT",
+        "description": "Montana by its two-letter code",
+        "input": "2539 Chestnut St, Helena, MT 59601",
+        "expected": {
+          "number": "2539",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NE",
+        "description": "Nebraska by its two-letter code",
+        "input": "2876 Birch St, Lincoln, NE 68508",
+        "expected": {
+          "number": "2876",
+          "street": "Birch",
+          "type": "St",
+          "city": "Lincoln",
+          "state": "NE",
+          "zip": "68508",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NV",
+        "description": "Nevada by its two-letter code",
+        "input": "3213 Aspen St, Carson City, NV 89701",
+        "expected": {
+          "number": "3213",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Carson City",
+          "state": "NV",
+          "zip": "89701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NH",
+        "description": "New Hampshire by its two-letter code",
+        "input": "3550 Laurel St, Concord, NH 03301",
+        "expected": {
+          "number": "3550",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Concord",
+          "state": "NH",
+          "zip": "03301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NJ",
+        "description": "New Jersey by its two-letter code",
+        "input": "3887 Hickory St, Trenton, NJ 08608",
+        "expected": {
+          "number": "3887",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Trenton",
+          "state": "NJ",
+          "zip": "08608",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NM",
+        "description": "New Mexico by its two-letter code",
+        "input": "4224 Willow St, Santa Fe, NM 87501",
+        "expected": {
+          "number": "4224",
+          "street": "Willow",
+          "type": "St",
+          "city": "Santa Fe",
+          "state": "NM",
+          "zip": "87501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NY",
+        "description": "New York by its two-letter code",
+        "input": "4561 Hawthorne St, Albany, NY 12207",
+        "expected": {
+          "number": "4561",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Albany",
+          "state": "NY",
+          "zip": "12207",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NC",
+        "description": "North Carolina by its two-letter code",
+        "input": "4898 Juniper St, Raleigh, NC 27601",
+        "expected": {
+          "number": "4898",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "ND",
+        "description": "North Dakota by its two-letter code",
+        "input": "5235 Sycamore St, Bismarck, ND 58501",
+        "expected": {
+          "number": "5235",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Bismarck",
+          "state": "ND",
+          "zip": "58501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "OH",
+        "description": "Ohio by its two-letter code",
+        "input": "5572 Magnolia St, Columbus, OH 43215",
+        "expected": {
+          "number": "5572",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "OK",
+        "description": "Oklahoma by its two-letter code",
+        "input": "5909 Chestnut St, Oklahoma City, OK 73102",
+        "expected": {
+          "number": "5909",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Oklahoma City",
+          "state": "OK",
+          "zip": "73102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "OR",
+        "description": "Oregon by its two-letter code",
+        "input": "6246 Birch St, Salem, OR 97301",
+        "expected": {
+          "number": "6246",
+          "street": "Birch",
+          "type": "St",
+          "city": "Salem",
+          "state": "OR",
+          "zip": "97301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PA",
+        "description": "Pennsylvania by its two-letter code",
+        "input": "6583 Aspen St, Harrisburg, PA 17101",
+        "expected": {
+          "number": "6583",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Harrisburg",
+          "state": "PA",
+          "zip": "17101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "RI",
+        "description": "Rhode Island by its two-letter code",
+        "input": "6920 Laurel St, Providence, RI 02903",
+        "expected": {
+          "number": "6920",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Providence",
+          "state": "RI",
+          "zip": "02903",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "SC",
+        "description": "South Carolina by its two-letter code",
+        "input": "7257 Hickory St, Columbia, SC 29201",
+        "expected": {
+          "number": "7257",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Columbia",
+          "state": "SC",
+          "zip": "29201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "SD",
+        "description": "South Dakota by its two-letter code",
+        "input": "7594 Willow St, Pierre, SD 57501",
+        "expected": {
+          "number": "7594",
+          "street": "Willow",
+          "type": "St",
+          "city": "Pierre",
+          "state": "SD",
+          "zip": "57501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "TN",
+        "description": "Tennessee by its two-letter code",
+        "input": "7931 Hawthorne St, Nashville, TN 37219",
+        "expected": {
+          "number": "7931",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "TX",
+        "description": "Texas by its two-letter code",
+        "input": "8268 Juniper St, Austin, TX 78701",
+        "expected": {
+          "number": "8268",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "UT",
+        "description": "Utah by its two-letter code",
+        "input": "8605 Sycamore St, Salt Lake City, UT 84111",
+        "expected": {
+          "number": "8605",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84111",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "VT",
+        "description": "Vermont by its two-letter code",
+        "input": "8942 Magnolia St, Montpelier, VT 05602",
+        "expected": {
+          "number": "8942",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Montpelier",
+          "state": "VT",
+          "zip": "05602",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "VA",
+        "description": "Virginia by its two-letter code",
+        "input": "9279 Chestnut St, Richmond, VA 23219",
+        "expected": {
+          "number": "9279",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Richmond",
+          "state": "VA",
+          "zip": "23219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WA",
+        "description": "Washington by its two-letter code",
+        "input": "9616 Birch St, Olympia, WA 98501",
+        "expected": {
+          "number": "9616",
+          "street": "Birch",
+          "type": "St",
+          "city": "Olympia",
+          "state": "WA",
+          "zip": "98501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WV",
+        "description": "West Virginia by its two-letter code",
+        "input": "153 Aspen St, Charleston, WV 25301",
+        "expected": {
+          "number": "153",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Charleston",
+          "state": "WV",
+          "zip": "25301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WI",
+        "description": "Wisconsin by its two-letter code",
+        "input": "490 Laurel St, Madison, WI 53703",
+        "expected": {
+          "number": "490",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WY",
+        "description": "Wyoming by its two-letter code",
+        "input": "827 Hickory St, Cheyenne, WY 82001",
+        "expected": {
+          "number": "827",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Cheyenne",
+          "state": "WY",
+          "zip": "82001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "DC",
+        "description": "District of Columbia by its two-letter code",
+        "input": "1164 Willow St, Washington, DC 20001",
+        "expected": {
+          "number": "1164",
+          "street": "Willow",
+          "type": "St",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PR",
+        "description": "Puerto Rico by its two-letter code",
+        "input": "1501 Hawthorne St, San Juan, PR 00901",
+        "expected": {
+          "number": "1501",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00901",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "GU",
+        "description": "Guam by its two-letter code",
+        "input": "1838 Juniper St, Hagatna, GU 96910",
+        "expected": {
+          "number": "1838",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Hagatna",
+          "state": "GU",
+          "zip": "96910",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "VI",
+        "description": "Virgin Islands by its two-letter code",
+        "input": "2175 Sycamore St, Charlotte Amalie, VI 00802",
+        "expected": {
+          "number": "2175",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Charlotte Amalie",
+          "state": "VI",
+          "zip": "00802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AS",
+        "description": "American Samoa by its two-letter code",
+        "input": "2512 Magnolia St, Pago Pago, AS 96799",
+        "expected": {
+          "number": "2512",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Pago Pago",
+          "state": "AS",
+          "zip": "96799",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MP",
+        "description": "Northern Mariana Islands by its two-letter code",
+        "input": "2849 Chestnut St, Saipan, MP 96950",
+        "expected": {
+          "number": "2849",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Saipan",
+          "state": "MP",
+          "zip": "96950",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      }
+    ],
+    "fullName": [
+      {
+        "name": "Alabama",
+        "description": "Alabama written out, standardized to AL",
+        "input": "3914 Willow St, Montgomery, Alabama 36104",
+        "expected": {
+          "number": "3914",
+          "street": "Willow",
+          "type": "St",
+          "city": "Montgomery",
+          "state": "AL",
+          "zip": "36104",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Alaska",
+        "description": "Alaska written out, standardized to AK",
+        "input": "4251 Hawthorne St, Juneau, Alaska 99801",
+        "expected": {
+          "number": "4251",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Juneau",
+          "state": "AK",
+          "zip": "99801",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Arizona",
+        "description": "Arizona written out, standardized to AZ",
+        "input": "4588 Juniper St, Phoenix, Arizona 85004",
+        "expected": {
+          "number": "4588",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Arkansas",
+        "description": "Arkansas written out, standardized to AR",
+        "input": "4925 Sycamore St, Little Rock, Arkansas 72201",
+        "expected": {
+          "number": "4925",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Little Rock",
+          "state": "AR",
+          "zip": "72201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "California",
+        "description": "California written out, standardized to CA",
+        "input": "5262 Magnolia St, Sacramento, California 95814",
+        "expected": {
+          "number": "5262",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Sacramento",
+          "state": "CA",
+          "zip": "95814",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Colorado",
+        "description": "Colorado written out, standardized to CO",
+        "input": "5599 Chestnut St, Denver, Colorado 80202",
+        "expected": {
+          "number": "5599",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Connecticut",
+        "description": "Connecticut written out, standardized to CT",
+        "input": "5936 Birch St, Hartford, Connecticut 06103",
+        "expected": {
+          "number": "5936",
+          "street": "Birch",
+          "type": "St",
+          "city": "Hartford",
+          "state": "CT",
+          "zip": "06103",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Delaware",
+        "description": "Delaware written out, standardized to DE",
+        "input": "6273 Aspen St, Dover, Delaware 19901",
+        "expected": {
+          "number": "6273",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Dover",
+          "state": "DE",
+          "zip": "19901",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Florida",
+        "description": "Florida written out, standardized to FL",
+        "input": "6610 Laurel St, Tallahassee, Florida 32301",
+        "expected": {
+          "number": "6610",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Tallahassee",
+          "state": "FL",
+          "zip": "32301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Georgia",
+        "description": "Georgia written out, standardized to GA",
+        "input": "6947 Hickory St, Atlanta, Georgia 30303",
+        "expected": {
+          "number": "6947",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Hawaii",
+        "description": "Hawaii written out, standardized to HI",
+        "input": "7284 Willow St, Honolulu, Hawaii 96813",
+        "expected": {
+          "number": "7284",
+          "street": "Willow",
+          "type": "St",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96813",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Idaho",
+        "description": "Idaho written out, standardized to ID",
+        "input": "7621 Hawthorne St, Boise, Idaho 83702",
+        "expected": {
+          "number": "7621",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Illinois",
+        "description": "Illinois written out, standardized to IL",
+        "input": "7958 Juniper St, Springfield, Illinois 62701",
+        "expected": {
+          "number": "7958",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Indiana",
+        "description": "Indiana written out, standardized to IN",
+        "input": "8295 Sycamore St, Indianapolis, Indiana 46204",
+        "expected": {
+          "number": "8295",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Indianapolis",
+          "state": "IN",
+          "zip": "46204",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Iowa",
+        "description": "Iowa written out, standardized to IA",
+        "input": "8632 Magnolia St, Des Moines, Iowa 50309",
+        "expected": {
+          "number": "8632",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Des Moines",
+          "state": "IA",
+          "zip": "50309",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Kansas",
+        "description": "Kansas written out, standardized to KS",
+        "input": "8969 Chestnut St, Topeka, Kansas 66603",
+        "expected": {
+          "number": "8969",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Topeka",
+          "state": "KS",
+          "zip": "66603",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Kentucky",
+        "description": "Kentucky written out, standardized to KY",
+        "input": "9306 Birch St, Frankfort, Kentucky 40601",
+        "expected": {
+          "number": "9306",
+          "street": "Birch",
+          "type": "St",
+          "city": "Frankfort",
+          "state": "KY",
+          "zip": "40601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Louisiana",
+        "description": "Louisiana written out, standardized to LA",
+        "input": "9643 Aspen St, Baton Rouge, Louisiana 70802",
+        "expected": {
+          "number": "9643",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "zip": "70802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Maine",
+        "description": "Maine written out, standardized to ME",
+        "input": "180 Laurel St, Augusta, Maine 04330",
+        "expected": {
+          "number": "180",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Augusta",
+          "state": "ME",
+          "zip": "04330",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Maryland",
+        "description": "Maryland written out, standardized to MD",
+        "input": "517 Hickory St, Annapolis, Maryland 21401",
+        "expected": {
+          "number": "517",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Annapolis",
+          "state": "MD",
+          "zip": "21401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Massachusetts",
+        "description": "Massachusetts written out, standardized to MA",
+        "input": "854 Willow St, Boston, Massachusetts 02108",
+        "expected": {
+          "number": "854",
+          "street": "Willow",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Michigan",
+        "description": "Michigan written out, standardized to MI",
+        "input": "1191 Hawthorne St, Lansing, Michigan 48933",
+        "expected": {
+          "number": "1191",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Lansing",
+          "state": "MI",
+          "zip": "48933",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Minnesota",
+        "description": "Minnesota written out, standardized to MN",
+        "input": "1528 Juniper St, Saint Paul, Minnesota 55102",
+        "expected": {
+          "number": "1528",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Saint Paul",
+          "state": "MN",
+          "zip": "55102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Mississippi",
+        "description": "Mississippi written out, standardized to MS",
+        "input": "1865 Sycamore St, Jackson, Mississippi 39201",
+        "expected": {
+          "number": "1865",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Jackson",
+          "state": "MS",
+          "zip": "39201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Missouri",
+        "description": "Missouri written out, standardized to MO",
+        "input": "2202 Magnolia St, Jefferson City, Missouri 65101",
+        "expected": {
+          "number": "2202",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Jefferson City",
+          "state": "MO",
+          "zip": "65101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Montana",
+        "description": "Montana written out, standardized to MT",
+        "input": "2539 Chestnut St, Helena, Montana 59601",
+        "expected": {
+          "number": "2539",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Nebraska",
+        "description": "Nebraska written out, standardized to NE",
+        "input": "2876 Birch St, Lincoln, Nebraska 68508",
+        "expected": {
+          "number": "2876",
+          "street": "Birch",
+          "type": "St",
+          "city": "Lincoln",
+          "state": "NE",
+          "zip": "68508",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Nevada",
+        "description": "Nevada written out, standardized to NV",
+        "input": "3213 Aspen St, Carson City, Nevada 89701",
+        "expected": {
+          "number": "3213",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Carson City",
+          "state": "NV",
+          "zip": "89701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "New Hampshire",
+        "description": "New Hampshire written out, standardized to NH",
+        "input": "3550 Laurel St, Concord, New Hampshire 03301",
+        "expected": {
+          "number": "3550",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Concord",
+          "state": "NH",
+          "zip": "03301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "New Jersey",
+        "description": "New Jersey written out, standardized to NJ",
+        "input": "3887 Hickory St, Trenton, New Jersey 08608",
+        "expected": {
+          "number": "3887",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Trenton",
+          "state": "NJ",
+          "zip": "08608",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "New Mexico",
+        "description": "New Mexico written out, standardized to NM",
+        "input": "4224 Willow St, Santa Fe, New Mexico 87501",
+        "expected": {
+          "number": "4224",
+          "street": "Willow",
+          "type": "St",
+          "city": "Santa Fe",
+          "state": "NM",
+          "zip": "87501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "New York",
+        "description": "New York written out, standardized to NY",
+        "input": "4561 Hawthorne St, Albany, New York 12207",
+        "expected": {
+          "number": "4561",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Albany",
+          "state": "NY",
+          "zip": "12207",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "North Carolina",
+        "description": "North Carolina written out, standardized to NC",
+        "input": "4898 Juniper St, Raleigh, North Carolina 27601",
+        "expected": {
+          "number": "4898",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "North Dakota",
+        "description": "North Dakota written out, standardized to ND",
+        "input": "5235 Sycamore St, Bismarck, North Dakota 58501",
+        "expected": {
+          "number": "5235",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Bismarck",
+          "state": "ND",
+          "zip": "58501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Ohio",
+        "description": "Ohio written out, standardized to OH",
+        "input": "5572 Magnolia St, Columbus, Ohio 43215",
+        "expected": {
+          "number": "5572",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Oklahoma",
+        "description": "Oklahoma written out, standardized to OK",
+        "input": "5909 Chestnut St, Oklahoma City, Oklahoma 73102",
+        "expected": {
+          "number": "5909",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Oklahoma City",
+          "state": "OK",
+          "zip": "73102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Oregon",
+        "description": "Oregon written out, standardized to OR",
+        "input": "6246 Birch St, Salem, Oregon 97301",
+        "expected": {
+          "number": "6246",
+          "street": "Birch",
+          "type": "St",
+          "city": "Salem",
+          "state": "OR",
+          "zip": "97301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Pennsylvania",
+        "description": "Pennsylvania written out, standardized to PA",
+        "input": "6583 Aspen St, Harrisburg, Pennsylvania 17101",
+        "expected": {
+          "number": "6583",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Harrisburg",
+          "state": "PA",
+          "zip": "17101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Rhode Island",
+        "description": "Rhode Island written out, standardized to RI",
+        "input": "6920 Laurel St, Providence, Rhode Island 02903",
+        "expected": {
+          "number": "6920",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Providence",
+          "state": "RI",
+          "zip": "02903",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "South Carolina",
+        "description": "South Carolina written out, standardized to SC",
+        "input": "7257 Hickory St, Columbia, South Carolina 29201",
+        "expected": {
+          "number": "7257",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Columbia",
+          "state": "SC",
+          "zip": "29201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "South Dakota",
+        "description": "South Dakota written out, standardized to SD",
+        "input": "7594 Willow St, Pierre, South Dakota 57501",
+        "expected": {
+          "number": "7594",
+          "street": "Willow",
+          "type": "St",
+          "city": "Pierre",
+          "state": "SD",
+          "zip": "57501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Tennessee",
+        "description": "Tennessee written out, standardized to TN",
+        "input": "7931 Hawthorne St, Nashville, Tennessee 37219",
+        "expected": {
+          "number": "7931",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Texas",
+        "description": "Texas written out, standardized to TX",
+        "input": "8268 Juniper St, Austin, Texas 78701",
+        "expected": {
+          "number": "8268",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Utah",
+        "description": "Utah written out, standardized to UT",
+        "input": "8605 Sycamore St, Salt Lake City, Utah 84111",
+        "expected": {
+          "number": "8605",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84111",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Vermont",
+        "description": "Vermont written out, standardized to VT",
+        "input": "8942 Magnolia St, Montpelier, Vermont 05602",
+        "expected": {
+          "number": "8942",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Montpelier",
+          "state": "VT",
+          "zip": "05602",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Virginia",
+        "description": "Virginia written out, standardized to VA",
+        "input": "9279 Chestnut St, Richmond, Virginia 23219",
+        "expected": {
+          "number": "9279",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Richmond",
+          "state": "VA",
+          "zip": "23219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Washington",
+        "description": "Washington written out, standardized to WA",
+        "input": "9616 Birch St, Olympia, Washington 98501",
+        "expected": {
+          "number": "9616",
+          "street": "Birch",
+          "type": "St",
+          "city": "Olympia",
+          "state": "WA",
+          "zip": "98501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "West Virginia",
+        "description": "West Virginia written out, standardized to WV",
+        "input": "153 Aspen St, Charleston, West Virginia 25301",
+        "expected": {
+          "number": "153",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Charleston",
+          "state": "WV",
+          "zip": "25301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Wisconsin",
+        "description": "Wisconsin written out, standardized to WI",
+        "input": "490 Laurel St, Madison, Wisconsin 53703",
+        "expected": {
+          "number": "490",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Wyoming",
+        "description": "Wyoming written out, standardized to WY",
+        "input": "827 Hickory St, Cheyenne, Wyoming 82001",
+        "expected": {
+          "number": "827",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Cheyenne",
+          "state": "WY",
+          "zip": "82001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "District of Columbia",
+        "description": "District of Columbia written out, standardized to DC",
+        "input": "1164 Willow St, Washington, District of Columbia 20001",
+        "expected": {
+          "number": "1164",
+          "street": "Willow",
+          "type": "St",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Puerto Rico",
+        "description": "Puerto Rico written out, standardized to PR",
+        "input": "1501 Hawthorne St, San Juan, Puerto Rico 00901",
+        "expected": {
+          "number": "1501",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00901",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Guam",
+        "description": "Guam written out, standardized to GU",
+        "input": "1838 Juniper St, Hagatna, Guam 96910",
+        "expected": {
+          "number": "1838",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Hagatna",
+          "state": "GU",
+          "zip": "96910",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Virgin Islands",
+        "description": "Virgin Islands written out, standardized to VI",
+        "input": "2175 Sycamore St, Charlotte Amalie, Virgin Islands 00802",
+        "expected": {
+          "number": "2175",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Charlotte Amalie",
+          "state": "VI",
+          "zip": "00802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "American Samoa",
+        "description": "American Samoa written out, standardized to AS",
+        "input": "2512 Magnolia St, Pago Pago, American Samoa 96799",
+        "expected": {
+          "number": "2512",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Pago Pago",
+          "state": "AS",
+          "zip": "96799",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "Northern Mariana Islands",
+        "description": "Northern Mariana Islands written out, standardized to MP",
+        "input": "2849 Chestnut St, Saipan, Northern Mariana Islands 96950",
+        "expected": {
+          "number": "2849",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Saipan",
+          "state": "MP",
+          "zip": "96950",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      }
+    ],
+    "noCommas": [
+      {
+        "name": "AL without commas",
+        "description": "Alabama by its code, no commas anywhere",
+        "input": "3914 Willow St Montgomery AL 36104",
+        "expected": {
+          "number": "3914",
+          "street": "Willow",
+          "type": "St",
+          "city": "Montgomery",
+          "state": "AL",
+          "zip": "36104",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AK without commas",
+        "description": "Alaska by its code, no commas anywhere",
+        "input": "4251 Hawthorne St Juneau AK 99801",
+        "expected": {
+          "number": "4251",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Juneau",
+          "state": "AK",
+          "zip": "99801",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AZ without commas",
+        "description": "Arizona by its code, no commas anywhere",
+        "input": "4588 Juniper St Phoenix AZ 85004",
+        "expected": {
+          "number": "4588",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AR without commas",
+        "description": "Arkansas by its code, no commas anywhere",
+        "input": "4925 Sycamore St Little Rock AR 72201",
+        "expected": {
+          "number": "4925",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Little Rock",
+          "state": "AR",
+          "zip": "72201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "CA without commas",
+        "description": "California by its code, no commas anywhere",
+        "input": "5262 Magnolia St Sacramento CA 95814",
+        "expected": {
+          "number": "5262",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Sacramento",
+          "state": "CA",
+          "zip": "95814",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "CO without commas",
+        "description": "Colorado by its code, no commas anywhere",
+        "input": "5599 Chestnut St Denver CO 80202",
+        "expected": {
+          "number": "5599",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "CT without commas",
+        "description": "Connecticut by its code, no commas anywhere",
+        "input": "5936 Birch St Hartford CT 06103",
+        "expected": {
+          "number": "5936",
+          "street": "Birch",
+          "type": "St",
+          "city": "Hartford",
+          "state": "CT",
+          "zip": "06103",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "DE without commas",
+        "description": "Delaware by its code, no commas anywhere",
+        "input": "6273 Aspen St Dover DE 19901",
+        "expected": {
+          "number": "6273",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Dover",
+          "state": "DE",
+          "zip": "19901",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "FL without commas",
+        "description": "Florida by its code, no commas anywhere",
+        "input": "6610 Laurel St Tallahassee FL 32301",
+        "expected": {
+          "number": "6610",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Tallahassee",
+          "state": "FL",
+          "zip": "32301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "GA without commas",
+        "description": "Georgia by its code, no commas anywhere",
+        "input": "6947 Hickory St Atlanta GA 30303",
+        "expected": {
+          "number": "6947",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "HI without commas",
+        "description": "Hawaii by its code, no commas anywhere",
+        "input": "7284 Willow St Honolulu HI 96813",
+        "expected": {
+          "number": "7284",
+          "street": "Willow",
+          "type": "St",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96813",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "ID without commas",
+        "description": "Idaho by its code, no commas anywhere",
+        "input": "7621 Hawthorne St Boise ID 83702",
+        "expected": {
+          "number": "7621",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "IL without commas",
+        "description": "Illinois by its code, no commas anywhere",
+        "input": "7958 Juniper St Springfield IL 62701",
+        "expected": {
+          "number": "7958",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "IN without commas",
+        "description": "Indiana by its code, no commas anywhere",
+        "input": "8295 Sycamore St Indianapolis IN 46204",
+        "expected": {
+          "number": "8295",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Indianapolis",
+          "state": "IN",
+          "zip": "46204",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "IA without commas",
+        "description": "Iowa by its code, no commas anywhere",
+        "input": "8632 Magnolia St Des Moines IA 50309",
+        "expected": {
+          "number": "8632",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Des Moines",
+          "state": "IA",
+          "zip": "50309",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "KS without commas",
+        "description": "Kansas by its code, no commas anywhere",
+        "input": "8969 Chestnut St Topeka KS 66603",
+        "expected": {
+          "number": "8969",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Topeka",
+          "state": "KS",
+          "zip": "66603",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "KY without commas",
+        "description": "Kentucky by its code, no commas anywhere",
+        "input": "9306 Birch St Frankfort KY 40601",
+        "expected": {
+          "number": "9306",
+          "street": "Birch",
+          "type": "St",
+          "city": "Frankfort",
+          "state": "KY",
+          "zip": "40601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "LA without commas",
+        "description": "Louisiana by its code, no commas anywhere",
+        "input": "9643 Aspen St Baton Rouge LA 70802",
+        "expected": {
+          "number": "9643",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "zip": "70802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "ME without commas",
+        "description": "Maine by its code, no commas anywhere",
+        "input": "180 Laurel St Augusta ME 04330",
+        "expected": {
+          "number": "180",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Augusta",
+          "state": "ME",
+          "zip": "04330",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MD without commas",
+        "description": "Maryland by its code, no commas anywhere",
+        "input": "517 Hickory St Annapolis MD 21401",
+        "expected": {
+          "number": "517",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Annapolis",
+          "state": "MD",
+          "zip": "21401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MA without commas",
+        "description": "Massachusetts by its code, no commas anywhere",
+        "input": "854 Willow St Boston MA 02108",
+        "expected": {
+          "number": "854",
+          "street": "Willow",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MI without commas",
+        "description": "Michigan by its code, no commas anywhere",
+        "input": "1191 Hawthorne St Lansing MI 48933",
+        "expected": {
+          "number": "1191",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Lansing",
+          "state": "MI",
+          "zip": "48933",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MN without commas",
+        "description": "Minnesota by its code, no commas anywhere",
+        "input": "1528 Juniper St Saint Paul MN 55102",
+        "expected": {
+          "number": "1528",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Saint Paul",
+          "state": "MN",
+          "zip": "55102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MS without commas",
+        "description": "Mississippi by its code, no commas anywhere",
+        "input": "1865 Sycamore St Jackson MS 39201",
+        "expected": {
+          "number": "1865",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Jackson",
+          "state": "MS",
+          "zip": "39201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MO without commas",
+        "description": "Missouri by its code, no commas anywhere",
+        "input": "2202 Magnolia St Jefferson City MO 65101",
+        "expected": {
+          "number": "2202",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Jefferson City",
+          "state": "MO",
+          "zip": "65101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B",
+        "todo": true,
+        "todoNote": "street: \"Magnolia St Jefferson\" (want \"Magnolia\"); type: absent (want \"St\"); city: \"City\" (want \"Jefferson City\")"
+      },
+      {
+        "name": "MT without commas",
+        "description": "Montana by its code, no commas anywhere",
+        "input": "2539 Chestnut St Helena MT 59601",
+        "expected": {
+          "number": "2539",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NE without commas",
+        "description": "Nebraska by its code, no commas anywhere",
+        "input": "2876 Birch St Lincoln NE 68508",
+        "expected": {
+          "number": "2876",
+          "street": "Birch",
+          "type": "St",
+          "city": "Lincoln",
+          "state": "NE",
+          "zip": "68508",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NV without commas",
+        "description": "Nevada by its code, no commas anywhere",
+        "input": "3213 Aspen St Carson City NV 89701",
+        "expected": {
+          "number": "3213",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Carson City",
+          "state": "NV",
+          "zip": "89701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NH without commas",
+        "description": "New Hampshire by its code, no commas anywhere",
+        "input": "3550 Laurel St Concord NH 03301",
+        "expected": {
+          "number": "3550",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Concord",
+          "state": "NH",
+          "zip": "03301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NJ without commas",
+        "description": "New Jersey by its code, no commas anywhere",
+        "input": "3887 Hickory St Trenton NJ 08608",
+        "expected": {
+          "number": "3887",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Trenton",
+          "state": "NJ",
+          "zip": "08608",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NM without commas",
+        "description": "New Mexico by its code, no commas anywhere",
+        "input": "4224 Willow St Santa Fe NM 87501",
+        "expected": {
+          "number": "4224",
+          "street": "Willow",
+          "type": "St",
+          "city": "Santa Fe",
+          "state": "NM",
+          "zip": "87501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NY without commas",
+        "description": "New York by its code, no commas anywhere",
+        "input": "4561 Hawthorne St Albany NY 12207",
+        "expected": {
+          "number": "4561",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Albany",
+          "state": "NY",
+          "zip": "12207",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "NC without commas",
+        "description": "North Carolina by its code, no commas anywhere",
+        "input": "4898 Juniper St Raleigh NC 27601",
+        "expected": {
+          "number": "4898",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "ND without commas",
+        "description": "North Dakota by its code, no commas anywhere",
+        "input": "5235 Sycamore St Bismarck ND 58501",
+        "expected": {
+          "number": "5235",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Bismarck",
+          "state": "ND",
+          "zip": "58501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "OH without commas",
+        "description": "Ohio by its code, no commas anywhere",
+        "input": "5572 Magnolia St Columbus OH 43215",
+        "expected": {
+          "number": "5572",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "OK without commas",
+        "description": "Oklahoma by its code, no commas anywhere",
+        "input": "5909 Chestnut St Oklahoma City OK 73102",
+        "expected": {
+          "number": "5909",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Oklahoma City",
+          "state": "OK",
+          "zip": "73102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "OR without commas",
+        "description": "Oregon by its code, no commas anywhere",
+        "input": "6246 Birch St Salem OR 97301",
+        "expected": {
+          "number": "6246",
+          "street": "Birch",
+          "type": "St",
+          "city": "Salem",
+          "state": "OR",
+          "zip": "97301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PA without commas",
+        "description": "Pennsylvania by its code, no commas anywhere",
+        "input": "6583 Aspen St Harrisburg PA 17101",
+        "expected": {
+          "number": "6583",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Harrisburg",
+          "state": "PA",
+          "zip": "17101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "RI without commas",
+        "description": "Rhode Island by its code, no commas anywhere",
+        "input": "6920 Laurel St Providence RI 02903",
+        "expected": {
+          "number": "6920",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Providence",
+          "state": "RI",
+          "zip": "02903",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "SC without commas",
+        "description": "South Carolina by its code, no commas anywhere",
+        "input": "7257 Hickory St Columbia SC 29201",
+        "expected": {
+          "number": "7257",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Columbia",
+          "state": "SC",
+          "zip": "29201",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "SD without commas",
+        "description": "South Dakota by its code, no commas anywhere",
+        "input": "7594 Willow St Pierre SD 57501",
+        "expected": {
+          "number": "7594",
+          "street": "Willow",
+          "type": "St",
+          "city": "Pierre",
+          "state": "SD",
+          "zip": "57501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "TN without commas",
+        "description": "Tennessee by its code, no commas anywhere",
+        "input": "7931 Hawthorne St Nashville TN 37219",
+        "expected": {
+          "number": "7931",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "TX without commas",
+        "description": "Texas by its code, no commas anywhere",
+        "input": "8268 Juniper St Austin TX 78701",
+        "expected": {
+          "number": "8268",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "UT without commas",
+        "description": "Utah by its code, no commas anywhere",
+        "input": "8605 Sycamore St Salt Lake City UT 84111",
+        "expected": {
+          "number": "8605",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84111",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B",
+        "todo": true,
+        "todoNote": "street: \"Sycamore St Salt\" (want \"Sycamore\"); type: \"Lk\" (want \"St\"); city: \"City\" (want \"Salt Lake City\")"
+      },
+      {
+        "name": "VT without commas",
+        "description": "Vermont by its code, no commas anywhere",
+        "input": "8942 Magnolia St Montpelier VT 05602",
+        "expected": {
+          "number": "8942",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Montpelier",
+          "state": "VT",
+          "zip": "05602",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "VA without commas",
+        "description": "Virginia by its code, no commas anywhere",
+        "input": "9279 Chestnut St Richmond VA 23219",
+        "expected": {
+          "number": "9279",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Richmond",
+          "state": "VA",
+          "zip": "23219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WA without commas",
+        "description": "Washington by its code, no commas anywhere",
+        "input": "9616 Birch St Olympia WA 98501",
+        "expected": {
+          "number": "9616",
+          "street": "Birch",
+          "type": "St",
+          "city": "Olympia",
+          "state": "WA",
+          "zip": "98501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WV without commas",
+        "description": "West Virginia by its code, no commas anywhere",
+        "input": "153 Aspen St Charleston WV 25301",
+        "expected": {
+          "number": "153",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Charleston",
+          "state": "WV",
+          "zip": "25301",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WI without commas",
+        "description": "Wisconsin by its code, no commas anywhere",
+        "input": "490 Laurel St Madison WI 53703",
+        "expected": {
+          "number": "490",
+          "street": "Laurel",
+          "type": "St",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "WY without commas",
+        "description": "Wyoming by its code, no commas anywhere",
+        "input": "827 Hickory St Cheyenne WY 82001",
+        "expected": {
+          "number": "827",
+          "street": "Hickory",
+          "type": "St",
+          "city": "Cheyenne",
+          "state": "WY",
+          "zip": "82001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "DC without commas",
+        "description": "District of Columbia by its code, no commas anywhere",
+        "input": "1164 Willow St Washington DC 20001",
+        "expected": {
+          "number": "1164",
+          "street": "Willow",
+          "type": "St",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "PR without commas",
+        "description": "Puerto Rico by its code, no commas anywhere",
+        "input": "1501 Hawthorne St San Juan PR 00901",
+        "expected": {
+          "number": "1501",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "San Juan",
+          "state": "PR",
+          "zip": "00901",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "GU without commas",
+        "description": "Guam by its code, no commas anywhere",
+        "input": "1838 Juniper St Hagatna GU 96910",
+        "expected": {
+          "number": "1838",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Hagatna",
+          "state": "GU",
+          "zip": "96910",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "VI without commas",
+        "description": "Virgin Islands by its code, no commas anywhere",
+        "input": "2175 Sycamore St Charlotte Amalie VI 00802",
+        "expected": {
+          "number": "2175",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Charlotte Amalie",
+          "state": "VI",
+          "zip": "00802",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "AS without commas",
+        "description": "American Samoa by its code, no commas anywhere",
+        "input": "2512 Magnolia St Pago Pago AS 96799",
+        "expected": {
+          "number": "2512",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Pago Pago",
+          "state": "AS",
+          "zip": "96799",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      },
+      {
+        "name": "MP without commas",
+        "description": "Northern Mariana Islands by its code, no commas anywhere",
+        "input": "2849 Chestnut St Saipan MP 96950",
+        "expected": {
+          "number": "2849",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Saipan",
+          "state": "MP",
+          "zip": "96950",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
+      }
+    ]
+  }
+}

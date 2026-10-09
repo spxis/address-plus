@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Inputs That Are Not Addresses",
+  "description": "Inputs with no address in them, which parseLocation must answer with null. Constructed for this corpus.",
+  "tests": {
+    "notAnAddress": [
+      {
+        "name": "empty string",
+        "description": "Input with no address: empty string; the parse must fail",
+        "input": "",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "only spaces",
+        "description": "Input with no address: only spaces; the parse must fail",
+        "input": "   ",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "only newlines",
+        "description": "Input with no address: only newlines; the parse must fail",
+        "input": "\n\n",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "only punctuation",
+        "description": "Input with no address: only punctuation; the parse must fail",
+        "input": "!!!",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a single word",
+        "description": "Input with no address: a single word; the parse must fail",
+        "input": "hello",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "two words with no address in them",
+        "description": "Input with no address: two words with no address in them; the parse must fail",
+        "input": "completely wrong",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "the placeholder N/A",
+        "description": "Input with no address: the placeholder N/A; the parse must fail",
+        "input": "N/A",
+        "expected": null,
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "parse returned {\"street\":\"N/A\"}"
+      },
+      {
+        "name": "only commas",
+        "description": "Input with no address: only commas; the parse must fail",
+        "input": ",,,",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a dash",
+        "description": "Input with no address: a dash; the parse must fail",
+        "input": "-",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      }
+    ]
+  }
+}

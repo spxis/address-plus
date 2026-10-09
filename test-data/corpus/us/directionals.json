@@ -1,0 +1,1031 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Directionals",
+  "description": "Pre- and postdirectionals in all eight directions, abbreviated, in full and with periods; both on one street; and directional words that are the street name. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "prefix": [
+      {
+        "name": "prefix N",
+        "description": "Predirectional N before the street name",
+        "input": "2391 N Willow St, Springfield, IL 62701",
+        "expected": {
+          "number": "2391",
+          "prefix": "N",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix North",
+        "description": "Predirectional written in full (North), standardized to N",
+        "input": "2728 North Willow Ave, Springfield, IL 62701",
+        "expected": {
+          "number": "2728",
+          "prefix": "N",
+          "street": "Willow",
+          "type": "Ave",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix N.",
+        "description": "Predirectional with periods (N.)",
+        "input": "3065 N. Willow Rd, Springfield, IL 62701",
+        "expected": {
+          "number": "3065",
+          "prefix": "N",
+          "street": "Willow",
+          "type": "Rd",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix S",
+        "description": "Predirectional S before the street name",
+        "input": "4413 S Hawthorne St, Austin, TX 78701",
+        "expected": {
+          "number": "4413",
+          "prefix": "S",
+          "street": "Hawthorne",
+          "type": "St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix South",
+        "description": "Predirectional written in full (South), standardized to S",
+        "input": "4750 South Hawthorne Ave, Austin, TX 78701",
+        "expected": {
+          "number": "4750",
+          "prefix": "S",
+          "street": "Hawthorne",
+          "type": "Ave",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix S.",
+        "description": "Predirectional with periods (S.)",
+        "input": "5087 S. Hawthorne Rd, Austin, TX 78701",
+        "expected": {
+          "number": "5087",
+          "prefix": "S",
+          "street": "Hawthorne",
+          "type": "Rd",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix E",
+        "description": "Predirectional E before the street name",
+        "input": "6435 E Juniper St, Denver, CO 80202",
+        "expected": {
+          "number": "6435",
+          "prefix": "E",
+          "street": "Juniper",
+          "type": "St",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix East",
+        "description": "Predirectional written in full (East), standardized to E",
+        "input": "6772 East Juniper Ave, Denver, CO 80202",
+        "expected": {
+          "number": "6772",
+          "prefix": "E",
+          "street": "Juniper",
+          "type": "Ave",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix E.",
+        "description": "Predirectional with periods (E.)",
+        "input": "7109 E. Juniper Rd, Denver, CO 80202",
+        "expected": {
+          "number": "7109",
+          "prefix": "E",
+          "street": "Juniper",
+          "type": "Rd",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix W",
+        "description": "Predirectional W before the street name",
+        "input": "8457 W Sycamore St, Boston, MA 02108",
+        "expected": {
+          "number": "8457",
+          "prefix": "W",
+          "street": "Sycamore",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix West",
+        "description": "Predirectional written in full (West), standardized to W",
+        "input": "8794 West Sycamore Ave, Boston, MA 02108",
+        "expected": {
+          "number": "8794",
+          "prefix": "W",
+          "street": "Sycamore",
+          "type": "Ave",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix W.",
+        "description": "Predirectional with periods (W.)",
+        "input": "9131 W. Sycamore Rd, Boston, MA 02108",
+        "expected": {
+          "number": "9131",
+          "prefix": "W",
+          "street": "Sycamore",
+          "type": "Rd",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix NE",
+        "description": "Predirectional NE before the street name",
+        "input": "679 NE Magnolia St, Seattle, WA 98101",
+        "expected": {
+          "number": "679",
+          "prefix": "NE",
+          "street": "Magnolia",
+          "type": "St",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix Northeast",
+        "description": "Predirectional written in full (Northeast), standardized to NE",
+        "input": "1016 Northeast Magnolia Ave, Seattle, WA 98101",
+        "expected": {
+          "number": "1016",
+          "prefix": "NE",
+          "street": "Magnolia",
+          "type": "Ave",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix N.E.",
+        "description": "Predirectional with periods (N.E.)",
+        "input": "1353 N.E. Magnolia Rd, Seattle, WA 98101",
+        "expected": {
+          "number": "1353",
+          "prefix": "NE",
+          "street": "Magnolia",
+          "type": "Rd",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix NW",
+        "description": "Predirectional NW before the street name",
+        "input": "2701 NW Chestnut St, Phoenix, AZ 85004",
+        "expected": {
+          "number": "2701",
+          "prefix": "NW",
+          "street": "Chestnut",
+          "type": "St",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix Northwest",
+        "description": "Predirectional written in full (Northwest), standardized to NW",
+        "input": "3038 Northwest Chestnut Ave, Phoenix, AZ 85004",
+        "expected": {
+          "number": "3038",
+          "prefix": "NW",
+          "street": "Chestnut",
+          "type": "Ave",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix N.W.",
+        "description": "Predirectional with periods (N.W.)",
+        "input": "3375 N.W. Chestnut Rd, Phoenix, AZ 85004",
+        "expected": {
+          "number": "3375",
+          "prefix": "NW",
+          "street": "Chestnut",
+          "type": "Rd",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix SE",
+        "description": "Predirectional SE before the street name",
+        "input": "4723 SE Birch St, Nashville, TN 37219",
+        "expected": {
+          "number": "4723",
+          "prefix": "SE",
+          "street": "Birch",
+          "type": "St",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix Southeast",
+        "description": "Predirectional written in full (Southeast), standardized to SE",
+        "input": "5060 Southeast Birch Ave, Nashville, TN 37219",
+        "expected": {
+          "number": "5060",
+          "prefix": "SE",
+          "street": "Birch",
+          "type": "Ave",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix S.E.",
+        "description": "Predirectional with periods (S.E.)",
+        "input": "5397 S.E. Birch Rd, Nashville, TN 37219",
+        "expected": {
+          "number": "5397",
+          "prefix": "SE",
+          "street": "Birch",
+          "type": "Rd",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix SW",
+        "description": "Predirectional SW before the street name",
+        "input": "6745 SW Aspen St, Columbus, OH 43215",
+        "expected": {
+          "number": "6745",
+          "prefix": "SW",
+          "street": "Aspen",
+          "type": "St",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix Southwest",
+        "description": "Predirectional written in full (Southwest), standardized to SW",
+        "input": "7082 Southwest Aspen Ave, Columbus, OH 43215",
+        "expected": {
+          "number": "7082",
+          "prefix": "SW",
+          "street": "Aspen",
+          "type": "Ave",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "prefix S.W.",
+        "description": "Predirectional with periods (S.W.)",
+        "input": "7419 S.W. Aspen Rd, Columbus, OH 43215",
+        "expected": {
+          "number": "7419",
+          "prefix": "SW",
+          "street": "Aspen",
+          "type": "Rd",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      }
+    ],
+    "suffix": [
+      {
+        "name": "suffix N",
+        "description": "Postdirectional N after the street suffix",
+        "input": "3402 Willow St N, Springfield, IL 62701",
+        "expected": {
+          "number": "3402",
+          "street": "Willow",
+          "type": "St",
+          "suffix": "N",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix North",
+        "description": "Postdirectional written in full (North), standardized to N",
+        "input": "3739 Willow Blvd North, Springfield, IL 62701",
+        "expected": {
+          "number": "3739",
+          "street": "Willow",
+          "type": "Blvd",
+          "suffix": "N",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix N without a comma before the city",
+        "description": "Postdirectional N followed directly by the city",
+        "input": "4076 Willow Dr N Springfield IL 62701",
+        "expected": {
+          "number": "4076",
+          "street": "Willow",
+          "type": "Dr",
+          "suffix": "N",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix S",
+        "description": "Postdirectional S after the street suffix",
+        "input": "5424 Hawthorne St S, Austin, TX 78701",
+        "expected": {
+          "number": "5424",
+          "street": "Hawthorne",
+          "type": "St",
+          "suffix": "S",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix South",
+        "description": "Postdirectional written in full (South), standardized to S",
+        "input": "5761 Hawthorne Blvd South, Austin, TX 78701",
+        "expected": {
+          "number": "5761",
+          "street": "Hawthorne",
+          "type": "Blvd",
+          "suffix": "S",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix S without a comma before the city",
+        "description": "Postdirectional S followed directly by the city",
+        "input": "6098 Hawthorne Dr S Austin TX 78701",
+        "expected": {
+          "number": "6098",
+          "street": "Hawthorne",
+          "type": "Dr",
+          "suffix": "S",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix E",
+        "description": "Postdirectional E after the street suffix",
+        "input": "7446 Juniper St E, Denver, CO 80202",
+        "expected": {
+          "number": "7446",
+          "street": "Juniper",
+          "type": "St",
+          "suffix": "E",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix East",
+        "description": "Postdirectional written in full (East), standardized to E",
+        "input": "7783 Juniper Blvd East, Denver, CO 80202",
+        "expected": {
+          "number": "7783",
+          "street": "Juniper",
+          "type": "Blvd",
+          "suffix": "E",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix E without a comma before the city",
+        "description": "Postdirectional E followed directly by the city",
+        "input": "8120 Juniper Dr E Denver CO 80202",
+        "expected": {
+          "number": "8120",
+          "street": "Juniper",
+          "type": "Dr",
+          "suffix": "E",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix W",
+        "description": "Postdirectional W after the street suffix",
+        "input": "9468 Sycamore St W, Boston, MA 02108",
+        "expected": {
+          "number": "9468",
+          "street": "Sycamore",
+          "type": "St",
+          "suffix": "W",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix West",
+        "description": "Postdirectional written in full (West), standardized to W",
+        "input": "9805 Sycamore Blvd West, Boston, MA 02108",
+        "expected": {
+          "number": "9805",
+          "street": "Sycamore",
+          "type": "Blvd",
+          "suffix": "W",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix W without a comma before the city",
+        "description": "Postdirectional W followed directly by the city",
+        "input": "342 Sycamore Dr W Boston MA 02108",
+        "expected": {
+          "number": "342",
+          "street": "Sycamore",
+          "type": "Dr",
+          "suffix": "W",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix NE",
+        "description": "Postdirectional NE after the street suffix",
+        "input": "1690 Magnolia St NE, Seattle, WA 98101",
+        "expected": {
+          "number": "1690",
+          "street": "Magnolia",
+          "type": "St",
+          "suffix": "NE",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix Northeast",
+        "description": "Postdirectional written in full (Northeast), standardized to NE",
+        "input": "2027 Magnolia Blvd Northeast, Seattle, WA 98101",
+        "expected": {
+          "number": "2027",
+          "street": "Magnolia",
+          "type": "Blvd",
+          "suffix": "NE",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix NE without a comma before the city",
+        "description": "Postdirectional NE followed directly by the city",
+        "input": "2364 Magnolia Dr NE Seattle WA 98101",
+        "expected": {
+          "number": "2364",
+          "street": "Magnolia",
+          "type": "Dr",
+          "suffix": "NE",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix NW",
+        "description": "Postdirectional NW after the street suffix",
+        "input": "3712 Chestnut St NW, Phoenix, AZ 85004",
+        "expected": {
+          "number": "3712",
+          "street": "Chestnut",
+          "type": "St",
+          "suffix": "NW",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix Northwest",
+        "description": "Postdirectional written in full (Northwest), standardized to NW",
+        "input": "4049 Chestnut Blvd Northwest, Phoenix, AZ 85004",
+        "expected": {
+          "number": "4049",
+          "street": "Chestnut",
+          "type": "Blvd",
+          "suffix": "NW",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix NW without a comma before the city",
+        "description": "Postdirectional NW followed directly by the city",
+        "input": "4386 Chestnut Dr NW Phoenix AZ 85004",
+        "expected": {
+          "number": "4386",
+          "street": "Chestnut",
+          "type": "Dr",
+          "suffix": "NW",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix SE",
+        "description": "Postdirectional SE after the street suffix",
+        "input": "5734 Birch St SE, Nashville, TN 37219",
+        "expected": {
+          "number": "5734",
+          "street": "Birch",
+          "type": "St",
+          "suffix": "SE",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix Southeast",
+        "description": "Postdirectional written in full (Southeast), standardized to SE",
+        "input": "6071 Birch Blvd Southeast, Nashville, TN 37219",
+        "expected": {
+          "number": "6071",
+          "street": "Birch",
+          "type": "Blvd",
+          "suffix": "SE",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix SE without a comma before the city",
+        "description": "Postdirectional SE followed directly by the city",
+        "input": "6408 Birch Dr SE Nashville TN 37219",
+        "expected": {
+          "number": "6408",
+          "street": "Birch",
+          "type": "Dr",
+          "suffix": "SE",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix SW",
+        "description": "Postdirectional SW after the street suffix",
+        "input": "7756 Aspen St SW, Columbus, OH 43215",
+        "expected": {
+          "number": "7756",
+          "street": "Aspen",
+          "type": "St",
+          "suffix": "SW",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix Southwest",
+        "description": "Postdirectional written in full (Southwest), standardized to SW",
+        "input": "8093 Aspen Blvd Southwest, Columbus, OH 43215",
+        "expected": {
+          "number": "8093",
+          "street": "Aspen",
+          "type": "Blvd",
+          "suffix": "SW",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      },
+      {
+        "name": "suffix SW without a comma before the city",
+        "description": "Postdirectional SW followed directly by the city",
+        "input": "8430 Aspen Dr SW Columbus OH 43215",
+        "expected": {
+          "number": "8430",
+          "street": "Aspen",
+          "type": "Dr",
+          "suffix": "SW",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), postdirectional"
+      }
+    ],
+    "prefixAndSuffix": [
+      {
+        "name": "N and SW",
+        "description": "Predirectional and postdirectional on the same street",
+        "input": "8767 N Willow Ave SW, Phoenix, AZ 85004",
+        "expected": {
+          "number": "8767",
+          "prefix": "N",
+          "street": "Willow",
+          "type": "Ave",
+          "suffix": "SW",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional and postdirectional"
+      },
+      {
+        "name": "E and NE",
+        "description": "Predirectional and postdirectional on the same street",
+        "input": "9104 E Hawthorne Ave NE, Nashville, TN 37219",
+        "expected": {
+          "number": "9104",
+          "prefix": "E",
+          "street": "Hawthorne",
+          "type": "Ave",
+          "suffix": "NE",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional and postdirectional"
+      },
+      {
+        "name": "S and W",
+        "description": "Predirectional and postdirectional on the same street",
+        "input": "9441 S Juniper Ave W, Columbus, OH 43215",
+        "expected": {
+          "number": "9441",
+          "prefix": "S",
+          "street": "Juniper",
+          "type": "Ave",
+          "suffix": "W",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional and postdirectional"
+      },
+      {
+        "name": "W and SE",
+        "description": "Predirectional and postdirectional on the same street",
+        "input": "9778 W Sycamore Ave SE, Madison, WI 53703",
+        "expected": {
+          "number": "9778",
+          "prefix": "W",
+          "street": "Sycamore",
+          "type": "Ave",
+          "suffix": "SE",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional and postdirectional"
+      }
+    ],
+    "directionalAsName": [
+      {
+        "name": "North St is a street name",
+        "description": "A directional word that is the whole name before the suffix is the primary street name, not a directional",
+        "input": "315 North St, Denver, CO 80202",
+        "expected": {
+          "number": "315",
+          "street": "North",
+          "type": "St",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
+        "todo": true,
+        "todoNote": "street: \"St\" (want \"North\"); type: absent (want \"St\"); prefix: \"N\" (want absent)"
+      },
+      {
+        "name": "South Blvd is a street name",
+        "description": "A directional word that is the whole name before the suffix is the primary street name, not a directional",
+        "input": "652 South Blvd, Boston, MA 02108",
+        "expected": {
+          "number": "652",
+          "street": "South",
+          "type": "Blvd",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
+        "todo": true,
+        "todoNote": "street: \"Blvd\" (want \"South\"); type: absent (want \"Blvd\"); prefix: \"S\" (want absent)"
+      },
+      {
+        "name": "East Ave is a street name",
+        "description": "A directional word that is the whole name before the suffix is the primary street name, not a directional",
+        "input": "989 East Ave, Seattle, WA 98101",
+        "expected": {
+          "number": "989",
+          "street": "East",
+          "type": "Ave",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
+        "todo": true,
+        "todoNote": "street: \"Ave\" (want \"East\"); type: absent (want \"Ave\"); prefix: \"E\" (want absent)"
+      },
+      {
+        "name": "West Rd is a street name",
+        "description": "A directional word that is the whole name before the suffix is the primary street name, not a directional",
+        "input": "1326 West Rd, Phoenix, AZ 85004",
+        "expected": {
+          "number": "1326",
+          "street": "West",
+          "type": "Rd",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
+        "todo": true,
+        "todoNote": "street: \"Rd\" (want \"West\"); type: absent (want \"Rd\"); prefix: \"W\" (want absent)"
+      },
+      {
+        "name": "Northwest Hwy is a street name",
+        "description": "A directional word that is the whole name before the suffix is the primary street name, not a directional",
+        "input": "1663 Northwest Hwy, Nashville, TN 37219",
+        "expected": {
+          "number": "1663",
+          "street": "Northwest",
+          "type": "Hwy",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
+        "todo": true,
+        "todoNote": "street: \"Hwy\" (want \"Northwest\"); type: absent (want \"Hwy\"); prefix: \"NW\" (want absent)"
+      },
+      {
+        "name": "Southeast Pkwy is a street name",
+        "description": "A directional word that is the whole name before the suffix is the primary street name, not a directional",
+        "input": "2000 Southeast Pkwy, Columbus, OH 43215",
+        "expected": {
+          "number": "2000",
+          "street": "Southeast",
+          "type": "Pkwy",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
+        "todo": true,
+        "todoNote": "street: \"Pkwy\" (want \"Southeast\"); type: absent (want \"Pkwy\"); prefix: \"SE\" (want absent)"
+      },
+      {
+        "name": "E North Ave",
+        "description": "A predirectional followed by a directional word that is the street name",
+        "input": "2337 E North Ave, Raleigh, NC 27601",
+        "expected": {
+          "number": "2337",
+          "prefix": "E",
+          "street": "North",
+          "type": "Ave",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
+      },
+      {
+        "name": "S West St",
+        "description": "A predirectional followed by a directional word that is the street name",
+        "input": "2674 S West St, Atlanta, GA 30303",
+        "expected": {
+          "number": "2674",
+          "prefix": "S",
+          "street": "West",
+          "type": "St",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
+      },
+      {
+        "name": "N East Blvd",
+        "description": "A predirectional followed by a directional word that is the street name",
+        "input": "3011 N East Blvd, Omaha, NE 68102",
+        "expected": {
+          "number": "3011",
+          "prefix": "N",
+          "street": "East",
+          "type": "Blvd",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
+      },
+      {
+        "name": "N Broadway with no suffix",
+        "description": "Predirectional on a street that has no suffix",
+        "input": "3348 N Broadway, Boise, ID 83702",
+        "expected": {
+          "number": "3348",
+          "prefix": "N",
+          "street": "Broadway",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      },
+      {
+        "name": "W Market with no suffix",
+        "description": "Predirectional on a street that has no suffix",
+        "input": "3685 W Market, Burlington, VT 05401",
+        "expected": {
+          "number": "3685",
+          "prefix": "W",
+          "street": "Market",
+          "city": "Burlington",
+          "state": "VT",
+          "zip": "05401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), predirectional"
+      }
+    ]
+  }
+}

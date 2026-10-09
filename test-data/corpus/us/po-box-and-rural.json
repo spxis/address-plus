@@ -1,0 +1,544 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Post Office Boxes, Private Mailboxes and Rural Delivery",
+  "description": "Post office box spellings, private mailboxes (PMB), rural route and highway contract route addresses, and general delivery. Rural and highway contract routes report the route in ruralRoute (rr holds a rural route's number) and the box as secUnitType Box. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "poBox": [
+      {
+        "name": "PO Box 1234",
+        "description": "Post office box standard form",
+        "input": "PO Box 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "P.O. Box 1234",
+        "description": "Post office box with periods",
+        "input": "P.O. Box 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "P O Box 1234",
+        "description": "Post office box with spaces between the letters",
+        "input": "P O Box 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "Post Office Box 1234",
+        "description": "Post office box spelled out",
+        "input": "Post Office Box 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "POBox 1234",
+        "description": "Post office box run together",
+        "input": "POBox 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "po box 1234",
+        "description": "Post office box in lowercase",
+        "input": "po box 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "PO BOX 1234",
+        "description": "Post office box in capitals",
+        "input": "PO BOX 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "Box 1234",
+        "description": "Post office box the word Box alone, which Pub 28 standardizes to PO BOX",
+        "input": "Box 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses",
+        "todo": true,
+        "todoNote": "secUnitType: \"Box\" (want \"PO Box\")"
+      },
+      {
+        "name": "POB 1234",
+        "description": "Post office box the abbreviation POB",
+        "input": "POB 1234, Helena, MT 59601",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Helena",
+          "state": "MT",
+          "zip": "59601",
+          "country": "US"
+        },
+        "ignoreCase": ["city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"PO Box\"); secUnitNum: absent (want \"1234\"); street: \"POB 1234\" (want absent)"
+      },
+      {
+        "name": "PO Box without commas",
+        "description": "Post office box with no commas at all",
+        "input": "PO Box 3094 Collierville TN 38027",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "3094",
+          "city": "Collierville",
+          "state": "TN",
+          "zip": "38027",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      },
+      {
+        "name": "PO Box with ZIP+4",
+        "description": "Post office box with a ZIP+4 code",
+        "input": "PO Box 1, Seattle, WA 98103-0001",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98103",
+          "plus4": "0001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses",
+        "todo": true,
+        "todoNote": "zip: \"98103-0001\" (want \"98103\"); plus4: absent (want \"0001\")"
+      },
+      {
+        "name": "PO Box with a two-word city",
+        "description": "Post office box in a two-word city",
+        "input": "PO Box 552, Salt Lake City, UT 84110",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "552",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84110",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), post office box addresses"
+      }
+    ],
+    "privateMailbox": [
+      {
+        "name": "123 Willow St PMB 456",
+        "description": "Commercial mail receiving agency: private mailbox on the street line; the PMB is a secondary unit",
+        "input": "123 Willow St PMB 456, Denver, CO 80202",
+        "expected": {
+          "number": "123",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "PMB",
+          "secUnitNum": "456",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), private mailboxes",
+        "todo": true,
+        "todoNote": "street: \"Willow St PMB 456\" (want \"Willow\"); type: absent (want \"St\"); secUnitType: absent (want \"PMB\"); secUnitNum: absent (want \"456\")"
+      },
+      {
+        "name": "123 Willow St, PMB 456",
+        "description": "Commercial mail receiving agency: private mailbox after a comma; the PMB is a secondary unit",
+        "input": "123 Willow St, PMB 456, Denver, CO 80202",
+        "expected": {
+          "number": "123",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "PMB",
+          "secUnitNum": "456",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), private mailboxes",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"PMB\"); secUnitNum: absent (want \"456\")"
+      },
+      {
+        "name": "900 Market St PMB 12",
+        "description": "Commercial mail receiving agency: short private mailbox number; the PMB is a secondary unit",
+        "input": "900 Market St PMB 12, Denver, CO 80202",
+        "expected": {
+          "number": "900",
+          "street": "Market",
+          "type": "St",
+          "secUnitType": "PMB",
+          "secUnitNum": "12",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), private mailboxes",
+        "todo": true,
+        "todoNote": "street: \"Market St PMB 12\" (want \"Market\"); type: absent (want \"St\"); secUnitType: absent (want \"PMB\"); secUnitNum: absent (want \"12\")"
+      }
+    ],
+    "ruralRoute": [
+      {
+        "name": "RR 2 Box 152",
+        "description": "Rural route address, standard form",
+        "input": "RR 2 Box 152, Fargo, ND 58102",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "secUnitType": "Box",
+          "secUnitNum": "152",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"152\"); street: \"RR 2 Box 152\" (want absent)"
+      },
+      {
+        "name": "Rural Route 2 Box 152",
+        "description": "Rural route address, spelled out",
+        "input": "Rural Route 2 Box 152, Fargo, ND 58102",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "secUnitType": "Box",
+          "secUnitNum": "152",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"152\"); street: \"Rural Route 2 Box 152\" (want absent)"
+      },
+      {
+        "name": "R.R. 2 Box 152",
+        "description": "Rural route address, with periods",
+        "input": "R.R. 2 Box 152, Fargo, ND 58102",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "secUnitType": "Box",
+          "secUnitNum": "152",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"152\"); street: \"R.R. 2 Box 152\" (want absent)"
+      },
+      {
+        "name": "RR 2, Box 152",
+        "description": "Rural route address, with a comma before the box",
+        "input": "RR 2, Box 152, Fargo, ND 58102",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "secUnitType": "Box",
+          "secUnitNum": "152",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"152\"); street: \"RR 2\" (want absent)"
+      },
+      {
+        "name": "RFD 2 Box 152",
+        "description": "Rural route address, the old RFD form, which Pub 28 standardizes to RR",
+        "input": "RFD 2 Box 152, Fargo, ND 58102",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "secUnitType": "Box",
+          "secUnitNum": "152",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"152\"); street: \"RFD 2 Box 152\" (want absent)"
+      },
+      {
+        "name": "Rural Route 2, Box 152",
+        "description": "Rural route address, spelled out with a comma",
+        "input": "Rural Route 2, Box 152, Fargo, ND 58102",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "secUnitType": "Box",
+          "secUnitNum": "152",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"152\"); street: \"Rural Rte 2\" (want absent)"
+      },
+      {
+        "name": "RR with a lettered box",
+        "description": "Rural route box number ending in a letter",
+        "input": "RR 4 Box 18A, Fargo, ND 58102",
+        "expected": {
+          "rr": "4",
+          "ruralRoute": "RR 4",
+          "secUnitType": "Box",
+          "secUnitNum": "18A",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"4\"); ruralRoute: absent (want \"RR 4\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"18A\"); street: \"RR 4 Box 18A\" (want absent)"
+      }
+    ],
+    "highwayContract": [
+      {
+        "name": "HC 68 Box 23A",
+        "description": "Highway contract route address, standard form",
+        "input": "HC 68 Box 23A, Ruidoso, NM 88345",
+        "expected": {
+          "ruralRoute": "HC 68",
+          "secUnitType": "Box",
+          "secUnitNum": "23A",
+          "city": "Ruidoso",
+          "state": "NM",
+          "zip": "88345",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway contract route addresses",
+        "todo": true,
+        "todoNote": "ruralRoute: absent (want \"HC 68\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"23A\"); street: \"HC 68 Box 23A\" (want absent)"
+      },
+      {
+        "name": "Highway Contract 68 Box 23A",
+        "description": "Highway contract route address, spelled out",
+        "input": "Highway Contract 68 Box 23A, Ruidoso, NM 88345",
+        "expected": {
+          "ruralRoute": "HC 68",
+          "secUnitType": "Box",
+          "secUnitNum": "23A",
+          "city": "Ruidoso",
+          "state": "NM",
+          "zip": "88345",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway contract route addresses",
+        "todo": true,
+        "todoNote": "ruralRoute: absent (want \"HC 68\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"23A\"); street: \"Contract 68 Box 23a\" (want absent); type: \"Hwy\" (want absent)"
+      },
+      {
+        "name": "Star Route 68 Box 23A",
+        "description": "Highway contract route address, the old Star Route form, which Pub 28 standardizes to HC",
+        "input": "Star Route 68 Box 23A, Ruidoso, NM 88345",
+        "expected": {
+          "ruralRoute": "HC 68",
+          "secUnitType": "Box",
+          "secUnitNum": "23A",
+          "city": "Ruidoso",
+          "state": "NM",
+          "zip": "88345",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway contract route addresses",
+        "todo": true,
+        "todoNote": "ruralRoute: absent (want \"HC 68\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"23A\"); street: \"Star Route 68 Box 23A\" (want absent)"
+      },
+      {
+        "name": "HC 68, Box 23A",
+        "description": "Highway contract route address, with a comma before the box",
+        "input": "HC 68, Box 23A, Ruidoso, NM 88345",
+        "expected": {
+          "ruralRoute": "HC 68",
+          "secUnitType": "Box",
+          "secUnitNum": "23A",
+          "city": "Ruidoso",
+          "state": "NM",
+          "zip": "88345",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway contract route addresses",
+        "todo": true,
+        "todoNote": "ruralRoute: absent (want \"HC 68\"); secUnitType: absent (want \"Box\"); secUnitNum: absent (want \"23A\"); street: \"HC 68\" (want absent)"
+      }
+    ],
+    "generalDelivery": [
+      {
+        "name": "General Delivery with commas",
+        "description": "General delivery address with commas",
+        "input": "General Delivery, Tampa, FL 33602",
+        "expected": {
+          "generalDelivery": true,
+          "street": "General Delivery",
+          "city": "Tampa",
+          "state": "FL",
+          "zip": "33602",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), general delivery"
+      },
+      {
+        "name": "General Delivery without commas",
+        "description": "General delivery address without commas",
+        "input": "General Delivery Tampa FL 33602",
+        "expected": {
+          "generalDelivery": true,
+          "street": "General Delivery",
+          "city": "Tampa",
+          "state": "FL",
+          "zip": "33602",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), general delivery"
+      },
+      {
+        "name": "General Delivery in capitals",
+        "description": "General delivery address in capitals",
+        "input": "GENERAL DELIVERY, TAMPA, FL 33602",
+        "expected": {
+          "generalDelivery": true,
+          "street": "General Delivery",
+          "city": "Tampa",
+          "state": "FL",
+          "zip": "33602",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), general delivery"
+      },
+      {
+        "name": "General Delivery in a state whose abbreviation is not a unit word",
+        "description": "General delivery address in a state whose abbreviation is not a unit word",
+        "input": "General Delivery, Juneau, AK 99801",
+        "expected": {
+          "generalDelivery": true,
+          "street": "General Delivery",
+          "city": "Juneau",
+          "state": "AK",
+          "zip": "99801",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), general delivery"
+      },
+      {
+        "name": "General Delivery on two lines",
+        "description": "General delivery address on two lines",
+        "input": "General Delivery\nTampa, FL 33602",
+        "expected": {
+          "generalDelivery": true,
+          "street": "General Delivery",
+          "city": "Tampa",
+          "state": "FL",
+          "zip": "33602",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), general delivery"
+      },
+      {
+        "name": "General Delivery with no comma between city and state",
+        "description": "General delivery address with no comma between city and state",
+        "input": "General Delivery, Tampa FL 33602",
+        "expected": {
+          "generalDelivery": true,
+          "street": "General Delivery",
+          "city": "Tampa",
+          "state": "FL",
+          "zip": "33602",
+          "country": "US"
+        },
+        "ignoreCase": ["street", "city"],
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), general delivery",
+        "todo": true,
+        "todoNote": "secUnitType: \"Floor\" (want absent); secUnitNum: \"33602\" (want absent)"
+      }
+    ]
+  }
+}
