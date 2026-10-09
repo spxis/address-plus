@@ -44,6 +44,12 @@ jobs:
       contents: read
     uses: ./.github/workflows/ci.yml
 
+  # Trusted publishing: there is no npm token anywhere. The package's settings on npmjs.com (Settings >
+  # Trusted Publisher > GitHub Actions) name the one workflow allowed to publish it: organization or user
+  # johnmorrisdotca, repository address-plus, workflow filename release.yml, environment name left empty. npm CLI
+  # 11.5.1 or newer (Node 24 ships 11.x) then swaps this job's OIDC token (id-token: write) for a publish
+  # credential by itself, as long as NODE_AUTH_TOKEN is not set. The first version of a package name is
+  # published from the author's machine, because the package must exist before that setting can be made.
   npm:
     name: Package to npm
     needs: checks
@@ -51,38 +57,23 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    env:
-      # Secrets cannot be tested in `if:`; an empty value means the secret has not been added.
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
-      - name: Skip without NPM_TOKEN
-        if: env.NPM_TOKEN == ''
-        run: |
-          message="NPM_TOKEN is not set, so nothing was published to npm. It is a repository secret only the owner can add (Settings > Secrets and variables > Actions); the next release publishes once it exists."
-          echo "::notice title=npm publish skipped::$message"
-          echo "### npm publish skipped" >> "$GITHUB_STEP_SUMMARY"
-          echo "$message" >> "$GITHUB_STEP_SUMMARY"
-      - if: env.NPM_TOKEN != ''
-        uses: actions/checkout@v5
-      - if: env.NPM_TOKEN != ''
-        uses: pnpm/action-setup@v4
-      - if: env.NPM_TOKEN != ''
-        uses: actions/setup-node@v5
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
           cache: pnpm
           registry-url: https://registry.npmjs.org
-      - if: env.NPM_TOKEN != ''
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       # The package is built here, since dist/ is not committed.
-      - if: env.NPM_TOKEN != ''
-        run: pnpm build
+      - run: pnpm build
       - name: Publish
-        if: env.NPM_TOKEN != ''
-        # --provenance links the package to this workflow run, which is what id-token: write is for.
-        run: pnpm publish --access public --no-git-checks --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # npm itself publishes, not pnpm: the OIDC exchange is npm's, and npm's docs describe only npm.
+        # Provenance is automatic for a public repository over OIDC; --provenance is kept so a publish that
+        # could not attach it fails instead of going out without. --access public is for the scoped name.
+        # The package's prepublishOnly script runs pnpm check once more before the upload.
+        run: npm publish --provenance --access public
 
   release:
     name: GitHub release

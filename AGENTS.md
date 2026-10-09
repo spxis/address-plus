@@ -44,7 +44,7 @@ Files named `*.data.ts` (the Japanese prefectures, municipalities and postal pre
 1. Add each change under `## Unreleased` in `CHANGELOG.md` as it lands, in Keep a Changelog style (`### Added`, `### Changed`, `### Fixed`).
 2. From a clean `main`, run `pnpm release <version>` (for example `pnpm release 1.2.0`). It refuses a dirty tree, a branch other than `main`, an empty Unreleased section, and a version that is not greater than the current one. Otherwise it sets the version in `package.json`, moves the Unreleased entries under `## <version> - <today>`, commits `chore(release): <version>`, and tags `v<version>`. It pushes nothing.
 3. Push the commit and the tag: `git push origin main` then `git push origin v<version>`.
-4. The tag starts `.github/workflows/release.yml`, which verifies the tag against `package.json` and the changelog, reruns `pnpm check` (the `ci.yml` workflow), publishes to npm with provenance, and creates the GitHub release with the changelog section as its notes. The npm step needs the `NPM_TOKEN` repository secret; without it the step prints a notice and skips, and the GitHub release is still created.
+4. The tag starts `.github/workflows/release.yml`, which verifies the tag against `package.json` and the changelog, reruns `pnpm check` (the `ci.yml` workflow), publishes to npm with provenance, and creates the GitHub release with the changelog section as its notes. The npm step publishes with trusted publishing, so there is no token: the package's Trusted Publisher setting on npmjs.com names the `johnmorrisdotca` organization or user, the `address-plus` repository and the `release.yml` workflow filename, with no environment.
 
 Never change the version by hand, and never publish from a laptop: the tag does it.
 
