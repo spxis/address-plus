@@ -1,0 +1,921 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian French Addresses",
+  "description": "French-language addresses: the comma after the civic number, street types before the name, the province in parentheses, French directionals (Canada Post writes O for Ouest and NO and SO for the compound ones), French unit designators (reported as the French word: Appartement, Bureau, Unité) and Saint abbreviated. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "civicNumberComma": [
+      {
+        "name": "275, rue Notre-Dame Est",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "275, rue Notre-Dame Est, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"275\"); type: absent (want \"Rue\"); street: \"275\" (want \"Notre-Dame\"); suffix: absent (want \"E\"); city: \"rue Notre-Dame Est\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "275, rue Notre-Dame Est without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "275 rue Notre-Dame Est, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "2, rue des Jardins",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "2, rue des Jardins, Québec QC G1R 4S9",
+        "expected": {
+          "number": "2",
+          "type": "Rue",
+          "street": "des Jardins",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"2\"); type: absent (want \"Rue\"); street: \"2\" (want \"des Jardins\"); city: \"rue des Jardins\" (want \"Québec\")"
+      },
+      {
+        "name": "2, rue des Jardins without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "2 rue des Jardins, Québec QC G1R 4S9",
+        "expected": {
+          "number": "2",
+          "type": "Rue",
+          "street": "des Jardins",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "street: \"Des Jardins\" (want \"des Jardins\")"
+      },
+      {
+        "name": "1100, boulevard René-Lévesque Ouest",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "1100, boulevard René-Lévesque Ouest, Montréal QC H3B 4N4",
+        "expected": {
+          "number": "1100",
+          "type": "Blvd",
+          "street": "René-Lévesque",
+          "suffix": "O",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 4N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"1100\"); type: absent (want \"Blvd\"); street: \"1100\" (want \"René-Lévesque\"); suffix: absent (want \"O\"); city: \"boulevard René-Lévesque Ouest\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "1100, boulevard René-Lévesque Ouest without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "1100 boulevard René-Lévesque Ouest, Montréal QC H3B 4N4",
+        "expected": {
+          "number": "1100",
+          "type": "Blvd",
+          "street": "René-Lévesque",
+          "suffix": "O",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 4N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "1100, boul. René-Lévesque O.",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "1100, boul. René-Lévesque O., Montréal QC H3B 4N4",
+        "expected": {
+          "number": "1100",
+          "type": "Blvd",
+          "street": "René-Lévesque",
+          "suffix": "O",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 4N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"1100\"); type: absent (want \"Blvd\"); street: \"1100\" (want \"René-Lévesque\"); suffix: absent (want \"O\"); city: \"boul. René-Lévesque O.\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "1100, boul. René-Lévesque O. without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "1100 boul. René-Lévesque O., Montréal QC H3B 4N4",
+        "expected": {
+          "number": "1100",
+          "type": "Blvd",
+          "street": "René-Lévesque",
+          "suffix": "O",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3B 4N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "type: absent (want \"Blvd\"); street: \"boul. René-Lévesque\" (want \"René-Lévesque\")"
+      },
+      {
+        "name": "3200, chemin de la Côte-Sainte-Catherine",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "3200, chemin de la Côte-Sainte-Catherine, Montréal QC H3T 1C1",
+        "expected": {
+          "number": "3200",
+          "type": "Ch",
+          "street": "de la Côte-Sainte-Catherine",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3T 1C1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"3200\"); type: absent (want \"Ch\"); street: \"3200\" (want \"de la Côte-Sainte-Catherine\"); city: \"chemin de la Côte-Sainte-Catherine\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "3200, chemin de la Côte-Sainte-Catherine without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "3200 chemin de la Côte-Sainte-Catherine, Montréal QC H3T 1C1",
+        "expected": {
+          "number": "3200",
+          "type": "Ch",
+          "street": "de la Côte-Sainte-Catherine",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3T 1C1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "street: \"De la Côte-Sainte-Catherine\" (want \"de la Côte-Sainte-Catherine\")"
+      },
+      {
+        "name": "25, avenue des Pins",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "25, avenue des Pins, Montréal QC H2W 1P9",
+        "expected": {
+          "number": "25",
+          "type": "Ave",
+          "street": "des Pins",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2W 1P9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"25\"); type: absent (want \"Ave\"); street: \"25\" (want \"des Pins\"); city: \"avenue des Pins\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "25, avenue des Pins without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "25 avenue des Pins, Montréal QC H2W 1P9",
+        "expected": {
+          "number": "25",
+          "type": "Ave",
+          "street": "des Pins",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2W 1P9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+      },
+      {
+        "name": "1, promenade Sussex",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "1, promenade Sussex, Ottawa ON K1A 0A2",
+        "expected": {
+          "number": "1",
+          "type": "Prom",
+          "street": "Sussex",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"1\"); type: absent (want \"Prom\"); street: \"1\" (want \"Sussex\"); city: \"promenade Sussex\" (want \"Ottawa\")"
+      },
+      {
+        "name": "1, promenade Sussex without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "1 promenade Sussex, Ottawa ON K1A 0A2",
+        "expected": {
+          "number": "1",
+          "type": "Prom",
+          "street": "Sussex",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1A 0A2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "900, place d'Youville",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "900, place d'Youville, Québec QC G1R 3P7",
+        "expected": {
+          "number": "900",
+          "type": "Pl",
+          "street": "d'Youville",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 3P7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"900\"); type: absent (want \"Pl\"); street: \"900\" (want \"d'Youville\"); city: \"place d'Youville\" (want \"Québec\")"
+      },
+      {
+        "name": "900, place d'Youville without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "900 place d'Youville, Québec QC G1R 3P7",
+        "expected": {
+          "number": "900",
+          "type": "Pl",
+          "street": "d'Youville",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 3P7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "street: \"D'youville\" (want \"d'Youville\")"
+      },
+      {
+        "name": "150, rang Saint-Joseph",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "150, rang Saint-Joseph, Saint-Hyacinthe QC J2R 1A1",
+        "expected": {
+          "number": "150",
+          "type": "Rang",
+          "street": "Saint-Joseph",
+          "city": "Saint-Hyacinthe",
+          "state": "QC",
+          "zip": "J2R 1A1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"150\"); type: absent (want \"Rang\"); street: \"150\" (want \"Saint-Joseph\"); city: \"rang Saint-Joseph\" (want \"Saint-Hyacinthe\")"
+      },
+      {
+        "name": "150, rang Saint-Joseph without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "150 rang Saint-Joseph, Saint-Hyacinthe QC J2R 1A1",
+        "expected": {
+          "number": "150",
+          "type": "Rang",
+          "street": "Saint-Joseph",
+          "city": "Saint-Hyacinthe",
+          "state": "QC",
+          "zip": "J2R 1A1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "75, montée Saint-François",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "75, montée Saint-François, Laval QC H7C 1S5",
+        "expected": {
+          "number": "75",
+          "type": "Mtée",
+          "street": "Saint-François",
+          "city": "Laval",
+          "state": "QC",
+          "zip": "H7C 1S5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"75\"); type: absent (want \"Mtée\"); street: \"75\" (want \"Saint-François\"); city: \"montée Saint-François\" (want \"Laval\")"
+      },
+      {
+        "name": "75, montée Saint-François without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "75 montée Saint-François, Laval QC H7C 1S5",
+        "expected": {
+          "number": "75",
+          "type": "Mtée",
+          "street": "Saint-François",
+          "city": "Laval",
+          "state": "QC",
+          "zip": "H7C 1S5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "10, rue Principale",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "10, rue Principale, Lac-Mégantic QC G6B 1A1",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Principale",
+          "city": "Lac-Mégantic",
+          "state": "QC",
+          "zip": "G6B 1A1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"10\"); type: absent (want \"Rue\"); street: \"10\" (want \"Principale\"); city: \"rue Principale\" (want \"Lac-Mégantic\")"
+      },
+      {
+        "name": "10, rue Principale without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "10 rue Principale, Lac-Mégantic QC G6B 1A1",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Principale",
+          "city": "Lac-Mégantic",
+          "state": "QC",
+          "zip": "G6B 1A1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "4500, rue Sherbrooke Ouest",
+        "description": "French civic address: a comma after the civic number, then the street type before the name",
+        "input": "4500, rue Sherbrooke Ouest, Westmount QC H3Z 1E6",
+        "expected": {
+          "number": "4500",
+          "type": "Rue",
+          "street": "Sherbrooke",
+          "suffix": "O",
+          "city": "Westmount",
+          "state": "QC",
+          "zip": "H3Z 1E6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"4500\"); type: absent (want \"Rue\"); street: \"4500\" (want \"Sherbrooke\"); suffix: absent (want \"O\"); city: \"rue Sherbrooke Ouest\" (want \"Westmount\")"
+      },
+      {
+        "name": "4500, rue Sherbrooke Ouest without the comma",
+        "description": "The same French address with no comma after the civic number",
+        "input": "4500 rue Sherbrooke Ouest, Westmount QC H3Z 1E6",
+        "expected": {
+          "number": "4500",
+          "type": "Rue",
+          "street": "Sherbrooke",
+          "suffix": "O",
+          "city": "Westmount",
+          "state": "QC",
+          "zip": "H3Z 1E6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      }
+    ],
+    "provinceInParentheses": [
+      {
+        "name": "275 rue Notre-Dame Est, Montréal (Québec) H2Y 1C6",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "275 rue Notre-Dame Est, Montréal (Québec) H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "city: \"Montréal (Québec)\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "2 rue des Jardins, Québec (Québec) G1R 4S9",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "2 rue des Jardins, Québec (Québec) G1R 4S9",
+        "expected": {
+          "number": "2",
+          "type": "Rue",
+          "street": "des Jardins",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "street: \"Des Jardins\" (want \"des Jardins\"); city: \"Québec (Québec)\" (want \"Québec\")"
+      },
+      {
+        "name": "25 rue Laurier, Gatineau (Québec) J8X 3Y9",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "25 rue Laurier, Gatineau (Québec) J8X 3Y9",
+        "expected": {
+          "number": "25",
+          "type": "Rue",
+          "street": "Laurier",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "city: \"Gatineau (Québec)\" (want \"Gatineau\")"
+      },
+      {
+        "name": "110 avenue Laurier Ouest, Ottawa (Ontario) K1P 1J1",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "110 avenue Laurier Ouest, Ottawa (Ontario) K1P 1J1",
+        "expected": {
+          "number": "110",
+          "type": "Ave",
+          "street": "Laurier",
+          "suffix": "O",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "street: \"Laurier Ouest\" (want \"Laurier\"); suffix: absent (want \"O\"); city: \"Ottawa (Ontario)\" (want \"Ottawa\")"
+      },
+      {
+        "name": "100 rue Queen, Moncton (Nouveau-Brunswick) E1C 1E8",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "100 rue Queen, Moncton (Nouveau-Brunswick) E1C 1E8",
+        "expected": {
+          "number": "100",
+          "type": "Rue",
+          "street": "Queen",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "city: \"Moncton (Nouveau-Brunswick)\" (want \"Moncton\")"
+      },
+      {
+        "name": "275 rue Notre-Dame Est",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "275 rue Notre-Dame Est\nMontréal (Québec)  H2Y 1C6",
+        "expected": {
+          "number": "275",
+          "type": "Rue",
+          "street": "Notre-Dame",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "city: \"Montréal (Québec)\" (want \"Montréal\"); state: \"AL\" (want \"QC\"); country: \"US\" (want \"CA\")"
+      },
+      {
+        "name": "191 rue Saint-Joseph, Trois-Rivières (Qc) G9A 5H3",
+        "description": "Traditional French form with the province in parentheses after the city (no comma after the civic number, so the parentheses are what is tested)",
+        "input": "191 rue Saint-Joseph, Trois-Rivières (Qc) G9A 5H3",
+        "expected": {
+          "number": "191",
+          "type": "Rue",
+          "street": "Saint-Joseph",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
+        "todo": true,
+        "todoNote": "city: \"Trois-Rivières (Qc)\" (want \"Trois-Rivières\")"
+      }
+    ],
+    "directionals": [
+      {
+        "name": "rue Principale Est",
+        "description": "French directional Est after the street name; Canada Post's French abbreviation is E",
+        "input": "2799 rue Principale Est, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "2799",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale Ouest",
+        "description": "French directional Ouest after the street name; Canada Post's French abbreviation is O",
+        "input": "3010 rue Principale Ouest, Québec QC G1R 4S9",
+        "expected": {
+          "number": "3010",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "O",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale Nord",
+        "description": "French directional Nord after the street name; Canada Post's French abbreviation is N",
+        "input": "3221 rue Principale Nord, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "3221",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "N",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale Sud",
+        "description": "French directional Sud after the street name; Canada Post's French abbreviation is S",
+        "input": "3432 rue Principale Sud, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "3432",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "S",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale Nord-Est",
+        "description": "French directional Nord-Est after the street name; Canada Post's French abbreviation is NE",
+        "input": "3643 rue Principale Nord-Est, Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "3643",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "NE",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale Nord-Ouest",
+        "description": "French directional Nord-Ouest after the street name; Canada Post's French abbreviation is NO",
+        "input": "3854 rue Principale Nord-Ouest, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "3854",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "NO",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals",
+        "todo": true,
+        "todoNote": "suffix: \"NW\" (want \"NO\")"
+      },
+      {
+        "name": "rue Principale Sud-Est",
+        "description": "French directional Sud-Est after the street name; Canada Post's French abbreviation is SE",
+        "input": "4065 rue Principale Sud-Est, Québec QC G1R 4S9",
+        "expected": {
+          "number": "4065",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "SE",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale Sud-Ouest",
+        "description": "French directional Sud-Ouest after the street name; Canada Post's French abbreviation is SO",
+        "input": "4276 rue Principale Sud-Ouest, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "4276",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "SO",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals",
+        "todo": true,
+        "todoNote": "suffix: \"SW\" (want \"SO\")"
+      },
+      {
+        "name": "rue Principale E.",
+        "description": "French directional E. after the street name; Canada Post's French abbreviation is E",
+        "input": "4487 rue Principale E., Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "4487",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "E",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      },
+      {
+        "name": "rue Principale O.",
+        "description": "French directional O. after the street name; Canada Post's French abbreviation is O",
+        "input": "4698 rue Principale O., Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "4698",
+          "type": "Rue",
+          "street": "Principale",
+          "suffix": "O",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
+      }
+    ],
+    "units": [
+      {
+        "name": "10 rue Saint-Jean, app. 4",
+        "description": "French unit designator: app., the French abbreviation for appartement (no comma after the civic number, so the unit is what is tested)",
+        "input": "10 rue Saint-Jean, app. 4, Québec QC G1R 1N5",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Saint-Jean",
+          "secUnitType": "Appartement",
+          "secUnitNum": "4",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 1N5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Appartement\"); secUnitNum: absent (want \"4\"); city: \"app. 4\" (want \"Québec\")"
+      },
+      {
+        "name": "10 rue Saint-Jean, appartement 4",
+        "description": "French unit designator: appartement written in full (no comma after the civic number, so the unit is what is tested)",
+        "input": "10 rue Saint-Jean, appartement 4, Québec QC G1R 1N5",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Saint-Jean",
+          "secUnitType": "Appartement",
+          "secUnitNum": "4",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 1N5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Appartement\"); secUnitNum: absent (want \"4\"); city: \"appartement 4\" (want \"Québec\")"
+      },
+      {
+        "name": "10 rue Saint-Jean app 12",
+        "description": "French unit designator: app without a period, on the street line (no comma after the civic number, so the unit is what is tested)",
+        "input": "10 rue Saint-Jean app 12, Québec QC G1R 1N5",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Saint-Jean",
+          "secUnitType": "Appartement",
+          "secUnitNum": "12",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 1N5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "street: \"Saint-Jean App 12\" (want \"Saint-Jean\"); secUnitType: absent (want \"Appartement\"); secUnitNum: absent (want \"12\")"
+      },
+      {
+        "name": "200 boulevard Charest Est, bureau 300",
+        "description": "French unit designator: bureau, French for an office suite (no comma after the civic number, so the unit is what is tested)",
+        "input": "200 boulevard Charest Est, bureau 300, Québec QC G1K 3H1",
+        "expected": {
+          "number": "200",
+          "type": "Blvd",
+          "street": "Charest",
+          "suffix": "E",
+          "secUnitType": "Bureau",
+          "secUnitNum": "300",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1K 3H1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Bureau\"); secUnitNum: absent (want \"300\"); city: \"bureau 300\" (want \"Québec\")"
+      },
+      {
+        "name": "200 boulevard Charest Est, bureau 1200",
+        "description": "French unit designator: bureau with a four-digit number (no comma after the civic number, so the unit is what is tested)",
+        "input": "200 boulevard Charest Est, bureau 1200, Québec QC G1K 3H1",
+        "expected": {
+          "number": "200",
+          "type": "Blvd",
+          "street": "Charest",
+          "suffix": "E",
+          "secUnitType": "Bureau",
+          "secUnitNum": "1200",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1K 3H1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Bureau\"); secUnitNum: absent (want \"1200\"); city: \"bureau 1200\" (want \"Québec\")"
+      },
+      {
+        "name": "4-110 rue Saint-Jean",
+        "description": "French unit designator: unit-civic pair in French (no comma after the civic number, so the unit is what is tested)",
+        "input": "4-110 rue Saint-Jean, Québec QC G1R 1N5",
+        "expected": {
+          "number": "110",
+          "type": "Rue",
+          "street": "Saint-Jean",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 1N5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "number: \"4-110\" (want \"110\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "10 rue Saint-Jean, unité 4",
+        "description": "French unit designator: unité, French for unit (no comma after the civic number, so the unit is what is tested)",
+        "input": "10 rue Saint-Jean, unité 4, Québec QC G1R 1N5",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Saint-Jean",
+          "secUnitType": "Unité",
+          "secUnitNum": "4",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 1N5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Unité\"); secUnitNum: absent (want \"4\"); city: \"unité 4\" (want \"Québec\")"
+      },
+      {
+        "name": "10 rue Saint-Jean, suite 4",
+        "description": "French unit designator: suite, used in Quebec English and French alike (no comma after the civic number, so the unit is what is tested)",
+        "input": "10 rue Saint-Jean, suite 4, Québec QC G1R 1N5",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Saint-Jean",
+          "secUnitType": "Suite",
+          "secUnitNum": "4",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 1N5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French unit designators",
+        "todo": true,
+        "todoNote": "city: \"suite 4\" (want \"Québec\")"
+      }
+    ],
+    "saints": [
+      {
+        "name": "1500 boulevard St-Laurent",
+        "description": "Saint abbreviated: St- as the abbreviation of Saint",
+        "input": "1500 boulevard St-Laurent, Montréal QC H2X 2S9",
+        "expected": {
+          "number": "1500",
+          "type": "Blvd",
+          "street": "St-Laurent",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2X 2S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "2700 boulevard Laurier",
+        "description": "Saint abbreviated: Ste- in the city name",
+        "input": "2700 boulevard Laurier, Ste-Foy QC G1V 4K5",
+        "expected": {
+          "number": "2700",
+          "type": "Blvd",
+          "street": "Laurier",
+          "city": "Ste-Foy",
+          "state": "QC",
+          "zip": "G1V 4K5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "50 rue St-Paul E",
+        "description": "Saint abbreviated: St- street with a directional",
+        "input": "50 rue St-Paul E, Montréal QC H2Y 1G1",
+        "expected": {
+          "number": "50",
+          "type": "Rue",
+          "street": "St-Paul",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1G1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      },
+      {
+        "name": "50 St. Paul St E",
+        "description": "Saint abbreviated: English form: St. as Saint before the name and St as the type after it",
+        "input": "50 St. Paul St E, Montréal QC H2Y 1G1",
+        "expected": {
+          "number": "50",
+          "street": "St. Paul",
+          "type": "St",
+          "suffix": "E",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1G1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
+      }
+    ]
+  }
+}

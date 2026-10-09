@@ -1,0 +1,3061 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Street Types",
+  "description": "Canada Post's English street types in full and abbreviated, and its French street types, which come before the street name. The type is expected as the library reports it everywhere: the USPS standard abbreviation where USPS Publication 28 Appendix C1 has the word (Court is Ct, Lane is Ln), otherwise Canada Post's abbreviation (Concession is Conc, chemin is Ch). Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "english": [
+      {
+        "name": "Abbey",
+        "description": "English street type ABBEY written in full (Canada Post abbreviates it ABBEY)",
+        "input": "221 Maple Abbey, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "221",
+          "street": "Maple",
+          "type": "Abbey",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Acres",
+        "description": "English street type ACRES written in full (Canada Post abbreviates it ACRES)",
+        "input": "432 Birchwood Acres, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "432",
+          "street": "Birchwood",
+          "type": "Acres",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Alley",
+        "description": "English street type ALLEY written in full (Canada Post abbreviates it ALLEY)",
+        "input": "643 Tamarack Alley, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "643",
+          "street": "Tamarack",
+          "type": "Aly",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Avenue",
+        "description": "English street type AVENUE written in full (Canada Post abbreviates it AVE)",
+        "input": "854 Spruce Avenue, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "854",
+          "street": "Spruce",
+          "type": "Ave",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Bay",
+        "description": "English street type BAY written in full (Canada Post abbreviates it BAY)",
+        "input": "1276 Cedarvale Bay, Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "1276",
+          "street": "Cedarvale",
+          "type": "Bay",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Beach",
+        "description": "English street type BEACH written in full (Canada Post abbreviates it BEACH)",
+        "input": "1487 Algonquin Beach, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "1487",
+          "street": "Algonquin",
+          "type": "Bch",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Bend",
+        "description": "English street type BEND written in full (Canada Post abbreviates it BEND)",
+        "input": "1698 Laurentian Bend, Regina SK S4P 3C8",
+        "expected": {
+          "number": "1698",
+          "street": "Laurentian",
+          "type": "Bnd",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Boulevard",
+        "description": "English street type BOULEVARD written in full (Canada Post abbreviates it BLVD)",
+        "input": "1909 Huron Boulevard, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "1909",
+          "street": "Huron",
+          "type": "Blvd",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Bypass",
+        "description": "English street type BYPASS written in full (Canada Post abbreviates it BYPASS)",
+        "input": "2331 Frontenac Bypass, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "2331",
+          "street": "Frontenac",
+          "type": "Byp",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Byway",
+        "description": "English street type BYWAY written in full (Canada Post abbreviates it BYWAY)",
+        "input": "2542 Rideau Byway, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "2542",
+          "street": "Rideau",
+          "type": "Byway",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Campus",
+        "description": "English street type CAMPUS written in full (Canada Post abbreviates it CAMPUS)",
+        "input": "2753 Maple Campus, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "2753",
+          "street": "Maple",
+          "type": "Campus",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Cape",
+        "description": "English street type CAPE written in full (Canada Post abbreviates it CAPE)",
+        "input": "2964 Birchwood Cape, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "2964",
+          "street": "Birchwood",
+          "type": "Cpe",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Centre",
+        "description": "English street type CENTRE written in full (Canada Post abbreviates it CTR)",
+        "input": "3175 Tamarack Centre, Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "3175",
+          "street": "Tamarack",
+          "type": "Ctr",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Chase",
+        "description": "English street type CHASE written in full (Canada Post abbreviates it CHASE)",
+        "input": "3597 Spruce Chase, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "3597",
+          "street": "Spruce",
+          "type": "Chase",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Circle",
+        "description": "English street type CIRCLE written in full (Canada Post abbreviates it CIR)",
+        "input": "3808 Cedarvale Circle, London ON N6A 4L9",
+        "expected": {
+          "number": "3808",
+          "street": "Cedarvale",
+          "type": "Cir",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Circuit",
+        "description": "English street type CIRCUIT written in full (Canada Post abbreviates it CIRCT)",
+        "input": "4230 Algonquin Circuit, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "4230",
+          "street": "Algonquin",
+          "type": "Circt",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "street: \"Algonquin Circuit\" (want \"Algonquin\"); type: absent (want \"Circt\")"
+      },
+      {
+        "name": "Close",
+        "description": "English street type CLOSE written in full (Canada Post abbreviates it CLOSE)",
+        "input": "4652 Laurentian Close, Saskatoon SK S7K 0J5",
+        "expected": {
+          "number": "4652",
+          "street": "Laurentian",
+          "type": "Close",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Common",
+        "description": "English street type COMMON written in full (Canada Post abbreviates it COMMON)",
+        "input": "4863 Huron Common, Victoria BC V8W 1P6",
+        "expected": {
+          "number": "4863",
+          "street": "Huron",
+          "type": "Cmn",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Concession",
+        "description": "English street type CONCESSION written in full (Canada Post abbreviates it CONC)",
+        "input": "174 Frontenac Concession, Kingston ON K7L 2Z3",
+        "expected": {
+          "number": "174",
+          "street": "Frontenac",
+          "type": "Conc",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Corners",
+        "description": "English street type CORNERS written in full (Canada Post abbreviates it CRNRS)",
+        "input": "596 Rideau Corners, Moncton NB E1C 1E8",
+        "expected": {
+          "number": "596",
+          "street": "Rideau",
+          "type": "Cors",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Court",
+        "description": "English street type COURT written in full (Canada Post abbreviates it CRT)",
+        "input": "1018 Maple Court, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "1018",
+          "street": "Maple",
+          "type": "Ct",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Cove",
+        "description": "English street type COVE written in full (Canada Post abbreviates it COVE)",
+        "input": "1440 Birchwood Cove, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "1440",
+          "street": "Birchwood",
+          "type": "Cv",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Crescent",
+        "description": "English street type CRESCENT written in full (Canada Post abbreviates it CRES)",
+        "input": "1651 Tamarack Crescent, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "1651",
+          "street": "Tamarack",
+          "type": "Cres",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Crossing",
+        "description": "English street type CROSSING written in full (Canada Post abbreviates it CROSS)",
+        "input": "2073 Spruce Crossing, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "2073",
+          "street": "Spruce",
+          "type": "Xing",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Cul-de-sac",
+        "description": "English street type CUL-DE-SAC written in full (Canada Post abbreviates it CDS)",
+        "input": "2495 Cedarvale Cul-de-sac, Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "2495",
+          "street": "Cedarvale",
+          "type": "Cds",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "street: \"Cedarvale Cul-de-sac\" (want \"Cedarvale\"); type: absent (want \"Cds\")"
+      },
+      {
+        "name": "Dale",
+        "description": "English street type DALE written in full (Canada Post abbreviates it DALE)",
+        "input": "2917 Algonquin Dale, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "2917",
+          "street": "Algonquin",
+          "type": "Dl",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Dell",
+        "description": "English street type DELL written in full (Canada Post abbreviates it DELL)",
+        "input": "3128 Laurentian Dell, Regina SK S4P 3C8",
+        "expected": {
+          "number": "3128",
+          "street": "Laurentian",
+          "type": "Dell",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Diversion",
+        "description": "English street type DIVERSION written in full (Canada Post abbreviates it DIVERS)",
+        "input": "3339 Huron Diversion, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "3339",
+          "street": "Huron",
+          "type": "Divers",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "street: \"Huron Diversion\" (want \"Huron\"); type: absent (want \"Divers\")"
+      },
+      {
+        "name": "Downs",
+        "description": "English street type DOWNS written in full (Canada Post abbreviates it DOWNS)",
+        "input": "3761 Frontenac Downs, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "3761",
+          "street": "Frontenac",
+          "type": "Downs",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Drive",
+        "description": "English street type DRIVE written in full (Canada Post abbreviates it DR)",
+        "input": "3972 Rideau Drive, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "3972",
+          "street": "Rideau",
+          "type": "Dr",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "End",
+        "description": "English street type END written in full (Canada Post abbreviates it END)",
+        "input": "4394 Maple End, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "4394",
+          "street": "Maple",
+          "type": "End",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Esplanade",
+        "description": "English street type ESPLANADE written in full (Canada Post abbreviates it ESPL)",
+        "input": "4605 Birchwood Esplanade, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "4605",
+          "street": "Birchwood",
+          "type": "Espl",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Estates",
+        "description": "English street type ESTATES written in full (Canada Post abbreviates it ESTATE)",
+        "input": "127 Tamarack Estates, Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "127",
+          "street": "Tamarack",
+          "type": "Ests",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Expressway",
+        "description": "English street type EXPRESSWAY written in full (Canada Post abbreviates it EXPY)",
+        "input": "549 Spruce Expressway, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "549",
+          "street": "Spruce",
+          "type": "Expy",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Extension",
+        "description": "English street type EXTENSION written in full (Canada Post abbreviates it EXTEN)",
+        "input": "971 Cedarvale Extension, London ON N6A 4L9",
+        "expected": {
+          "number": "971",
+          "street": "Cedarvale",
+          "type": "Ext",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Farm",
+        "description": "English street type FARM written in full (Canada Post abbreviates it FARM)",
+        "input": "1393 Algonquin Farm, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "1393",
+          "street": "Algonquin",
+          "type": "Farm",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Field",
+        "description": "English street type FIELD written in full (Canada Post abbreviates it FIELD)",
+        "input": "1604 Laurentian Field, Saskatoon SK S7K 0J5",
+        "expected": {
+          "number": "1604",
+          "street": "Laurentian",
+          "type": "Fld",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Forest",
+        "description": "English street type FOREST written in full (Canada Post abbreviates it FOREST)",
+        "input": "1815 Huron Forest, Victoria BC V8W 1P6",
+        "expected": {
+          "number": "1815",
+          "street": "Huron",
+          "type": "Frst",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Freeway",
+        "description": "English street type FREEWAY written in full (Canada Post abbreviates it FWY)",
+        "input": "2026 Frontenac Freeway, Kingston ON K7L 2Z3",
+        "expected": {
+          "number": "2026",
+          "street": "Frontenac",
+          "type": "Fwy",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Front",
+        "description": "English street type FRONT written in full (Canada Post abbreviates it FRONT)",
+        "input": "2448 Rideau Front, Moncton NB E1C 1E8",
+        "expected": {
+          "number": "2448",
+          "street": "Rideau",
+          "type": "Front",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Front\"); secUnitType: \"Front\" (want absent)"
+      },
+      {
+        "name": "Gardens",
+        "description": "English street type GARDENS written in full (Canada Post abbreviates it GDNS)",
+        "input": "2659 Maple Gardens, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "2659",
+          "street": "Maple",
+          "type": "Gdns",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Gate",
+        "description": "English street type GATE written in full (Canada Post abbreviates it GATE)",
+        "input": "3081 Birchwood Gate, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "3081",
+          "street": "Birchwood",
+          "type": "Gate",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Gate\"); secUnitType: \"Gate\" (want absent)"
+      },
+      {
+        "name": "Glade",
+        "description": "English street type GLADE written in full (Canada Post abbreviates it GLADE)",
+        "input": "3292 Tamarack Glade, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "3292",
+          "street": "Tamarack",
+          "type": "Glade",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Glen",
+        "description": "English street type GLEN written in full (Canada Post abbreviates it GLEN)",
+        "input": "3503 Spruce Glen, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "3503",
+          "street": "Spruce",
+          "type": "Gln",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Green",
+        "description": "English street type GREEN written in full (Canada Post abbreviates it GREEN)",
+        "input": "3714 Cedarvale Green, Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "3714",
+          "street": "Cedarvale",
+          "type": "Grn",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Grounds",
+        "description": "English street type GROUNDS written in full (Canada Post abbreviates it GRNDS)",
+        "input": "3925 Algonquin Grounds, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "3925",
+          "street": "Algonquin",
+          "type": "Grnds",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Grove",
+        "description": "English street type GROVE written in full (Canada Post abbreviates it GROVE)",
+        "input": "4347 Laurentian Grove, Regina SK S4P 3C8",
+        "expected": {
+          "number": "4347",
+          "street": "Laurentian",
+          "type": "Grv",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Harbour",
+        "description": "English street type HARBOUR written in full (Canada Post abbreviates it HARBR)",
+        "input": "4558 Huron Harbour, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "4558",
+          "street": "Huron",
+          "type": "Hbr",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Harbr\" (want \"Hbr\")"
+      },
+      {
+        "name": "Heath",
+        "description": "English street type HEATH written in full (Canada Post abbreviates it HEATH)",
+        "input": "80 Frontenac Heath, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "80",
+          "street": "Frontenac",
+          "type": "Heath",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Heights",
+        "description": "English street type HEIGHTS written in full (Canada Post abbreviates it HTS)",
+        "input": "291 Rideau Heights, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "291",
+          "street": "Rideau",
+          "type": "Hts",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Highlands",
+        "description": "English street type HIGHLANDS written in full (Canada Post abbreviates it HGHLDS)",
+        "input": "713 Maple Highlands, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "713",
+          "street": "Maple",
+          "type": "Hghlds",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Hill",
+        "description": "English street type HILL written in full (Canada Post abbreviates it HILL)",
+        "input": "1135 Birchwood Hill, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "1135",
+          "street": "Birchwood",
+          "type": "Hl",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Hollow",
+        "description": "English street type HOLLOW written in full (Canada Post abbreviates it HOLLOW)",
+        "input": "1346 Tamarack Hollow, Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "1346",
+          "street": "Tamarack",
+          "type": "Holw",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Inlet",
+        "description": "English street type INLET written in full (Canada Post abbreviates it INLET)",
+        "input": "1557 Spruce Inlet, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "1557",
+          "street": "Spruce",
+          "type": "Inlt",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Island",
+        "description": "English street type ISLAND written in full (Canada Post abbreviates it ISLAND)",
+        "input": "1768 Cedarvale Island, London ON N6A 4L9",
+        "expected": {
+          "number": "1768",
+          "street": "Cedarvale",
+          "type": "Is",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Key",
+        "description": "English street type KEY written in full (Canada Post abbreviates it KEY)",
+        "input": "1979 Algonquin Key, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "1979",
+          "street": "Algonquin",
+          "type": "Ky",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Ky\"); secUnitType: \"Key\" (want absent)"
+      },
+      {
+        "name": "Knoll",
+        "description": "English street type KNOLL written in full (Canada Post abbreviates it KNOLL)",
+        "input": "2190 Laurentian Knoll, Saskatoon SK S7K 0J5",
+        "expected": {
+          "number": "2190",
+          "street": "Laurentian",
+          "type": "Knl",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Landing",
+        "description": "English street type LANDING written in full (Canada Post abbreviates it LANDNG)",
+        "input": "2401 Huron Landing, Victoria BC V8W 1P6",
+        "expected": {
+          "number": "2401",
+          "street": "Huron",
+          "type": "Lndg",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Lane",
+        "description": "English street type LANE written in full (Canada Post abbreviates it LANE)",
+        "input": "2823 Frontenac Lane, Kingston ON K7L 2Z3",
+        "expected": {
+          "number": "2823",
+          "street": "Frontenac",
+          "type": "Ln",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Limits",
+        "description": "English street type LIMITS written in full (Canada Post abbreviates it LMTS)",
+        "input": "3034 Rideau Limits, Moncton NB E1C 1E8",
+        "expected": {
+          "number": "3034",
+          "street": "Rideau",
+          "type": "Lmts",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Line",
+        "description": "English street type LINE written in full (Canada Post abbreviates it LINE)",
+        "input": "3456 Maple Line, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "3456",
+          "street": "Maple",
+          "type": "Line",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Link",
+        "description": "English street type LINK written in full (Canada Post abbreviates it LINK)",
+        "input": "3667 Birchwood Link, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "3667",
+          "street": "Birchwood",
+          "type": "Link",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Lookout",
+        "description": "English street type LOOKOUT written in full (Canada Post abbreviates it LKOUT)",
+        "input": "3878 Tamarack Lookout, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "3878",
+          "street": "Tamarack",
+          "type": "Lkout",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Loop",
+        "description": "English street type LOOP written in full (Canada Post abbreviates it LOOP)",
+        "input": "4300 Spruce Loop, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "4300",
+          "street": "Spruce",
+          "type": "Loop",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Mall",
+        "description": "English street type MALL written in full (Canada Post abbreviates it MALL)",
+        "input": "4511 Cedarvale Mall, Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "4511",
+          "street": "Cedarvale",
+          "type": "Mall",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Manor",
+        "description": "English street type MANOR written in full (Canada Post abbreviates it MANOR)",
+        "input": "4722 Algonquin Manor, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "4722",
+          "street": "Algonquin",
+          "type": "Mnr",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Maze",
+        "description": "English street type MAZE written in full (Canada Post abbreviates it MAZE)",
+        "input": "33 Laurentian Maze, Regina SK S4P 3C8",
+        "expected": {
+          "number": "33",
+          "street": "Laurentian",
+          "type": "Maze",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Meadow",
+        "description": "English street type MEADOW written in full (Canada Post abbreviates it MEADOW)",
+        "input": "244 Huron Meadow, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "244",
+          "street": "Huron",
+          "type": "Mdw",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Mews",
+        "description": "English street type MEWS written in full (Canada Post abbreviates it MEWS)",
+        "input": "455 Frontenac Mews, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "455",
+          "street": "Frontenac",
+          "type": "Mews",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Moor",
+        "description": "English street type MOOR written in full (Canada Post abbreviates it MOOR)",
+        "input": "666 Rideau Moor, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "666",
+          "street": "Rideau",
+          "type": "Moor",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Mount",
+        "description": "English street type MOUNT written in full (Canada Post abbreviates it MOUNT)",
+        "input": "877 Maple Mount, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "877",
+          "street": "Maple",
+          "type": "Mt",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Mountain",
+        "description": "English street type MOUNTAIN written in full (Canada Post abbreviates it MTN)",
+        "input": "1088 Birchwood Mountain, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "1088",
+          "street": "Birchwood",
+          "type": "Mtn",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Orchard",
+        "description": "English street type ORCHARD written in full (Canada Post abbreviates it ORCH)",
+        "input": "1510 Tamarack Orchard, Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "1510",
+          "street": "Tamarack",
+          "type": "Orch",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Parade",
+        "description": "English street type PARADE written in full (Canada Post abbreviates it PARADE)",
+        "input": "1932 Spruce Parade, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "1932",
+          "street": "Spruce",
+          "type": "Parade",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Park",
+        "description": "English street type PARK written in full (Canada Post abbreviates it PK)",
+        "input": "2143 Cedarvale Park, London ON N6A 4L9",
+        "expected": {
+          "number": "2143",
+          "street": "Cedarvale",
+          "type": "Park",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Parkway",
+        "description": "English street type PARKWAY written in full (Canada Post abbreviates it PKY)",
+        "input": "2565 Algonquin Parkway, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "2565",
+          "street": "Algonquin",
+          "type": "Pkwy",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Passage",
+        "description": "English street type PASSAGE written in full (Canada Post abbreviates it PASS)",
+        "input": "2987 Laurentian Passage, Saskatoon SK S7K 0J5",
+        "expected": {
+          "number": "2987",
+          "street": "Laurentian",
+          "type": "Psge",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Path",
+        "description": "English street type PATH written in full (Canada Post abbreviates it PATH)",
+        "input": "3409 Huron Path, Victoria BC V8W 1P6",
+        "expected": {
+          "number": "3409",
+          "street": "Huron",
+          "type": "Path",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Pathway",
+        "description": "English street type PATHWAY written in full (Canada Post abbreviates it PTWAY)",
+        "input": "3620 Frontenac Pathway, Kingston ON K7L 2Z3",
+        "expected": {
+          "number": "3620",
+          "street": "Frontenac",
+          "type": "Ptway",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Pines",
+        "description": "English street type PINES written in full (Canada Post abbreviates it PINES)",
+        "input": "4042 Rideau Pines, Moncton NB E1C 1E8",
+        "expected": {
+          "number": "4042",
+          "street": "Rideau",
+          "type": "Pnes",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Place",
+        "description": "English street type PLACE written in full (Canada Post abbreviates it PL)",
+        "input": "4253 Maple Place, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "4253",
+          "street": "Maple",
+          "type": "Pl",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Plateau",
+        "description": "English street type PLATEAU written in full (Canada Post abbreviates it PLAT)",
+        "input": "4675 Birchwood Plateau, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "4675",
+          "street": "Birchwood",
+          "type": "Plat",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Plaza",
+        "description": "English street type PLAZA written in full (Canada Post abbreviates it PLAZA)",
+        "input": "197 Tamarack Plaza, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "197",
+          "street": "Tamarack",
+          "type": "Plz",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Point",
+        "description": "English street type POINT written in full (Canada Post abbreviates it PT)",
+        "input": "408 Spruce Point, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "408",
+          "street": "Spruce",
+          "type": "Pt",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Port",
+        "description": "English street type PORT written in full (Canada Post abbreviates it PORT)",
+        "input": "830 Cedarvale Port, Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "830",
+          "street": "Cedarvale",
+          "type": "Prt",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Private",
+        "description": "English street type PRIVATE written in full (Canada Post abbreviates it PVT)",
+        "input": "1041 Algonquin Private, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "1041",
+          "street": "Algonquin",
+          "type": "Pvt",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Promenade",
+        "description": "English street type PROMENADE written in full (Canada Post abbreviates it PROM)",
+        "input": "1463 Laurentian Promenade, Regina SK S4P 3C8",
+        "expected": {
+          "number": "1463",
+          "street": "Laurentian",
+          "type": "Prom",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Quay",
+        "description": "English street type QUAY written in full (Canada Post abbreviates it QUAY)",
+        "input": "1885 Huron Quay, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "1885",
+          "street": "Huron",
+          "type": "Quay",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Ramp",
+        "description": "English street type RAMP written in full (Canada Post abbreviates it RAMP)",
+        "input": "2096 Frontenac Ramp, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "2096",
+          "street": "Frontenac",
+          "type": "Ramp",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Range",
+        "description": "English street type RANGE written in full (Canada Post abbreviates it RG)",
+        "input": "2307 Rideau Range, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "2307",
+          "street": "Rideau",
+          "type": "Rg",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Ridge",
+        "description": "English street type RIDGE written in full (Canada Post abbreviates it RIDGE)",
+        "input": "2729 Maple Ridge, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "2729",
+          "street": "Maple",
+          "type": "Rdg",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Rise",
+        "description": "English street type RISE written in full (Canada Post abbreviates it RISE)",
+        "input": "2940 Birchwood Rise, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "2940",
+          "street": "Birchwood",
+          "type": "Rise",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Road",
+        "description": "English street type ROAD written in full (Canada Post abbreviates it RD)",
+        "input": "3151 Tamarack Road, Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "3151",
+          "street": "Tamarack",
+          "type": "Rd",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Route",
+        "description": "English street type ROUTE written in full (Canada Post abbreviates it RTE)",
+        "input": "3573 Spruce Route, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "3573",
+          "street": "Spruce",
+          "type": "Rte",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Row",
+        "description": "English street type ROW written in full (Canada Post abbreviates it ROW)",
+        "input": "3995 Cedarvale Row, London ON N6A 4L9",
+        "expected": {
+          "number": "3995",
+          "street": "Cedarvale",
+          "type": "Row",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Run",
+        "description": "English street type RUN written in full (Canada Post abbreviates it RUN)",
+        "input": "4206 Algonquin Run, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "4206",
+          "street": "Algonquin",
+          "type": "Run",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Square",
+        "description": "English street type SQUARE written in full (Canada Post abbreviates it SQ)",
+        "input": "4417 Laurentian Square, Saskatoon SK S7K 0J5",
+        "expected": {
+          "number": "4417",
+          "street": "Laurentian",
+          "type": "Sq",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Street",
+        "description": "English street type STREET written in full (Canada Post abbreviates it ST)",
+        "input": "4839 Huron Street, Victoria BC V8W 1P6",
+        "expected": {
+          "number": "4839",
+          "street": "Huron",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Subdivision",
+        "description": "English street type SUBDIVISION written in full (Canada Post abbreviates it SUBDIV)",
+        "input": "361 Frontenac Subdivision, Kingston ON K7L 2Z3",
+        "expected": {
+          "number": "361",
+          "street": "Frontenac",
+          "type": "Subdiv",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Terrace",
+        "description": "English street type TERRACE written in full (Canada Post abbreviates it TERR)",
+        "input": "783 Rideau Terrace, Moncton NB E1C 1E8",
+        "expected": {
+          "number": "783",
+          "street": "Rideau",
+          "type": "Ter",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Thicket",
+        "description": "English street type THICKET written in full (Canada Post abbreviates it THICK)",
+        "input": "1205 Maple Thicket, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "1205",
+          "street": "Maple",
+          "type": "Thick",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Towers",
+        "description": "English street type TOWERS written in full (Canada Post abbreviates it TOWERS)",
+        "input": "1627 Birchwood Towers, Ottawa ON K1P 1J1",
+        "expected": {
+          "number": "1627",
+          "street": "Birchwood",
+          "type": "Towers",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Townline",
+        "description": "English street type TOWNLINE written in full (Canada Post abbreviates it TLINE)",
+        "input": "1838 Tamarack Townline, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "1838",
+          "street": "Tamarack",
+          "type": "Tline",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Trail",
+        "description": "English street type TRAIL written in full (Canada Post abbreviates it TRAIL)",
+        "input": "2260 Spruce Trail, Calgary AB T2P 2M5",
+        "expected": {
+          "number": "2260",
+          "street": "Spruce",
+          "type": "Trl",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Turnabout",
+        "description": "English street type TURNABOUT written in full (Canada Post abbreviates it TRNABT)",
+        "input": "2471 Cedarvale Turnabout, Edmonton AB T5J 2R7",
+        "expected": {
+          "number": "2471",
+          "street": "Cedarvale",
+          "type": "Trnabt",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Vale",
+        "description": "English street type VALE written in full (Canada Post abbreviates it VALE)",
+        "input": "2893 Algonquin Vale, Winnipeg MB R3B 1B9",
+        "expected": {
+          "number": "2893",
+          "street": "Algonquin",
+          "type": "Vale",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Via",
+        "description": "English street type VIA written in full (Canada Post abbreviates it VIA)",
+        "input": "3104 Laurentian Via, Regina SK S4P 3C8",
+        "expected": {
+          "number": "3104",
+          "street": "Laurentian",
+          "type": "Via",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "View",
+        "description": "English street type VIEW written in full (Canada Post abbreviates it VIEW)",
+        "input": "3315 Huron View, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "3315",
+          "street": "Huron",
+          "type": "Vw",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Village",
+        "description": "English street type VILLAGE written in full (Canada Post abbreviates it VILLGE)",
+        "input": "3526 Frontenac Village, Fredericton NB E3B 1E9",
+        "expected": {
+          "number": "3526",
+          "street": "Frontenac",
+          "type": "Vlg",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Villas",
+        "description": "English street type VILLAS written in full (Canada Post abbreviates it VILLAS)",
+        "input": "3948 Rideau Villas, Charlottetown PE C1A 4B7",
+        "expected": {
+          "number": "3948",
+          "street": "Rideau",
+          "type": "Villas",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Vista",
+        "description": "English street type VISTA written in full (Canada Post abbreviates it VISTA)",
+        "input": "4159 Maple Vista, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "number": "4159",
+          "street": "Maple",
+          "type": "Vis",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Walk",
+        "description": "English street type WALK written in full (Canada Post abbreviates it WALK)",
+        "input": "4370 Birchwood Walk, Yellowknife NT X1A 2N4",
+        "expected": {
+          "number": "4370",
+          "street": "Birchwood",
+          "type": "Walk",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Way",
+        "description": "English street type WAY written in full (Canada Post abbreviates it WAY)",
+        "input": "4581 Tamarack Way, Iqaluit NU X0A 0H0",
+        "expected": {
+          "number": "4581",
+          "street": "Tamarack",
+          "type": "Way",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Wharf",
+        "description": "English street type WHARF written in full (Canada Post abbreviates it WHARF)",
+        "input": "4792 Spruce Wharf, Hamilton ON L8P 4Y5",
+        "expected": {
+          "number": "4792",
+          "street": "Spruce",
+          "type": "Wharf",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Wood",
+        "description": "English street type WOOD written in full (Canada Post abbreviates it WOOD)",
+        "input": "103 Cedarvale Wood, London ON N6A 4L9",
+        "expected": {
+          "number": "103",
+          "street": "Cedarvale",
+          "type": "Wood",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Wynd",
+        "description": "English street type WYND written in full (Canada Post abbreviates it WYND)",
+        "input": "314 Algonquin Wynd, Sudbury ON P3A 5P3",
+        "expected": {
+          "number": "314",
+          "street": "Algonquin",
+          "type": "Wynd",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      }
+    ],
+    "englishAbbreviation": [
+      {
+        "name": "Avenue as AVE",
+        "description": "English street type by Canada Post's abbreviation AVE",
+        "input": "1065 Spruce Ave, Calgary, AB T2P 2M5",
+        "expected": {
+          "number": "1065",
+          "street": "Spruce",
+          "type": "Ave",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Boulevard as BLVD",
+        "description": "English street type by Canada Post's abbreviation BLVD",
+        "input": "2120 Huron Blvd, Halifax, NS B3J 3A5",
+        "expected": {
+          "number": "2120",
+          "street": "Huron",
+          "type": "Blvd",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Centre as CTR",
+        "description": "English street type by Canada Post's abbreviation CTR",
+        "input": "3386 Tamarack Ctr, Iqaluit, NU X0A 0H0",
+        "expected": {
+          "number": "3386",
+          "street": "Tamarack",
+          "type": "Ctr",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Circle as CIR",
+        "description": "English street type by Canada Post's abbreviation CIR",
+        "input": "4019 Cedarvale Cir, London, ON N6A 4L9",
+        "expected": {
+          "number": "4019",
+          "street": "Cedarvale",
+          "type": "Cir",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Circuit as CIRCT",
+        "description": "English street type by Canada Post's abbreviation CIRCT",
+        "input": "4441 Algonquin Circt, Sudbury, ON P3A 5P3",
+        "expected": {
+          "number": "4441",
+          "street": "Algonquin",
+          "type": "Circt",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Concession as CONC",
+        "description": "English street type by Canada Post's abbreviation CONC",
+        "input": "385 Frontenac Conc, Kingston, ON K7L 2Z3",
+        "expected": {
+          "number": "385",
+          "street": "Frontenac",
+          "type": "Conc",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Corners as CRNRS",
+        "description": "English street type by Canada Post's abbreviation CRNRS",
+        "input": "807 Rideau Crnrs, Moncton, NB E1C 1E8",
+        "expected": {
+          "number": "807",
+          "street": "Rideau",
+          "type": "Cors",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Crnrs\" (want \"Cors\")"
+      },
+      {
+        "name": "Court as CRT",
+        "description": "English street type by Canada Post's abbreviation CRT",
+        "input": "1229 Maple Crt, Toronto, ON M5H 2N2",
+        "expected": {
+          "number": "1229",
+          "street": "Maple",
+          "type": "Ct",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Crescent as CRES",
+        "description": "English street type by Canada Post's abbreviation CRES",
+        "input": "1862 Tamarack Cres, Vancouver, BC V5Y 1V4",
+        "expected": {
+          "number": "1862",
+          "street": "Tamarack",
+          "type": "Cres",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Crossing as CROSS",
+        "description": "English street type by Canada Post's abbreviation CROSS",
+        "input": "2284 Spruce Cross, Calgary, AB T2P 2M5",
+        "expected": {
+          "number": "2284",
+          "street": "Spruce",
+          "type": "Xing",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Cross\" (want \"Xing\")"
+      },
+      {
+        "name": "Cul-de-sac as CDS",
+        "description": "English street type by Canada Post's abbreviation CDS",
+        "input": "2706 Cedarvale Cds, Edmonton, AB T5J 2R7",
+        "expected": {
+          "number": "2706",
+          "street": "Cedarvale",
+          "type": "Cds",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Diversion as DIVERS",
+        "description": "English street type by Canada Post's abbreviation DIVERS",
+        "input": "3550 Huron Divers, Halifax, NS B3J 3A5",
+        "expected": {
+          "number": "3550",
+          "street": "Huron",
+          "type": "Divers",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Drive as DR",
+        "description": "English street type by Canada Post's abbreviation DR",
+        "input": "4183 Rideau Dr, Charlottetown, PE C1A 4B7",
+        "expected": {
+          "number": "4183",
+          "street": "Rideau",
+          "type": "Dr",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Esplanade as ESPL",
+        "description": "English street type by Canada Post's abbreviation ESPL",
+        "input": "4816 Birchwood Espl, Yellowknife, NT X1A 2N4",
+        "expected": {
+          "number": "4816",
+          "street": "Birchwood",
+          "type": "Espl",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Estates as ESTATE",
+        "description": "English street type by Canada Post's abbreviation ESTATE",
+        "input": "338 Tamarack Estate, Iqaluit, NU X0A 0H0",
+        "expected": {
+          "number": "338",
+          "street": "Tamarack",
+          "type": "Est",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Expressway as EXPY",
+        "description": "English street type by Canada Post's abbreviation EXPY",
+        "input": "760 Spruce Expy, Hamilton, ON L8P 4Y5",
+        "expected": {
+          "number": "760",
+          "street": "Spruce",
+          "type": "Expy",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Extension as EXTEN",
+        "description": "English street type by Canada Post's abbreviation EXTEN",
+        "input": "1182 Cedarvale Exten, London, ON N6A 4L9",
+        "expected": {
+          "number": "1182",
+          "street": "Cedarvale",
+          "type": "Ext",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Exten\" (want \"Ext\")"
+      },
+      {
+        "name": "Freeway as FWY",
+        "description": "English street type by Canada Post's abbreviation FWY",
+        "input": "2237 Frontenac Fwy, Kingston, ON K7L 2Z3",
+        "expected": {
+          "number": "2237",
+          "street": "Frontenac",
+          "type": "Fwy",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Gardens as GDNS",
+        "description": "English street type by Canada Post's abbreviation GDNS",
+        "input": "2870 Maple Gdns, Toronto, ON M5H 2N2",
+        "expected": {
+          "number": "2870",
+          "street": "Maple",
+          "type": "Gdns",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Grounds as GRNDS",
+        "description": "English street type by Canada Post's abbreviation GRNDS",
+        "input": "4136 Algonquin Grnds, Winnipeg, MB R3B 1B9",
+        "expected": {
+          "number": "4136",
+          "street": "Algonquin",
+          "type": "Grnds",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Harbour as HARBR",
+        "description": "English street type by Canada Post's abbreviation HARBR",
+        "input": "4769 Huron Harbr, Halifax, NS B3J 3A5",
+        "expected": {
+          "number": "4769",
+          "street": "Huron",
+          "type": "Hbr",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Heights as HTS",
+        "description": "English street type by Canada Post's abbreviation HTS",
+        "input": "502 Rideau Hts, Charlottetown, PE C1A 4B7",
+        "expected": {
+          "number": "502",
+          "street": "Rideau",
+          "type": "Hts",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Highlands as HGHLDS",
+        "description": "English street type by Canada Post's abbreviation HGHLDS",
+        "input": "924 Maple Hghlds, Whitehorse, YT Y1A 1C2",
+        "expected": {
+          "number": "924",
+          "street": "Maple",
+          "type": "Hghlds",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Landing as LANDNG",
+        "description": "English street type by Canada Post's abbreviation LANDNG",
+        "input": "2612 Huron Landng, Victoria, BC V8W 1P6",
+        "expected": {
+          "number": "2612",
+          "street": "Huron",
+          "type": "Lndg",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Landng\" (want \"Lndg\")"
+      },
+      {
+        "name": "Limits as LMTS",
+        "description": "English street type by Canada Post's abbreviation LMTS",
+        "input": "3245 Rideau Lmts, Moncton, NB E1C 1E8",
+        "expected": {
+          "number": "3245",
+          "street": "Rideau",
+          "type": "Lmts",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Lookout as LKOUT",
+        "description": "English street type by Canada Post's abbreviation LKOUT",
+        "input": "4089 Tamarack Lkout, Vancouver, BC V5Y 1V4",
+        "expected": {
+          "number": "4089",
+          "street": "Tamarack",
+          "type": "Lkout",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Mountain as MTN",
+        "description": "English street type by Canada Post's abbreviation MTN",
+        "input": "1299 Birchwood Mtn, Yellowknife, NT X1A 2N4",
+        "expected": {
+          "number": "1299",
+          "street": "Birchwood",
+          "type": "Mtn",
+          "city": "Yellowknife",
+          "state": "NT",
+          "zip": "X1A 2N4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Orchard as ORCH",
+        "description": "English street type by Canada Post's abbreviation ORCH",
+        "input": "1721 Tamarack Orch, Iqaluit, NU X0A 0H0",
+        "expected": {
+          "number": "1721",
+          "street": "Tamarack",
+          "type": "Orch",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Park as PK",
+        "description": "English street type by Canada Post's abbreviation PK",
+        "input": "2354 Cedarvale Pk, London, ON N6A 4L9",
+        "expected": {
+          "number": "2354",
+          "street": "Cedarvale",
+          "type": "Park",
+          "city": "London",
+          "state": "ON",
+          "zip": "N6A 4L9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Pk\" (want \"Park\")"
+      },
+      {
+        "name": "Parkway as PKY",
+        "description": "English street type by Canada Post's abbreviation PKY",
+        "input": "2776 Algonquin Pky, Sudbury, ON P3A 5P3",
+        "expected": {
+          "number": "2776",
+          "street": "Algonquin",
+          "type": "Pkwy",
+          "city": "Sudbury",
+          "state": "ON",
+          "zip": "P3A 5P3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Passage as PASS",
+        "description": "English street type by Canada Post's abbreviation PASS",
+        "input": "3198 Laurentian Pass, Saskatoon, SK S7K 0J5",
+        "expected": {
+          "number": "3198",
+          "street": "Laurentian",
+          "type": "Pass",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Pathway as PTWAY",
+        "description": "English street type by Canada Post's abbreviation PTWAY",
+        "input": "3831 Frontenac Ptway, Kingston, ON K7L 2Z3",
+        "expected": {
+          "number": "3831",
+          "street": "Frontenac",
+          "type": "Ptway",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Place as PL",
+        "description": "English street type by Canada Post's abbreviation PL",
+        "input": "4464 Maple Pl, Toronto, ON M5H 2N2",
+        "expected": {
+          "number": "4464",
+          "street": "Maple",
+          "type": "Pl",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Plateau as PLAT",
+        "description": "English street type by Canada Post's abbreviation PLAT",
+        "input": "4886 Birchwood Plat, Ottawa, ON K1P 1J1",
+        "expected": {
+          "number": "4886",
+          "street": "Birchwood",
+          "type": "Plat",
+          "city": "Ottawa",
+          "state": "ON",
+          "zip": "K1P 1J1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Point as PT",
+        "description": "English street type by Canada Post's abbreviation PT",
+        "input": "619 Spruce Pt, Calgary, AB T2P 2M5",
+        "expected": {
+          "number": "619",
+          "street": "Spruce",
+          "type": "Pt",
+          "city": "Calgary",
+          "state": "AB",
+          "zip": "T2P 2M5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Private as PVT",
+        "description": "English street type by Canada Post's abbreviation PVT",
+        "input": "1252 Algonquin Pvt, Winnipeg, MB R3B 1B9",
+        "expected": {
+          "number": "1252",
+          "street": "Algonquin",
+          "type": "Pvt",
+          "city": "Winnipeg",
+          "state": "MB",
+          "zip": "R3B 1B9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Promenade as PROM",
+        "description": "English street type by Canada Post's abbreviation PROM",
+        "input": "1674 Laurentian Prom, Regina, SK S4P 3C8",
+        "expected": {
+          "number": "1674",
+          "street": "Laurentian",
+          "type": "Prom",
+          "city": "Regina",
+          "state": "SK",
+          "zip": "S4P 3C8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Range as RG",
+        "description": "English street type by Canada Post's abbreviation RG",
+        "input": "2518 Rideau Rg, Charlottetown, PE C1A 4B7",
+        "expected": {
+          "number": "2518",
+          "street": "Rideau",
+          "type": "Rg",
+          "city": "Charlottetown",
+          "state": "PE",
+          "zip": "C1A 4B7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Road as RD",
+        "description": "English street type by Canada Post's abbreviation RD",
+        "input": "3362 Tamarack Rd, Iqaluit, NU X0A 0H0",
+        "expected": {
+          "number": "3362",
+          "street": "Tamarack",
+          "type": "Rd",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Route as RTE",
+        "description": "English street type by Canada Post's abbreviation RTE",
+        "input": "3784 Spruce Rte, Hamilton, ON L8P 4Y5",
+        "expected": {
+          "number": "3784",
+          "street": "Spruce",
+          "type": "Rte",
+          "city": "Hamilton",
+          "state": "ON",
+          "zip": "L8P 4Y5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Square as SQ",
+        "description": "English street type by Canada Post's abbreviation SQ",
+        "input": "4628 Laurentian Sq, Saskatoon, SK S7K 0J5",
+        "expected": {
+          "number": "4628",
+          "street": "Laurentian",
+          "type": "Sq",
+          "city": "Saskatoon",
+          "state": "SK",
+          "zip": "S7K 0J5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Street as ST",
+        "description": "English street type by Canada Post's abbreviation ST",
+        "input": "150 Huron St, Victoria, BC V8W 1P6",
+        "expected": {
+          "number": "150",
+          "street": "Huron",
+          "type": "St",
+          "city": "Victoria",
+          "state": "BC",
+          "zip": "V8W 1P6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Subdivision as SUBDIV",
+        "description": "English street type by Canada Post's abbreviation SUBDIV",
+        "input": "572 Frontenac Subdiv, Kingston, ON K7L 2Z3",
+        "expected": {
+          "number": "572",
+          "street": "Frontenac",
+          "type": "Subdiv",
+          "city": "Kingston",
+          "state": "ON",
+          "zip": "K7L 2Z3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Terrace as TERR",
+        "description": "English street type by Canada Post's abbreviation TERR",
+        "input": "994 Rideau Terr, Moncton, NB E1C 1E8",
+        "expected": {
+          "number": "994",
+          "street": "Rideau",
+          "type": "Ter",
+          "city": "Moncton",
+          "state": "NB",
+          "zip": "E1C 1E8",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Thicket as THICK",
+        "description": "English street type by Canada Post's abbreviation THICK",
+        "input": "1416 Maple Thick, Toronto, ON M5H 2N2",
+        "expected": {
+          "number": "1416",
+          "street": "Maple",
+          "type": "Thick",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Townline as TLINE",
+        "description": "English street type by Canada Post's abbreviation TLINE",
+        "input": "2049 Tamarack Tline, Vancouver, BC V5Y 1V4",
+        "expected": {
+          "number": "2049",
+          "street": "Tamarack",
+          "type": "Tline",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Turnabout as TRNABT",
+        "description": "English street type by Canada Post's abbreviation TRNABT",
+        "input": "2682 Cedarvale Trnabt, Edmonton, AB T5J 2R7",
+        "expected": {
+          "number": "2682",
+          "street": "Cedarvale",
+          "type": "Trnabt",
+          "city": "Edmonton",
+          "state": "AB",
+          "zip": "T5J 2R7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
+      },
+      {
+        "name": "Village as VILLGE",
+        "description": "English street type by Canada Post's abbreviation VILLGE",
+        "input": "3737 Frontenac Villge, Fredericton, NB E3B 1E9",
+        "expected": {
+          "number": "3737",
+          "street": "Frontenac",
+          "type": "Vlg",
+          "city": "Fredericton",
+          "state": "NB",
+          "zip": "E3B 1E9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
+        "todo": true,
+        "todoNote": "type: \"Villge\" (want \"Vlg\")"
+      }
+    ],
+    "french": [
+      {
+        "name": "rue Principale",
+        "description": "French street type RUE, which comes before the name (Canada Post abbreviates it RUE)",
+        "input": "525 rue Principale, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "525",
+          "type": "Rue",
+          "street": "Principale",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "avenue Saint-Laurent",
+        "description": "French street type AVENUE, which comes before the name (Canada Post abbreviates it AV)",
+        "input": "736 avenue Saint-Laurent, Québec QC G1R 4S9",
+        "expected": {
+          "number": "736",
+          "type": "Ave",
+          "street": "Saint-Laurent",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "boulevard des Érables",
+        "description": "French street type BOULEVARD, which comes before the name (Canada Post abbreviates it BOUL)",
+        "input": "1158 boulevard des Érables, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "1158",
+          "type": "Blvd",
+          "street": "des Érables",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+      },
+      {
+        "name": "chemin du Lac",
+        "description": "French street type CHEMIN, which comes before the name (Canada Post abbreviates it CH)",
+        "input": "1580 chemin du Lac, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "1580",
+          "type": "Ch",
+          "street": "du Lac",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+      },
+      {
+        "name": "côte de la Montagne",
+        "description": "French street type CÔTE, which comes before the name (Canada Post abbreviates it CÔTE)",
+        "input": "2002 côte de la Montagne, Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "2002",
+          "type": "Côte",
+          "street": "de la Montagne",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"De la Montagne\" (want \"de la Montagne\")"
+      },
+      {
+        "name": "croissant Sainte-Catherine",
+        "description": "French street type CROISSANT, which comes before the name (Canada Post abbreviates it CROIS)",
+        "input": "2213 croissant Sainte-Catherine, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "2213",
+          "type": "Crois",
+          "street": "Sainte-Catherine",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: \"Cres\" (want \"Crois\")"
+      },
+      {
+        "name": "impasse Champlain",
+        "description": "French street type IMPASSE, which comes before the name (Canada Post abbreviates it IMP)",
+        "input": "2635 impasse Champlain, Québec QC G1R 4S9",
+        "expected": {
+          "number": "2635",
+          "type": "Imp",
+          "street": "Champlain",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "montée Laurier",
+        "description": "French street type MONTÉE, which comes before the name (Canada Post abbreviates it MTÉE)",
+        "input": "3057 montée Laurier, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "3057",
+          "type": "Mtée",
+          "street": "Laurier",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "place des Pins",
+        "description": "French street type PLACE, which comes before the name (Canada Post abbreviates it PL)",
+        "input": "3268 place des Pins, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "3268",
+          "type": "Pl",
+          "street": "des Pins",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+      },
+      {
+        "name": "promenade Notre-Dame",
+        "description": "French street type PROMENADE, which comes before the name (Canada Post abbreviates it PROM)",
+        "input": "3479 promenade Notre-Dame, Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "3479",
+          "type": "Prom",
+          "street": "Notre-Dame",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "rang Principale",
+        "description": "French street type RANG, which comes before the name (Canada Post abbreviates it RANG)",
+        "input": "3690 rang Principale, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "3690",
+          "type": "Rang",
+          "street": "Principale",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "route Saint-Laurent",
+        "description": "French street type ROUTE, which comes before the name (Canada Post abbreviates it RTE)",
+        "input": "3901 route Saint-Laurent, Québec QC G1R 4S9",
+        "expected": {
+          "number": "3901",
+          "type": "Rte",
+          "street": "Saint-Laurent",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "ruelle des Érables",
+        "description": "French street type RUELLE, which comes before the name (Canada Post abbreviates it RLE)",
+        "input": "4112 ruelle des Érables, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "4112",
+          "type": "Rle",
+          "street": "des Érables",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+      },
+      {
+        "name": "sentier du Lac",
+        "description": "French street type SENTIER, which comes before the name (Canada Post abbreviates it SENT)",
+        "input": "4323 sentier du Lac, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "4323",
+          "type": "Sent",
+          "street": "du Lac",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+      },
+      {
+        "name": "terrasse de la Montagne",
+        "description": "French street type TERRASSE, which comes before the name (Canada Post abbreviates it TSSE)",
+        "input": "4534 terrasse de la Montagne, Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "4534",
+          "type": "Tsse",
+          "street": "de la Montagne",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: \"Terr\" (want \"Tsse\"); street: \"De la Montagne\" (want \"de la Montagne\")"
+      },
+      {
+        "name": "carré Sainte-Catherine",
+        "description": "French street type CARRÉ, which comes before the name (Canada Post abbreviates it CAR)",
+        "input": "4745 carré Sainte-Catherine, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "4745",
+          "type": "Car",
+          "street": "Sainte-Catherine",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Car\"); street: \"carré Sainte-Catherine\" (want \"Sainte-Catherine\")"
+      },
+      {
+        "name": "carrefour Champlain",
+        "description": "French street type CARREFOUR, which comes before the name (Canada Post abbreviates it CARREF)",
+        "input": "56 carrefour Champlain, Québec QC G1R 4S9",
+        "expected": {
+          "number": "56",
+          "type": "Carref",
+          "street": "Champlain",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "cercle Laurier",
+        "description": "French street type CERCLE, which comes before the name (Canada Post abbreviates it CERCLE)",
+        "input": "267 cercle Laurier, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "267",
+          "type": "Cercle",
+          "street": "Laurier",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: \"Cir\" (want \"Cercle\")"
+      },
+      {
+        "name": "cours des Pins",
+        "description": "French street type COURS, which comes before the name (Canada Post abbreviates it COURS)",
+        "input": "478 cours des Pins, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "478",
+          "type": "Cours",
+          "street": "des Pins",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Cours\"); street: \"cours des Pins\" (want \"des Pins\")"
+      },
+      {
+        "name": "rond-point Notre-Dame",
+        "description": "French street type ROND-POINT, which comes before the name (Canada Post abbreviates it RDPT)",
+        "input": "689 rond-point Notre-Dame, Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "689",
+          "type": "Rdpt",
+          "street": "Notre-Dame",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Rdpt\"); street: \"rond-point Notre-Dame\" (want \"Notre-Dame\")"
+      },
+      {
+        "name": "voie Principale",
+        "description": "French street type VOIE, which comes before the name (Canada Post abbreviates it VOIE)",
+        "input": "900 voie Principale, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "900",
+          "type": "Voie",
+          "street": "Principale",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
+      },
+      {
+        "name": "allée Saint-Laurent",
+        "description": "French street type ALLÉE, which comes before the name (Canada Post abbreviates it ALLÉE)",
+        "input": "1111 allée Saint-Laurent, Québec QC G1R 4S9",
+        "expected": {
+          "number": "1111",
+          "type": "Allée",
+          "street": "Saint-Laurent",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Allée\"); street: \"allée Saint-Laurent\" (want \"Saint-Laurent\")"
+      },
+      {
+        "name": "autoroute des Érables",
+        "description": "French street type AUTOROUTE, which comes before the name (Canada Post abbreviates it AUT)",
+        "input": "1322 autoroute des Érables, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "1322",
+          "type": "Aut",
+          "street": "des Érables",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
+      },
+      {
+        "name": "square du Lac",
+        "description": "French street type SQUARE, which comes before the name (Canada Post abbreviates it SQ)",
+        "input": "1533 square du Lac, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "1533",
+          "type": "Sq",
+          "street": "du Lac",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
+      },
+      {
+        "name": "quai de la Montagne",
+        "description": "French street type QUAI, which comes before the name (Canada Post abbreviates it QUAI)",
+        "input": "1744 quai de la Montagne, Trois-Rivières QC G9A 5H3",
+        "expected": {
+          "number": "1744",
+          "type": "Quai",
+          "street": "de la Montagne",
+          "city": "Trois-Rivières",
+          "state": "QC",
+          "zip": "G9A 5H3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Quai\"); street: \"quai de la Montagne\" (want \"de la Montagne\")"
+      },
+      {
+        "name": "parc Sainte-Catherine",
+        "description": "French street type PARC, which comes before the name (Canada Post abbreviates it PARC)",
+        "input": "1955 parc Sainte-Catherine, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "1955",
+          "type": "Parc",
+          "street": "Sainte-Catherine",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Parc\"); street: \"parc Sainte-Catherine\" (want \"Sainte-Catherine\")"
+      },
+      {
+        "name": "pointe Champlain",
+        "description": "French street type POINTE, which comes before the name (Canada Post abbreviates it PTE)",
+        "input": "2166 pointe Champlain, Québec QC G1R 4S9",
+        "expected": {
+          "number": "2166",
+          "type": "Pte",
+          "street": "Champlain",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Pte\"); street: \"pointe Champlain\" (want \"Champlain\")"
+      },
+      {
+        "name": "île Laurier",
+        "description": "French street type ÎLE, which comes before the name (Canada Post abbreviates it ÎLE)",
+        "input": "2377 île Laurier, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "2377",
+          "type": "Île",
+          "street": "Laurier",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Île\"); street: \"île Laurier\" (want \"Laurier\")"
+      },
+      {
+        "name": "plateau des Pins",
+        "description": "French street type PLATEAU, which comes before the name (Canada Post abbreviates it PLAT)",
+        "input": "2588 plateau des Pins, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "2588",
+          "type": "Plat",
+          "street": "des Pins",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "street: \"Des Pins\" (want \"des Pins\")"
+      }
+    ],
+    "frenchAbbreviation": [
+      {
+        "name": "av. Saint-Laurent",
+        "description": "French street type abbreviated as people write it (av.)",
+        "input": "947 av. Saint-Laurent, Québec QC G1R 4S9",
+        "expected": {
+          "number": "947",
+          "type": "Ave",
+          "street": "Saint-Laurent",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Ave\"); street: \"av. Saint-Laurent\" (want \"Saint-Laurent\")"
+      },
+      {
+        "name": "boul. des Érables",
+        "description": "French street type abbreviated as people write it (boul.)",
+        "input": "1369 boul. des Érables, Gatineau QC J8X 3Y9",
+        "expected": {
+          "number": "1369",
+          "type": "Blvd",
+          "street": "des Érables",
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Blvd\"); street: \"boul. des Érables\" (want \"des Érables\")"
+      },
+      {
+        "name": "ch. du Lac",
+        "description": "French street type abbreviated as people write it (ch.)",
+        "input": "1791 ch. du Lac, Sherbrooke QC J1H 4A7",
+        "expected": {
+          "number": "1791",
+          "type": "Ch",
+          "street": "du Lac",
+          "city": "Sherbrooke",
+          "state": "QC",
+          "zip": "J1H 4A7",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Ch\"); street: \"ch. du Lac\" (want \"du Lac\")"
+      },
+      {
+        "name": "crois. Sainte-Catherine",
+        "description": "French street type abbreviated as people write it (crois.)",
+        "input": "2424 crois. Sainte-Catherine, Montréal QC H2Y 1C6",
+        "expected": {
+          "number": "2424",
+          "type": "Crois",
+          "street": "Sainte-Catherine",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H2Y 1C6",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Crois\"); street: \"crois. Sainte-Catherine\" (want \"Sainte-Catherine\")"
+      },
+      {
+        "name": "imp. Champlain",
+        "description": "French street type abbreviated as people write it (imp.)",
+        "input": "2846 imp. Champlain, Québec QC G1R 4S9",
+        "expected": {
+          "number": "2846",
+          "type": "Imp",
+          "street": "Champlain",
+          "city": "Québec",
+          "state": "QC",
+          "zip": "G1R 4S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
+        "todo": true,
+        "todoNote": "type: absent (want \"Imp\"); street: \"imp. Champlain\" (want \"Champlain\")"
+      }
+    ]
+  }
+}

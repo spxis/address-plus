@@ -1,0 +1,288 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Highways, Routes and Concessions",
+  "description": "Numbered highways and Quebec routes (the road word is the type and the number the name, as Canada Post sets them out), named highways, concessions and lots, lines, and numbered rural roads. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "highways": [
+      {
+        "name": "1234 Highway 7",
+        "description": "Highway address: provincial highway by number: HWY is the type, 7 the name",
+        "input": "1234 Highway 7, Peterborough ON K9J 6X3",
+        "expected": {
+          "number": "1234",
+          "type": "Hwy",
+          "street": "7",
+          "city": "Peterborough",
+          "state": "ON",
+          "zip": "K9J 6X3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
+      },
+      {
+        "name": "1234 Hwy 7 E",
+        "description": "Highway address: numbered highway with a directional",
+        "input": "1234 Hwy 7 E, Peterborough ON K9J 6X3",
+        "expected": {
+          "number": "1234",
+          "type": "Hwy",
+          "street": "7",
+          "suffix": "E",
+          "city": "Peterborough",
+          "state": "ON",
+          "zip": "K9J 6X3",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
+        "todo": true,
+        "todoNote": "street: \"7 E\" (want \"7\"); suffix: absent (want \"E\")"
+      },
+      {
+        "name": "5678 Highway 2",
+        "description": "Highway address: numbered highway on a rural route",
+        "input": "5678 Highway 2, RR 1, Belleville ON K8N 4Z1",
+        "expected": {
+          "number": "5678",
+          "type": "Hwy",
+          "street": "2",
+          "rr": "1",
+          "ruralRoute": "RR 1",
+          "city": "Belleville",
+          "state": "ON",
+          "zip": "K8N 4Z1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"1\"); ruralRoute: absent (want \"RR 1\"); city: \"RR 1\" (want \"Belleville\")"
+      },
+      {
+        "name": "2150 Trans-Canada Hwy",
+        "description": "Highway address: named highway",
+        "input": "2150 Trans-Canada Hwy, Kamloops BC V2C 5N1",
+        "expected": {
+          "number": "2150",
+          "street": "Trans-Canada",
+          "type": "Hwy",
+          "city": "Kamloops",
+          "state": "BC",
+          "zip": "V2C 5N1",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
+      },
+      {
+        "name": "1234",
+        "description": "Highway address: Quebec numbered route in French",
+        "input": "1234, route 132, Sainte-Flavie QC G0J 2L0",
+        "expected": {
+          "number": "1234",
+          "type": "Rte",
+          "street": "132",
+          "city": "Sainte-Flavie",
+          "state": "QC",
+          "zip": "G0J 2L0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
+        "todo": true,
+        "todoNote": "number: absent (want \"1234\"); type: absent (want \"Rte\"); street: \"1234\" (want \"132\"); city: \"route 132\" (want \"Sainte-Flavie\")"
+      },
+      {
+        "name": "1234 Route 132",
+        "description": "Highway address: Quebec numbered route without the comma",
+        "input": "1234 Route 132, Sainte-Flavie QC G0J 2L0",
+        "expected": {
+          "number": "1234",
+          "type": "Rte",
+          "street": "132",
+          "city": "Sainte-Flavie",
+          "state": "QC",
+          "zip": "G0J 2L0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
+      },
+      {
+        "name": "1234 Highway 16 W",
+        "description": "Highway address: highway in a two-word city",
+        "input": "1234 Highway 16 W, Prince George BC V2N 2S9",
+        "expected": {
+          "number": "1234",
+          "type": "Hwy",
+          "street": "16",
+          "suffix": "W",
+          "city": "Prince George",
+          "state": "BC",
+          "zip": "V2N 2S9",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
+        "todo": true,
+        "todoNote": "street: \"16 W\" (want \"16\"); suffix: absent (want \"W\")"
+      }
+    ],
+    "ruralRoads": [
+      {
+        "name": "1234 Concession 3",
+        "description": "Rural road: civic number on a concession",
+        "input": "1234 Concession 3, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "type": "Conc",
+          "street": "3",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses"
+      },
+      {
+        "name": "Lot 5 Conc 3",
+        "description": "Rural road: lot and concession, the Ontario legal description",
+        "input": "Lot 5 Conc 3, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "secUnitType": "Lot",
+          "secUnitNum": "5",
+          "type": "Conc",
+          "street": "3",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses"
+      },
+      {
+        "name": "LOT 5 CONC 3",
+        "description": "Rural road: lot and concession in capitals on two lines",
+        "input": "LOT 5 CONC 3\nSMITHS FALLS ON  K7A 4S5",
+        "expected": {
+          "secUnitType": "Lot",
+          "secUnitNum": "5",
+          "type": "Conc",
+          "street": "3",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses"
+      },
+      {
+        "name": "Lot 12",
+        "description": "Rural road: lot and concession spelled out with commas",
+        "input": "Lot 12, Concession 4, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "secUnitType": "Lot",
+          "secUnitNum": "12",
+          "type": "Conc",
+          "street": "4",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Lot\"); secUnitNum: absent (want \"12\"); type: absent (want \"Conc\"); street: \"12\" (want \"4\"); city: \"Concession 4\" (want \"Smiths Falls\")"
+      },
+      {
+        "name": "1234 Concession Road 6",
+        "description": "Rural road: concession road with a number; how the road word and number split is unsettled, so the case checks the rest",
+        "input": "1234 Concession Road 6, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
+        "partial": true
+      },
+      {
+        "name": "1234 Sideroad 15",
+        "description": "Rural road: sideroad with a number; how the road word and number split is unsettled, so the case checks the rest",
+        "input": "1234 Sideroad 15, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
+        "partial": true
+      },
+      {
+        "name": "1234 Line 8",
+        "description": "Rural road: numbered line",
+        "input": "1234 Line 8, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "type": "Line",
+          "street": "8",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses"
+      },
+      {
+        "name": "1234 Township Road 520",
+        "description": "Rural road: township road with a number; how the road word and number split is unsettled, so the case checks the rest",
+        "input": "1234 Township Road 520, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
+        "partial": true
+      },
+      {
+        "name": "1234 Range Road 25",
+        "description": "Rural road: range road with a number; how the road word and number split is unsettled, so the case checks the rest",
+        "input": "1234 Range Road 25, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
+        "partial": true
+      },
+      {
+        "name": "1234 County Road 29",
+        "description": "Rural road: county road with a number; how the road word and number split is unsettled, so the case checks the rest",
+        "input": "1234 County Road 29, Smiths Falls ON K7A 4S5",
+        "expected": {
+          "number": "1234",
+          "city": "Smiths Falls",
+          "state": "ON",
+          "zip": "K7A 4S5",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
+        "partial": true
+      }
+    ]
+  }
+}

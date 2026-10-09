@@ -1,0 +1,522 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Primary Numbers",
+  "description": "Primary address numbers: fractions, trailing letters, ranges, Queens and Hawaii hyphenated numbers, Utah grid addresses, Wisconsin grid numbers and numbers spelled out. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "fractions": [
+      {
+        "name": "fraction 123 1/2",
+        "description": "Primary number with a fraction, kept with the number",
+        "input": "123 1/2 Main St, Springfield, IL 62701",
+        "expected": {
+          "number": "123 1/2",
+          "street": "Main",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      },
+      {
+        "name": "fraction 45 3/4",
+        "description": "Primary number with a fraction, kept with the number",
+        "input": "45 3/4 Oak St, Springfield, IL 62701",
+        "expected": {
+          "number": "45 3/4",
+          "street": "Oak",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      },
+      {
+        "name": "fraction 1009 1/2",
+        "description": "Primary number with a fraction, kept with the number",
+        "input": "1009 1/2 Elm St, Springfield, IL 62701",
+        "expected": {
+          "number": "1009 1/2",
+          "street": "Elm",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      },
+      {
+        "name": "fraction 7 1/3",
+        "description": "Primary number with a fraction, kept with the number",
+        "input": "7 1/3 Pine St, Springfield, IL 62701",
+        "expected": {
+          "number": "7 1/3",
+          "street": "Pine",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      },
+      {
+        "name": "fraction with a ZIP+4",
+        "description": "Fractional primary number on a full address",
+        "input": "123 1/2 Main St, Los Angeles, CA 90012-1234",
+        "expected": {
+          "number": "123 1/2",
+          "street": "Main",
+          "type": "St",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zip": "90012",
+          "plus4": "1234",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      }
+    ],
+    "lettered": [
+      {
+        "name": "number 123A",
+        "description": "Primary number with a trailing letter",
+        "input": "123A Maple Ave, Seattle, WA 98101",
+        "expected": {
+          "number": "123A",
+          "street": "Maple",
+          "type": "Ave",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
+        "todo": true,
+        "todoNote": "number: absent (want \"123A\"); street: \"123a Maple\" (want \"Maple\")"
+      },
+      {
+        "name": "number 4567B",
+        "description": "Primary number with a trailing letter",
+        "input": "4567B Cedar Ave, Phoenix, AZ 85004",
+        "expected": {
+          "number": "4567B",
+          "street": "Cedar",
+          "type": "Ave",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
+        "todo": true,
+        "todoNote": "number: absent (want \"4567B\"); street: \"4567b Cedar\" (want \"Cedar\")"
+      },
+      {
+        "name": "number 12C",
+        "description": "Primary number with a trailing letter",
+        "input": "12C Walnut Ave, Nashville, TN 37219",
+        "expected": {
+          "number": "12C",
+          "street": "Walnut",
+          "type": "Ave",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
+        "todo": true,
+        "todoNote": "number: absent (want \"12C\"); street: \"12c Walnut\" (want \"Walnut\")"
+      },
+      {
+        "name": "number 9Z",
+        "description": "Primary number with a trailing letter",
+        "input": "9Z Spruce Ave, Columbus, OH 43215",
+        "expected": {
+          "number": "9Z",
+          "street": "Spruce",
+          "type": "Ave",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
+        "todo": true,
+        "todoNote": "number: absent (want \"9Z\"); street: \"9z Spruce\" (want \"Spruce\")"
+      }
+    ],
+    "ranges": [
+      {
+        "name": "range 912-914",
+        "description": "A building that spans a range of numbers",
+        "input": "912-914 8th St, Madison, WI 53703",
+        "expected": {
+          "number": "912-914",
+          "street": "8th",
+          "type": "St",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
+      },
+      {
+        "name": "range 1036-1038",
+        "description": "A building that spans a range of numbers",
+        "input": "1036-1038 Main St, Raleigh, NC 27601",
+        "expected": {
+          "number": "1036-1038",
+          "street": "Main",
+          "type": "St",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      },
+      {
+        "name": "range 10-12",
+        "description": "A building that spans a range of numbers",
+        "input": "10-12 Elm Ave, Atlanta, GA 30303",
+        "expected": {
+          "number": "10-12",
+          "street": "Elm",
+          "type": "Ave",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
+      }
+    ],
+    "hyphenated": [
+      {
+        "name": "87-11 123rd St",
+        "description": "Queens hyphenated number on a numbered street",
+        "input": "87-11 123rd St, Richmond Hill, NY 11418",
+        "expected": {
+          "number": "87-11",
+          "street": "123rd",
+          "type": "St",
+          "city": "Richmond Hill",
+          "state": "NY",
+          "zip": "11418",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), hyphenated primary numbers"
+      },
+      {
+        "name": "99-40 63rd Rd",
+        "description": "Queens hyphenated number",
+        "input": "99-40 63rd Rd, Rego Park, NY 11374",
+        "expected": {
+          "number": "99-40",
+          "street": "63rd",
+          "type": "Rd",
+          "city": "Rego Park",
+          "state": "NY",
+          "zip": "11374",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), hyphenated primary numbers"
+      },
+      {
+        "name": "37-02 Main St",
+        "description": "Queens hyphenated number on a named street",
+        "input": "37-02 Main St, Flushing, NY 11354",
+        "expected": {
+          "number": "37-02",
+          "street": "Main",
+          "type": "St",
+          "city": "Flushing",
+          "state": "NY",
+          "zip": "11354",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), hyphenated primary numbers"
+      },
+      {
+        "name": "147-01 Jamaica Ave",
+        "description": "Queens hyphenated number, city equal to the street name",
+        "input": "147-01 Jamaica Ave, Jamaica, NY 11435",
+        "expected": {
+          "number": "147-01",
+          "street": "Jamaica",
+          "type": "Ave",
+          "city": "Jamaica",
+          "state": "NY",
+          "zip": "11435",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), hyphenated primary numbers"
+      },
+      {
+        "name": "94-1068 Ka Uka Blvd",
+        "description": "Hawaii hyphenated number (zone and lot)",
+        "input": "94-1068 Ka Uka Blvd, Waipahu, HI 96797",
+        "expected": {
+          "number": "94-1068",
+          "street": "Ka Uka",
+          "type": "Blvd",
+          "city": "Waipahu",
+          "state": "HI",
+          "zip": "96797",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), hyphenated primary numbers"
+      },
+      {
+        "name": "91-1001 Fort Weaver Rd",
+        "description": "Hawaii hyphenated number on a two-word street",
+        "input": "91-1001 Fort Weaver Rd, Ewa Beach, HI 96706",
+        "expected": {
+          "number": "91-1001",
+          "street": "Fort Weaver",
+          "type": "Rd",
+          "city": "Ewa Beach",
+          "state": "HI",
+          "zip": "96706",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), hyphenated primary numbers"
+      }
+    ],
+    "grid": [
+      {
+        "name": "grid 48 S 400 E",
+        "description": "Utah grid address: a number, a direction, a coordinate street and its direction",
+        "input": "48 S 400 E, Salt Lake City, UT 84111",
+        "expected": {
+          "number": "48",
+          "prefix": "S",
+          "street": "400",
+          "suffix": "E",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84111",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), grid-style addresses"
+      },
+      {
+        "name": "grid 1300 E 500 S",
+        "description": "Utah grid address: a number, a direction, a coordinate street and its direction",
+        "input": "1300 E 500 S, Salt Lake City, UT 84105",
+        "expected": {
+          "number": "1300",
+          "prefix": "E",
+          "street": "500",
+          "suffix": "S",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84105",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), grid-style addresses"
+      },
+      {
+        "name": "grid 2650 South 1300 East",
+        "description": "Utah grid address: a number, a direction, a coordinate street and its direction",
+        "input": "2650 South 1300 East, Salt Lake City, UT 84106",
+        "expected": {
+          "number": "2650",
+          "prefix": "S",
+          "street": "1300",
+          "suffix": "E",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84106",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), grid-style addresses"
+      },
+      {
+        "name": "grid 50 W 100 N",
+        "description": "Utah grid address: a number, a direction, a coordinate street and its direction",
+        "input": "50 W 100 N, Provo, UT 84601",
+        "expected": {
+          "number": "50",
+          "prefix": "W",
+          "street": "100",
+          "suffix": "N",
+          "city": "Provo",
+          "state": "UT",
+          "zip": "84601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), grid-style addresses"
+      },
+      {
+        "name": "grid 1234 E 3300 S",
+        "description": "Utah grid address: a number, a direction, a coordinate street and its direction",
+        "input": "1234 E 3300 S, Salt Lake City, UT 84106",
+        "expected": {
+          "number": "1234",
+          "prefix": "E",
+          "street": "3300",
+          "suffix": "S",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84106",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), grid-style addresses"
+      },
+      {
+        "name": "grid 405 N 100 W",
+        "description": "Utah grid address: a number, a direction, a coordinate street and its direction",
+        "input": "405 N 100 W, Logan, UT 84321",
+        "expected": {
+          "number": "405",
+          "prefix": "N",
+          "street": "100",
+          "suffix": "W",
+          "city": "Logan",
+          "state": "UT",
+          "zip": "84321",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), grid-style addresses"
+      }
+    ],
+    "wisconsinGrid": [
+      {
+        "name": "Wisconsin W204N11912",
+        "description": "Wisconsin rural grid number, letters and digits giving the position on the county grid",
+        "input": "W204N11912 Goldendale Rd, Germantown, WI 53022",
+        "expected": {
+          "number": "W204N11912",
+          "street": "Goldendale",
+          "type": "Rd",
+          "city": "Germantown",
+          "state": "WI",
+          "zip": "53022",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), alphanumeric primary numbers"
+      },
+      {
+        "name": "Wisconsin N95W18855",
+        "description": "Wisconsin rural grid number, letters and digits giving the position on the county grid",
+        "input": "N95W18855 Appleton Ave, Menomonee Falls, WI 53051",
+        "expected": {
+          "number": "N95W18855",
+          "street": "Appleton",
+          "type": "Ave",
+          "city": "Menomonee Falls",
+          "state": "WI",
+          "zip": "53051",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), alphanumeric primary numbers"
+      },
+      {
+        "name": "Wisconsin S89W22650",
+        "description": "Wisconsin rural grid number, letters and digits giving the position on the county grid",
+        "input": "S89W22650 Milwaukee Ave, Big Bend, WI 53103",
+        "expected": {
+          "number": "S89W22650",
+          "street": "Milwaukee",
+          "type": "Ave",
+          "city": "Big Bend",
+          "state": "WI",
+          "zip": "53103",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), alphanumeric primary numbers"
+      },
+      {
+        "name": "Wisconsin W1234",
+        "description": "Wisconsin rural grid number, letters and digits giving the position on the county grid",
+        "input": "W1234 Lake Rd, Lake Geneva, WI 53147",
+        "expected": {
+          "number": "W1234",
+          "street": "Lake",
+          "type": "Rd",
+          "city": "Lake Geneva",
+          "state": "WI",
+          "zip": "53147",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), alphanumeric primary numbers"
+      },
+      {
+        "name": "Wisconsin N6418",
+        "description": "Wisconsin rural grid number, letters and digits giving the position on the county grid",
+        "input": "N6418 Hillside Dr, Sheboygan, WI 53083",
+        "expected": {
+          "number": "N6418",
+          "street": "Hillside",
+          "type": "Dr",
+          "city": "Sheboygan",
+          "state": "WI",
+          "zip": "53083",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), alphanumeric primary numbers"
+      }
+    ],
+    "written": [
+      {
+        "name": "number written as One",
+        "description": "Primary number spelled out as a word",
+        "input": "One Microsoft Way, Redmond, WA 98052",
+        "expected": {
+          "number": "One",
+          "street": "Microsoft",
+          "type": "Way",
+          "city": "Redmond",
+          "state": "WA",
+          "zip": "98052",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "number: absent (want \"One\"); street: \"Redmond\" (want \"Microsoft\"); type: absent (want \"Way\")"
+      },
+      {
+        "name": "number written as Two",
+        "description": "Primary number spelled out as a word",
+        "input": "Two Penn Plz, New York, NY 10121",
+        "expected": {
+          "number": "Two",
+          "street": "Penn",
+          "type": "Plz",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10121",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "number: absent (want \"Two\"); street: \"New York\" (want \"Penn\"); type: absent (want \"Plz\")"
+      },
+      {
+        "name": "number written as One",
+        "description": "Primary number spelled out as a word",
+        "input": "One Infinite Loop, Cupertino, CA 95014",
+        "expected": {
+          "number": "One",
+          "street": "Infinite",
+          "type": "Loop",
+          "city": "Cupertino",
+          "state": "CA",
+          "zip": "95014",
+          "country": "US"
+        },
+        "source": "Constructed for this corpus",
+        "todo": true,
+        "todoNote": "number: absent (want \"One\"); street: \"Cupertino\" (want \"Infinite\"); type: absent (want \"Loop\")"
+      }
+    ]
+  }
+}

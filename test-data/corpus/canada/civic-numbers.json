@@ -1,0 +1,883 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Civic Numbers and Units",
+  "description": "Civic numbers with suffixes, and unit numbers in every place Canada Post and common usage put them: before the civic number with a hyphen (4-123 Main St), with a designator before the pair, and after the street. A bare unit-civic pair reports secUnitType Unit. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "civicSuffix": [
+      {
+        "name": "123A Main St in Toronto",
+        "description": "Canadian civic address: civic number with a letter suffix",
+        "input": "123A Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123A",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123A\"); street: \"123a Main\" (want \"Main\")"
+      },
+      {
+        "name": "123A Main St in Vancouver",
+        "description": "Canadian civic address: civic number with a letter suffix",
+        "input": "123A Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123A",
+          "street": "Main",
+          "type": "St",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123A\"); street: \"123a Main\" (want \"Main\")"
+      },
+      {
+        "name": "123A Main St in Halifax",
+        "description": "Canadian civic address: civic number with a letter suffix",
+        "input": "123A Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123A",
+          "street": "Main",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123A\"); street: \"123a Main\" (want \"Main\")"
+      },
+      {
+        "name": "123 1/2 Main St in Toronto",
+        "description": "Canadian civic address: civic number with a half",
+        "input": "123 1/2 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123 1/2",
+          "street": "Main",
+          "type": "St",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 1/2 Main St in Vancouver",
+        "description": "Canadian civic address: civic number with a half",
+        "input": "123 1/2 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123 1/2",
+          "street": "Main",
+          "type": "St",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 1/2 Main St in Halifax",
+        "description": "Canadian civic address: civic number with a half",
+        "input": "123 1/2 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123 1/2",
+          "street": "Main",
+          "type": "St",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      }
+    ],
+    "unitBeforeCivic": [
+      {
+        "name": "4-123 Main St in Toronto",
+        "description": "Canadian civic address: unit number, hyphen, civic number: Canada Post's preferred form",
+        "input": "4-123 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"4-123\" (want \"123\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "4-123 Main St in Vancouver",
+        "description": "Canadian civic address: unit number, hyphen, civic number: Canada Post's preferred form",
+        "input": "4-123 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"4-123\" (want \"123\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "4-123 Main St in Halifax",
+        "description": "Canadian civic address: unit number, hyphen, civic number: Canada Post's preferred form",
+        "input": "4-123 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"4-123\" (want \"123\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "Unit 4-123 Main St in Toronto",
+        "description": "Canadian civic address: the word Unit before the unit-civic pair",
+        "input": "Unit 4-123 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "Unit 4-123 Main St in Vancouver",
+        "description": "Canadian civic address: the word Unit before the unit-civic pair",
+        "input": "Unit 4-123 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "Unit 4-123 Main St in Halifax",
+        "description": "Canadian civic address: the word Unit before the unit-civic pair",
+        "input": "Unit 4-123 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "Suite 400-123 Main St in Toronto",
+        "description": "Canadian civic address: the word Suite before the unit-civic pair",
+        "input": "Suite 400-123 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"400\")"
+      },
+      {
+        "name": "Suite 400-123 Main St in Vancouver",
+        "description": "Canadian civic address: the word Suite before the unit-civic pair",
+        "input": "Suite 400-123 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"400\")"
+      },
+      {
+        "name": "Suite 400-123 Main St in Halifax",
+        "description": "Canadian civic address: the word Suite before the unit-civic pair",
+        "input": "Suite 400-123 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"400\")"
+      },
+      {
+        "name": "#4-123 Main St in Toronto",
+        "description": "Canadian civic address: pound sign before the unit-civic pair",
+        "input": "#4-123 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"#\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "#4-123 Main St in Vancouver",
+        "description": "Canadian civic address: pound sign before the unit-civic pair",
+        "input": "#4-123 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"#\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "#4-123 Main St in Halifax",
+        "description": "Canadian civic address: pound sign before the unit-civic pair",
+        "input": "#4-123 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"#\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "4A-123 Main St in Toronto",
+        "description": "Canadian civic address: lettered unit before the civic number",
+        "input": "4A-123 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4A",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4a-123 Main\" (want \"Main\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4A\")"
+      },
+      {
+        "name": "4A-123 Main St in Vancouver",
+        "description": "Canadian civic address: lettered unit before the civic number",
+        "input": "4A-123 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4A",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4a-123 Main\" (want \"Main\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4A\")"
+      },
+      {
+        "name": "4A-123 Main St in Halifax",
+        "description": "Canadian civic address: lettered unit before the civic number",
+        "input": "4A-123 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4A",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4a-123 Main\" (want \"Main\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4A\")"
+      },
+      {
+        "name": "1201-500 Main St in Toronto",
+        "description": "Canadian civic address: high-rise unit before the civic number",
+        "input": "1201-500 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "500",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "1201",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"1201-500\" (want \"500\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"1201\")"
+      },
+      {
+        "name": "1201-500 Main St in Vancouver",
+        "description": "Canadian civic address: high-rise unit before the civic number",
+        "input": "1201-500 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "500",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "1201",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"1201-500\" (want \"500\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"1201\")"
+      },
+      {
+        "name": "1201-500 Main St in Halifax",
+        "description": "Canadian civic address: high-rise unit before the civic number",
+        "input": "1201-500 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "500",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "1201",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"1201-500\" (want \"500\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"1201\")"
+      },
+      {
+        "name": "Apt 4, 123 Main St in Toronto",
+        "description": "Canadian civic address: apartment written before the street line",
+        "input": "Apt 4, 123 Main St, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4\"); city: \"123 Main St\" (want \"Toronto\")"
+      },
+      {
+        "name": "Apt 4, 123 Main St in Vancouver",
+        "description": "Canadian civic address: apartment written before the street line",
+        "input": "Apt 4, 123 Main St, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4\"); city: \"123 Main St\" (want \"Vancouver\")"
+      },
+      {
+        "name": "Apt 4, 123 Main St in Halifax",
+        "description": "Canadian civic address: apartment written before the street line",
+        "input": "Apt 4, 123 Main St, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: absent (want \"123\"); street: \"4\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4\"); city: \"123 Main St\" (want \"Halifax\")"
+      },
+      {
+        "name": "4-123 Main St W in Toronto",
+        "description": "Canadian civic address: unit-civic pair on a street with a directional",
+        "input": "4-123 Main St W, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"4-123\" (want \"123\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "4-123 Main St W in Vancouver",
+        "description": "Canadian civic address: unit-civic pair on a street with a directional",
+        "input": "4-123 Main St W, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"4-123\" (want \"123\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      },
+      {
+        "name": "4-123 Main St W in Halifax",
+        "description": "Canadian civic address: unit-civic pair on a street with a directional",
+        "input": "4-123 Main St W, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "number: \"4-123\" (want \"123\"); secUnitType: absent (want \"Unit\"); secUnitNum: absent (want \"4\")"
+      }
+    ],
+    "unitAfterStreet": [
+      {
+        "name": "123 Main St Unit 4 in Toronto",
+        "description": "Canadian civic address: unit after the street",
+        "input": "123 Main St Unit 4, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Unit 4 in Vancouver",
+        "description": "Canadian civic address: unit after the street",
+        "input": "123 Main St Unit 4, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Unit 4 in Halifax",
+        "description": "Canadian civic address: unit after the street",
+        "input": "123 Main St Unit 4, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St, Unit 4 in Toronto",
+        "description": "Canadian civic address: unit after the street and a comma",
+        "input": "123 Main St, Unit 4, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "city: \"Unit 4\" (want \"Toronto\")"
+      },
+      {
+        "name": "123 Main St, Unit 4 in Vancouver",
+        "description": "Canadian civic address: unit after the street and a comma",
+        "input": "123 Main St, Unit 4, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "city: \"Unit 4\" (want \"Vancouver\")"
+      },
+      {
+        "name": "123 Main St, Unit 4 in Halifax",
+        "description": "Canadian civic address: unit after the street and a comma",
+        "input": "123 Main St, Unit 4, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers",
+        "todo": true,
+        "todoNote": "city: \"Unit 4\" (want \"Halifax\")"
+      },
+      {
+        "name": "123 Main St Suite 400 in Toronto",
+        "description": "Canadian civic address: suite after the street",
+        "input": "123 Main St Suite 400, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Suite 400 in Vancouver",
+        "description": "Canadian civic address: suite after the street",
+        "input": "123 Main St Suite 400, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Suite 400 in Halifax",
+        "description": "Canadian civic address: suite after the street",
+        "input": "123 Main St Suite 400, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "400",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Apt 4 in Toronto",
+        "description": "Canadian civic address: apartment after the street",
+        "input": "123 Main St Apt 4, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Apt 4 in Vancouver",
+        "description": "Canadian civic address: apartment after the street",
+        "input": "123 Main St Apt 4, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St Apt 4 in Halifax",
+        "description": "Canadian civic address: apartment after the street",
+        "input": "123 Main St Apt 4, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St #4 in Toronto",
+        "description": "Canadian civic address: pound sign after the street",
+        "input": "123 Main St #4, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St #4 in Vancouver",
+        "description": "Canadian civic address: pound sign after the street",
+        "input": "123 Main St #4, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St #4 in Halifax",
+        "description": "Canadian civic address: pound sign after the street",
+        "input": "123 Main St #4, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St W Unit 4 in Toronto",
+        "description": "Canadian civic address: directional, then unit",
+        "input": "123 Main St W Unit 4, Toronto ON M5H 2N2",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5H 2N2",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St W Unit 4 in Vancouver",
+        "description": "Canadian civic address: directional, then unit",
+        "input": "123 Main St W Unit 4, Vancouver BC V5Y 1V4",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Vancouver",
+          "state": "BC",
+          "zip": "V5Y 1V4",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      },
+      {
+        "name": "123 Main St W Unit 4 in Halifax",
+        "description": "Canadian civic address: directional, then unit",
+        "input": "123 Main St W Unit 4, Halifax NS B3J 3A5",
+        "expected": {
+          "number": "123",
+          "street": "Main",
+          "type": "St",
+          "suffix": "W",
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A5",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, civic addresses and unit numbers"
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Inputs That Are Not Canadian Addresses",
+  "description": "Inputs with no address in them, which parseLocation must answer with null. Constructed for this corpus.",
+  "tests": {
+    "notAnAddress": [
+      {
+        "name": "empty string",
+        "description": "Input with no address: empty string; the parse must fail",
+        "input": "",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a French word with no address",
+        "description": "Input with no address: a French word with no address; the parse must fail",
+        "input": "rien",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "French for no address",
+        "description": "Input with no address: French for no address; the parse must fail",
+        "input": "aucune adresse",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "only question marks",
+        "description": "Input with no address: only question marks; the parse must fail",
+        "input": "???",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "the country alone",
+        "description": "Input with no address: the country alone; the parse must fail",
+        "input": "Canada",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      }
+    ]
+  }
+}

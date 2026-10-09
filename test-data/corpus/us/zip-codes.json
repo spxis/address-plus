@@ -1,0 +1,287 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US ZIP Codes",
+  "description": "Five-digit ZIP codes, ZIP+4 with a hyphen, without one and with spaces, ZIP codes beginning with zero, and punctuation around the last line. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "zipCodes": [
+      {
+        "name": "five-digit ZIP",
+        "description": "Last line with a five-digit ZIP",
+        "input": "3186 Willow St, Springfield, IL 62701",
+        "expected": {
+          "number": "3186",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP+4 codes"
+      },
+      {
+        "name": "ZIP+4 with a hyphen",
+        "description": "Last line with a ZIP+4 with a hyphen",
+        "input": "3523 Willow St, Springfield, IL 62701-1234",
+        "expected": {
+          "number": "3523",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701",
+          "plus4": "1234"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP+4 codes"
+      },
+      {
+        "name": "ZIP+4 run together",
+        "description": "Last line with a ZIP+4 run together",
+        "input": "3860 Willow St, Springfield, IL 627011234",
+        "expected": {
+          "number": "3860",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701",
+          "plus4": "1234"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP+4 codes"
+      },
+      {
+        "name": "ZIP+4 with a space",
+        "description": "Last line with a ZIP+4 with a space",
+        "input": "4197 Willow St, Springfield, IL 62701 1234",
+        "expected": {
+          "number": "4197",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701",
+          "plus4": "1234"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP+4 codes"
+      },
+      {
+        "name": "ZIP+4 with spaces round the hyphen",
+        "description": "Last line with a ZIP+4 with spaces round the hyphen",
+        "input": "4534 Willow St, Springfield, IL 62701 - 1234",
+        "expected": {
+          "number": "4534",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701",
+          "plus4": "1234"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP+4 codes"
+      },
+      {
+        "name": "leading zero 02108",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "4871 Elm St Boston MA 02108",
+        "expected": {
+          "number": "4871",
+          "street": "Elm",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 03801",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "5208 Elm St Portsmouth NH 03801-0101",
+        "expected": {
+          "number": "5208",
+          "street": "Elm",
+          "type": "St",
+          "city": "Portsmouth",
+          "state": "NH",
+          "zip": "03801",
+          "plus4": "0101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 05401",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "5545 Elm St Burlington VT 05401",
+        "expected": {
+          "number": "5545",
+          "street": "Elm",
+          "type": "St",
+          "city": "Burlington",
+          "state": "VT",
+          "zip": "05401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 06103",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "5882 Elm St Hartford CT 06103-0101",
+        "expected": {
+          "number": "5882",
+          "street": "Elm",
+          "type": "St",
+          "city": "Hartford",
+          "state": "CT",
+          "zip": "06103",
+          "plus4": "0101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 07102",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "6219 Elm St Newark NJ 07102",
+        "expected": {
+          "number": "6219",
+          "street": "Elm",
+          "type": "St",
+          "city": "Newark",
+          "state": "NJ",
+          "zip": "07102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 02903",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "6556 Elm St Providence RI 02903-0101",
+        "expected": {
+          "number": "6556",
+          "street": "Elm",
+          "type": "St",
+          "city": "Providence",
+          "state": "RI",
+          "zip": "02903",
+          "plus4": "0101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 04101",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "6893 Elm St Portland ME 04101",
+        "expected": {
+          "number": "6893",
+          "street": "Elm",
+          "type": "St",
+          "city": "Portland",
+          "state": "ME",
+          "zip": "04101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "leading zero 08608",
+        "description": "ZIP code that begins with zero, which must stay a string of five digits",
+        "input": "7230 Elm St Trenton NJ 08608-0101",
+        "expected": {
+          "number": "7230",
+          "street": "Elm",
+          "type": "St",
+          "city": "Trenton",
+          "state": "NJ",
+          "zip": "08608",
+          "plus4": "0101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), ZIP codes"
+      },
+      {
+        "name": "comma between state and ZIP",
+        "description": "Last line with a comma between state and ZIP",
+        "input": "7567 Willow St, Springfield, IL, 62701",
+        "expected": {
+          "number": "7567",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), last line",
+        "todo": true,
+        "todoNote": "city: \"IL\" (want \"Springfield\"); state: absent (want \"IL\")"
+      },
+      {
+        "name": "period after the state code",
+        "description": "Last line with a period after the state code",
+        "input": "7904 Willow St, Springfield, IL. 62701",
+        "expected": {
+          "number": "7904",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), last line"
+      },
+      {
+        "name": "two spaces before the ZIP, as Pub 28 prints it",
+        "description": "Last line with a two spaces before the ZIP, as Pub 28 prints it",
+        "input": "8241 Willow St, Springfield, IL  62701",
+        "expected": {
+          "number": "8241",
+          "street": "Willow",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "country": "US",
+          "zip": "62701"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), last line"
+      },
+      {
+        "name": "street and ZIP only",
+        "description": "Address with street and ZIP only, no city or state",
+        "input": "1005 Gravenstein Hwy 95472",
+        "expected": {
+          "number": "1005",
+          "street": "Gravenstein",
+          "type": "Hwy",
+          "zip": "95472",
+          "country": "US"
+        },
+        "source": "parse-address test suite, github.com/hassansin/parse-address test.js (ISC licence)"
+      },
+      {
+        "name": "street and ZIP+4 only",
+        "description": "Address with street and ZIP+4 only, no city or state",
+        "input": "233 S Wacker Dr 60606-6306",
+        "expected": {
+          "number": "233",
+          "prefix": "S",
+          "street": "Wacker",
+          "type": "Dr",
+          "zip": "60606",
+          "plus4": "6306",
+          "country": "US"
+        },
+        "source": "parse-address test suite, github.com/hassansin/parse-address test.js (ISC licence)"
+      }
+    ]
+  }
+}

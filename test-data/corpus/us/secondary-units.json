@@ -1,0 +1,1454 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Secondary Units",
+  "description": "Every secondary unit designator in USPS Publication 28 Appendix C2, abbreviated, in full and after a comma, plus the # form and common variants. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "abbreviated": [
+      {
+        "name": "APT with a number",
+        "description": "Secondary unit designator APT (Apartment) on the street line",
+        "input": "4022 Willow St Apt 4B, Springfield, IL 62701",
+        "expected": {
+          "number": "4022",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "BSMT",
+        "description": "Secondary unit designator BSMT (Basement), which takes no number on the street line",
+        "input": "5033 Hawthorne St Bsmt, Austin, TX 78701",
+        "expected": {
+          "number": "5033",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Basement",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "BLDG with a number",
+        "description": "Secondary unit designator BLDG (Building) on the street line",
+        "input": "6044 Juniper St Bldg 300, Denver, CO 80202",
+        "expected": {
+          "number": "6044",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Building",
+          "secUnitNum": "300",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "DEPT with a number",
+        "description": "Secondary unit designator DEPT (Department) on the street line",
+        "input": "7055 Sycamore St Dept 2, Boston, MA 02108",
+        "expected": {
+          "number": "7055",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Department",
+          "secUnitNum": "2",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Sycamore St Dept 2\" (want \"Sycamore\"); type: absent (want \"St\"); secUnitType: absent (want \"Department\"); secUnitNum: absent (want \"2\")"
+      },
+      {
+        "name": "FL with a number",
+        "description": "Secondary unit designator FL (Floor) on the street line",
+        "input": "8066 Magnolia St Fl 7A, Seattle, WA 98101",
+        "expected": {
+          "number": "8066",
+          "street": "Magnolia",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "7A",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "FRNT",
+        "description": "Secondary unit designator FRNT (Front), which takes no number on the street line",
+        "input": "9077 Chestnut St Frnt, Phoenix, AZ 85004",
+        "expected": {
+          "number": "9077",
+          "street": "Chestnut",
+          "type": "St",
+          "secUnitType": "Front",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "HNGR with a number",
+        "description": "Secondary unit designator HNGR (Hangar) on the street line",
+        "input": "288 Birch St Hngr 15, Nashville, TN 37219",
+        "expected": {
+          "number": "288",
+          "street": "Birch",
+          "type": "St",
+          "secUnitType": "Hangar",
+          "secUnitNum": "15",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Birch St Hngr 15\" (want \"Birch\"); type: absent (want \"St\"); secUnitType: absent (want \"Hangar\"); secUnitNum: absent (want \"15\")"
+      },
+      {
+        "name": "KEY with a number",
+        "description": "Secondary unit designator KEY (Key) on the street line",
+        "input": "1299 Aspen St Key B, Columbus, OH 43215",
+        "expected": {
+          "number": "1299",
+          "street": "Aspen",
+          "type": "St",
+          "secUnitType": "Key",
+          "secUnitNum": "B",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Aspen St Key B\" (want \"Aspen\"); type: absent (want \"St\"); secUnitType: absent (want \"Key\"); secUnitNum: absent (want \"B\")"
+      },
+      {
+        "name": "LBBY",
+        "description": "Secondary unit designator LBBY (Lobby), which takes no number on the street line",
+        "input": "1973 Laurel St Lbby, Madison, WI 53703",
+        "expected": {
+          "number": "1973",
+          "street": "Laurel",
+          "type": "St",
+          "secUnitType": "Lobby",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "LOT with a number",
+        "description": "Secondary unit designator LOT (Lot) on the street line",
+        "input": "2984 Hickory St Lot 210, Raleigh, NC 27601",
+        "expected": {
+          "number": "2984",
+          "street": "Hickory",
+          "type": "St",
+          "secUnitType": "Lot",
+          "secUnitNum": "210",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "LOWR",
+        "description": "Secondary unit designator LOWR (Lower), which takes no number on the street line",
+        "input": "3658 Willow St Lowr, Atlanta, GA 30303",
+        "expected": {
+          "number": "3658",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Lower",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "OFC",
+        "description": "Secondary unit designator OFC (Office), which takes no number on the street line",
+        "input": "4669 Hawthorne St Ofc, Omaha, NE 68102",
+        "expected": {
+          "number": "4669",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Office",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "PH",
+        "description": "Secondary unit designator PH (Penthouse), which takes no number on the street line",
+        "input": "5680 Juniper St Ph, Boise, ID 83702",
+        "expected": {
+          "number": "5680",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Penthouse",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "PIER with a number",
+        "description": "Secondary unit designator PIER (Pier) on the street line",
+        "input": "6691 Sycamore St Pier 12, Burlington, VT 05401",
+        "expected": {
+          "number": "6691",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Pier",
+          "secUnitNum": "12",
+          "city": "Burlington",
+          "state": "VT",
+          "zip": "05401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Sycamore St Pier 12\" (want \"Sycamore\"); type: absent (want \"St\"); secUnitType: absent (want \"Pier\"); secUnitNum: absent (want \"12\")"
+      },
+      {
+        "name": "REAR",
+        "description": "Secondary unit designator REAR (Rear), which takes no number on the street line",
+        "input": "7365 Magnolia St Rear, Anchorage, AK 99501",
+        "expected": {
+          "number": "7365",
+          "street": "Magnolia",
+          "type": "St",
+          "secUnitType": "Rear",
+          "city": "Anchorage",
+          "state": "AK",
+          "zip": "99501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "RM with a number",
+        "description": "Secondary unit designator RM (Room) on the street line",
+        "input": "8039 Chestnut St Rm 2, Honolulu, HI 96813",
+        "expected": {
+          "number": "8039",
+          "street": "Chestnut",
+          "type": "St",
+          "secUnitType": "Room",
+          "secUnitNum": "2",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96813",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "SIDE",
+        "description": "Secondary unit designator SIDE (Side), which takes no number on the street line",
+        "input": "9050 Birch St Side, Richmond, VA 23219",
+        "expected": {
+          "number": "9050",
+          "street": "Birch",
+          "type": "St",
+          "secUnitType": "Side",
+          "city": "Richmond",
+          "state": "VA",
+          "zip": "23219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "SLIP with a number",
+        "description": "Secondary unit designator SLIP (Slip) on the street line",
+        "input": "9724 Aspen St Slip 101, Cheyenne, WY 82001",
+        "expected": {
+          "number": "9724",
+          "street": "Aspen",
+          "type": "St",
+          "secUnitType": "Slip",
+          "secUnitNum": "101",
+          "city": "Cheyenne",
+          "state": "WY",
+          "zip": "82001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Aspen St Slip 101\" (want \"Aspen\"); type: absent (want \"St\"); secUnitType: absent (want \"Slip\"); secUnitNum: absent (want \"101\")"
+      },
+      {
+        "name": "SPC with a number",
+        "description": "Secondary unit designator SPC (Space) on the street line",
+        "input": "598 Laurel St Spc 15, Billings, MT 59101",
+        "expected": {
+          "number": "598",
+          "street": "Laurel",
+          "type": "St",
+          "secUnitType": "Space",
+          "secUnitNum": "15",
+          "city": "Billings",
+          "state": "MT",
+          "zip": "59101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Laurel St Spc 15\" (want \"Laurel\"); type: absent (want \"St\"); secUnitType: absent (want \"Space\"); secUnitNum: absent (want \"15\")"
+      },
+      {
+        "name": "STOP with a number",
+        "description": "Secondary unit designator STOP (Stop) on the street line",
+        "input": "1609 Hickory St Stop B, Fargo, ND 58102",
+        "expected": {
+          "number": "1609",
+          "street": "Hickory",
+          "type": "St",
+          "secUnitType": "Stop",
+          "secUnitNum": "B",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Hickory St Stop B\" (want \"Hickory\"); type: absent (want \"St\"); secUnitType: absent (want \"Stop\"); secUnitNum: absent (want \"B\")"
+      },
+      {
+        "name": "STE with a number",
+        "description": "Secondary unit designator STE (Suite) on the street line",
+        "input": "2283 Willow St Ste 9, Springfield, IL 62701",
+        "expected": {
+          "number": "2283",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "9",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "TRLR with a number",
+        "description": "Secondary unit designator TRLR (Trailer) on the street line",
+        "input": "3294 Hawthorne St Trlr 210, Austin, TX 78701",
+        "expected": {
+          "number": "3294",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Trailer",
+          "secUnitNum": "210",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Hawthorne St Trlr 210\" (want \"Hawthorne\"); type: absent (want \"St\"); secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"210\")"
+      },
+      {
+        "name": "UNIT with a number",
+        "description": "Secondary unit designator UNIT (Unit) on the street line",
+        "input": "4305 Juniper St Unit 3C, Denver, CO 80202",
+        "expected": {
+          "number": "4305",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "3C",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "UPPR",
+        "description": "Secondary unit designator UPPR (Upper), which takes no number on the street line",
+        "input": "4979 Sycamore St Uppr, Boston, MA 02108",
+        "expected": {
+          "number": "4979",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Upper",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      }
+    ],
+    "fullWord": [
+      {
+        "name": "Apartment in full",
+        "description": "Secondary unit designator written as the word Apartment",
+        "input": "4359 Willow St Apartment 4B, Springfield, IL 62701",
+        "expected": {
+          "number": "4359",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Basement in full",
+        "description": "Secondary unit designator written as the word Basement",
+        "input": "5370 Hawthorne St Basement, Austin, TX 78701",
+        "expected": {
+          "number": "5370",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Basement",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Building in full",
+        "description": "Secondary unit designator written as the word Building",
+        "input": "6381 Juniper St Building 300, Denver, CO 80202",
+        "expected": {
+          "number": "6381",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Building",
+          "secUnitNum": "300",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Department in full",
+        "description": "Secondary unit designator written as the word Department",
+        "input": "7392 Sycamore St Department 2, Boston, MA 02108",
+        "expected": {
+          "number": "7392",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Department",
+          "secUnitNum": "2",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Sycamore St Department 2\" (want \"Sycamore\"); type: absent (want \"St\"); secUnitType: absent (want \"Department\"); secUnitNum: absent (want \"2\")"
+      },
+      {
+        "name": "Floor in full",
+        "description": "Secondary unit designator written as the word Floor",
+        "input": "8403 Magnolia St Floor 7A, Seattle, WA 98101",
+        "expected": {
+          "number": "8403",
+          "street": "Magnolia",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "7A",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Front in full",
+        "description": "Secondary unit designator written as the word Front",
+        "input": "9414 Chestnut St Front, Phoenix, AZ 85004",
+        "expected": {
+          "number": "9414",
+          "street": "Chestnut",
+          "type": "St",
+          "secUnitType": "Front",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Hangar in full",
+        "description": "Secondary unit designator written as the word Hangar",
+        "input": "625 Birch St Hangar 15, Nashville, TN 37219",
+        "expected": {
+          "number": "625",
+          "street": "Birch",
+          "type": "St",
+          "secUnitType": "Hangar",
+          "secUnitNum": "15",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Birch St Hangar 15\" (want \"Birch\"); type: absent (want \"St\"); secUnitType: absent (want \"Hangar\"); secUnitNum: absent (want \"15\")"
+      },
+      {
+        "name": "Lobby in full",
+        "description": "Secondary unit designator written as the word Lobby",
+        "input": "2310 Laurel St Lobby, Madison, WI 53703",
+        "expected": {
+          "number": "2310",
+          "street": "Laurel",
+          "type": "St",
+          "secUnitType": "Lobby",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Lower in full",
+        "description": "Secondary unit designator written as the word Lower",
+        "input": "3995 Willow St Lower, Atlanta, GA 30303",
+        "expected": {
+          "number": "3995",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Lower",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Office in full",
+        "description": "Secondary unit designator written as the word Office",
+        "input": "5006 Hawthorne St Office, Omaha, NE 68102",
+        "expected": {
+          "number": "5006",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Office",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Penthouse in full",
+        "description": "Secondary unit designator written as the word Penthouse",
+        "input": "6017 Juniper St Penthouse, Boise, ID 83702",
+        "expected": {
+          "number": "6017",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Penthouse",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Room in full",
+        "description": "Secondary unit designator written as the word Room",
+        "input": "8376 Chestnut St Room 2, Honolulu, HI 96813",
+        "expected": {
+          "number": "8376",
+          "street": "Chestnut",
+          "type": "St",
+          "secUnitType": "Room",
+          "secUnitNum": "2",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96813",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Space in full",
+        "description": "Secondary unit designator written as the word Space",
+        "input": "935 Laurel St Space 15, Billings, MT 59101",
+        "expected": {
+          "number": "935",
+          "street": "Laurel",
+          "type": "St",
+          "secUnitType": "Space",
+          "secUnitNum": "15",
+          "city": "Billings",
+          "state": "MT",
+          "zip": "59101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Laurel St Space 15\" (want \"Laurel\"); type: absent (want \"St\"); secUnitType: absent (want \"Space\"); secUnitNum: absent (want \"15\")"
+      },
+      {
+        "name": "Suite in full",
+        "description": "Secondary unit designator written as the word Suite",
+        "input": "2620 Willow St Suite 9, Springfield, IL 62701",
+        "expected": {
+          "number": "2620",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "9",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Trailer in full",
+        "description": "Secondary unit designator written as the word Trailer",
+        "input": "3631 Hawthorne St Trailer 210, Austin, TX 78701",
+        "expected": {
+          "number": "3631",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Trailer",
+          "secUnitNum": "210",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Hawthorne St Trlr 210\" (want \"Hawthorne\"); type: absent (want \"St\"); secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"210\")"
+      },
+      {
+        "name": "Upper in full",
+        "description": "Secondary unit designator written as the word Upper",
+        "input": "5316 Sycamore St Upper, Boston, MA 02108",
+        "expected": {
+          "number": "5316",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Upper",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      }
+    ],
+    "afterComma": [
+      {
+        "name": "APT after a comma",
+        "description": "Secondary unit APT set off from the street by a comma",
+        "input": "4696 Willow St, Apt 4B, Springfield, IL 62701",
+        "expected": {
+          "number": "4696",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "BSMT after a comma",
+        "description": "Secondary unit BSMT set off from the street by a comma",
+        "input": "5707 Hawthorne St, Bsmt, Austin, TX 78701",
+        "expected": {
+          "number": "5707",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Basement",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Basement\")"
+      },
+      {
+        "name": "BLDG after a comma",
+        "description": "Secondary unit BLDG set off from the street by a comma",
+        "input": "6718 Juniper St, Bldg 300, Denver, CO 80202",
+        "expected": {
+          "number": "6718",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Building",
+          "secUnitNum": "300",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "DEPT after a comma",
+        "description": "Secondary unit DEPT set off from the street by a comma",
+        "input": "7729 Sycamore St, Dept 2, Boston, MA 02108",
+        "expected": {
+          "number": "7729",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Department",
+          "secUnitNum": "2",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Department\"); secUnitNum: absent (want \"2\")"
+      },
+      {
+        "name": "FL after a comma",
+        "description": "Secondary unit FL set off from the street by a comma",
+        "input": "8740 Magnolia St, Fl 7A, Seattle, WA 98101",
+        "expected": {
+          "number": "8740",
+          "street": "Magnolia",
+          "type": "St",
+          "secUnitType": "Floor",
+          "secUnitNum": "7A",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "FRNT after a comma",
+        "description": "Secondary unit FRNT set off from the street by a comma",
+        "input": "9751 Chestnut St, Frnt, Phoenix, AZ 85004",
+        "expected": {
+          "number": "9751",
+          "street": "Chestnut",
+          "type": "St",
+          "secUnitType": "Front",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Front\")"
+      },
+      {
+        "name": "HNGR after a comma",
+        "description": "Secondary unit HNGR set off from the street by a comma",
+        "input": "962 Birch St, Hngr 15, Nashville, TN 37219",
+        "expected": {
+          "number": "962",
+          "street": "Birch",
+          "type": "St",
+          "secUnitType": "Hangar",
+          "secUnitNum": "15",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Hangar\"); secUnitNum: absent (want \"15\")"
+      },
+      {
+        "name": "KEY after a comma",
+        "description": "Secondary unit KEY set off from the street by a comma",
+        "input": "1636 Aspen St, Key B, Columbus, OH 43215",
+        "expected": {
+          "number": "1636",
+          "street": "Aspen",
+          "type": "St",
+          "secUnitType": "Key",
+          "secUnitNum": "B",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Key\"); secUnitNum: absent (want \"B\")"
+      },
+      {
+        "name": "LBBY after a comma",
+        "description": "Secondary unit LBBY set off from the street by a comma",
+        "input": "2647 Laurel St, Lbby, Madison, WI 53703",
+        "expected": {
+          "number": "2647",
+          "street": "Laurel",
+          "type": "St",
+          "secUnitType": "Lobby",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Lobby\")"
+      },
+      {
+        "name": "LOT after a comma",
+        "description": "Secondary unit LOT set off from the street by a comma",
+        "input": "3321 Hickory St, Lot 210, Raleigh, NC 27601",
+        "expected": {
+          "number": "3321",
+          "street": "Hickory",
+          "type": "St",
+          "secUnitType": "Lot",
+          "secUnitNum": "210",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "LOWR after a comma",
+        "description": "Secondary unit LOWR set off from the street by a comma",
+        "input": "4332 Willow St, Lowr, Atlanta, GA 30303",
+        "expected": {
+          "number": "4332",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Lower",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Lower\")"
+      },
+      {
+        "name": "OFC after a comma",
+        "description": "Secondary unit OFC set off from the street by a comma",
+        "input": "5343 Hawthorne St, Ofc, Omaha, NE 68102",
+        "expected": {
+          "number": "5343",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Office",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Office\")"
+      },
+      {
+        "name": "PH after a comma",
+        "description": "Secondary unit PH set off from the street by a comma",
+        "input": "6354 Juniper St, Ph, Boise, ID 83702",
+        "expected": {
+          "number": "6354",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Penthouse",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Penthouse\")"
+      },
+      {
+        "name": "PIER after a comma",
+        "description": "Secondary unit PIER set off from the street by a comma",
+        "input": "7028 Sycamore St, Pier 12, Burlington, VT 05401",
+        "expected": {
+          "number": "7028",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Pier",
+          "secUnitNum": "12",
+          "city": "Burlington",
+          "state": "VT",
+          "zip": "05401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Pier\"); secUnitNum: absent (want \"12\")"
+      },
+      {
+        "name": "REAR after a comma",
+        "description": "Secondary unit REAR set off from the street by a comma",
+        "input": "7702 Magnolia St, Rear, Anchorage, AK 99501",
+        "expected": {
+          "number": "7702",
+          "street": "Magnolia",
+          "type": "St",
+          "secUnitType": "Rear",
+          "city": "Anchorage",
+          "state": "AK",
+          "zip": "99501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Rear\")"
+      },
+      {
+        "name": "RM after a comma",
+        "description": "Secondary unit RM set off from the street by a comma",
+        "input": "8713 Chestnut St, Rm 2, Honolulu, HI 96813",
+        "expected": {
+          "number": "8713",
+          "street": "Chestnut",
+          "type": "St",
+          "secUnitType": "Room",
+          "secUnitNum": "2",
+          "city": "Honolulu",
+          "state": "HI",
+          "zip": "96813",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "SIDE after a comma",
+        "description": "Secondary unit SIDE set off from the street by a comma",
+        "input": "9387 Birch St, Side, Richmond, VA 23219",
+        "expected": {
+          "number": "9387",
+          "street": "Birch",
+          "type": "St",
+          "secUnitType": "Side",
+          "city": "Richmond",
+          "state": "VA",
+          "zip": "23219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Side\")"
+      },
+      {
+        "name": "SLIP after a comma",
+        "description": "Secondary unit SLIP set off from the street by a comma",
+        "input": "261 Aspen St, Slip 101, Cheyenne, WY 82001",
+        "expected": {
+          "number": "261",
+          "street": "Aspen",
+          "type": "St",
+          "secUnitType": "Slip",
+          "secUnitNum": "101",
+          "city": "Cheyenne",
+          "state": "WY",
+          "zip": "82001",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Slip\"); secUnitNum: absent (want \"101\")"
+      },
+      {
+        "name": "SPC after a comma",
+        "description": "Secondary unit SPC set off from the street by a comma",
+        "input": "1272 Laurel St, Spc 15, Billings, MT 59101",
+        "expected": {
+          "number": "1272",
+          "street": "Laurel",
+          "type": "St",
+          "secUnitType": "Space",
+          "secUnitNum": "15",
+          "city": "Billings",
+          "state": "MT",
+          "zip": "59101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Space\"); secUnitNum: absent (want \"15\")"
+      },
+      {
+        "name": "STOP after a comma",
+        "description": "Secondary unit STOP set off from the street by a comma",
+        "input": "1946 Hickory St, Stop B, Fargo, ND 58102",
+        "expected": {
+          "number": "1946",
+          "street": "Hickory",
+          "type": "St",
+          "secUnitType": "Stop",
+          "secUnitNum": "B",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Stop\"); secUnitNum: absent (want \"B\")"
+      },
+      {
+        "name": "STE after a comma",
+        "description": "Secondary unit STE set off from the street by a comma",
+        "input": "2957 Willow St, Ste 9, Springfield, IL 62701",
+        "expected": {
+          "number": "2957",
+          "street": "Willow",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "9",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "TRLR after a comma",
+        "description": "Secondary unit TRLR set off from the street by a comma",
+        "input": "3968 Hawthorne St, Trlr 210, Austin, TX 78701",
+        "expected": {
+          "number": "3968",
+          "street": "Hawthorne",
+          "type": "St",
+          "secUnitType": "Trailer",
+          "secUnitNum": "210",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"210\")"
+      },
+      {
+        "name": "UNIT after a comma",
+        "description": "Secondary unit UNIT set off from the street by a comma",
+        "input": "4642 Juniper St, Unit 3C, Denver, CO 80202",
+        "expected": {
+          "number": "4642",
+          "street": "Juniper",
+          "type": "St",
+          "secUnitType": "Unit",
+          "secUnitNum": "3C",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "UPPR after a comma",
+        "description": "Secondary unit UPPR set off from the street by a comma",
+        "input": "5653 Sycamore St, Uppr, Boston, MA 02108",
+        "expected": {
+          "number": "5653",
+          "street": "Sycamore",
+          "type": "St",
+          "secUnitType": "Upper",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Upper\")"
+      }
+    ],
+    "poundSign": [
+      {
+        "name": "unit # 4B",
+        "description": "Pub 28 uses # when the designator is unknown: pound sign and a space",
+        "input": "5990 Oak St # 4B, Boston, MA 02108",
+        "expected": {
+          "number": "5990",
+          "street": "Oak",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4B",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit #4B",
+        "description": "Pub 28 uses # when the designator is unknown: pound sign attached",
+        "input": "6327 Oak St #4B, Boston, MA 02108",
+        "expected": {
+          "number": "6327",
+          "street": "Oak",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "4B",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit # 1200",
+        "description": "Pub 28 uses # when the designator is unknown: pound sign with a long number",
+        "input": "6664 Oak St # 1200, Boston, MA 02108",
+        "expected": {
+          "number": "6664",
+          "street": "Oak",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "1200",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit #C",
+        "description": "Pub 28 uses # when the designator is unknown: pound sign with a letter",
+        "input": "7001 Oak St #C, Boston, MA 02108",
+        "expected": {
+          "number": "7001",
+          "street": "Oak",
+          "type": "St",
+          "secUnitType": "#",
+          "secUnitNum": "C",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      }
+    ],
+    "variants": [
+      {
+        "name": "unit Apt #4B",
+        "description": "Secondary unit with a designator followed by a pound sign, which Pub 28 drops",
+        "input": "7338 Pine Ave Apt #4B, Nashville, TN 37219",
+        "expected": {
+          "number": "7338",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Ave Apt\" (want \"Pine\"); type: \"Pne\" (want \"Ave\"); secUnitType: \"#\" (want \"Apartment\")"
+      },
+      {
+        "name": "unit Apt 4-B",
+        "description": "Secondary unit with a unit number with a hyphen",
+        "input": "7675 Pine Ave Apt 4-B, Nashville, TN 37219",
+        "expected": {
+          "number": "7675",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4-B",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Ste 100A",
+        "description": "Secondary unit with a suite number ending in a letter",
+        "input": "8012 Pine Ave Ste 100A, Nashville, TN 37219",
+        "expected": {
+          "number": "8012",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Suite",
+          "secUnitNum": "100A",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Unit 1000",
+        "description": "Secondary unit with a four-digit unit number",
+        "input": "8349 Pine Ave Unit 1000, Nashville, TN 37219",
+        "expected": {
+          "number": "8349",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Unit",
+          "secUnitNum": "1000",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Apt. 7",
+        "description": "Secondary unit with a abbreviation with a period",
+        "input": "8686 Pine Ave Apt. 7, Nashville, TN 37219",
+        "expected": {
+          "number": "8686",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Apartment",
+          "secUnitNum": "7",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Ave Apt. 7\" (want \"Pine\"); type: \"Pne\" (want \"Ave\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"7\")"
+      },
+      {
+        "name": "unit Bldg C",
+        "description": "Secondary unit with a building identified by a letter",
+        "input": "9023 Pine Ave Bldg C, Nashville, TN 37219",
+        "expected": {
+          "number": "9023",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Building",
+          "secUnitNum": "C",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Fl 23",
+        "description": "Secondary unit with a floor number",
+        "input": "9360 Pine Ave Fl 23, Nashville, TN 37219",
+        "expected": {
+          "number": "9360",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "23",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Lot 42",
+        "description": "Secondary unit with a mobile home lot",
+        "input": "9697 Pine Ave Lot 42, Nashville, TN 37219",
+        "expected": {
+          "number": "9697",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Lot",
+          "secUnitNum": "42",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Trlr 9",
+        "description": "Secondary unit with a trailer number",
+        "input": "234 Pine Ave Trlr 9, Nashville, TN 37219",
+        "expected": {
+          "number": "234",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Trailer",
+          "secUnitNum": "9",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
+        "todo": true,
+        "todoNote": "street: \"Pine Ave Trlr 9\" (want \"Pine\"); type: absent (want \"Ave\"); secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"9\")"
+      },
+      {
+        "name": "unit Rm 5",
+        "description": "Secondary unit with a room number",
+        "input": "571 Pine Ave Rm 5, Nashville, TN 37219",
+        "expected": {
+          "number": "571",
+          "street": "Pine",
+          "type": "Ave",
+          "secUnitType": "Room",
+          "secUnitNum": "5",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Fl 2 in Florida",
+        "description": "Secondary unit in a Florida address, where FL is both the floor designator and the state",
+        "input": "908 Brickell Ave Fl 2, Miami, FL 33131",
+        "expected": {
+          "number": "908",
+          "street": "Brickell",
+          "type": "Ave",
+          "secUnitType": "Floor",
+          "secUnitNum": "2",
+          "city": "Miami",
+          "state": "FL",
+          "zip": "33131",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "unit Ste 300 in Florida",
+        "description": "Secondary unit in a Florida address, where FL is both the floor designator and the state",
+        "input": "1245 Brickell Ave Ste 300, Miami, FL 33131",
+        "expected": {
+          "number": "1245",
+          "street": "Brickell",
+          "type": "Ave",
+          "secUnitType": "Suite",
+          "secUnitNum": "300",
+          "city": "Miami",
+          "state": "FL",
+          "zip": "33131",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
+      },
+      {
+        "name": "Apt 4B before the street line",
+        "description": "Secondary unit written ahead of the street line, as people often do; Pub 28 moves it after",
+        "input": "Apt 4B, 1582 Elm St, Nashville, TN 37219",
+        "expected": {
+          "number": "1582",
+          "street": "Elm",
+          "type": "St",
+          "secUnitType": "Apartment",
+          "secUnitNum": "4B",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line",
+        "todo": true,
+        "todoNote": "number: absent (want \"1582\"); street: \"4B\" (want \"Elm\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4B\")"
+      },
+      {
+        "name": "Suite 210 before the street line",
+        "description": "Secondary unit written ahead of the street line, as people often do; Pub 28 moves it after",
+        "input": "Suite 210, 1919 Elm St, Nashville, TN 37219",
+        "expected": {
+          "number": "1919",
+          "street": "Elm",
+          "type": "St",
+          "secUnitType": "Suite",
+          "secUnitNum": "210",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line",
+        "todo": true,
+        "todoNote": "number: absent (want \"1919\"); street: \"210\" (want \"Elm\"); type: absent (want \"St\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"210\")"
+      }
+    ]
+  }
+}

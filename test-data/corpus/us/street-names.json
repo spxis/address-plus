@@ -1,0 +1,848 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "US Street Names",
+  "description": "Numbered and ordinal streets, route-numbered roads, suffix words used as names, streets with no suffix and names of several words. Shapes follow USPS Publication 28 (a US government work, public domain); inputs are constructed for this corpus unless a case's source says otherwise.",
+  "tests": {
+    "ordinal": [
+      {
+        "name": "1st St",
+        "description": "Numbered street written as an ordinal",
+        "input": "2256 1st St, Springfield, IL 62701",
+        "expected": {
+          "number": "2256",
+          "street": "1st",
+          "type": "St",
+          "city": "Springfield",
+          "state": "IL",
+          "zip": "62701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "2nd Ave",
+        "description": "Numbered street written as an ordinal",
+        "input": "2593 2nd Ave, Austin, TX 78701",
+        "expected": {
+          "number": "2593",
+          "street": "2nd",
+          "type": "Ave",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "3rd Pl",
+        "description": "Numbered street written as an ordinal",
+        "input": "2930 3rd Pl, Denver, CO 80202",
+        "expected": {
+          "number": "2930",
+          "street": "3rd",
+          "type": "Pl",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "4th Ter",
+        "description": "Numbered street written as an ordinal",
+        "input": "3267 4th Ter, Boston, MA 02108",
+        "expected": {
+          "number": "3267",
+          "street": "4th",
+          "type": "Ter",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "11th St",
+        "description": "Numbered street written as an ordinal",
+        "input": "3604 11th St, Seattle, WA 98101",
+        "expected": {
+          "number": "3604",
+          "street": "11th",
+          "type": "St",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "12th Ave",
+        "description": "Numbered street written as an ordinal",
+        "input": "3941 12th Ave, Phoenix, AZ 85004",
+        "expected": {
+          "number": "3941",
+          "street": "12th",
+          "type": "Ave",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "13th Pl",
+        "description": "Numbered street written as an ordinal",
+        "input": "4278 13th Pl, Nashville, TN 37219",
+        "expected": {
+          "number": "4278",
+          "street": "13th",
+          "type": "Pl",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "21st Ter",
+        "description": "Numbered street written as an ordinal",
+        "input": "4615 21st Ter, Columbus, OH 43215",
+        "expected": {
+          "number": "4615",
+          "street": "21st",
+          "type": "Ter",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "22nd St",
+        "description": "Numbered street written as an ordinal",
+        "input": "4952 22nd St, Madison, WI 53703",
+        "expected": {
+          "number": "4952",
+          "street": "22nd",
+          "type": "St",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "23rd Ave",
+        "description": "Numbered street written as an ordinal",
+        "input": "5289 23rd Ave, Raleigh, NC 27601",
+        "expected": {
+          "number": "5289",
+          "street": "23rd",
+          "type": "Ave",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "101st Pl",
+        "description": "Numbered street written as an ordinal",
+        "input": "5626 101st Pl, Atlanta, GA 30303",
+        "expected": {
+          "number": "5626",
+          "street": "101st",
+          "type": "Pl",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "111th Ter",
+        "description": "Numbered street written as an ordinal",
+        "input": "5963 111th Ter, Omaha, NE 68102",
+        "expected": {
+          "number": "5963",
+          "street": "111th",
+          "type": "Ter",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "112th St",
+        "description": "Numbered street written as an ordinal",
+        "input": "6300 112th St, Boise, ID 83702",
+        "expected": {
+          "number": "6300",
+          "street": "112th",
+          "type": "St",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "42nd Ave",
+        "description": "Numbered street written as an ordinal",
+        "input": "6637 42nd Ave, Burlington, VT 05401",
+        "expected": {
+          "number": "6637",
+          "street": "42nd",
+          "type": "Ave",
+          "city": "Burlington",
+          "state": "VT",
+          "zip": "05401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "W 47th St",
+        "description": "Ordinal street with a predirectional",
+        "input": "6974 W 47th St, New York, NY 10036",
+        "expected": {
+          "number": "6974",
+          "prefix": "W",
+          "street": "47th",
+          "type": "St",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10036",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "E 1st Ave",
+        "description": "Ordinal street with a predirectional",
+        "input": "7311 E 1st Ave, Anchorage, AK 99501",
+        "expected": {
+          "number": "7311",
+          "prefix": "E",
+          "street": "1st",
+          "type": "Ave",
+          "city": "Anchorage",
+          "state": "AK",
+          "zip": "99501",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "N 3rd St",
+        "description": "Ordinal street with a predirectional",
+        "input": "7648 N 3rd St, Phoenix, AZ 85004",
+        "expected": {
+          "number": "7648",
+          "prefix": "N",
+          "street": "3rd",
+          "type": "St",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "First St",
+        "description": "Numbered street spelled out as a word",
+        "input": "7985 First St, Boston, MA 02108",
+        "expected": {
+          "number": "7985",
+          "street": "First",
+          "type": "St",
+          "city": "Boston",
+          "state": "MA",
+          "zip": "02108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "Fifth Ave",
+        "description": "Numbered street spelled out as a word",
+        "input": "8322 Fifth Ave, Seattle, WA 98101",
+        "expected": {
+          "number": "8322",
+          "street": "Fifth",
+          "type": "Ave",
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "Second St",
+        "description": "Numbered street spelled out as a word",
+        "input": "8659 Second St, Phoenix, AZ 85004",
+        "expected": {
+          "number": "8659",
+          "street": "Second",
+          "type": "St",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "Third Ave",
+        "description": "Numbered street spelled out as a word",
+        "input": "8996 Third Ave, Nashville, TN 37219",
+        "expected": {
+          "number": "8996",
+          "street": "Third",
+          "type": "Ave",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "Tenth St",
+        "description": "Numbered street spelled out as a word",
+        "input": "9333 Tenth St, Columbus, OH 43215",
+        "expected": {
+          "number": "9333",
+          "street": "Tenth",
+          "type": "St",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      }
+    ],
+    "numeric": [
+      {
+        "name": "83 St",
+        "description": "Numbered street written as a bare number, no ordinal ending",
+        "input": "9670 83 St, Atlanta, GA 30303",
+        "expected": {
+          "number": "9670",
+          "street": "83",
+          "type": "St",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "26 St",
+        "description": "Numbered street written as a bare number, no ordinal ending",
+        "input": "207 26 St, Omaha, NE 68102",
+        "expected": {
+          "number": "207",
+          "street": "26",
+          "type": "St",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "100 Ave",
+        "description": "Numbered street written as a bare number, no ordinal ending",
+        "input": "544 100 Ave, Boise, ID 83702",
+        "expected": {
+          "number": "544",
+          "street": "100",
+          "type": "Ave",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      },
+      {
+        "name": "7 Rd",
+        "description": "Numbered street written as a bare number, no ordinal ending",
+        "input": "881 7 Rd, Burlington, VT 05401",
+        "expected": {
+          "number": "881",
+          "street": "7",
+          "type": "Rd",
+          "city": "Burlington",
+          "state": "VT",
+          "zip": "05401",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), numbered streets"
+      }
+    ],
+    "routeNumbered": [
+      {
+        "name": "US Highway 431",
+        "description": "Route-numbered road; the route word sits before the number and is part of the name",
+        "input": "5850 US Highway 431, Albertville, AL 35950",
+        "expected": {
+          "number": "5850",
+          "street": "US Hwy 431",
+          "city": "Albertville",
+          "state": "AL",
+          "zip": "35950",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway-style street names"
+      },
+      {
+        "name": "State Route 9",
+        "description": "Route-numbered road; the route word sits before the number and is part of the name",
+        "input": "1200 State Route 9, Ludlow, VT 05149",
+        "expected": {
+          "number": "1200",
+          "street": "State Rte 9",
+          "city": "Ludlow",
+          "state": "VT",
+          "zip": "05149",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway-style street names"
+      },
+      {
+        "name": "County Road 45",
+        "description": "Route-numbered road; the route word sits before the number and is part of the name",
+        "input": "300 County Road 45, Fargo, ND 58102",
+        "expected": {
+          "number": "300",
+          "street": "County Rd 45",
+          "city": "Fargo",
+          "state": "ND",
+          "zip": "58102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway-style street names"
+      },
+      {
+        "name": "State Highway 60",
+        "description": "Route-numbered road; the route word sits before the number and is part of the name",
+        "input": "2100 State Highway 60, Bartow, FL 33830",
+        "expected": {
+          "number": "2100",
+          "street": "State Hwy 60",
+          "city": "Bartow",
+          "state": "FL",
+          "zip": "33830",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway-style street names"
+      },
+      {
+        "name": "Ranch Road 620",
+        "description": "Route-numbered road; the route word sits before the number and is part of the name",
+        "input": "14501 Ranch Road 620, Austin, TX 78717",
+        "expected": {
+          "number": "14501",
+          "street": "Ranch Rd 620",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78717",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway-style street names"
+      },
+      {
+        "name": "US Route 1",
+        "description": "Route-numbered road; the route word sits before the number and is part of the name",
+        "input": "400 US Route 1, Kittery, ME 03904",
+        "expected": {
+          "number": "400",
+          "street": "US Rte 1",
+          "city": "Kittery",
+          "state": "ME",
+          "zip": "03904",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), highway-style street names"
+      }
+    ],
+    "suffixWordAsName": [
+      {
+        "name": "Park Ave",
+        "description": "Street name that is itself a suffix word",
+        "input": "1218 Park Ave, Phoenix, AZ 85004",
+        "expected": {
+          "number": "1218",
+          "street": "Park",
+          "type": "Ave",
+          "city": "Phoenix",
+          "state": "AZ",
+          "zip": "85004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Lake Shore Dr",
+        "description": "Two-word name whose first word is a suffix word",
+        "input": "1555 Lake Shore Dr, Nashville, TN 37219",
+        "expected": {
+          "number": "1555",
+          "street": "Lake Shore",
+          "type": "Dr",
+          "city": "Nashville",
+          "state": "TN",
+          "zip": "37219",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Spring Garden St",
+        "description": "Name made of two suffix words",
+        "input": "1892 Spring Garden St, Columbus, OH 43215",
+        "expected": {
+          "number": "1892",
+          "street": "Spring Garden",
+          "type": "St",
+          "city": "Columbus",
+          "state": "OH",
+          "zip": "43215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Court St",
+        "description": "The word Court as the street name",
+        "input": "2229 Court St, Madison, WI 53703",
+        "expected": {
+          "number": "2229",
+          "street": "Court",
+          "type": "St",
+          "city": "Madison",
+          "state": "WI",
+          "zip": "53703",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Mill Rd",
+        "description": "The word Mill as the street name",
+        "input": "2566 Mill Rd, Raleigh, NC 27601",
+        "expected": {
+          "number": "2566",
+          "street": "Mill",
+          "type": "Rd",
+          "city": "Raleigh",
+          "state": "NC",
+          "zip": "27601",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Island Ave",
+        "description": "The word Island as the street name",
+        "input": "2903 Island Ave, Atlanta, GA 30303",
+        "expected": {
+          "number": "2903",
+          "street": "Island",
+          "type": "Ave",
+          "city": "Atlanta",
+          "state": "GA",
+          "zip": "30303",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Center St",
+        "description": "The word Center as the street name",
+        "input": "3240 Center St, Omaha, NE 68102",
+        "expected": {
+          "number": "3240",
+          "street": "Center",
+          "type": "St",
+          "city": "Omaha",
+          "state": "NE",
+          "zip": "68102",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      },
+      {
+        "name": "Bridge St",
+        "description": "The word Bridge as the street name",
+        "input": "3577 Bridge St, Boise, ID 83702",
+        "expected": {
+          "number": "3577",
+          "street": "Bridge",
+          "type": "St",
+          "city": "Boise",
+          "state": "ID",
+          "zip": "83702",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), suffix words used in the primary name"
+      }
+    ],
+    "noSuffix": [
+      {
+        "name": "Avenue A",
+        "description": "Avenue A: the suffix word comes first and is part of the name",
+        "input": "100 Avenue A, New York, NY 10009",
+        "expected": {
+          "number": "100",
+          "street": "Avenue A",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10009",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix",
+        "todo": true,
+        "todoNote": "street: \"A\" (want \"Avenue A\"); type: \"Ave\" (want absent)"
+      },
+      {
+        "name": "Avenue of the Americas",
+        "description": "Avenue of the Americas has no suffix",
+        "input": "1095 Avenue of the Americas, New York, NY 10036",
+        "expected": {
+          "number": "1095",
+          "street": "Avenue of the Americas",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10036",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix",
+        "todo": true,
+        "todoNote": "street: \"Of The Americas\" (want \"Avenue of the Americas\"); type: \"Ave\" (want absent)"
+      },
+      {
+        "name": "Broadway",
+        "description": "Broadway has no suffix",
+        "input": "350 Broadway, New York, NY 10013",
+        "expected": {
+          "number": "350",
+          "street": "Broadway",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10013",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix"
+      },
+      {
+        "name": "Bowling Green",
+        "description": "Bowling Green: the last word is a suffix word but the whole is the name",
+        "input": "1 Bowling Green, New York, NY 10004",
+        "expected": {
+          "number": "1",
+          "street": "Bowling Green",
+          "city": "New York",
+          "state": "NY",
+          "zip": "10004",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix",
+        "todo": true,
+        "todoNote": "street: \"Bowling\" (want \"Bowling Green\"); type: \"Grn\" (want absent)"
+      },
+      {
+        "name": "The Embarcadero",
+        "description": "The Embarcadero has no suffix",
+        "input": "500 The Embarcadero, San Francisco, CA 94111",
+        "expected": {
+          "number": "500",
+          "street": "The Embarcadero",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94111",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), street names without a suffix"
+      }
+    ],
+    "multiword": [
+      {
+        "name": "Martin Luther King Jr Blvd",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "2400 Martin Luther King Jr Blvd, Dallas, TX 75215",
+        "expected": {
+          "number": "2400",
+          "street": "Martin Luther King Jr",
+          "type": "Blvd",
+          "city": "Dallas",
+          "state": "TX",
+          "zip": "75215",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "Arthur Kill Rd",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "640 Arthur Kill Rd, Staten Island, NY 10312",
+        "expected": {
+          "number": "640",
+          "street": "Arthur Kill",
+          "type": "Rd",
+          "city": "Staten Island",
+          "state": "NY",
+          "zip": "10312",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "Van Wyck Mews",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "415 Van Wyck Mews, Norfolk, VA 23517",
+        "expected": {
+          "number": "415",
+          "street": "Van Wyck",
+          "type": "Mews",
+          "city": "Norfolk",
+          "state": "VA",
+          "zip": "23517",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "O'Farrell St",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "1 O'Farrell St, San Francisco, CA 94108",
+        "expected": {
+          "number": "1",
+          "street": "O'Farrell",
+          "type": "St",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94108",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name",
+        "todo": true,
+        "todoNote": "street: \"O'farrell\" (want \"O'Farrell\")"
+      },
+      {
+        "name": "St. Charles Ave",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "800 St. Charles Ave, New Orleans, LA 70130",
+        "expected": {
+          "number": "800",
+          "street": "St. Charles",
+          "type": "Ave",
+          "city": "New Orleans",
+          "state": "LA",
+          "zip": "70130",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "Saint Paul St",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "250 Saint Paul St, Baltimore, MD 21202",
+        "expected": {
+          "number": "250",
+          "street": "Saint Paul",
+          "type": "St",
+          "city": "Baltimore",
+          "state": "MD",
+          "zip": "21202",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "Pennsylvania Ave",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "1600 Pennsylvania Ave, Washington, DC 20500",
+        "expected": {
+          "number": "1600",
+          "street": "Pennsylvania",
+          "type": "Ave",
+          "city": "Washington",
+          "state": "DC",
+          "zip": "20500",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "Wilkes-Barre Blvd",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "300 Wilkes-Barre Blvd, Scranton, PA 18503",
+        "expected": {
+          "number": "300",
+          "street": "Wilkes-Barre",
+          "type": "Blvd",
+          "city": "Scranton",
+          "state": "PA",
+          "zip": "18503",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
+      },
+      {
+        "name": "Old Post Office Rd",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "77 Old Post Office Rd, Bristol, VT 05443",
+        "expected": {
+          "number": "77",
+          "street": "Old Post Office",
+          "type": "Rd",
+          "city": "Bristol",
+          "state": "VT",
+          "zip": "05443",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name",
+        "todo": true,
+        "todoNote": "street: \"Old Post\" (want \"Old Post Office\"); type: absent (want \"Rd\"); secUnitType: \"Office\" (want absent); secUnitNum: \"Rd\" (want absent)"
+      },
+      {
+        "name": "De La Vina St",
+        "description": "Street name of several words, with punctuation or a saint's abbreviation",
+        "input": "12 De La Vina St, Santa Barbara, CA 93101",
+        "expected": {
+          "number": "12",
+          "street": "De La Vina",
+          "type": "St",
+          "city": "Santa Barbara",
+          "state": "CA",
+          "zip": "93101",
+          "country": "US"
+        },
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name",
+        "todo": true,
+        "todoNote": "street: \"De la Vina\" (want \"De La Vina\")"
+      }
+    ]
+  }
+}

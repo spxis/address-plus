@@ -1,0 +1,432 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Canadian Rural Routes, Post Office Boxes and General Delivery",
+  "description": "Rural routes, site and compartment, general delivery (poste restante), and post office boxes with stations (succursales) and retail postal outlets. Rural routes report rr and ruralRoute; general delivery and site cases are partial where a part has no field yet. Shapes follow Canada Post's Addressing Guidelines, described in our own words; every input is constructed for this corpus, and no table is copied from Canada Post.",
+  "tests": {
+    "ruralRoute": [
+      {
+        "name": "rural route standard form",
+        "description": "Rural route address standard form",
+        "input": "RR 2, Lakefield ON K0L 2H0",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"RR 2\" (want absent)"
+      },
+      {
+        "name": "rural route without commas",
+        "description": "Rural route address without commas",
+        "input": "RR 2 Lakefield ON K0L 2H0",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"RR 2\" (want absent)"
+      },
+      {
+        "name": "rural route with periods",
+        "description": "Rural route address with periods",
+        "input": "R.R. 2, Lakefield, ON K0L 2H0",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"R.R. 2\" (want absent)"
+      },
+      {
+        "name": "rural route spelled out",
+        "description": "Rural route address spelled out",
+        "input": "Rural Route 2, Lakefield ON K0L 2H0",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"Rural Rte 2\" (want absent)"
+      },
+      {
+        "name": "rural route on two lines, as Canada Post prints it",
+        "description": "Rural route address on two lines, as Canada Post prints it",
+        "input": "RR 2\nLakefield ON  K0L 2H0",
+        "expected": {
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"RR 2\" (want absent)"
+      },
+      {
+        "name": "civic address on a rural route",
+        "description": "Rural route address with a civic address on a rural route",
+        "input": "1234 River Rd RR 2, Lakefield ON K0L 2H0",
+        "expected": {
+          "number": "1234",
+          "street": "River",
+          "type": "Rd",
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "street: \"Rd Rr 2\" (want \"River\"); type: \"Riv\" (want \"Rd\"); rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\")"
+      },
+      {
+        "name": "civic address, comma, rural route",
+        "description": "Rural route address with a civic address, comma, rural route",
+        "input": "1234 River Rd, RR 2, Lakefield ON K0L 2H0",
+        "expected": {
+          "number": "1234",
+          "street": "River",
+          "type": "Rd",
+          "rr": "2",
+          "ruralRoute": "RR 2",
+          "city": "Lakefield",
+          "state": "ON",
+          "zip": "K0L 2H0",
+          "country": "CA"
+        },
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
+        "todo": true,
+        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); city: \"RR 2\" (want \"Lakefield\")"
+      }
+    ],
+    "siteAndCompartment": [
+      {
+        "name": "site, compartment and rural route",
+        "description": "Rural address with site, compartment and rural route; the compartment has no field yet, so the case is partial",
+        "input": "Site 6 Comp 10 RR 8, Millarville AB T0L 1K0",
+        "expected": {
+          "site": "6",
+          "rr": "8",
+          "city": "Millarville",
+          "state": "AB",
+          "zip": "T0L 1K0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment",
+        "todo": true,
+        "todoNote": "site: absent (want \"6\"); rr: absent (want \"8\")"
+      },
+      {
+        "name": "site, compartment and rural route in capitals on two lines",
+        "description": "Rural address with site, compartment and rural route in capitals on two lines; the compartment has no field yet, so the case is partial",
+        "input": "SITE 6 COMP 10 RR 8\nMILLARVILLE AB  T0L 1K0",
+        "expected": {
+          "site": "6",
+          "rr": "8",
+          "city": "Millarville",
+          "state": "AB",
+          "zip": "T0L 1K0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment",
+        "todo": true,
+        "todoNote": "site: absent (want \"6\"); rr: absent (want \"8\")"
+      },
+      {
+        "name": "site, compartment and rural route with commas",
+        "description": "Rural address with site, compartment and rural route with commas; the compartment has no field yet, so the case is partial",
+        "input": "Site 6, Comp 10, RR 8, Millarville AB T0L 1K0",
+        "expected": {
+          "site": "6",
+          "rr": "8",
+          "city": "Millarville",
+          "state": "AB",
+          "zip": "T0L 1K0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment",
+        "todo": true,
+        "todoNote": "site: absent (want \"6\"); rr: absent (want \"8\"); city: \"RR 8\" (want \"Millarville\")"
+      }
+    ],
+    "generalDelivery": [
+      {
+        "name": "general delivery with a comma",
+        "description": "General delivery with a comma",
+        "input": "General Delivery, Iqaluit NU X0A 0H0",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery"
+      },
+      {
+        "name": "general delivery without commas",
+        "description": "General delivery without commas",
+        "input": "General Delivery Iqaluit NU X0A 0H0",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery"
+      },
+      {
+        "name": "general delivery in capitals on two lines",
+        "description": "General delivery in capitals on two lines",
+        "input": "GENERAL DELIVERY\nWHITEHORSE YT  Y1A 1C2",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery"
+      },
+      {
+        "name": "general delivery as Canada Post abbreviates it, GD with the station",
+        "description": "General delivery as Canada Post abbreviates it, GD with the station",
+        "input": "GD Stn Main, Iqaluit NU X0A 0H0",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery",
+        "todo": true,
+        "todoNote": "generalDelivery: absent (want true)"
+      },
+      {
+        "name": "general delivery in French, poste restante",
+        "description": "General delivery in French, poste restante",
+        "input": "Poste restante, Gatineau QC J8X 3Y9",
+        "expected": {
+          "generalDelivery": true,
+          "city": "Gatineau",
+          "state": "QC",
+          "zip": "J8X 3Y9",
+          "country": "CA"
+        },
+        "ignoreCase": ["city"],
+        "partial": true,
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery",
+        "todo": true,
+        "todoNote": "generalDelivery: absent (want true)"
+      }
+    ],
+    "postOfficeBox": [
+      {
+        "name": "post office box with Station spelled out",
+        "description": "Post office box with Station spelled out; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "PO Box 4001, Station A, Toronto ON M5W 1H8",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "4001",
+          "station": "A",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5W 1H8",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
+      },
+      {
+        "name": "post office box as Canada Post prints it, STN for station",
+        "description": "Post office box as Canada Post prints it, STN for station; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "PO BOX 4001 STN A\nTORONTO ON  M5W 1H8",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "4001",
+          "station": "A",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M5W 1H8",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
+        "todo": true,
+        "todoNote": "station: absent (want \"A\"); city: \"STN A\\nTORONTO ON\" (want \"Toronto\"); state: absent (want \"ON\")"
+      },
+      {
+        "name": "post office box with a named station",
+        "description": "Post office box with a named station; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "P.O. Box 9999, Station Main, Halifax NS B3J 3A7",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "9999",
+          "station": "Main",
+          "city": "Halifax",
+          "state": "NS",
+          "zip": "B3J 3A7",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
+      },
+      {
+        "name": "post office box Stn on the same line",
+        "description": "Post office box Stn on the same line; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "PO Box 1234 Stn Main, Whitehorse YT Y1A 1C2",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "station": "Main",
+          "city": "Whitehorse",
+          "state": "YT",
+          "zip": "Y1A 1C2",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
+        "todo": true,
+        "todoNote": "station: absent (want \"Main\"); city: \"Stn Main, Whitehorse\" (want \"Whitehorse\")"
+      },
+      {
+        "name": "post office box in French: case postale and succursale",
+        "description": "Post office box in French: case postale and succursale; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "C.P. 6128, succ. Centre-ville, Montréal QC H3C 3J7",
+        "expected": {
+          "secUnitType": "CP",
+          "secUnitNum": "6128",
+          "station": "Centre-ville",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3C 3J7",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
+      },
+      {
+        "name": "post office box in French as Canada Post prints it",
+        "description": "Post office box in French as Canada Post prints it; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "CP 6128 SUCC CENTRE-VILLE\nMONTRÉAL QC  H3C 3J7",
+        "expected": {
+          "secUnitType": "CP",
+          "secUnitNum": "6128",
+          "station": "Centre-ville",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3C 3J7",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
+      },
+      {
+        "name": "post office box case postale and succursale spelled out",
+        "description": "Post office box case postale and succursale spelled out; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "Case postale 6128, succursale Centre-ville, Montréal (Québec) H3C 3J7",
+        "expected": {
+          "secUnitType": "CP",
+          "secUnitNum": "6128",
+          "station": "Centre-ville",
+          "city": "Montréal",
+          "state": "QC",
+          "zip": "H3C 3J7",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
+        "todo": true,
+        "todoNote": "secUnitType: \"Case Postale\" (want \"CP\"); city: \"Montréal (Québec)\" (want \"Montréal\"); state: absent (want \"QC\")"
+      },
+      {
+        "name": "post office box without a station",
+        "description": "Post office box without a station; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "PO Box 1234, Iqaluit NU X0A 0H0",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
+      },
+      {
+        "name": "post office box the word Box alone",
+        "description": "Post office box the word Box alone; English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "Box 1234, Iqaluit NU X0A 0H0",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "1234",
+          "city": "Iqaluit",
+          "state": "NU",
+          "zip": "X0A 0H0",
+          "country": "CA"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
+        "todo": true,
+        "todoNote": "secUnitType: \"Box\" (want \"PO Box\")"
+      },
+      {
+        "name": "post office box at a retail postal outlet (RPO)",
+        "description": "Post office box at a retail postal outlet (RPO); English PO Box and French CP are reported as Canada Post abbreviates them",
+        "input": "PO Box 500 RPO Lakeshore, Toronto ON M8V 1A1",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "500",
+          "city": "Toronto",
+          "state": "ON",
+          "zip": "M8V 1A1",
+          "country": "CA",
+          "rpo": "Lakeshore"
+        },
+        "ignoreCase": ["city", "station"],
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
+      }
+    ]
+  }
+}
