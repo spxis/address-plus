@@ -235,9 +235,7 @@
           "street": "26",
           "type": "St"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "type: absent (want \"St\"); suffix: \"ST\" (want absent)"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 15",
@@ -544,9 +542,7 @@
           "zip": "15705",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "street: \"Dr\" (want \"South\"); type: absent (want \"Dr\"); prefix: \"S\" (want absent)"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 34",
@@ -660,9 +656,7 @@
           "country": "US"
         },
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "ignoreCase": ["street", "city"],
-        "todo": true,
-        "todoNote": "type: \"Crt\" (want \"Ct\")"
+        "ignoreCase": ["street", "city"]
       }
     ]
   }

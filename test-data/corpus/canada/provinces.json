@@ -715,9 +715,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "state: \"PQ\" (want \"QC\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "Que. read as QC",
@@ -732,9 +730,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "state: \"QUE\" (want \"QC\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "Ont. read as ON",
@@ -884,9 +880,7 @@
           "zip": "A1C 5M2",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "state: \"NF\" (want \"NL\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "Nfld. read as NL",
@@ -901,9 +895,7 @@
           "zip": "A1C 5M2",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "state: \"NFLD\" (want \"NL\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "Newfoundland read as NL",

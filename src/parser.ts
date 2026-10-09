@@ -60,6 +60,9 @@ const PREFIX_UNIT_PATTERN = new RegExp(
 // A designator with no number at the end of a street line: group 1 the street, group 2 the designator.
 const STANDALONE_UNIT_AT_END_PATTERN = new RegExp(`^(.*?)\\s+(${STANDALONE_UNIT_KEYWORDS})\\.?\\s*$`, "iu");
 
+// "Hwy 7", "Highway 16", "route 132": a numbered highway, whose direction Canada Post writes after it.
+const CANADIAN_NUMBERED_HIGHWAY = /^(?:hwy|highway|route|rte|autoroute|aut)\.?\s+\d+[a-z]?$/i;
+
 // Puerto Rico writes the type first, in Spanish order: "Calle A", "Ave Ponce de Leon".
 const SPANISH_ORDER_STATE = /^(?:pr|puerto\s+rico)$/i;
 
@@ -211,6 +214,7 @@ function parseStandardAddress(
   // Address part override when inline address found in first comma part
   let addressPartOverride: string | null = null;
   let urbanization = "";
+  let generalDeliveryStation = "";
 
   if (commaParts.length > 1) {
     const firstPart = commaParts[0];
@@ -219,6 +223,7 @@ function parseStandardAddress(
     if (GENERAL_DELIVERY_PATTERNS.STANDARD.test(firstPart)) {
       isGeneralDelivery = true;
       addressStartIndex = 1;
+      generalDeliveryStation = firstPart.match(/\s(?:stn\.?|station|succ\.?|succursale)\s+(.+)$/i)?.[1] ?? "";
     }
 
     // Sophisticated heuristic for facility detection:
@@ -232,7 +237,10 @@ function parseStandardAddress(
       "iu",
     ).test(firstPart.trim());
     const hasHouseNumber = VALIDATION_PATTERNS.HOUSE_NUMBER_START.test(firstPart.trim()) || writtenNumberStreet;
-    const startsWithNumber = VALIDATION_PATTERNS.STARTS_WITH_NUMBER.test(firstPart) || writtenNumberStreet;
+    // A unit before the number ("Unit 4-123 Main St", "#4-123 Main St") starts an address too.
+    const startsWithUnit = PREFIX_UNIT_PATTERN.test(firstPart.trim()) || CA_UNIT_CIVIC_PATTERN.test(firstPart.trim());
+    const startsWithNumber =
+      VALIDATION_PATTERNS.STARTS_WITH_NUMBER.test(firstPart) || writtenNumberStreet || startsWithUnit;
 
     // A Puerto Rico urbanization written above the street ("URB Las Gladiolas") is the locality.
     if (URBANIZATION_PATTERN.test(firstPart)) {
@@ -245,7 +253,7 @@ function parseStandardAddress(
     const endsWithTypeAbbreviation = STREET_TYPE_ABBREVIATION_AT_END.test(firstPart.trim());
 
     // If it starts with a number, it's likely a street address, not a facility
-    if (!startsWithNumber && !hasHouseNumber && !urbanization) {
+    if (!startsWithNumber && !hasHouseNumber && !urbanization && !isGeneralDelivery) {
       // Handle inline address separated by delimiter or parentheses
       const parenInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.PARENTHETICAL);
       const delimInline = firstPart.match(FACILITY_DELIMITER_PATTERNS.DELIMITED);
@@ -345,7 +353,7 @@ function parseStandardAddress(
   // Handle non-comma separated addresses
   if (commaParts.length === 1) {
     // No commas, try to parse city/state/zip from the end
-    let remainingText = address.trim();
+    let remainingText = commaParts[0];
     // Special-case: strip leading General Delivery (with optional comma/space)
     const leadingGeneralDelivery = remainingText.match(BASIC_VALIDATION_PATTERNS.LEADING_GENERAL_DELIVERY);
     if (leadingGeneralDelivery) {
@@ -755,7 +763,10 @@ function parseStandardAddress(
   // 2. Extract prefix directional (if not already extracted with number)
   if (!result.prefix) {
     const prefixMatch = remaining.match(new RegExp(`^(${patterns.directional.slice(1, -1)})\\s+(.*)$`, "i"));
-    if (prefixMatch) {
+    // A directional followed only by a type is the street's name, not a predirectional (Pub 28: "North St").
+    const onlyTypeFollows =
+      !!prefixMatch && new RegExp(`^(?:${patterns.streetType.slice(1, -1)})\\.?$`, "iu").test(prefixMatch[2].trim());
+    if (prefixMatch && !onlyTypeFollows) {
       const normalizedDirectional = DIRECTIONAL_MAP[prefixMatch[1].toLowerCase()];
       result.prefix = normalizedDirectional || prefixMatch[1].toUpperCase();
       remaining = prefixMatch[2];
@@ -766,13 +777,18 @@ function parseStandardAddress(
   if (result.number && result.prefix && !result.street) {
     // Look for pattern: NUMBER DIRECTION at the start of remaining text
     const gridMatch = remaining.match(
-      new RegExp(`^(\\d+)\\s+(${Object.keys(DIRECTIONAL_MAP).join("|")})${WORD_END}(.*)$`, "iu"),
+      new RegExp(`^(\\d+)\\s+(${patterns.directional.slice(1, -1)})${WORD_END}(.*)$`, "iu"),
     );
     if (gridMatch) {
       result.street = gridMatch[1];
       const normalizedDirectional = DIRECTIONAL_MAP[gridMatch[2].toLowerCase()];
       result.suffix = normalizedDirectional || gridMatch[2].toUpperCase();
       remaining = gridMatch[3].trim();
+      // "725 N 300 W #1410": a unit after a grid street has no street name before it.
+      if (UNIT_PART_PATTERN.test(remaining)) {
+        applyUnit(result, remaining, true);
+        remaining = "";
+      }
     }
   }
 
@@ -867,7 +883,12 @@ function parseStandardAddress(
         ROAD_NAME_PATTERNS.ORDINAL_STREET.test(beforeDirectional) || // "1st Street", "42nd Avenue"
         ROAD_NAME_PATTERNS.DIRECTIONAL_STREET.test(beforeDirectional); // "North Street", "West Avenue"
 
-      if (!isPartOfRoadName) {
+      // Canada Post writes a numbered highway's direction as a suffix: "Hwy 7 E".
+      const canadianHighway = canadian && CANADIAN_NUMBERED_HIGHWAY.test(beforeDirectional);
+      // "Est" is the French East only in Canada; elsewhere it is the type Estate ("5074 Willow Est").
+      const estateNotEast = dirRaw.replace(/\.$/, "") === "est" && !canadian;
+
+      if ((!isPartOfRoadName || canadianHighway) && !estateNotEast) {
         remaining = beforeDirectional;
         // Try multiple directional formats: exact match, without dot, with dot
         const normalizedDirectional =
@@ -1013,6 +1034,7 @@ function parseStandardAddress(
   // Mark General Delivery if detected
   if (isGeneralDelivery) {
     result.generalDelivery = true;
+    if (generalDeliveryStation) result.station = generalDeliveryStation;
   }
 
   if (urbanization) result.locality = urbanization;

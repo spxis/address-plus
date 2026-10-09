@@ -33,9 +33,7 @@
           "zip": "K9J 6X3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
-        "todo": true,
-        "todoNote": "street: \"7 E\" (want \"7\"); suffix: absent (want \"E\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
       },
       {
         "name": "5678 Highway 2",
@@ -113,9 +111,7 @@
           "zip": "V2N 2S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
-        "todo": true,
-        "todoNote": "street: \"16 W\" (want \"16\"); suffix: absent (want \"W\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
       }
     ],
     "ruralRoads": [

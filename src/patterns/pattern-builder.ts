@@ -32,8 +32,9 @@ function buildPatterns(): AddressPatterns {
     .map((s) => s.replace(VALIDATION_PATTERNS.REGEX_ESCAPE, "\\$&")) // Escape regex special characters
     .join("|");
 
+  // Keys only: every symbol is also a key, except Canada Post's French NO and SO, which as words are "no"
+  // and "so" and must not be read as directionals.
   const directionals = Object.keys(DIRECTIONAL_MAP)
-    .concat(Object.values(DIRECTIONAL_MAP))
     .filter((v, i, arr) => arr.indexOf(v) === i)
     .sort((a, b) => b.length - a.length)
     .map((d) => d.replace(VALIDATION_PATTERNS.REGEX_ESCAPE, "\\$&")) // Escape regex special characters

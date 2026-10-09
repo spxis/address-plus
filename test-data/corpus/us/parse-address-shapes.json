@@ -327,9 +327,7 @@
           "zip": "84601",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"#\"); secUnitNum: absent (want \"1410\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 23",
@@ -347,9 +345,7 @@
           "zip": "84401",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"B207\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 24",
@@ -363,9 +359,7 @@
           "state": "VT",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "street: \"St\" (want \"East\"); type: absent (want \"St\"); prefix: \"E\" (want absent)"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 25",
@@ -594,9 +588,7 @@
           "secUnitType": "Suite",
           "secUnitNum": "34"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Harlan Ave,\" (want \"Harlan\"); type: absent (want \"Ave\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 41",

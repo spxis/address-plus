@@ -1,10 +1,15 @@
 import { CA_STREET_TYPES, STREET_TYPE_PROPER_CASE, US_STREET_TYPES } from "../constants";
 import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
 
+const USPS_ABBREVIATIONS: Set<string> = new Set(Object.values(US_STREET_TYPES));
+
 // Normalize street type to standard format
 function normalizeStreetType(type: string): string {
   const normalized = type.toLowerCase().replace(UTILITY_PATTERNS.REMOVE_PERIODS, "");
-  const mappedType = US_STREET_TYPES[normalized] || CA_STREET_TYPES[normalized];
+  // A USPS standard abbreviation is already standard: "ct" is Ct, though Canada Post would write Crt.
+  const isUspsAbbreviation = USPS_ABBREVIATIONS.has(normalized);
+  const mappedType =
+    US_STREET_TYPES[normalized] || (isUspsAbbreviation ? normalized : undefined) || CA_STREET_TYPES[normalized];
 
   if (mappedType) {
     // Use proper case mapping from data

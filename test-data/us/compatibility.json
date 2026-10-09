@@ -86,10 +86,10 @@
         "input": "100 South St, Philadelphia, PA",
         "expected": {
           "number": "100",
-          "prefix": "S",
-          "street": "St",
+          "street": "South",
           "city": "Philadelphia",
-          "state": "PA"
+          "state": "PA",
+          "type": "St"
         },
         "description": "Directional prefix where street name is same as direction"
       },

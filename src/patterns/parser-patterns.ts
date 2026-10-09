@@ -40,7 +40,7 @@ const UTILITY_PATTERNS = {
 // Road name validation patterns - used to prevent false directional extraction
 const ROAD_NAME_PATTERNS = {
   // Pattern to detect road names with numbers like "County Road 250 East"
-  NUMBERED_ROAD: /\b(road|rd|route|rte|highway|hwy|street|st|avenue|ave)\s+\w+$/i,
+  NUMBERED_ROAD: /\b(road|rd|route|rte|highway|hwy|street|st|avenue|ave)\s+\d\w*$/i,
 
   // Pattern to detect ordinal street names like "1st Street North West"
   ORDINAL_STREET: /\b\d+(st|nd|rd|th)\s+(street|st|avenue|ave|road|rd)$/i,

@@ -50,23 +50,23 @@ const DIRECTIONAL_MAP: Record<string, string> = {
   est: "E",
   nord: "N",
   "nord-est": "NE",
-  "nord-ouest": "NW",
+  "nord-ouest": "NO", // Canada Post's French symbols: NO and SO, not NW and SW
   // For French Canadian usage, use "O" (Ouest)
   ouest: "O",
   o: "O", // French abbreviation for ouest
   sud: "S",
   "sud-est": "SE",
-  "sud-ouest": "SW",
+  "sud-ouest": "SO",
   // French dotted forms (different from English)
   "o.": "O", // Ouest
   // Variants with hyphens and dots like "N.-O." (Nord-Ouest) and "S.-E."
-  "n.-o.": "NW",
+  "n.-o.": "NO",
   "n.-e.": "NE",
-  "s.-o.": "SW",
+  "s.-o.": "SO",
   "s.-e.": "SE",
-  "N.-O.": "NW",
+  "N.-O.": "NO",
   "N.-E.": "NE",
-  "S.-O.": "SW",
+  "S.-O.": "SO",
   "S.-E.": "SE",
 };
 

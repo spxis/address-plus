@@ -51,8 +51,10 @@ const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
   // Manitoba
   man: "MB",
 
-  // Newfoundland and Labrador
+  // Newfoundland and Labrador (NF and Nfld. are the codes used before 2002)
   newfoundland: "NL",
+  nf: "NL",
+  nfld: "NL",
   labrador: "NL",
   "terre-neuve": "NL",
   "terre neuve": "NL",
@@ -79,6 +81,10 @@ const CA_PROVINCE_ALTERNATIVES: Record<string, string> = {
   "île du prince édouard": "PE", // without hyphens
   "ile du prince édouard": "PE", // without circumflex or hyphens
   îpé: "PE",
+
+  // Quebec (PQ was its code before 1990; Que. is the old abbreviation)
+  pq: "QC",
+  que: "QC",
 
   // Saskatchewan
   sask: "SK",

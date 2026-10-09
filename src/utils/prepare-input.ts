@@ -135,6 +135,12 @@ function prepareInput(address: string): PreparedInput {
     return ` ${code}`;
   });
 
+  // "North West" written as two words is the one directional Northwest.
+  text = text.replace(
+    /(?<![\p{L}\p{N}])(north|south)\s+(east|west)(?![\p{L}\p{N}])/giu,
+    (_whole, first: string, second: string) => `${first}${second.toLowerCase()}`,
+  );
+
   // "D.C.", "N.Y.": a state code written with periods.
   text = text.replace(DOTTED_CODE, (whole: string, first: string, second: string) => {
     const code = `${first}${second}`.toUpperCase();

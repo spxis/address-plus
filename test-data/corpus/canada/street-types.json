@@ -242,9 +242,7 @@
           "zip": "P3A 5P3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "street: \"Algonquin Circuit\" (want \"Algonquin\"); type: absent (want \"Circt\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Close",
@@ -379,9 +377,7 @@
           "zip": "T5J 2R7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "street: \"Cedarvale Cul-de-sac\" (want \"Cedarvale\"); type: absent (want \"Cds\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Dale",
@@ -426,9 +422,7 @@
           "zip": "B3J 3A5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "street: \"Huron Diversion\" (want \"Huron\"); type: absent (want \"Divers\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Downs",
@@ -728,9 +722,7 @@
           "zip": "B3J 3A5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Harbr\" (want \"Hbr\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Heath",
@@ -1857,9 +1849,7 @@
           "zip": "E1C 1E8",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Crnrs\" (want \"Cors\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Court as CRT",
@@ -1904,9 +1894,7 @@
           "zip": "T2P 2M5",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Cross\" (want \"Xing\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Cul-de-sac as CDS",
@@ -2011,9 +1999,7 @@
           "zip": "N6A 4L9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Exten\" (want \"Ext\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Freeway as FWY",
@@ -2118,9 +2104,7 @@
           "zip": "V8W 1P6",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Landng\" (want \"Lndg\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Limits as LMTS",
@@ -2195,9 +2179,7 @@
           "zip": "N6A 4L9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Pk\" (want \"Park\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Parkway as PKY",
@@ -2482,9 +2464,7 @@
           "zip": "E3B 1E9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: \"Villge\" (want \"Vlg\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       }
     ],
     "french": [
@@ -2576,9 +2556,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: \"Cres\" (want \"Crois\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "impasse Champlain",
@@ -2713,9 +2691,7 @@
           "zip": "G9A 5H3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: \"Terr\" (want \"Tsse\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "carré Sainte-Catherine",
@@ -2730,9 +2706,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Car\"); street: \"carré Sainte-Catherine\" (want \"Sainte-Catherine\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "carrefour Champlain",
@@ -2762,9 +2736,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: \"Cir\" (want \"Cercle\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "cours des Pins",
@@ -2779,9 +2751,7 @@
           "zip": "J1H 4A7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Cours\"); street: \"cours des Pins\" (want \"des Pins\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "rond-point Notre-Dame",
@@ -2796,9 +2766,7 @@
           "zip": "G9A 5H3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Rdpt\"); street: \"rond-point Notre-Dame\" (want \"Notre-Dame\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "voie Principale",
@@ -2828,9 +2796,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Allée\"); street: \"allée Saint-Laurent\" (want \"Saint-Laurent\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "autoroute des Érables",
@@ -2875,9 +2841,7 @@
           "zip": "G9A 5H3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Quai\"); street: \"quai de la Montagne\" (want \"de la Montagne\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "parc Sainte-Catherine",
@@ -2892,9 +2856,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Parc\"); street: \"parc Sainte-Catherine\" (want \"Sainte-Catherine\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "pointe Champlain",
@@ -2909,9 +2871,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Pte\"); street: \"pointe Champlain\" (want \"Champlain\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "île Laurier",
@@ -2926,9 +2886,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Île\"); street: \"île Laurier\" (want \"Laurier\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "plateau des Pins",

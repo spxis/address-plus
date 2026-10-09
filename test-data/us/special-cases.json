@@ -257,10 +257,14 @@
         "input": "123 1st Street North West, Department 45, Bismarck, ND 58501",
         "expected": {
           "number": "123",
-          "street": "1st Street North West",
+          "street": "1st",
           "city": "Bismarck",
           "state": "ND",
-          "zip": "58501"
+          "zip": "58501",
+          "type": "St",
+          "suffix": "NW",
+          "secUnitType": "Department",
+          "secUnitNum": "45"
         },
         "description": "Ordinal street with spelled-out directional and department"
       },

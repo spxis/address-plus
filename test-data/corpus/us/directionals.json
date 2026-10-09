@@ -859,9 +859,7 @@
           "zip": "80202",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
-        "todo": true,
-        "todoNote": "street: \"St\" (want \"North\"); type: absent (want \"St\"); prefix: \"N\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
       },
       {
         "name": "South Blvd is a street name",
@@ -876,9 +874,7 @@
           "zip": "02108",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
-        "todo": true,
-        "todoNote": "street: \"Blvd\" (want \"South\"); type: absent (want \"Blvd\"); prefix: \"S\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
       },
       {
         "name": "East Ave is a street name",
@@ -893,9 +889,7 @@
           "zip": "98101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
-        "todo": true,
-        "todoNote": "street: \"Ave\" (want \"East\"); type: absent (want \"Ave\"); prefix: \"E\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
       },
       {
         "name": "West Rd is a street name",
@@ -910,9 +904,7 @@
           "zip": "85004",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
-        "todo": true,
-        "todoNote": "street: \"Rd\" (want \"West\"); type: absent (want \"Rd\"); prefix: \"W\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
       },
       {
         "name": "Northwest Hwy is a street name",
@@ -927,9 +919,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
-        "todo": true,
-        "todoNote": "street: \"Hwy\" (want \"Northwest\"); type: absent (want \"Hwy\"); prefix: \"NW\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
       },
       {
         "name": "Southeast Pkwy is a street name",
@@ -944,9 +934,7 @@
           "zip": "43215",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name",
-        "todo": true,
-        "todoNote": "street: \"Pkwy\" (want \"Southeast\"); type: absent (want \"Pkwy\"); prefix: \"SE\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), directionals as part of the primary name"
       },
       {
         "name": "E North Ave",

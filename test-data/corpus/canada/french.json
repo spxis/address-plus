@@ -434,9 +434,7 @@
           "zip": "K1P 1J1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses",
-        "todo": true,
-        "todoNote": "street: \"Laurier Ouest\" (want \"Laurier\"); suffix: absent (want \"O\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French addresses"
       },
       {
         "name": "100 rue Queen, Moncton (Nouveau-Brunswick) E1C 1E8",
@@ -580,9 +578,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals",
-        "todo": true,
-        "todoNote": "suffix: \"NW\" (want \"NO\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
       },
       {
         "name": "rue Principale Sud-Est",
@@ -614,9 +610,7 @@
           "zip": "J8X 3Y9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals",
-        "todo": true,
-        "todoNote": "suffix: \"SW\" (want \"SO\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French directionals"
       },
       {
         "name": "rue Principale E.",

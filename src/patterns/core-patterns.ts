@@ -18,7 +18,8 @@ const VALIDATION_PATTERNS = {
 
 // General delivery address patterns
 const GENERAL_DELIVERY_PATTERNS = {
-  STANDARD: /^general\s+delivery$/i,
+  // General delivery in English, Canada Post's GD and its French poste restante, with an optional station.
+  STANDARD: /^(?:general\s+delivery|gd|poste\s+restante)(?:\s+(?:stn\.?|station|succ\.?|succursale)\s+\S.*)?$/i,
   WITH_CITY: /^\s*general\s+delivery\s+([^,]+?)\s+([A-Za-z]{2})\b/i,
 } as const;
 

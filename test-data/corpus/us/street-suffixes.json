@@ -3619,9 +3619,7 @@
           "zip": "99501",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1",
-        "todo": true,
-        "todoNote": "type: \"Crt\" (want \"Ct\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
         "name": "Courts as CTS",
@@ -3861,9 +3859,7 @@
           "zip": "30303",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1",
-        "todo": true,
-        "todoNote": "type: absent (want \"Est\"); suffix: \"E\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
         "name": "Estates as ESTS",

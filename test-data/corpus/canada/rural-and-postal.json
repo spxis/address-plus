@@ -218,9 +218,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery",
-        "todo": true,
-        "todoNote": "generalDelivery: absent (want true)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery"
       },
       {
         "name": "general delivery in French, poste restante",
@@ -235,9 +233,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery",
-        "todo": true,
-        "todoNote": "generalDelivery: absent (want true)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, general delivery"
       }
     ],
     "postOfficeBox": [
