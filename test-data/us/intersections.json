@@ -5,117 +5,117 @@
   "tests": {
     "intersections": [
       {
-        "input": "Mission & Valencia San Francisco CA",
+        "input": "Larch & Bellamy Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": ""
         },
         "description": "Basic intersection with ampersand separator"
       },
       {
-        "input": "Mission & Valencia, San Francisco CA",
+        "input": "Larch & Bellamy, Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": ""
         },
         "description": "Intersection with ampersand and comma before city"
       },
       {
-        "input": "Mission St and Valencia St San Francisco CA",
+        "input": "Larch St and Bellamy St Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "St",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "St"
         },
         "description": "Intersection with 'and' connector and city location"
       },
       {
-        "input": "Mission St and Valencia St",
+        "input": "Larch St and Bellamy St",
         "expected": {
-          "street1": "Mission",
+          "street1": "Larch",
           "type1": "St",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "St"
         },
         "description": "Intersection with 'and' connector - no location"
       },
       {
-        "input": "Mission St & Valencia St San Francisco CA",
+        "input": "Larch St & Bellamy St Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "St",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "St"
         },
         "description": "Intersection with individual street types"
       },
       {
-        "input": "Mission and Valencia Sts San Francisco CA",
+        "input": "Larch and Bellamy Sts Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "Sts"
         },
         "description": "Intersection with plural 'Sts' for second street"
       },
       {
-        "input": "Mission & Valencia Sts. San Francisco CA",
+        "input": "Larch & Bellamy Sts. Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "Sts"
         },
         "description": "Intersection with abbreviated 'Sts.' and period"
       },
       {
-        "input": "Mission and Valencia Sts.",
+        "input": "Larch and Bellamy Sts.",
         "expected": {
-          "street1": "Mission",
+          "street1": "Larch",
           "type1": "",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "Sts"
         },
         "description": "Intersection without location - 'and' connector with period"
       },
       {
-        "input": "Mission & Valencia Streets San Francisco CA",
+        "input": "Larch & Bellamy Streets Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "Sts"
         },
         "description": "Intersection with full word 'Streets'"
       },
       {
-        "input": "Mission Avenue and Valencia Street San Francisco CA",
+        "input": "Larch Avenue and Bellamy Street Baton Rouge LA",
         "expected": {
-          "city": "San Francisco",
-          "state": "CA",
-          "street1": "Mission",
+          "city": "Baton Rouge",
+          "state": "LA",
+          "street1": "Larch",
           "type1": "Ave",
-          "street2": "Valencia",
+          "street2": "Bellamy",
           "type2": "St"
         },
         "description": "Intersection with different street types for each street"

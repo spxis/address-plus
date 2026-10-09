@@ -108,14 +108,110 @@ Where the library has a documented convention, the corpus follows it:
 | --- | --- | --- |
 | USPS Publication 28, Postal Addressing Standards | US government work, public domain | Appendix B (state and territory codes), C1 (street suffixes), C2 (secondary unit designators), and the rules for directionals, numbers, PO boxes, PMB, rural and highway contract routes, general delivery, military and Puerto Rico addresses. Inputs are constructed. |
 | Canada Post Addressing Guidelines | Rules described in our own words; nothing copied | Street types in both languages, unit and civic number order, French addresses, postal codes, province symbols, rural routes, site and compartment, general delivery, PO boxes and stations. Every input is constructed. |
-| parse-address `test.js` (github.com/hassansin/parse-address) | ISC | All 65 street-address cases, converted to this library's field names (`us/parse-address-suite.json`). Six are adjusted where address-plus departs from parse-address on purpose, each saying why in its description. The eight intersection cases are left out. |
+| parse-address `test.js` (github.com/hassansin/parse-address) | ISC | The SHAPES of its 65 street-address cases, each written again as an original address (`us/parse-address-shapes.json`), and of its intersection cases (`us/intersections.json` in `test-data/`). No input is copied. Six cases keep a note where address-plus departs from parse-address on purpose, each saying why in its description. |
+| Geo::StreetAddress::US `t/01_parser.t` (metacpan.org) | Artistic or GPL | Its shapes only, read to check that every one has an original case here (see "Shapes from parse-address and Geo::StreetAddress::US"); five shapes only it tests became `shape 66` to `shape 70`. No input is copied. |
 | libpostal `test/test_parser.c` (github.com/openvenues/libpostal) | MIT | All 40 US street addresses and the 3 Canadian ones, their labelled components converted to this library's fields. libpostal's fixtures hold only these; its large training data comes from OpenStreetMap (ODbL) and OpenAddresses and is not used. |
 
-One caution on parse-address: it is a port of the Perl module Geo::StreetAddress::US, and many of its
-test inputs trace back to that module, which Perl distributes under the Artistic License or the GPL at the
-user's choice. The cases are short factual address strings and are used here under parse-address's ISC
-licence, but if the GPL is to be ruled out entirely, `us/parse-address-suite.json` is the one file to
-review.
+The parity test (below) still runs the `parse-address` npm package live, as a dev dependency. That is fine: it is
+ISC licensed, and the test only reads what the package returns for our inputs; none of its test inputs are carried.
+
+## Shapes from parse-address and Geo::StreetAddress::US
+
+The parse-address package's own test suite is the compatibility bar for this library, and many of its cases trace
+back to the Perl module Geo::StreetAddress::US, which is distributed under the Artistic License or the GPL. No
+input of that lineage is carried here. Only the shapes are taken: what each case exercises (a glued grid number, a
+unit with no commas, a type spelled out, a ZIP+4 with a space) was listed, and every shape then got an original
+input, with its own street names, house numbers and towns, in `us/parse-address-shapes.json`. The table says which
+suite exercises each shape and which of our cases covers it.
+
+parse-address's suite has 75 cases (65 street addresses and 10 intersections), which come to 70 distinct shapes.
+Geo::StreetAddress::US's suite has 46 cases (38 street addresses and 8 intersections) and 5 inputs that must not
+parse, which come to 51 shapes. Together they are 75 distinct shapes, and every one has at least one
+original case here.
+Its option that drops a redundant street type (`County Road 43`) is a setting, not a shape of input; the inputs it
+is tested on are shapes 37 and 38.
+
+| Shape | parse-address | Geo::StreetAddress::US | Our case(s) |
+| --- | --- | --- | --- |
+| Number, street, highway type, ZIP only (no city, state or commas) | yes | yes | shape 01 |
+| The same with a comma before the ZIP | yes | yes | shape 02 |
+| Abbreviated suffix directional, comma, ZIP only | yes | yes | shape 03 |
+| Highway and suffix directional spelled out, comma, ZIP only | yes | yes | shape 04 |
+| Prefix directional, full highway word, city and state, no ZIP | yes | yes | shape 05 |
+| The same with a Suite unit between commas | yes | yes | shape 06 |
+| Unit with no commas around it, comma only before the state | yes | yes | shape 07 |
+| Extra comma between the state and the ZIP | yes | yes | shape 08 |
+| No punctuation at all: prefix directional, city, state, ZIP | yes | yes | shape 09 |
+| Suffix directional, no commas, city and state | yes | yes | shape 10 |
+| Suffix directional followed by a comma, city and state | yes | yes | shape 11 |
+| Comma, then a lone directional letter joined to the city | yes | yes | shape 12 |
+| Comma, then a full direction word joined to the city | yes | yes | shape 13 |
+| Abbreviated type, city and state, no commas | yes | yes | shape 14 |
+| Street with no type, two-word city | yes | yes | shape 15 |
+| Two-word street name, commas, city, state, ZIP | yes | yes | shape 16 |
+| Two-word street name, no commas | yes | yes | shape 17 |
+| A route named State Highway with a number | yes | yes | shape 18 |
+| Type abbreviated with a period (Ave.) | yes | yes | shape 19 |
+| Type spelled out (Avenue) | yes | yes | shape 20 |
+| Grid address with directionals glued to the numbers (48S 400E) | yes | yes | shape 21 |
+| Grid address with spaced directionals and a pound-sign unit | yes | yes | shape 22 |
+| Grid address with an Apt unit of letter and digits | yes | yes | shape 23 |
+| A direction word as the street name | yes | yes | shape 24 |
+| Prefix directional written with periods (S.E.) | yes | yes | shape 25 |
+| Fractional house number | yes | yes | shape 26 |
+| Lowercase lone letter after the comma, joined to the city | yes | yes | shape 27 |
+| State spelled out in full, no comma before the city | yes | yes | shape 28 |
+| ZIP+4 with a hyphen | yes | yes | shape 29 |
+| ZIP+4 run together as nine digits | yes | yes | shape 30 |
+| ZIP+4 with a space | yes |  | shape 31 |
+| No house number, ZIP+4 with a space | yes |  | shape 32 |
+| A unit word with no number (lobby) before the ZIP | yes | yes | shape 33 |
+| The same wrapped in parentheses | yes | yes | shape 34 |
+| Pound-sign unit written before the house number | yes | yes | shape 35 |
+| Unit designator glued to its number and written first (lt42) | yes | yes | shape 36 |
+| Numbered county road | yes | yes | shape 37 |
+| Numbered county highway in capitals with a letter glued to the number (60E) | yes | yes | shape 38 |
+| House number, directional with a period, street only | yes | yes | shape 39 |
+| Whole address in single quotes, comma before an abbreviated suite | yes | yes | shape 40 |
+| Row as the street type | yes |  | shape 41 |
+| Post office box spelled out in words | yes |  | shape 42 |
+| Post office box with periods | yes |  | shape 43 |
+| Post office box run together (POBox) | yes |  | shape 44 |
+| Wisconsin grid number with commas | yes |  | shape 45 |
+| Wisconsin grid number without commas | yes |  | shape 46 |
+| Wisconsin grid number in lowercase | yes |  | shape 47 |
+| Street type Common or Cmn (full word and abbreviation), two-word street name | yes |  | shape 48, shape 49 |
+| Street type Commons or Cmns (plural, full word and abbreviation) | yes |  | shape 50, shape 51 |
+| Street type Crossroad or Xrd (full word and abbreviation) | yes |  | shape 52, shape 53 |
+| Street type Crossroads or Xrds (plural, full word and abbreviation) | yes |  | shape 54, shape 55 |
+| Street type Fall (singular) | yes |  | shape 56 |
+| Street type Falls or Fls (full word and abbreviation) | yes |  | shape 57, shape 58 |
+| Street type Land | yes |  | shape 59 |
+| Two-word street name with Mall as the type | yes |  | shape 60 |
+| Two-word street name with Mews as the type | yes |  | shape 61 |
+| Pass as the type, state spelled out as two words | yes |  | shape 62 |
+| Rue as an English street type | yes |  | shape 63 |
+| Run as the street type | yes |  | shape 64 |
+| Wall as the street type | yes |  | shape 65 |
+| A town but no state and no ZIP (no state may be invented) |  | yes | shape 66 |
+| Two capital letters that are not a state code (no state may be taken) |  | yes | shape 67 |
+| No house number, street and a plain five-digit ZIP |  | yes | shape 68 |
+| House number led by a letter (E412) |  | yes | shape 69 |
+| House number with a directional letter glued after it (412E) |  | yes | shape 70 |
+| Ampersand, no types, no comma before the city (intersection) | yes | yes | intersections.json: `Larch & Bellamy Baton Rouge LA` |
+| Ampersand, no types, comma before the city (intersection) | yes | yes | intersections.json: `Larch & Bellamy, Baton Rouge LA` |
+| "and" between two typed streets, city and state (intersection) | yes | yes | intersections.json: `Larch St and Bellamy St Baton Rouge LA` |
+| "and" between two typed streets, no city or state (intersection) | yes |  | intersections.json: `Larch St and Bellamy St` |
+| Ampersand between two typed streets, city and state (intersection) | yes | yes | intersections.json: `Larch St & Bellamy St Baton Rouge LA` |
+| One plural type shared by both streets (Sts) (intersection) | yes | yes | intersections.json: `Larch and Bellamy Sts Baton Rouge LA` |
+| Shared plural type with a period (Sts.), ampersand (intersection) | yes | yes | intersections.json: `Larch & Bellamy Sts. Baton Rouge LA` |
+| Shared plural type with a period, no city or state (intersection) | yes |  | intersections.json: `Larch and Bellamy Sts.` |
+| Shared plural type spelled out (Streets) (intersection) | yes | yes | intersections.json: `Larch & Bellamy Streets Baton Rouge LA` |
+| Two different full types (Avenue and Street) (intersection) | yes | yes | intersections.json: `Larch Avenue and Bellamy Street Baton Rouge LA` |
+
+Shape cases are in `us/parse-address-shapes.json` (names like `shape 07`); the intersection shapes are in
+`test-data/us/intersections.json`, because the corpus suites run `parseLocation` only and `parseIntersection` has its
+own suite.
 
 ## Gap analysis: United States
 
@@ -164,7 +260,7 @@ canada and todo) that show the shape.
 | No commas, extra spaces | some | `formatting` spacing | 16 | 4 |
 | Multiline (LF and CRLF), unit on its own line | 4 | `formatting` multiline | 19 | 1 |
 | Trailing country (USA, United States, U.S.A.) | 0 | `formatting` trailingCountry | 12 | 11 |
-| parse-address's own suite | 23 in compatibility.json | `parse-address-suite` | 65 | 9 |
+| parse-address's and Geo::StreetAddress::US's shapes, original inputs | 23 in compatibility.json | `parse-address-shapes` | 70 | 8 |
 | libpostal's US fixtures | 0 | `libpostal-fixtures` | 40 | 23 |
 | Inputs that are not addresses | 7 | `null-cases` | 9 | 1 |
 
@@ -227,7 +323,7 @@ same unit). The figures are in `test-data/corpus/parity.json` and in the test's 
 The 283 field values parse-address gets right and address-plus does not are the drop-in regressions. The
 largest groups: secondary units DEPT, HNGR, KEY, PIER, SLIP, SPC, STOP and TRLR, and units after a comma
 (69 fields); a trailing country, semicolons and a unit on the line above (43); libpostal's venue-name and
-floor-first lines (29); the parse-address suite itself (23, listed under its causes below); directional
+floor-first lines (29); the parse-address shapes (23 at the time, listed under their causes below); directional
 words used as the street name (12); PMB, POB and PO Box ZIP+4 (13).
 
 ## What the parser gets wrong today

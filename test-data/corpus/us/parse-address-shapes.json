@@ -1,0 +1,1050 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "parse-address Shapes",
+  "description": "Address shapes taken from parse-address's test suite (github.com/hassansin/parse-address, ISC licence), whose cases largely descend from the Perl module Geo::StreetAddress::US, plus the few shapes only that module's suite exercises. Only the shapes are taken: every input here is original, written for this corpus, with its own street names, numbers and towns. address-plus is a drop-in for parse-address, so these shapes are the compatibility bar. The intersection shapes are left out; parseIntersection has its own suite.",
+  "tests": {
+    "parseAddress": [
+      {
+        "name": "shape 01",
+        "description": "Number, street, abbreviated highway, ZIP only; no commas",
+        "input": "2418 Alder Hwy 97321",
+        "expected": {
+          "number": "2418",
+          "street": "Alder",
+          "type": "Hwy",
+          "zip": "97321",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 02",
+        "description": "Number, street, abbreviated highway, comma, ZIP only",
+        "input": "2418 Alder Hwy, 97321",
+        "expected": {
+          "number": "2418",
+          "street": "Alder",
+          "type": "Hwy",
+          "zip": "97321",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 03",
+        "description": "Abbreviated suffix directional after the highway, comma, ZIP only",
+        "input": "2418 Alder Hwy E, 97321",
+        "expected": {
+          "number": "2418",
+          "street": "Alder",
+          "type": "Hwy",
+          "suffix": "E",
+          "zip": "97321",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 04",
+        "description": "Full highway word and full suffix directional, comma, ZIP only",
+        "input": "2418 Alder Highway East, 97321",
+        "expected": {
+          "number": "2418",
+          "street": "Alder",
+          "type": "Hwy",
+          "suffix": "E",
+          "zip": "97321",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 05",
+        "description": "Prefix directional, full highway word, city and state, no ZIP",
+        "input": "3307 W Pinecrest Highway, Wenatchee, WA",
+        "expected": {
+          "number": "3307",
+          "prefix": "W",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "city": "Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 06",
+        "description": "Prefix directional, full highway word, Suite unit between commas, city and state",
+        "input": "3307 W Pinecrest Highway, Suite 210, Wenatchee, WA",
+        "expected": {
+          "number": "3307",
+          "prefix": "W",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "secUnitType": "Suite",
+          "secUnitNum": "210",
+          "city": "Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 07",
+        "description": "Suite unit with no commas around it, comma only before the state",
+        "input": "3307 W Pinecrest Hwy Suite 210 Wenatchee, WA",
+        "expected": {
+          "number": "3307",
+          "prefix": "W",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "secUnitType": "Suite",
+          "secUnitNum": "210",
+          "city": "Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Pinecrest Hwy Suite 210 Wenatchee\" (want \"Pinecrest\"); type: absent (want \"Hwy\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"210\"); city: absent (want \"Wenatchee\")"
+      },
+      {
+        "name": "shape 08",
+        "description": "Comma between the state and the ZIP",
+        "input": "3307 W Pinecrest Highway, Wenatchee, WA, 98801",
+        "expected": {
+          "number": "3307",
+          "prefix": "W",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "city": "Wenatchee",
+          "state": "WA",
+          "zip": "98801",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "city: \"WA\" (want \"Wenatchee\"); state: absent (want \"WA\")"
+      },
+      {
+        "name": "shape 09",
+        "description": "No punctuation at all, prefix directional, city, state and ZIP",
+        "input": "3307 W Pinecrest Highway Wenatchee WA 98801",
+        "expected": {
+          "number": "3307",
+          "prefix": "W",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "city": "Wenatchee",
+          "state": "WA",
+          "zip": "98801",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 10",
+        "description": "Suffix directional, no commas, city and state",
+        "input": "3307 Pinecrest Hwy W Wenatchee WA",
+        "expected": {
+          "number": "3307",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "suffix": "W",
+          "city": "Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 11",
+        "description": "Suffix directional then a comma, city and state",
+        "input": "3307 Pinecrest Hwy W, Wenatchee WA",
+        "expected": {
+          "number": "3307",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "suffix": "W",
+          "city": "Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 12",
+        "description": "adjusted: a lone letter after the comma belongs to the city; address-plus leaves the city as written, where parse-address expands it to a full direction word",
+        "input": "3307 Pinecrest Hwy, W Wenatchee WA",
+        "expected": {
+          "number": "3307",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "city": "W Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 13",
+        "description": "A full direction word after the comma belongs to the city",
+        "input": "3307 Pinecrest Hwy, West Wenatchee WA",
+        "expected": {
+          "number": "3307",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "city": "West Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 14",
+        "description": "Abbreviated highway, city and state with no commas",
+        "input": "3307 Pinecrest Hwy Wenatchee WA",
+        "expected": {
+          "number": "3307",
+          "street": "Pinecrest",
+          "type": "Hwy",
+          "city": "Wenatchee",
+          "state": "WA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 15",
+        "description": "Street with no type, two-word city, state, no commas",
+        "input": "930 Esplanade Santa Barbara CA",
+        "expected": {
+          "number": "930",
+          "street": "Esplanade",
+          "city": "Santa Barbara",
+          "state": "CA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 16",
+        "description": "Two-word street name, abbreviated road, commas, city, state and ZIP",
+        "input": "5521 Tin Mill Rd, Lancaster, PA 17601",
+        "expected": {
+          "number": "5521",
+          "street": "Tin Mill",
+          "type": "Rd",
+          "city": "Lancaster",
+          "state": "PA",
+          "zip": "17601",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 17",
+        "description": "Two-word street name, abbreviated road, no commas",
+        "input": "5521 Tin Mill Rd Lancaster PA 17601",
+        "expected": {
+          "number": "5521",
+          "street": "Tin Mill",
+          "type": "Rd",
+          "city": "Lancaster",
+          "state": "PA",
+          "zip": "17601",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 18",
+        "description": "adjusted: a route named State Highway and numbered keeps its number in the street; address-plus abbreviates the road word and reports no type",
+        "input": "2207 State Highway 44 Gardner KS 66030",
+        "expected": {
+          "number": "2207",
+          "street": "State Hwy 44",
+          "city": "Gardner",
+          "state": "KS",
+          "zip": "66030",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 19",
+        "description": "Avenue abbreviated with a period, no commas, city and state",
+        "input": "700 Magnolia Ave. Richmond VA",
+        "expected": {
+          "number": "700",
+          "street": "Magnolia",
+          "type": "Ave",
+          "city": "Richmond",
+          "state": "VA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 20",
+        "description": "Avenue spelled out, no commas, city and state",
+        "input": "700 Magnolia Avenue Richmond VA",
+        "expected": {
+          "number": "700",
+          "street": "Magnolia",
+          "type": "Ave",
+          "city": "Richmond",
+          "state": "VA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 21",
+        "description": "Grid address with each directional glued to its number, comma, city and state",
+        "input": "62N 300W, Provo UT",
+        "expected": {
+          "number": "62",
+          "prefix": "N",
+          "street": "300",
+          "suffix": "W",
+          "city": "Provo",
+          "state": "UT",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 22",
+        "description": "Grid address with spaced directionals, a pound-sign unit, city, state and ZIP",
+        "input": "725 N 300 W #1410, Provo UT 84601",
+        "expected": {
+          "number": "725",
+          "prefix": "N",
+          "street": "300",
+          "suffix": "W",
+          "secUnitType": "#",
+          "secUnitNum": "1410",
+          "city": "Provo",
+          "state": "UT",
+          "zip": "84601",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"#\"); secUnitNum: absent (want \"1410\")"
+      },
+      {
+        "name": "shape 23",
+        "description": "Grid address, Apt unit with a letter and digits, comma between city and state",
+        "input": "3550 W 1900 S Apt B207 Ogden, UT 84401",
+        "expected": {
+          "number": "3550",
+          "prefix": "W",
+          "street": "1900",
+          "suffix": "S",
+          "secUnitType": "Apartment",
+          "secUnitNum": "B207",
+          "city": "Ogden",
+          "state": "UT",
+          "zip": "84401",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"B207\"); city: absent (want \"Ogden\")"
+      },
+      {
+        "name": "shape 24",
+        "description": "A direction word is the street name, followed by a street type",
+        "input": "250 East St, Burlington, VT",
+        "expected": {
+          "number": "250",
+          "street": "East",
+          "type": "St",
+          "city": "Burlington",
+          "state": "VT",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "street: \"St\" (want \"East\"); type: absent (want \"St\"); prefix: \"E\" (want absent)"
+      },
+      {
+        "name": "shape 25",
+        "description": "Two-letter prefix directional with periods, abbreviated boulevard, commas",
+        "input": "520 N.W. Ridgeview Blvd, Eugene, OR",
+        "expected": {
+          "number": "520",
+          "prefix": "NW",
+          "street": "Ridgeview",
+          "type": "Blvd",
+          "city": "Eugene",
+          "state": "OR",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 26",
+        "description": "adjusted: address-plus keeps the fraction with the number (README, Address Components), where parse-address drops it",
+        "input": "5920 3/4 Orchard Road, Fresno, CA",
+        "expected": {
+          "number": "5920 3/4",
+          "street": "Orchard",
+          "type": "Rd",
+          "city": "Fresno",
+          "state": "CA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 27",
+        "description": "adjusted: a lowercase lone letter after the comma belongs to the city; address-plus leaves the city as written, where parse-address expands it to a full direction word",
+        "input": "9 Harbor St, w Newport RI",
+        "expected": {
+          "number": "9",
+          "street": "Harbor",
+          "type": "St",
+          "city": "w Newport",
+          "state": "RI",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 28",
+        "description": "No street type, no comma before the city, state spelled out in full",
+        "input": "47 Cedar Ithaca, New York",
+        "expected": {
+          "number": "47",
+          "street": "Cedar",
+          "city": "Ithaca",
+          "state": "NY",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Cedar Ithaca\" (want \"Cedar\"); city: absent (want \"Ithaca\")"
+      },
+      {
+        "name": "shape 29",
+        "description": "ZIP+4 with a hyphen, nothing else after the street",
+        "input": "815 E Lakeside Dr 60614-2297",
+        "expected": {
+          "number": "815",
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "zip": "60614",
+          "plus4": "2297",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 30",
+        "description": "ZIP+4 run together as nine digits",
+        "input": "815 E Lakeside Dr 606142297",
+        "expected": {
+          "number": "815",
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "zip": "60614",
+          "plus4": "2297",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 31",
+        "description": "ZIP+4 with a space between the two parts",
+        "input": "815 E Lakeside Dr 60614 2297",
+        "expected": {
+          "number": "815",
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "zip": "60614",
+          "plus4": "2297",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 32",
+        "description": "No house number, prefix directional, ZIP+4 with a space",
+        "input": "E Lakeside Dr 60614 2297",
+        "expected": {
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "zip": "60614",
+          "plus4": "2297",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 33",
+        "description": "A unit word with no number (lobby) before the ZIP",
+        "input": "815 E Lakeside Dr lobby 60614",
+        "expected": {
+          "number": "815",
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "secUnitType": "Lobby",
+          "zip": "60614",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 34",
+        "description": "The whole address wrapped in parentheses, with a number-less unit word",
+        "input": "(815 E Lakeside Dr lobby 60614)",
+        "expected": {
+          "number": "815",
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "secUnitType": "Lobby",
+          "zip": "60614",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 35",
+        "description": "Pound-sign unit written before the house number",
+        "input": "#17 815 E Lakeside Dr 60614",
+        "expected": {
+          "secUnitType": "#",
+          "secUnitNum": "17",
+          "number": "815",
+          "prefix": "E",
+          "street": "Lakeside",
+          "type": "Dr",
+          "zip": "60614",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 36",
+        "description": "Lowercase unit designator glued to its number, written before the house number; state code LA",
+        "input": "lt18 77 Birch Road, Port Allen LA",
+        "expected": {
+          "secUnitType": "Lot",
+          "secUnitNum": "18",
+          "number": "77",
+          "street": "Birch",
+          "type": "Rd",
+          "city": "Port Allen",
+          "state": "LA",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 37",
+        "description": "adjusted: a numbered county road keeps its number in the street; address-plus abbreviates the road word and reports no type",
+        "input": "21850 County Road 12, Windsor, CO 80550",
+        "expected": {
+          "number": "21850",
+          "street": "County Rd 12",
+          "city": "Windsor",
+          "state": "CO",
+          "zip": "80550",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 38",
+        "description": "adjusted: in capitals, a numbered county highway with a letter glued to the number; address-plus reads 18E as the route number, not route 18 with a postdirectional",
+        "input": "3456 COUNTY HWY 18E, Hartman, CO 81043",
+        "expected": {
+          "number": "3456",
+          "street": "County Hwy 18E",
+          "city": "Hartman",
+          "state": "CO",
+          "zip": "81043",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 39",
+        "description": "House number, directional with a period, street only; no type, city, state or ZIP",
+        "input": "612 W. Linden",
+        "expected": {
+          "number": "612",
+          "prefix": "W",
+          "street": "Linden"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 40",
+        "description": "The whole address in single quotes, with a comma before an abbreviated suite",
+        "input": "'118 Harlan Ave, Ste 34'",
+        "expected": {
+          "number": "118",
+          "street": "Harlan",
+          "type": "Ave",
+          "secUnitType": "Suite",
+          "secUnitNum": "34"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "number: absent (want \"118\"); street: \"'118 Harlan\" (want \"Harlan\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"34\"); city: \"Ste 34'\" (want absent)"
+      },
+      {
+        "name": "shape 41",
+        "description": "Row as the street type, no comma before the city",
+        "input": "3380 Commerce Row Lansing, MI 48906",
+        "expected": {
+          "number": "3380",
+          "street": "Commerce",
+          "type": "Row",
+          "city": "Lansing",
+          "state": "MI",
+          "zip": "48906",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
+        "todo": true,
+        "todoNote": "street: \"Commerce Row Lansing\" (want \"Commerce\"); type: absent (want \"Row\"); city: absent (want \"Lansing\")"
+      },
+      {
+        "name": "shape 42",
+        "description": "Post office box spelled out in words, no street",
+        "input": "Post office Box 7741 Germantown TN 38138",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "7741",
+          "city": "Germantown",
+          "state": "TN",
+          "zip": "38138",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 43",
+        "description": "Post office box with periods and a lowercase box",
+        "input": "P.O. box 7741 Germantown TN 38138",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "7741",
+          "city": "Germantown",
+          "state": "TN",
+          "zip": "38138",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 44",
+        "description": "Post office box run together as one word",
+        "input": "POBox 7741 Germantown TN 38138",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "7741",
+          "city": "Germantown",
+          "state": "TN",
+          "zip": "38138",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 45",
+        "description": "Wisconsin grid number, commas",
+        "input": "W238N1760 Kettle Rd, Waukesha, WI 53188",
+        "expected": {
+          "number": "W238N1760",
+          "street": "Kettle",
+          "type": "Rd",
+          "city": "Waukesha",
+          "state": "WI",
+          "zip": "53188",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 46",
+        "description": "Wisconsin grid number, no commas",
+        "input": "W238N1760 Kettle Rd Waukesha WI 53188",
+        "expected": {
+          "number": "W238N1760",
+          "street": "Kettle",
+          "type": "Rd",
+          "city": "Waukesha",
+          "state": "WI",
+          "zip": "53188",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 47",
+        "description": "Wisconsin grid number in lowercase, no commas",
+        "input": "w238n1760 Kettle Rd Waukesha WI 53188",
+        "expected": {
+          "number": "w238n1760",
+          "street": "Kettle",
+          "type": "Rd",
+          "city": "Waukesha",
+          "state": "WI",
+          "zip": "53188",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 48",
+        "description": "Two-word street name and the abbreviation Cmn",
+        "input": "3718 Heron Landing Cmn Boulder CO 80303",
+        "expected": {
+          "number": "3718",
+          "street": "Heron Landing",
+          "type": "Cmn",
+          "city": "Boulder",
+          "state": "CO",
+          "zip": "80303",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 49",
+        "description": "Two-word street name and the full word Common",
+        "input": "3718 Heron Landing Common Boulder CO 80303",
+        "expected": {
+          "number": "3718",
+          "street": "Heron Landing",
+          "type": "Cmn",
+          "city": "Boulder",
+          "state": "CO",
+          "zip": "80303",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 50",
+        "description": "The plural Commons as the street type, ZIP with a leading zero",
+        "input": "58 Fenwick Commons Concord NH 03301",
+        "expected": {
+          "number": "58",
+          "street": "Fenwick",
+          "type": "Cmns",
+          "city": "Concord",
+          "state": "NH",
+          "zip": "03301",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 51",
+        "description": "The plural abbreviation Cmns, ZIP with a leading zero",
+        "input": "58 Fenwick Cmns Concord NH 03301",
+        "expected": {
+          "number": "58",
+          "street": "Fenwick",
+          "type": "Cmns",
+          "city": "Concord",
+          "state": "NH",
+          "zip": "03301",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 52",
+        "description": "The full word Crossroad as the type, ZIP with a leading zero",
+        "input": "261 Tamarack Crossroad Eastport ME 04631",
+        "expected": {
+          "number": "261",
+          "street": "Tamarack",
+          "type": "Xrd",
+          "city": "Eastport",
+          "state": "ME",
+          "zip": "04631",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 53",
+        "description": "The abbreviation Xrd as the type",
+        "input": "261 Tamarack Xrd Eastport ME 04631",
+        "expected": {
+          "number": "261",
+          "street": "Tamarack",
+          "type": "Xrd",
+          "city": "Eastport",
+          "state": "ME",
+          "zip": "04631",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 54",
+        "description": "The plural Crossroads as the type",
+        "input": "880 Pruitt Crossroads Ashburn GA 31714",
+        "expected": {
+          "number": "880",
+          "street": "Pruitt",
+          "type": "Xrds",
+          "city": "Ashburn",
+          "state": "GA",
+          "zip": "31714",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 55",
+        "description": "The plural abbreviation Xrds as the type",
+        "input": "880 Pruitt Xrds Ashburn GA 31714",
+        "expected": {
+          "number": "880",
+          "street": "Pruitt",
+          "type": "Xrds",
+          "city": "Ashburn",
+          "state": "GA",
+          "zip": "31714",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 56",
+        "description": "The singular Fall as the street type",
+        "input": "7015 Cottonwood Fall Austin TX 78744",
+        "expected": {
+          "number": "7015",
+          "street": "Cottonwood",
+          "type": "Fall",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78744",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 57",
+        "description": "The abbreviation Fls as the type",
+        "input": "13902 Mesquite Fls Austin TX 78750",
+        "expected": {
+          "number": "13902",
+          "street": "Mesquite",
+          "type": "Fls",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78750",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 58",
+        "description": "The full word Falls as the type",
+        "input": "13902 Mesquite Falls Austin TX 78750",
+        "expected": {
+          "number": "13902",
+          "street": "Mesquite",
+          "type": "Fls",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78750",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 59",
+        "description": "Land as the street type",
+        "input": "4308 Prairie Land Plano TX 75074",
+        "expected": {
+          "number": "4308",
+          "street": "Prairie",
+          "type": "Land",
+          "city": "Plano",
+          "state": "TX",
+          "zip": "75074",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 60",
+        "description": "Two-word street name followed by Mall as the type",
+        "input": "1770 Lakeview Square Mall Dayton OH 45459",
+        "expected": {
+          "number": "1770",
+          "street": "Lakeview Square",
+          "type": "Mall",
+          "city": "Dayton",
+          "state": "OH",
+          "zip": "45459",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 61",
+        "description": "Two-word street name followed by Mews",
+        "input": "908 Wren Hollow Mews Charleston SC 29407",
+        "expected": {
+          "number": "908",
+          "street": "Wren Hollow",
+          "type": "Mews",
+          "city": "Charleston",
+          "state": "SC",
+          "zip": "29407",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 62",
+        "description": "Pass as the type, state spelled out as two words, no commas",
+        "input": "14 Juniper Pass Taos New Mexico 87571",
+        "expected": {
+          "number": "14",
+          "street": "Juniper",
+          "type": "Pass",
+          "city": "Taos",
+          "state": "NM",
+          "zip": "87571",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 63",
+        "description": "The French word Rue used as an English street type",
+        "input": "17 Beaumont Rue Biloxi MS 39530",
+        "expected": {
+          "number": "17",
+          "street": "Beaumont",
+          "type": "Rue",
+          "city": "Biloxi",
+          "state": "MS",
+          "zip": "39530",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 64",
+        "description": "Run as the street type",
+        "input": "6340 Fox Run Carmel IN 46032",
+        "expected": {
+          "number": "6340",
+          "street": "Fox",
+          "type": "Run",
+          "city": "Carmel",
+          "state": "IN",
+          "zip": "46032",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 65",
+        "description": "Wall as the street type",
+        "input": "1185 Tower Wall Kingston NY 12401",
+        "expected": {
+          "number": "1185",
+          "street": "Tower",
+          "type": "Wall",
+          "city": "Kingston",
+          "state": "NY",
+          "zip": "12401",
+          "country": "US"
+        },
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
+      },
+      {
+        "name": "shape 66",
+        "description": "A town but no state and no ZIP: no state may be invented",
+        "input": "315 N Dunmore Hwy Pittston",
+        "expected": {
+          "number": "315",
+          "prefix": "N",
+          "street": "Dunmore",
+          "type": "Hwy",
+          "state": null,
+          "zip": null
+        },
+        "source": "Shape from the Geo::StreetAddress::US test suite (metacpan.org/dist/Geo-StreetAddress-US); input written for this corpus",
+        "partial": true
+      },
+      {
+        "name": "shape 67",
+        "description": "Two capital letters that are not a state code: no state may be taken from them",
+        "input": "315 N Dunmore Hwy Pittston ZZ",
+        "expected": {
+          "number": "315",
+          "prefix": "N",
+          "state": null,
+          "zip": null
+        },
+        "source": "Shape from the Geo::StreetAddress::US test suite (metacpan.org/dist/Geo-StreetAddress-US); input written for this corpus",
+        "partial": true
+      },
+      {
+        "name": "shape 68",
+        "description": "No house number, street and a plain five-digit ZIP",
+        "input": "Garrison Hwy 29403",
+        "expected": {
+          "street": "Garrison",
+          "type": "Hwy",
+          "zip": "29403",
+          "country": "US"
+        },
+        "source": "Shape from the Geo::StreetAddress::US test suite (metacpan.org/dist/Geo-StreetAddress-US); input written for this corpus"
+      },
+      {
+        "name": "shape 69",
+        "description": "House number led by a letter, with no other digits-and-letters pattern",
+        "input": "E412 Garrison Hwy 29403",
+        "expected": {
+          "number": "E412",
+          "street": "Garrison",
+          "type": "Hwy",
+          "zip": "29403",
+          "country": "US"
+        },
+        "source": "Shape from the Geo::StreetAddress::US test suite (metacpan.org/dist/Geo-StreetAddress-US); input written for this corpus"
+      },
+      {
+        "name": "shape 70",
+        "description": "House number with a directional letter glued after it, as in a grid address",
+        "input": "412E Garrison Hwy 29403",
+        "expected": {
+          "number": "412",
+          "prefix": "E",
+          "street": "Garrison",
+          "type": "Hwy",
+          "zip": "29403",
+          "country": "US"
+        },
+        "source": "Shape from the Geo::StreetAddress::US test suite (metacpan.org/dist/Geo-StreetAddress-US); input written for this corpus"
+      }
+    ]
+  }
+}
