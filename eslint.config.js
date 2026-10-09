@@ -34,7 +34,9 @@ export default tseslint.config(
     },
   },
   {
-    files: ["scripts/validate-schemas.js", "scripts/**/*.ts"],
-    languageOptions: { globals: { console: "readonly", process: "readonly", fetch: "readonly", Buffer: "readonly" } },
+    files: ["scripts/validate-schemas.js", "scripts/**/*.ts", "scripts/**/*.mjs"],
+    languageOptions: {
+      globals: { console: "readonly", process: "readonly", fetch: "readonly", Buffer: "readonly", URL: "readonly" },
+    },
   },
 );
