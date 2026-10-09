@@ -2061,9 +2061,7 @@
           "zip": "65101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B",
-        "todo": true,
-        "todoNote": "street: \"Magnolia St Jefferson\" (want \"Magnolia\"); type: absent (want \"St\"); city: \"City\" (want \"Jefferson City\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
       },
       {
         "name": "MT without commas",
@@ -2348,9 +2346,7 @@
           "zip": "84111",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B",
-        "todo": true,
-        "todoNote": "street: \"Sycamore St Salt\" (want \"Sycamore\"); type: \"Lk\" (want \"St\"); city: \"City\" (want \"Salt Lake City\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix B"
       },
       {
         "name": "VT without commas",

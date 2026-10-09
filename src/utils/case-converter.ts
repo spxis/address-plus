@@ -7,6 +7,7 @@ const FIELD_NAME_MAPPING: Record<string, string> = {
   secUnitType: "sec_unit_type",
   secUnitNum: "sec_unit_num",
   ruralRoute: "rural_route",
+  highwayContract: "highway_contract",
   generalDelivery: "general_delivery",
   postalValid: "postal_valid",
   postalType: "postal_type",

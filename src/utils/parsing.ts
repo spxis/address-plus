@@ -11,6 +11,7 @@ import {
   US_STREET_TYPES,
 } from "../constants";
 import { CANADIAN_POSTAL_CODE_PATTERN, ZIP_CODE_PATTERN } from "../patterns/location-patterns";
+import { wholeWord, WORD_END, WORD_START } from "../patterns/word-boundary";
 import { ParsedAddress } from "../types";
 
 import { capitalizeStreetName, capitalizeWords } from "./capitalization";
@@ -26,12 +27,18 @@ function normalizeText(text: string): string {
   return text.toLowerCase().replace(/\s+/g, " ").replace(/[.,;]/g, " ").trim();
 }
 
-// Build regex patterns from dictionary
+const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Build regex patterns from dictionary. Keys match as whole words in any alphabet, so "québec" is found
+// at the start of a string and "al" is not found inside "Montréal".
 function buildRegexFromDict(dict: Record<string, string>, capture: boolean = true): RegExp {
   const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
-  const pattern = keys.map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-  return new RegExp(capture ? `\\b(${pattern})\\b` : `\\b(?:${pattern})\\b`, "i");
+  const pattern = keys.map(escapeRegExp).join("|");
+  return new RegExp(capture ? `${WORD_START}(${pattern})${WORD_END}` : wholeWord(pattern), "iu");
 }
+
+// The same search for one known word, used to take a match back out of the text.
+const wordPattern = (word: string, flags: string): RegExp => new RegExp(wholeWord(escapeRegExp(word)), flags);
 
 // Extract and normalize directional
 function parseDirectional(text: string): { direction: string | undefined; remaining: string } {
@@ -72,26 +79,20 @@ function parseStateProvince(text: string): {
   detectedCountry?: "US" | "CA";
 } {
   // Try US state abbreviations first (more specific than full names)
-  const usAbbrevPattern = new RegExp(`\\b(${Object.values(US_STATES).join("|")})\\b`, "i");
+  const usAbbrevPattern = new RegExp(`${WORD_START}(${Object.values(US_STATES).join("|")})${WORD_END}`, "iu");
   let match = text.match(usAbbrevPattern);
   if (match) {
     const state = match[1].toUpperCase();
-    const remaining = text
-      .replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i"), " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    const remaining = text.replace(wordPattern(match[1], "iu"), " ").replace(/\s+/g, " ").trim();
     return { state, remaining, detectedCountry: COUNTRIES.UNITED_STATES };
   }
 
   // Try Canadian province abbreviations
-  const caAbbrevPattern = new RegExp(`\\b(${Object.values(CA_PROVINCES).join("|")})\\b`, "i");
+  const caAbbrevPattern = new RegExp(`${WORD_START}(${Object.values(CA_PROVINCES).join("|")})${WORD_END}`, "iu");
   match = text.match(caAbbrevPattern);
   if (match) {
     const state = match[1].toUpperCase();
-    const remaining = text
-      .replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i"), " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    const remaining = text.replace(wordPattern(match[1], "iu"), " ").replace(/\s+/g, " ").trim();
     return { state, remaining, detectedCountry: COUNTRIES.CANADA };
   }
 
@@ -100,10 +101,7 @@ function parseStateProvince(text: string): {
   match = text.match(usPattern);
   if (match) {
     const state = US_STATES[match[1].toLowerCase()];
-    const remaining = text
-      .replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi"), " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    const remaining = text.replace(wordPattern(match[1], "giu"), " ").replace(/\s+/g, " ").trim();
     return { state, remaining, detectedCountry: COUNTRIES.UNITED_STATES };
   }
 
@@ -112,10 +110,7 @@ function parseStateProvince(text: string): {
   match = text.match(caPattern);
   if (match) {
     const state = CA_PROVINCES[match[1].toLowerCase()];
-    const remaining = text
-      .replace(new RegExp(`\\b${match[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi"), " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    const remaining = text.replace(wordPattern(match[1], "giu"), " ").replace(/\s+/g, " ").trim();
     return { state, remaining, detectedCountry: COUNTRIES.CANADA };
   }
 

@@ -112,7 +112,7 @@
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
         "partial": true,
         "todo": true,
-        "todoNote": "place: absent (want \"Barboncino\"); number: absent (want \"781\"); street: \"Barboncino 781 Franklin Ave Crown Heights Brooklyn NYC NY 11216\" (want \"Franklin\"); type: absent (want \"Ave\"); state: absent (want \"NY\"); zip: absent (want \"11216\"); country: absent (want \"US\")"
+        "todoNote": "place: absent (want \"Barboncino\"); number: absent (want \"781\"); street: \"Barboncino 781 Franklin\" (want \"Franklin\")"
       },
       {
         "name": "libpostal case 7",
@@ -194,9 +194,7 @@
           "zip": "94789",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "street: \"Main St Apt\" (want \"Main\"); type: absent (want \"St\"); secUnitType: \"#\" (want \"Apartment\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 12",
@@ -213,9 +211,7 @@
           "zip": "94789",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "street: \"Main St Apt No. 456\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"456\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 13",
@@ -356,9 +352,7 @@
           "country": "US"
         },
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "ignoreCase": ["street", "city"],
-        "todo": true,
-        "todoNote": "number: absent (want \"2455-B\"); prefix: absent (want \"W\"); street: \"2455-B W Bench\" (want \"BENCH\")"
+        "ignoreCase": ["street", "city"]
       },
       {
         "name": "libpostal case 22",
@@ -391,9 +385,7 @@
           "country": "US"
         },
         "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "ignoreCase": ["street", "city"],
-        "todo": true,
-        "todoNote": "city: \"CA\" (want \"MORENO VALLEY\"); state: absent (want \"CA\")"
+        "ignoreCase": ["street", "city"]
       },
       {
         "name": "libpostal case 24",
@@ -628,9 +620,7 @@
           "zip": "72704",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "city: \"AR\" (want \"Fayetteville\"); state: absent (want \"AR\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 38",
@@ -645,9 +635,7 @@
           "zip": "32034",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "city: absent (want \"Fernandina Beach\"); state: absent (want \"FL\"); secUnitType: \"Floor\" (want absent)"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 39",
@@ -664,9 +652,7 @@
           "plus4": "2049",
           "country": "US"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "city: \"AL\" (want \"Albertville\"); state: absent (want \"AL\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       },
       {
         "name": "libpostal case 40",

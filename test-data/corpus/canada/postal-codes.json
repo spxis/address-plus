@@ -122,9 +122,7 @@
           "zip": "M5H 2N2",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes",
-        "todo": true,
-        "todoNote": "city: \"Toronto ON\" (want \"Toronto\"); state: absent (want \"ON\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, postal codes"
       },
       {
         "name": "province and postal code run together",

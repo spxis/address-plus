@@ -274,8 +274,9 @@
           "prefix": "N",
           "street": "Gravenstein",
           "type": "Hwy",
-          "city": "CA",
-          "zip": "95472"
+          "city": "Sebastopol",
+          "zip": "95472",
+          "state": "CA"
         },
         "description": "Highway address with extra comma before ZIP code"
       },
@@ -390,9 +391,10 @@
         "expected": {
           "number": "456",
           "type": "Rue",
-          "street": "Saint-Jacques Montréal",
+          "street": "Saint-Jacques",
           "state": "QC",
-          "zip": "H2Y 1L9"
+          "zip": "H2Y 1L9",
+          "city": "Montréal"
         },
         "description": "French street name with 'Rue' prefix"
       },
@@ -429,9 +431,11 @@
         "expected": {
           "number": "567",
           "type": "Ave",
-          "street": "Des Pins Est Montréal",
+          "street": "Des Pins",
           "state": "QC",
-          "zip": "H2W 1S6"
+          "zip": "H2W 1S6",
+          "suffix": "E",
+          "city": "Montréal"
         },
         "description": "French street name with 'Avenue' and directional 'Est'"
       },

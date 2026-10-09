@@ -822,9 +822,7 @@
           "zip": "05443",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name",
-        "todo": true,
-        "todoNote": "street: \"Old Post\" (want \"Old Post Office\"); type: absent (want \"Rd\"); secUnitType: \"Office\" (want absent); secUnitNum: \"Rd\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary street name"
       },
       {
         "name": "De La Vina St",

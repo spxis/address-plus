@@ -49,9 +49,7 @@
           "zip": "H3Z 2Y7",
           "country": "CA"
         },
-        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)",
-        "todo": true,
-        "todoNote": "street: \"Main St SE Montréal\" (want \"Main\"); type: absent (want \"St\"); suffix: absent (want \"SE\"); city: absent (want \"Montréal\")"
+        "source": "libpostal parser test fixtures, github.com/openvenues/libpostal test/test_parser.c (MIT licence)"
       }
     ]
   }

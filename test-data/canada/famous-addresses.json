@@ -33,13 +33,15 @@
       {
         "input": "53-55 Water Street Vancouver BC V6B 1A1",
         "expected": {
-          "number": "53-55",
+          "number": "55",
           "street": "Water",
           "type": "St",
           "city": "Vancouver",
           "state": "BC",
           "zip": "V6B 1A1",
-          "country": "CA"
+          "country": "CA",
+          "secUnitType": "Unit",
+          "secUnitNum": "53"
         },
         "description": "Historic Gastown district - Vancouver"
       },

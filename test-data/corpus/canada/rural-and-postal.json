@@ -16,9 +16,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"RR 2\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       },
       {
         "name": "rural route without commas",
@@ -32,9 +30,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"RR 2\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       },
       {
         "name": "rural route with periods",
@@ -48,9 +44,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"R.R. 2\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       },
       {
         "name": "rural route spelled out",
@@ -64,9 +58,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"Rural Rte 2\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       },
       {
         "name": "rural route on two lines, as Canada Post prints it",
@@ -80,9 +72,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); street: \"RR 2\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       },
       {
         "name": "civic address on a rural route",
@@ -99,9 +89,7 @@
           "zip": "K0L 2H0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
-        "todo": true,
-        "todoNote": "street: \"Rd Rr 2\" (want \"River\"); type: \"Riv\" (want \"Rd\"); rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses"
       },
       {
         "name": "civic address, comma, rural route",
@@ -120,7 +108,7 @@
         },
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural route addresses",
         "todo": true,
-        "todoNote": "rr: absent (want \"2\"); ruralRoute: absent (want \"RR 2\"); city: \"RR 2\" (want \"Lakefield\")"
+        "todoNote": "city: absent (want \"Lakefield\")"
       }
     ],
     "siteAndCompartment": [
@@ -138,9 +126,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment",
-        "todo": true,
-        "todoNote": "site: absent (want \"6\"); rr: absent (want \"8\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment"
       },
       {
         "name": "site, compartment and rural route in capitals on two lines",
@@ -156,9 +142,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment",
-        "todo": true,
-        "todoNote": "site: absent (want \"6\"); rr: absent (want \"8\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment"
       },
       {
         "name": "site, compartment and rural route with commas",
@@ -174,9 +158,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment",
-        "todo": true,
-        "todoNote": "site: absent (want \"6\"); rr: absent (want \"8\"); city: \"RR 8\" (want \"Millarville\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, site and compartment"
       }
     ],
     "generalDelivery": [
@@ -291,9 +273,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city", "station"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
-        "todo": true,
-        "todoNote": "station: absent (want \"A\"); city: \"STN A\\nTORONTO ON\" (want \"Toronto\"); state: absent (want \"ON\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
       },
       {
         "name": "post office box with a named station",
@@ -325,9 +305,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city", "station"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
-        "todo": true,
-        "todoNote": "station: absent (want \"Main\"); city: \"Stn Main, Whitehorse\" (want \"Whitehorse\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
       },
       {
         "name": "post office box in French: case postale and succursale",
@@ -375,9 +353,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city", "station"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
-        "todo": true,
-        "todoNote": "secUnitType: \"Case Postale\" (want \"CP\"); city: \"Montréal (Québec)\" (want \"Montréal\"); state: absent (want \"QC\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
       },
       {
         "name": "post office box without a station",
@@ -407,9 +383,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city", "station"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes",
-        "todo": true,
-        "todoNote": "secUnitType: \"Box\" (want \"PO Box\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, post office boxes"
       },
       {
         "name": "post office box at a retail postal outlet (RPO)",

@@ -440,9 +440,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Notre-Dame Est Montréal\" (want \"Notre-Dame\"); suffix: absent (want \"E\"); city: absent (want \"Montréal\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "postal code without its space 275 rue Notre-Dame Est",
@@ -473,9 +471,7 @@
           "zip": "A1C 5M2",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"New Gower St St. John's\" (want \"New Gower\"); type: absent (want \"St\"); city: absent (want \"St. John's\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "postal code without its space 10 New Gower St",
@@ -796,9 +792,7 @@
           "zip": "M5V 2T6",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Toronto ON M5V 2T6, Canada\" (want \"Toronto\"); state: absent (want \"ON\"); zip: absent (want \"M5V 2T6\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 301 Front St W",
@@ -815,9 +809,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Toronto ON  M5V 2T6, CANADA\" (want \"Toronto\"); state: absent (want \"ON\"); zip: absent (want \"M5V 2T6\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 1 Sussex Dr",
@@ -832,9 +824,7 @@
           "zip": "K1A 0A1",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Ottawa ON K1A 0A1, Canada\" (want \"Ottawa\"); state: absent (want \"ON\"); zip: absent (want \"K1A 0A1\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 1 Sussex Dr",
@@ -850,9 +840,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Ottawa ON  K1A 0A1, CANADA\" (want \"Ottawa\"); state: absent (want \"ON\"); zip: absent (want \"K1A 0A1\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 453 W 12th Ave",
@@ -868,9 +856,7 @@
           "zip": "V5Y 1V4",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Vancouver BC V5Y 1V4, Canada\" (want \"Vancouver\"); state: absent (want \"BC\"); zip: absent (want \"V5Y 1V4\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 453 W 12th Ave",
@@ -887,9 +873,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Vancouver BC  V5Y 1V4, CANADA\" (want \"Vancouver\"); state: absent (want \"BC\"); zip: absent (want \"V5Y 1V4\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 800 Macleod Trail SE",
@@ -905,9 +889,7 @@
           "zip": "T2P 2M5",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Calgary AB T2P 2M5, Canada\" (want \"Calgary\"); state: absent (want \"AB\"); zip: absent (want \"T2P 2M5\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 800 Macleod Trail SE",
@@ -924,9 +906,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Calgary AB  T2P 2M5, CANADA\" (want \"Calgary\"); state: absent (want \"AB\"); zip: absent (want \"T2P 2M5\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 1841 Argyle St",
@@ -941,9 +921,7 @@
           "zip": "B3J 3A5",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Halifax NS B3J 3A5, Canada\" (want \"Halifax\"); state: absent (want \"NS\"); zip: absent (want \"B3J 3A5\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 1841 Argyle St",
@@ -959,9 +937,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Halifax NS  B3J 3A5, CANADA\" (want \"Halifax\"); state: absent (want \"NS\"); zip: absent (want \"B3J 3A5\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 275 rue Notre-Dame Est",
@@ -977,9 +953,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Montréal QC H2Y 1C6, Canada\" (want \"Montréal\"); state: absent (want \"QC\"); zip: absent (want \"H2Y 1C6\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 275 rue Notre-Dame Est",
@@ -996,9 +970,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Montréal QC  H2Y 1C6, CANADA\" (want \"Montréal\"); state: absent (want \"QC\"); zip: absent (want \"H2Y 1C6\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 10 New Gower St",
@@ -1013,9 +985,7 @@
           "zip": "A1C 5M2",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"St. John's NL A1C 5M2, Canada\" (want \"St. John's\"); state: absent (want \"NL\"); zip: absent (want \"A1C 5M2\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 10 New Gower St",
@@ -1031,9 +1001,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"St. John's NL  A1C 5M2, CANADA\" (want \"St. John's\"); state: absent (want \"NL\"); zip: absent (want \"A1C 5M2\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       },
       {
         "name": "trailing Canada 2121 2nd Ave",
@@ -1048,9 +1016,7 @@
           "zip": "Y1A 1C2",
           "country": "CA"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Whitehorse YT Y1A 1C2, Canada\" (want \"Whitehorse\"); state: absent (want \"YT\"); zip: absent (want \"Y1A 1C2\"); country: absent (want \"CA\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "Canada on its own line 2121 2nd Ave",
@@ -1066,9 +1032,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail",
-        "todo": true,
-        "todoNote": "city: \"Whitehorse YT  Y1A 1C2, CANADA\" (want \"Whitehorse\"); state: absent (want \"YT\"); zip: absent (want \"Y1A 1C2\"); country: absent (want \"CA\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, international mail"
       }
     ]
   }

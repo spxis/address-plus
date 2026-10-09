@@ -1,9 +1,21 @@
 // Address-specific patterns for components, units, and facilities
 
-// Unit type keywords pattern (for building regex patterns)
-// Updated to include more comprehensive unit types
+// Secondary unit designators that take a number or letter after them (USPS Publication 28 Appendix C2,
+// Canada Post's English and French unit words, and a few spellings people write). Longest first, so
+// "apartment" is tried before "apt" and "suite" before "su".
 const UNIT_TYPE_KEYWORDS =
-  "suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate|lobby|lot|lt|rm|room|office|off|level|lv|desk|workstation|booth|stall|bay";
+  "appartement|workstation|department|apartment|building|penthouse|hangar|hanger|trailer|office|" +
+  "bureau|suite|floor|lobby|level|space|stall|unité|unite|booth|apt|ste|bldg|dept|hngr|trlr|unit|" +
+  "pier|slip|stop|gate|room|desk|bay|lot|spc|flr|fl|lt|rm|lv|off|ofc|pmb|app|key";
+
+// Designators that stand alone, with no number (Pub 28: BSMT, FRNT, LBBY, LOWR, OFC, PH, REAR, SIDE, UPPR).
+const STANDALONE_UNIT_KEYWORDS =
+  "basement|penthouse|lobby|front|lower|upper|office|rear|side|bsmt|frnt|lbby|lowr|uppr|ofc|ph";
+
+// What may follow a designator: "Apt 4B", "Apt. 7", "Apt #4B", "Apt No. 456", "Ste D304". A value holds a
+// digit or is a single letter, so "Office Rd" in "Old Post Office Rd" is not a unit.
+const UNIT_VALUE = String.raw`(?:[a-z]?\d[a-z0-9-]*|[a-z])(?![\p{L}\p{N}])`;
+const UNIT_SEPARATOR = String.raw`\.?(?:\s*#\s*|\s+(?:no\.?|n°)\s*|\s+)`;
 
 // Written numbers that can appear as street numbers
 // Includes comprehensive ordinal support, plurals, and compound numbers
@@ -31,12 +43,16 @@ const WRITTEN_NUMBERS_FR =
 const WRITTEN_NUMBERS = WRITTEN_NUMBERS_EN + "|" + WRITTEN_NUMBERS_FR;
 
 // Secondary unit parsing patterns
-// Pattern for secondary unit types and numbers
-// Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", "lt42"
-// Conservative update to handle specific cases without breaking existing patterns
+// A unit at the end of a street line: group 1 is the street before it, group 2 the unit text.
 const SECONDARY_UNIT_PATTERN = new RegExp(
-  `^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})\\s+[a-z0-9-]+|(?:lt|lot)[a-z0-9]+|#\\s*[a-z0-9-]+)\\s*$`,
-  "i",
+  `^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|(?:lt|lot)[a-z0-9]+|#\\s*[a-z0-9-]+)\\s*$`,
+  "iu",
+);
+
+// A comma part, or a line, that is only a unit: "Unit 4", "app. 4", "#12", "Bsmt".
+const UNIT_PART_PATTERN = new RegExp(
+  `^(?:(?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|#\\s*[a-z0-9-]+|(?:${STANDALONE_UNIT_KEYWORDS})\\.?)$`,
+  "iu",
 );
 
 // Pattern for detecting common street types in addresses
@@ -44,12 +60,12 @@ const SECONDARY_UNIT_PATTERN = new RegExp(
 const STREET_TYPE_DETECTION_PATTERN =
   /\b(street|st|avenue|ave|road|rd|drive|dr|boulevard|blvd|lane|ln|court|ct|place|pl|way|highway|hwy|parkway|pkwy|circle|cir|terrace|ter|trail|trl)\b/i;
 
-// Pattern for extracting unit type and number
-// Used to parse the secondary unit match
-// Conservative update to handle specific cases like lt42
+// Pattern for extracting unit type and number from a unit's text.
+// Groups: 1 designator and 2 value ("apt 123", "Apt. #4B"), 3 and 4 a lot run together ("lt42"), 5 the value
+// after a bare "#".
 const UNIT_TYPE_NUMBER_PATTERN = new RegExp(
-  `(${UNIT_TYPE_KEYWORDS})\\s+([a-z0-9-]+)|(lt|lot)([a-z0-9]+)|#\\s*([a-z0-9-]+)`,
-  "i",
+  `(?<![\\p{L}\\p{N}])(${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}(${UNIT_VALUE})|(?<![\\p{L}\\p{N}])(lt|lot)([a-z0-9]+)|#\\s*([a-z0-9-]+)`,
+  "iu",
 );
 
 // Pattern for extracting parenthetical information
@@ -121,8 +137,12 @@ export {
   MUSIC_SQUARE_EAST_PATTERN,
   PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN,
+  STANDALONE_UNIT_KEYWORDS,
   STREET_TYPE_DETECTION_PATTERN,
+  UNIT_PART_PATTERN,
+  UNIT_SEPARATOR,
   UNIT_TYPE_KEYWORDS,
   UNIT_TYPE_NUMBER_PATTERN,
+  UNIT_VALUE,
   WRITTEN_NUMBERS,
 };

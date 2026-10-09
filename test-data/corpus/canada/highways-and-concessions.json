@@ -54,7 +54,7 @@
         },
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
         "todo": true,
-        "todoNote": "rr: absent (want \"1\"); ruralRoute: absent (want \"RR 1\"); city: \"RR 1\" (want \"Belleville\")"
+        "todoNote": "city: absent (want \"Belleville\")"
       },
       {
         "name": "2150 Trans-Canada Hwy",
@@ -84,9 +84,7 @@
           "zip": "G0J 2L0",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses",
-        "todo": true,
-        "todoNote": "number: absent (want \"1234\"); type: absent (want \"Rte\"); street: \"1234\" (want \"132\"); city: \"route 132\" (want \"Sainte-Flavie\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, highway and route addresses"
       },
       {
         "name": "1234 Route 132",
@@ -190,7 +188,7 @@
         "ignoreCase": ["city"],
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
         "todo": true,
-        "todoNote": "secUnitType: absent (want \"Lot\"); secUnitNum: absent (want \"12\"); type: absent (want \"Conc\"); street: \"12\" (want \"4\"); city: \"Concession 4\" (want \"Smiths Falls\")"
+        "todoNote": "secUnitType: absent (want \"Lot\"); secUnitNum: absent (want \"12\"); type: absent (want \"Conc\"); street: \"Lot 12\" (want \"4\"); city: \"Concession 4\" (want \"Smiths Falls\")"
       },
       {
         "name": "1234 Concession Road 6",

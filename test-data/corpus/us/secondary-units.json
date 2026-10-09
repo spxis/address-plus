@@ -69,9 +69,7 @@
           "zip": "02108",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Sycamore St Dept 2\" (want \"Sycamore\"); type: absent (want \"St\"); secUnitType: absent (want \"Department\"); secUnitNum: absent (want \"2\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "FL with a number",
@@ -121,9 +119,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Birch St Hngr 15\" (want \"Birch\"); type: absent (want \"St\"); secUnitType: absent (want \"Hangar\"); secUnitNum: absent (want \"15\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "KEY with a number",
@@ -140,9 +136,7 @@
           "zip": "43215",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Aspen St Key B\" (want \"Aspen\"); type: absent (want \"St\"); secUnitType: absent (want \"Key\"); secUnitNum: absent (want \"B\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "LBBY",
@@ -240,9 +234,7 @@
           "zip": "05401",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Sycamore St Pier 12\" (want \"Sycamore\"); type: absent (want \"St\"); secUnitType: absent (want \"Pier\"); secUnitNum: absent (want \"12\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "REAR",
@@ -308,9 +300,7 @@
           "zip": "82001",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Aspen St Slip 101\" (want \"Aspen\"); type: absent (want \"St\"); secUnitType: absent (want \"Slip\"); secUnitNum: absent (want \"101\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "SPC with a number",
@@ -327,9 +317,7 @@
           "zip": "59101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Laurel St Spc 15\" (want \"Laurel\"); type: absent (want \"St\"); secUnitType: absent (want \"Space\"); secUnitNum: absent (want \"15\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "STOP with a number",
@@ -346,9 +334,7 @@
           "zip": "58102",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Hickory St Stop B\" (want \"Hickory\"); type: absent (want \"St\"); secUnitType: absent (want \"Stop\"); secUnitNum: absent (want \"B\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "STE with a number",
@@ -382,9 +368,7 @@
           "zip": "78701",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Hawthorne St Trlr 210\" (want \"Hawthorne\"); type: absent (want \"St\"); secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"210\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "UNIT with a number",
@@ -486,9 +470,7 @@
           "zip": "02108",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Sycamore St Department 2\" (want \"Sycamore\"); type: absent (want \"St\"); secUnitType: absent (want \"Department\"); secUnitNum: absent (want \"2\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "Floor in full",
@@ -538,9 +520,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Birch St Hangar 15\" (want \"Birch\"); type: absent (want \"St\"); secUnitType: absent (want \"Hangar\"); secUnitNum: absent (want \"15\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "Lobby in full",
@@ -638,9 +618,7 @@
           "zip": "59101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Laurel St Space 15\" (want \"Laurel\"); type: absent (want \"St\"); secUnitType: absent (want \"Space\"); secUnitNum: absent (want \"15\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "Suite in full",
@@ -674,9 +652,7 @@
           "zip": "78701",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Hawthorne St Trlr 210\" (want \"Hawthorne\"); type: absent (want \"St\"); secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"210\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "Upper in full",
@@ -727,9 +703,7 @@
           "zip": "78701",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Basement\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "BLDG after a comma",
@@ -763,9 +737,7 @@
           "zip": "02108",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Department\"); secUnitNum: absent (want \"2\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "FL after a comma",
@@ -798,9 +770,7 @@
           "zip": "85004",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Front\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "HNGR after a comma",
@@ -817,9 +787,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Hangar\"); secUnitNum: absent (want \"15\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "KEY after a comma",
@@ -836,9 +804,7 @@
           "zip": "43215",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Key\"); secUnitNum: absent (want \"B\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "LBBY after a comma",
@@ -854,9 +820,7 @@
           "zip": "53703",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Lobby\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "LOT after a comma",
@@ -889,9 +853,7 @@
           "zip": "30303",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Lower\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "OFC after a comma",
@@ -907,9 +869,7 @@
           "zip": "68102",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Office\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "PH after a comma",
@@ -925,9 +885,7 @@
           "zip": "83702",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Penthouse\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "PIER after a comma",
@@ -944,9 +902,7 @@
           "zip": "05401",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Pier\"); secUnitNum: absent (want \"12\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "REAR after a comma",
@@ -962,9 +918,7 @@
           "zip": "99501",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Rear\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "RM after a comma",
@@ -997,9 +951,7 @@
           "zip": "23219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Side\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "SLIP after a comma",
@@ -1016,9 +968,7 @@
           "zip": "82001",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Slip\"); secUnitNum: absent (want \"101\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "SPC after a comma",
@@ -1035,9 +985,7 @@
           "zip": "59101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Space\"); secUnitNum: absent (want \"15\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "STOP after a comma",
@@ -1054,9 +1002,7 @@
           "zip": "58102",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Stop\"); secUnitNum: absent (want \"B\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "STE after a comma",
@@ -1090,9 +1036,7 @@
           "zip": "78701",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"210\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "UNIT after a comma",
@@ -1125,9 +1069,7 @@
           "zip": "02108",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Upper\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       }
     ],
     "poundSign": [
@@ -1216,9 +1158,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Ave Apt\" (want \"Pine\"); type: \"Pne\" (want \"Ave\"); secUnitType: \"#\" (want \"Apartment\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "unit Apt 4-B",
@@ -1286,9 +1226,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Ave Apt. 7\" (want \"Pine\"); type: \"Pne\" (want \"Ave\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"7\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "unit Bldg C",
@@ -1356,9 +1294,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2",
-        "todo": true,
-        "todoNote": "street: \"Pine Ave Trlr 9\" (want \"Pine\"); type: absent (want \"Ave\"); secUnitType: absent (want \"Trailer\"); secUnitNum: absent (want \"9\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C2"
       },
       {
         "name": "unit Rm 5",
@@ -1426,9 +1362,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line",
-        "todo": true,
-        "todoNote": "number: absent (want \"1582\"); street: \"4B\" (want \"Elm\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4B\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line"
       },
       {
         "name": "Suite 210 before the street line",
@@ -1445,9 +1379,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line",
-        "todo": true,
-        "todoNote": "number: absent (want \"1919\"); street: \"210\" (want \"Elm\"); type: absent (want \"St\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"210\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line"
       }
     ]
   }

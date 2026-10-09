@@ -20,7 +20,7 @@
       {
         "input": "Case postale 456 Succursale Centre-ville Montréal QC H3C 3P8",
         "expected": {
-          "secUnitType": "Case Postale",
+          "secUnitType": "CP",
           "secUnitNum": "456",
           "place": "Succursale Centre-ville",
           "city": "Montréal",
@@ -44,7 +44,7 @@
       {
         "input": "Box 789 Yellowknife NT X1A 2N1",
         "expected": {
-          "secUnitType": "Box",
+          "secUnitType": "PO Box",
           "secUnitNum": "789",
           "city": "Yellowknife",
           "state": "NT",

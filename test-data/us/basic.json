@@ -89,8 +89,9 @@
           "prefix": "N",
           "street": "Gravenstein",
           "type": "Hwy",
-          "city": "CA",
-          "zip": "95472"
+          "city": "Sebastopol",
+          "zip": "95472",
+          "state": "CA"
         },
         "description": "Highway address with extra comma before ZIP code"
       },
@@ -374,15 +375,16 @@
       {
         "input": "One Infinite Loop, Building 4, Cupertino, California 95014",
         "expected": {
-          "place": "One Infinite Loop",
-          "street": "4",
+          "street": "Infinite",
           "secUnitType": "Building",
           "secUnitNum": "4",
           "unit": "Building 4",
           "city": "Cupertino",
           "state": "CA",
           "zip": "95014",
-          "country": "US"
+          "country": "US",
+          "number": "One",
+          "type": "Loop"
         },
         "description": "Apple Park - with written number and building"
       },
@@ -494,13 +496,14 @@
       {
         "input": "One Cowboys Way, Frisco, TX 75034-9104",
         "expected": {
-          "place": "One Cowboys Way",
-          "street": "Frisco",
+          "street": "Cowboys",
           "city": "Frisco",
           "state": "TX",
           "zip": "75034",
           "plus4": "9104",
-          "country": "US"
+          "country": "US",
+          "number": "One",
+          "type": "Way"
         },
         "description": "The Star - written number with extended ZIP"
       },

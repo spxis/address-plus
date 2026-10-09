@@ -123,9 +123,7 @@
           "zip": "98801",
           "country": "US"
         },
-        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
-        "todo": true,
-        "todoNote": "city: \"WA\" (want \"Wenatchee\"); state: absent (want \"WA\")"
+        "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus"
       },
       {
         "name": "shape 09",
@@ -602,7 +600,7 @@
         },
         "source": "Shape from parse-address's test suite (github.com/hassansin/parse-address, ISC); input written for this corpus",
         "todo": true,
-        "todoNote": "number: absent (want \"118\"); street: \"'118 Harlan\" (want \"Harlan\"); secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"34\"); city: \"Ste 34'\" (want absent)"
+        "todoNote": "secUnitType: absent (want \"Suite\"); secUnitNum: absent (want \"34\"); city: \"Ste 34\" (want absent)"
       },
       {
         "name": "shape 41",

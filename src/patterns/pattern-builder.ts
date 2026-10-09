@@ -59,17 +59,21 @@ function buildPatterns(): AddressPatterns {
     .join("|");
 
   return {
-    number: String.raw`(\d+[-\/]*\d*|\w\d+\w\d+|${WRITTEN_NUMBERS})`, // Include written numbers
+    // A number may end in a letter (123A, 2455-B), but not in N, S, E or W: in "412E" or "48S" the letter
+    // is a directional.
+    number: String.raw`(\d+(?:[-\/]*\d+)?(?:-?[A-DF-MO-RT-VX-Z])?|\w\d+\w\d+|${WRITTEN_NUMBERS})`,
     fraction: String.raw`(\d+\/\d+)`,
     directional: `(${directionals})`,
     streetType: `(${streetTypes})`,
-    state: `\\b(${states})\\b`,
-    stateAbbrev: `\\b(${stateAbbrevs})\\b`,
-    stateFullName: `\\b(${stateFullNames})\\b`,
+    // The three state patterns are bare groups, like streetType: callers anchor them, and an unanchored
+    // search wraps them in wholeWord() with the `u` flag so an accented city cannot hide a state code.
+    state: `(${states})`,
+    stateAbbrev: `(${stateAbbrevs})`,
+    stateFullName: `(${stateFullNames})`,
     zip: ZIP_CODE_REGEX_PATTERN, // Use pattern from validation.ts for DRY compliance
     // Extend to include Canadian variants: C.P./CP, Case/Boîte postale, POBox, Box, and loose 'P.O. box'
     // We'll still capture the box number in group 2 when present
-    poBox: String.raw`(p\.?\s*o\.?\s*box|post\s*office\s*box|pobox|po\s*box|c\.?p\.?|cp|case\s*postale|bo[iî]te\s*postale|boite\s*postale|box)\s*(\d+)?`,
+    poBox: String.raw`(p\.?\s*o\.?\s*box|post\s*office\s*box|pobox|po\s*box|pob(?=\s*\d)|c\.?p\.?|cp|case\s*postale|bo[iî]te\s*postale|boite\s*postale|box)\s*(\d+)?`,
     intersection: String.raw`\s+(?:and|&|at|\@)\s+`,
     secUnit: String.raw`(?:(${UNIT_TYPE_KEYWORDS}|#)\s+([a-z0-9-]+))`,
   };

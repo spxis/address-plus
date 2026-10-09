@@ -1,6 +1,6 @@
 import { VALIDATION_PATTERNS } from "../constants";
 import { COMMON_PARSER_PATTERNS, PO_BOX_PATTERNS } from "../constants/parser-patterns";
-import { CANADIAN_POSTAL_LIBERAL_PATTERN } from "../patterns/location-patterns";
+import { CANADIAN_POSTAL_LIBERAL_PATTERN, ZIP_CODE_PATTERN } from "../patterns/location-patterns";
 import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedAddress, ParseOptions } from "../types";
 import { detectCountry, parseStateProvince } from "../utils";
@@ -31,7 +31,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
       city: usMatch[2].trim(),
       state: usMatch[3].toUpperCase(),
     };
-    if (usMatch[4]) setValidatedPostalCode(result, usMatch[4], options || {});
+    if (usMatch[4]) setZipAndPlus4(result, usMatch[4], options || {});
     result.country = detectCountry(result);
     return result;
   }
@@ -84,6 +84,31 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
     }
   }
 
+  fillLastLine(rest, result, options);
+
+  // Detect country at the end
+  result.country = detectCountry(result);
+
+  return result;
+}
+
+// Set the ZIP, splitting a ZIP+4 into zip and plus4 the way the street parser does.
+function setZipAndPlus4(result: ParsedAddress, code: string, options: ParseOptions): void {
+  const zipMatch = code.match(ZIP_CODE_PATTERN);
+  if (zipMatch) {
+    setValidatedPostalCode(result, zipMatch[1], options);
+    if (zipMatch[2]) result.plus4 = zipMatch[2];
+    return;
+  }
+  setValidatedPostalCode(result, code, options);
+}
+
+// Read the city, state or province and ZIP or postal code that end a box, route or delivery line, into
+// result. Used by every parser whose first line is not a street.
+function fillLastLine(text: string, result: ParsedAddress, options: ParseOptions = {}): void {
+  const patterns = buildPatterns();
+  let rest = text.trim().replace(/^,\s*/, "");
+
   // Now parse remaining: expect optional city, province/state, postal/zip
   // Try to pull postal code (US or CA) from the end first
   const caPostal = rest.match(COMMON_PARSER_PATTERNS.POSTAL_AT_END(CANADIAN_POSTAL_LIBERAL_PATTERN.source));
@@ -95,7 +120,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
       .trim()
       .replace(/[,\s]+$/, "");
   } else if (usZip) {
-    setValidatedPostalCode(result, usZip[1], options || {});
+    setZipAndPlus4(result, usZip[1], options || {});
     rest = rest
       .slice(0, rest.length - usZip[0].length)
       .trim()
@@ -135,11 +160,6 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
       result.city = rest;
     }
   }
-
-  // Detect country at the end
-  result.country = detectCountry(result);
-
-  return result;
 }
 
 // Normalize PO Box type to standard format
@@ -158,15 +178,17 @@ function normalizePoBoxType(type: string): string {
   if (/^c\.?p\.?$/.test(normalizedType) || normalizedType === "cp") {
     return "CP"; // Case postale abbreviation
   }
+  // Canada Post writes the French post office box as CP, however it was spelled.
   if (/^case\s*postale$/.test(normalizedType)) {
-    return "Case Postale";
+    return "CP";
   }
   if (/^bo[iî]te\s*postale$/.test(normalizedType) || /^boite\s*postale$/.test(normalizedType)) {
     return "Boîte Postale";
   }
+  // USPS standardizes BOX alone, and POB, to PO BOX (Publication 28).
+  if (normalizedType === "box" || normalizedType === "pob") return "PO Box";
   if (normalizedType === "rpo") return "RPO";
   if (normalizedType === "rr" || normalizedType === "r.r." || /^r\.?r\.?$/.test(normalizedType)) return "RR";
-  if (normalizedType === "box") return "Box"; // Simple Canadian Box
 
   return cleaned
     .split(" ")
@@ -174,4 +196,4 @@ function normalizePoBoxType(type: string): string {
     .join(" ");
 }
 
-export { normalizePoBoxType, parsePoBox };
+export { fillLastLine, normalizePoBoxType, parsePoBox, setZipAndPlus4 };

@@ -2,6 +2,7 @@
 
 import { validatePostalCode, VALIDATION_PATTERNS } from "../constants";
 import { buildPatterns } from "../patterns/pattern-builder";
+import { wholeWord } from "../patterns/word-boundary";
 import type { ParsedAddress, ParsedIntersection, ParseOptions } from "../types";
 
 // Check if input contains recognizable address components
@@ -21,9 +22,9 @@ function hasValidAddressComponents(address: string): boolean {
 
   // Check for address-like patterns
   const hasNumber = VALIDATION_PATTERNS.HAS_DIGITS.test(address);
-  const hasStreetType = new RegExp(`\\b(${patterns.streetType})\\b`, "i").test(address);
-  const hasDirectional = new RegExp(`\\b(${patterns.directional.slice(1, -1)})\\b`, "i").test(address);
-  const hasState = new RegExp(`\\b(${patterns.state.slice(2, -2)})\\b`, "i").test(address);
+  const hasStreetType = new RegExp(wholeWord(patterns.streetType.slice(1, -1)), "iu").test(address);
+  const hasDirectional = new RegExp(wholeWord(patterns.directional.slice(1, -1)), "iu").test(address);
+  const hasState = new RegExp(wholeWord(patterns.state.slice(1, -1)), "iu").test(address);
   const hasZip = new RegExp(patterns.zip, "i").test(address);
   const hasCommaStructure = address.includes(",");
   const isIntersection = new RegExp(patterns.intersection, "i").test(address);

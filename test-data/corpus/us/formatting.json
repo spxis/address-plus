@@ -333,9 +333,7 @@
           "zip": "62701",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Main Street; Springfield;\" (want \"Main\"); type: absent (want \"St\"); city: absent (want \"Springfield\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "full stop at the end",
@@ -365,9 +363,7 @@
           "zip": "62701",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Main St - Springfield\" (want \"Main\"); type: absent (want \"St\"); city: absent (want \"Springfield\")"
+        "source": "Constructed for this corpus"
       }
     ],
     "spacing": [
@@ -480,9 +476,7 @@
           "zip": "94043",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Amphitheatre Pkwy Mountain\" (want \"Amphitheatre\"); type: \"Vw\" (want \"Pkwy\"); city: absent (want \"Mountain View\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "extra spaces 1600 Amphitheatre Pkwy",
@@ -527,9 +521,7 @@
           "zip": "90068",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Mt  Lee\" (want \"Mt Lee\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "no commas 233 S Wacker Dr Ste 3500",
@@ -595,9 +587,7 @@
           "zip": "95054",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Mission  College\" (want \"Mission College\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "no commas 100 Universal City Plz",
@@ -627,9 +617,7 @@
           "zip": "91608",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "street: \"Universal  City\" (want \"Universal City\")"
+        "source": "Constructed for this corpus"
       }
     ],
     "multiline": [
@@ -917,9 +905,7 @@
           "zip": "62701",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line",
-        "todo": true,
-        "todoNote": "number: absent (want \"123\"); street: \"4\" (want \"Main\"); type: absent (want \"St\"); secUnitType: absent (want \"Apartment\"); secUnitNum: absent (want \"4\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), secondary address line"
       },
       {
         "name": "unit on the street line, no commas",
@@ -954,9 +940,7 @@
           "zip": "95472",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Sebastopol, CA 95472, USA\" (want \"Sebastopol\"); state: absent (want \"CA\"); zip: absent (want \"95472\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 742 Evergreen Ter",
@@ -971,9 +955,7 @@
           "zip": "62704",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Springfield, IL 62704, USA\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62704\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 350 5th Ave Fl 34",
@@ -990,9 +972,7 @@
           "zip": "10118",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"New York, NY 10118, USA\" (want \"New York\"); state: absent (want \"NY\"); zip: absent (want \"10118\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 1600 Amphitheatre Pkwy",
@@ -1007,9 +987,7 @@
           "zip": "94043",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Mountain View, CA 94043, USA\" (want \"Mountain View\"); state: absent (want \"CA\"); zip: absent (want \"94043\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 4059 Mt Lee Dr",
@@ -1024,9 +1002,7 @@
           "zip": "90068",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Hollywood, CA 90068, USA\" (want \"Hollywood\"); state: absent (want \"CA\"); zip: absent (want \"90068\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 233 S Wacker Dr Ste 3500",
@@ -1044,9 +1020,7 @@
           "zip": "60606",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Chicago, IL 60606, USA\" (want \"Chicago\"); state: absent (want \"IL\"); zip: absent (want \"60606\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 2200 Mission College Blvd",
@@ -1061,9 +1035,7 @@
           "zip": "95054",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Santa Clara, CA 95054, USA\" (want \"Santa Clara\"); state: absent (want \"CA\"); zip: absent (want \"95054\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing USA 100 Universal City Plz",
@@ -1078,9 +1050,7 @@
           "zip": "91608",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Universal City, CA 91608, USA\" (want \"Universal City\"); state: absent (want \"CA\"); zip: absent (want \"91608\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing United States",
@@ -1095,9 +1065,7 @@
           "zip": "62701",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Springfield, IL 62701, United States\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62701\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing US without a comma",
@@ -1127,9 +1095,7 @@
           "zip": "62701",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Springfield, IL 62701, U.S.A.\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62701\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "trailing the full name on its own line",
@@ -1144,9 +1110,7 @@
           "zip": "62701",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "city: \"Springfield, IL 62701, United States of America\" (want \"Springfield\"); state: absent (want \"IL\"); zip: absent (want \"62701\"); country: absent (want \"US\")"
+        "source": "Constructed for this corpus"
       }
     ]
   }

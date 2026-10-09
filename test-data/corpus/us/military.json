@@ -16,9 +16,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AE on two lines with ZIP+4",
@@ -33,9 +31,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AP unit and box in the Pacific",
@@ -49,9 +45,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AP\" (want \"AP\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AP Pacific, two lines, ZIP+4",
@@ -66,9 +60,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AP\" (want \"AP\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AE community mail room",
@@ -82,9 +74,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "FPO AE fleet post office in Europe",
@@ -98,9 +88,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"FPO\"); state: \"FPO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "FPO AP ship's name in the Pacific",
@@ -114,9 +102,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"FPO\"); state: \"FPO AP\" (want \"AP\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "FPO AE ship's name in Europe",
@@ -130,9 +116,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"FPO\"); state: \"FPO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "DPO AE diplomatic post office",
@@ -146,9 +130,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"DPO\"); state: \"DPO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "DPO AP diplomatic post office in the Pacific",
@@ -162,9 +144,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"DPO\"); state: \"DPO AP\" (want \"AP\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AA Armed Forces Americas",
@@ -178,9 +158,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AA\" (want \"AA\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "FPO AA fleet post office in the Americas",
@@ -194,9 +172,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"FPO\"); state: \"FPO AA\" (want \"AA\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AE in lowercase",
@@ -210,9 +186,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: \"APO AE\" (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       },
       {
         "name": "APO AE on one line, no commas",
@@ -226,9 +200,7 @@
         },
         "ignoreCase": ["city"],
         "partial": true,
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses",
-        "todo": true,
-        "todoNote": "city: absent (want \"APO\"); state: absent (want \"AE\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), military addresses"
       }
     ]
   }

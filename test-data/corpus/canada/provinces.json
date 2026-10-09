@@ -471,9 +471,7 @@
           "zip": "C1A 4B7",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "state: \"ÎLE-DU-PRINCE-ÉDOUARD\" (want \"PE\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "Terre-Neuve-et-Labrador",
@@ -535,9 +533,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "street: \"Birchwood St Québec\" (want \"Birchwood\"); type: absent (want \"St\"); city: absent (want \"Québec\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "BC without commas",
@@ -657,9 +653,7 @@
           "zip": "A1C 5M2",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols",
-        "todo": true,
-        "todoNote": "street: \"Rideau St St. John's\" (want \"Rideau\"); type: absent (want \"St\"); city: absent (want \"St. John's\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, province and territory symbols"
       },
       {
         "name": "YT without commas",

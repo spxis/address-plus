@@ -170,10 +170,13 @@
       {
         "input": "Rural Route 5 Box 123A, Farmville, IA 52556",
         "expected": {
-          "street": "Rural Route 5 Box 123A",
           "city": "Farmville",
           "state": "IA",
-          "zip": "52556"
+          "zip": "52556",
+          "rr": "5",
+          "ruralRoute": "RR 5",
+          "secUnitType": "Box",
+          "secUnitNum": "123A"
         },
         "description": "Rural route with box number"
       },
@@ -264,10 +267,13 @@
       {
         "input": "HC 73 Box 9876, Moab, UT 84532",
         "expected": {
-          "street": "HC 73 Box 9876",
           "city": "Moab",
           "state": "UT",
-          "zip": "84532"
+          "zip": "84532",
+          "ruralRoute": "HC 73",
+          "highwayContract": "73",
+          "secUnitType": "Box",
+          "secUnitNum": "9876"
         },
         "description": "Highway Contract route address"
       },

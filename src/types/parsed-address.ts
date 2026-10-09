@@ -4,11 +4,14 @@
 import type { JapaneseAddressFields } from "./japan";
 
 interface ParsedAddress extends JapaneseAddressFields {
-  city?: string; // City name, or the municipality in Japan
+  city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
+  compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
   country?: "CA" | "US" | "JP"; // Detected country
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
-  locality?: string; // Sub-city locality (borough, district, neighborhood)
+  highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
+  locality?: string; // Sub-city locality (borough, district, neighborhood), or a Puerto Rico urbanization
+  military?: string; // Military delivery line ("PSC 802 Box 74", "Unit 2050 Box 4190"); state is AA, AE or AP
   number?: string; // Street number
   place?: string; // Place name (landmark, POI, building, monument, etc.)
   plus4?: string; // Extended ZIP+4 code
@@ -21,8 +24,8 @@ interface ParsedAddress extends JapaneseAddressFields {
   secUnitNum?: string; // Secondary unit number
   secUnitType?: string; // Secondary unit type (apt, suite, etc.)
   secondary?: string; // Legacy properties for backward compatibility
-  site?: string; // Site or compartment number
-  state?: string; // State/Province code
+  site?: string; // Site number on a Canadian rural route (the 6 in "SITE 6 COMP 10 RR 8")
+  state?: string; // State/Province code; AA, AE or AP for a military address
   station?: string; // Station or Succursale identifier (e.g., Station A, Succ. Centre-ville)
   street?: string; // Street name
   suffix?: string; // Directional suffix

@@ -9,7 +9,7 @@ const PO_BOX_PATTERNS = {
 
   // Station/Succursale/RPO/RR pattern for Canadian addresses
   STATION_PATTERN:
-    /^(station|succ(?:\.|ursale)?|rpo|rr|r\.r\.)\s+([A-Za-z0-9]+(?:\s*[A-Za-z0-9-]+)*?)(?=\s+[A-Z][a-z]|\s*,|$)/i,
+    /^(station|stn\.?|succ(?:\.|ursale)?|rpo|rr|r\.r\.)\s+([A-Za-z0-9]+(?:\s*[A-Za-z0-9-]+)*?)(?=\s+[A-Z][a-z]|\s*,|$)/i,
 
   // Leading box number pattern
   LEADING_BOX_NUMBER: /^([0-9A-Za-z-]+)\b[,\s]*/,
@@ -40,11 +40,11 @@ const COMMON_PARSER_PATTERNS = {
   ZIP_AT_END: (zipPattern: string) => new RegExp(`\\s+(${zipPattern.slice(1, -1)})\\s*$`),
 
   // State abbreviation at end of string
-  STATE_AT_END: (statePattern: string) => new RegExp(`\\s+(${statePattern.slice(2, -2)})\\s*$`, "i"),
+  STATE_AT_END: (statePattern: string) => new RegExp(`\\s+(${statePattern.slice(1, -1)})\\s*$`, "i"),
 
   // City and state pattern combined
   CITY_STATE_PATTERN: (stateAbbrevPattern: string) =>
-    new RegExp(`^(.+?)\\s+(${stateAbbrevPattern.slice(2, -2)})\\s*$`, "i"),
+    new RegExp(`^(.+?)\\s+(${stateAbbrevPattern.slice(1, -1)})\\s*$`, "i"),
 
   // Postal code at end with international pattern
   POSTAL_AT_END: (postalPattern: string) => new RegExp(postalPattern + "$", "i"),

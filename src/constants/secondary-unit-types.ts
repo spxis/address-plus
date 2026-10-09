@@ -1,8 +1,10 @@
 // Secondary unit types and abbreviations
 
-// Mapping of secondary unit types to their standardized proper case forms
-// Changed from abbreviations to full words in proper case for consistency
+// Mapping of secondary unit types to their standardized proper case forms: USPS Publication 28
+// Appendix C2's words in full, and Canada Post's French unit words, which stay French.
 const SECONDARY_UNIT_TYPES: Record<string, string> = {
+  app: "Appartement",
+  appartement: "Appartement",
   apartment: "Apartment",
   apartme: "Apartment",
   apt: "Apartment",
@@ -19,8 +21,10 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   front: "Front",
   frnt: "Front",
   gate: "Gate",
-  hanger: "Hanger",
-  hngr: "Hanger",
+  bureau: "Bureau",
+  hangar: "Hangar",
+  hanger: "Hangar", // A common misspelling of USPS's HANGAR
+  hngr: "Hangar",
   key: "Key",
   lbby: "Lobby",
   level: "Level",
@@ -28,10 +32,12 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   lot: "Lot",
   lt: "Lot",
   lower: "Lower",
+  lv: "Level",
   lowr: "Lower",
   ofc: "Office",
   office: "Office",
   penthouse: "Penthouse",
+  pmb: "PMB", // Private mailbox, written after the street like a unit (Pub 28 section 2.4)
   ph: "Penthouse",
   pier: "Pier",
   rear: "Rear",
@@ -48,6 +54,8 @@ const SECONDARY_UNIT_TYPES: Record<string, string> = {
   trailer: "Trailer",
   trlr: "Trailer",
   unit: "Unit",
+  unite: "Unité",
+  unité: "Unité",
   upper: "Upper",
   uppr: "Upper",
 };

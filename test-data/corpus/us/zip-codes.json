@@ -220,9 +220,7 @@
           "country": "US",
           "zip": "62701"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), last line",
-        "todo": true,
-        "todoNote": "city: \"IL\" (want \"Springfield\"); state: absent (want \"IL\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), last line"
       },
       {
         "name": "period after the state code",

@@ -95,9 +95,7 @@
           "zip": "98101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
-        "todo": true,
-        "todoNote": "number: absent (want \"123A\"); street: \"123a Maple\" (want \"Maple\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
       },
       {
         "name": "number 4567B",
@@ -112,9 +110,7 @@
           "zip": "85004",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
-        "todo": true,
-        "todoNote": "number: absent (want \"4567B\"); street: \"4567b Cedar\" (want \"Cedar\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
       },
       {
         "name": "number 12C",
@@ -129,9 +125,7 @@
           "zip": "37219",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
-        "todo": true,
-        "todoNote": "number: absent (want \"12C\"); street: \"12c Walnut\" (want \"Walnut\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
       },
       {
         "name": "number 9Z",
@@ -146,9 +140,7 @@
           "zip": "43215",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number",
-        "todo": true,
-        "todoNote": "number: absent (want \"9Z\"); street: \"9z Spruce\" (want \"Spruce\")"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), primary address number"
       }
     ],
     "ranges": [
@@ -479,9 +471,7 @@
           "zip": "98052",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "number: absent (want \"One\"); street: \"Redmond\" (want \"Microsoft\"); type: absent (want \"Way\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "number written as Two",
@@ -496,9 +486,7 @@
           "zip": "10121",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "number: absent (want \"Two\"); street: \"New York\" (want \"Penn\"); type: absent (want \"Plz\")"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "number written as One",
@@ -513,9 +501,7 @@
           "zip": "95014",
           "country": "US"
         },
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "number: absent (want \"One\"); street: \"Cupertino\" (want \"Infinite\"); type: absent (want \"Loop\")"
+        "source": "Constructed for this corpus"
       }
     ]
   }

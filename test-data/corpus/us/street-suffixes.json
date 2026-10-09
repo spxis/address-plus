@@ -1427,9 +1427,7 @@
           "zip": "99501",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1",
-        "todo": true,
-        "todoNote": "type: absent (want \"Ky\"); secUnitType: \"Key\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
         "name": "Keys written in full",
@@ -2779,9 +2777,7 @@
           "zip": "98101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1",
-        "todo": true,
-        "todoNote": "type: absent (want \"Trlr\"); secUnitType: \"Trailer\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
         "name": "Tunnel written in full",
@@ -5637,9 +5633,7 @@
           "zip": "98101",
           "country": "US"
         },
-        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1",
-        "todo": true,
-        "todoNote": "type: absent (want \"Trlr\"); secUnitType: \"Trailer\" (want absent)"
+        "source": "USPS Publication 28, Postal Addressing Standards (US government work, public domain), Appendix C1"
       },
       {
         "name": "Tunnel as TUNL",

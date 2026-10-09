@@ -608,9 +608,7 @@
           "zip": "E1C 1E8",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Front\"); secUnitType: \"Front\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Gardens",
@@ -640,9 +638,7 @@
           "zip": "K1P 1J1",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Gate\"); secUnitType: \"Gate\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Glade",
@@ -854,9 +850,7 @@
           "zip": "P3A 5P3",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Ky\"); secUnitType: \"Key\" (want absent)"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, street types"
       },
       {
         "name": "Knoll",
@@ -2984,9 +2978,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Ave\"); street: \"av. Saint-Laurent\" (want \"Saint-Laurent\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "boul. des Érables",
@@ -3003,7 +2995,7 @@
         },
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
         "todo": true,
-        "todoNote": "type: absent (want \"Blvd\"); street: \"boul. des Érables\" (want \"des Érables\")"
+        "todoNote": "street: \"Des Érables\" (want \"des Érables\")"
       },
       {
         "name": "ch. du Lac",
@@ -3020,7 +3012,7 @@
         },
         "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
         "todo": true,
-        "todoNote": "type: absent (want \"Ch\"); street: \"ch. du Lac\" (want \"du Lac\")"
+        "todoNote": "street: \"Du Lac\" (want \"du Lac\")"
       },
       {
         "name": "crois. Sainte-Catherine",
@@ -3035,9 +3027,7 @@
           "zip": "H2Y 1C6",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Crois\"); street: \"crois. Sainte-Catherine\" (want \"Sainte-Catherine\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       },
       {
         "name": "imp. Champlain",
@@ -3052,9 +3042,7 @@
           "zip": "G1R 4S9",
           "country": "CA"
         },
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types",
-        "todo": true,
-        "todoNote": "type: absent (want \"Imp\"); street: \"imp. Champlain\" (want \"Champlain\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, French street types"
       }
     ]
   }
