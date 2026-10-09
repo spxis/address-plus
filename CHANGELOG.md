@@ -4,6 +4,8 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+## 1.4.0 - 2026-10-09
+
 ### Added
 
 - A Japanese address corpus of 1,118 cases (`test-data/corpus/japan/`): 837 of the real addresses in Geolonia's normalize-japanese-addresses tests (MIT), its 38 normaliser shapes, and original cases for kanji and full-width numerals, sixteen kinds of dash, postal codes, buildings, 大字 and 郡, Kyoto's street directions, Hokkaido's grids, the twenty designated cities, Tokyo's 23 wards, romaji and unknown places. `docs/TEST_COVERAGE.md` describes it.
