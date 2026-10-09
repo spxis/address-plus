@@ -1,0 +1,114 @@
+name: Release
+
+# `pnpm release <version>` commits the version and tags it; pushing the tag starts this workflow.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+
+# A release runs to the end once started; a second push of the same tag waits for it.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Tag matches the version and changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          # This job installs nothing, so there is no pnpm for setup-node to find; v5 fails without this.
+          package-manager-cache: false
+      - name: Compare the tag with package.json and CHANGELOG.md
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          declared="$(node -p 'require("./package.json").version')"
+          if [ "$version" != "$declared" ]; then
+            echo "::error title=Version mismatch::The tag $GITHUB_REF_NAME does not match package.json ($declared). Cut releases with pnpm release <version>."
+            exit 1
+          fi
+          node scripts/release.mjs --notes "$version" > /dev/null
+
+  checks:
+    name: Checks
+    needs: verify
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ci.yml
+
+  npm:
+    name: Package to npm
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      # Secrets cannot be tested in `if:`; an empty value means the secret has not been added.
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Skip without NPM_TOKEN
+        if: env.NPM_TOKEN == ''
+        run: |
+          message="NPM_TOKEN is not set, so nothing was published to npm. It is a repository secret only the owner can add (Settings > Secrets and variables > Actions); the next release publishes once it exists."
+          echo "::notice title=npm publish skipped::$message"
+          echo "### npm publish skipped" >> "$GITHUB_STEP_SUMMARY"
+          echo "$message" >> "$GITHUB_STEP_SUMMARY"
+      - if: env.NPM_TOKEN != ''
+        uses: actions/checkout@v5
+      - if: env.NPM_TOKEN != ''
+        uses: pnpm/action-setup@v4
+      - if: env.NPM_TOKEN != ''
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - if: env.NPM_TOKEN != ''
+        run: pnpm install --frozen-lockfile
+      # The package is built here, since dist/ is not committed.
+      - if: env.NPM_TOKEN != ''
+        run: pnpm build
+      - name: Publish
+        if: env.NPM_TOKEN != ''
+        # --provenance links the package to this workflow run, which is what id-token: write is for.
+        run: pnpm publish --access public --no-git-checks --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  release:
+    name: GitHub release
+    needs: npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          # This job installs nothing, so there is no pnpm for setup-node to find; v5 fails without this.
+          package-manager-cache: false
+      - name: Create the release from CHANGELOG.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          notes="$RUNNER_TEMP/notes.md"
+          node scripts/release.mjs --notes "$version" > "$notes"
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            # A rerun after a failed job: refresh the notes rather than failing.
+            gh release edit "$GITHUB_REF_NAME" --title "$version" --notes-file "$notes"
+          else
+            prerelease=()
+            case "$version" in *-*) prerelease=(--prerelease) ;; esac
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "$version" --notes-file "$notes" "${prerelease[@]}"
+          fi
