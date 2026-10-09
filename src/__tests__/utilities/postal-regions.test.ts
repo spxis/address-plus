@@ -7,7 +7,8 @@ import * as api from "../../index";
 import { parseLocation } from "../../parser";
 import { validateAddress } from "../../utils/comprehensive-validation";
 
-const { zipToState, prefixesForState, prefixesForProvince, regionConnectors, regionMismatch } = testData.tests;
+const { zipToState, prefixesForState, prefixesForProvince, regionConnectors, fullStateNames, regionMismatch } =
+  testData.tests;
 
 const US_STATE_CODES = [
   "AL",
@@ -112,6 +113,14 @@ describe("Postal codes and their regions", () => {
 
   describe("region names containing 'and'", () => {
     regionConnectors.forEach(({ name, input, expected }) => {
+      it(`should ${name}`, () => {
+        expect(parseLocation(input)).toMatchObject(expected);
+      });
+    });
+  });
+
+  describe("state names that end in another state's name", () => {
+    fullStateNames.forEach(({ name, input, expected }) => {
       it(`should ${name}`, () => {
         expect(parseLocation(input)).toMatchObject(expected);
       });

@@ -34,6 +34,11 @@ import { detectCountry, parseStateProvince } from "./utils/parsing";
 import { abbreviateRegionConnectors } from "./utils/region-connectors";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
+// A city, then a state or province by its full name. The city is tried absent first, so "West Virginia"
+// on its own is the state, not the city West in Virginia; "Charleston West Virginia" still splits.
+const cityAndFullState = (patterns: ReturnType<typeof buildPatterns>): RegExp =>
+  new RegExp(`^(?:(.+?)\\s+)??(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i");
+
 // Parse a location string into address components
 function parseLocation(address: string, options: ParseOptions = {}): ParsedAddress | null {
   if (!address || typeof address !== "string") {
@@ -354,11 +359,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           cityPart = cityStateAbbrevMatch[1].trim();
           statePart = cityStateAbbrevMatch[2].trim();
         } else {
-          const cityStateFullMatch = remainingAfterZip.match(
-            new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"),
-          );
+          const cityStateFullMatch = remainingAfterZip.match(cityAndFullState(patterns));
           if (cityStateFullMatch) {
-            cityPart = cityStateFullMatch[1].trim();
+            cityPart = (cityStateFullMatch[1] ?? "").trim();
             statePart = cityStateFullMatch[2].trim();
           } else {
             // State or unknown format
@@ -390,11 +393,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           cityPart = cityStateAbbrevMatch[1].trim();
           statePart = cityStateAbbrevMatch[2].trim();
         } else {
-          const cityStateFullMatch = remainingText.match(
-            new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"),
-          );
+          const cityStateFullMatch = remainingText.match(cityAndFullState(patterns));
           if (cityStateFullMatch) {
-            cityPart = cityStateFullMatch[1].trim();
+            cityPart = (cityStateFullMatch[1] ?? "").trim();
             statePart = cityStateFullMatch[2].trim();
           } else {
             // Before assigning remaining text as city, check if it's a standalone secondary unit type
@@ -435,11 +436,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           cityPart = cityStateAbbrevMatch[1].trim();
           statePart = cityStateAbbrevMatch[2].trim();
         } else {
-          const cityStateFullMatch = cityStateText.match(
-            new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"),
-          );
+          const cityStateFullMatch = cityStateText.match(cityAndFullState(patterns));
           if (cityStateFullMatch) {
-            cityPart = cityStateFullMatch[1].trim();
+            cityPart = (cityStateFullMatch[1] ?? "").trim();
             statePart = cityStateFullMatch[2].trim();
           } else {
             cityPart = cityStateText;
@@ -487,11 +486,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
           }
         } else {
           // Then try full state names
-          const cityStateFullMatch = remainingText.match(
-            new RegExp(`^(.+?)\\s+(${patterns.stateFullName.slice(2, -2)})\\s*$`, "i"),
-          );
+          const cityStateFullMatch = remainingText.match(cityAndFullState(patterns));
           if (cityStateFullMatch) {
-            const beforeState = cityStateFullMatch[1].trim();
+            const beforeState = (cityStateFullMatch[1] ?? "").trim();
             statePart = cityStateFullMatch[2].trim();
 
             // Remove any trailing comma from beforeState
