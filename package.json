@@ -16,6 +16,16 @@
       "types": "./dist/jp/index.d.ts",
       "import": "./dist/jp/index.js",
       "require": "./dist/jp/index.cjs"
+    },
+    "./au": {
+      "types": "./dist/au/index.d.ts",
+      "import": "./dist/au/index.js",
+      "require": "./dist/au/index.cjs"
+    },
+    "./gb": {
+      "types": "./dist/gb/index.d.ts",
+      "import": "./dist/gb/index.js",
+      "require": "./dist/gb/index.cjs"
     }
   },
   "sideEffects": false,
