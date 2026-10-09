@@ -77,9 +77,9 @@
       },
       {
         "name": "read a ward and its city in two parts",
-        "input": "1-1 Daimoncho, Omiya-ku, Saitama-shi, Saitama 330-0854, Japan",
+        "input": "1-1 Daimoncho, Omiya-ku, Saitama-shi, Saitama 330-0846, Japan",
         "expected": {
-          "postalCode": "330-0854",
+          "postalCode": "330-0846",
           "prefectureCode": "11",
           "municipality": "さいたま市大宮区",
           "municipalityCode": "11103",
