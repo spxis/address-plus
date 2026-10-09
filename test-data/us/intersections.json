@@ -156,6 +156,96 @@
         },
         "description": "Intersection using '@' symbol as separator"
       }
+    ],
+    "oneWordCity": [
+      {
+        "input": "Main St and Pine St Tacoma WA",
+        "expected": {
+          "city": "Tacoma",
+          "state": "WA",
+          "street1": "Main",
+          "type1": "St",
+          "street2": "Pine",
+          "type2": "St"
+        },
+        "description": "One-word city after a typed second street, no commas: the type ends the street"
+      },
+      {
+        "input": "1st Ave and Pine St Seattle WA 98101",
+        "expected": {
+          "city": "Seattle",
+          "state": "WA",
+          "zip": "98101",
+          "street1": "1st",
+          "type1": "Ave",
+          "street2": "Pine",
+          "type2": "St"
+        },
+        "description": "One-word city with a ZIP after it"
+      },
+      {
+        "input": "Main St & Pine Ave Tacoma WA 98402",
+        "expected": {
+          "city": "Tacoma",
+          "state": "WA",
+          "zip": "98402",
+          "street1": "Main",
+          "type1": "St",
+          "street2": "Pine",
+          "type2": "Ave"
+        },
+        "description": "One-word city, ampersand and an avenue"
+      },
+      {
+        "input": "Main and Pine Sts Tacoma WA",
+        "expected": {
+          "city": "Tacoma",
+          "state": "WA",
+          "street1": "Main",
+          "type1": "",
+          "street2": "Pine",
+          "type2": "Sts"
+        },
+        "description": "One-word city after a shared plural type"
+      },
+      {
+        "input": "Main St and Pine St Salt Lake City UT",
+        "expected": {
+          "city": "Salt Lake City",
+          "state": "UT",
+          "street1": "Main",
+          "type1": "St",
+          "street2": "Pine",
+          "type2": "St"
+        },
+        "description": "Three-word city with a street-type word (Lake) inside it"
+      },
+      {
+        "input": "N Main St & E Oak Ave Boise ID",
+        "expected": {
+          "city": "Boise",
+          "state": "ID",
+          "prefix1": "N",
+          "street1": "Main",
+          "type1": "St",
+          "prefix2": "E",
+          "street2": "Oak",
+          "type2": "Ave"
+        },
+        "description": "One-word city after directional prefixes on both streets"
+      },
+      {
+        "input": "5th Ave and 42nd St New York NY",
+        "expected": {
+          "city": "New York",
+          "state": "NY",
+          "street1": "5th",
+          "type1": "Ave",
+          "street2": "42nd",
+          "type2": "St"
+        },
+        "description": "Ordinal streets, two-word city, no commas"
+      }
     ]
   }
 }

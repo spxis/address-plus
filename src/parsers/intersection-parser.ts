@@ -3,6 +3,7 @@ import { COMMON_PARSER_PATTERNS, INTERSECTION_PATTERNS } from "../constants/pars
 import { buildPatterns } from "../patterns/pattern-builder";
 import type { ParsedIntersection, ParseOptions } from "../types";
 import { setValidatedPostalCode } from "../utils/address-validation";
+import { splitStreetAndCity } from "../utils/split-city";
 import { normalizeStreetType } from "../utils/street-type-normalizer";
 
 // Parse intersection addresses (e.g., "Main St & Elm Ave")
@@ -46,11 +47,19 @@ function parseIntersection(address: string, options: ParseOptions = {}): ParsedI
       result.city = cityMatch[1].trim();
       locationText = locationText.replace(cityMatch[0], "").trim();
     } else {
-      // Try without comma - look for 1-2 words before the state
-      cityMatch = locationText.match(CITY_PATTERNS.BASIC_CITY);
-      if (cityMatch) {
-        result.city = cityMatch[1].trim();
-        locationText = locationText.replace(cityMatch[0], "").trim();
+      // No comma: the second street ends at its type, and the city is what follows, of however many words
+      // ("Pine St Tacoma", "Pine St Salt Lake City"). Only when no type tells the two apart are the last one or
+      // two words taken as the city ("Bellamy Baton Rouge").
+      const split = splitStreetAndCity(locationText, false);
+      if (split.city) {
+        result.city = split.city;
+        locationText = split.street;
+      } else {
+        cityMatch = locationText.match(CITY_PATTERNS.BASIC_CITY);
+        if (cityMatch) {
+          result.city = cityMatch[1].trim();
+          locationText = locationText.replace(cityMatch[0], "").trim();
+        }
       }
     }
   } else {
