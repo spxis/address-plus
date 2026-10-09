@@ -1,0 +1,462 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Japanese Addresses in Romaji",
+  "description": "Japanese addresses written in the Latin alphabet: English order (the block first, the country last) and Japanese order, Hepburn with and without macrons, the designators -ku, -shi, -cho, -machi, -gun and chome, and the English words City, Ward and Prefecture. The prefecture and municipality are reported in kanji from the tables; the town and building stay as written. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied for mail from abroad.",
+  "tests": {
+    "englishOrder": [
+      {
+        "name": "the full English form",
+        "description": "Block, town, ward, prefecture, postal code and country",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "without the country",
+        "description": "No Japan at the end",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "without the postal code",
+        "description": "No postal code",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "town before the block",
+        "description": "Marunouchi 1-2-3",
+        "input": "Marunouchi 1-2-3, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome as a word",
+        "description": "2-1 Kasumigaseki 1-chome",
+        "input": "2-1 Kasumigaseki 1-chome, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Kasumigaseki",
+          "chome": "1",
+          "ban": "2",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome as a word after the town",
+        "description": "Kasumigaseki 1-chome 2-1",
+        "input": "Kasumigaseki 1-chome 2-1, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Kasumigaseki",
+          "chome": "1",
+          "ban": "2",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome with a space",
+        "description": "1 chome",
+        "input": "2-1 Kasumigaseki 1 chome, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Kasumigaseki",
+          "chome": "1",
+          "ban": "2",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome with a macron",
+        "description": "1-chōme",
+        "input": "2-1 Kasumigaseki 1-chōme, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Kasumigaseki",
+          "chome": "1",
+          "ban": "2",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "building, floor and block",
+        "description": "Sample Bldg 5F before the block",
+        "input": "Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005",
+          "building": "Sample Bldg",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "room and building",
+        "description": "Room 501, Sample Mansion",
+        "input": "Room 501, Sample Mansion, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "Sample Mansion",
+          "room": "501"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "lower case",
+        "description": "Every word in lower case",
+        "input": "1-2-3 marunouchi, chiyoda-ku, tokyo 100-0005",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "ignoreCase": ["town"],
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "capitals",
+        "description": "Every word in capitals",
+        "input": "1-2-3 MARUNOUCHI, CHIYODA-KU, TOKYO 100-0005, JAPAN",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "MARUNOUCHI",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "ignoreCase": ["town"],
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "on several lines",
+        "description": "The envelope's lines from abroad",
+        "input": "Sample Bldg 5F\n1-2-3 Marunouchi\nChiyoda-ku, Tokyo 100-0005\nJapan",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005",
+          "building": "Sample Bldg",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: absent (want \"千代田区\"); town: \"Sample Bldg 5F Marunouchi Chiyoda-ku\" (want \"Marunouchi\"); building: absent (want \"Sample Bldg\"); floor: absent (want \"5\")"
+      },
+      {
+        "name": "〒 before a romaji address",
+        "description": "The postal mark on an address in romaji",
+        "input": "〒100-0005 1-2-3 Marunouchi, Chiyoda-ku, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: absent (want \"千代田区\"); town: absent (want \"Marunouchi\"); building: \"Marunouchi, Chiyoda-ku, Tokyo\" (want absent)"
+      }
+    ],
+    "designators": [
+      {
+        "name": "macrons on the prefecture",
+        "description": "Tōkyō",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tōkyō 100-0005",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "macrons on a ward and a city",
+        "description": "Chūō-ku, Ōsaka-shi",
+        "input": "1-1 Shiromi 1-chome, Chūō-ku, Ōsaka-shi, Ōsaka 540-0001",
+        "expected": {
+          "country": "JP",
+          "postalCode": "540-0001",
+          "prefecture": "大阪府",
+          "municipality": "大阪市中央区",
+          "town": "Shiromi",
+          "chome": "1",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ward and city as -ku and -shi",
+        "description": "Kita-ku, Osaka-shi",
+        "input": "3-1-1 Umeda, Kita-ku, Osaka-shi, Osaka 530-0001",
+        "expected": {
+          "country": "JP",
+          "postalCode": "530-0001",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "Umeda",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ward named with its prefecture only",
+        "description": "Kita-ku, Osaka: the ward of the city named like the prefecture",
+        "input": "3-1-1 Umeda, Kita-ku, Osaka 530-0001",
+        "expected": {
+          "country": "JP",
+          "postalCode": "530-0001",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "Umeda",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "city as -shi",
+        "description": "Musashino-shi",
+        "input": "1-1-1 Midoricho, Musashino-shi, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "武蔵野市",
+          "town": "Midoricho",
+          "chome": "1",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "town as -machi in a district",
+        "description": "Karuizawa-machi, Kitasaku-gun",
+        "input": "1323-1 Oaza Karuizawa, Karuizawa-machi, Kitasaku-gun, Nagano 389-0102",
+        "expected": {
+          "country": "JP",
+          "postalCode": "389-0102",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "Oaza Karuizawa",
+          "ban": "1323",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"1\" (want \"1323\"); go: absent (want \"1\"); chome: \"1323\" (want absent)"
+      },
+      {
+        "name": "town as -cho without its district",
+        "description": "Tobetsu-cho, Hokkaido",
+        "input": "58-9 Shirakaba-cho, Tobetsu-cho, Hokkaido",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "石狩郡当別町",
+          "town": "Shirakaba-cho",
+          "ban": "58",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"9\" (want \"58\"); go: absent (want \"9\"); chome: \"58\" (want absent)"
+      },
+      {
+        "name": "City for -ku",
+        "description": "Chiyoda City, the ward's own English name",
+        "input": "1-2-3 Marunouchi, Chiyoda City, Tokyo",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "country: absent (want \"JP\"); prefecture: absent (want \"東京都\"); municipality: absent (want \"千代田区\"); town: absent (want \"Marunouchi\"); chome: absent (want \"1\"); ban: absent (want \"2\"); go: absent (want \"3\")"
+      },
+      {
+        "name": "Prefecture spelt out",
+        "description": "Osaka Prefecture",
+        "input": "3-1-1 Umeda, Kita-ku, Osaka-shi, Osaka Prefecture",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "Umeda",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "-to on Tokyo",
+        "description": "Tokyo-to",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokyo-to",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ward and designated city in one part",
+        "description": "Sapporo-shi Chuo-ku",
+        "input": "Kita 1-jo Nishi 2-chome, Sapporo-shi Chuo-ku, Hokkaido",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "Kita 1-jo Nishi",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Fukuoka ward",
+        "description": "Chuo-ku, Fukuoka-shi",
+        "input": "1-1-1 Tenjin, Chuo-ku, Fukuoka-shi, Fukuoka 810-0001",
+        "expected": {
+          "country": "JP",
+          "postalCode": "810-0001",
+          "prefecture": "福岡県",
+          "municipality": "福岡市中央区",
+          "town": "Tenjin",
+          "chome": "1",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "japaneseOrder": [
+      {
+        "name": "Japanese order in romaji",
+        "description": "Prefecture first, no commas",
+        "input": "Tokyo-to Chiyoda-ku Marunouchi 1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "parse returned null"
+      },
+      {
+        "name": "Japanese order with commas",
+        "description": "Prefecture first, commas between",
+        "input": "Tokyo, Chiyoda-ku, Marunouchi 1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

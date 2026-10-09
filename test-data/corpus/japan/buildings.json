@@ -1,0 +1,333 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Japanese Buildings, Floors and Rooms",
+  "description": "What follows the block: a building's name, its floor (階, F, 地下, B1F) and a room (号室, 号, #, or a fourth number). Original case written for this corpuss, with made-up building names; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied.",
+  "tests": {
+    "floors": [
+      {
+        "name": "floor in 階",
+        "description": "サンプルビル5階",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル5階",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "floor in F",
+        "description": "サンプルビル5F",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル5F",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "floor after a space",
+        "description": "サンプルビル 5F",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル 5F",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "floor in full-width",
+        "description": "サンプルビル５Ｆ",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル５Ｆ",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "basement in 地下",
+        "description": "地下1階 is B1",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル地下1階",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "B1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "basement as B1F",
+        "description": "B1F",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビルB1F",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "B1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "high floor in a tower",
+        "description": "サンプルタワー20F, no space",
+        "input": "東京都千代田区丸の内1-2-3 サンプルタワー20F",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルタワー",
+          "floor": "20"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "building with a number in its name",
+        "description": "第2サンプルビル3階: the 2 belongs to the name",
+        "input": "東京都千代田区丸の内1-2-3 第2サンプルビル3階",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "第2サンプルビル",
+          "floor": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "building straight after the block",
+        "description": "No space between the go and the building",
+        "input": "東京都千代田区丸の内1-2-3サンプルビル5階",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "floor in kanji",
+        "description": "五階: a floor in kanji numerals",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル五階",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "rooms": [
+      {
+        "name": "room in 号室",
+        "description": "サンプルマンション101号室",
+        "input": "東京都千代田区丸の内1-2-3 サンプルマンション101号室",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルマンション",
+          "room": "101"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "room after a space",
+        "description": "サンプルマンション 101",
+        "input": "東京都千代田区丸の内1-2-3 サンプルマンション 101",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルマンション",
+          "room": "101"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "room in 号 after a building",
+        "description": "サンプルビル501号: 号 after a building is a room",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル501号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "room": "501"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "room with a pound sign",
+        "description": "サンプルハイツ #202",
+        "input": "東京都千代田区丸の内1-2-3 サンプルハイツ #202",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルハイツ",
+          "room": "202"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "floor and room",
+        "description": "サンプルビル5階501号室",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル5階501号室",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5",
+          "room": "501"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "room as a fourth number",
+        "description": "1-2-3-405: the fourth number is the room",
+        "input": "東京都千代田区丸の内1-2-3-405",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "room": "405"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "room in full-width",
+        "description": "１０１号室",
+        "input": "東京都千代田区丸の内1-2-3 サンプルコーポ１０１号室",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルコーポ",
+          "room": "101"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "building only",
+        "description": "A building with no floor or room",
+        "input": "東京都千代田区丸の内1丁目2番3号 サンプルビル",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "building with markers and a room",
+        "description": "Markers, then a building and its room",
+        "input": "東京都千代田区丸の内1丁目2番3号サンプルハイツ203号室",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルハイツ",
+          "room": "203"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

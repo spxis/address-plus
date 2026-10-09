@@ -1,0 +1,254 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Unknown Places, Typos and Non-Addresses",
+  "description": "What the parser does with a place it does not know: an old municipality since merged away, a misspelling, a name made up, and text that is not an address at all. Nothing may be invented: an unknown municipality is kept as written and left without a code (validation then reports it), and text that names no place in Japan is null. Original case written for this corpuss.",
+  "tests": {
+    "oldNames": [
+      {
+        "name": "浦和市, merged into さいたま市 in 2001",
+        "description": "An old city is kept as written, with no code",
+        "input": "埼玉県浦和市高砂3-15-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "埼玉県",
+          "municipality": "浦和市",
+          "municipalityCode": null,
+          "town": "高砂",
+          "chome": "3",
+          "ban": "15",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "清水市, merged into 静岡市 in 2003",
+        "description": "An old city with a pair after its town",
+        "input": "静岡県清水市旭町6-8",
+        "expected": {
+          "country": "JP",
+          "prefecture": "静岡県",
+          "municipality": "清水市",
+          "municipalityCode": null,
+          "town": "旭町",
+          "ban": "6",
+          "go": "8"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"8\" (want \"6\"); go: absent (want \"8\"); chome: \"6\" (want absent)"
+      },
+      {
+        "name": "保谷市, merged into 西東京市 in 2001",
+        "description": "An old city and no block",
+        "input": "東京都保谷市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "保谷市",
+          "municipalityCode": null
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Urawa-shi in romaji",
+        "description": "An old city in romaji is kept as written",
+        "input": "3-15-1 Takasago, Urawa-shi, Saitama",
+        "expected": {
+          "country": "JP",
+          "prefecture": "埼玉県",
+          "municipality": "Urawa-shi",
+          "municipalityCode": null,
+          "town": "Takasago",
+          "chome": "3",
+          "ban": "15",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"さいたま市浦和区\" (want \"Urawa-shi\"); municipalityCode: \"11107\" (want null)"
+      },
+      {
+        "name": "old kanji in a municipality (驒)",
+        "description": "飛驒市 is 飛騨市 with the old form of 騨",
+        "input": "岐阜県飛驒市古川町本町2-22",
+        "expected": {
+          "country": "JP",
+          "prefecture": "岐阜県",
+          "municipality": "飛騨市",
+          "town": "古川町本町",
+          "ban": "2",
+          "go": "22"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"飛驒市\" (want \"飛騨市\"); ban: \"22\" (want \"2\"); go: absent (want \"22\"); chome: \"2\" (want absent)"
+      },
+      {
+        "name": "ヶ for ケ in a municipality",
+        "description": "鎌ヶ谷市 written with the small ヶ",
+        "input": "千葉県鎌ヶ谷市新鎌ケ谷2丁目6-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "千葉県",
+          "municipality": "鎌ケ谷市",
+          "town": "新鎌ケ谷",
+          "chome": "2",
+          "ban": "6",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"鎌ヶ谷市\" (want \"鎌ケ谷市\")"
+      },
+      {
+        "name": "the look-alike 巿 for 市",
+        "description": "巿 (U+5DFF) written for 市",
+        "input": "千葉県巿川巿八幡1丁目1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "千葉県",
+          "municipality": "市川市",
+          "town": "八幡",
+          "chome": "1",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: absent (want \"市川市\"); town: \"巿川巿八幡\" (want \"八幡\")"
+      }
+    ],
+    "misspelt": [
+      {
+        "name": "a made-up city",
+        "description": "A name written as a city but not in the tables",
+        "input": "神奈川県あいうえお市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "あいうえお市",
+          "municipalityCode": null
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "a made-up town",
+        "description": "A real ward, a town nobody has heard of",
+        "input": "東京都港区あいうえお",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "港区",
+          "town": "あいうえお"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "a misspelt prefecture designator",
+        "description": "東京部 for 東京都",
+        "input": "東京部千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "prefecture: absent (want \"東京都\"); municipality: \"東京部千代田区\" (want \"千代田区\")"
+      },
+      {
+        "name": "the prefecture alone, short",
+        "description": "東京 with nothing after it",
+        "input": "東京",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "parse returned null"
+      },
+      {
+        "name": "a romaji misspelling of the prefecture",
+        "description": "Tokio: the municipality still names it",
+        "input": "1-2-3 Marunouchi, Chiyoda-ku, Tokio",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "Marunouchi",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "options": {
+          "country": "JP"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "building: \"Tokio\" (want absent)"
+      },
+      {
+        "name": "an ambiguous city without a prefecture",
+        "description": "府中市 is in Tokyo and in Hiroshima: left without a code or prefecture",
+        "input": "府中市宮西町2丁目24番地",
+        "expected": {
+          "country": "JP",
+          "municipality": "府中市",
+          "municipalityCode": null,
+          "town": "宮西町",
+          "chome": "2",
+          "ban": "24"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "notAddresses": [
+      {
+        "name": "a greeting",
+        "description": "Japanese text with no place in it",
+        "input": "こんにちは",
+        "expected": null,
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Japan alone",
+        "description": "The country and nothing else",
+        "input": "日本",
+        "expected": null,
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kana nonsense",
+        "description": "Kana that names nothing",
+        "input": "あいうえお",
+        "expected": null,
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "a US address with a Japanese name",
+        "description": "Tokyo in a US street name is not Japan",
+        "input": "100 Tokyo Ave, Torrance, CA 90501",
+        "expected": {
+          "country": "US"
+        },
+        "partial": true,
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Tokyo, Japan",
+        "description": "A prefecture and the country",
+        "input": "Tokyo, Japan",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Kyoto Street Directions",
+  "description": "Kyoto's way of finding a town by its streets (通り名): the street the place is on, the cross street, and which way to go from the corner: 上ル or 上る (north), 下ル or 下る (south), 東入 (east) and 西入 (west), before the town itself. The town and block are the address; the directions are reported in streetDirections. Original case written for this corpuss; the shape is described in our own words from Kyoto City's own explanation of its addresses.",
+  "tests": {
+    "directions": [
+      {
+        "name": "上る (north)",
+        "description": "寺町通御池上る: north of the corner of Teramachi and Oike",
+        "input": "京都府京都市中京区寺町通御池上る上本能寺前町488",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "寺町通御池上る",
+          "town": "上本能寺前町",
+          "ban": "488"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"寺町通御池上る\"); town: \"寺町通御池上る上本能寺前町\" (want \"上本能寺前町\")"
+      },
+      {
+        "name": "上ル in katakana",
+        "description": "上ル, the same word in katakana, and 番地",
+        "input": "京都府京都市中京区寺町通御池上ル上本能寺前町488番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "寺町通御池上ル",
+          "town": "上本能寺前町",
+          "ban": "488"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"寺町通御池上ル\"); town: \"寺町通御池上ル上本能寺前町\" (want \"上本能寺前町\")"
+      },
+      {
+        "name": "下る (south)",
+        "description": "烏丸通七条下る",
+        "input": "京都府京都市下京区烏丸通七条下る東塩小路町721-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市下京区",
+          "streetDirections": "烏丸通七条下る",
+          "town": "東塩小路町",
+          "ban": "721",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"烏丸通七条下る\"); town: \"烏丸通七条下る東塩小路町\" (want \"東塩小路町\")"
+      },
+      {
+        "name": "下ル in katakana",
+        "description": "河原町二条下ル, without 通",
+        "input": "京都府京都市中京区河原町二条下ル一之船入町537-50",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "河原町二条下ル",
+          "town": "一之船入町",
+          "ban": "537",
+          "go": "50"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"河原町二条下ル\"); town: \"河原町二条下ル一之船入町\" (want \"一之船入町\")"
+      },
+      {
+        "name": "東入 (east)",
+        "description": "今出川通烏丸東入",
+        "input": "京都府京都市上京区今出川通烏丸東入玄武町601",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市上京区",
+          "streetDirections": "今出川通烏丸東入",
+          "town": "玄武町",
+          "ban": "601"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"今出川通烏丸東入\"); town: \"今出川通烏丸東入玄武町\" (want \"玄武町\")"
+      },
+      {
+        "name": "西入 (west)",
+        "description": "三条通烏丸西入",
+        "input": "京都府京都市中京区三条通烏丸西入御倉町80",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "三条通烏丸西入",
+          "town": "御倉町",
+          "ban": "80"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"三条通烏丸西入\"); town: \"三条通烏丸西入御倉町\" (want \"御倉町\")"
+      },
+      {
+        "name": "東入ル",
+        "description": "御池通高倉東入ル",
+        "input": "京都府京都市中京区御池通高倉東入ル御所八幡町229",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "御池通高倉東入ル",
+          "town": "御所八幡町",
+          "ban": "229"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"御池通高倉東入ル\"); town: \"御池通高倉東入ル御所八幡町\" (want \"御所八幡町\")"
+      },
+      {
+        "name": "西入る with no block",
+        "description": "錦小路通麩屋町西入る, a town and no number",
+        "input": "京都府京都市中京区錦小路通麩屋町西入る東魚屋町",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "錦小路通麩屋町西入る",
+          "town": "東魚屋町"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"錦小路通麩屋町西入る\"); town: \"錦小路通麩屋町西入る東魚屋町\" (want \"東魚屋町\")"
+      },
+      {
+        "name": "上がる",
+        "description": "上がる, the spelling with が",
+        "input": "京都府京都市中京区河原町通三条上がる恵比須町427",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "河原町通三条上がる",
+          "town": "恵比須町",
+          "ban": "427"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"河原町通三条上がる\"); town: \"河原町通三条上がる恵比須町\" (want \"恵比須町\")"
+      },
+      {
+        "name": "a street whose name starts with 下",
+        "description": "下立売通 is a street; its 下 is not a direction",
+        "input": "京都府京都市上京区下立売通新町西入藪ノ内町",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市上京区",
+          "streetDirections": "下立売通新町西入",
+          "town": "藪ノ内町"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"下立売通新町西入\"); town: \"下立売通新町西入藪ノ内町\" (want \"藪ノ内町\")"
+      },
+      {
+        "name": "two directions",
+        "description": "西洞院通四条下ル: then 西入",
+        "input": "京都府京都市下京区四条通高倉西入立売西町79",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市下京区",
+          "streetDirections": "四条通高倉西入",
+          "town": "立売西町",
+          "ban": "79"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"四条通高倉西入\"); town: \"四条通高倉西入立売西町\" (want \"立売西町\")"
+      },
+      {
+        "name": "with a postal code",
+        "description": "〒 before a Kyoto address",
+        "input": "〒604-8571 京都府京都市中京区寺町通御池上る上本能寺前町488",
+        "expected": {
+          "country": "JP",
+          "postalCode": "604-8571",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "寺町通御池上る",
+          "town": "上本能寺前町",
+          "ban": "488"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"寺町通御池上る\"); town: \"寺町通御池上る上本能寺前町\" (want \"上本能寺前町\")"
+      },
+      {
+        "name": "without the prefecture",
+        "description": "京都市 names its prefecture",
+        "input": "京都市中京区寺町通御池上る上本能寺前町488",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "寺町通御池上る",
+          "town": "上本能寺前町",
+          "ban": "488"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"寺町通御池上る\"); town: \"寺町通御池上る上本能寺前町\" (want \"上本能寺前町\")"
+      },
+      {
+        "name": "town before the directions",
+        "description": "The town first, then the directions",
+        "input": "京都府京都市下京区高辻堀川町西堀川通高辻下る366番2",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市下京区",
+          "streetDirections": "西堀川通高辻下る",
+          "town": "高辻堀川町",
+          "ban": "366",
+          "go": "2"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"西堀川通高辻下る\"); town: \"高辻堀川町西堀川通高辻下る\" (want \"高辻堀川町\")"
+      },
+      {
+        "name": "no directions",
+        "description": "A Kyoto town with no directions",
+        "input": "京都府京都市上京区主計町123番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市上京区",
+          "town": "主計町",
+          "ban": "123"
+        },
+        "source": "Original case written for this corpus; Kyoto City's street-name addresses, described in our own words"
+      }
+    ]
+  }
+}

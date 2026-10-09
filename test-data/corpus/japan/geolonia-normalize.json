@@ -1,0 +1,542 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Geolonia Normalizer Shapes",
+  "description": "The shapes in Geolonia's own tests for normalize-japanese-addresses (MIT), test/main/main.test.ts, checked 2026-10-09 at commit 4e694d6. The inputs are theirs; the expected values are this library's reading of them, which differs from Geolonia's where Geolonia rewrites a town to its official spelling from its town table: here the town is kept as written.",
+  "tests": {
+    "levels": [
+      {
+        "name": "to the block",
+        "description": "A Yokohama ward, a town and 番地 in full-width digits",
+        "input": "神奈川県横浜市港北区大豆戸町１７番地１１",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "横浜市港北区",
+          "town": "大豆戸町",
+          "ban": "17",
+          "go": "11"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "to the municipality",
+        "description": "A prefecture and a ward, nothing more",
+        "input": "神奈川県横浜市港北区",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "横浜市港北区"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "to the prefecture",
+        "description": "A prefecture alone",
+        "input": "神奈川県",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "an unknown city",
+        "description": "A city that does not exist is kept as written, with no code",
+        "input": "神奈川県あいうえお市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "あいうえお市",
+          "municipalityCode": null
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "an unknown town",
+        "description": "A real ward and a town that does not exist",
+        "input": "東京都港区あいうえお",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "港区",
+          "town": "あいうえお"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "no place at all",
+        "description": "Kana that names no place",
+        "input": "あいうえお",
+        "expected": null,
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      }
+    ],
+    "toyosu": [
+      {
+        "name": "豊洲 pattern 1",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "東京都江東区豊洲1丁目2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 pattern 2",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "東京都江東区豊洲 1丁目2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 pattern 3",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "東京都江東区豊洲 1-2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 pattern 4",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "東京都 江東区 豊洲 1-2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 pattern 5",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "東京都江東区豊洲 １ー２ー２７",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 pattern 6",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "東京都江東区豊洲 一丁目2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 pattern 7",
+        "description": "One block written seven ways: spaces, hyphens, ー, a kanji chome and no prefecture",
+        "input": "江東区豊洲 一丁目2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "1",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "豊洲 with a kanji chome before hyphens",
+        "description": "四-2-27",
+        "input": "東京都江東区豊洲 四-2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "4",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "town: \"豊洲 四-\" (want \"豊洲\"); chome: \"2\" (want \"4\"); ban: \"27\" (want \"2\"); go: absent (want \"27\")"
+      }
+    ],
+    "letteredNumbers": [
+      {
+        "name": "katakana letter in the go",
+        "description": "14ーイ22 then a building",
+        "input": "東京都町田市木曽東四丁目１４ーイ２２ ジオロニアマンション",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "町田市",
+          "town": "木曽東",
+          "chome": "4",
+          "ban": "14",
+          "go": "イ22",
+          "building": "ジオロニアマンション"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "ban: absent (want \"14\"); go: absent (want \"イ22\"); building: \"14ーイ22 ジオロニアマンション\" (want \"ジオロニアマンション\")"
+      },
+      {
+        "name": "Latin letter in the go",
+        "description": "14ーＡ22 then a building",
+        "input": "東京都町田市木曽東四丁目１４ーＡ２２ ジオロニアマンション",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "町田市",
+          "town": "木曽東",
+          "chome": "4",
+          "ban": "14",
+          "go": "A22",
+          "building": "ジオロニアマンション"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "ban: absent (want \"14\"); go: absent (want \"A22\"); building: \"14ーA22 ジオロニアマンション\" (want \"ジオロニアマンション\")"
+      },
+      {
+        "name": "kanji numerals, a heavy dash and a letter",
+        "description": "一四━Ａ二二",
+        "input": "東京都町田市木曽東四丁目一四━Ａ二二 ジオロニアマンション",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "町田市",
+          "town": "木曽東",
+          "chome": "4",
+          "ban": "14",
+          "go": "A22",
+          "building": "ジオロニアマンション"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "ban: absent (want \"14\"); go: absent (want \"A22\"); building: \"一四━A二二 ジオロニアマンション\" (want \"ジオロニアマンション\")"
+      }
+    ],
+    "nanao": [
+      {
+        "name": "藤橋町亥 pattern 1",
+        "description": "A town with a 小字 (亥), in kanji and digits, with spaces and without the prefecture",
+        "input": "石川県七尾市藤橋町亥45番地1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "石川県",
+          "municipality": "七尾市",
+          "town": "藤橋町亥",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "藤橋町亥 pattern 2",
+        "description": "A town with a 小字 (亥), in kanji and digits, with spaces and without the prefecture",
+        "input": "石川県七尾市藤橋町亥四十五番地1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "石川県",
+          "municipality": "七尾市",
+          "town": "藤橋町亥",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "藤橋町亥 pattern 3",
+        "description": "A town with a 小字 (亥), in kanji and digits, with spaces and without the prefecture",
+        "input": "石川県七尾市藤橋町 亥 四十五番地1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "石川県",
+          "municipality": "七尾市",
+          "town": "藤橋町亥",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "town: \"藤橋町 亥\" (want \"藤橋町亥\")"
+      },
+      {
+        "name": "藤橋町亥 pattern 4",
+        "description": "A town with a 小字 (亥), in kanji and digits, with spaces and without the prefecture",
+        "input": "石川県七尾市藤橋町 亥 45-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "石川県",
+          "municipality": "七尾市",
+          "town": "藤橋町亥",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "town: \"藤橋町 亥\" (want \"藤橋町亥\"); ban: \"1\" (want \"45\"); go: absent (want \"1\"); chome: \"45\" (want absent)"
+      },
+      {
+        "name": "藤橋町亥 pattern 5",
+        "description": "A town with a 小字 (亥), in kanji and digits, with spaces and without the prefecture",
+        "input": "七尾市藤橋町 亥 45-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "石川県",
+          "municipality": "七尾市",
+          "town": "藤橋町亥",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "town: \"藤橋町 亥\" (want \"藤橋町亥\"); ban: \"1\" (want \"45\"); go: absent (want \"1\"); chome: \"45\" (want absent)"
+      }
+    ],
+    "textForms": [
+      {
+        "name": "decomposed Unicode",
+        "description": "The input in NFKD, with the voiced marks apart",
+        "input": "茨城県つくば市筑穂1丁目10−4",
+        "expected": {
+          "country": "JP",
+          "prefecture": "茨城県",
+          "municipality": "つくば市",
+          "town": "筑穂",
+          "chome": "1",
+          "ban": "10",
+          "go": "4"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "a numeral that is part of a town",
+        "description": "一の坂町西 keeps its 一の",
+        "input": "北海道滝川市一の坂町西",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "滝川市",
+          "town": "一の坂町西"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "a lone number after a town with chome",
+        "description": "小石川1: the number is the chome",
+        "input": "東京都文京区小石川1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "文京区",
+          "town": "小石川",
+          "chome": "1"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "chome: absent (want \"1\"); ban: \"1\" (want absent)"
+      },
+      {
+        "name": "a lone number then a building",
+        "description": "小石川1ビル名",
+        "input": "東京都文京区小石川1ビル名",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "文京区",
+          "town": "小石川",
+          "chome": "1",
+          "building": "ビル名"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "town: \"小石川1ビル名\" (want \"小石川\"); chome: absent (want \"1\"); building: absent (want \"ビル名\")"
+      }
+    ],
+    "oldKanji": [
+      {
+        "name": "亞 in a town",
+        "description": "The old form of 亜, kept as written",
+        "input": "宮城県大崎市古川大崎東亞",
+        "expected": {
+          "country": "JP",
+          "prefecture": "宮城県",
+          "municipality": "大崎市",
+          "town": "古川大崎東亞"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "亜 in a town",
+        "description": "The current form",
+        "input": "宮城県大崎市古川大崎東亜",
+        "expected": {
+          "country": "JP",
+          "prefecture": "宮城県",
+          "municipality": "大崎市",
+          "town": "古川大崎東亜"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "沢 in a town",
+        "description": "The current form",
+        "input": "東京都西多摩郡奥多摩町海沢",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "西多摩郡奥多摩町",
+          "town": "海沢"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "澤 in a town",
+        "description": "The old form of 沢, kept as written",
+        "input": "東京都西多摩郡奥多摩町海澤",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "西多摩郡奥多摩町",
+          "town": "海澤"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "麩 in a town",
+        "description": "One form of fu",
+        "input": "愛知県津島市池麩町",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "津島市",
+          "town": "池麩町"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "麸 in a town",
+        "description": "The other form",
+        "input": "愛知県津島市池麸町",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "津島市",
+          "town": "池麸町"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "驒 in a city",
+        "description": "飛驒市 is 飛騨市",
+        "input": "岐阜県飛驒市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "岐阜県",
+          "municipality": "飛騨市"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6",
+        "todo": true,
+        "todoNote": "municipality: \"飛驒市\" (want \"飛騨市\")"
+      },
+      {
+        "name": "騨 in a city",
+        "description": "The current form",
+        "input": "岐阜県飛騨市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "岐阜県",
+          "municipality": "飛騨市"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "さき in kana",
+        "description": "柿さき町, a kanji written in kana",
+        "input": "愛知県安城市柿さき町",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "安城市",
+          "town": "柿さき町"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "碕 in kanji",
+        "description": "柿碕町",
+        "input": "愛知県安城市柿碕町",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "安城市",
+          "town": "柿碕町"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      }
+    ],
+    "koaza": [
+      {
+        "name": "a 小字 in kanji numerals",
+        "description": "三五十 is a 小字's name, not a number",
+        "input": "愛知県豊田市西丹波町三五十",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "豊田市",
+          "town": "西丹波町三五十"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      },
+      {
+        "name": "a 小字 then a land lot",
+        "description": "名字八五十 then 2459",
+        "input": "広島県府中市栗柄町名字八五十2459",
+        "expected": {
+          "country": "JP",
+          "prefecture": "広島県",
+          "municipality": "府中市",
+          "town": "栗柄町名字八五十",
+          "ban": "2459"
+        },
+        "source": "Geolonia normalize-japanese-addresses (MIT), test/main/main.test.ts at commit 4e694d6"
+      }
+    ]
+  }
+}

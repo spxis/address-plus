@@ -1,0 +1,310 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Japanese Postal Codes",
+  "description": "Seven-digit Japanese postal codes, with and without the 〒 mark and the hyphen, in either width and either place. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied.",
+  "tests": {
+    "marked": [
+      {
+        "name": "〒 with hyphen",
+        "description": "〒100-0005 before the prefecture",
+        "input": "〒100-0005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 without hyphen",
+        "description": "〒1000005, seven digits run together",
+        "input": "〒1000005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 then a space",
+        "description": "〒 100-0005",
+        "input": "〒 100-0005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 in full-width digits",
+        "description": "〒１００－０００５",
+        "input": "〒１００－０００５ 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 with the long-vowel mark",
+        "description": "〒１００ー０００５, ー as the hyphen",
+        "input": "〒１００ー０００５ 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 with a minus sign",
+        "description": "〒100−0005 with U+2212",
+        "input": "〒100−0005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 run into the prefecture",
+        "description": "No space after the code",
+        "input": "〒100-0005東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 at the end",
+        "description": "The code after the address",
+        "input": "東京都千代田区丸の内1-2-3 〒100-0005",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 on its own line",
+        "description": "The envelope's three lines: code, address, building",
+        "input": "〒100-0005\n東京都千代田区丸の内1-2-3\nサンプルビル5階",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 with a leading zero",
+        "description": "A Hokkaido code starts with 0",
+        "input": "〒060-0001 北海道札幌市中央区北1条西2丁目",
+        "expected": {
+          "country": "JP",
+          "postalCode": "060-0001",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北1条西",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 alone",
+        "description": "A postal code and nothing else names its prefecture",
+        "input": "〒100-0005",
+        "expected": {
+          "country": "JP",
+          "postalCode": "100-0005",
+          "prefecture": "東京都"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "〒 and Osaka",
+        "description": "Osaka's 530 codes",
+        "input": "〒530-0001 大阪府大阪市北区梅田3-1-1",
+        "expected": {
+          "country": "JP",
+          "postalCode": "530-0001",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "梅田",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "unmarked": [
+      {
+        "name": "code first without 〒",
+        "description": "100-0005 at the start",
+        "input": "100-0005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "code first without 〒 or hyphen",
+        "description": "1000005 at the start",
+        "input": "1000005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "code last without 〒",
+        "description": "100-0005 at the end",
+        "input": "東京都千代田区丸の内1-2-3 100-0005",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "郵便番号 label",
+        "description": "The words 郵便番号 before the code",
+        "input": "郵便番号100-0005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "郵便番号 label with a full-width colon",
+        "description": "郵便番号：１００－０００５",
+        "input": "郵便番号：１００－０００５ 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Japan first, then the code",
+        "description": "日本 before 〒",
+        "input": "日本 〒100-0005 東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "postalCode": "100-0005"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Okinawa code",
+        "description": "Okinawa's 900 codes",
+        "input": "〒900-0006 沖縄県那覇市おもろまち3丁目1-1",
+        "expected": {
+          "country": "JP",
+          "postalCode": "900-0006",
+          "prefecture": "沖縄県",
+          "municipality": "那覇市",
+          "town": "おもろまち",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

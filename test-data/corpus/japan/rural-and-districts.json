@@ -1,0 +1,249 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Japanese Rural Towns, 大字, 字 and Districts",
+  "description": "Towns named with 大字 (ōaza), 字 (aza) and 小字 (koaza), where the numbers are a land lot (地番) rather than a block, and towns and villages in a district (郡), written with and without the district. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied.",
+  "tests": {
+    "oaza": [
+      {
+        "name": "大字 with a land lot",
+        "description": "大字軽井沢1323番地1",
+        "input": "長野県北佐久郡軽井沢町大字軽井沢1323番地1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "大字軽井沢",
+          "ban": "1323",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "大字 with a hyphenated land lot",
+        "description": "大字軽井沢1323-1",
+        "input": "長野県北佐久郡軽井沢町大字軽井沢1323-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "大字軽井沢",
+          "ban": "1323",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "大字 with a small land lot",
+        "description": "大字新堀12-3: in a 大字 town a pair is ban and go however small",
+        "input": "埼玉県川口市大字新堀12-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "埼玉県",
+          "municipality": "川口市",
+          "town": "大字新堀",
+          "ban": "12",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "字 with a land lot",
+        "description": "字恩納123",
+        "input": "沖縄県国頭郡恩納村字恩納123",
+        "expected": {
+          "country": "JP",
+          "prefecture": "沖縄県",
+          "municipality": "国頭郡恩納村",
+          "town": "字恩納",
+          "ban": "123"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "大字 and 字 together",
+        "description": "大字芝字宮根: the 字 names a part of the 大字",
+        "input": "埼玉県川口市大字芝字宮根1234-5",
+        "expected": {
+          "country": "JP",
+          "prefecture": "埼玉県",
+          "municipality": "川口市",
+          "town": "大字芝字宮根",
+          "ban": "1234",
+          "go": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "小字 written out",
+        "description": "大字北条小字新田",
+        "input": "茨城県つくば市大字北条小字新田123番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "茨城県",
+          "municipality": "つくば市",
+          "town": "大字北条小字新田",
+          "ban": "123"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "大字 in a village",
+        "description": "木祖村大字薮原1191-1",
+        "input": "長野県木曽郡木祖村大字薮原1191-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "木曽郡木祖村",
+          "town": "大字薮原",
+          "ban": "1191",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "land lot over a hundred without 大字",
+        "description": "A first number of 100 or more is a land lot",
+        "input": "東京都西多摩郡奥多摩町氷川215-6",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "西多摩郡奥多摩町",
+          "town": "氷川",
+          "ban": "215",
+          "go": "6"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "小字 straight after the town, no number",
+        "description": "A 小字 name after the town is part of the town",
+        "input": "愛知県豊田市西丹波町三五十",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "豊田市",
+          "town": "西丹波町三五十"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "districts": [
+      {
+        "name": "district town in full",
+        "description": "石狩郡当別町, with the district",
+        "input": "北海道石狩郡当別町白樺町58番地9",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "石狩郡当別町",
+          "town": "白樺町",
+          "ban": "58",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "district town without the district",
+        "description": "当別町 written without 石狩郡",
+        "input": "北海道当別町白樺町58番地9",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "石狩郡当別町",
+          "town": "白樺町",
+          "ban": "58",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "district town without prefecture or district",
+        "description": "当別町 alone names its prefecture",
+        "input": "当別町白樺町58-9",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "石狩郡当別町",
+          "town": "白樺町",
+          "ban": "58",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"9\" (want \"58\"); go: absent (want \"9\"); chome: \"58\" (want absent)"
+      },
+      {
+        "name": "district written, no prefecture",
+        "description": "北佐久郡軽井沢町",
+        "input": "北佐久郡軽井沢町大字軽井沢1323-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "大字軽井沢",
+          "ban": "1323",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "district town that shares a city's name",
+        "description": "安芸郡府中町 is not 府中市",
+        "input": "広島県安芸郡府中町大通3丁目5-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "広島県",
+          "municipality": "安芸郡府中町",
+          "town": "大通",
+          "chome": "3",
+          "ban": "5",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "district town in Hokkaido's grid",
+        "description": "池田町西1条7丁目",
+        "input": "北海道中川郡池田町西1条7丁目",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "中川郡池田町",
+          "town": "西1条",
+          "chome": "7"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "village in a district",
+        "description": "木曽郡木祖村 without its district",
+        "input": "長野県木祖村大字薮原1191-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "木曽郡木祖村",
+          "town": "大字薮原",
+          "ban": "1191",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "district with a space before the town",
+        "description": "A space between the district and its town",
+        "input": "長野県北佐久郡 軽井沢町大字軽井沢1323-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "大字軽井沢",
+          "ban": "1323",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: absent (want \"北佐久郡軽井沢町\"); town: \"北佐久郡 軽井沢町大字軽井沢\" (want \"大字軽井沢\")"
+      }
+    ]
+  }
+}

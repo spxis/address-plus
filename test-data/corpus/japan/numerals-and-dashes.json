@@ -1,0 +1,858 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Japanese Numerals, Digits and Dashes",
+  "description": "How the numbers of a Japanese block are written: kanji numerals, full-width and half-width digits, the markers 丁目, 番, 番地 and 号, and every dash that stands between the numbers. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied, and the residence indication system (住居表示, Act on Residence Indication, 1962): chome, ban and go.",
+  "tests": {
+    "kanjiNumerals": [
+      {
+        "name": "kanji numerals before every marker",
+        "description": "Kanji numerals before 丁目, 番 and 号 are the block's numbers",
+        "input": "東京都千代田区丸の内一丁目二番三号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji tens",
+        "description": "A kanji numeral with 十 (十番, 十六号)",
+        "input": "東京都中央区銀座四丁目六番十六号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "中央区",
+          "town": "銀座",
+          "chome": "4",
+          "ban": "6",
+          "go": "16"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji ten as ban",
+        "description": "十 alone as the ban",
+        "input": "東京都港区六本木六丁目十番一号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "港区",
+          "town": "六本木",
+          "chome": "6",
+          "ban": "10",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji numerals joined by の",
+        "description": "一の二の三: の between kanji numerals is a dash",
+        "input": "東京都千代田区丸の内一の二の三",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji twenty-three banchi",
+        "description": "二十三番地: a land-lot number in kanji",
+        "input": "長野県北佐久郡軽井沢町大字軽井沢二十三番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "大字軽井沢",
+          "ban": "23"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji thousands banchi",
+        "description": "千二百三十四番地: a land-lot number with 千 and 百",
+        "input": "和歌山県東牟婁郡串本町串本千二百三十四番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "和歌山県",
+          "municipality": "東牟婁郡串本町",
+          "town": "串本",
+          "ban": "1234"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji numerals read digit by digit",
+        "description": "一〇一号室: a room number written digit by digit with 〇",
+        "input": "東京都千代田区丸の内1丁目2番3号 サンプルビル一〇一号室",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "room": "101"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "building: \"サンプルビル一〇一号室\" (want \"サンプルビル\"); room: absent (want \"101\")"
+      },
+      {
+        "name": "numeral in a town name kept (三番町)",
+        "description": "三番町 is a town; its 三 is part of the name",
+        "input": "東京都千代田区三番町6番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "三番町",
+          "ban": "6"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "numeral in a town name kept (麻布十番)",
+        "description": "麻布十番 is a town; its 十番 is part of the name",
+        "input": "東京都港区麻布十番一丁目二番三号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "港区",
+          "town": "麻布十番",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "numeral in a town name kept (三軒茶屋)",
+        "description": "三軒茶屋 keeps its 三",
+        "input": "東京都世田谷区三軒茶屋二丁目11番22号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "世田谷区",
+          "town": "三軒茶屋",
+          "chome": "2",
+          "ban": "11",
+          "go": "22"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "numeral in a town name kept (二階堂)",
+        "description": "二階堂 is a town, not a second floor",
+        "input": "神奈川県鎌倉市二階堂421",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "鎌倉市",
+          "town": "二階堂",
+          "ban": "421"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"2階堂\" (want \"二階堂\")"
+      },
+      {
+        "name": "numeral in a town name kept (四谷)",
+        "description": "四谷 keeps its 四 before a chome in kanji",
+        "input": "東京都新宿区四谷一丁目6番1号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "新宿区",
+          "town": "四谷",
+          "chome": "1",
+          "ban": "6",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "kanji chome before a hyphen",
+        "description": "A kanji chome followed by hyphenated digits: 四-2-27",
+        "input": "東京都江東区豊洲四-2-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "4",
+          "ban": "2",
+          "go": "27"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"豊洲四-\" (want \"豊洲\"); chome: \"2\" (want \"4\"); ban: \"27\" (want \"2\"); go: absent (want \"27\")"
+      },
+      {
+        "name": "kanji block with hyphens only",
+        "description": "Kanji numerals joined by hyphens: 一-二-三",
+        "input": "東京都千代田区丸の内一-二-三",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"丸の内一-二-三\" (want \"丸の内\"); chome: absent (want \"1\"); ban: absent (want \"2\"); go: absent (want \"3\")"
+      }
+    ],
+    "widths": [
+      {
+        "name": "half-width digits and hyphens",
+        "description": "The block written 1-2-3 in ASCII",
+        "input": "東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "full-width digits and hyphens",
+        "description": "The block in full-width digits with the full-width hyphen",
+        "input": "東京都千代田区丸の内１－２－３",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "full-width digits with markers",
+        "description": "Full-width digits before 丁目, 番 and 号",
+        "input": "東京都千代田区丸の内１丁目２番３号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ideographic spaces between the parts",
+        "description": "Full-width spaces (U+3000) between prefecture, municipality, town and block",
+        "input": "東京都　千代田区　丸の内　１－２－３",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "half-width katakana building",
+        "description": "A building in half-width katakana with a floor",
+        "input": "東京都千代田区丸の内1-2-3 ｻﾝﾌﾟﾙﾋﾞﾙ5F",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3",
+          "building": "サンプルビル",
+          "floor": "5"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "full-width Latin building and floor",
+        "description": "Full-width Latin letters in the building name and floor",
+        "input": "東京都港区六本木６－１０－１　ＡＢＣタワー２０Ｆ",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "港区",
+          "town": "六本木",
+          "chome": "6",
+          "ban": "10",
+          "go": "1",
+          "building": "ABCタワー",
+          "floor": "20"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "mixed widths",
+        "description": "Half-width chome, full-width ban and go",
+        "input": "東京都千代田区丸の内1丁目２番３号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "spaces inside the block",
+        "description": "Spaces around the hyphens",
+        "input": "東京都千代田区丸の内 1 - 2 - 3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "dashes": [
+      {
+        "name": "dash U+002D hyphen-minus",
+        "description": "The block's numbers joined by U+002D hyphen-minus",
+        "input": "東京都千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2010 hyphen",
+        "description": "The block's numbers joined by U+2010 hyphen",
+        "input": "東京都千代田区丸の内1‐2‐3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2011 non-breaking hyphen",
+        "description": "The block's numbers joined by U+2011 non-breaking hyphen",
+        "input": "東京都千代田区丸の内1‑2‑3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2012 figure dash",
+        "description": "The block's numbers joined by U+2012 figure dash",
+        "input": "東京都千代田区丸の内1‒2‒3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2013 en dash",
+        "description": "The block's numbers joined by U+2013 en dash",
+        "input": "東京都千代田区丸の内1–2–3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2014 em dash",
+        "description": "The block's numbers joined by U+2014 em dash",
+        "input": "東京都千代田区丸の内1—2—3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2015 horizontal bar",
+        "description": "The block's numbers joined by U+2015 horizontal bar",
+        "input": "東京都千代田区丸の内1―2―3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2212 minus sign",
+        "description": "The block's numbers joined by U+2212 minus sign",
+        "input": "東京都千代田区丸の内1−2−3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+30FC katakana long-vowel mark",
+        "description": "The block's numbers joined by U+30FC katakana long-vowel mark",
+        "input": "東京都千代田区丸の内1ー2ー3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+FF0D full-width hyphen-minus",
+        "description": "The block's numbers joined by U+FF0D full-width hyphen-minus",
+        "input": "東京都千代田区丸の内1－2－3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+FF70 half-width long-vowel mark",
+        "description": "The block's numbers joined by U+FF70 half-width long-vowel mark",
+        "input": "東京都千代田区丸の内1ｰ2ｰ3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2500 box-drawing light horizontal",
+        "description": "The block's numbers joined by U+2500 box-drawing light horizontal",
+        "input": "東京都千代田区丸の内1─2─3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"丸の内1─2─\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+      },
+      {
+        "name": "dash U+2501 box-drawing heavy horizontal",
+        "description": "The block's numbers joined by U+2501 box-drawing heavy horizontal",
+        "input": "東京都千代田区丸の内1━2━3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"丸の内1━2━\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+      },
+      {
+        "name": "dash U+FE63 small hyphen-minus",
+        "description": "The block's numbers joined by U+FE63 small hyphen-minus",
+        "input": "東京都千代田区丸の内1﹣2﹣3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "dash U+2043 hyphen bullet",
+        "description": "The block's numbers joined by U+2043 hyphen bullet",
+        "input": "東京都千代田区丸の内1⁃2⁃3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"丸の内1⁃2⁃\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+      },
+      {
+        "name": "dash U+02D7 modifier minus",
+        "description": "The block's numbers joined by U+02D7 modifier minus",
+        "input": "東京都千代田区丸の内1˗2˗3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"丸の内1˗2˗\" (want \"丸の内\"); chome: absent (want \"1\"); ban: \"3\" (want \"2\"); go: absent (want \"3\")"
+      },
+      {
+        "name": "dash ー between full-width digits",
+        "description": "The long-vowel mark between full-width digits",
+        "input": "東京都千代田区丸の内１ー２ー３",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "の between digits",
+        "description": "1の2の3: の as the dash",
+        "input": "東京都千代田区丸の内1の2の3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ノ between digits",
+        "description": "1ノ2ノ3: katakana ノ as the dash",
+        "input": "東京都千代田区丸の内1ノ2ノ3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "markers": [
+      {
+        "name": "chome ban go",
+        "description": "1丁目2番3号, every marker",
+        "input": "東京都千代田区丸の内1丁目2番3号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome banchi go",
+        "description": "1丁目2番地3: 番地 with a go after it and no 号",
+        "input": "東京都千代田区丸の内1丁目2番地3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome then hyphens",
+        "description": "1丁目2-3",
+        "input": "東京都千代田区丸の内1丁目2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome only",
+        "description": "1丁目 with no ban or go",
+        "input": "東京都千代田区丸の内1丁目",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "chome and ban",
+        "description": "1丁目2番 with no go",
+        "input": "東京都千代田区丸の内1丁目2番",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "hyphens ending in 号",
+        "description": "1-2-3号",
+        "input": "東京都千代田区丸の内1-2-3号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "banchi no",
+        "description": "1323番地の1: の after 番地",
+        "input": "長野県北佐久郡軽井沢町大字軽井沢1323番地の1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "長野県",
+          "municipality": "北佐久郡軽井沢町",
+          "town": "大字軽井沢",
+          "ban": "1323",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ban go with no chome",
+        "description": "4番2号 in a town of numbered blocks without chome",
+        "input": "東京都千代田区一番町4番2号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "一番町",
+          "ban": "4",
+          "go": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "pair in a town with no chome",
+        "description": "Two numbers in a town without chome are ban and go",
+        "input": "東京都渋谷区宇田川町1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "渋谷区",
+          "town": "宇田川町",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+      },
+      {
+        "name": "chome written 丁 without 目",
+        "description": "Sakai writes 3丁 for 3丁目",
+        "input": "大阪府堺市堺区熊野町東3丁1番9号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "堺市堺区",
+          "town": "熊野町東",
+          "chome": "3",
+          "ban": "1",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"熊野町東3丁\" (want \"熊野町東\"); chome: absent (want \"3\")"
+      },
+      {
+        "name": "chome written 丁 then hyphens",
+        "description": "3丁1-9",
+        "input": "大阪府堺市堺区熊野町東3丁1-9",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "堺市堺区",
+          "town": "熊野町東",
+          "chome": "3",
+          "ban": "1",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"熊野町東3丁\" (want \"熊野町東\"); chome: \"1\" (want \"3\"); ban: \"9\" (want \"1\"); go: absent (want \"9\")"
+      },
+      {
+        "name": "four numbers: the last is a room",
+        "description": "2-3-10-107: chome, ban, go and a room",
+        "input": "東京都豊島区南長崎2-3-10-107",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "豊島区",
+          "town": "南長崎",
+          "chome": "2",
+          "ban": "3",
+          "go": "10",
+          "room": "107"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "lettered go",
+        "description": "14-イ22: a go with a katakana letter",
+        "input": "東京都町田市木曽東四丁目14-イ22",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "町田市",
+          "town": "木曽東",
+          "chome": "4",
+          "ban": "14",
+          "go": "イ22"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: absent (want \"14\"); go: absent (want \"イ22\"); building: \"14-イ22\" (want absent)"
+      },
+      {
+        "name": "town with 番 then 町 (学校町通1番町)",
+        "description": "新潟市's 学校町通1番町 is a town whose name holds 1番",
+        "input": "新潟県新潟市中央区学校町通1番町602-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "新潟県",
+          "municipality": "新潟市中央区",
+          "town": "学校町通1番町",
+          "ban": "602",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"学校町通\" (want \"学校町通1番町\"); ban: \"1\" (want \"602\"); go: absent (want \"1\"); building: \"町602-1\" (want absent)"
+      }
+    ]
+  }
+}

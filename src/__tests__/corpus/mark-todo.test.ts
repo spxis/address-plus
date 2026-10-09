@@ -9,16 +9,16 @@ import { join } from "path";
 import { describe, expect, it } from "vitest";
 
 import type { CorpusCase, FieldMismatch, LoadedCorpusFile } from "./corpus-support";
-import { describeMismatches, judgeCase, loadCorpus, parseCase } from "./corpus-support";
+import { coreFieldsOf, describeMismatches, judgeCase, loadCorpus, parseCase } from "./corpus-support";
 
 const CORPUS_ROOT: string = join(__dirname, "../../../test-data/corpus");
-const COUNTRIES: string[] = ["us", "canada"];
+const COUNTRIES: string[] = ["us", "canada", "japan"];
 
 function markFile(country: string, file: LoadedCorpusFile): number {
   let todoCount: number = 0;
   for (const cases of Object.values(file.data.tests)) {
     for (const testCase of cases as CorpusCase[]) {
-      const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase));
+      const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase), coreFieldsOf(country));
       delete testCase.todo;
       delete testCase.todoNote;
       if (mismatches.length > 0) {

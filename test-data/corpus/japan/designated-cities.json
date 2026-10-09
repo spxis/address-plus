@@ -1,0 +1,480 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Japan's Designated Cities and Their Wards",
+  "description": "The twenty designated cities (政令指定都市), each with a ward (区), written in full, without the prefecture, and the city alone. Every case is a city hall's address or a made-up block in a real town. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied.",
+  "tests": {
+    "wards": [
+      {
+        "name": "札幌市中央区",
+        "description": "A ward of 札幌市 written with its prefecture",
+        "input": "北海道札幌市中央区北1条西2丁目",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北1条西",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "仙台市青葉区",
+        "description": "A ward of 仙台市 written with its prefecture",
+        "input": "宮城県仙台市青葉区国分町3丁目7-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "宮城県",
+          "municipality": "仙台市青葉区",
+          "town": "国分町",
+          "chome": "3",
+          "ban": "7",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "さいたま市浦和区",
+        "description": "A ward of さいたま市 written with its prefecture",
+        "input": "埼玉県さいたま市浦和区常盤6丁目4-4",
+        "expected": {
+          "country": "JP",
+          "prefecture": "埼玉県",
+          "municipality": "さいたま市浦和区",
+          "town": "常盤",
+          "chome": "6",
+          "ban": "4",
+          "go": "4"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "千葉市中央区",
+        "description": "A ward of 千葉市 written with its prefecture",
+        "input": "千葉県千葉市中央区千葉港1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "千葉県",
+          "municipality": "千葉市中央区",
+          "town": "千葉港",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+      },
+      {
+        "name": "横浜市中区",
+        "description": "A ward of 横浜市 written with its prefecture",
+        "input": "神奈川県横浜市中区本町6丁目50-10",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "横浜市中区",
+          "town": "本町",
+          "chome": "6",
+          "ban": "50",
+          "go": "10"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "川崎市川崎区",
+        "description": "A ward of 川崎市 written with its prefecture",
+        "input": "神奈川県川崎市川崎区宮本町1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "川崎市川崎区",
+          "town": "宮本町",
+          "ban": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "相模原市中央区",
+        "description": "A ward of 相模原市 written with its prefecture",
+        "input": "神奈川県相模原市中央区中央2丁目11-15",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "相模原市中央区",
+          "town": "中央",
+          "chome": "2",
+          "ban": "11",
+          "go": "15"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "新潟市中央区",
+        "description": "A ward of 新潟市 written with its prefecture",
+        "input": "新潟県新潟市中央区学校町通1番町602-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "新潟県",
+          "municipality": "新潟市中央区",
+          "town": "学校町通1番町",
+          "ban": "602",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "town: \"学校町通\" (want \"学校町通1番町\"); ban: \"1\" (want \"602\"); go: absent (want \"1\"); building: \"町602-1\" (want absent)"
+      },
+      {
+        "name": "静岡市葵区",
+        "description": "A ward of 静岡市 written with its prefecture",
+        "input": "静岡県静岡市葵区追手町5-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "静岡県",
+          "municipality": "静岡市葵区",
+          "town": "追手町",
+          "ban": "5",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"1\" (want \"5\"); go: absent (want \"1\"); chome: \"5\" (want absent)"
+      },
+      {
+        "name": "浜松市中央区",
+        "description": "A ward of 浜松市 written with its prefecture",
+        "input": "静岡県浜松市中央区元城町103-2",
+        "expected": {
+          "country": "JP",
+          "prefecture": "静岡県",
+          "municipality": "浜松市中央区",
+          "town": "元城町",
+          "ban": "103",
+          "go": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"浜松市\" (want \"浜松市中央区\"); town: \"中央区元城町\" (want \"元城町\")"
+      },
+      {
+        "name": "名古屋市中区",
+        "description": "A ward of 名古屋市 written with its prefecture",
+        "input": "愛知県名古屋市中区三の丸3丁目1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "愛知県",
+          "municipality": "名古屋市中区",
+          "town": "三の丸",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "京都市中京区",
+        "description": "A ward of 京都市 written with its prefecture",
+        "input": "京都府京都市中京区寺町通御池上る上本能寺前町488",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市中京区",
+          "streetDirections": "寺町通御池上る",
+          "town": "上本能寺前町",
+          "ban": "488"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "streetDirections: absent (want \"寺町通御池上る\"); town: \"寺町通御池上る上本能寺前町\" (want \"上本能寺前町\")"
+      },
+      {
+        "name": "大阪市北区",
+        "description": "A ward of 大阪市 written with its prefecture",
+        "input": "大阪府大阪市北区中之島1丁目3-20",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "中之島",
+          "chome": "1",
+          "ban": "3",
+          "go": "20"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "堺市堺区",
+        "description": "A ward of 堺市 written with its prefecture",
+        "input": "大阪府堺市堺区南瓦町3-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "堺市堺区",
+          "town": "南瓦町",
+          "ban": "3",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"1\" (want \"3\"); go: absent (want \"1\"); chome: \"3\" (want absent)"
+      },
+      {
+        "name": "神戸市中央区",
+        "description": "A ward of 神戸市 written with its prefecture",
+        "input": "兵庫県神戸市中央区加納町6丁目5-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "兵庫県",
+          "municipality": "神戸市中央区",
+          "town": "加納町",
+          "chome": "6",
+          "ban": "5",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "岡山市北区",
+        "description": "A ward of 岡山市 written with its prefecture",
+        "input": "岡山県岡山市北区大供1丁目1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "岡山県",
+          "municipality": "岡山市北区",
+          "town": "大供",
+          "chome": "1",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "広島市中区",
+        "description": "A ward of 広島市 written with its prefecture",
+        "input": "広島県広島市中区国泰寺町1丁目6-34",
+        "expected": {
+          "country": "JP",
+          "prefecture": "広島県",
+          "municipality": "広島市中区",
+          "town": "国泰寺町",
+          "chome": "1",
+          "ban": "6",
+          "go": "34"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "北九州市小倉北区",
+        "description": "A ward of 北九州市 written with its prefecture",
+        "input": "福岡県北九州市小倉北区城内1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "福岡県",
+          "municipality": "北九州市小倉北区",
+          "town": "城内",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+      },
+      {
+        "name": "福岡市中央区",
+        "description": "A ward of 福岡市 written with its prefecture",
+        "input": "福岡県福岡市中央区天神1丁目8-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "福岡県",
+          "municipality": "福岡市中央区",
+          "town": "天神",
+          "chome": "1",
+          "ban": "8",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "熊本市中央区",
+        "description": "A ward of 熊本市 written with its prefecture",
+        "input": "熊本県熊本市中央区手取本町1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "熊本県",
+          "municipality": "熊本市中央区",
+          "town": "手取本町",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+      }
+    ],
+    "withoutPrefecture": [
+      {
+        "name": "札幌市中央区 without the prefecture",
+        "description": "The city and ward name the prefecture",
+        "input": "札幌市中央区北1条西2丁目",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北1条西",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "横浜市中区 without the prefecture",
+        "description": "The city and ward name the prefecture",
+        "input": "横浜市中区本町6丁目50-10",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "横浜市中区",
+          "town": "本町",
+          "chome": "6",
+          "ban": "50",
+          "go": "10"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "静岡市葵区 without the prefecture",
+        "description": "The city and ward name the prefecture",
+        "input": "静岡市葵区追手町5-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "静岡県",
+          "municipality": "静岡市葵区",
+          "town": "追手町",
+          "ban": "5",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "ban: \"1\" (want \"5\"); go: absent (want \"1\"); chome: \"5\" (want absent)"
+      },
+      {
+        "name": "大阪市北区 without the prefecture",
+        "description": "The city and ward name the prefecture",
+        "input": "大阪市北区中之島1丁目3-20",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "中之島",
+          "chome": "1",
+          "ban": "3",
+          "go": "20"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "広島市中区 without the prefecture",
+        "description": "The city and ward name the prefecture",
+        "input": "広島市中区国泰寺町1丁目6-34",
+        "expected": {
+          "country": "JP",
+          "prefecture": "広島県",
+          "municipality": "広島市中区",
+          "town": "国泰寺町",
+          "chome": "1",
+          "ban": "6",
+          "go": "34"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "cityAlone": [
+      {
+        "name": "大阪市 alone",
+        "description": "A designated city with no ward",
+        "input": "大阪府大阪市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "大阪市",
+          "municipalityCode": "27100"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "札幌市 alone, no prefecture",
+        "description": "The city alone names Hokkaido",
+        "input": "札幌市",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市",
+          "municipalityCode": "01100"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "横浜市 with a town and no ward",
+        "description": "A town written after the city with the ward left out",
+        "input": "神奈川県横浜市みなとみらい2-2-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "神奈川県",
+          "municipality": "横浜市",
+          "town": "みなとみらい",
+          "chome": "2",
+          "ban": "2",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "ward alone with its prefecture",
+        "description": "大阪府北区: a ward of the city that shares the prefecture's name",
+        "input": "大阪府北区梅田3-1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "大阪府",
+          "municipality": "大阪市北区",
+          "town": "梅田",
+          "chome": "3",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"北区\" (want \"大阪市北区\")"
+      },
+      {
+        "name": "city and ward with a space",
+        "description": "A space between the city and its ward",
+        "input": "京都府京都市 下京区東塩小路町721-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "京都府",
+          "municipality": "京都市下京区",
+          "town": "東塩小路町",
+          "ban": "721",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"京都市\" (want \"京都市下京区\"); town: \"下京区東塩小路町\" (want \"東塩小路町\")"
+      },
+      {
+        "name": "city and ward with a space, Sendai",
+        "description": "仙台市 青葉区",
+        "input": "宮城県仙台市 青葉区国分町3丁目7-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "宮城県",
+          "municipality": "仙台市青葉区",
+          "town": "国分町",
+          "chome": "3",
+          "ban": "7",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "municipality: \"仙台市\" (want \"仙台市青葉区\"); town: \"青葉区国分町\" (want \"国分町\")"
+      }
+    ]
+  }
+}

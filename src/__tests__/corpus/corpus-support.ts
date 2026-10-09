@@ -8,7 +8,7 @@ import { join } from "path";
 import { describe, expect, it } from "vitest";
 
 import { parseLocation } from "../../parser";
-import type { ParsedAddress } from "../../types";
+import type { ParsedAddress, ParseOptions } from "../../types";
 
 // Every field a corpus case can name.
 type CorpusField = keyof ParsedAddress;
@@ -20,6 +20,7 @@ interface CorpusCase {
   input: string; // The text handed to parseLocation
   expected: Partial<Record<CorpusField, string | boolean | null>> | null; // null: the parse must fail
   source: string; // Where the shape or the example comes from, with its licence
+  options?: ParseOptions; // Options handed to parseLocation with the input, when the case needs them
   ignoreCase?: CorpusField[]; // Fields compared without regard to letter case (free text in shouted input)
   partial?: boolean; // When true, core fields the case does not name are not checked for absence
   todo?: boolean; // The parser gets this case wrong today; the case is registered with it.todo
@@ -63,6 +64,29 @@ const CORE_FIELDS: CorpusField[] = [
   "country",
 ];
 
+// Japan's own fields play the part of the core fields in the Japanese corpus. The shared fields a Japanese
+// address also fills (state, city, street, number, zip) repeat these, so they are not judged again.
+const JAPAN_CORE_FIELDS: CorpusField[] = [
+  "postalCode",
+  "prefecture",
+  "municipality",
+  "town",
+  "chome",
+  "ban",
+  "go",
+  "building",
+  "floor",
+  "room",
+  "country",
+];
+
+// The core fields each corpus folder is judged by.
+const CORE_FIELDS_BY_COUNTRY: Readonly<Record<string, CorpusField[]>> = {
+  canada: CORE_FIELDS,
+  japan: JAPAN_CORE_FIELDS,
+  us: CORE_FIELDS,
+};
+
 const CORPUS_ROOT: string = join(__dirname, "../../../test-data/corpus");
 
 // Read every corpus file of one country, in a stable order.
@@ -96,8 +120,13 @@ function sameValue(expected: unknown, actual: unknown, ignoreCase: boolean): boo
   return expected === actual;
 }
 
-// Compare one parse result with what a case expects. An empty list means the case passes.
-function judgeCase(testCase: CorpusCase, result: ParsedAddress | null): FieldMismatch[] {
+// Compare one parse result with what a case expects. An empty list means the case passes. The core fields
+// are the US and Canadian ones unless a folder's are given (coreFieldsOf).
+function judgeCase(
+  testCase: CorpusCase,
+  result: ParsedAddress | null,
+  coreFields: CorpusField[] = CORE_FIELDS,
+): FieldMismatch[] {
   if (testCase.expected === null) {
     return result === null ? [] : [{ actual: result, expected: null, field: "(result)" }];
   }
@@ -121,7 +150,7 @@ function judgeCase(testCase: CorpusCase, result: ParsedAddress | null): FieldMis
   }
 
   if (!testCase.partial) {
-    for (const field of CORE_FIELDS) {
+    for (const field of coreFields) {
       if (!(field in testCase.expected) && !isAbsent(actualFields[field])) {
         mismatches.push({ actual: actualFields[field], expected: undefined, field });
       }
@@ -131,9 +160,14 @@ function judgeCase(testCase: CorpusCase, result: ParsedAddress | null): FieldMis
   return mismatches;
 }
 
+// The core fields a corpus folder is judged by.
+function coreFieldsOf(country: string): CorpusField[] {
+  return CORE_FIELDS_BY_COUNTRY[country] ?? CORE_FIELDS;
+}
+
 // Parse a case's input the way every corpus suite does.
 function parseCase(testCase: CorpusCase): ParsedAddress | null {
-  return parseLocation(testCase.input);
+  return testCase.options ? parseLocation(testCase.input, testCase.options) : parseLocation(testCase.input);
 }
 
 // One line saying what came out instead, for a todo note or a failure message.
@@ -154,6 +188,8 @@ function describeMismatches(mismatches: FieldMismatch[]): string {
 // more test per file fails when a todo case has started to pass, so the flag is cleared as the parser
 // improves and the list of gaps never overstates them.
 function registerCorpusSuite(country: string, title: string): void {
+  const coreFields: CorpusField[] = coreFieldsOf(country);
+
   describe(title, () => {
     for (const file of loadCorpus(country)) {
       describe(`${file.fileName}: ${file.data.name}`, () => {
@@ -165,7 +201,7 @@ function registerCorpusSuite(country: string, title: string): void {
                 continue;
               }
               it(`${testCase.name} [${testCase.input}]`, () => {
-                const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase));
+                const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase), coreFields);
 
                 expect(mismatches, describeMismatches(mismatches)).toEqual([]);
               });
@@ -176,7 +212,10 @@ function registerCorpusSuite(country: string, title: string): void {
         it("has no todo case that now passes", () => {
           const nowPassing: string[] = Object.values(file.data.tests)
             .flat()
-            .filter((testCase: CorpusCase) => testCase.todo && judgeCase(testCase, parseCase(testCase)).length === 0)
+            .filter(
+              (testCase: CorpusCase) =>
+                testCase.todo && judgeCase(testCase, parseCase(testCase), coreFields).length === 0,
+            )
             .map((testCase: CorpusCase) => testCase.name);
 
           expect(nowPassing, "these cases pass now; remove their todo flag").toEqual([]);
@@ -186,5 +225,15 @@ function registerCorpusSuite(country: string, title: string): void {
   });
 }
 
-export { allCases, CORE_FIELDS, describeMismatches, judgeCase, loadCorpus, parseCase, registerCorpusSuite };
+export {
+  allCases,
+  CORE_FIELDS,
+  coreFieldsOf,
+  describeMismatches,
+  JAPAN_CORE_FIELDS,
+  judgeCase,
+  loadCorpus,
+  parseCase,
+  registerCorpusSuite,
+};
 export type { CorpusCase, CorpusField, CorpusFile, FieldMismatch, LoadedCorpusFile };

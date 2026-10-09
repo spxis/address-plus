@@ -1,0 +1,464 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Tokyo's Twenty-Three Wards",
+  "description": "One address in each of Tokyo's 23 special wards (特別区), mostly ward offices and well-known blocks, written in full; then a few without 東京都, where the ward alone names the prefecture. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied.",
+  "tests": {
+    "wards": [
+      {
+        "name": "千代田区",
+        "description": "A block in 千代田区",
+        "input": "東京都千代田区丸の内1-9-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "9",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "中央区",
+        "description": "A block in 中央区",
+        "input": "東京都中央区銀座4-6-16",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "中央区",
+          "town": "銀座",
+          "chome": "4",
+          "ban": "6",
+          "go": "16"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "港区",
+        "description": "A block in 港区",
+        "input": "東京都港区芝公園4-2-8",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "港区",
+          "town": "芝公園",
+          "chome": "4",
+          "ban": "2",
+          "go": "8"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "新宿区",
+        "description": "A block in 新宿区",
+        "input": "東京都新宿区西新宿2丁目8番1号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "新宿区",
+          "town": "西新宿",
+          "chome": "2",
+          "ban": "8",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "文京区",
+        "description": "A block in 文京区",
+        "input": "東京都文京区後楽1-3-61",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "文京区",
+          "town": "後楽",
+          "chome": "1",
+          "ban": "3",
+          "go": "61"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "台東区",
+        "description": "A block in 台東区",
+        "input": "東京都台東区浅草二丁目三番一号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "台東区",
+          "town": "浅草",
+          "chome": "2",
+          "ban": "3",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "墨田区",
+        "description": "A block in 墨田区",
+        "input": "東京都墨田区押上1-1-2",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "墨田区",
+          "town": "押上",
+          "chome": "1",
+          "ban": "1",
+          "go": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "江東区",
+        "description": "A block in 江東区",
+        "input": "東京都江東区豊洲2-4-9",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江東区",
+          "town": "豊洲",
+          "chome": "2",
+          "ban": "4",
+          "go": "9"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "品川区",
+        "description": "A block in 品川区",
+        "input": "東京都品川区広町2-1-36",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "品川区",
+          "town": "広町",
+          "chome": "2",
+          "ban": "1",
+          "go": "36"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "目黒区",
+        "description": "A block in 目黒区",
+        "input": "東京都目黒区上目黒2-19-15",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "目黒区",
+          "town": "上目黒",
+          "chome": "2",
+          "ban": "19",
+          "go": "15"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "大田区",
+        "description": "A block in 大田区",
+        "input": "東京都大田区蒲田５－１３－１４",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "大田区",
+          "town": "蒲田",
+          "chome": "5",
+          "ban": "13",
+          "go": "14"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "世田谷区",
+        "description": "A block in 世田谷区",
+        "input": "東京都世田谷区世田谷4-21-27",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "世田谷区",
+          "town": "世田谷",
+          "chome": "4",
+          "ban": "21",
+          "go": "27"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "渋谷区",
+        "description": "A block in 渋谷区",
+        "input": "東京都渋谷区宇田川町1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "渋谷区",
+          "town": "宇田川町",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "go: absent (want \"1\"); chome: \"1\" (want absent)"
+      },
+      {
+        "name": "中野区",
+        "description": "A block in 中野区",
+        "input": "東京都中野区中野4-8-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "中野区",
+          "town": "中野",
+          "chome": "4",
+          "ban": "8",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "杉並区",
+        "description": "A block in 杉並区",
+        "input": "東京都杉並区阿佐谷南1-15-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "杉並区",
+          "town": "阿佐谷南",
+          "chome": "1",
+          "ban": "15",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "豊島区",
+        "description": "A block in 豊島区",
+        "input": "東京都豊島区南池袋2-45-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "豊島区",
+          "town": "南池袋",
+          "chome": "2",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "北区",
+        "description": "A block in 北区",
+        "input": "東京都北区王子本町1-15-22",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "北区",
+          "town": "王子本町",
+          "chome": "1",
+          "ban": "15",
+          "go": "22"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "荒川区",
+        "description": "A block in 荒川区",
+        "input": "東京都荒川区荒川2-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "荒川区",
+          "town": "荒川",
+          "chome": "2",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "板橋区",
+        "description": "A block in 板橋区",
+        "input": "東京都板橋区板橋2-66-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "板橋区",
+          "town": "板橋",
+          "chome": "2",
+          "ban": "66",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "練馬区",
+        "description": "A block in 練馬区",
+        "input": "東京都練馬区豊玉北6-12-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "練馬区",
+          "town": "豊玉北",
+          "chome": "6",
+          "ban": "12",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "足立区",
+        "description": "A block in 足立区",
+        "input": "東京都足立区中央本町1-17-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "足立区",
+          "town": "中央本町",
+          "chome": "1",
+          "ban": "17",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "葛飾区",
+        "description": "A block in 葛飾区",
+        "input": "東京都葛飾区立石5-13-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "葛飾区",
+          "town": "立石",
+          "chome": "5",
+          "ban": "13",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "江戸川区",
+        "description": "A block in 江戸川区",
+        "input": "東京都江戸川区中央1-4-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "江戸川区",
+          "town": "中央",
+          "chome": "1",
+          "ban": "4",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "withoutPrefecture": [
+      {
+        "name": "千代田区 without 東京都",
+        "description": "The ward alone names Tokyo",
+        "input": "千代田区丸の内1-9-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "9",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "台東区 without 東京都",
+        "description": "The ward alone names Tokyo",
+        "input": "台東区浅草二丁目三番一号",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "台東区",
+          "town": "浅草",
+          "chome": "2",
+          "ban": "3",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "大田区 without 東京都",
+        "description": "The ward alone names Tokyo",
+        "input": "大田区蒲田５－１３－１４",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "大田区",
+          "town": "蒲田",
+          "chome": "5",
+          "ban": "13",
+          "go": "14"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "豊島区 without 東京都",
+        "description": "The ward alone names Tokyo",
+        "input": "豊島区南池袋2-45-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "豊島区",
+          "town": "南池袋",
+          "chome": "2",
+          "ban": "45",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "足立区 without 東京都",
+        "description": "The ward alone names Tokyo",
+        "input": "足立区中央本町1-17-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "足立区",
+          "town": "中央本町",
+          "chome": "1",
+          "ban": "17",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ],
+    "shortPrefecture": [
+      {
+        "name": "東京 without 都",
+        "description": "The prefecture written without its designator",
+        "input": "東京千代田区丸の内1-2-3",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "Japan at the end",
+        "description": "日本 after the address",
+        "input": "東京都千代田区丸の内1-2-3 日本",
+        "expected": {
+          "country": "JP",
+          "prefecture": "東京都",
+          "municipality": "千代田区",
+          "town": "丸の内",
+          "chome": "1",
+          "ban": "2",
+          "go": "3"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

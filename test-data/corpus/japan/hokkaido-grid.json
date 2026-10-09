@@ -1,0 +1,165 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Hokkaido Grid Addresses",
+  "description": "Hokkaido's grid towns, named by 条 (the row) and a direction, with 丁目 as the column: 札幌's 北1条西2丁目, 旭川's 6条通, 帯広's 西5条南. The 条 and its number stay in the town; the 丁目 is the chome. Original case written for this corpuss; shapes follow Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied.",
+  "tests": {
+    "jo": [
+      {
+        "name": "条 and 丁目",
+        "description": "北1条西2丁目",
+        "input": "北海道札幌市中央区北1条西2丁目",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北1条西",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 and 丁目 in kanji",
+        "description": "北一条西二丁目: the 条 number stays as written",
+        "input": "北海道札幌市中央区北一条西二丁目",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北一条西",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 and 丁目 then a pair",
+        "description": "南3条西4丁目12-1: after 丁目 a pair is ban and go",
+        "input": "北海道札幌市中央区南3条西4丁目12-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "南3条西",
+          "chome": "4",
+          "ban": "12",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 then 番地",
+        "description": "北8条西5丁目 with a 番地",
+        "input": "北海道札幌市北区北8条西5丁目1番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市北区",
+          "town": "北8条西",
+          "chome": "5",
+          "ban": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 with the chome hyphenated",
+        "description": "北1条西2-1-1: the first number after the town is the chome",
+        "input": "北海道札幌市中央区北1条西2-1-1",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北1条西",
+          "chome": "2",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 in full-width",
+        "description": "北２４条西６丁目１－１",
+        "input": "北海道札幌市北区北２４条西６丁目１－１",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市北区",
+          "town": "北24条西",
+          "chome": "6",
+          "ban": "1",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "旭川's 条通",
+        "description": "6条通9丁目46番地",
+        "input": "北海道旭川市6条通9丁目46番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "旭川市",
+          "town": "6条通",
+          "chome": "9",
+          "ban": "46"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "帯広's 条 and direction",
+        "description": "西5条南7丁目1番地",
+        "input": "北海道帯広市西5条南7丁目1番地",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "帯広市",
+          "town": "西5条南",
+          "chome": "7",
+          "ban": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 with a postal code and no prefecture",
+        "description": "札幌市 names Hokkaido",
+        "input": "〒060-0001 札幌市中央区北1条西2丁目",
+        "expected": {
+          "country": "JP",
+          "postalCode": "060-0001",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "北1条西",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 in romaji",
+        "description": "Kita 1-jo Nishi 2-chome",
+        "input": "Kita 1-jo Nishi 2-chome, Chuo-ku, Sapporo-shi, Hokkaido 060-0001",
+        "expected": {
+          "country": "JP",
+          "postalCode": "060-0001",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "Kita 1-jo Nishi",
+          "chome": "2"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      },
+      {
+        "name": "条 in romaji with a block",
+        "description": "Minami 3-jo Nishi 4-chome 12-1",
+        "input": "Minami 3-jo Nishi 4-chome 12-1, Chuo-ku, Sapporo, Hokkaido",
+        "expected": {
+          "country": "JP",
+          "prefecture": "北海道",
+          "municipality": "札幌市中央区",
+          "town": "Minami 3-jo Nishi",
+          "chome": "4",
+          "ban": "12",
+          "go": "1"
+        },
+        "source": "Original case written for this corpus; Japan Post's guidance on writing an address (郵便番号・住所の書き方), described in our own words; nothing copied"
+      }
+    ]
+  }
+}
