@@ -2,8 +2,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { SubRegion } from "../../src/types";
-import { fetchCASubRegions } from "./fetch-ca-sub-regions";
-import { fetchUSSubRegions } from "./fetch-us-sub-regions";
+import { fetchCASubRegions } from "./fetch-ca-sub-regions.ts";
+import { fetchUSSubRegions } from "./fetch-us-sub-regions.ts";
 
 // Deduplication key generator
 const createDeduplicationKey = (subRegion: SubRegion): string => {
@@ -37,7 +37,7 @@ const mergeAndDeduplicateSubRegions = (subRegions: SubRegion[]): SubRegion[] => 
   const validSubRegions: SubRegion[] = [];
   const invalidSubRegions: SubRegion[] = [];
 
-  console.log("� Validating and deduplicating sub-regions...");
+  console.log("Validating and deduplicating sub-regions...");
 
   // First pass: validate all sub-regions
   for (const subRegion of subRegions) {
@@ -226,7 +226,7 @@ async function main(): Promise<void> {
 
     // Step 5: Generate and write output file
     console.log("\nStep 5: Generating output file...");
-    const outputPath = path.resolve(process.cwd(), "src/data/sub-regions.ts");
+    const outputPath = path.resolve(process.cwd(), "src/constants/sub-regions.ts");
     const fileContent = generateTypeScriptFile(sortedSubRegions);
 
     fs.writeFileSync(outputPath, fileContent, "utf8");
