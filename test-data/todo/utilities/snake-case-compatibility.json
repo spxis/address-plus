@@ -25,11 +25,7 @@
           "sec_unit_num": "3206",
           "zip_valid": true
         },
-        "notExpected": [
-          "secUnitType",
-          "secUnitNum",
-          "zipValid"
-        ]
+        "notExpected": ["secUnitType", "secUnitNum", "zipValid"]
       }
     ]
   }

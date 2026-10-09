@@ -40,11 +40,7 @@
       },
       {
         "description": "Handling invalid addresses",
-        "addresses": [
-          "123 Main St, New York, NY 10001",
-          "",
-          "456 Oak Ave, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001", "", "456 Oak Ave, Los Angeles, CA 90210"],
         "expectedSuccessCount": 2,
         "expectedFailureCount": 1
       },
@@ -58,10 +54,7 @@
     "parseIntersections": [
       {
         "description": "Basic intersection parsing",
-        "addresses": [
-          "Main Street & Oak Avenue, New York, NY",
-          "Broadway and 42nd Street, New York, NY"
-        ],
+        "addresses": ["Main Street & Oak Avenue, New York, NY", "Broadway and 42nd Street, New York, NY"],
         "expectedResults": [
           {
             "street1": "Main",
@@ -85,10 +78,7 @@
     "parseInformalAddresses": [
       {
         "description": "Addresses with secondary units",
-        "addresses": [
-          "123 Main St, Apt 4B, New York, NY 10001",
-          "456 Oak Ave, Suite 200, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, Apt 4B, New York, NY 10001", "456 Oak Ave, Suite 200, Los Angeles, CA 90210"],
         "expectedSuccessCount": 2,
         "expectedFailureCount": 0
       }
@@ -96,10 +86,7 @@
     "options": [
       {
         "description": "Testing useSnakeCase option",
-        "addresses": [
-          "123 Main St, New York, NY 10001",
-          "456 Oak Ave, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001", "456 Oak Ave, Los Angeles, CA 90210"],
         "options": {
           "useSnakeCase": true
         },
@@ -108,10 +95,7 @@
       },
       {
         "description": "Testing country-specific options for Canada",
-        "addresses": [
-          "123 Yonge Street, Toronto, ON M5B 1M4",
-          "456 Granville Street, Vancouver, BC V6C 1V5"
-        ],
+        "addresses": ["123 Yonge Street, Toronto, ON M5B 1M4", "456 Granville Street, Vancouver, BC V6C 1V5"],
         "options": {
           "country": "CA"
         },

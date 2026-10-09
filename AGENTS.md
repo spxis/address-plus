@@ -1,1 +1,53 @@
-See [.github/copilot-instructions.md](.github/copilot-instructions.md) for the current instructions.
+# address-plus
+
+`@johnmorrisdotca/address-plus` parses US, Canadian and Japanese addresses. The coding conventions are in [.github/copilot-instructions.md](.github/copilot-instructions.md); this file covers the toolchain, the layout and the release procedure.
+
+## Toolchain
+
+- Node 24 (`.nvmrc`, `engines`) and pnpm 10 (`packageManager`). Always `pnpm`, never npm or yarn.
+- TypeScript 5.9, built with tsup 8.5 to ESM and CommonJS with type declarations in `dist/`.
+- Vitest 5 for unit tests, `tsd` for the published type definitions.
+- ESLint 9 with the flat config in `eslint.config.js` (typescript-eslint's recommended rules), and Prettier with `prettier-plugin-organize-imports` (`.prettierrc.json`, `.prettierignore`). Prettier orders the imports; ESLint does not.
+- Style: double quotes, 120 columns, 2 spaces, `//` comments that say why, no emoji anywhere, exports gathered at the end of a file. A name starting with `_` may be unused.
+
+## Commands
+
+| Command                  | What it does                                                                                               |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `pnpm check`             | Everything CI runs, in this order: lint, typecheck, test, build, test:types, schema:validate, test:package |
+| `pnpm lint`              | ESLint, then `prettier --check .`; `pnpm lint:fix` fixes what it can                                       |
+| `pnpm typecheck`         | `tsc -p tsconfig.check.json`: `src/**` including the tests, and `scripts/**/*.ts`                          |
+| `pnpm test`              | Vitest, once (`pnpm test:watch` to watch, `pnpm test:coverage` for coverage)                               |
+| `pnpm build`             | tsup into `dist/`: `dist/index.*` and `dist/jp/index.*`                                                    |
+| `pnpm test:types`        | `tsd` on `src/__tests__/types.test-d.ts`; needs `dist/index.d.ts`, so build first                          |
+| `pnpm schema:validate`   | Validates every JSON file in `test-data/` against the schemas in `schemas/`                                |
+| `pnpm test:package`      | `scripts/check-package.mjs`; packs the built package and proves it works as a user installs it             |
+| `pnpm data:jp`           | Regenerates the Japanese data tables (documented in `scripts/README.md`)                                   |
+| `pnpm data:sub-regions`  | Regenerates `src/constants/sub-regions.ts` from the Census and Statistics Canada                           |
+| `pnpm release <version>` | Cuts a release (below)                                                                                     |
+
+Run `pnpm check` before every push. It must pass with nothing disabled: do not turn a lint rule off to get green unless the rule is wrong for this repository, and then say why in the commit.
+
+## Layout
+
+- Two entry points, both built by tsup: `src/index.ts` is the package root, and `src/jp/index.ts` is `@johnmorrisdotca/address-plus/jp`. The `/jp` bundle must not carry the US street-type tables; `pnpm test:package` fails if it does. Keep the Japanese module from importing anything that pulls in the US tables.
+- `src/parser.ts` and `src/parsers/` parse; `src/constants/` holds the tables; `src/patterns/` holds every regular expression; `src/utils/` holds shared helpers; `src/types/` holds the types.
+- Tests are in `src/__tests__/`. Their data is JSON in `test-data/`, one folder per area, validated against `schemas/`. Test-only scripts live in `scripts/*.test.mjs`.
+- `scripts/*.js` (the old debug scripts) are not linted; leave them alone.
+
+## Generated data
+
+Files named `*.data.ts` (the Japanese prefectures, municipalities and postal prefixes under `src/constants/jp/`) are written by `pnpm data:jp`, and `src/constants/sub-regions.ts` is written by `pnpm data:sub-regions`. Never edit them by hand: change the generator in `scripts/` and run it again. Prettier ignores `*.data.ts`, so the generator's output does not have to be formatted.
+
+## Release procedure
+
+1. Add each change under `## Unreleased` in `CHANGELOG.md` as it lands, in Keep a Changelog style (`### Added`, `### Changed`, `### Fixed`).
+2. From a clean `main`, run `pnpm release <version>` (for example `pnpm release 1.2.0`). It refuses a dirty tree, a branch other than `main`, an empty Unreleased section, and a version that is not greater than the current one. Otherwise it sets the version in `package.json`, moves the Unreleased entries under `## <version> - <today>`, commits `chore(release): <version>`, and tags `v<version>`. It pushes nothing.
+3. Push the commit and the tag: `git push origin main` then `git push origin v<version>`.
+4. The tag starts `.github/workflows/release.yml`, which verifies the tag against `package.json` and the changelog, reruns `pnpm check` (the `ci.yml` workflow), publishes to npm with provenance, and creates the GitHub release with the changelog section as its notes. The npm step publishes with trusted publishing, so there is no token: the package's Trusted Publisher setting on npmjs.com names the `johnmorrisdotca` organization or user, the `address-plus` repository and the `release.yml` workflow filename, with no environment.
+
+Never change the version by hand, and never publish from a laptop: the tag does it.
+
+## Commits
+
+Plain-English messages that say what changed and why. No AI attribution of any kind: no co-author trailer, no "generated with" line, no mention of an assistant.

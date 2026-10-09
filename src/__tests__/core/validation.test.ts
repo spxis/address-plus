@@ -1,13 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import testData from "../../../test-data/core/comprehensive-validation.json";
-import type { ValidationOptions } from "../../types/validation";
 import { getValidationErrors, isValidAddress, validateAddress } from "../../utils/comprehensive-validation";
-import type { 
-  ValidationTestCase, 
-  IsValidTestCase, 
-  GetValidationErrorsTestCase, 
-  ConfidenceScoringTestCase 
+import type {
+  ConfidenceScoringTestCase,
+  GetValidationErrorsTestCase,
+  IsValidTestCase,
+  ValidationTestCase,
 } from "../types/test-interfaces";
 
 // Extract test cases from new structure
@@ -19,7 +18,7 @@ const confidenceScoringTests = testData.tests?.confidenceScoring || [];
 
 describe("Address Validation API", () => {
   describe("validateAddress", () => {
-    validateAddressTests.forEach(({ name, description, input, expected, options }: ValidationTestCase) => {
+    validateAddressTests.forEach(({ name, input, expected, options }: ValidationTestCase) => {
       it(`should ${name}`, () => {
         const result = validateAddress(input, options);
 
@@ -57,7 +56,7 @@ describe("Address Validation API", () => {
         if (expected.parsedAddress) {
           expect(result.parsedAddress).toBeDefined();
           Object.entries(expected.parsedAddress).forEach(([key, value]) => {
-            expect((result.parsedAddress as any)?.[key]).toBe(value);
+            expect((result.parsedAddress as Record<string, unknown> | undefined)?.[key]).toBe(value);
           });
         }
 
@@ -87,7 +86,7 @@ describe("Address Validation API", () => {
   });
 
   describe("isValidAddress", () => {
-    isValidAddressTests.forEach(({ name, description, input, expected, tests }: IsValidTestCase) => {
+    isValidAddressTests.forEach(({ name, input, expected, tests }: IsValidTestCase) => {
       if (Array.isArray(input) && Array.isArray(expected)) {
         it(`should ${name}`, () => {
           (input as string[]).forEach((addr: string, index: number) => {
@@ -105,7 +104,7 @@ describe("Address Validation API", () => {
   });
 
   describe("getValidationErrors", () => {
-    getValidationErrorsTests.forEach(({ name, description, input, expected, options }: GetValidationErrorsTestCase) => {
+    getValidationErrorsTests.forEach(({ name, input, expected, options }: GetValidationErrorsTestCase) => {
       it(`should ${name}`, () => {
         const errors = getValidationErrors(input, options);
 
@@ -125,7 +124,7 @@ describe("Address Validation API", () => {
   });
 
   describe("Confidence Scoring", () => {
-    confidenceScoringTests.forEach(({ name, description, inputs, expected }: ConfidenceScoringTestCase) => {
+    confidenceScoringTests.forEach(({ name, inputs, expected }: ConfidenceScoringTestCase) => {
       it(`should ${name}`, () => {
         if (expected.confidenceComparison === "complete > incomplete" && inputs?.complete && inputs?.incomplete) {
           const complete = validateAddress(inputs.complete);

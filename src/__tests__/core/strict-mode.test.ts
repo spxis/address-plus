@@ -7,13 +7,13 @@ import { describe, expect, test } from "vitest";
 import canadaStrictModeTestDataFile from "../../../test-data/canada/strict-mode.json";
 import usStrictModeTestDataFile from "../../../test-data/us/strict-mode.json";
 import { parseLocation } from "../../index";
-import type { PostalExpectedResult, StrictModeTestCase, StrictModeTestData } from "../types/test-interfaces";
+import type { StrictModeTestCase, StrictModeTestData } from "../types/test-interfaces";
 
 // Helper function to extract test data from objects with $schema
 function loadSchemaTestData<T>(testDataFile: T): T {
   // If the imported data has $schema property, extract everything except $schema
   if (testDataFile && typeof testDataFile === "object" && "$schema" in testDataFile) {
-    const { $schema, ...data } = testDataFile as { $schema: string; [key: string]: unknown };
+    const { $schema: _schema, ...data } = testDataFile as { $schema: string; [key: string]: unknown };
 
     return data as T;
   }
@@ -35,7 +35,7 @@ function extractTestsFromData(data: StrictModeTestData): StrictModeTestCase[] {
   // If tests is an object, flatten all arrays within it
   const allTests: StrictModeTestCase[] = [];
 
-  for (const [key, value] of Object.entries(data.tests)) {
+  for (const value of Object.values(data.tests)) {
     if (Array.isArray(value)) {
       allTests.push(...value);
     } else if (typeof value === "object" && value !== null) {

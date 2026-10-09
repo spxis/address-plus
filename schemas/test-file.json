@@ -41,10 +41,6 @@
       "minProperties": 1
     }
   },
-  "required": [
-    "name",
-    "description",
-    "tests"
-  ],
+  "required": ["name", "description", "tests"],
   "additionalProperties": false
 }

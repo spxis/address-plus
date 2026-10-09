@@ -20,7 +20,14 @@ function processBatch<T>(
   const results: (T | null)[] = [];
   const errors: BatchParseError[] = [];
 
-  const { stopOnError = false, parallel = false, chunkSize = 100, includeStats = true, ...parseOptions } = options;
+  // The batch-only options are taken out so the parser itself never sees them.
+  const {
+    stopOnError = false,
+    parallel: _parallel,
+    chunkSize: _chunkSize,
+    includeStats: _includeStats,
+    ...parseOptions
+  } = options;
 
   // For now, implement synchronous processing
   // TODO: Add parallel processing support for large batches

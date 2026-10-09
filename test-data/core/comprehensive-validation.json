@@ -58,11 +58,7 @@
         "expected": {
           "isValid": false,
           "errorsLengthGreaterThan": 0,
-          "errorCodes": [
-            "MISSING_CITY",
-            "MISSING_STATE",
-            "MISSING_POSTAL_CODE"
-          ]
+          "errorCodes": ["MISSING_CITY", "MISSING_STATE", "MISSING_POSTAL_CODE"]
         }
       },
       {
@@ -103,26 +99,14 @@
       {
         "name": "valid complete addresses return true",
         "description": "Should return true for addresses that are valid and complete",
-        "input": [
-          "123 Main St, Anytown, CA 90210",
-          "456 Oak Ave, Toronto, ON M5V 3A8"
-        ],
-        "expected": [
-          true,
-          true
-        ]
+        "input": ["123 Main St, Anytown, CA 90210", "456 Oak Ave, Toronto, ON M5V 3A8"],
+        "expected": [true, true]
       },
       {
         "name": "invalid or incomplete addresses return false",
         "description": "Should return false for addresses that are invalid or incomplete",
-        "input": [
-          "xyz123",
-          "123"
-        ],
-        "expected": [
-          false,
-          false
-        ]
+        "input": ["xyz123", "123"],
+        "expected": [false, false]
       },
       {
         "name": "validation options respected",
@@ -156,10 +140,7 @@
         },
         "expected": {
           "errorsLengthGreaterThan": 0,
-          "allSeverityTypes": [
-            "error",
-            "warning"
-          ]
+          "allSeverityTypes": ["error", "warning"]
         }
       },
       {

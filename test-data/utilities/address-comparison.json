@@ -96,10 +96,7 @@
           "comparison": {
             "isSame": true,
             "similarity": 0.95,
-            "differences": [
-              "city",
-              "zip"
-            ]
+            "differences": ["city", "zip"]
           }
         }
       },
@@ -131,14 +128,7 @@
           "comparison": {
             "isSame": false,
             "similarity": 0.13,
-            "differences": [
-              "number",
-              "street",
-              "type",
-              "city",
-              "state",
-              "zip"
-            ]
+            "differences": ["number", "street", "type", "city", "state", "zip"]
           }
         }
       },
@@ -201,9 +191,7 @@
           "comparison": {
             "isSame": false,
             "similarity": 0.8,
-            "differences": [
-              "zip"
-            ]
+            "differences": ["zip"]
           }
         }
       },
@@ -337,9 +325,7 @@
           "comparison": {
             "isSame": true,
             "similarity": 1,
-            "differences": [
-              "country"
-            ]
+            "differences": ["country"]
           }
         }
       }

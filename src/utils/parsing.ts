@@ -66,10 +66,11 @@ function parseStreetType(
 }
 
 // Extract state or province
-function parseStateProvince(
-  text: string,
-  country?: "US" | "CA",
-): { state: string | undefined; remaining: string; detectedCountry?: "US" | "CA" } {
+function parseStateProvince(text: string): {
+  state: string | undefined;
+  remaining: string;
+  detectedCountry?: "US" | "CA";
+} {
   // Try US state abbreviations first (more specific than full names)
   const usAbbrevPattern = new RegExp(`\\b(${Object.values(US_STATES).join("|")})\\b`, "i");
   let match = text.match(usAbbrevPattern);

@@ -99,31 +99,31 @@ describe("Address Formatting API", () => {
 
         if (testCase.expected.streetTypes) {
           Object.keys(testCase.expected.streetTypes).forEach((key) => {
-            expect((result.streetTypes as Record<string, any>)[key]).toBe(testCase.expected.streetTypes![key]);
+            expect((result.streetTypes as Record<string, unknown>)[key]).toBe(testCase.expected.streetTypes![key]);
           });
         }
 
         if (testCase.expected.directions) {
           Object.keys(testCase.expected.directions).forEach((key) => {
-            expect((result.directions as Record<string, any>)[key]).toBe(testCase.expected.directions![key]);
+            expect((result.directions as Record<string, unknown>)[key]).toBe(testCase.expected.directions![key]);
           });
         }
 
         if (testCase.expected.states) {
           Object.keys(testCase.expected.states).forEach((key) => {
-            expect((result.states as Record<string, any>)[key]).toBe(testCase.expected.states![key]);
+            expect((result.states as Record<string, unknown>)[key]).toBe(testCase.expected.states![key]);
           });
         }
 
         if (testCase.expected.provinces) {
           Object.keys(testCase.expected.provinces).forEach((key) => {
-            expect((result.provinces as Record<string, any>)[key]).toBe(testCase.expected.provinces![key]);
+            expect((result.provinces as Record<string, unknown>)[key]).toBe(testCase.expected.provinces![key]);
           });
         }
 
         if (testCase.expected.unitTypes) {
           Object.keys(testCase.expected.unitTypes).forEach((key) => {
-            expect((result.unitTypes as Record<string, any>)[key]).toBe(testCase.expected.unitTypes![key]);
+            expect((result.unitTypes as Record<string, unknown>)[key]).toBe(testCase.expected.unitTypes![key]);
           });
         }
       });

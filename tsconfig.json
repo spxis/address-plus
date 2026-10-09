@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "ES2022"
-    ],
+    "lib": ["ES2022"],
     "module": "ESNext",
     "declaration": true,
     "outDir": "./dist",
@@ -26,25 +24,11 @@
     "verbatimModuleSyntax": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@/types/*": [
-        "src/types/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ]
+      "@/*": ["src/*"],
+      "@/types/*": ["src/types/*"],
+      "@/data/*": ["src/data/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.test-d.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts", "**/*.test-d.ts"]
 }

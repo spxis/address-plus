@@ -4,3 +4,4 @@ coverage/
 test-management/
 pnpm-lock.yaml
 *.md
+*.data.ts

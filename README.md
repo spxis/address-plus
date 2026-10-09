@@ -485,10 +485,11 @@ Batch processing provides several advantages over individual parsing:
 
 ## Quality Assurance
 
-- **Comprehensive test suite**: 1,044 tests covering all parsing scenarios
+- **Comprehensive test suite**: Vitest runs every parsing scenario from JSON test data, for the US, Canada and each other country
 - **Multi-format support**: Extensive test coverage for US and Canadian addresses
 - **Edge case testing**: Validation of complex parsing scenarios and error conditions
-- **Regression protection**: Automated test tracking to prevent functionality loss
+- **Type tests**: `tsd` checks the published type definitions
+- **Package check**: `pnpm test:package` packs the built package, installs it in a clean project, and proves that `require`, `import` and the types work for each entry point
 - **Real-world data validation**: Tests based on actual address formats and variations
 
 ## Performance
@@ -513,6 +514,19 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## Contributing
 
 Contributions are welcome! Please read our contributing guidelines and submit pull requests to our repository.
+
+### Development
+
+The project needs Node.js 24 (see `.nvmrc`) and pnpm 10.
+
+```bash
+pnpm install
+pnpm check     # lint, typecheck, test, build, type tests, schema validation, package check
+pnpm test      # the Vitest suite alone
+pnpm lint:fix  # ESLint and Prettier, fixing what they can
+```
+
+`pnpm release <version>` cuts a release: it moves the changelog's `Unreleased` entries under the new version, commits, and tags it. Pushing the tag publishes it. `AGENTS.md` describes the whole procedure.
 
 ## Related Projects
 

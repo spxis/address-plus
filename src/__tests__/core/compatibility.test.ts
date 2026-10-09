@@ -9,14 +9,7 @@ import { describe, expect, it, test } from "vitest";
 
 import testDataFile from "../../../test-data/core/compatibility.json";
 import { parseAddress as ourParseAddress, parseInformalAddress, parseIntersection, parseLocation } from "../../index";
-import type { 
-  CompatibilityComparisonTestCase, 
-  SnakeCaseTestCase, 
-  AddressTestCase, 
-  MultipleParserTestCase, 
-  KeyTestCase, 
-  CompatibilityTestData 
-} from "../types/test-interfaces";
+import type { AddressTestCase, CompatibilityComparisonTestCase, CompatibilityTestData } from "../types/test-interfaces";
 
 // Dynamic import helper for CommonJS module compatibility
 async function getParseAddress() {
@@ -24,37 +17,40 @@ async function getParseAddress() {
   return parseAddressModule.default || parseAddressModule;
 }
 
-// Constants
-
 // Helper function to extract test data from objects with $schema
-function loadSchemaTestData<T>(testDataFile: any): T {
+function loadSchemaTestData<T>(testDataFile: unknown): T {
   // If the imported data has $schema property, extract everything except $schema
   if (testDataFile && typeof testDataFile === "object" && "$schema" in testDataFile) {
-    const { $schema, ...data } = testDataFile;
+    const { $schema: _schema, ...data } = testDataFile as Record<string, unknown>;
     return data as T;
   }
-  return testDataFile;
+  return testDataFile as T;
 }
 
 // Extract test data from consolidated file
 const testData = loadSchemaTestData<CompatibilityTestData>(testDataFile);
 // Extract different test groups from the consolidated structure
-const parseAddressComparisonTests = (testData as any).tests.parseAddressComparison || [];
-const snakeCaseTestCases = (testData as any).tests.snakeCaseCompatibility || [];
-const multipleParserArray = (testData as any).tests.multipleParserFunctions || [];
-const usBasicAddresses = (testData as any).tests.usBasicAddresses || [];
-const canadaBasicAddresses = (testData as any).tests.canadaBasicAddresses || [];
-const intersections = (testData as any).tests.intersections || [];
-const usSpecialFormats = (testData as any).tests.usSpecialFormats || [];
+const parseAddressComparisonTests = testData.tests.parseAddressComparison || [];
+const snakeCaseTestCases = testData.tests.snakeCaseCompatibility || [];
+const usBasicAddresses = testData.tests.usBasicAddresses || [];
+const canadaBasicAddresses = testData.tests.canadaBasicAddresses || [];
+const intersections = testData.tests.intersections || [];
+const multipleParserArray = testData.tests.multipleParserFunctions || [];
+const usSpecialFormats = testData.tests.usSpecialFormats || [];
 
-// For backward compatibility with existing code
-const testCases = parseAddressComparisonTests;
-const keyTestCase =
-  parseAddressComparisonTests.find((test: any) => test.id === "key") || parseAddressComparisonTests[0];
+// The one case whose format structure is printed for inspection
+const keyTestCase: (CompatibilityComparisonTestCase & { purpose?: string }) | undefined =
+  parseAddressComparisonTests[0];
+const keyInput = keyTestCase?.input ?? "";
+
+// Reads a field of a parsed result by name, whatever shape the result has
+function field(result: unknown, key: string): unknown {
+  return (result as Record<string, unknown> | null)?.[key];
+}
 
 describe("Compatibility Tests", () => {
   describe("Snake Case Compatibility", () => {
-    snakeCaseTestCases.forEach((testCase: any, index: number) => {
+    snakeCaseTestCases.forEach((testCase) => {
       test(testCase.description, () => {
         const result = parseLocation(testCase.input, testCase.options);
 
@@ -67,13 +63,13 @@ describe("Compatibility Tests", () => {
 
         // Check expected fields
         Object.keys(testCase.expected).forEach((key) => {
-          expect((result as any)[key]).toBe((testCase.expected as any)[key]);
+          expect(field(result, key)).toBe(testCase.expected?.[key]);
         });
 
         // Check fields that should not exist (for snake_case mode)
         if (testCase.notExpected) {
-          testCase.notExpected.forEach((field: string) => {
-            expect((result as any)[field]).toBeUndefined();
+          testCase.notExpected.forEach((name) => {
+            expect(field(result, name)).toBeUndefined();
           });
         }
       });
@@ -81,7 +77,7 @@ describe("Compatibility Tests", () => {
   });
 
   describe("Parse-Address Library Comparison", () => {
-    testCases.forEach((testCase: any) => {
+    parseAddressComparisonTests.forEach((testCase) => {
       it(`should match parse-address format for ${testCase.category} case ${testCase.id}: "${testCase.input}"`, async () => {
         // Get results from both parsers
         const parseAddress = await getParseAddress();
@@ -95,12 +91,12 @@ describe("Compatibility Tests", () => {
       });
     });
 
-    it(`should demonstrate format structure for key case: "${(keyTestCase as any)?.input}"`, async () => {
-      console.log(`\\nKey Test Purpose: ${(keyTestCase as any)?.purpose}`);
+    it(`should demonstrate format structure for key case: "${keyInput}"`, async () => {
+      console.log(`\\nKey Test Purpose: ${keyTestCase?.purpose}`);
 
       const parseAddress = await getParseAddress();
-      const original = parseAddress.parseLocation((keyTestCase as any)?.input);
-      const ours = parseLocation((keyTestCase as any)?.input);
+      const original = parseAddress.parseLocation(keyInput);
+      const ours = parseLocation(keyInput);
 
       console.log("\\n=== FORMAT ANALYSIS ===");
       console.log("Original format (parse-address):", JSON.stringify(original, null, 2));
@@ -124,7 +120,7 @@ describe("Compatibility Tests", () => {
           if (testCase.expected) {
             // Check each expected field
             Object.keys(testCase.expected || {}).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected?.[key]);
+              expect(field(result, key)).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -145,7 +141,7 @@ describe("Compatibility Tests", () => {
 
           if (testCase.expected) {
             Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              expect(field(result, key)).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -166,7 +162,7 @@ describe("Compatibility Tests", () => {
 
           if (testCase.expected) {
             Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              expect(field(result, key)).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -182,7 +178,7 @@ describe("Compatibility Tests", () => {
 
           if (testCase.expected) {
             Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              expect(field(result, key)).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -190,7 +186,7 @@ describe("Compatibility Tests", () => {
     });
 
     describe("Multiple Parser Function Tests", () => {
-      multipleParserArray.forEach((testCase: any, index: number) => {
+      multipleParserArray.forEach((testCase, index) => {
         describe(`Test case ${index + 1}: ${testCase.description}`, () => {
           it("should handle parseLocation", () => {
             const result = parseLocation(testCase.input);

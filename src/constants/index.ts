@@ -47,6 +47,18 @@ export { COUNTRIES } from "./countries";
 export type { CountryCode } from "./countries";
 export { DIRECTIONAL_MAP, DIRECTION_EXPANSIONS } from "./directionals";
 export { FRENCH_PREPOSITIONS } from "./french-prepositions";
+export {
+  JP_MUNICIPALITIES,
+  JP_POSTAL_EXCEPTIONS,
+  JP_POSTAL_PREFIXES,
+  JP_PREFECTURES,
+  findMunicipalitiesByRomaji,
+  findMunicipalityByCode,
+  findPrefecture,
+  getPostalPrefixesForPrefecture,
+  getPrefectureFromJapanesePostalCode,
+  municipalitiesOf,
+} from "./jp";
 export { COMMON_PARSER_PATTERNS, INTERSECTION_PATTERNS, PO_BOX_PATTERNS } from "./parser-patterns";
 export {
   POSTAL_CODE_TO_PROVINCE,
@@ -68,16 +80,4 @@ export {
 } from "./us-states";
 export { STREET_TYPE_EXPANSIONS, US_STREET_TYPES } from "./us-street-types";
 export { getStateFromZip, getZipPrefixesForState } from "./zip-code-states";
-export {
-  findMunicipalitiesByRomaji,
-  findMunicipalityByCode,
-  findPrefecture,
-  getPostalPrefixesForPrefecture,
-  getPrefectureFromJapanesePostalCode,
-  JP_MUNICIPALITIES,
-  JP_POSTAL_EXCEPTIONS,
-  JP_POSTAL_PREFIXES,
-  JP_PREFECTURES,
-  municipalitiesOf,
-} from "./jp";
 export type { StateCode } from "./zip-code-states";

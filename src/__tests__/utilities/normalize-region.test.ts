@@ -4,7 +4,6 @@ import { join } from "path";
 import { describe, expect, it } from "vitest";
 
 import { normalizeRegion } from "../../utils/normalize-region";
-import type { RegionTestCase, FuzzyMatchTestCase, NullTestCase } from "../types/test-interfaces";
 
 // Test data files
 const testFiles = {
@@ -13,17 +12,25 @@ const testFiles = {
   "fuzzy-matching": "../../../test-data/regions/fuzzy-matching.json",
 };
 
+interface RegionCase {
+  input: string;
+  expected: { abbr?: string } | null;
+  description: string;
+}
+
+type RegionGroup = RegionCase[] | { cases?: RegionCase[] };
+
 describe("Normalize Region", () => {
-  Object.entries(testFiles).forEach(([fileKey, filePath]) => {
+  Object.values(testFiles).forEach((filePath) => {
     const data = JSON.parse(readFileSync(join(__dirname, filePath), "utf-8"));
     const tests = data.tests;
 
     // Handle all test structures with generic iteration
-    Object.entries(tests).forEach(([groupName, testGroup]: [string, any]) => {
+    Object.entries(tests as Record<string, RegionGroup>).forEach(([groupName, testGroup]) => {
       if (Array.isArray(testGroup)) {
         // Direct array - check if it's fuzzy matching or regular cases
-        describe(groupName.replace(/([A-Z])/g, ' $1').toLowerCase(), () => {
-          testGroup.forEach((testCase: any) => {
+        describe(groupName.replace(/([A-Z])/g, " $1").toLowerCase(), () => {
+          testGroup.forEach((testCase) => {
             const { input, expected, description } = testCase;
             if (expected?.abbr) {
               // Fuzzy matching case
@@ -32,7 +39,7 @@ describe("Normalize Region", () => {
               });
             } else {
               // Regular case
-              it(`should ${expected ? 'match' : 'return null for'} ${description}`, () => {
+              it(`should ${expected ? "match" : "return null for"} ${description}`, () => {
                 const result = normalizeRegion(input);
                 if (expected) {
                   expect(result).toEqual(expected);
@@ -43,16 +50,23 @@ describe("Normalize Region", () => {
             }
           });
         });
-      } else if (testGroup?.cases) {
+      } else if (testGroup.cases) {
+        const cases = testGroup.cases;
         // Object with cases array
-        describe(groupName.replace(/([A-Z])/g, ' $1').toLowerCase().replace('tests', 'matches'), () => {
-          testGroup.cases.forEach((testCase: any) => {
-            const { input, expected, description } = testCase;
-            it(`should match ${description}`, () => {
-              expect(normalizeRegion(input)).toEqual(expected);
+        describe(
+          groupName
+            .replace(/([A-Z])/g, " $1")
+            .toLowerCase()
+            .replace("tests", "matches"),
+          () => {
+            cases.forEach((testCase) => {
+              const { input, expected, description } = testCase;
+              it(`should match ${description}`, () => {
+                expect(normalizeRegion(input)).toEqual(expected);
+              });
             });
-          });
-        });
+          },
+        );
       }
     });
   });

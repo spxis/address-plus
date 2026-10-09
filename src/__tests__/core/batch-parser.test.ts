@@ -22,13 +22,8 @@ import {
   parseLocationsBatch,
 } from "../../batch-parser";
 import type { ParsedAddress, ParsedIntersection } from "../../types";
-import type { BatchParseOptions, BatchParseResult } from "../../types/batch-parse";
-import type { 
-  BatchTestCase, 
-  BatchTestData, 
-  BatchParseFunctionTestData, 
-  AdvancedFunctionTestData 
-} from "../types/test-interfaces";
+import type { BatchParseResult } from "../../types/batch-parse";
+import type { AdvancedFunctionTestData, BatchParseFunctionTestData, BatchTestData } from "../types/test-interfaces";
 
 // Test data paths
 const BATCH_TEST_DATA_PATH = "../../../test-data/batch/batch-test.json";
