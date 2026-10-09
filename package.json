@@ -11,6 +11,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./jp": {
+      "types": "./dist/jp/index.d.ts",
+      "import": "./dist/jp/index.js",
+      "require": "./dist/jp/index.cjs"
     }
   },
   "sideEffects": false,
@@ -19,20 +24,20 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest",
-    "test:run": "vitest run",
+    "dev": "tsup --watch",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "format": "prettier --write .",
+    "typecheck": "tsc -p tsconfig.check.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:types": "tsd --files src/__tests__/types.test-d.ts",
-    "test:track": "node test-management/track-tests.js",
-    "test:regression": "node test-management/track-tests.js",
-    "dev": "tsup --watch",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
-    "format": "prettier --write src/**/*.ts",
-    "typecheck": "tsc --noEmit",
     "schema:validate": "node scripts/validate-schemas.js",
-    "update:sub-regions": "npx tsx scripts/sub-regions/update-sub-regions.ts",
-    "prepublishOnly": "pnpm run build && pnpm run test:run && pnpm run test:types"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:types && pnpm schema:validate",
+    "data:jp": "node scripts/jp/update-jp-data.ts",
+    "data:sub-regions": "node scripts/sub-regions/update-sub-regions.ts",
+    "prepublishOnly": "pnpm check && pnpm build"
   },
   "keywords": [
     "address",
@@ -58,36 +63,27 @@
     "url": "https://github.com/johnmorrisdotca/address-plus/issues"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
+    "node": ">=24"
   },
-  "packageManager": "pnpm@8.15.0",
+  "packageManager": "pnpm@10.11.0",
   "devDependencies": {
-    "@apidevtools/json-schema-ref-parser": "^14.2.1",
+    "@eslint/js": "^9.0.0",
+    "@johnmorrisdotca/hikidashi": "^1.0.2",
     "@types/fast-levenshtein": "^0.0.4",
-    "@types/node": "^20.0.0",
-    "@types/node-fetch": "^2.6.13",
-    "@typescript-eslint/eslint-plugin": "^8.44.0",
-    "@typescript-eslint/parser": "^8.44.0",
-    "@vitest/coverage-v8": "^1.0.0",
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^5.0.0",
     "ajv": "^8.17.1",
-    "ajv-cli": "^5.0.0",
     "ajv-formats": "^3.0.1",
-    "csv-parse": "^6.1.0",
-    "eslint": "^8.0.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-perfectionist": "^4.15.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "node-fetch": "^3.3.2",
+    "csv-parse": "^7.0.0",
+    "eslint": "^9.0.0",
     "parse-address": "^1.1.2",
-    "prettier": "^3.0.0",
+    "prettier": "^3.9.0",
     "prettier-plugin-organize-imports": "^4.3.0",
-    "tsd": "^0.29.0",
-    "tsup": "^8.0.0",
-    "typescript": "^5.2.0",
-    "vitest": "^1.0.0"
+    "tsd": "^0.33.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "fast-levenshtein": "^3.0.0"

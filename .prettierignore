@@ -1,0 +1,6 @@
+dist/
+node_modules/
+coverage/
+test-management/
+pnpm-lock.yaml
+*.md

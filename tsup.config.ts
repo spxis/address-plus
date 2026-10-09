@@ -1,13 +1,15 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts"],
+  entry: { index: "src/index.ts", "jp/index": "src/jp/index.ts" },
   format: ["esm", "cjs"],
   dts: true,
   clean: true,
-  splitting: false,
+  splitting: true,
   sourcemap: true,
   minify: false,
-  target: "es2020",
+  target: "es2022",
   outDir: "dist",
+  // Kanji numerals are read with hikidashi; bundled in, so the package keeps one runtime dependency.
+  noExternal: ["@johnmorrisdotca/hikidashi"],
 });

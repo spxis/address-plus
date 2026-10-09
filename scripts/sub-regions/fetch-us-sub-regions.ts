@@ -1,6 +1,6 @@
 // scripts/sub-regions/fetch-us-sub-regions.ts
 import type { SubRegion } from "../../src/types";
-import fetch from "node-fetch";
+
 
 // FIPS to state code mapping for accurate state assignment
 const FIPS_TO_STATE: Record<string, string> = {

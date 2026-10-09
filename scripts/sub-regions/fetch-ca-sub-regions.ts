@@ -1,6 +1,6 @@
 // scripts/sub-regions/fetch-ca-sub-regions.ts
 import type { SubRegion } from "../../src/types";
-import fetch from "node-fetch";
+
 
 // Province/territory code mapping for Canadian regions
 const PROVINCE_CODE_MAP: Record<string, string> = {
