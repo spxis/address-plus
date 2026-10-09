@@ -4,6 +4,8 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+## 1.3.0 - 2026-10-09
+
 ### Added
 
 - `docs/TEST_COVERAGE.md` lists every shape of address that parse-address's and Geo::StreetAddress::US's test suites exercise, each with an original case in the corpus that covers it. The corpus no longer carries any input of those suites: their 65 street-address cases are rewritten as original addresses of the same shapes (`test-data/corpus/us/parse-address-shapes.json`), five shapes only the Perl module tests are added, and the intersection cases use original streets.
