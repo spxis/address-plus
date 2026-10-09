@@ -12,13 +12,13 @@ import type { CorpusCase, FieldMismatch, LoadedCorpusFile } from "./corpus-suppo
 import { coreFieldsOf, describeMismatches, judgeCase, loadCorpus, parseCase } from "./corpus-support";
 
 const CORPUS_ROOT: string = join(__dirname, "../../../test-data/corpus");
-const COUNTRIES: string[] = ["us", "canada", "japan"];
+const COUNTRIES: string[] = (process.env.CORPUS_COUNTRIES ?? "us,canada,japan,au,gb").split(",");
 
 function markFile(country: string, file: LoadedCorpusFile): number {
   let todoCount: number = 0;
   for (const cases of Object.values(file.data.tests)) {
     for (const testCase of cases as CorpusCase[]) {
-      const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase), coreFieldsOf(country));
+      const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase, country), coreFieldsOf(country));
       delete testCase.todo;
       delete testCase.todoNote;
       if (mismatches.length > 0) {

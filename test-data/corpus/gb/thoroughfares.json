@@ -1,0 +1,1016 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "British Thoroughfares and Numbers",
+  "description": "Thoroughfares with each descriptor the parser splits off (reported in full, as Royal Mail writes them) and the abbreviations people type for them, streets with no descriptor (Kingsway, The Strand), a street called The and a descriptor, a Saint at the start, and building numbers with a letter, a range, a nought and a comma after them. Original cases written for this corpus from Royal Mail's addressing rules, described in our own words; nothing copied.",
+  "tests": {
+    "descriptors": [
+      {
+        "name": "Road",
+        "description": "Road, reported in full",
+        "input": "2 Willow Road, Ipswich IP1 2AA",
+        "expected": {
+          "number": "2",
+          "street": "Willow",
+          "type": "Road",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Street",
+        "description": "Street, reported in full",
+        "input": "3 Willow Street, Ipswich IP1 2AA",
+        "expected": {
+          "number": "3",
+          "street": "Willow",
+          "type": "Street",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Avenue",
+        "description": "Avenue, reported in full",
+        "input": "4 Willow Avenue, Ipswich IP1 2AA",
+        "expected": {
+          "number": "4",
+          "street": "Willow",
+          "type": "Avenue",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lane",
+        "description": "Lane, reported in full",
+        "input": "5 Willow Lane, Ipswich IP1 2AA",
+        "expected": {
+          "number": "5",
+          "street": "Willow",
+          "type": "Lane",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Close",
+        "description": "Close, reported in full",
+        "input": "6 Willow Close, Ipswich IP1 2AA",
+        "expected": {
+          "number": "6",
+          "street": "Willow",
+          "type": "Close",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Drive",
+        "description": "Drive, reported in full",
+        "input": "7 Willow Drive, Ipswich IP1 2AA",
+        "expected": {
+          "number": "7",
+          "street": "Willow",
+          "type": "Drive",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Way",
+        "description": "Way, reported in full",
+        "input": "8 Willow Way, Ipswich IP1 2AA",
+        "expected": {
+          "number": "8",
+          "street": "Willow",
+          "type": "Way",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Crescent",
+        "description": "Crescent, reported in full",
+        "input": "9 Willow Crescent, Ipswich IP1 2AA",
+        "expected": {
+          "number": "9",
+          "street": "Willow",
+          "type": "Crescent",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Grove",
+        "description": "Grove, reported in full",
+        "input": "10 Willow Grove, Ipswich IP1 2AA",
+        "expected": {
+          "number": "10",
+          "street": "Willow",
+          "type": "Grove",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Place",
+        "description": "Place, reported in full",
+        "input": "11 Willow Place, Ipswich IP1 2AA",
+        "expected": {
+          "number": "11",
+          "street": "Willow",
+          "type": "Place",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Court",
+        "description": "Court, reported in full",
+        "input": "12 Willow Court, Ipswich IP1 2AA",
+        "expected": {
+          "number": "12",
+          "street": "Willow",
+          "type": "Court",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Gardens",
+        "description": "Gardens, reported in full",
+        "input": "13 Willow Gardens, Ipswich IP1 2AA",
+        "expected": {
+          "number": "13",
+          "street": "Willow",
+          "type": "Gardens",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Terrace",
+        "description": "Terrace, reported in full",
+        "input": "14 Willow Terrace, Ipswich IP1 2AA",
+        "expected": {
+          "number": "14",
+          "street": "Willow",
+          "type": "Terrace",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Hill",
+        "description": "Hill, reported in full",
+        "input": "15 Willow Hill, Ipswich IP1 2AA",
+        "expected": {
+          "number": "15",
+          "street": "Willow",
+          "type": "Hill",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Walk",
+        "description": "Walk, reported in full",
+        "input": "16 Willow Walk, Ipswich IP1 2AA",
+        "expected": {
+          "number": "16",
+          "street": "Willow",
+          "type": "Walk",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Square",
+        "description": "Square, reported in full",
+        "input": "17 Willow Square, Ipswich IP1 2AA",
+        "expected": {
+          "number": "17",
+          "street": "Willow",
+          "type": "Square",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Park",
+        "description": "Park, reported in full",
+        "input": "18 Willow Park, Ipswich IP1 2AA",
+        "expected": {
+          "number": "18",
+          "street": "Willow",
+          "type": "Park",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Rise",
+        "description": "Rise, reported in full",
+        "input": "19 Willow Rise, Ipswich IP1 2AA",
+        "expected": {
+          "number": "19",
+          "street": "Willow",
+          "type": "Rise",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Mews",
+        "description": "Mews, reported in full",
+        "input": "20 Willow Mews, Ipswich IP1 2AA",
+        "expected": {
+          "number": "20",
+          "street": "Willow",
+          "type": "Mews",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "View",
+        "description": "View, reported in full",
+        "input": "21 Willow View, Ipswich IP1 2AA",
+        "expected": {
+          "number": "21",
+          "street": "Willow",
+          "type": "View",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Green",
+        "description": "Green, reported in full",
+        "input": "22 Willow Green, Ipswich IP1 2AA",
+        "expected": {
+          "number": "22",
+          "street": "Willow",
+          "type": "Green",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Row",
+        "description": "Row, reported in full",
+        "input": "23 Willow Row, Ipswich IP1 2AA",
+        "expected": {
+          "number": "23",
+          "street": "Willow",
+          "type": "Row",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Parade",
+        "description": "Parade, reported in full",
+        "input": "24 Willow Parade, Ipswich IP1 2AA",
+        "expected": {
+          "number": "24",
+          "street": "Willow",
+          "type": "Parade",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Vale",
+        "description": "Vale, reported in full",
+        "input": "25 Willow Vale, Ipswich IP1 2AA",
+        "expected": {
+          "number": "25",
+          "street": "Willow",
+          "type": "Vale",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Wharf",
+        "description": "Wharf, reported in full",
+        "input": "26 Willow Wharf, Ipswich IP1 2AA",
+        "expected": {
+          "number": "26",
+          "street": "Willow",
+          "type": "Wharf",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Yard",
+        "description": "Yard, reported in full",
+        "input": "27 Willow Yard, Ipswich IP1 2AA",
+        "expected": {
+          "number": "27",
+          "street": "Willow",
+          "type": "Yard",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Chase",
+        "description": "Chase, reported in full",
+        "input": "28 Willow Chase, Ipswich IP1 2AA",
+        "expected": {
+          "number": "28",
+          "street": "Willow",
+          "type": "Chase",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Croft",
+        "description": "Croft, reported in full",
+        "input": "29 Willow Croft, Ipswich IP1 2AA",
+        "expected": {
+          "number": "29",
+          "street": "Willow",
+          "type": "Croft",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Drove",
+        "description": "Drove, reported in full",
+        "input": "30 Willow Drove, Ipswich IP1 2AA",
+        "expected": {
+          "number": "30",
+          "street": "Willow",
+          "type": "Drove",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Embankment",
+        "description": "Embankment, reported in full",
+        "input": "31 Willow Embankment, Ipswich IP1 2AA",
+        "expected": {
+          "number": "31",
+          "street": "Willow",
+          "type": "Embankment",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Meadow",
+        "description": "Meadow, reported in full",
+        "input": "32 Willow Meadow, Ipswich IP1 2AA",
+        "expected": {
+          "number": "32",
+          "street": "Willow",
+          "type": "Meadow",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Approach",
+        "description": "Approach, reported in full",
+        "input": "33 Willow Approach, Ipswich IP1 2AA",
+        "expected": {
+          "number": "33",
+          "street": "Willow",
+          "type": "Approach",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Boulevard",
+        "description": "Boulevard, reported in full",
+        "input": "34 Willow Boulevard, Ipswich IP1 2AA",
+        "expected": {
+          "number": "34",
+          "street": "Willow",
+          "type": "Boulevard",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Promenade",
+        "description": "Promenade, reported in full",
+        "input": "35 Willow Promenade, Ipswich IP1 2AA",
+        "expected": {
+          "number": "35",
+          "street": "Willow",
+          "type": "Promenade",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "abbreviations": [
+      {
+        "name": "Rd",
+        "description": "Rd written for Road",
+        "input": "40 Willow Rd, Ipswich IP1 2AA",
+        "expected": {
+          "number": "40",
+          "street": "Willow",
+          "type": "Road",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "St",
+        "description": "St written for Street",
+        "input": "41 Willow St, Ipswich IP1 2AA",
+        "expected": {
+          "number": "41",
+          "street": "Willow",
+          "type": "Street",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ave",
+        "description": "Ave written for Avenue",
+        "input": "42 Willow Ave, Ipswich IP1 2AA",
+        "expected": {
+          "number": "42",
+          "street": "Willow",
+          "type": "Avenue",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Av",
+        "description": "Av written for Avenue",
+        "input": "43 Willow Av, Ipswich IP1 2AA",
+        "expected": {
+          "number": "43",
+          "street": "Willow",
+          "type": "Avenue",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ln",
+        "description": "Ln written for Lane",
+        "input": "44 Willow Ln, Ipswich IP1 2AA",
+        "expected": {
+          "number": "44",
+          "street": "Willow",
+          "type": "Lane",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cl",
+        "description": "Cl written for Close",
+        "input": "45 Willow Cl, Ipswich IP1 2AA",
+        "expected": {
+          "number": "45",
+          "street": "Willow",
+          "type": "Close",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Dr",
+        "description": "Dr written for Drive",
+        "input": "46 Willow Dr, Ipswich IP1 2AA",
+        "expected": {
+          "number": "46",
+          "street": "Willow",
+          "type": "Drive",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cres",
+        "description": "Cres written for Crescent",
+        "input": "47 Willow Cres, Ipswich IP1 2AA",
+        "expected": {
+          "number": "47",
+          "street": "Willow",
+          "type": "Crescent",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Gr",
+        "description": "Gr written for Grove",
+        "input": "48 Willow Gr, Ipswich IP1 2AA",
+        "expected": {
+          "number": "48",
+          "street": "Willow",
+          "type": "Grove",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pl",
+        "description": "Pl written for Place",
+        "input": "49 Willow Pl, Ipswich IP1 2AA",
+        "expected": {
+          "number": "49",
+          "street": "Willow",
+          "type": "Place",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ct",
+        "description": "Ct written for Court",
+        "input": "50 Willow Ct, Ipswich IP1 2AA",
+        "expected": {
+          "number": "50",
+          "street": "Willow",
+          "type": "Court",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Gdns",
+        "description": "Gdns written for Gardens",
+        "input": "51 Willow Gdns, Ipswich IP1 2AA",
+        "expected": {
+          "number": "51",
+          "street": "Willow",
+          "type": "Gardens",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Terr",
+        "description": "Terr written for Terrace",
+        "input": "52 Willow Terr, Ipswich IP1 2AA",
+        "expected": {
+          "number": "52",
+          "street": "Willow",
+          "type": "Terrace",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Sq",
+        "description": "Sq written for Square",
+        "input": "53 Willow Sq, Ipswich IP1 2AA",
+        "expected": {
+          "number": "53",
+          "street": "Willow",
+          "type": "Square",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pk",
+        "description": "Pk written for Park",
+        "input": "54 Willow Pk, Ipswich IP1 2AA",
+        "expected": {
+          "number": "54",
+          "street": "Willow",
+          "type": "Park",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pde",
+        "description": "Pde written for Parade",
+        "input": "55 Willow Pde, Ipswich IP1 2AA",
+        "expected": {
+          "number": "55",
+          "street": "Willow",
+          "type": "Parade",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Blvd",
+        "description": "Blvd written for Boulevard",
+        "input": "56 Willow Blvd, Ipswich IP1 2AA",
+        "expected": {
+          "number": "56",
+          "street": "Willow",
+          "type": "Boulevard",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Rd.",
+        "description": "Rd. written for Road",
+        "input": "57 Willow Rd., Ipswich IP1 2AA",
+        "expected": {
+          "number": "57",
+          "street": "Willow",
+          "type": "Road",
+          "city": "Ipswich",
+          "zip": "IP1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "noDescriptor": [
+      {
+        "name": "Kingsway",
+        "description": "A street of one word with no descriptor",
+        "input": "100 Kingsway, London WC2B 6AA",
+        "expected": {
+          "number": "100",
+          "street": "Kingsway",
+          "city": "London",
+          "zip": "WC2B 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "The Strand",
+        "description": "The and a name",
+        "input": "200 The Strand, London WC2R 1AA",
+        "expected": {
+          "number": "200",
+          "street": "The Strand",
+          "city": "London",
+          "zip": "WC2R 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Broadway",
+        "description": "A descriptor alone is the street's name",
+        "input": "5 Broadway, London SW1H 0AA",
+        "expected": {
+          "number": "5",
+          "street": "Broadway",
+          "city": "London",
+          "zip": "SW1H 0AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "The Green",
+        "description": "The and a descriptor: the whole is the street's name",
+        "input": "3 The Green, Richmond TW9 1AA",
+        "expected": {
+          "number": "3",
+          "street": "The Green",
+          "city": "Richmond",
+          "zip": "TW9 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "The Boulevard abbreviated",
+        "description": "The Blvd, written out",
+        "input": "7 The Blvd, Crawley RH10 1AA",
+        "expected": {
+          "number": "7",
+          "street": "The Boulevard",
+          "city": "Crawley",
+          "zip": "RH10 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Marygate",
+        "description": "A street whose descriptor is part of its one word",
+        "input": "6 Marygate, Berwick-upon-Tweed TD15 1BN",
+        "expected": {
+          "number": "6",
+          "street": "Marygate",
+          "city": "Berwick-upon-Tweed",
+          "zip": "TD15 1BN",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "names": [
+      {
+        "name": "Saint at the start",
+        "description": "St at the start of the name is Saint, not Street",
+        "input": "9 St Marys Road, Oxford OX4 1AA",
+        "expected": {
+          "number": "9",
+          "street": "St Marys",
+          "type": "Road",
+          "city": "Oxford",
+          "zip": "OX4 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Upper Street",
+        "description": "A name that is a direction word",
+        "input": "318 Upper Street, London N1 2AA",
+        "expected": {
+          "number": "318",
+          "street": "Upper",
+          "type": "Street",
+          "city": "London",
+          "zip": "N1 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "High Street",
+        "description": "The most common street",
+        "input": "1 High Street, Winchester SO23 9AA",
+        "expected": {
+          "number": "1",
+          "street": "High",
+          "type": "Street",
+          "city": "Winchester",
+          "zip": "SO23 9AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a name with a hyphen",
+        "description": "A hyphenated name",
+        "input": "4 Stoke-on-Avon Road, Bath BA2 1AA",
+        "expected": {
+          "number": "4",
+          "street": "Stoke-on-Avon",
+          "type": "Road",
+          "city": "Bath",
+          "zip": "BA2 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "numbers": [
+      {
+        "name": "a number with a letter",
+        "description": "22B",
+        "input": "22B Derwent Parade, South Ockendon RM15 5AA",
+        "expected": {
+          "number": "22B",
+          "street": "Derwent",
+          "type": "Parade",
+          "city": "South Ockendon",
+          "zip": "RM15 5AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a range",
+        "description": "100-106",
+        "input": "100-106 Leonard Street, London EC2A 4AA",
+        "expected": {
+          "number": "100-106",
+          "street": "Leonard",
+          "type": "Street",
+          "city": "London",
+          "zip": "EC2A 4AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "nought",
+        "description": "A house numbered 0",
+        "input": "0 Egmont Road, Middlesbrough TS4 2AA",
+        "expected": {
+          "number": "0",
+          "street": "Egmont",
+          "type": "Road",
+          "city": "Middlesbrough",
+          "zip": "TS4 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a comma after the number",
+        "description": "21, Kingswood Road",
+        "input": "21, Kingswood Road, London SW2 4AA",
+        "expected": {
+          "number": "21",
+          "street": "Kingswood",
+          "type": "Road",
+          "city": "London",
+          "zip": "SW2 4AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a large number",
+        "description": "A number in the thousands",
+        "input": "1250 London Road, Leigh-on-Sea SS9 2AA",
+        "expected": {
+          "number": "1250",
+          "street": "London",
+          "type": "Road",
+          "city": "Leigh-on-Sea",
+          "zip": "SS9 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

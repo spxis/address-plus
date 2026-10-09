@@ -1,0 +1,967 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Australian Units, Levels and Buildings",
+  "description": "A unit before a slash (Australia's own 3/12), a unit written with its type (AS4590's flat and unit types: Unit, Flat, Apartment, Shop, Suite, Villa, Townhouse and the rest), a level or floor (AS4590's level types), and a building's name on a line of its own. Original cases written for this corpus from Australia Post's guidelines and AS4590, described in our own words; nothing copied.",
+  "tests": {
+    "slash": [
+      {
+        "name": "unit and number",
+        "description": "Unit 3 at number 12, written with a slash",
+        "input": "3/12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a unit with a letter",
+        "description": "A lettered unit before the slash",
+        "input": "3A/12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3A",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a unit higher than the number",
+        "description": "Unit 12 at number 3",
+        "input": "12/3 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "12",
+          "number": "3",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lettered unit",
+        "description": "A unit that is a letter",
+        "input": "B/7 Rose St, Fitzroy VIC 3065",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "B",
+          "number": "7",
+          "street": "Rose",
+          "type": "St",
+          "city": "Fitzroy",
+          "state": "VIC",
+          "zip": "3065",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a unit on a range",
+        "description": "A unit at a property spanning two numbers",
+        "input": "3/12-14 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12-14",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "spaces around the slash",
+        "description": "3 / 12",
+        "input": "3 / 12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Unit before the slash",
+        "description": "Unit 3/12",
+        "input": "Unit 3/12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "U before the slash",
+        "description": "AS4590's code U",
+        "input": "U3/12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Flat before the slash",
+        "description": "Flat 2/7",
+        "input": "Flat 2/7 Rose St, Fitzroy VIC 3065",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "2",
+          "number": "7",
+          "street": "Rose",
+          "type": "St",
+          "city": "Fitzroy",
+          "state": "VIC",
+          "zip": "3065",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Shop before the slash",
+        "description": "Shop 4/100",
+        "input": "Shop 4/100 George St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Shop",
+          "secUnitNum": "4",
+          "number": "100",
+          "street": "George",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "no comma before the suburb",
+        "description": "A slash, and the suburb straight after the type",
+        "input": "3/12 Smith Street Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "unitTypes": [
+      {
+        "name": "Unit, a comma, the number",
+        "description": "The unit in a comma part of its own",
+        "input": "Unit 3, 12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Unit and the number on one line",
+        "description": "Unit 3 12 Smith St",
+        "input": "Unit 3 12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "U and a space",
+        "description": "U 3",
+        "input": "U 3, 12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lettered Unit",
+        "description": "Unit B",
+        "input": "Unit B, 7 Rose St, Fitzroy VIC 3065",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "B",
+          "number": "7",
+          "street": "Rose",
+          "type": "St",
+          "city": "Fitzroy",
+          "state": "VIC",
+          "zip": "3065",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Apartment 1203",
+        "description": "Apartment, reported as Apartment",
+        "input": "Apartment 1203, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Apartment",
+          "secUnitNum": "1203",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Apt 1203",
+        "description": "Apt, reported as Apartment",
+        "input": "Apt 1203, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Apartment",
+          "secUnitNum": "1203",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Flat 2",
+        "description": "Flat, reported as Flat",
+        "input": "Flat 2, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "2",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Shop 5",
+        "description": "Shop, reported as Shop",
+        "input": "Shop 5, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Shop",
+          "secUnitNum": "5",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Suite 4B",
+        "description": "Suite, reported as Suite",
+        "input": "Suite 4B, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Suite",
+          "secUnitNum": "4B",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ste 4B",
+        "description": "Ste, reported as Suite",
+        "input": "Ste 4B, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Suite",
+          "secUnitNum": "4B",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Villa 7",
+        "description": "Villa, reported as Villa",
+        "input": "Villa 7, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Villa",
+          "secUnitNum": "7",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Townhouse 3",
+        "description": "Townhouse, reported as Townhouse",
+        "input": "Townhouse 3, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Townhouse",
+          "secUnitNum": "3",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Factory 6",
+        "description": "Factory, reported as Factory",
+        "input": "Factory 6, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Factory",
+          "secUnitNum": "6",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Warehouse 2",
+        "description": "Warehouse, reported as Warehouse",
+        "input": "Warehouse 2, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Warehouse",
+          "secUnitNum": "2",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Office 12",
+        "description": "Office, reported as Office",
+        "input": "Office 12, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Office",
+          "secUnitNum": "12",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Kiosk 1",
+        "description": "Kiosk, reported as Kiosk",
+        "input": "Kiosk 1, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Kiosk",
+          "secUnitNum": "1",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Studio 8",
+        "description": "Studio, reported as Studio",
+        "input": "Studio 8, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Studio",
+          "secUnitNum": "8",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Penthouse 1",
+        "description": "Penthouse, reported as Penthouse",
+        "input": "Penthouse 1, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Penthouse",
+          "secUnitNum": "1",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Duplex 2",
+        "description": "Duplex, reported as Duplex",
+        "input": "Duplex 2, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Duplex",
+          "secUnitNum": "2",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Marine Berth 14",
+        "description": "Marine Berth, reported as Marine Berth",
+        "input": "Marine Berth 14, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Marine Berth",
+          "secUnitNum": "14",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Stall 9",
+        "description": "Stall, reported as Stall",
+        "input": "Stall 9, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Stall",
+          "secUnitNum": "9",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Site 22",
+        "description": "Site, reported as Site",
+        "input": "Site 22, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Site",
+          "secUnitNum": "22",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Room 4",
+        "description": "Room, reported as Room",
+        "input": "Room 4, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Room",
+          "secUnitNum": "4",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cottage 2",
+        "description": "Cottage, reported as Cottage",
+        "input": "Cottage 2, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Cottage",
+          "secUnitNum": "2",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Shed 4",
+        "description": "Shed, reported as Shed",
+        "input": "Shed 4, 1 Market St, Sydney NSW 2000",
+        "expected": {
+          "secUnitType": "Shed",
+          "secUnitNum": "4",
+          "number": "1",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a decimal suite",
+        "description": "An office suite numbered floor-dot-room",
+        "input": "Suite 2.01, 100 Miller St, North Sydney NSW 2060",
+        "expected": {
+          "secUnitType": "Suite",
+          "secUnitNum": "2.01",
+          "number": "100",
+          "street": "Miller",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Level, a comma, the number",
+        "description": "A level in a comma part of its own",
+        "input": "Level 6, 51 Jacobson St, Brisbane QLD 4000",
+        "expected": {
+          "floorType": "Level",
+          "floor": "6",
+          "number": "51",
+          "street": "Jacobson",
+          "type": "St",
+          "city": "Brisbane",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Level on the street line",
+        "description": "Australia Post's own layout: the level before the number on one line",
+        "input": "LEVEL 6 51 JACOBSON ST\nBRISBANE QLD 4000",
+        "expected": {
+          "floorType": "Level",
+          "floor": "6",
+          "number": "51",
+          "street": "JACOBSON",
+          "type": "St",
+          "city": "BRISBANE",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for Australia (from Australia Post) shows; the address itself is made up"
+      },
+      {
+        "name": "L and the number",
+        "description": "AS4590's code L",
+        "input": "L6, 51 Jacobson St, Brisbane QLD 4000",
+        "expected": {
+          "floorType": "Level",
+          "floor": "6",
+          "number": "51",
+          "street": "Jacobson",
+          "type": "St",
+          "city": "Brisbane",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "L, a space and the number",
+        "description": "L 6",
+        "input": "L 6, 51 Jacobson St, Brisbane QLD 4000",
+        "expected": {
+          "floorType": "Level",
+          "floor": "6",
+          "number": "51",
+          "street": "Jacobson",
+          "type": "St",
+          "city": "Brisbane",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Floor and the number",
+        "description": "Floor 3",
+        "input": "Floor 3, 100 Miller St, North Sydney NSW 2060",
+        "expected": {
+          "floorType": "Floor",
+          "floor": "3",
+          "number": "100",
+          "street": "Miller",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "an ordinal floor",
+        "description": "3rd Floor",
+        "input": "3rd Floor, 100 Miller St, North Sydney NSW 2060",
+        "expected": {
+          "floorType": "Floor",
+          "floor": "3",
+          "number": "100",
+          "street": "Miller",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ground Floor",
+        "description": "The ground floor, with no number",
+        "input": "Ground Floor, 1 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "floorType": "Ground Floor",
+          "number": "1",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Basement",
+        "description": "The basement, with no number",
+        "input": "Basement, 20 Bond St, Sydney NSW 2000",
+        "expected": {
+          "floorType": "Basement",
+          "number": "20",
+          "street": "Bond",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "B and a number",
+        "description": "A second basement level, AS4590's B",
+        "input": "B2, 20 Bond St, Sydney NSW 2000",
+        "expected": {
+          "floorType": "Basement",
+          "floor": "2",
+          "number": "20",
+          "street": "Bond",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lower Ground Floor",
+        "description": "AS4590's LG",
+        "input": "Lower Ground Floor, 20 Bond St, Sydney NSW 2000",
+        "expected": {
+          "floorType": "Lower Ground Floor",
+          "number": "20",
+          "street": "Bond",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "LG",
+        "description": "LG on its own",
+        "input": "LG, 20 Bond St, Sydney NSW 2000",
+        "expected": {
+          "floorType": "Lower Ground Floor",
+          "number": "20",
+          "street": "Bond",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Upper Ground Floor",
+        "description": "AS4590's UG",
+        "input": "Upper Ground Floor, 20 Bond St, Sydney NSW 2000",
+        "expected": {
+          "floorType": "Upper Ground Floor",
+          "number": "20",
+          "street": "Bond",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Mezzanine",
+        "description": "AS4590's M",
+        "input": "Mezzanine, 5 Hunter St, Sydney NSW 2000",
+        "expected": {
+          "floorType": "Mezzanine",
+          "number": "5",
+          "street": "Hunter",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "combined": [
+      {
+        "name": "a suite on a level",
+        "description": "Suite, then level, then the street",
+        "input": "Suite 2.01, Level 2, 100 Miller St, North Sydney NSW 2060",
+        "expected": {
+          "secUnitType": "Suite",
+          "secUnitNum": "2.01",
+          "floorType": "Level",
+          "floor": "2",
+          "number": "100",
+          "street": "Miller",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a level before the unit",
+        "description": "Level, then unit, on one line",
+        "input": "Level 3 Unit 4 12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "4",
+          "floorType": "Level",
+          "floor": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a building and a level",
+        "description": "A building's name, then the level and the street on one line",
+        "input": "Travel World House\nLevel 7 17 Jones St\nNorth Sydney NSW 2060",
+        "expected": {
+          "building": "Travel World House",
+          "floorType": "Level",
+          "floor": "7",
+          "number": "17",
+          "street": "Jones",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for Australia (from Australia Post) shows; the address itself is made up"
+      },
+      {
+        "name": "a building's name",
+        "description": "A tower's name before the street",
+        "input": "Westfield Tower, 100 Market St, Sydney NSW 2000",
+        "expected": {
+          "building": "Westfield Tower",
+          "number": "100",
+          "street": "Market",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a unit in a named building",
+        "description": "Unit, building, street",
+        "input": "Unit 5, Sunrise Apartments, 12 Ocean St, Bondi NSW 2026",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "5",
+          "building": "Sunrise Apartments",
+          "number": "12",
+          "street": "Ocean",
+          "type": "St",
+          "city": "Bondi",
+          "state": "NSW",
+          "zip": "2026",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a shop in a centre",
+        "description": "Building, shop, street",
+        "input": "The Rocks Centre, Shop 3, 10 Playfair St, The Rocks NSW 2000",
+        "expected": {
+          "building": "The Rocks Centre",
+          "secUnitType": "Shop",
+          "secUnitNum": "3",
+          "number": "10",
+          "street": "Playfair",
+          "type": "St",
+          "city": "The Rocks",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

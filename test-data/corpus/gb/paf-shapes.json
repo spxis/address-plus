@@ -1,0 +1,153 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Royal Mail's Address Shapes",
+  "description": "Each combination of the parts of Royal Mail's Postcode Address File that Royal Mail shows in its addressing guidance: an organisation with only a dependent locality; a number with a double dependent locality; a number with a dependent thoroughfare and a thoroughfare; a building's name with a dependent locality; a building's name with a numbered thoroughfare and a locality; a numbered building's name with a thoroughfare; a part of a building; and an organisation with a dependent thoroughfare. Every address is original, written in the shape of Royal Mail's examples (through the UPU's addressing sheet for the United Kingdom); nothing copied.",
+  "tests": {
+    "shapes": [
+      {
+        "name": "organisation, locality, town",
+        "description": "An organisation, a dependent locality, the post town, the postcode",
+        "input": "Marlow Fabrications Ltd\nSUTTON COURTENAY\nABINGDON\nOX14 4AA",
+        "expected": {
+          "building": "Marlow Fabrications Ltd",
+          "locality": "SUTTON COURTENAY",
+          "city": "ABINGDON",
+          "zip": "OX14 4AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up"
+      },
+      {
+        "name": "number and double dependent locality",
+        "description": "A number on a double dependent locality, then the dependent locality",
+        "input": "3 Lower Stanton\nChew Magna\nBRISTOL\nBS40 8AA",
+        "expected": {
+          "number": "3",
+          "doubleDependentLocality": "Lower Stanton",
+          "locality": "Chew Magna",
+          "city": "BRISTOL",
+          "zip": "BS40 8AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up",
+        "todo": true,
+        "todoNote": "doubleDependentLocality: absent (want \"Lower Stanton\"); street: \"Lower Stanton\" (want absent)"
+      },
+      {
+        "name": "dependent thoroughfare and thoroughfare",
+        "description": "A number on a dependent thoroughfare inside a thoroughfare, then a locality",
+        "input": "2A Mill Cottages\nChurch Road\nCley\nHOLT\nNR25 7AA",
+        "expected": {
+          "number": "2A",
+          "dependentThoroughfare": "Mill Cottages",
+          "street": "Church",
+          "type": "Road",
+          "locality": "Cley",
+          "city": "HOLT",
+          "zip": "NR25 7AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up"
+      },
+      {
+        "name": "building name and locality",
+        "description": "A building's name, then a dependent locality",
+        "input": "The Grange\nLeigh Hill\nREIGATE\nRH2 8AA",
+        "expected": {
+          "building": "The Grange",
+          "locality": "Leigh Hill",
+          "city": "REIGATE",
+          "zip": "RH2 8AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up",
+        "todo": true,
+        "todoNote": "locality: absent (want \"Leigh Hill\"); street: \"Leigh\" (want absent); type: \"Hill\" (want absent)"
+      },
+      {
+        "name": "building, numbered thoroughfare, locality",
+        "description": "A building's name, a number with a thoroughfare, a dependent locality",
+        "input": "Elm House\n12 The Street\nHurn\nCHRISTCHURCH\nBH23 6AA",
+        "expected": {
+          "building": "Elm House",
+          "number": "12",
+          "street": "The Street",
+          "locality": "Hurn",
+          "city": "CHRISTCHURCH",
+          "zip": "BH23 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up"
+      },
+      {
+        "name": "a numbered building's name",
+        "description": "A building's name that holds its number, then a thoroughfare",
+        "input": "14C Kingsley Tower\nElm Walk\nBIRMINGHAM\nB6 5AA",
+        "expected": {
+          "building": "14C Kingsley Tower",
+          "street": "Elm",
+          "type": "Walk",
+          "city": "BIRMINGHAM",
+          "zip": "B6 5AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up"
+      },
+      {
+        "name": "part of a building",
+        "description": "A named part of a building, the building, a dependent locality",
+        "input": "Coach House Flat\nBeech Manor\nLeigh Hill\nREIGATE\nRH2 8AB",
+        "expected": {
+          "subBuilding": "Coach House Flat",
+          "building": "Beech Manor",
+          "locality": "Leigh Hill",
+          "city": "REIGATE",
+          "zip": "RH2 8AB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up",
+        "todo": true,
+        "todoNote": "locality: absent (want \"Leigh Hill\"); street: \"Leigh\" (want absent); type: \"Hill\" (want absent)"
+      },
+      {
+        "name": "organisation and dependent thoroughfare",
+        "description": "An organisation, a number on a dependent thoroughfare, the thoroughfare",
+        "input": "Harbour Supplies Ltd\n6 Marina Business Park\nQuay Road\nPORTSMOUTH\nPO1 3AA",
+        "expected": {
+          "building": "Harbour Supplies Ltd",
+          "number": "6",
+          "dependentThoroughfare": "Marina Business Park",
+          "street": "Quay",
+          "type": "Road",
+          "city": "PORTSMOUTH",
+          "zip": "PO1 3AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up"
+      },
+      {
+        "name": "the simplest",
+        "description": "A number, a thoroughfare, the post town and the postcode",
+        "input": "49 Featherstone Street\nLONDON\nEC1Y 8AA",
+        "expected": {
+          "number": "49",
+          "street": "Featherstone",
+          "type": "Street",
+          "city": "LONDON",
+          "zip": "EC1Y 8AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for the United Kingdom (from Royal Mail) shows; the address itself is made up"
+      }
+    ]
+  }
+}

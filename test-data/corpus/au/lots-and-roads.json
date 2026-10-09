@@ -1,0 +1,161 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Australian Lots, Rural Roads and Highways",
+  "description": "Rural and new-estate addresses: a lot number where no street number is given yet (Lot 12), long rural numbers on named roads and highways, and roads named for a mount or a river. Original cases written for this corpus from Australia Post's guidelines and AS4590, described in our own words; nothing copied.",
+  "tests": {
+    "lots": [
+      {
+        "name": "a lot on a road",
+        "description": "Lot 12 with the road on the same line",
+        "input": "Lot 12 Smith Rd, Kalgoorlie WA 6430",
+        "expected": {
+          "lot": "12",
+          "street": "Smith",
+          "type": "Rd",
+          "city": "Kalgoorlie",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lot, a comma, the road",
+        "description": "The lot in a comma part of its own",
+        "input": "Lot 12, Smith Rd, Kalgoorlie WA 6430",
+        "expected": {
+          "lot": "12",
+          "street": "Smith",
+          "type": "Rd",
+          "city": "Kalgoorlie",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lot with a letter",
+        "description": "Lot 3A",
+        "input": "Lot 3A Ridge Rd, Mudgee NSW 2850",
+        "expected": {
+          "lot": "3A",
+          "street": "Ridge",
+          "type": "Rd",
+          "city": "Mudgee",
+          "state": "NSW",
+          "zip": "2850",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lot, no comma",
+        "description": "The town straight after the road",
+        "input": "Lot 12 Smith Rd Kalgoorlie WA 6430",
+        "expected": {
+          "lot": "12",
+          "street": "Smith",
+          "type": "Rd",
+          "city": "Kalgoorlie",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lot on a highway",
+        "description": "Lot 7 on a highway",
+        "input": "Lot 7 Bruce Hwy, Gympie QLD 4570",
+        "expected": {
+          "lot": "7",
+          "street": "Bruce",
+          "type": "Hwy",
+          "city": "Gympie",
+          "state": "QLD",
+          "zip": "4570",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "roads": [
+      {
+        "name": "a highway",
+        "description": "A long number on a highway",
+        "input": "2350 Pacific Hwy, Wahroonga NSW 2076",
+        "expected": {
+          "number": "2350",
+          "street": "Pacific",
+          "type": "Hwy",
+          "city": "Wahroonga",
+          "state": "NSW",
+          "zip": "2076",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a road named for a mount",
+        "description": "Mount at the start of the name, no comma",
+        "input": "1234 Mount Macedon Rd Mount Macedon VIC 3441",
+        "expected": {
+          "number": "1234",
+          "street": "Mount Macedon",
+          "type": "Rd",
+          "city": "Mount Macedon",
+          "state": "VIC",
+          "zip": "3441",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a road named for a river",
+        "description": "River in the name",
+        "input": "88 River Rd, Lane Cove NSW 2066",
+        "expected": {
+          "number": "88",
+          "street": "River",
+          "type": "Rd",
+          "city": "Lane Cove",
+          "state": "NSW",
+          "zip": "2066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a suburb that starts with Lane",
+        "description": "The suburb's first word is a street type",
+        "input": "88 River Rd Lane Cove NSW 2066",
+        "expected": {
+          "number": "88",
+          "street": "River",
+          "type": "Rd",
+          "city": "Lane Cove",
+          "state": "NSW",
+          "zip": "2066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a track",
+        "description": "A rural track",
+        "input": "450 Gibb River Rd, Derby WA 6728",
+        "expected": {
+          "number": "450",
+          "street": "Gibb River",
+          "type": "Rd",
+          "city": "Derby",
+          "state": "WA",
+          "zip": "6728",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

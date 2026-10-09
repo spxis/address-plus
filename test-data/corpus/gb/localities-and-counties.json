@@ -1,0 +1,366 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "British Localities, Counties and Nations",
+  "description": "What may stand between the thoroughfare and the postcode: a dependent locality and a double dependent locality, a county in full or short (Royal Mail no longer needs it, and it is never the post town), and the country or a nation written at the end. Original cases written for this corpus from Royal Mail's addressing rules, described in our own words; nothing copied.",
+  "tests": {
+    "localities": [
+      {
+        "name": "a dependent locality",
+        "description": "A village within the post town's area",
+        "input": "4 Church Lane, Weybourne, Holt NR25 7AB",
+        "expected": {
+          "number": "4",
+          "street": "Church",
+          "type": "Lane",
+          "locality": "Weybourne",
+          "city": "Holt",
+          "zip": "NR25 7AB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "two localities",
+        "description": "A double dependent locality before the dependent locality",
+        "input": "4 Church Lane, Lower Weybourne, Weybourne, Holt NR25 7AB",
+        "expected": {
+          "number": "4",
+          "street": "Church",
+          "type": "Lane",
+          "doubleDependentLocality": "Lower Weybourne",
+          "locality": "Weybourne",
+          "city": "Holt",
+          "zip": "NR25 7AB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a London district name",
+        "description": "A neighbourhood before London",
+        "input": "6 Bow Street, Covent Garden, London WC2E 7AA",
+        "expected": {
+          "number": "6",
+          "street": "Bow",
+          "type": "Street",
+          "locality": "Covent Garden",
+          "city": "London",
+          "zip": "WC2E 7AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "counties": [
+      {
+        "name": "Surrey",
+        "description": "Surrey after the post town",
+        "input": "3 Station Road, Woking, Surrey GU21 6AA",
+        "expected": {
+          "number": "3",
+          "street": "Station",
+          "type": "Road",
+          "city": "Woking",
+          "county": "Surrey",
+          "zip": "GU21 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Middx",
+        "description": "Middx after the post town",
+        "input": "4 Station Road, Harrow, Middx HA1 1AA",
+        "expected": {
+          "number": "4",
+          "street": "Station",
+          "type": "Road",
+          "city": "Harrow",
+          "county": "Middx",
+          "zip": "HA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Herts",
+        "description": "Herts after the post town",
+        "input": "5 Station Road, St Albans, Herts AL1 1AA",
+        "expected": {
+          "number": "5",
+          "street": "Station",
+          "type": "Road",
+          "city": "St Albans",
+          "county": "Herts",
+          "zip": "AL1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "West Yorkshire",
+        "description": "West Yorkshire after the post town",
+        "input": "6 Station Road, Leeds, West Yorkshire LS1 1AA",
+        "expected": {
+          "number": "6",
+          "street": "Station",
+          "type": "Road",
+          "city": "Leeds",
+          "county": "West Yorkshire",
+          "zip": "LS1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Co. Durham",
+        "description": "Co. Durham after the post town",
+        "input": "7 Station Road, Bishop Auckland, Co. Durham DL14 7AA",
+        "expected": {
+          "number": "7",
+          "street": "Station",
+          "type": "Road",
+          "city": "Bishop Auckland",
+          "county": "Co. Durham",
+          "zip": "DL14 7AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "County Durham",
+        "description": "County Durham after the post town",
+        "input": "8 Station Road, Bishop Auckland, County Durham DL14 7AA",
+        "expected": {
+          "number": "8",
+          "street": "Station",
+          "type": "Road",
+          "city": "Bishop Auckland",
+          "county": "County Durham",
+          "zip": "DL14 7AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Isle of Wight",
+        "description": "Isle of Wight after the post town",
+        "input": "9 Station Road, Newport, Isle of Wight PO30 1AA",
+        "expected": {
+          "number": "9",
+          "street": "Station",
+          "type": "Road",
+          "city": "Newport",
+          "county": "Isle of Wight",
+          "zip": "PO30 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "East Sussex",
+        "description": "East Sussex after the post town",
+        "input": "10 Station Road, Eastbourne, East Sussex BN21 1AA",
+        "expected": {
+          "number": "10",
+          "street": "Station",
+          "type": "Road",
+          "city": "Eastbourne",
+          "county": "East Sussex",
+          "zip": "BN21 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Merseyside",
+        "description": "Merseyside after the post town",
+        "input": "11 Station Road, Liverpool, Merseyside L1 1AA",
+        "expected": {
+          "number": "11",
+          "street": "Station",
+          "type": "Road",
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "zip": "L1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lancs",
+        "description": "Lancs after the post town",
+        "input": "12 Station Road, Preston, Lancs PR1 1AA",
+        "expected": {
+          "number": "12",
+          "street": "Station",
+          "type": "Road",
+          "city": "Preston",
+          "county": "Lancs",
+          "zip": "PR1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a town that is also a county's name",
+        "description": "Durham the town, not County Durham",
+        "input": "5 Saddler Street, Durham DH1 3AA",
+        "expected": {
+          "number": "5",
+          "street": "Saddler",
+          "type": "Street",
+          "city": "Durham",
+          "zip": "DH1 3AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "countries": [
+      {
+        "name": "United Kingdom",
+        "description": "The country at the end",
+        "input": "10 Downing Street, London SW1A 2AA, United Kingdom",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "UK",
+        "description": "UK at the end",
+        "input": "10 Downing Street, London SW1A 2AA, UK",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "U.K.",
+        "description": "With full stops",
+        "input": "10 Downing Street, London SW1A 2AA, U.K.",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Great Britain",
+        "description": "Great Britain at the end",
+        "input": "10 Downing Street, London SW1A 2AA, Great Britain",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "UNITED KINGDOM on its own line",
+        "description": "Royal Mail's layout for mail from abroad",
+        "input": "10 Downing Street\nLONDON\nSW1A 2AA\nUNITED KINGDOM",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "LONDON",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Scotland",
+        "description": "A nation at the end",
+        "input": "12 Princes Street, Edinburgh EH2 2AN, Scotland",
+        "expected": {
+          "number": "12",
+          "street": "Princes",
+          "type": "Street",
+          "city": "Edinburgh",
+          "zip": "EH2 2AN",
+          "nation": "SCT",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Wales with no postcode",
+        "description": "A nation and no postcode: the nation is the one written",
+        "input": "7 Queen Street, Cardiff, Wales",
+        "expected": {
+          "number": "7",
+          "street": "Queen",
+          "type": "Street",
+          "city": "Cardiff",
+          "nation": "WLS",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Northern Ireland",
+        "description": "Northern Ireland at the end",
+        "input": "10 Donegall Square, Belfast BT1 5GS, Northern Ireland",
+        "expected": {
+          "number": "10",
+          "street": "Donegall",
+          "type": "Square",
+          "city": "Belfast",
+          "zip": "BT1 5GS",
+          "nation": "NIR",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a town alone with the country",
+        "description": "Only the town and the country",
+        "input": "Stoke-on-Trent, United Kingdom",
+        "expected": {
+          "city": "Stoke-on-Trent",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

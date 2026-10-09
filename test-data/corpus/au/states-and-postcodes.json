@@ -1,0 +1,879 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Australian States, Territories and Postcodes",
+  "description": "Every state and territory by its code and its name, the forms people write them in, the first and last postcode of each block Australia Post gives a state, postcodes that serve towns across a border (from the ABS's Postal Areas), the external territories, and a state or postcode left out. Original cases written for this corpus; the blocks are Australia Post's allocation and the border postcodes the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0).",
+  "tests": {
+    "codes": [
+      {
+        "name": "NSW",
+        "description": "NSW by its code",
+        "input": "1 Martin Pl, Sydney NSW 2000",
+        "expected": {
+          "number": "1",
+          "street": "Martin",
+          "type": "Pl",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "VIC",
+        "description": "VIC by its code",
+        "input": "100 Collins St, Melbourne VIC 3000",
+        "expected": {
+          "number": "100",
+          "street": "Collins",
+          "type": "St",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "QLD",
+        "description": "QLD by its code",
+        "input": "1 William St, Brisbane City QLD 4000",
+        "expected": {
+          "number": "1",
+          "street": "William",
+          "type": "St",
+          "city": "Brisbane City",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "SA",
+        "description": "SA by its code",
+        "input": "1 King William St, Adelaide SA 5000",
+        "expected": {
+          "number": "1",
+          "street": "King William",
+          "type": "St",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "WA",
+        "description": "WA by its code",
+        "input": "1 St Georges Tce, Perth WA 6000",
+        "expected": {
+          "number": "1",
+          "street": "St Georges",
+          "type": "Tce",
+          "city": "Perth",
+          "state": "WA",
+          "zip": "6000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "TAS",
+        "description": "TAS by its code",
+        "input": "1 Davey St, Hobart TAS 7000",
+        "expected": {
+          "number": "1",
+          "street": "Davey",
+          "type": "St",
+          "city": "Hobart",
+          "state": "TAS",
+          "zip": "7000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "NT",
+        "description": "NT by its code",
+        "input": "1 Smith St, Darwin City NT 0800",
+        "expected": {
+          "number": "1",
+          "street": "Smith",
+          "type": "St",
+          "city": "Darwin City",
+          "state": "NT",
+          "zip": "0800",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "ACT",
+        "description": "ACT by its code",
+        "input": "1 Constitution Ave, Canberra ACT 2600",
+        "expected": {
+          "number": "1",
+          "street": "Constitution",
+          "type": "Ave",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "2600",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "names": [
+      {
+        "name": "New South Wales",
+        "description": "New South Wales written in full",
+        "input": "1 Martin Pl, Sydney New South Wales 2000",
+        "expected": {
+          "number": "1",
+          "street": "Martin",
+          "type": "Pl",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Victoria",
+        "description": "Victoria written in full",
+        "input": "100 Collins St, Melbourne Victoria 3000",
+        "expected": {
+          "number": "100",
+          "street": "Collins",
+          "type": "St",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Queensland",
+        "description": "Queensland written in full",
+        "input": "1 William St, Brisbane City Queensland 4000",
+        "expected": {
+          "number": "1",
+          "street": "William",
+          "type": "St",
+          "city": "Brisbane City",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "South Australia",
+        "description": "South Australia written in full",
+        "input": "1 King William St, Adelaide South Australia 5000",
+        "expected": {
+          "number": "1",
+          "street": "King William",
+          "type": "St",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Western Australia",
+        "description": "Western Australia written in full",
+        "input": "1 St Georges Tce, Perth Western Australia 6000",
+        "expected": {
+          "number": "1",
+          "street": "St Georges",
+          "type": "Tce",
+          "city": "Perth",
+          "state": "WA",
+          "zip": "6000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Tasmania",
+        "description": "Tasmania written in full",
+        "input": "1 Davey St, Hobart Tasmania 7000",
+        "expected": {
+          "number": "1",
+          "street": "Davey",
+          "type": "St",
+          "city": "Hobart",
+          "state": "TAS",
+          "zip": "7000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Northern Territory",
+        "description": "Northern Territory written in full",
+        "input": "1 Smith St, Darwin City Northern Territory 0800",
+        "expected": {
+          "number": "1",
+          "street": "Smith",
+          "type": "St",
+          "city": "Darwin City",
+          "state": "NT",
+          "zip": "0800",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Australian Capital Territory",
+        "description": "Australian Capital Territory written in full",
+        "input": "1 Constitution Ave, Canberra Australian Capital Territory 2600",
+        "expected": {
+          "number": "1",
+          "street": "Constitution",
+          "type": "Ave",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "2600",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "forms": [
+      {
+        "name": "Vic",
+        "description": "Victoria's code in proper case",
+        "input": "100 Collins St, Melbourne Vic 3000",
+        "expected": {
+          "number": "100",
+          "street": "Collins",
+          "type": "St",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Qld",
+        "description": "Queensland's code in proper case",
+        "input": "1 William St, Brisbane City Qld 4000",
+        "expected": {
+          "number": "1",
+          "street": "William",
+          "type": "St",
+          "city": "Brisbane City",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Tas",
+        "description": "Tasmania's code in proper case",
+        "input": "1 Davey St, Hobart Tas 7000",
+        "expected": {
+          "number": "1",
+          "street": "Davey",
+          "type": "St",
+          "city": "Hobart",
+          "state": "TAS",
+          "zip": "7000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "N.S.W.",
+        "description": "With full stops",
+        "input": "1 Martin Pl, Sydney N.S.W. 2000",
+        "expected": {
+          "number": "1",
+          "street": "Martin",
+          "type": "Pl",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "W.A.",
+        "description": "With full stops",
+        "input": "1 St Georges Tce, Perth W.A. 6000",
+        "expected": {
+          "number": "1",
+          "street": "St Georges",
+          "type": "Tce",
+          "city": "Perth",
+          "state": "WA",
+          "zip": "6000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a suburb named Victoria Park",
+        "description": "A suburb that holds a state's name",
+        "input": "10 Albany Hwy, Victoria Park WA 6100",
+        "expected": {
+          "number": "10",
+          "street": "Albany",
+          "type": "Hwy",
+          "city": "Victoria Park",
+          "state": "WA",
+          "zip": "6100",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "blockEdges": [
+      {
+        "name": "0200 in ACT",
+        "description": "The first of the ACT's first block; the suburb is a placeholder",
+        "input": "5 Main St, Canberra ACT 0200",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "0200",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "0800 in NT",
+        "description": "The first of the Northern Territory's block; the suburb is a placeholder",
+        "input": "5 Main St, Darwin NT 0800",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Darwin",
+          "state": "NT",
+          "zip": "0800",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "0999 in NT",
+        "description": "The last of the Northern Territory's block; the suburb is a placeholder",
+        "input": "5 Main St, Darwin NT 0999",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Darwin",
+          "state": "NT",
+          "zip": "0999",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2000 in NSW",
+        "description": "The first of New South Wales's street block; the suburb is a placeholder",
+        "input": "5 Main St, Sydney NSW 2000",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2599 in NSW",
+        "description": "The last of New South Wales's first street block; the suburb is a placeholder",
+        "input": "5 Main St, Sydney NSW 2599",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2599",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2600 in ACT",
+        "description": "The first of the ACT's second block; the suburb is a placeholder",
+        "input": "5 Main St, Canberra ACT 2600",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "2600",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2618 in ACT",
+        "description": "The last of the ACT's second block; the suburb is a placeholder",
+        "input": "5 Main St, Canberra ACT 2618",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "2618",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2619 in NSW",
+        "description": "The first of New South Wales's second block; the suburb is a placeholder",
+        "input": "5 Main St, Sydney NSW 2619",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2619",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2899 in NSW",
+        "description": "The last of New South Wales's second block; the suburb is a placeholder",
+        "input": "5 Main St, Sydney NSW 2899",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2899",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2900 in ACT",
+        "description": "The first of the ACT's third block; the suburb is a placeholder",
+        "input": "5 Main St, Canberra ACT 2900",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "2900",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2920 in ACT",
+        "description": "The last of the ACT's third block; the suburb is a placeholder",
+        "input": "5 Main St, Canberra ACT 2920",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Canberra",
+          "state": "ACT",
+          "zip": "2920",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "2921 in NSW",
+        "description": "The first of New South Wales's third block; the suburb is a placeholder",
+        "input": "5 Main St, Sydney NSW 2921",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2921",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "3000 in VIC",
+        "description": "The first of Victoria's block; the suburb is a placeholder",
+        "input": "5 Main St, Melbourne VIC 3000",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "3999 in VIC",
+        "description": "The last of Victoria's block; the suburb is a placeholder",
+        "input": "5 Main St, Melbourne VIC 3999",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3999",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "4000 in QLD",
+        "description": "The first of Queensland's block; the suburb is a placeholder",
+        "input": "5 Main St, Brisbane QLD 4000",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Brisbane",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "4999 in QLD",
+        "description": "The last of Queensland's block; the suburb is a placeholder",
+        "input": "5 Main St, Brisbane QLD 4999",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Brisbane",
+          "state": "QLD",
+          "zip": "4999",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "5000 in SA",
+        "description": "The first of South Australia's block; the suburb is a placeholder",
+        "input": "5 Main St, Adelaide SA 5000",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "5999 in SA",
+        "description": "The last of South Australia's block; the suburb is a placeholder",
+        "input": "5 Main St, Adelaide SA 5999",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5999",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "6000 in WA",
+        "description": "The first of Western Australia's block; the suburb is a placeholder",
+        "input": "5 Main St, Perth WA 6000",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Perth",
+          "state": "WA",
+          "zip": "6000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "6999 in WA",
+        "description": "The last of Western Australia's block; the suburb is a placeholder",
+        "input": "5 Main St, Perth WA 6999",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Perth",
+          "state": "WA",
+          "zip": "6999",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "7000 in TAS",
+        "description": "The first of Tasmania's block; the suburb is a placeholder",
+        "input": "5 Main St, Hobart TAS 7000",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Hobart",
+          "state": "TAS",
+          "zip": "7000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "7999 in TAS",
+        "description": "The last of Tasmania's block; the suburb is a placeholder",
+        "input": "5 Main St, Hobart TAS 7999",
+        "expected": {
+          "number": "5",
+          "street": "Main",
+          "type": "St",
+          "city": "Hobart",
+          "state": "TAS",
+          "zip": "7999",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "8000 in VIC",
+        "description": "The first of Victoria's block for boxes and large receivers",
+        "input": "PO Box 18, Melbourne VIC 8001",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "18",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "8001",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "9000 in QLD",
+        "description": "The first of Queensland's block for boxes and large receivers",
+        "input": "Locked Bag 9, Brisbane QLD 9001",
+        "expected": {
+          "secUnitType": "Locked Bag",
+          "secUnitNum": "9",
+          "city": "Brisbane",
+          "state": "QLD",
+          "zip": "9001",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "acrossBorders": [
+      {
+        "name": "Queanbeyan NSW 2620",
+        "description": "A postcode whose area is mostly in New South Wales and partly in the ACT",
+        "input": "12 Monaro St, Queanbeyan NSW 2620",
+        "expected": {
+          "number": "12",
+          "street": "Monaro",
+          "type": "St",
+          "city": "Queanbeyan",
+          "state": "NSW",
+          "zip": "2620",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      },
+      {
+        "name": "Hume ACT 2620",
+        "description": "The same postcode in the ACT",
+        "input": "8 Sheppard St, Hume ACT 2620",
+        "expected": {
+          "number": "8",
+          "street": "Sheppard",
+          "type": "St",
+          "city": "Hume",
+          "state": "ACT",
+          "zip": "2620",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      },
+      {
+        "name": "Barooga NSW 3644",
+        "description": "A Victorian postcode that serves a New South Wales town",
+        "input": "15 Vermont St, Barooga NSW 3644",
+        "expected": {
+          "number": "15",
+          "street": "Vermont",
+          "type": "St",
+          "city": "Barooga",
+          "state": "NSW",
+          "zip": "3644",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      },
+      {
+        "name": "Mungindi NSW 2406",
+        "description": "A New South Wales postcode whose area crosses into Queensland",
+        "input": "4 Barwon St, Mungindi NSW 2406",
+        "expected": {
+          "number": "4",
+          "street": "Barwon",
+          "type": "St",
+          "city": "Mungindi",
+          "state": "NSW",
+          "zip": "2406",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      },
+      {
+        "name": "Texas QLD 4385",
+        "description": "A Queensland postcode that also serves New South Wales",
+        "input": "22 High St, Texas QLD 4385",
+        "expected": {
+          "number": "22",
+          "street": "High",
+          "type": "St",
+          "city": "Texas",
+          "state": "QLD",
+          "zip": "4385",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      },
+      {
+        "name": "Amata SA 0872",
+        "description": "A Northern Territory postcode that serves communities in South Australia and Western Australia",
+        "input": "Lot 5, Amata SA 0872",
+        "expected": {
+          "lot": "5",
+          "city": "Amata",
+          "state": "SA",
+          "zip": "0872",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      },
+      {
+        "name": "Christmas Island WA 6798",
+        "description": "An external territory's postcode in Western Australia's block",
+        "input": "20 Gaze Rd, Christmas Island WA 6798",
+        "expected": {
+          "number": "20",
+          "street": "Gaze",
+          "type": "Rd",
+          "city": "Christmas Island",
+          "state": "WA",
+          "zip": "6798",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; the postcode's states are the ABS's Postal Areas (ASGS Edition 3, CC BY 4.0)"
+      }
+    ],
+    "leftOut": [
+      {
+        "name": "no state",
+        "description": "A postcode with no state before it",
+        "input": "12 Smith St, Parramatta 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "no postcode",
+        "description": "A state with no postcode after it",
+        "input": "12 Smith St, Parramatta NSW",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "no state or postcode",
+        "description": "Australia written, but neither state nor postcode",
+        "input": "12 Smith St, Parramatta, Australia",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "no suburb",
+        "description": "A unit and the street, then the state and postcode",
+        "input": "Unit 3, 12 Smith St, NSW 2150",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "the last line alone",
+        "description": "Only the suburb, state and postcode",
+        "input": "Parramatta NSW 2150",
+        "expected": {
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1622 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Australian Street Addresses",
+  "description": "Street addresses in every layout Australia Post sees: a number (with a letter, a range), the street and its type, the suburb, the state and the postcode, with commas or without, on one line or several, in capitals or lower case, with Australia at the end. Original cases written for this corpus from Australia Post's addressing guidelines and AS4590, described in our own words; nothing copied.",
+  "tests": {
+    "numbers": [
+      {
+        "name": "a number",
+        "description": "A plain street number",
+        "input": "12 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a number with a letter",
+        "description": "A number with a letter after it",
+        "input": "12A Smith St, Parramatta NSW 2150",
+        "expected": {
+          "number": "12A",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a range of numbers",
+        "description": "A property spanning two numbers",
+        "input": "12-14 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "number": "12-14",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a range with spaces",
+        "description": "Spaces around the hyphen of a range",
+        "input": "12 - 14 Smith St, Parramatta NSW 2150",
+        "expected": {
+          "number": "12-14",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a comma after the number",
+        "description": "The number in a comma part of its own",
+        "input": "12, Smith St, Parramatta NSW 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a long rural number",
+        "description": "A four-digit rural number, as on a farm road",
+        "input": "4360 Dukes Rd, Kalgoorlie WA 6430",
+        "expected": {
+          "number": "4360",
+          "street": "Dukes",
+          "type": "Rd",
+          "city": "Kalgoorlie",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for Australia (from Australia Post) shows; the address itself is made up"
+      },
+      {
+        "name": "a range with letters",
+        "description": "A range whose ends carry letters",
+        "input": "3A-3C Ocean St, Bondi NSW 2026",
+        "expected": {
+          "number": "3A-3C",
+          "street": "Ocean",
+          "type": "St",
+          "city": "Bondi",
+          "state": "NSW",
+          "zip": "2026",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "layout": [
+      {
+        "name": "no comma before the suburb",
+        "description": "The suburb straight after the street type",
+        "input": "12 Smith St Parramatta NSW 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a comma before the state",
+        "description": "Suburb, state and postcode with a comma after the suburb",
+        "input": "12 Smith St, Parramatta, NSW 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "commas everywhere",
+        "description": "A comma before the state and before the postcode",
+        "input": "12 Smith St, Parramatta, NSW, 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "on two lines",
+        "description": "The delivery line and the last line",
+        "input": "12 Smith St\nParramatta NSW 2150",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "two spaces on the last line",
+        "description": "Australia Post's preferred two spaces before the state and the postcode",
+        "input": "12 SMITH ST\nPARRAMATTA  NSW  2150",
+        "expected": {
+          "number": "12",
+          "street": "SMITH",
+          "type": "St",
+          "city": "PARRAMATTA",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "all capitals",
+        "description": "Shouted, as printed on a label",
+        "input": "12 SMITH ST PARRAMATTA NSW 2150",
+        "expected": {
+          "number": "12",
+          "street": "SMITH",
+          "type": "St",
+          "city": "PARRAMATTA",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "lower case",
+        "description": "Typed in lower case",
+        "input": "12 smith st, parramatta nsw 2150",
+        "expected": {
+          "number": "12",
+          "street": "smith",
+          "type": "St",
+          "city": "parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Australia at the end",
+        "description": "The country after the postcode",
+        "input": "12 Smith St, Parramatta NSW 2150, Australia",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "AUSTRALIA on its own line",
+        "description": "The country on a line of its own, for mail from abroad",
+        "input": "12 Smith St\nParramatta NSW 2150\nAUSTRALIA",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Parramatta",
+          "state": "NSW",
+          "zip": "2150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a two-word suburb",
+        "description": "No comma, and a suburb of two words",
+        "input": "51 Jacobson St Fortitude Valley QLD 4006",
+        "expected": {
+          "number": "51",
+          "street": "Jacobson",
+          "type": "St",
+          "city": "Fortitude Valley",
+          "state": "QLD",
+          "zip": "4006",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a suburb ending in Park",
+        "description": "The suburb's last word is also a street type",
+        "input": "12 Smith St, Albert Park VIC 3206",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Albert Park",
+          "state": "VIC",
+          "zip": "3206",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a suburb ending in Park, no comma",
+        "description": "No comma, and the suburb's last word is a street type",
+        "input": "12 Smith St Albert Park VIC 3206",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "city": "Albert Park",
+          "state": "VIC",
+          "zip": "3206",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "the suburb Box Hill",
+        "description": "A suburb whose first word is also a postal delivery word",
+        "input": "5 Station St, Box Hill VIC 3128",
+        "expected": {
+          "number": "5",
+          "street": "Station",
+          "type": "St",
+          "city": "Box Hill",
+          "state": "VIC",
+          "zip": "3128",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a suburb named for a mount",
+        "description": "No comma, and a suburb starting with Mount",
+        "input": "7 Main St Mount Druitt NSW 2770",
+        "expected": {
+          "number": "7",
+          "street": "Main",
+          "type": "St",
+          "city": "Mount Druitt",
+          "state": "NSW",
+          "zip": "2770",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a street named Park",
+        "description": "A street whose name is a street type",
+        "input": "8 Park Rd, Hurstville NSW 2220",
+        "expected": {
+          "number": "8",
+          "street": "Park",
+          "type": "Rd",
+          "city": "Hurstville",
+          "state": "NSW",
+          "zip": "2220",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "two type words in the name",
+        "description": "No comma, and a street called Beach Park Road",
+        "input": "20 Beach Park Rd Mona Vale NSW 2103",
+        "expected": {
+          "number": "20",
+          "street": "Beach Park",
+          "type": "Rd",
+          "city": "Mona Vale",
+          "state": "NSW",
+          "zip": "2103",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "The Esplanade",
+        "description": "A street that is only The and a type: it has no type of its own",
+        "input": "1 The Esplanade, St Kilda VIC 3182",
+        "expected": {
+          "number": "1",
+          "street": "The Esplanade",
+          "city": "St Kilda",
+          "state": "VIC",
+          "zip": "3182",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Broadway",
+        "description": "A street of one word that is also a type",
+        "input": "100 Broadway, Ultimo NSW 2007",
+        "expected": {
+          "number": "100",
+          "street": "Broadway",
+          "city": "Ultimo",
+          "state": "NSW",
+          "zip": "2007",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a street without a type",
+        "description": "A street name with no type at all",
+        "input": "15 The Mall, Leura NSW 2780",
+        "expected": {
+          "number": "15",
+          "street": "The Mall",
+          "city": "Leura",
+          "state": "NSW",
+          "zip": "2780",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a full stop after the type",
+        "description": "St. with a full stop",
+        "input": "17 Jones St., North Sydney NSW 2060",
+        "expected": {
+          "number": "17",
+          "street": "Jones",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "streetTypes": [
+      {
+        "name": "Street",
+        "description": "Street written in full, reported as AS4590's St",
+        "input": "10 Brunswick Street, Fitzroy VIC 3065",
+        "expected": {
+          "number": "10",
+          "street": "Brunswick",
+          "type": "St",
+          "city": "Fitzroy",
+          "state": "VIC",
+          "zip": "3065",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Road",
+        "description": "Road written in full, reported as AS4590's Rd",
+        "input": "11 Coronation Road, Toowong QLD 4066",
+        "expected": {
+          "number": "11",
+          "street": "Coronation",
+          "type": "Rd",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Avenue",
+        "description": "Avenue written in full, reported as AS4590's Ave",
+        "input": "12 Osmond Avenue, Norwood SA 5067",
+        "expected": {
+          "number": "12",
+          "street": "Osmond",
+          "type": "Ave",
+          "city": "Norwood",
+          "state": "SA",
+          "zip": "5067",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Parade",
+        "description": "The Parade: only The before the type, so the whole is the street's name",
+        "input": "13 The Parade, Norwood SA 5067",
+        "expected": {
+          "number": "13",
+          "street": "The Parade",
+          "city": "Norwood",
+          "state": "SA",
+          "zip": "5067",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Terrace",
+        "description": "Terrace written in full, reported as AS4590's Tce",
+        "input": "14 Adelaide Terrace, Perth WA 6000",
+        "expected": {
+          "number": "14",
+          "street": "Adelaide",
+          "type": "Tce",
+          "city": "Perth",
+          "state": "WA",
+          "zip": "6000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Crescent",
+        "description": "Crescent written in full, reported as AS4590's Cres",
+        "input": "15 Grosvenor Crescent, Sandy Bay TAS 7005",
+        "expected": {
+          "number": "15",
+          "street": "Grosvenor",
+          "type": "Cres",
+          "city": "Sandy Bay",
+          "state": "TAS",
+          "zip": "7005",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Boulevard",
+        "description": "Boulevard written in full, reported as AS4590's Bvd",
+        "input": "16 Lonsdale Boulevard, Braddon ACT 2612",
+        "expected": {
+          "number": "16",
+          "street": "Lonsdale",
+          "type": "Bvd",
+          "city": "Braddon",
+          "state": "ACT",
+          "zip": "2612",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Boulevarde",
+        "description": "The Boulevarde: only The before the type, so the whole is the street's name",
+        "input": "17 The Boulevarde, Strathfield NSW 2135",
+        "expected": {
+          "number": "17",
+          "street": "The Boulevarde",
+          "city": "Strathfield",
+          "state": "NSW",
+          "zip": "2135",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Close",
+        "description": "Close written in full, reported as AS4590's Cl",
+        "input": "18 Banksia Close, Belconnen ACT 2617",
+        "expected": {
+          "number": "18",
+          "street": "Banksia",
+          "type": "Cl",
+          "city": "Belconnen",
+          "state": "ACT",
+          "zip": "2617",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Court",
+        "description": "Court written in full, reported as AS4590's Ct",
+        "input": "19 Wattle Court, Glen Waverley VIC 3150",
+        "expected": {
+          "number": "19",
+          "street": "Wattle",
+          "type": "Ct",
+          "city": "Glen Waverley",
+          "state": "VIC",
+          "zip": "3150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Drive",
+        "description": "Drive written in full, reported as AS4590's Dr",
+        "input": "20 Ocean Drive, Surfers Paradise QLD 4217",
+        "expected": {
+          "number": "20",
+          "street": "Ocean",
+          "type": "Dr",
+          "city": "Surfers Paradise",
+          "state": "QLD",
+          "zip": "4217",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Esplanade",
+        "description": "Esplanade written in full, reported as AS4590's Esp",
+        "input": "21 Colley Esplanade, Glenelg SA 5045",
+        "expected": {
+          "number": "21",
+          "street": "Colley",
+          "type": "Esp",
+          "city": "Glenelg",
+          "state": "SA",
+          "zip": "5045",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Grove",
+        "description": "Grove written in full, reported as AS4590's Gr",
+        "input": "22 Rokeby Grove, Subiaco WA 6008",
+        "expected": {
+          "number": "22",
+          "street": "Rokeby",
+          "type": "Gr",
+          "city": "Subiaco",
+          "state": "WA",
+          "zip": "6008",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Highway",
+        "description": "Highway written in full, reported as AS4590's Hwy",
+        "input": "23 Pacific Highway, Wahroonga NSW 2076",
+        "expected": {
+          "number": "23",
+          "street": "Pacific",
+          "type": "Hwy",
+          "city": "Wahroonga",
+          "state": "NSW",
+          "zip": "2076",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lane",
+        "description": "Lane written in full, reported as AS4590's Lane",
+        "input": "24 Hosier Lane, Melbourne VIC 3000",
+        "expected": {
+          "number": "24",
+          "street": "Hosier",
+          "type": "Lane",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Place",
+        "description": "Place written in full, reported as AS4590's Pl",
+        "input": "25 Martin Place, Sydney NSW 2000",
+        "expected": {
+          "number": "25",
+          "street": "Martin",
+          "type": "Pl",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Circuit",
+        "description": "Circuit written in full, reported as AS4590's Cct",
+        "input": "26 Eyre Circuit, Kingston ACT 2604",
+        "expected": {
+          "number": "26",
+          "street": "Eyre",
+          "type": "Cct",
+          "city": "Kingston",
+          "state": "ACT",
+          "zip": "2604",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Square",
+        "description": "Square written in full, reported as AS4590's Sq",
+        "input": "27 Franklin Square, Hobart TAS 7000",
+        "expected": {
+          "number": "27",
+          "street": "Franklin",
+          "type": "Sq",
+          "city": "Hobart",
+          "state": "TAS",
+          "zip": "7000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Way",
+        "description": "Way written in full, reported as AS4590's Way",
+        "input": "28 Grand Way, Joondalup WA 6027",
+        "expected": {
+          "number": "28",
+          "street": "Grand",
+          "type": "Way",
+          "city": "Joondalup",
+          "state": "WA",
+          "zip": "6027",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Parkway",
+        "description": "Parkway written in full, reported as AS4590's Pkwy",
+        "input": "29 Gungahlin Parkway, Gungahlin ACT 2912",
+        "expected": {
+          "number": "29",
+          "street": "Gungahlin",
+          "type": "Pkwy",
+          "city": "Gungahlin",
+          "state": "ACT",
+          "zip": "2912",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Promenade",
+        "description": "Promenade written in full, reported as AS4590's Prom",
+        "input": "30 Peel Promenade, Mandurah WA 6210",
+        "expected": {
+          "number": "30",
+          "street": "Peel",
+          "type": "Prom",
+          "city": "Mandurah",
+          "state": "WA",
+          "zip": "6210",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Rise",
+        "description": "Rise written in full, reported as AS4590's Rise",
+        "input": "31 Wattle Rise, Kellyville NSW 2155",
+        "expected": {
+          "number": "31",
+          "street": "Wattle",
+          "type": "Rise",
+          "city": "Kellyville",
+          "state": "NSW",
+          "zip": "2155",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Mews",
+        "description": "Mews written in full, reported as AS4590's Mews",
+        "input": "32 Drummond Mews, Carlton VIC 3053",
+        "expected": {
+          "number": "32",
+          "street": "Drummond",
+          "type": "Mews",
+          "city": "Carlton",
+          "state": "VIC",
+          "zip": "3053",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Walk",
+        "description": "Walk written in full, reported as AS4590's Walk",
+        "input": "33 Harbour Walk, Darwin City NT 0800",
+        "expected": {
+          "number": "33",
+          "street": "Harbour",
+          "type": "Walk",
+          "city": "Darwin City",
+          "state": "NT",
+          "zip": "0800",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Track",
+        "description": "Track written in full, reported as AS4590's Trk",
+        "input": "34 Cliff Track, Katoomba NSW 2780",
+        "expected": {
+          "number": "34",
+          "street": "Cliff",
+          "type": "Trk",
+          "city": "Katoomba",
+          "state": "NSW",
+          "zip": "2780",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Gardens",
+        "description": "Gardens written in full, reported as AS4590's Gdns",
+        "input": "35 Raglan Gardens, Mosman NSW 2088",
+        "expected": {
+          "number": "35",
+          "street": "Raglan",
+          "type": "Gdns",
+          "city": "Mosman",
+          "state": "NSW",
+          "zip": "2088",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Heights",
+        "description": "Heights written in full, reported as AS4590's Hts",
+        "input": "36 Trevallyn Heights, Launceston TAS 7250",
+        "expected": {
+          "number": "36",
+          "street": "Trevallyn",
+          "type": "Hts",
+          "city": "Launceston",
+          "state": "TAS",
+          "zip": "7250",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Quay",
+        "description": "Quay written in full, reported as AS4590's Qy",
+        "input": "37 Victoria Harbour Quay, Docklands VIC 3008",
+        "expected": {
+          "number": "37",
+          "street": "Victoria Harbour",
+          "type": "Qy",
+          "city": "Docklands",
+          "state": "VIC",
+          "zip": "3008",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ridge",
+        "description": "Ridge written in full, reported as AS4590's Rdge",
+        "input": "38 Bulimba Ridge, Mount Gravatt QLD 4122",
+        "expected": {
+          "number": "38",
+          "street": "Bulimba",
+          "type": "Rdge",
+          "city": "Mount Gravatt",
+          "state": "QLD",
+          "zip": "4122",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Retreat",
+        "description": "Retreat written in full, reported as AS4590's Rtt",
+        "input": "39 Hastings Retreat, Noosa Heads QLD 4567",
+        "expected": {
+          "number": "39",
+          "street": "Hastings",
+          "type": "Rtt",
+          "city": "Noosa Heads",
+          "state": "QLD",
+          "zip": "4567",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Glade",
+        "description": "Glade written in full, reported as AS4590's Gld",
+        "input": "40 Fern Glade, Wheelers Hill VIC 3150",
+        "expected": {
+          "number": "40",
+          "street": "Fern",
+          "type": "Gld",
+          "city": "Wheelers Hill",
+          "state": "VIC",
+          "zip": "3150",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Vista",
+        "description": "Vista written in full, reported as AS4590's Vsta",
+        "input": "41 Valley Vista, Ellenbrook WA 6069",
+        "expected": {
+          "number": "41",
+          "street": "Valley",
+          "type": "Vsta",
+          "city": "Ellenbrook",
+          "state": "WA",
+          "zip": "6069",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Loop",
+        "description": "Loop written in full, reported as AS4590's Loop",
+        "input": "42 Temple Loop, Palmerston NT 0830",
+        "expected": {
+          "number": "42",
+          "street": "Temple",
+          "type": "Loop",
+          "city": "Palmerston",
+          "state": "NT",
+          "zip": "0830",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Row",
+        "description": "Row written in full, reported as AS4590's Row",
+        "input": "43 Rundle Row, Adelaide SA 5000",
+        "expected": {
+          "number": "43",
+          "street": "Rundle",
+          "type": "Row",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Mall",
+        "description": "Mall written in full, reported as AS4590's Mall",
+        "input": "44 Queen Street Mall, Brisbane City QLD 4000",
+        "expected": {
+          "number": "44",
+          "street": "Queen Street",
+          "type": "Mall",
+          "city": "Brisbane City",
+          "state": "QLD",
+          "zip": "4000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Arcade",
+        "description": "Arcade written in full, reported as AS4590's Arc",
+        "input": "45 Regent Arcade, Adelaide SA 5000",
+        "expected": {
+          "number": "45",
+          "street": "Regent",
+          "type": "Arc",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Approach",
+        "description": "Approach written in full, reported as AS4590's App",
+        "input": "46 Aitken Approach, Craigieburn VIC 3064",
+        "expected": {
+          "number": "46",
+          "street": "Aitken",
+          "type": "App",
+          "city": "Craigieburn",
+          "state": "VIC",
+          "zip": "3064",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Concourse",
+        "description": "Concourse written in full, reported as AS4590's Con",
+        "input": "47 Lexington Concourse, Bella Vista NSW 2153",
+        "expected": {
+          "number": "47",
+          "street": "Lexington",
+          "type": "Con",
+          "city": "Bella Vista",
+          "state": "NSW",
+          "zip": "2153",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Corso",
+        "description": "The Corso: only The before the type, so the whole is the street's name",
+        "input": "48 The Corso, Manly NSW 2095",
+        "expected": {
+          "number": "48",
+          "street": "The Corso",
+          "city": "Manly",
+          "state": "NSW",
+          "zip": "2095",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Freeway",
+        "description": "Freeway written in full, reported as AS4590's Fwy",
+        "input": "49 Monash Freeway, Mulgrave VIC 3170",
+        "expected": {
+          "number": "49",
+          "street": "Monash",
+          "type": "Fwy",
+          "city": "Mulgrave",
+          "state": "VIC",
+          "zip": "3170",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Circle",
+        "description": "Circle written in full, reported as AS4590's Cir",
+        "input": "50 Hampden Circle, Nedlands WA 6009",
+        "expected": {
+          "number": "50",
+          "street": "Hampden",
+          "type": "Cir",
+          "city": "Nedlands",
+          "state": "WA",
+          "zip": "6009",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Chase",
+        "description": "Chase written in full, reported as AS4590's Ch",
+        "input": "51 Swallow Chase, Erskine Park NSW 2759",
+        "expected": {
+          "number": "51",
+          "street": "Swallow",
+          "type": "Ch",
+          "city": "Erskine Park",
+          "state": "NSW",
+          "zip": "2759",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cove",
+        "description": "Cove written in full, reported as AS4590's Cove",
+        "input": "52 Anchorage Cove, Mindarie WA 6030",
+        "expected": {
+          "number": "52",
+          "street": "Anchorage",
+          "type": "Cove",
+          "city": "Mindarie",
+          "state": "WA",
+          "zip": "6030",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Green",
+        "description": "Green written in full, reported as AS4590's Grn",
+        "input": "53 Main Green, Mawson Lakes SA 5095",
+        "expected": {
+          "number": "53",
+          "street": "Main",
+          "type": "Grn",
+          "city": "Mawson Lakes",
+          "state": "SA",
+          "zip": "5095",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Outlook",
+        "description": "Outlook written in full, reported as AS4590's Otlk",
+        "input": "54 Bridgewater Outlook, Kellyville NSW 2155",
+        "expected": {
+          "number": "54",
+          "street": "Bridgewater",
+          "type": "Otlk",
+          "city": "Kellyville",
+          "state": "NSW",
+          "zip": "2155",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pathway",
+        "description": "Pathway written in full, reported as AS4590's Phwy",
+        "input": "55 Yarra Pathway, Southbank VIC 3006",
+        "expected": {
+          "number": "55",
+          "street": "Yarra",
+          "type": "Phwy",
+          "city": "Southbank",
+          "state": "VIC",
+          "zip": "3006",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "abbreviations": [
+      {
+        "name": "St",
+        "description": "The street type written St, reported as AS4590's St",
+        "input": "30 Wattle St Toowong QLD 4066",
+        "expected": {
+          "number": "30",
+          "street": "Wattle",
+          "type": "St",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Rd",
+        "description": "The street type written Rd, reported as AS4590's Rd",
+        "input": "31 Wattle Rd Toowong QLD 4066",
+        "expected": {
+          "number": "31",
+          "street": "Wattle",
+          "type": "Rd",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ave",
+        "description": "The street type written Ave, reported as AS4590's Ave",
+        "input": "32 Wattle Ave Toowong QLD 4066",
+        "expected": {
+          "number": "32",
+          "street": "Wattle",
+          "type": "Ave",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Av",
+        "description": "The street type written Av, reported as AS4590's Ave",
+        "input": "33 Wattle Av Toowong QLD 4066",
+        "expected": {
+          "number": "33",
+          "street": "Wattle",
+          "type": "Ave",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pde",
+        "description": "The street type written Pde, reported as AS4590's Pde",
+        "input": "34 Wattle Pde Toowong QLD 4066",
+        "expected": {
+          "number": "34",
+          "street": "Wattle",
+          "type": "Pde",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Tce",
+        "description": "The street type written Tce, reported as AS4590's Tce",
+        "input": "35 Wattle Tce Toowong QLD 4066",
+        "expected": {
+          "number": "35",
+          "street": "Wattle",
+          "type": "Tce",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Terr",
+        "description": "The street type written Terr, reported as AS4590's Tce",
+        "input": "36 Wattle Terr Toowong QLD 4066",
+        "expected": {
+          "number": "36",
+          "street": "Wattle",
+          "type": "Tce",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cres",
+        "description": "The street type written Cres, reported as AS4590's Cres",
+        "input": "37 Wattle Cres Toowong QLD 4066",
+        "expected": {
+          "number": "37",
+          "street": "Wattle",
+          "type": "Cres",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cr",
+        "description": "The street type written Cr, reported as AS4590's Cres",
+        "input": "38 Wattle Cr Toowong QLD 4066",
+        "expected": {
+          "number": "38",
+          "street": "Wattle",
+          "type": "Cres",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Crs",
+        "description": "The street type written Crs, reported as AS4590's Cres",
+        "input": "39 Wattle Crs Toowong QLD 4066",
+        "expected": {
+          "number": "39",
+          "street": "Wattle",
+          "type": "Cres",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bvd",
+        "description": "The street type written Bvd, reported as AS4590's Bvd",
+        "input": "40 Wattle Bvd Toowong QLD 4066",
+        "expected": {
+          "number": "40",
+          "street": "Wattle",
+          "type": "Bvd",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Blvd",
+        "description": "The street type written Blvd, reported as AS4590's Bvd",
+        "input": "41 Wattle Blvd Toowong QLD 4066",
+        "expected": {
+          "number": "41",
+          "street": "Wattle",
+          "type": "Bvd",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cl",
+        "description": "The street type written Cl, reported as AS4590's Cl",
+        "input": "42 Wattle Cl Toowong QLD 4066",
+        "expected": {
+          "number": "42",
+          "street": "Wattle",
+          "type": "Cl",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ct",
+        "description": "The street type written Ct, reported as AS4590's Ct",
+        "input": "43 Wattle Ct Toowong QLD 4066",
+        "expected": {
+          "number": "43",
+          "street": "Wattle",
+          "type": "Ct",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Dr",
+        "description": "The street type written Dr, reported as AS4590's Dr",
+        "input": "44 Wattle Dr Toowong QLD 4066",
+        "expected": {
+          "number": "44",
+          "street": "Wattle",
+          "type": "Dr",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Gr",
+        "description": "The street type written Gr, reported as AS4590's Gr",
+        "input": "45 Wattle Gr Toowong QLD 4066",
+        "expected": {
+          "number": "45",
+          "street": "Wattle",
+          "type": "Gr",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Gve",
+        "description": "The street type written Gve, reported as AS4590's Gr",
+        "input": "46 Wattle Gve Toowong QLD 4066",
+        "expected": {
+          "number": "46",
+          "street": "Wattle",
+          "type": "Gr",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Hwy",
+        "description": "The street type written Hwy, reported as AS4590's Hwy",
+        "input": "47 Wattle Hwy Toowong QLD 4066",
+        "expected": {
+          "number": "47",
+          "street": "Wattle",
+          "type": "Hwy",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ln",
+        "description": "The street type written Ln, reported as AS4590's Lane",
+        "input": "48 Wattle Ln Toowong QLD 4066",
+        "expected": {
+          "number": "48",
+          "street": "Wattle",
+          "type": "Lane",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pl",
+        "description": "The street type written Pl, reported as AS4590's Pl",
+        "input": "49 Wattle Pl Toowong QLD 4066",
+        "expected": {
+          "number": "49",
+          "street": "Wattle",
+          "type": "Pl",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cct",
+        "description": "The street type written Cct, reported as AS4590's Cct",
+        "input": "50 Wattle Cct Toowong QLD 4066",
+        "expected": {
+          "number": "50",
+          "street": "Wattle",
+          "type": "Cct",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Sq",
+        "description": "The street type written Sq, reported as AS4590's Sq",
+        "input": "51 Wattle Sq Toowong QLD 4066",
+        "expected": {
+          "number": "51",
+          "street": "Wattle",
+          "type": "Sq",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Esp",
+        "description": "The street type written Esp, reported as AS4590's Esp",
+        "input": "52 Wattle Esp Toowong QLD 4066",
+        "expected": {
+          "number": "52",
+          "street": "Wattle",
+          "type": "Esp",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pkwy",
+        "description": "The street type written Pkwy, reported as AS4590's Pkwy",
+        "input": "53 Wattle Pkwy Toowong QLD 4066",
+        "expected": {
+          "number": "53",
+          "street": "Wattle",
+          "type": "Pkwy",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Prom",
+        "description": "The street type written Prom, reported as AS4590's Prom",
+        "input": "54 Wattle Prom Toowong QLD 4066",
+        "expected": {
+          "number": "54",
+          "street": "Wattle",
+          "type": "Prom",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "CRES",
+        "description": "The street type written CRES, reported as AS4590's Cres",
+        "input": "55 Wattle CRES Toowong QLD 4066",
+        "expected": {
+          "number": "55",
+          "street": "Wattle",
+          "type": "Cres",
+          "city": "Toowong",
+          "state": "QLD",
+          "zip": "4066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "suffixes": [
+      {
+        "name": "North",
+        "description": "A street suffix after the type",
+        "input": "12 Smith Street North, Collingwood VIC 3066",
+        "expected": {
+          "number": "12",
+          "street": "Smith",
+          "type": "St",
+          "suffix": "N",
+          "city": "Collingwood",
+          "state": "VIC",
+          "zip": "3066",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "West",
+        "description": "West after the type",
+        "input": "200 George St West, Ultimo NSW 2007",
+        "expected": {
+          "number": "200",
+          "street": "George",
+          "type": "St",
+          "suffix": "W",
+          "city": "Ultimo",
+          "state": "NSW",
+          "zip": "2007",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "East abbreviated",
+        "description": "E after the type",
+        "input": "5 Gawler Pl E, Adelaide SA 5000",
+        "expected": {
+          "number": "5",
+          "street": "Gawler",
+          "type": "Pl",
+          "suffix": "E",
+          "city": "Adelaide",
+          "state": "SA",
+          "zip": "5000",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "a suburb starting South, no comma",
+        "description": "With no comma, a direction after the type starts the suburb",
+        "input": "12 Toorak Rd South Yarra VIC 3141",
+        "expected": {
+          "number": "12",
+          "street": "Toorak",
+          "type": "Rd",
+          "city": "South Yarra",
+          "state": "VIC",
+          "zip": "3141",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "North Sydney, no comma",
+        "description": "With no comma, North starts the suburb North Sydney",
+        "input": "100 Miller St North Sydney NSW 2060",
+        "expected": {
+          "number": "100",
+          "street": "Miller",
+          "type": "St",
+          "city": "North Sydney",
+          "state": "NSW",
+          "zip": "2060",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Extension",
+        "description": "AS4590's EX",
+        "input": "3 Ridge Rd Extension, Mudgee NSW 2850",
+        "expected": {
+          "number": "3",
+          "street": "Ridge",
+          "type": "Rd",
+          "suffix": "EX",
+          "city": "Mudgee",
+          "state": "NSW",
+          "zip": "2850",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Upper",
+        "description": "AS4590's UP",
+        "input": "9 Darling St Upper, Balmain NSW 2041",
+        "expected": {
+          "number": "9",
+          "street": "Darling",
+          "type": "St",
+          "suffix": "UP",
+          "city": "Balmain",
+          "state": "NSW",
+          "zip": "2041",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "North East",
+        "description": "Two words of direction",
+        "input": "6 Main Rd North East, Lenah Valley TAS 7008",
+        "expected": {
+          "number": "6",
+          "street": "Main",
+          "type": "Rd",
+          "suffix": "NE",
+          "city": "Lenah Valley",
+          "state": "TAS",
+          "zip": "7008",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

@@ -7,8 +7,10 @@ import { join } from "path";
 
 import { describe, expect, it } from "vitest";
 
+import { australia } from "../../au";
+import { unitedKingdom } from "../../gb";
 import { parseLocation } from "../../parser";
-import type { ParsedAddress, ParseOptions } from "../../types";
+import type { CountryModule, ParsedAddress, ParseOptions } from "../../types";
 
 // Every field a corpus case can name.
 type CorpusField = keyof ParsedAddress;
@@ -81,12 +83,61 @@ const JAPAN_CORE_FIELDS: CorpusField[] = [
   "country",
 ];
 
+// Australia's core fields: the shared ones its addresses fill, with the level, the lot and a building's name.
+const AUSTRALIA_CORE_FIELDS: CorpusField[] = [
+  "building",
+  "secUnitType",
+  "secUnitNum",
+  "floorType",
+  "floor",
+  "lot",
+  "number",
+  "street",
+  "type",
+  "suffix",
+  "city",
+  "state",
+  "zip",
+  "country",
+];
+
+// The United Kingdom's core fields: the parts of Royal Mail's Postcode Address File, and the nation the postcode
+// delivers to.
+const UK_CORE_FIELDS: CorpusField[] = [
+  "subBuilding",
+  "secUnitType",
+  "secUnitNum",
+  "floorType",
+  "floor",
+  "building",
+  "number",
+  "dependentThoroughfare",
+  "street",
+  "type",
+  "doubleDependentLocality",
+  "locality",
+  "city",
+  "county",
+  "bfpo",
+  "zip",
+  "nation",
+  "country",
+];
+
 // The core fields each corpus folder is judged by.
 const CORE_FIELDS_BY_COUNTRY: Readonly<Record<string, CorpusField[]>> = {
+  au: AUSTRALIA_CORE_FIELDS,
   canada: CORE_FIELDS,
+  gb: UK_CORE_FIELDS,
   japan: JAPAN_CORE_FIELDS,
   us: CORE_FIELDS,
 };
+
+// The country modules every case of a module's folder is read with, and the hint each folder gives: a case in au/ is
+// read as parseLocation(input, { country: "AU", countries }), the reliable path. Whether the same addresses are told
+// apart with no hint is the detection suite's question (src/__tests__/countries/detection.test.ts).
+const COUNTRY_MODULES: readonly CountryModule[] = [australia, unitedKingdom];
+const MODULE_HINTS: Readonly<Record<string, ParseOptions["country"]>> = { au: "AU", gb: "GB" };
 
 const CORPUS_ROOT: string = join(__dirname, "../../../test-data/corpus");
 
@@ -166,8 +217,14 @@ function coreFieldsOf(country: string): CorpusField[] {
   return CORE_FIELDS_BY_COUNTRY[country] ?? CORE_FIELDS;
 }
 
-// Parse a case's input the way every corpus suite does.
-function parseCase(testCase: CorpusCase): ParsedAddress | null {
+// Parse a case's input the way every corpus suite does. A case of a module's folder is read through parseLocation with
+// the module and the folder's hint.
+function parseCase(testCase: CorpusCase, country?: string): ParsedAddress | null {
+  const hint = country === undefined ? undefined : MODULE_HINTS[country];
+  if (hint) {
+    return parseLocation(testCase.input, { country: hint, countries: COUNTRY_MODULES, ...testCase.options });
+  }
+
   return testCase.options ? parseLocation(testCase.input, testCase.options) : parseLocation(testCase.input);
 }
 
@@ -202,7 +259,7 @@ function registerCorpusSuite(country: string, title: string): void {
                 continue;
               }
               it(`${testCase.name} [${testCase.input}]`, () => {
-                const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase), coreFields);
+                const mismatches: FieldMismatch[] = judgeCase(testCase, parseCase(testCase, country), coreFields);
 
                 expect(mismatches, describeMismatches(mismatches)).toEqual([]);
               });
@@ -215,7 +272,7 @@ function registerCorpusSuite(country: string, title: string): void {
             .flat()
             .filter(
               (testCase: CorpusCase) =>
-                testCase.todo && judgeCase(testCase, parseCase(testCase), coreFields).length === 0,
+                testCase.todo && judgeCase(testCase, parseCase(testCase, country), coreFields).length === 0,
             )
             .map((testCase: CorpusCase) => testCase.name);
 
@@ -228,13 +285,16 @@ function registerCorpusSuite(country: string, title: string): void {
 
 export {
   allCases,
+  AUSTRALIA_CORE_FIELDS,
   CORE_FIELDS,
   coreFieldsOf,
+  COUNTRY_MODULES,
   describeMismatches,
   JAPAN_CORE_FIELDS,
   judgeCase,
   loadCorpus,
   parseCase,
   registerCorpusSuite,
+  UK_CORE_FIELDS,
 };
 export type { CorpusCase, CorpusField, CorpusFile, FieldMismatch, LoadedCorpusFile };

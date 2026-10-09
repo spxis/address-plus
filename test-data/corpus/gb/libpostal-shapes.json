@@ -1,0 +1,482 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Shapes of libpostal's British Fixtures",
+  "description": "The 29 British and one Manx parser fixtures in libpostal's test/test_parser.c (MIT), each written again as an original address of the same shape: the same parts in the same order, with the same punctuation, under other names, numbers and inward codes. libpostal's inputs are third-party addresses, so none is copied. Where a part has no field here (libpostal's state_district is a county or a region), it is a county when it is one.",
+  "tests": {
+    "shapes": [
+      {
+        "name": "venue, range, road, suburb, city, region, nation, postcode, country",
+        "description": "A venue run into its number with no comma, then every level down to the country",
+        "input": "The Reading Room 40-44 Curtain Rd, Hoxton, London, Greater London, England, EC2A 3AA, United Kingdom",
+        "expected": {
+          "building": "The Reading Room",
+          "number": "40-44",
+          "street": "Curtain",
+          "type": "Road",
+          "locality": "Hoxton",
+          "city": "London",
+          "county": "Greater London",
+          "zip": "EC2A 3AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 792; written again as an original address, nothing copied"
+      },
+      {
+        "name": "the same with no commas",
+        "description": "Venue, range, road, suburb, city, postcode, country with no comma at all",
+        "input": "The Reading Room 40-44 Curtain Rd Hoxton London EC2A 3AA United Kingdom",
+        "expected": {
+          "building": "The Reading Room",
+          "number": "40-44",
+          "street": "Curtain",
+          "type": "Road",
+          "locality": "Hoxton",
+          "city": "London",
+          "zip": "EC2A 3AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 807; written again as an original address, nothing copied",
+        "todo": true,
+        "todoNote": "building: absent (want \"The Reading Room\"); number: absent (want \"40-44\"); street: \"The Reading Room 40-44 Curtain Rd Hoxton London\" (want \"Curtain\"); type: absent (want \"Road\"); locality: absent (want \"Hoxton\"); city: absent (want \"London\")"
+      },
+      {
+        "name": "house name, road, city, postcode",
+        "description": "A house's name and a road with no number",
+        "input": "Beech House, Holly Avenue, London, N3 2AA",
+        "expected": {
+          "building": "Beech House",
+          "street": "Holly",
+          "type": "Avenue",
+          "city": "London",
+          "zip": "N3 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 821; written again as an original address, nothing copied"
+      },
+      {
+        "name": "number, road, postcode before the city",
+        "description": "The postcode before the town",
+        "input": "112 Essex Road, N1 8AA London",
+        "expected": {
+          "number": "112",
+          "street": "Essex",
+          "type": "Road",
+          "city": "London",
+          "zip": "N1 8AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 832; written again as an original address, nothing copied"
+      },
+      {
+        "name": "number, comma, road, postcode, comma, city",
+        "description": "A comma after the number and the postcode after the road",
+        "input": "17, Brixton Hill SW2 1AA, London",
+        "expected": {
+          "number": "17",
+          "street": "Brixton",
+          "type": "Hill",
+          "city": "London",
+          "zip": "SW2 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 843; written again as an original address, nothing copied"
+      },
+      {
+        "name": "number, road, city, comma, county, postcode",
+        "description": "No comma between road and town; a county before the postcode",
+        "input": "5 Dock Rd Liverpool, Merseyside L3 1AA",
+        "expected": {
+          "number": "5",
+          "street": "Dock",
+          "type": "Road",
+          "city": "Liverpool",
+          "county": "Merseyside",
+          "zip": "L3 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 854; written again as an original address, nothing copied"
+      },
+      {
+        "name": "road, town, unitary area, postcode, UK",
+        "description": "A road with no number, a town, a unitary area as the county",
+        "input": "Mill Ln, Wilmslow, Cheshire East SK9 1AA, UK",
+        "expected": {
+          "street": "Mill",
+          "type": "Lane",
+          "city": "Wilmslow",
+          "county": "Cheshire East",
+          "zip": "SK9 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 865; written again as an original address, nothing copied"
+      },
+      {
+        "name": "venue, road, district, city, postcode, country",
+        "description": "A venue, a road with no number, a district of the city",
+        "input": "Grand Assembly Hall, Long Acre St, Seven Dials, London, WC2H 9AA, United Kingdom",
+        "expected": {
+          "building": "Grand Assembly Hall",
+          "street": "Long Acre",
+          "type": "Street",
+          "locality": "Seven Dials",
+          "city": "London",
+          "zip": "WC2H 9AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 876; written again as an original address, nothing copied"
+      },
+      {
+        "name": "lettered number, road, town, postcode",
+        "description": "A number with a letter",
+        "input": "3B Albert Road, Middlesbrough, TS1 3AA",
+        "expected": {
+          "number": "3B",
+          "street": "Albert",
+          "type": "Road",
+          "city": "Middlesbrough",
+          "zip": "TS1 3AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 888; written again as an original address, nothing copied"
+      },
+      {
+        "name": "number nought",
+        "description": "A house numbered 0",
+        "input": "0 Albert Road, Middlesbrough, TS1 3AA",
+        "expected": {
+          "number": "0",
+          "street": "Albert",
+          "type": "Road",
+          "city": "Middlesbrough",
+          "zip": "TS1 3AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 898; written again as an original address, nothing copied"
+      },
+      {
+        "name": "a negative number",
+        "description": "A number written with a minus sign, as in libpostal's fixture",
+        "input": "-2 Abbey Road, Newbury, RG14 1AA",
+        "expected": {
+          "number": "-2",
+          "street": "Abbey",
+          "type": "Road",
+          "city": "Newbury",
+          "zip": "RG14 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 908; written again as an original address, nothing copied"
+      },
+      {
+        "name": "house name, range, road, town, postcode",
+        "description": "A building's name, then a range on the road",
+        "input": "Ivy Court, 8-10 Spring Road, Hull, HU3 1AA",
+        "expected": {
+          "building": "Ivy Court",
+          "number": "8-10",
+          "street": "Spring",
+          "type": "Road",
+          "city": "Hull",
+          "zip": "HU3 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 918; written again as an original address, nothing copied"
+      },
+      {
+        "name": "flat, building, range, road, city, postcode, country",
+        "description": "A flat, a building, a range, the road",
+        "input": "Flat 9, Prism Building, 70-76 Clerkenwell Hill, London, EC1N 7AA, United Kingdom",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "9",
+          "building": "Prism Building",
+          "number": "70-76",
+          "street": "Clerkenwell",
+          "type": "Hill",
+          "city": "London",
+          "zip": "EC1N 7AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 929; written again as an original address, nothing copied"
+      },
+      {
+        "name": "flat, building, number, road, city, postcode, country",
+        "description": "A flat, a building, a number, the road",
+        "input": "Flat 21, Bellini House, 52 Clerkenwell Hill, London, EC1N 7AB, United Kingdom",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "21",
+          "building": "Bellini House",
+          "number": "52",
+          "street": "Clerkenwell",
+          "type": "Hill",
+          "city": "London",
+          "zip": "EC1N 7AB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 942; written again as an original address, nothing copied"
+      },
+      {
+        "name": "lettered number, road, town and postcode, country",
+        "description": "No comma between town and postcode",
+        "input": "31C Mercer Parade, South Ockendon RM15 6AA, United Kingdom",
+        "expected": {
+          "number": "31C",
+          "street": "Mercer",
+          "type": "Parade",
+          "city": "South Ockendon",
+          "zip": "RM15 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 955; written again as an original address, nothing copied"
+      },
+      {
+        "name": "unit with no house number",
+        "description": "A unit on a road with no number",
+        "input": "Unit 12 Wren Close, Canterbury, CT2 8AA",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "12",
+          "street": "Wren",
+          "type": "Close",
+          "city": "Canterbury",
+          "zip": "CT2 8AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 967; written again as an original address, nothing copied"
+      },
+      {
+        "name": "house name, a road named The, town and postcode",
+        "description": "A road of The and a name",
+        "input": "Ipsum House, The Quayside, Lowestoft NR32 2AA, United Kingdom",
+        "expected": {
+          "building": "Ipsum House",
+          "street": "The Quayside",
+          "city": "Lowestoft",
+          "zip": "NR32 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 978; written again as an original address, nothing copied"
+      },
+      {
+        "name": "centre, road, town, county, postcode, country",
+        "description": "A centre's name, a road with no number, a county",
+        "input": "St Peters Centre, Silver Walk, Bedford, Bedfordshire, MK40 1AA, United Kingdom",
+        "expected": {
+          "building": "St Peters Centre",
+          "street": "Silver",
+          "type": "Walk",
+          "city": "Bedford",
+          "county": "Bedfordshire",
+          "zip": "MK40 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 989; written again as an original address, nothing copied"
+      },
+      {
+        "name": "centre, number, road, town, county, postcode, country",
+        "description": "The same with a number on the road",
+        "input": "St Peters Centre, 3 Silver Walk, Bedford, Bedfordshire, MK40 1AA, United Kingdom",
+        "expected": {
+          "building": "St Peters Centre",
+          "number": "3",
+          "street": "Silver",
+          "type": "Walk",
+          "city": "Bedford",
+          "county": "Bedfordshire",
+          "zip": "MK40 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1001; written again as an original address, nothing copied"
+      },
+      {
+        "name": "studio, floor, an empty part, number, road, city, postcode, country",
+        "description": "A doubled comma between the floor and the number",
+        "input": "Studio K, 3rd Floor,,15 Upper Brook St, Manchester M1 6AA, United Kingdom",
+        "expected": {
+          "secUnitType": "Studio",
+          "secUnitNum": "K",
+          "floorType": "Floor",
+          "floor": "3",
+          "number": "15",
+          "street": "Upper Brook",
+          "type": "Street",
+          "city": "Manchester",
+          "zip": "M1 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1015; written again as an original address, nothing copied"
+      },
+      {
+        "name": "institute, a road named The, postcode, country",
+        "description": "No town at all",
+        "input": "Albion Institute, The Blvd, ST4 2AA, United Kingdom",
+        "expected": {
+          "building": "Albion Institute",
+          "street": "The Boulevard",
+          "zip": "ST4 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1028; written again as an original address, nothing copied"
+      },
+      {
+        "name": "number, road, town, county and postcode",
+        "description": "A county before the postcode with no comma",
+        "input": "41 Lottbridge Drove, Eastbourne, East Sussex BN23 6AA",
+        "expected": {
+          "number": "41",
+          "street": "Lottbridge",
+          "type": "Drove",
+          "city": "Eastbourne",
+          "county": "East Sussex",
+          "zip": "BN23 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1038; written again as an original address, nothing copied"
+      },
+      {
+        "name": "a town and the country",
+        "description": "Only a town and the country",
+        "input": "Milton Keynes, United Kingdom",
+        "expected": {
+          "city": "Milton Keynes",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1049; written again as an original address, nothing copied"
+      },
+      {
+        "name": "road named The, town, county and postcode, country",
+        "description": "A road of The and a name, no number",
+        "input": "The Paddocks, Melton Mowbray, Leicestershire LE13 1AA, United Kingdom",
+        "expected": {
+          "street": "The Paddocks",
+          "city": "Melton Mowbray",
+          "county": "Leicestershire",
+          "zip": "LE13 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1057; written again as an original address, nothing copied"
+      },
+      {
+        "name": "house name, range, road, town and postcode, country",
+        "description": "A house's name and a range",
+        "input": "The Old Rectory, 21-22 Ashby Hill, Loughborough LE11 2AA, United Kingdom",
+        "expected": {
+          "building": "The Old Rectory",
+          "number": "21-22",
+          "street": "Ashby",
+          "type": "Hill",
+          "city": "Loughborough",
+          "zip": "LE11 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1068; written again as an original address, nothing copied"
+      },
+      {
+        "name": "road with no descriptor, town and postcode, country",
+        "description": "A road whose last word is no descriptor",
+        "input": "Castle Head, Hinckley LE10 2AA, United Kingdom",
+        "expected": {
+          "street": "Castle Head",
+          "city": "Hinckley",
+          "zip": "LE10 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1080; written again as an original address, nothing copied"
+      },
+      {
+        "name": "park run into a road, town, county and postcode",
+        "description": "A retail park's name run into the road with no comma",
+        "input": "Sovereign Retail Park Lottbridge Drove, Eastbourne, East Sussex BN23 6AB",
+        "expected": {
+          "building": "Sovereign Retail Park",
+          "street": "Lottbridge",
+          "type": "Drove",
+          "city": "Eastbourne",
+          "county": "East Sussex",
+          "zip": "BN23 6AB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1090; written again as an original address, nothing copied",
+        "todo": true,
+        "todoNote": "building: absent (want \"Sovereign Retail Park\"); street: \"Sovereign Retail Park Lottbridge\" (want \"Lottbridge\")"
+      },
+      {
+        "name": "number and a centre, road, town, county abbreviated, postcode",
+        "description": "A number before a shopping centre's name, then the road",
+        "input": "8 Market Place Shopping Centre, Bondgate, Bishop Auckland, Co. Durham, DL14 6AA",
+        "expected": {
+          "building": "8 Market Place Shopping Centre",
+          "street": "Bondgate",
+          "city": "Bishop Auckland",
+          "county": "Co. Durham",
+          "zip": "DL14 6AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1102; written again as an original address, nothing copied",
+        "todo": true,
+        "todoNote": "building: absent (want \"8 Market Place Shopping Centre\"); street: \"Market Place Shopping Centre\" (want \"Bondgate\"); number: \"8\" (want absent); locality: \"Bondgate\" (want absent)"
+      },
+      {
+        "name": "centre run into a road and town, postcode",
+        "description": "No comma anywhere: a centre, a road and a town",
+        "input": "Bridge Court Shopping Centre Bridge Street Caerphilly CF83 2AA",
+        "expected": {
+          "building": "Bridge Court Shopping Centre",
+          "street": "Bridge",
+          "type": "Street",
+          "city": "Caerphilly",
+          "zip": "CF83 2AA",
+          "nation": "WLS",
+          "country": "GB"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_gb_parses, the case near line 1114; written again as an original address, nothing copied",
+        "todo": true,
+        "todoNote": "building: absent (want \"Bridge Court Shopping Centre\"); type: \"Court\" (want \"Street\"); city: \"Shopping Centre Bridge Street Caerphilly\" (want \"Caerphilly\")"
+      },
+      {
+        "name": "organisation, PO Box, buildings, square, town, island and postcode",
+        "description": "The Manx fixture: two names around a PO Box, a square, the town, the Isle of Man",
+        "input": "Harbour Trust Company Limited, PO Box 222, Tynwald Buildings, Tynwald Square, Douglas, Isle of Man IM99 2AA",
+        "expected": {
+          "building": "Harbour Trust Company Limited, Tynwald Buildings",
+          "secUnitType": "PO Box",
+          "secUnitNum": "222",
+          "street": "Tynwald",
+          "type": "Square",
+          "city": "Douglas",
+          "zip": "IM99 2AA",
+          "country": "IM"
+        },
+        "source": "Shape of libpostal test/test_parser.c (MIT), test_im_parses; written again as an original address, nothing copied"
+      }
+    ]
+  }
+}

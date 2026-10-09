@@ -1,0 +1,367 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "British Flats, Units and Floors",
+  "description": "The part of a building before its name or number: a flat, apartment, unit, studio, suite or maisonette with its number (Glasgow's 2/1 and Edinburgh's 1F2 among them), a named part of a building with no number (Basement Flat, Garden Flat), and a floor. Original cases written for this corpus from Royal Mail's addressing rules, described in our own words; nothing copied.",
+  "tests": {
+    "numbered": [
+      {
+        "name": "Flat",
+        "description": "A flat and its number",
+        "input": "Flat 2, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "2",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Flat with a letter",
+        "description": "Flat 2A",
+        "input": "Flat 2A, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "2A",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Flat on the same line",
+        "description": "Flat 2 14 High Street",
+        "input": "Flat 2 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "2",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Apartment",
+        "description": "An apartment",
+        "input": "Apartment 5, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Apartment",
+          "secUnitNum": "5",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Apt",
+        "description": "Apt for apartment",
+        "input": "Apt 5, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Apartment",
+          "secUnitNum": "5",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Unit",
+        "description": "A unit",
+        "input": "Unit 3, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "3",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Studio",
+        "description": "A studio, lettered",
+        "input": "Studio J, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Studio",
+          "secUnitNum": "J",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Suite",
+        "description": "A suite",
+        "input": "Suite 10, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Suite",
+          "secUnitNum": "10",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Maisonette",
+        "description": "A maisonette",
+        "input": "Maisonette 1, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "secUnitType": "Maisonette",
+          "secUnitNum": "1",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Glasgow's floor and door",
+        "description": "Flat 2/1: the second floor, the first door",
+        "input": "Flat 2/1, 14 Byres Road, Glasgow G11 5RD",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "2/1",
+          "number": "14",
+          "street": "Byres",
+          "type": "Road",
+          "city": "Glasgow",
+          "zip": "G11 5RD",
+          "nation": "SCT",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Edinburgh's floor and door",
+        "description": "Flat 1F2: the first floor, the second door",
+        "input": "Flat 1F2, 14 Marchmont Road, Edinburgh EH9 1HY",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "1F2",
+          "number": "14",
+          "street": "Marchmont",
+          "type": "Road",
+          "city": "Edinburgh",
+          "zip": "EH9 1HY",
+          "nation": "SCT",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a flat in a named building",
+        "description": "Flat, building, number, street",
+        "input": "Flat 18, Da Silva House, 44 Saffron Hill, London EC1N 8AA",
+        "expected": {
+          "secUnitType": "Flat",
+          "secUnitNum": "18",
+          "building": "Da Silva House",
+          "number": "44",
+          "street": "Saffron",
+          "type": "Hill",
+          "city": "London",
+          "zip": "EC1N 8AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a unit with no number",
+        "description": "A unit on a street with no number",
+        "input": "Unit 26 Roper Close, Canterbury CT2 7AA",
+        "expected": {
+          "secUnitType": "Unit",
+          "secUnitNum": "26",
+          "street": "Roper",
+          "type": "Close",
+          "city": "Canterbury",
+          "zip": "CT2 7AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "named": [
+      {
+        "name": "Basement Flat",
+        "description": "A part of a building with no number",
+        "input": "Basement Flat, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "subBuilding": "Basement Flat",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ground Floor Flat",
+        "description": "Named by its floor",
+        "input": "Ground Floor Flat, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "subBuilding": "Ground Floor Flat",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Top Floor Flat",
+        "description": "Named by its floor",
+        "input": "Top Floor Flat, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "subBuilding": "Top Floor Flat",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Garden Flat",
+        "description": "Named for its garden",
+        "input": "Garden Flat, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "subBuilding": "Garden Flat",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "floors": [
+      {
+        "name": "an ordinal floor",
+        "description": "2nd Floor",
+        "input": "2nd Floor, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "floorType": "Floor",
+          "floor": "2",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Floor and a number",
+        "description": "Floor 3",
+        "input": "Floor 3, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "floorType": "Floor",
+          "floor": "3",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ground Floor",
+        "description": "The ground floor",
+        "input": "Ground Floor, 14 High Street, Bath BA1 1AA",
+        "expected": {
+          "floorType": "Ground Floor",
+          "number": "14",
+          "street": "High",
+          "type": "Street",
+          "city": "Bath",
+          "zip": "BA1 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a studio on a floor",
+        "description": "A studio, a floor, then the number and street",
+        "input": "Studio J, 4th Floor, 8 Lower Ormond Street, Manchester M1 5AA",
+        "expected": {
+          "secUnitType": "Studio",
+          "secUnitNum": "J",
+          "floorType": "Floor",
+          "floor": "4",
+          "number": "8",
+          "street": "Lower Ormond",
+          "type": "Street",
+          "city": "Manchester",
+          "zip": "M1 5AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Inputs That Are Not British Addresses",
+  "description": "Inputs with no address in them, which parseLocation with the hint GB must answer with null. Constructed for this corpus.",
+  "tests": {
+    "notAnAddress": [
+      {
+        "name": "empty string",
+        "description": "Input with no address: empty string; the parse must fail",
+        "input": "",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "only spaces",
+        "description": "Input with no address: only spaces; the parse must fail",
+        "input": "   ",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "only punctuation",
+        "description": "Input with no address: only punctuation; the parse must fail",
+        "input": "!!!",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a single word",
+        "description": "Input with no address: a single word; the parse must fail",
+        "input": "hello",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a town alone",
+        "description": "Input with no address: a town alone; the parse must fail",
+        "input": "London",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "an outward code alone",
+        "description": "Input with no address: an outward code alone; the parse must fail",
+        "input": "SW1A",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      },
+      {
+        "name": "a sentence",
+        "description": "Input with no address: a sentence; the parse must fail",
+        "input": "please see the attached",
+        "expected": null,
+        "source": "Constructed for this corpus"
+      }
+    ]
+  }
+}

@@ -1,0 +1,500 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "British Postcodes",
+  "description": "The postcode in each of Royal Mail's six formats and GIR 0AA, written with or without its space and in any case, standing on its own line, before the post town or after it; a postcode the grammar refuses; BFPO; the Crown Dependencies, which share the format but are not in the United Kingdom; and the nation each postcode delivers to, across the borders of Wales and of Scotland. Original cases written for this corpus from Royal Mail's addressing rules, described in our own words; the nations are Code-Point Open's (OGL v3).",
+  "tests": {
+    "formats": [
+      {
+        "name": "AN NAA",
+        "description": "An area of one letter and a district of one digit",
+        "input": "12 Mosley Street, Manchester M2 3AW",
+        "expected": {
+          "number": "12",
+          "street": "Mosley",
+          "type": "Street",
+          "city": "Manchester",
+          "zip": "M2 3AW",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "ANN NAA",
+        "description": "An area of one letter and a district of two digits",
+        "input": "5 Market Street, Denton, Manchester M34 2AA",
+        "expected": {
+          "number": "5",
+          "street": "Market",
+          "type": "Street",
+          "locality": "Denton",
+          "city": "Manchester",
+          "zip": "M34 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "AAN NAA",
+        "description": "An area of two letters and a district of one digit",
+        "input": "40 George Street, Croydon CR0 1NX",
+        "expected": {
+          "number": "40",
+          "street": "George",
+          "type": "Street",
+          "city": "Croydon",
+          "zip": "CR0 1NX",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "AANN NAA",
+        "description": "An area of two letters and a district of two digits",
+        "input": "8 Oswald Road, Scunthorpe DN16 1AB",
+        "expected": {
+          "number": "8",
+          "street": "Oswald",
+          "type": "Road",
+          "city": "Scunthorpe",
+          "zip": "DN16 1AB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "ANA NAA",
+        "description": "A London district with a letter",
+        "input": "1 Portland Place, London W1A 1AA",
+        "expected": {
+          "number": "1",
+          "street": "Portland",
+          "type": "Place",
+          "city": "London",
+          "zip": "W1A 1AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "AANA NAA",
+        "description": "A London district of two letters, a digit and a letter",
+        "input": "20 King Edward Street, London EC1A 1BB",
+        "expected": {
+          "number": "20",
+          "street": "King Edward",
+          "type": "Street",
+          "city": "London",
+          "zip": "EC1A 1BB",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "GIR 0AA",
+        "description": "The one postcode outside the grammar, once Girobank's",
+        "input": "Girobank, Bootle GIR 0AA",
+        "expected": {
+          "building": "Girobank",
+          "city": "Bootle",
+          "zip": "GIR 0AA",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied",
+        "todo": true,
+        "todoNote": "building: absent (want \"Girobank\"); street: \"Girobank\" (want absent)"
+      }
+    ],
+    "writing": [
+      {
+        "name": "no space",
+        "description": "The postcode with its space left out",
+        "input": "10 Downing Street, London SW1A2AA",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "lower case",
+        "description": "The postcode in lower case",
+        "input": "10 Downing Street, London sw1a 2aa",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "two spaces",
+        "description": "Two spaces inside the postcode",
+        "input": "10 Downing Street, London SW1A  2AA",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "on its own line",
+        "description": "Royal Mail's layout: the postcode on the last line",
+        "input": "10 Downing Street\nLONDON\nSW1A 2AA",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "LONDON",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "before the town",
+        "description": "The postcode, then the town",
+        "input": "318 Upper Street, N1 2XQ London",
+        "expected": {
+          "number": "318",
+          "street": "Upper",
+          "type": "Street",
+          "city": "London",
+          "zip": "N1 2XQ",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "after the street",
+        "description": "The postcode after the street, the town after a comma",
+        "input": "21 Kingswood Road SW2 4JE, London",
+        "expected": {
+          "number": "21",
+          "street": "Kingswood",
+          "type": "Road",
+          "city": "London",
+          "zip": "SW2 4JE",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "a comma before the postcode",
+        "description": "Town, comma, postcode",
+        "input": "10 Downing Street, London, SW1A 2AA",
+        "expected": {
+          "number": "10",
+          "street": "Downing",
+          "type": "Street",
+          "city": "London",
+          "zip": "SW1A 2AA",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "all on one line, no commas",
+        "description": "Street, town and postcode with no comma",
+        "input": "45 Corn Street Bristol BS1 1HQ",
+        "expected": {
+          "number": "45",
+          "street": "Corn",
+          "type": "Street",
+          "city": "Bristol",
+          "zip": "BS1 1HQ",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "notPostcodes": [
+      {
+        "name": "a first letter Q",
+        "description": "Q never begins a postcode",
+        "input": "1 High Street, Anytown Q1 1AA",
+        "expected": {
+          "number": "1",
+          "street": "High",
+          "type": "Street",
+          "city": "Anytown",
+          "zip": "Q1 1AA",
+          "zipValid": false,
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "C in the inward code",
+        "description": "The inward code never holds C, I, K, M, O or V",
+        "input": "1 High Street, London EC1A 1CI",
+        "expected": {
+          "number": "1",
+          "street": "High",
+          "type": "Street",
+          "city": "London",
+          "zip": "EC1A 1CI",
+          "zipValid": false,
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "an area Royal Mail does not use",
+        "description": "AA follows the grammar but is no area",
+        "input": "1 High Street, Anytown AA1 1AA",
+        "expected": {
+          "number": "1",
+          "street": "High",
+          "type": "Street",
+          "city": "Anytown",
+          "zip": "AA1 1AA",
+          "zipValid": true,
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "forces": [
+      {
+        "name": "BFPO",
+        "description": "A British Forces Post Office number in place of a town and postcode",
+        "input": "HQ Company, BFPO 105",
+        "expected": {
+          "building": "HQ Company",
+          "bfpo": "105",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "BFPO without a space",
+        "description": "BFPO105",
+        "input": "HQ Company\nBFPO105",
+        "expected": {
+          "building": "HQ Company",
+          "bfpo": "105",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "crownDependencies": [
+      {
+        "name": "Jersey",
+        "description": "A Jersey postcode: Royal Mail's format, but not the United Kingdom",
+        "input": "12 Bath Street, St Helier JE2 4ST",
+        "expected": {
+          "number": "12",
+          "street": "Bath",
+          "type": "Street",
+          "city": "St Helier",
+          "zip": "JE2 4ST",
+          "country": "JE"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Jersey written",
+        "description": "Jersey written after the postcode",
+        "input": "12 Bath Street, St Helier, Jersey JE2 4ST",
+        "expected": {
+          "number": "12",
+          "street": "Bath",
+          "type": "Street",
+          "city": "St Helier",
+          "zip": "JE2 4ST",
+          "country": "JE"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Guernsey",
+        "description": "A Guernsey postcode",
+        "input": "3 Smith Street, St Peter Port, Guernsey GY1 2JN",
+        "expected": {
+          "number": "3",
+          "street": "Smith",
+          "type": "Street",
+          "city": "St Peter Port",
+          "zip": "GY1 2JN",
+          "country": "GY"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Isle of Man",
+        "description": "A Manx postcode",
+        "input": "15 Athol Street, Douglas, Isle of Man IM1 1LB",
+        "expected": {
+          "number": "15",
+          "street": "Athol",
+          "type": "Street",
+          "city": "Douglas",
+          "zip": "IM1 1LB",
+          "country": "IM"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Channel Islands written",
+        "description": "Channel Islands at the end",
+        "input": "12 Bath Street, St Helier JE2 4ST, Channel Islands",
+        "expected": {
+          "number": "12",
+          "street": "Bath",
+          "type": "Street",
+          "city": "St Helier",
+          "zip": "JE2 4ST",
+          "country": "JE"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ],
+    "nations": [
+      {
+        "name": "Northern Ireland",
+        "description": "BT is Northern Ireland's area",
+        "input": "10 Donegall Square, Belfast BT1 5GS",
+        "expected": {
+          "number": "10",
+          "street": "Donegall",
+          "type": "Square",
+          "city": "Belfast",
+          "zip": "BT1 5GS",
+          "nation": "NIR",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Scotland",
+        "description": "EH is in Scotland",
+        "input": "12 Princes Street, Edinburgh EH2 2AN",
+        "expected": {
+          "number": "12",
+          "street": "Princes",
+          "type": "Street",
+          "city": "Edinburgh",
+          "zip": "EH2 2AN",
+          "nation": "SCT",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "Wales",
+        "description": "CF is in Wales",
+        "input": "7 Queen Street, Cardiff CF10 2BU",
+        "expected": {
+          "number": "7",
+          "street": "Queen",
+          "type": "Street",
+          "city": "Cardiff",
+          "zip": "CF10 2BU",
+          "nation": "WLS",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "CH5 in Wales",
+        "description": "A district wholly in Wales, in an area mostly in England",
+        "input": "4 Chester Road, Deeside CH5 1AA",
+        "expected": {
+          "number": "4",
+          "street": "Chester",
+          "type": "Road",
+          "city": "Deeside",
+          "zip": "CH5 1AA",
+          "nation": "WLS",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "CH1 in England",
+        "description": "A district across the border, mostly in England",
+        "input": "4 Eastgate Street, Chester CH1 1LE",
+        "expected": {
+          "number": "4",
+          "street": "Eastgate",
+          "type": "Street",
+          "city": "Chester",
+          "zip": "CH1 1LE",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "TD15 in England",
+        "description": "Berwick-upon-Tweed: a district mostly in England, in an area mostly in Scotland",
+        "input": "6 Marygate, Berwick-upon-Tweed TD15 1BN",
+        "expected": {
+          "number": "6",
+          "street": "Marygate",
+          "city": "Berwick-upon-Tweed",
+          "zip": "TD15 1BN",
+          "nation": "ENG",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "DG16 in Scotland",
+        "description": "Gretna: a district across the border, mostly in Scotland",
+        "input": "2 Central Avenue, Gretna DG16 5AQ",
+        "expected": {
+          "number": "2",
+          "street": "Central",
+          "type": "Avenue",
+          "city": "Gretna",
+          "zip": "DG16 5AQ",
+          "nation": "SCT",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      },
+      {
+        "name": "SY23 in Wales",
+        "description": "Aberystwyth: an area mostly in England, a district wholly in Wales",
+        "input": "9 Terrace Road, Aberystwyth SY23 1NP",
+        "expected": {
+          "number": "9",
+          "street": "Terrace",
+          "type": "Road",
+          "city": "Aberystwyth",
+          "zip": "SY23 1NP",
+          "nation": "WLS",
+          "country": "GB"
+        },
+        "source": "Original case written for this corpus; Royal Mail's addressing rules (the Postcode Address File's parts and the postcode format), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

@@ -1,0 +1,391 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "Australian Postal Deliveries",
+  "description": "Mail to a box, a bag or a rural service instead of a street: AS4590's postal delivery types (PO Box, GPO Box, Locked Bag, Private Bag, RMB, RSD, RMS, CMB, CMA, CPA, MS and Care PO), each reported in Australia Post's form in secUnitType with its number in secUnitNum, and the spellings people use for them. Original cases written for this corpus from Australia Post's guidelines and AS4590, described in our own words; nothing copied.",
+  "tests": {
+    "boxes": [
+      {
+        "name": "PO Box",
+        "description": "A post office box",
+        "input": "PO Box 37, Springvale VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "Springvale",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for Australia (from Australia Post) shows; the address itself is made up"
+      },
+      {
+        "name": "PO Box, no comma",
+        "description": "The suburb straight after the number",
+        "input": "PO Box 37 Springvale VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "Springvale",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "P.O. Box",
+        "description": "With full stops",
+        "input": "P.O. Box 37, Springvale VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "Springvale",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "P O Box",
+        "description": "With spaces",
+        "input": "P O Box 37, Springvale VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "Springvale",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Post Office Box",
+        "description": "Written out",
+        "input": "Post Office Box 37, Springvale VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "Springvale",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Box alone",
+        "description": "Box with its number",
+        "input": "Box 37, Springvale VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "Springvale",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "in capitals",
+        "description": "PO BOX on a label",
+        "input": "PO BOX 37\nSPRINGVALE VIC 3171",
+        "expected": {
+          "secUnitType": "PO Box",
+          "secUnitNum": "37",
+          "city": "SPRINGVALE",
+          "state": "VIC",
+          "zip": "3171",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "GPO Box",
+        "description": "A box at a General Post Office",
+        "input": "GPO Box 1234, Melbourne VIC 3001",
+        "expected": {
+          "secUnitType": "GPO Box",
+          "secUnitNum": "1234",
+          "city": "Melbourne",
+          "state": "VIC",
+          "zip": "3001",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "G.P.O. Box",
+        "description": "With full stops",
+        "input": "G.P.O. Box 1234, Sydney NSW 2001",
+        "expected": {
+          "secUnitType": "GPO Box",
+          "secUnitNum": "1234",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "2001",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "GPO Box in a box-only postcode",
+        "description": "A postcode from New South Wales's block for boxes and large receivers",
+        "input": "GPO Box 4567, Sydney NSW 1230",
+        "expected": {
+          "secUnitType": "GPO Box",
+          "secUnitNum": "4567",
+          "city": "Sydney",
+          "state": "NSW",
+          "zip": "1230",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "bags": [
+      {
+        "name": "Locked Bag",
+        "description": "A locked bag",
+        "input": "Locked Bag 801, Fortitude Valley QLD 4006",
+        "expected": {
+          "secUnitType": "Locked Bag",
+          "secUnitNum": "801",
+          "city": "Fortitude Valley",
+          "state": "QLD",
+          "zip": "4006",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for Australia (from Australia Post) shows; the address itself is made up"
+      },
+      {
+        "name": "Locked Mail Bag",
+        "description": "Written out",
+        "input": "Locked Mail Bag 801, Fortitude Valley QLD 4006",
+        "expected": {
+          "secUnitType": "Locked Bag",
+          "secUnitNum": "801",
+          "city": "Fortitude Valley",
+          "state": "QLD",
+          "zip": "4006",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Locked Bag, no comma",
+        "description": "The suburb straight after the number",
+        "input": "Locked Bag 801 Fortitude Valley QLD 4006",
+        "expected": {
+          "secUnitType": "Locked Bag",
+          "secUnitNum": "801",
+          "city": "Fortitude Valley",
+          "state": "QLD",
+          "zip": "4006",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Private Bag",
+        "description": "A private bag",
+        "input": "Private Bag 5, Darwin NT 0801",
+        "expected": {
+          "secUnitType": "Private Bag",
+          "secUnitNum": "5",
+          "city": "Darwin",
+          "state": "NT",
+          "zip": "0801",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Private Mail Bag",
+        "description": "Written out",
+        "input": "Private Mail Bag 5, Darwin NT 0801",
+        "expected": {
+          "secUnitType": "Private Bag",
+          "secUnitNum": "5",
+          "city": "Darwin",
+          "state": "NT",
+          "zip": "0801",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ],
+    "rural": [
+      {
+        "name": "RMB",
+        "description": "A roadside mail box",
+        "input": "RMB 26, Kalgoorlie WA 6430",
+        "expected": {
+          "secUnitType": "RMB",
+          "secUnitNum": "26",
+          "city": "Kalgoorlie",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "RMB, no comma",
+        "description": "In capitals, the town straight after",
+        "input": "RMB 26 KALGOORLIE WA 6430",
+        "expected": {
+          "secUnitType": "RMB",
+          "secUnitNum": "26",
+          "city": "KALGOORLIE",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus in a shape the UPU's addressing sheet for Australia (from Australia Post) shows; the address itself is made up"
+      },
+      {
+        "name": "Roadside Mail Box",
+        "description": "Written out",
+        "input": "Roadside Mail Box 26, Kalgoorlie WA 6430",
+        "expected": {
+          "secUnitType": "RMB",
+          "secUnitNum": "26",
+          "city": "Kalgoorlie",
+          "state": "WA",
+          "zip": "6430",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "RMB on a road",
+        "description": "A roadside mail box with the road it is on",
+        "input": "RMB 1234 Sturt Hwy, Wagga Wagga NSW 2650",
+        "expected": {
+          "secUnitType": "RMB",
+          "secUnitNum": "1234",
+          "street": "Sturt",
+          "type": "Hwy",
+          "city": "Wagga Wagga",
+          "state": "NSW",
+          "zip": "2650",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "RSD",
+        "description": "A roadside delivery",
+        "input": "RSD 45, Mount Gambier SA 5290",
+        "expected": {
+          "secUnitType": "RSD",
+          "secUnitNum": "45",
+          "city": "Mount Gambier",
+          "state": "SA",
+          "zip": "5290",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "RMS",
+        "description": "A roadside mail service",
+        "input": "RMS 12, Dubbo NSW 2830",
+        "expected": {
+          "secUnitType": "RMS",
+          "secUnitNum": "12",
+          "city": "Dubbo",
+          "state": "NSW",
+          "zip": "2830",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "CMB",
+        "description": "A community mail bag",
+        "input": "CMB 3, Longreach QLD 4730",
+        "expected": {
+          "secUnitType": "CMB",
+          "secUnitNum": "3",
+          "city": "Longreach",
+          "state": "QLD",
+          "zip": "4730",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "CMA",
+        "description": "A community mail agent",
+        "input": "CMA 7, Coober Pedy SA 5723",
+        "expected": {
+          "secUnitType": "CMA",
+          "secUnitNum": "7",
+          "city": "Coober Pedy",
+          "state": "SA",
+          "zip": "5723",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "CPA",
+        "description": "A community postal agent",
+        "input": "CPA 9, Tennant Creek NT 0860",
+        "expected": {
+          "secUnitType": "CPA",
+          "secUnitNum": "9",
+          "city": "Tennant Creek",
+          "state": "NT",
+          "zip": "0860",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "MS",
+        "description": "A mail service, as in rural Queensland",
+        "input": "MS 1234, Toowoomba QLD 4352",
+        "expected": {
+          "secUnitType": "MS",
+          "secUnitNum": "1234",
+          "city": "Toowoomba",
+          "state": "QLD",
+          "zip": "4352",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "Care PO",
+        "description": "Mail kept at a post office",
+        "input": "Care PO, Alice Springs NT 0870",
+        "expected": {
+          "secUnitType": "Care PO",
+          "city": "Alice Springs",
+          "state": "NT",
+          "zip": "0870",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      },
+      {
+        "name": "C/- Post Office",
+        "description": "Care of written the usual short way",
+        "input": "C/- Post Office, Alice Springs NT 0870",
+        "expected": {
+          "secUnitType": "Care PO",
+          "city": "Alice Springs",
+          "state": "NT",
+          "zip": "0870",
+          "country": "AU"
+        },
+        "source": "Original case written for this corpus; Australia Post's addressing guidelines and AS4590 (Interchange of client information), described in our own words; nothing copied"
+      }
+    ]
+  }
+}
