@@ -131,9 +131,10 @@ function percent(part: number, whole: number): string {
 const cases: CorpusCase[] = [...allCases("us"), ...allCases("canada")];
 const current: ParityFigures = measureParity(cases);
 const recordedFile: { tests: { parity: ParityFigures } } = JSON.parse(readFileSync(PARITY_FILE, "utf-8"));
-const recorded: ParityFigures = recordedFile.tests.parity;
+const recording: boolean = process.env.CORPUS_PARITY_RECORD === "1";
+const recorded: ParityFigures = recording ? current : recordedFile.tests.parity;
 
-if (process.env.CORPUS_PARITY_RECORD === "1") {
+if (recording) {
   recordedFile.tests.parity = current;
   writeFileSync(PARITY_FILE, `${JSON.stringify(recordedFile, null, 2)}\n`);
 }
