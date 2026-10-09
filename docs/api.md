@@ -69,7 +69,7 @@ interface AddressComparisonTestCase extends TestCaseBase {
     isSame?: boolean;
     similarity?: number;
     differences?: string[];
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected comparison results
 }
 ```
@@ -122,7 +122,7 @@ interface AddressFormattingTestCase extends TestCaseBase {
   options?: {
     format?: string;
     abbreviate?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Optional formatting configuration
 }
 ```
@@ -171,12 +171,12 @@ interface AddressParsingTestCase extends TestCaseBase {
     state?: string;
     zip?: string;
     country?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected parsed address components
   options?: {
     strict?: boolean;
     country?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Optional parsing configuration
 }
 ```
@@ -235,7 +235,7 @@ interface AddressValidationTestCase extends TestCaseBase {
     completeness?: number;
     errors?: string[];
     warnings?: string[];
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected validation results
 }
 ```
@@ -310,7 +310,7 @@ type
 interface BatchProcessingTestCase extends TestCaseBase {
   input: string[]; // Array of input addresses
   expected: {
-    results?: any[];
+    results?: unknown[];
     statistics?: {
       total: number;
       successful: number;
@@ -320,7 +320,7 @@ interface BatchProcessingTestCase extends TestCaseBase {
       index: number;
       error: string;
     }>;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected batch processing results
 }
 ```
@@ -556,12 +556,12 @@ interface CleanAddressTestCase extends TestCaseBase {
   expected: {
     cleaned: string;
     changes?: string[];
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected cleaned address and changes
   options?: {
     format?: string;
     abbreviate?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Optional cleaning configuration
 }
 ```
@@ -723,6 +723,21 @@ FACILITY_PATTERNS: RegExp[]
 
 Combined facility patterns for English and French
 
+### findMunicipalitiesByName
+
+function
+
+```ts
+findMunicipalitiesByName(name: string, prefectureCode?: string): JapaneseMunicipality[]
+```
+
+The municipalities a Japanese name could mean, narrowed to one prefecture when it is known. @example findMunicipalitiesByName("府中市") → [Tokyo's 府中市, Hiroshima's 府中市]; findMunicipalitiesByName("当別町") → [石狩郡当別町]
+
+```js
+findMunicipalitiesByName("府中市").map((one) => one.code + " " + one.romaji)
+// ["13206 Fuchu-shi","34208 Fuchu-shi"]
+```
+
 ### findMunicipalitiesByRomaji
 
 function
@@ -731,7 +746,7 @@ function
 findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[]
 ```
 
-The municipalities a romaji name could mean, narrowed to one prefecture when it is known. @example findMunicipalitiesByRomaji('Chiyoda-ku', '13') → [千代田区]; findMunicipalitiesByRomaji('Chuo-ku, Sapporo') → [札幌市中央区]
+The municipalities a romaji name could mean, narrowed to one prefecture when it is known. When the full name finds nothing, a town written without its district (Tobetsu-cho) is looked up without it, and then a ward written without its city (Kita-ku), which can mean several. @example findMunicipalitiesByRomaji("Chiyoda-ku", "13") → [千代田区]; findMunicipalitiesByRomaji("Chuo-ku, Sapporo") → [札幌市中央区]
 
 ```js
 findMunicipalitiesByRomaji("Chiyoda", "13").map((one) => one.name)
@@ -746,6 +761,8 @@ function
 findMunicipalityByCode(code: string): JapaneseMunicipality | null
 ```
 
+The municipality with a JIS code, a designated city's included.
+
 ```js
 findMunicipalityByCode("13101")
 // {"code":"13101","prefecture":"13","name":"千代田区","kana":"チヨダク","romaji":"Chiyoda-ku"}
@@ -759,7 +776,7 @@ function
 findPrefecture(text: string): JapanesePrefecture | null
 ```
 
-The prefecture a name, reading, romaji or JIS code refers to, or null. @example findPrefecture('東京都') → Tokyo; findPrefecture('Osaka Prefecture') → Osaka; findPrefecture('13') → Tokyo
+The prefecture a name, reading, romaji or JIS code refers to, or null. @example findPrefecture("東京都") → Tokyo; findPrefecture("Osaka Prefecture") → Osaka; findPrefecture("13") → Tokyo
 
 ```js
 findPrefecture("Osaka")
@@ -804,7 +821,7 @@ function
 formatJapanese(address: ParsedAddress, options?: JapaneseFormattingOptions): string
 ```
 
-〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室
+〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室 The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
 
 ```js
 formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })
@@ -819,7 +836,7 @@ function
 formatJapaneseEnglish(address: ParsedAddress, options?: JapaneseEnglishFormattingOptions): string
 ```
 
-Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The town is written as it was parsed: romaji when the address came in romaji, kanji otherwise.
+Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The prefecture and municipality are always romaji, from the tables (a municipality the tables do not know keeps the name it was written with). The town and building are written as they were parsed: romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold no romaji for towns, and a reading guessed from kanji would often be wrong.
 
 ```js
 formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"))
@@ -928,10 +945,10 @@ getAddressSimilarity(parseLocation("123 Main Street, Anytown, NY 12345"), parseL
 function
 
 ```ts
-getPostalPrefixesForPrefecture(prefectureCode: string): string[]
+getPostalPrefixesForPrefecture(prefecture: string): string[]
 ```
 
-The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above. A prefix on a border is listed under the prefecture most of its codes belong to. @example getPostalPrefixesForPrefecture('47') → ['900', '901', …, '907']
+The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above. The prefecture may be given by JIS code, name or romaji, as findPrefecture reads it. A prefix on a border is listed under the prefecture most of its codes belong to. @example getPostalPrefixesForPrefecture("47") → ["900", "901", …, "907"]; getPostalPrefixesForPrefecture("沖縄県") → the same
 
 ```js
 getPostalPrefixesForPrefecture("47")
@@ -961,7 +978,7 @@ function
 getPrefectureFromJapanesePostalCode(postalCode: string): string | null
 ```
 
-The JIS code of the prefecture a postal code delivers to, or null for a malformed code or one no prefix in the table covers. Hyphens and full-width digits are accepted. @example getPrefectureFromJapanesePostalCode('100-0005') → '13'; getPrefectureFromJapanesePostalCode('498-0000') → '23'
+The JIS code of the prefecture a postal code delivers to, or null for a malformed code or one no prefix in the table covers. Hyphens and full-width digits are accepted. @example getPrefectureFromJapanesePostalCode("100-0005") → "13"; getPrefectureFromJapanesePostalCode("498-0000") → "23"
 
 ```js
 getPrefectureFromJapanesePostalCode("530-0001")
@@ -1182,6 +1199,16 @@ interface JapaneseValidation {
 }
 ```
 
+### JP_DESIGNATED_CITIES
+
+const
+
+```ts
+JP_DESIGNATED_CITIES: readonly JapaneseMunicipality[]
+```
+
+The twenty designated cities (政令指定都市) as municipalities of their own. Geolonia lists only their wards, but addresses often name the city alone (大阪市, Sapporo), and the city has a JIS code of its own: its wards' codes with the last digit 0 (札幌市 01100, its wards 01101 to 01110; 川崎市 14130).
+
 ### JP_MUNICIPALITIES
 
 const
@@ -1224,7 +1251,7 @@ function
 kanjiNumeralsToDigits(text: string): string
 ```
 
-Kanji numerals before a block or floor marker become digits: 一丁目二番三号 → 1丁目2番3号.
+Kanji numerals that stand for block, floor or room numbers become digits: 一丁目二番三号 → 1丁目2番3号. A numeral that is part of a name stays: 北一条西, 三番町, 麻布十番, 一ノ瀬.
 
 ```js
 kanjiNumeralsToDigits("二丁目十五番")
@@ -1239,7 +1266,7 @@ function
 looksJapanese(text: string): boolean
 ```
 
-Whether the text is a Japanese address, in either script. Romaji counts when a prefecture is named with the country, a Japanese postal code or a hyphenated designator beside it.
+Whether the text is a Japanese address, in either script. Romaji counts when it ends with Japan, or names a prefecture beside a Japanese postal code (NNN-NNNN) or a hyphenated designator (-ku, -shi). US and Canadian addresses that only mention a Japanese name (100 Tokyo Ave) do not count.
 
 ```js
 looksJapanese("1-2-3 Marunouchi, Chiyoda-ku, Tokyo")
@@ -1254,7 +1281,7 @@ function
 municipalitiesOf(prefectureCode: string): readonly JapaneseMunicipality[]
 ```
 
-All municipalities of a prefecture, by JIS code.
+All municipalities of a prefecture, by JIS code, the designated cities included.
 
 ```js
 municipalitiesOf("47").length
@@ -1279,7 +1306,7 @@ function
 normalizeJapaneseAddressText(text: string): string
 ```
 
-The whole text made uniform: widths folded, the postal mark and spaces tidied, numerals as digits, and 1の2の3 or １－２－３ written 1-2-3. @example normalizeJapaneseAddressText('〒１００-０００５　東京都千代田区丸の内一丁目二番三号') → '100-0005 東京都千代田区丸の内1丁目2番3号'
+The whole text made uniform: widths folded, spaces tidied, numerals as digits, and 1の2の3 or １－２－３ written 1-2-3. The postal mark 〒 is kept, since it tells the parser where the code is. @example normalizeJapaneseAddressText("〒１００-０００５ 東京都千代田区丸の内一丁目二番三号") → "〒100-0005 東京都千代田区丸の内1丁目2番3号"
 
 ```js
 normalizeJapaneseAddressText("東京都千代田区丸の内１－２－３")
@@ -1575,7 +1602,7 @@ function
 parseJapaneseAddress(text: string, options?: ParseOptions): ParsedAddress | null
 ```
 
-A Japanese address in either script, or null when nothing in it names a place in Japan. @example parseJapaneseAddress('東京都千代田区丸の内1-2-3') → { prefecture: '東京都', municipality: '千代田区', town: '丸の内', chome: '1', ban: '2', go: '3', … }
+A Japanese address in either script, or null when nothing in it names a place in Japan. @example parseJapaneseAddress("東京都千代田区丸の内1-2-3") → { prefecture: "東京都", municipality: "千代田区", town: "丸の内", chome: "1", ban: "2", go: "3", … }
 
 ```js
 parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室")
@@ -1696,7 +1723,7 @@ parseSecondaryUnit("123 Main St Apt 4")
 function
 
 ```ts
-parseStateProvince(text: string, country?: "US" | "CA"): { state: string | undefined; remaining: string; detectedCountry?: "US" | "CA"; }
+parseStateProvince(text: string): { state: string | undefined; remaining: string; detectedCountry?: "US" | "CA"; }
 ```
 
 Extract state or province
@@ -2000,9 +2027,9 @@ type
 interface TestCaseBase {
   name?: string; // Human-readable name or description of what this test case validates
   description?: string; // Human-readable description of what this test case validates (alternative to name)
-  input: any; // The input data for the test
-  expected: any; // The expected output/result of the test
-  options?: Record<string, any>; // Optional configuration or parsing options for the test
+  input: unknown; // The input data for the test
+  expected: unknown; // The expected output/result of the test
+  options?: Record<string, unknown>; // Optional configuration or parsing options for the test
 }
 ```
 
@@ -2115,7 +2142,7 @@ Validates an address string and returns detailed validation results
 
 ```js
 validateAddress("〒530-0001 東京都千代田区丸の内1-2-3").warnings
-// [{"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"Postal code 530-0001 belongs to 大阪府, not 東京都","severity":"warning"}]
+// [{"code":"POSTAL_REGION_MISMATCH","field":"zip","message":"Postal code 530-0001 belongs to 大阪府, not 東京都","severity":"warning"}]
 ```
 
 ### validateJapaneseAddress
@@ -2126,11 +2153,11 @@ function
 validateJapaneseAddress(address: ParsedAddress, options?: ValidationOptions): JapaneseValidation
 ```
 
-Errors and warnings for a parsed Japanese address. A finding that is a warning becomes an error with strictPostalValidation, as the US and Canadian checks do.
+Errors and warnings for a parsed Japanese address. @example validateJapaneseAddress(parseJapaneseAddress("〒530-0001 東京都千代田区丸の内1-2-3")) → one POSTAL_REGION_MISMATCH warning
 
 ```js
 validateJapaneseAddress(parseLocation("〒530-0001 東京都千代田区丸の内1-2-3"), { strictPostalValidation: true })
-// {"errors":[{"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"Postal code 530-0001 belongs to 大阪府, not 東京都","severity":"error"}],"warnings":[]}
+// {"errors":[{"code":"POSTAL_REGION_MISMATCH","field":"zip","message":"Postal code 530-0001 belongs to 大阪府, not 東京都","severity":"error"}],"warnings":[]}
 ```
 
 ### validatePostalCode
@@ -2233,6 +2260,21 @@ ZIP code validation patterns
 
 ## @johnmorrisdotca/address-plus/jp
 
+### findMunicipalitiesByName
+
+function
+
+```ts
+findMunicipalitiesByName(name: string, prefectureCode?: string): JapaneseMunicipality[]
+```
+
+The municipalities a Japanese name could mean, narrowed to one prefecture when it is known. @example findMunicipalitiesByName("府中市") → [Tokyo's 府中市, Hiroshima's 府中市]; findMunicipalitiesByName("当別町") → [石狩郡当別町]
+
+```js
+findMunicipalitiesByName("府中市").map((one) => one.code + " " + one.romaji)
+// ["13206 Fuchu-shi","34208 Fuchu-shi"]
+```
+
 ### findMunicipalitiesByRomaji
 
 function
@@ -2241,7 +2283,7 @@ function
 findMunicipalitiesByRomaji(text: string, prefectureCode?: string): JapaneseMunicipality[]
 ```
 
-The municipalities a romaji name could mean, narrowed to one prefecture when it is known. @example findMunicipalitiesByRomaji('Chiyoda-ku', '13') → [千代田区]; findMunicipalitiesByRomaji('Chuo-ku, Sapporo') → [札幌市中央区]
+The municipalities a romaji name could mean, narrowed to one prefecture when it is known. When the full name finds nothing, a town written without its district (Tobetsu-cho) is looked up without it, and then a ward written without its city (Kita-ku), which can mean several. @example findMunicipalitiesByRomaji("Chiyoda-ku", "13") → [千代田区]; findMunicipalitiesByRomaji("Chuo-ku, Sapporo") → [札幌市中央区]
 
 ```js
 findMunicipalitiesByRomaji("Chiyoda", "13").map((one) => one.name)
@@ -2256,6 +2298,8 @@ function
 findMunicipalityByCode(code: string): JapaneseMunicipality | null
 ```
 
+The municipality with a JIS code, a designated city's included.
+
 ```js
 findMunicipalityByCode("13101")
 // {"code":"13101","prefecture":"13","name":"千代田区","kana":"チヨダク","romaji":"Chiyoda-ku"}
@@ -2269,7 +2313,7 @@ function
 findPrefecture(text: string): JapanesePrefecture | null
 ```
 
-The prefecture a name, reading, romaji or JIS code refers to, or null. @example findPrefecture('東京都') → Tokyo; findPrefecture('Osaka Prefecture') → Osaka; findPrefecture('13') → Tokyo
+The prefecture a name, reading, romaji or JIS code refers to, or null. @example findPrefecture("東京都") → Tokyo; findPrefecture("Osaka Prefecture") → Osaka; findPrefecture("13") → Tokyo
 
 ```js
 findPrefecture("Osaka")
@@ -2284,7 +2328,7 @@ function
 formatJapanese(address: ParsedAddress, options?: JapaneseFormattingOptions): string
 ```
 
-〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室
+〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室 The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
 
 ```js
 formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })
@@ -2299,7 +2343,7 @@ function
 formatJapaneseEnglish(address: ParsedAddress, options?: JapaneseEnglishFormattingOptions): string
 ```
 
-Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The town is written as it was parsed: romaji when the address came in romaji, kanji otherwise.
+Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The prefecture and municipality are always romaji, from the tables (a municipality the tables do not know keeps the name it was written with). The town and building are written as they were parsed: romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold no romaji for towns, and a reading guessed from kanji would often be wrong.
 
 ```js
 formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"))
@@ -2311,10 +2355,10 @@ formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-000
 function
 
 ```ts
-getPostalPrefixesForPrefecture(prefectureCode: string): string[]
+getPostalPrefixesForPrefecture(prefecture: string): string[]
 ```
 
-The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above. A prefix on a border is listed under the prefecture most of its codes belong to. @example getPostalPrefixesForPrefecture('47') → ['900', '901', …, '907']
+The three-digit postal prefixes a prefecture's codes begin with, the reverse of the lookup above. The prefecture may be given by JIS code, name or romaji, as findPrefecture reads it. A prefix on a border is listed under the prefecture most of its codes belong to. @example getPostalPrefixesForPrefecture("47") → ["900", "901", …, "907"]; getPostalPrefixesForPrefecture("沖縄県") → the same
 
 ```js
 getPostalPrefixesForPrefecture("47")
@@ -2329,7 +2373,7 @@ function
 getPrefectureFromJapanesePostalCode(postalCode: string): string | null
 ```
 
-The JIS code of the prefecture a postal code delivers to, or null for a malformed code or one no prefix in the table covers. Hyphens and full-width digits are accepted. @example getPrefectureFromJapanesePostalCode('100-0005') → '13'; getPrefectureFromJapanesePostalCode('498-0000') → '23'
+The JIS code of the prefecture a postal code delivers to, or null for a malformed code or one no prefix in the table covers. Hyphens and full-width digits are accepted. @example getPrefectureFromJapanesePostalCode("100-0005") → "13"; getPrefectureFromJapanesePostalCode("498-0000") → "23"
 
 ```js
 getPrefectureFromJapanesePostalCode("530-0001")
@@ -2425,6 +2469,16 @@ interface JapaneseValidation {
 }
 ```
 
+### JP_DESIGNATED_CITIES
+
+const
+
+```ts
+JP_DESIGNATED_CITIES: readonly JapaneseMunicipality[]
+```
+
+The twenty designated cities (政令指定都市) as municipalities of their own. Geolonia lists only their wards, but addresses often name the city alone (大阪市, Sapporo), and the city has a JIS code of its own: its wards' codes with the last digit 0 (札幌市 01100, its wards 01101 to 01110; 川崎市 14130).
+
 ### JP_MUNICIPALITIES
 
 const
@@ -2467,7 +2521,7 @@ function
 kanjiNumeralsToDigits(text: string): string
 ```
 
-Kanji numerals before a block or floor marker become digits: 一丁目二番三号 → 1丁目2番3号.
+Kanji numerals that stand for block, floor or room numbers become digits: 一丁目二番三号 → 1丁目2番3号. A numeral that is part of a name stays: 北一条西, 三番町, 麻布十番, 一ノ瀬.
 
 ```js
 kanjiNumeralsToDigits("二丁目十五番")
@@ -2482,7 +2536,7 @@ function
 looksJapanese(text: string): boolean
 ```
 
-Whether the text is a Japanese address, in either script. Romaji counts when a prefecture is named with the country, a Japanese postal code or a hyphenated designator beside it.
+Whether the text is a Japanese address, in either script. Romaji counts when it ends with Japan, or names a prefecture beside a Japanese postal code (NNN-NNNN) or a hyphenated designator (-ku, -shi). US and Canadian addresses that only mention a Japanese name (100 Tokyo Ave) do not count.
 
 ```js
 looksJapanese("1-2-3 Marunouchi, Chiyoda-ku, Tokyo")
@@ -2497,7 +2551,7 @@ function
 municipalitiesOf(prefectureCode: string): readonly JapaneseMunicipality[]
 ```
 
-All municipalities of a prefecture, by JIS code.
+All municipalities of a prefecture, by JIS code, the designated cities included.
 
 ```js
 municipalitiesOf("47").length
@@ -2512,7 +2566,7 @@ function
 normalizeJapaneseAddressText(text: string): string
 ```
 
-The whole text made uniform: widths folded, the postal mark and spaces tidied, numerals as digits, and 1の2の3 or １－２－３ written 1-2-3. @example normalizeJapaneseAddressText('〒１００-０００５　東京都千代田区丸の内一丁目二番三号') → '100-0005 東京都千代田区丸の内1丁目2番3号'
+The whole text made uniform: widths folded, spaces tidied, numerals as digits, and 1の2の3 or １－２－３ written 1-2-3. The postal mark 〒 is kept, since it tells the parser where the code is. @example normalizeJapaneseAddressText("〒１００-０００５ 東京都千代田区丸の内一丁目二番三号") → "〒100-0005 東京都千代田区丸の内1丁目2番3号"
 
 ```js
 normalizeJapaneseAddressText("東京都千代田区丸の内１－２－３")
@@ -2562,7 +2616,7 @@ function
 parseJapaneseAddress(text: string, options?: ParseOptions): ParsedAddress | null
 ```
 
-A Japanese address in either script, or null when nothing in it names a place in Japan. @example parseJapaneseAddress('東京都千代田区丸の内1-2-3') → { prefecture: '東京都', municipality: '千代田区', town: '丸の内', chome: '1', ban: '2', go: '3', … }
+A Japanese address in either script, or null when nothing in it names a place in Japan. @example parseJapaneseAddress("東京都千代田区丸の内1-2-3") → { prefecture: "東京都", municipality: "千代田区", town: "丸の内", chome: "1", ban: "2", go: "3", … }
 
 ```js
 parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室")
@@ -2596,11 +2650,11 @@ function
 validateJapaneseAddress(address: ParsedAddress, options?: ValidationOptions): JapaneseValidation
 ```
 
-Errors and warnings for a parsed Japanese address. A finding that is a warning becomes an error with strictPostalValidation, as the US and Canadian checks do.
+Errors and warnings for a parsed Japanese address. @example validateJapaneseAddress(parseJapaneseAddress("〒530-0001 東京都千代田区丸の内1-2-3")) → one POSTAL_REGION_MISMATCH warning
 
 ```js
 validateJapaneseAddress(parseLocation("〒530-0001 東京都千代田区丸の内1-2-3"), { strictPostalValidation: true })
-// {"errors":[{"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"Postal code 530-0001 belongs to 大阪府, not 東京都","severity":"error"}],"warnings":[]}
+// {"errors":[{"code":"POSTAL_REGION_MISMATCH","field":"zip","message":"Postal code 530-0001 belongs to 大阪府, not 東京都","severity":"error"}],"warnings":[]}
 ```
 
 ### ValidationError

@@ -244,6 +244,8 @@ parseIntersection("Highway 101 & Interstate 280");
 
 ## API Reference
 
+Every export of both entry points (`@johnmorrisdotca/address-plus` and `@johnmorrisdotca/address-plus/jp`), with its signature and a worked example, is in the [full API reference](docs/api.md), also on the [demo site](https://johnmorrisdotca.github.io/address-plus/api.html). The two main functions are described here.
+
 ### `parseLocation(address: string): ParsedAddress | null`
 
 Parses a single address string into structured components.
@@ -687,7 +689,7 @@ Batch processing provides several advantages over individual parsing:
 - Firefox 60+
 - Safari 12+
 - Edge 79+
-- Node.js 14+
+- Node.js 24 or newer
 
 ## License
 

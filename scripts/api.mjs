@@ -34,6 +34,7 @@ export const EXAMPLES = {
   cleanAddressDetailed: `cleanAddressDetailed("742 evergreen terrace,springfield ,  il 62704")`,
   compareAddresses: `compareAddresses(parseLocation("123 Main Street, Anytown, NY 12345"), parseLocation("123 Main St, Anytown, New York 12345")).matchType`,
   detectCountry: `detectCountry({ zip: "M5H 2N2" })`,
+  findMunicipalitiesByName: `findMunicipalitiesByName("府中市").map((one) => one.code + " " + one.romaji)`,
   findMunicipalitiesByRomaji: `findMunicipalitiesByRomaji("Chiyoda", "13").map((one) => one.name)`,
   findMunicipalityByCode: `findMunicipalityByCode("13101")`,
   findPrefecture: `findPrefecture("Osaka")`,

@@ -95,7 +95,8 @@ test("format: the parsed country picks USPS, Canada Post or the Japanese forms, 
   await expect(answer(page, "format")).toContainText("100 QUEEN ST W");
   await expect(call(page, "format")).toContainText("formatCanadaPost(");
   await tap(page, chip(page, "format", "Japan in romaji"), testInfo);
-  await expect(answer(page, "format")).toContainText("Umeda, Osaka-shi Kita-ku, Osaka 530-0001, Japan");
+  await expect(answer(page, "format")).toContainText("3-1-1 Umeda, Kita-ku, Osaka-shi, Osaka 530-0001, Japan");
+  await expect(answer(page, "format")).toContainText("大阪府大阪市北区 Umeda 3-1-1");
   expect(errors).toEqual([]);
 });
 
