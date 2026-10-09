@@ -11,6 +11,9 @@ export default tseslint.config(
       "scripts/*.js",
       "scripts/scripts/",
       "scripts/src/",
+      "site/",
+      "test-results/",
+      "playwright-report/",
     ],
   },
   js.configs.recommended,
@@ -37,6 +40,21 @@ export default tseslint.config(
     files: ["scripts/validate-schemas.js", "scripts/**/*.ts", "scripts/**/*.mjs"],
     languageOptions: {
       globals: { console: "readonly", process: "readonly", fetch: "readonly", Buffer: "readonly", URL: "readonly" },
+    },
+  },
+  // The demo page runs in a browser, its build scripts and browser tests in Node with code that runs in the page.
+  {
+    files: ["demo/**/*.js", "e2e/**/*.mjs", "scripts/*.mjs", "playwright.config.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        document: "readonly",
+        familyLanguage: "readonly",
+        getComputedStyle: "readonly",
+        Node: "readonly",
+        URL: "readonly",
+        window: "readonly",
+      },
     },
   },
 );

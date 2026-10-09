@@ -13,3 +13,8 @@ tsconfig.tsbuildinfo
 .vscode/
 .idea/
 .DS_Store
+
+# The demo site and its browser tests (pnpm site, pnpm test:demo)
+site/
+test-results/
+playwright-report/

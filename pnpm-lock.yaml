@@ -18,6 +18,9 @@ importers:
       '@johnmorrisdotca/hikidashi':
         specifier: ^1.0.2
         version: 1.0.2
+      '@playwright/test':
+        specifier: ^1.64.0
+        version: 1.64.0
       '@types/fast-levenshtein':
         specifier: ^0.0.4
         version: 0.0.4
@@ -346,6 +349,11 @@ packages:
 
   '@oxc-project/types@0.153.0':
     resolution: {integrity: sha512-jSNrRIyvPVLL5E1z/tS5zLAprosGz/FuI1PWwEOz59j3E4TTTzSpqKb/RDGqJhhW0QHYISGXxq582wGx6T11Tw==}
+
+  '@playwright/test@1.64.0':
+    resolution: {integrity: sha512-oTN9FNYuN6bqQMwiho6jJKLCG2/QOYCixGXuCjRmzOq23eODeukuY2XiAVoVpAECbuezMt1MHQjAiQxK8F+Y+g==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   '@rolldown/binding-android-arm-eabi@1.2.13':
     resolution: {integrity: sha512-Vu/NICrgdRvUOeaJZIyB2FP63s6fO/4ud5l8dXmxDx9yDyn+mN0y+gsvsVviSli+T361Aqo0h46EuMoobrwawA==}
@@ -1402,6 +1410,16 @@ packages:
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
 
+  playwright-core@1.64.0:
+    resolution: {integrity: sha512-T9r+MZkTECl2+oUcZ26YgZzTrYidTsIhYYkJix+6iDOymOb1FB2RLLSOxRGnZGv5DStt+aduIVbt+E8WygXYpg==}
+    engines: {node: '>=20'}
+    hasBin: true
+
+  playwright@1.64.0:
+    resolution: {integrity: sha512-kVzTnYFYEyQ9RGzBjNCd2+yEqWmVbxl3AHPynv3qQ6JTjv4a+kwRcnqQwIpuP3NnrnIrE/Q6wWAIAvMfIE2/Yg==}
+    engines: {node: '>=20'}
+    hasBin: true
+
   plur@4.0.0:
     resolution: {integrity: sha512-4UGewrYgqDFw9vV6zNV+ADmPAUAfJPKtGvb/VdpQAx25X5f3xXdGdyOEVFwkl8Hl/tl7+xbeHqSEM+D5/TirUg==}
     engines: {node: '>=10'}
@@ -2018,6 +2036,10 @@ snapshots:
       fastq: 1.20.3
 
   '@oxc-project/types@0.153.0': {}
+
+  '@playwright/test@1.64.0':
+    dependencies:
+      playwright: 1.64.0
 
   '@rolldown/binding-android-arm-eabi@1.2.13':
     optional: true
@@ -2967,6 +2989,12 @@ snapshots:
       confbox: 0.1.8
       mlly: 1.8.2
       pathe: 2.0.3
+
+  playwright-core@1.64.0: {}
+
+  playwright@1.64.0:
+    dependencies:
+      playwright-core: 1.64.0
 
   plur@4.0.0:
     dependencies:

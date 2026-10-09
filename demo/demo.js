@@ -1,0 +1,592 @@
+// The demo page's own script: one panel for each job the package does. Type in a panel and its answer is written
+// as you type, from the package's own functions (bundled into ./lib/index.js when the site is built), in the
+// language the header's chooser picks. Everything typed or returned is set as text, never as HTML.
+import {
+  cleanAddressDetailed,
+  compareAddresses,
+  findPrefecture,
+  formatCanadaPost,
+  formatJapanese,
+  formatJapaneseEnglish,
+  formatUSPS,
+  getPostalPrefixesForPrefecture,
+  getPostalPrefixesForProvince,
+  getPrefectureFromJapanesePostalCode,
+  getProvinceFromPostalCode,
+  getStateFromZip,
+  getZipPrefixesForState,
+  isSameAddress,
+  normalizeJapaneseAddressText,
+  normalizeRegion,
+  parseLocation,
+  PROVINCE_EXPANSIONS_EN,
+  US_STATE_EXPANSIONS,
+  validateAddress,
+} from "./lib/index.js";
+import { WORDS } from "./words.js";
+
+// The order the fields of a parsed address are listed in. A Japanese address lists its own fields; the shared
+// ones (state, city, street, number, zip) hold the same values again and are left to the JSON.
+const FIELDS_WEST = [
+  "place",
+  "number",
+  "fraction",
+  "prefix",
+  "street",
+  "type",
+  "suffix",
+  "street1",
+  "prefix1",
+  "type1",
+  "suffix1",
+  "street2",
+  "prefix2",
+  "type2",
+  "suffix2",
+  "secUnitType",
+  "secUnitNum",
+  "rr",
+  "site",
+  "station",
+  "rpo",
+  "locality",
+  "city",
+  "state",
+  "zip",
+  "plus4",
+  "country",
+];
+const FIELDS_JAPAN = [
+  "postalCode",
+  "prefecture",
+  "prefectureCode",
+  "prefectureRomaji",
+  "municipality",
+  "municipalityCode",
+  "municipalityRomaji",
+  "town",
+  "chome",
+  "ban",
+  "go",
+  "block",
+  "building",
+  "floor",
+  "room",
+  "country",
+];
+
+// The shapes the postal panel reads, after full-width characters are made half-width.
+const US_ZIP = /^\d{5}(-\d{4})?$/;
+const CANADIAN_POSTAL = /^[A-Za-z]\d[A-Za-z]( ?\d[A-Za-z]\d)?$/;
+const JAPANESE_POSTAL = /^〒?\s*\d{3}-?\d{4}$/;
+
+const language = familyLanguage({ id: "address-plus", words: WORDS, onChange: () => render() });
+/** A line of the page in its language, with each `{name}` filled in from `values`. */
+const say = (key, values) => {
+  const word = WORDS[language.lang][key];
+  return typeof word === "string" && values !== undefined
+    ? word.replace(/\{(\w+)\}/g, (whole, name) => String(values[name] ?? ""))
+    : word;
+};
+const ja = () => language.lang === "ja";
+const $ = (id) => document.getElementById(id);
+const quote = (text) => JSON.stringify(text);
+const percent = (fraction) => `${Math.round(fraction * 100)}%`;
+const yes = (truth) => (truth ? say("yes") : say("no"));
+const titleCase = (name) => name.replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
+
+/** A field table: [[label, value, key?], …] written as text. `key` is the field's name in the result, shown under the label. */
+function facts(target, pairs) {
+  const list = document.createElement("dl");
+  list.className = "facts";
+  for (const [label, value, key] of pairs) {
+    const term = document.createElement("dt");
+    term.textContent = label;
+    if (key !== undefined) {
+      const name = document.createElement("code");
+      name.textContent = key;
+      term.append(name);
+    }
+    const detail = document.createElement("dd");
+    if (value instanceof Node) detail.append(value);
+    else detail.textContent = value;
+    list.append(term, detail);
+  }
+  target.replaceChildren(list);
+}
+
+/** One line of words in the answer's box. `muted` marks it as a no. */
+function note(target, text, muted = true) {
+  const line = document.createElement("p");
+  line.className = muted ? "note fam-muted" : "note";
+  line.textContent = text;
+  target.replaceChildren(line);
+}
+
+/** A line of fine print under what is already in the box. */
+function fine(target, text) {
+  const line = document.createElement("p");
+  line.className = "fam-fine";
+  line.textContent = text;
+  target.append(line);
+}
+
+/** A badge saying yes or no. */
+function badge(truth) {
+  const mark = document.createElement("span");
+  mark.className = "fam-badge";
+  mark.dataset.tone = truth ? "good" : "bad";
+  mark.textContent = yes(truth);
+  return mark;
+}
+
+/** Lines of an address as the post office would print them. */
+function lines(text) {
+  const block = document.createElement("pre");
+  block.className = "lines";
+  block.textContent = text;
+  return block;
+}
+
+/** A list of validation findings: each code, its meaning in Japanese when the page is in Japanese, and the library's message. */
+function findings(list) {
+  if (list.length === 0) return say("none");
+  const items = document.createElement("ul");
+  items.className = "findings";
+  for (const finding of list) {
+    const item = document.createElement("li");
+    const code = document.createElement("code");
+    code.textContent = finding.code;
+    item.append(code);
+    const meaning = ja() ? say("codes")[finding.code] : undefined;
+    if (meaning !== undefined) {
+      const said = document.createElement("span");
+      said.textContent = meaning;
+      item.append(said);
+    }
+    const message = document.createElement("span");
+    message.className = meaning !== undefined ? "fam-muted" : "";
+    message.textContent = finding.message;
+    item.append(message);
+    items.append(item);
+  }
+  return items;
+}
+
+/** The whole result, pretty-printed, in the fold under the panel. */
+function json(name, value) {
+  $(`${name}-json`).textContent = JSON.stringify(value, null, 2) ?? "undefined";
+}
+
+const show = (id, text) => {
+  $(id).textContent = text;
+};
+const countryName = (code) => (code ? `${code} · ${say("country")[code] ?? code}` : "");
+
+// ----- parse ------------------------------------------------------------------------------------------------
+
+/** The fields of a parsed address as rows of the field table. */
+function fieldRows(address) {
+  const order = address.country === "JP" ? FIELDS_JAPAN : FIELDS_WEST;
+  const labels = say("fields");
+  return order
+    .filter((key) => address[key] !== undefined && address[key] !== "")
+    .map((key) => [labels[key] ?? key, key === "country" ? countryName(address[key]) : String(address[key]), key]);
+}
+
+function parse() {
+  const text = $("parse-input").value;
+  const out = $("parse-answer");
+  const address = parseLocation(text);
+  if (address === null) note(out, say("parse_none"));
+  else {
+    facts(out, fieldRows(address));
+    if (address.country === "JP") fine(out, say("parse_shared"));
+  }
+  json("parse", address);
+  const lead =
+    address?.country === "JP" ? (address.block ?? address.prefecture) : (address?.street ?? address?.street1);
+  show(
+    "parse-call",
+    `parseLocation(${quote(text)})  // ${address === null ? "null" : `{ country: ${quote(address.country)}${lead ? `, … ${quote(lead)}` : ""} }`}`,
+  );
+}
+
+// ----- validate ---------------------------------------------------------------------------------------------
+
+function validate() {
+  const text = $("validate-input").value;
+  const strict = $("validate-strict").getAttribute("aria-pressed") === "true";
+  const out = $("validate-answer");
+  const result = validateAddress(text, strict ? { strictPostalValidation: true } : {});
+  const pairs = [
+    [say("validate_valid"), badge(result.isValid), "isValid"],
+    [say("validate_confidence"), percent(result.confidence), "confidence"],
+    [say("validate_completeness"), percent(result.completeness), "completeness"],
+  ];
+  if (result.parsedAddress?.country) pairs.push([say("validate_country"), countryName(result.parsedAddress.country)]);
+  pairs.push(
+    [say("validate_errors"), findings(result.errors), "errors"],
+    [say("validate_warnings"), findings(result.warnings), "warnings"],
+  );
+  if (result.suggestions.length > 0)
+    pairs.push([say("validate_suggestions"), result.suggestions.join(" "), "suggestions"]);
+  facts(out, pairs);
+  json("validate", result);
+  const first = result.errors[0] ?? result.warnings[0];
+  show(
+    "validate-call",
+    `validateAddress(${quote(text)}${strict ? ", { strictPostalValidation: true }" : ""})  // { isValid: ${result.isValid}${first ? `, ${result.errors.length > 0 ? "errors" : "warnings"}: [${quote(first.code)}${result.errors.length + result.warnings.length > 1 ? ", …" : ""}]` : ""} }`,
+  );
+}
+
+// ----- format -----------------------------------------------------------------------------------------------
+
+function format() {
+  const text = $("format-input").value;
+  const blockStyle = $("format-style").querySelector('[aria-pressed="true"]')?.dataset.style ?? "hyphen";
+  const out = $("format-answer");
+  const address = parseLocation(text);
+  if (address === null) {
+    note(out, say("format_none"));
+    json("format", null);
+    show("format-call", `parseLocation(${quote(text)})  // null`);
+    return;
+  }
+  if (address.country === "JP") {
+    const japanese = formatJapanese(address, { blockStyle });
+    const english = formatJapaneseEnglish(address);
+    facts(out, [
+      [say("format_japanese"), lines(japanese), "formatJapanese"],
+      [say("format_english"), lines(english), "formatJapaneseEnglish"],
+    ]);
+    json("format", { formatJapanese: japanese, formatJapaneseEnglish: english });
+    show(
+      "format-call",
+      `const address = parseLocation(${quote(text)});\nformatJapanese(address${blockStyle === "markers" ? `, { blockStyle: "markers" }` : ""})  // ${quote(japanese)}\nformatJapaneseEnglish(address)  // ${quote(english)}`,
+    );
+    return;
+  }
+  const canadian = address.country === "CA";
+  const formatted = canadian ? formatCanadaPost(address) : formatUSPS(address);
+  const called = canadian ? "formatCanadaPost" : "formatUSPS";
+  facts(out, [
+    [say(canadian ? "format_canada" : "format_usps"), lines(formatted.lines.join("\n")), "lines"],
+    [say("format_single"), formatted.singleLine, "singleLine"],
+  ]);
+  if (address.country === undefined) fine(out, say("format_guess"));
+  json("format", formatted);
+  show("format-call", `${called}(parseLocation(${quote(text)})).lines  // ${JSON.stringify(formatted.lines)}`);
+}
+
+// ----- compare ----------------------------------------------------------------------------------------------
+
+function compare() {
+  const first = $("compare-first").value;
+  const second = $("compare-second").value;
+  const out = $("compare-answer");
+  const one = parseLocation(first);
+  const two = parseLocation(second);
+  const called = `compareAddresses(parseLocation(${quote(first)}), parseLocation(${quote(second)}))`;
+  if (one === null || two === null) {
+    note(out, say("compare_none"));
+    json("compare", null);
+    show("compare-call", `parseLocation(${quote(one === null ? first : second)})  // null`);
+    return;
+  }
+  const result = compareAddresses(one, two);
+  const same = isSameAddress(one, two);
+  const { details, differences } = result.similarity;
+  const pairs = [
+    [say("compare_same"), badge(same), "isSame"],
+    [say("compare_match"), say("matches")[result.matchType] ?? result.matchType, "matchType"],
+    [say("compare_score"), percent(result.similarity.score), "score"],
+    [say("compare_street"), percent(details.streetScore), "streetScore"],
+    [say("compare_city"), percent(details.cityScore), "cityScore"],
+    [say("compare_state"), percent(details.stateScore), "stateScore"],
+    [say("compare_postal"), percent(details.postalScore), "postalScore"],
+  ];
+  if (differences.length > 0) {
+    const items = document.createElement("ul");
+    items.className = "findings";
+    for (const difference of differences) {
+      const item = document.createElement("li");
+      const field = document.createElement("code");
+      field.textContent = difference.field;
+      const said = document.createElement("span");
+      said.textContent = `${quote(difference.value1 ?? "")} · ${quote(difference.value2 ?? "")}`;
+      const kind = document.createElement("span");
+      kind.className = "fam-muted";
+      kind.textContent = say("differences")[difference.type] ?? difference.type;
+      item.append(field, said, kind);
+      items.append(item);
+    }
+    pairs.push([say("compare_differences"), items, "differences"]);
+  }
+  facts(out, pairs);
+  json("compare", { isSame: result.isSame, matchType: result.matchType, similarity: result.similarity });
+  show(
+    "compare-call",
+    `${called}\n  // { isSame: ${result.isSame}, matchType: ${quote(result.matchType)} }\nisSameAddress(one, two)  // ${same}`,
+  );
+}
+
+// ----- postal -----------------------------------------------------------------------------------------------
+
+/** A list of postal prefixes as one line of text, with how many there are. */
+function prefixes(list) {
+  const wrap = document.createElement("span");
+  wrap.className = "prefixes";
+  const count = document.createElement("span");
+  count.className = "fam-muted";
+  count.textContent = say("postal_count", { count: list.length });
+  const codes = document.createElement("span");
+  codes.className = "fam-notation";
+  codes.textContent = list.join(", ");
+  wrap.append(count, codes);
+  return wrap;
+}
+
+const stateName = (code) => titleCase(US_STATE_EXPANSIONS[code.toLowerCase()] ?? code);
+const provinceName = (code) => titleCase(PROVINCE_EXPANSIONS_EN[code.toLowerCase()] ?? code);
+const prefectureName = (prefecture) => `${prefecture.code} · ${prefecture.name} (${prefecture.romaji})`;
+
+function postal() {
+  const typed = $("postal-input").value.trim();
+  // Full-width digits, letters and hyphens are read as their half-width forms, as the parser reads them.
+  const text = normalizeJapaneseAddressText(typed);
+  const out = $("postal-answer");
+  const kinds = say("postal_kinds");
+  let called = "";
+  let answer = null;
+  if (US_ZIP.test(text)) {
+    const state = getStateFromZip(text);
+    called = `getStateFromZip(${quote(text)})  // ${quote(state)}`;
+    answer = state;
+    facts(out, [
+      [say("postal_kind"), kinds.zip],
+      [say("postal_region"), state ? `${state} · ${stateName(state)}` : say("postal_unknown")],
+    ]);
+  } else if (CANADIAN_POSTAL.test(text)) {
+    const province = getProvinceFromPostalCode(text.toUpperCase());
+    called = `getProvinceFromPostalCode(${quote(text.toUpperCase())})  // ${quote(province)}`;
+    answer = province;
+    facts(out, [
+      [say("postal_kind"), kinds.ca],
+      [say("postal_region"), province ? `${province} · ${provinceName(province)}` : say("postal_unknown")],
+    ]);
+  } else if (JAPANESE_POSTAL.test(text)) {
+    const code = text.replace(/[〒\s]/g, "");
+    const prefecture = getPrefectureFromJapanesePostalCode(code);
+    called = `getPrefectureFromJapanesePostalCode(${quote(code)})  // ${quote(prefecture)}`;
+    answer = prefecture;
+    const found = prefecture ? findPrefecture(prefecture) : null;
+    facts(out, [
+      [say("postal_kind"), kinds.jp],
+      [say("postal_region"), found ? prefectureName(found) : say("postal_unknown")],
+    ]);
+  } else {
+    // A region by its code or name. A prefecture is tried first: the US and Canadian names are matched loosely,
+    // and would read Osaka as Alaska.
+    const prefecture = text === "" ? null : findPrefecture(text);
+    const region = prefecture === null && text !== "" ? normalizeRegion(text) : null;
+    if (prefecture !== null) {
+      const list = getPostalPrefixesForPrefecture(prefecture.code);
+      called = `getPostalPrefixesForPrefecture(${quote(prefecture.code)})  // [${list.slice(0, 3).map(quote).join(", ")}${list.length > 3 ? ", …" : ""}]`;
+      answer = list;
+      facts(out, [
+        [say("postal_kind"), kinds.prefecture],
+        [say("postal_region"), prefectureName(prefecture)],
+        [say("postal_prefixes"), prefixes(list)],
+      ]);
+    } else if (region !== null) {
+      const american = region.country === "US";
+      const list = american ? getZipPrefixesForState(region.abbr) : getPostalPrefixesForProvince(region.abbr);
+      called = `${american ? "getZipPrefixesForState" : "getPostalPrefixesForProvince"}(${quote(region.abbr)})  // [${list.slice(0, 3).map(quote).join(", ")}${list.length > 3 ? ", …" : ""}]`;
+      answer = list;
+      facts(out, [
+        [say("postal_kind"), american ? kinds.state : kinds.province],
+        [say("postal_region"), `${region.abbr} · ${american ? stateName(region.abbr) : provinceName(region.abbr)}`],
+        [say("postal_prefixes"), prefixes(list)],
+      ]);
+    } else {
+      note(out, say("postal_none"));
+      called = `findPrefecture(${quote(text)}) ?? normalizeRegion(${quote(text)})  // null`;
+    }
+  }
+  json("postal", answer);
+  show("postal-call", called);
+}
+
+// ----- clean ------------------------------------------------------------------------------------------------
+
+function clean() {
+  const text = $("clean-input").value;
+  const standardizeCase = $("clean-case").querySelector('[aria-pressed="true"]')?.dataset.case ?? "title";
+  const out = $("clean-answer");
+  const result = cleanAddressDetailed(text, { standardizeCase });
+  facts(out, [
+    [say("clean_cleaned"), result.cleanedAddress, "cleanedAddress"],
+    [say("clean_modified"), yes(result.wasModified), "wasModified"],
+    [say("clean_changes"), result.changes.length === 0 ? say("none") : result.changes.join(" · "), "changes"],
+  ]);
+  json("clean", result);
+  show(
+    "clean-call",
+    `cleanAddressDetailed(${quote(text)}, { standardizeCase: ${quote(standardizeCase)} }).cleanedAddress\n  // ${quote(result.cleanedAddress)}`,
+  );
+}
+
+// ----- the page ---------------------------------------------------------------------------------------------
+
+// Each panel: what draws its answer, its boxes, and its examples, each a label key and the value (or values) it
+// puts in the boxes. The postal examples are their own labels.
+const PANELS = {
+  parse: {
+    run: parse,
+    inputs: ["parse-input"],
+    examples: [
+      ["us", "1600 Pennsylvania Ave NW, Washington, DC 20500"],
+      ["landmark", "Empire State Building, 350 5th Avenue, New York NY 10118"],
+      ["pobox", "PO Box 1234, Springfield, IL 62701"],
+      ["corner", "Hollywood Blvd and Vine St, Los Angeles, CA"],
+      ["toronto", "100 Queen St W, Toronto, ON M5H 2N2"],
+      ["french", "1234 rue Sainte-Catherine O, Montréal, QC H3G 1P1"],
+      ["kanji", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室"],
+      ["romaji", "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"],
+      ["fullwidth", "〒５３０－０００１ 大阪府大阪市北区梅田３－１－１"],
+    ],
+  },
+  validate: {
+    run: validate,
+    inputs: ["validate-input"],
+    examples: [
+      ["zip", "123 Main St, Seattle, NY 98101"],
+      ["province", "100 Queen St W, Vancouver, BC M5H 2N2"],
+      ["prefecture", "〒530-0001 東京都千代田区丸の内1-2-3"],
+      ["complete", "1600 Pennsylvania Ave NW, Washington, DC 20500"],
+      ["japan", "〒100-0005 東京都千代田区丸の内1-2-3"],
+      ["short", "123 Main St"],
+    ],
+  },
+  format: {
+    run: format,
+    inputs: ["format-input"],
+    examples: [
+      ["japan", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室"],
+      ["romaji", "Umeda 3-1-1, Kita-ku, Osaka-shi, Osaka 530-0001"],
+      ["us", "123 Main Street Apt 4, Anytown, NY 12345"],
+      ["canada", "100 Queen Street West, Toronto, Ontario M5H 2N2"],
+      ["pobox", "PO Box 1234, Springfield, IL 62701"],
+    ],
+  },
+  compare: {
+    run: compare,
+    inputs: ["compare-first", "compare-second"],
+    examples: [
+      ["abbreviations", ["123 Main Street, Anytown, NY 12345", "123 Main St, Anytown, New York 12345"]],
+      ["typo", ["123 Main Street, Anytown, NY 12345", "125 Main Street, Anytown, NY 12345"]],
+      ["canada", ["100 Queen St W, Toronto, ON M5H 2N2", "100 Queen Street West, Toronto, Ontario M5H2N2"]],
+      ["fullwidth", ["東京都千代田区丸の内1丁目2番3号", "東京都千代田区丸の内１－２－３"]],
+      ["different", ["123 Main St, Springfield, IL 62701", "456 Oak Ave, Portland, OR 97201"]],
+    ],
+  },
+  postal: {
+    run: postal,
+    inputs: ["postal-input"],
+    examples: [
+      "98101",
+      "10118-0110",
+      "M5H 2N2",
+      "H3G",
+      "100-0005",
+      "５３０－０００１",
+      "WA",
+      "Quebec",
+      "大阪府",
+      "Hokkaido",
+    ].map((value) => [null, value]),
+  },
+  clean: {
+    run: clean,
+    inputs: ["clean-input"],
+    examples: [
+      ["capitals", "350 FIFTH AVENUE, NEW YORK, NY 10118"],
+      ["spaces", "742 evergreen terrace,springfield ,  il 62704"],
+      ["canada", "  10 wellington   street , ottawa , on k1a 0a6"],
+      ["japan", "〒１００－０００５　東京都千代田区丸の内１－２－３"],
+    ],
+  },
+};
+
+/** The example buttons, labelled in the page's language; each holds the full address as its hover text. */
+function fillExamples() {
+  for (const [name, panel] of Object.entries(PANELS)) {
+    const labels = say("chips")[name] ?? {};
+    $(`${name}-examples`).replaceChildren(
+      ...panel.examples.map(([key, example]) => {
+        const values = [].concat(example);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = key === null ? values[0] : (labels[key] ?? key);
+        button.title = values.join("\n");
+        button.dataset.value = values.join("|");
+        button.addEventListener("click", () => {
+          panel.inputs.forEach((id, index) => {
+            $(id).value = values[index];
+          });
+          panel.run();
+          press();
+        });
+        return button;
+      }),
+    );
+  }
+  press();
+}
+
+/** The example that is on show is the one pressed. */
+function press() {
+  for (const [name, panel] of Object.entries(PANELS)) {
+    const now = panel.inputs.map((id) => $(id).value).join("|");
+    $(`${name}-examples`)
+      .querySelectorAll("button")
+      .forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.value === now)));
+  }
+}
+
+/** A row of choices of which exactly one is pressed: pressing one redraws its panel. */
+function choices(id, run) {
+  const row = $(id);
+  row.querySelectorAll("button").forEach((button) =>
+    button.addEventListener("click", () => {
+      row.querySelectorAll("button").forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+      run();
+    }),
+  );
+}
+
+function render() {
+  language.say();
+  fillExamples();
+  for (const panel of Object.values(PANELS)) panel.run();
+}
+
+for (const panel of Object.values(PANELS)) {
+  for (const id of panel.inputs) {
+    $(id).addEventListener("input", () => {
+      panel.run();
+      press();
+    });
+  }
+}
+$("validate-strict").addEventListener("click", (event) => {
+  const button = event.currentTarget;
+  button.setAttribute("aria-pressed", String(button.getAttribute("aria-pressed") !== "true"));
+  validate();
+});
+choices("format-style", format);
+choices("clean-case", clean);
+
+render();
+document.querySelector("main").dataset.ready = "true";

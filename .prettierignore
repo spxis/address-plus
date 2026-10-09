@@ -5,3 +5,8 @@ test-management/
 pnpm-lock.yaml
 *.md
 *.data.ts
+
+# Shared byte for byte by every package of the family; never reformatted here
+scripts/family-template.mjs
+scripts/readme-pictures-lib.mjs
+demo/family.css
