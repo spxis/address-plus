@@ -821,7 +821,7 @@ function
 formatJapanese(address: ParsedAddress, options?: JapaneseFormattingOptions): string
 ```
 
-Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then 丸ビル5階501号室. The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
+Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then サンプルビル5階501号室. The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Sample Bldg 5階.
 
 ```js
 formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })
@@ -836,7 +836,7 @@ function
 formatJapaneseEnglish(address: ParsedAddress, options?: JapaneseEnglishFormattingOptions): string
 ```
 
-Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The prefecture and municipality are always romaji, from the tables (a municipality the tables do not know keeps the name it was written with). The town and building are written as they were parsed: romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold no romaji for towns, and a reading guessed from kanji would often be wrong.
+Sample Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The prefecture and municipality are always romaji, from the tables (a municipality the tables do not know keeps the name it was written with). The town and building are written as they were parsed: romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold no romaji for towns, and a reading guessed from kanji would often be wrong.
 
 ```js
 formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"))
@@ -1128,7 +1128,7 @@ interface JapaneseAddressFields {
   ban?: string; // 番 (番地): "2"
   go?: string; // 号: "3"
   block?: string; // The numbered block as one string: "1-2-3"
-  building?: string; // 丸ビル
+  building?: string; // サンプルビル
   floor?: string; // 階: "5"
   room?: string; // 号室: "501"
 }
@@ -1605,7 +1605,7 @@ parseJapaneseAddress(text: string, options?: ParseOptions): ParsedAddress | null
 A Japanese address in either script, or null when nothing in it names a place in Japan. @example parseJapaneseAddress("東京都千代田区丸の内1-2-3") → { prefecture: "東京都", municipality: "千代田区", town: "丸の内", chome: "1", ban: "2", go: "3", … }
 
 ```js
-parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室")
+parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室")
 // {"country":"JP","postalCode":"100-0005","zip":"100-0005","zipValid":true,"postalType":"postal","prefecture":"東京都","prefectureCode":"13","prefectureRomaji":"Tokyo","state":"13","municipality":"千代田区","city":"千代田区","municipalityCode":"13101","municipalityRomaji":"Chiyoda-ku","town":"丸の内","street":"丸の内","chome":"1","ban":"2","go":"3","block":"1-2-3","number":"1…
 ```
 
@@ -2328,7 +2328,7 @@ function
 formatJapanese(address: ParsedAddress, options?: JapaneseFormattingOptions): string
 ```
 
-Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then 丸ビル5階501号室. The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
+Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then サンプルビル5階501号室. The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Sample Bldg 5階.
 
 ```js
 formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })
@@ -2343,7 +2343,7 @@ function
 formatJapaneseEnglish(address: ParsedAddress, options?: JapaneseEnglishFormattingOptions): string
 ```
 
-Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The prefecture and municipality are always romaji, from the tables (a municipality the tables do not know keeps the name it was written with). The town and building are written as they were parsed: romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold no romaji for towns, and a reading guessed from kanji would often be wrong.
+Sample Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan The prefecture and municipality are always romaji, from the tables (a municipality the tables do not know keeps the name it was written with). The town and building are written as they were parsed: romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold no romaji for towns, and a reading guessed from kanji would often be wrong.
 
 ```js
 formatJapaneseEnglish(parseLocation("1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"))
@@ -2398,7 +2398,7 @@ interface JapaneseAddressFields {
   ban?: string; // 番 (番地): "2"
   go?: string; // 号: "3"
   block?: string; // The numbered block as one string: "1-2-3"
-  building?: string; // 丸ビル
+  building?: string; // サンプルビル
   floor?: string; // 階: "5"
   room?: string; // 号室: "501"
 }
@@ -2619,7 +2619,7 @@ parseJapaneseAddress(text: string, options?: ParseOptions): ParsedAddress | null
 A Japanese address in either script, or null when nothing in it names a place in Japan. @example parseJapaneseAddress("東京都千代田区丸の内1-2-3") → { prefecture: "東京都", municipality: "千代田区", town: "丸の内", chome: "1", ban: "2", go: "3", … }
 
 ```js
-parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室")
+parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室")
 // {"country":"JP","postalCode":"100-0005","zip":"100-0005","zipValid":true,"postalType":"postal","prefecture":"東京都","prefectureCode":"13","prefectureRomaji":"Tokyo","state":"13","municipality":"千代田区","city":"千代田区","municipalityCode":"13101","municipalityRomaji":"Chiyoda-ku","town":"丸の内","street":"丸の内","chome":"1","ban":"2","go":"3","block":"1-2-3","number":"1…
 ```
 

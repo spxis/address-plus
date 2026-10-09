@@ -49,14 +49,14 @@ function floorInJapanese(floor: string): string {
   return floor.startsWith(BASEMENT_PREFIX) ? `地下${floor.slice(BASEMENT_PREFIX.length)}階` : `${floor}階`;
 }
 
-// Whether a name was written in Latin letters rather than Japanese: Marunouchi, Marunouchi Bldg.
+// Whether a name was written in Latin letters rather than Japanese: Marunouchi, Sample Bldg.
 const isRomaji = (name: string | undefined): boolean =>
   name !== undefined && LATIN_LETTER.test(name) && !hasJapaneseScript(name);
 
-// Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then 丸ビル5階501号室.
+// Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then サンプルビル5階501号室.
 // The prefecture and municipality are always in kanji, from the tables. A town or building parsed from
 // romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run
-// together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
+// together: 東京都千代田区 Marunouchi 1-2-3, then Sample Bldg 5階.
 function formatJapanese(address: ParsedAddress, options: JapaneseFormattingOptions = {}): string {
   const { blockStyle = "hyphen", includePostalCode = true, multiline = true } = options;
   const lines: string[] = [];
@@ -87,7 +87,7 @@ function municipalityInEnglishOrder(romaji: string): string {
   return romaji.split(" ").reverse().join(", ");
 }
 
-// Marunouchi Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
+// Sample Bldg 5F, Room 501, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
 // The prefecture and municipality are always romaji, from the tables (a municipality the tables do not
 // know keeps the name it was written with). The town and building are written as they were parsed:
 // romaji when the address came in romaji, and Japanese when it came in Japanese, since the tables hold

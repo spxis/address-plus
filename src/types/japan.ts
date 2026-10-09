@@ -31,7 +31,7 @@ interface JapaneseAddressFields {
   ban?: string; // 番 (番地): "2"
   go?: string; // 号: "3"
   block?: string; // The numbered block as one string: "1-2-3"
-  building?: string; // 丸ビル
+  building?: string; // サンプルビル
   floor?: string; // 階: "5"
   room?: string; // 号室: "501"
 }

@@ -185,7 +185,7 @@ function splitTownAndBlock(text: string): { block: Block; rest: string } {
   return { block: { chome, town }, rest };
 }
 
-// The building, floor and room in what follows the block. 号 after a building is a room (丸ビル501号),
+// The building, floor and room in what follows the block. 号 after a building is a room (サンプルビル501号),
 // as 号室 is; after the block it was the go, and the block has already taken it.
 function splitBuilding(text: string): BuildingParts {
   let rest = trimSeparators(text);
@@ -298,7 +298,7 @@ function prefectureAndMunicipality(
   return { prefecture, rest };
 }
 
-// A Japanese-script address: 〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階.
+// A Japanese-script address: 〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階.
 function parseJapaneseScript(text: string): ParsedAddress | null {
   const { postalCode, rest: afterPostal } = takePostalCode(withoutCountry(normalizeJapaneseAddressText(text)));
   const place = prefectureAndMunicipality(withoutCountry(afterPostal), postalCode);
@@ -397,7 +397,7 @@ function romajiTownAndBlock(part: string): Block {
   return { ban, chome, go, town: trimSeparators(rest.replace(WHITESPACE_RUN, " ")) || undefined };
 }
 
-// The building, floor and room in the parts before the street: Marunouchi Bldg 5F, Room 501.
+// The building, floor and room in the parts before the street: Sample Bldg 5F, Room 501.
 function romajiBuilding(parts: readonly string[]): BuildingParts {
   let floor: string | undefined;
   let room: string | undefined;
@@ -421,7 +421,7 @@ function romajiBuilding(parts: readonly string[]): BuildingParts {
   return { building: names.join(", ") || undefined, floor, room };
 }
 
-// A romaji address: Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan.
+// A romaji address: Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan.
 function parseRomaji(text: string): ParsedAddress | null {
   const plain = text.normalize("NFKD").replace(COMBINING_MARKS, "").normalize("NFKC").replace(WHITESPACE_RUN, " ");
   const { postalCode, rest } = takePostalCode(withoutCountry(plain));

@@ -12,7 +12,7 @@ for (const scheme of ["light", "dark"]) {
       await noSidewaysScroll(page);
       // The longest things the demo is given still fit: a long address with no spaces, a long Japanese one, every
       // fold open.
-      await type(page, "parse-input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室".repeat(4));
+      await type(page, "parse-input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室".repeat(4));
       await type(page, "validate-input", "1600PennsylvaniaAvenueNorthwestWashingtonDistrictOfColumbia20500".repeat(3));
       await type(page, "compare-first", "100 Queen Street West, Toronto, Ontario M5H 2N2 ".repeat(5));
       await type(page, "postal-input", "Hokkaido");
@@ -55,7 +55,7 @@ test("each panel keeps its answer's width while it is typed in, so nothing besid
   const first = await box.boundingBox();
   await type(page, "parse-input", "PO Box 1234, Springfield, IL 62701");
   const second = await box.boundingBox();
-  await type(page, "parse-input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室");
+  await type(page, "parse-input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室");
   const third = await box.boundingBox();
   expect(Math.abs(second.width - first.width)).toBeLessThan(0.5);
   expect(Math.abs(third.width - first.width)).toBeLessThan(0.5);

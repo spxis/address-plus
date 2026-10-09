@@ -34,7 +34,7 @@ test("parse: Japanese in Japanese script, in romaji and in full-width digits, an
   await tap(page, chip(page, "parse", "Japanese"), testInfo);
   await expect(answer(page, "parse")).toContainText("東京都");
   await expect(answer(page, "parse")).toContainText("千代田区");
-  await expect(answer(page, "parse")).toContainText("丸ビル");
+  await expect(answer(page, "parse")).toContainText("サンプルビル");
   await expect(answer(page, "parse")).toContainText("501");
   await expect(answer(page, "parse")).toContainText("JP · Japan");
   await tap(page, chip(page, "parse", "Romaji"), testInfo);

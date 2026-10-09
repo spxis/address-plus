@@ -102,7 +102,7 @@ const panels = [
   panel({
     name: "format",
     code: "formatUSPS · formatCanadaPost · formatJapanese",
-    fields: field("format-input", "input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室"),
+    fields: field("format-input", "input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室"),
     help: [
       "Type an address. It is written out in its country's postal format.",
       "住所を入力します。その国の郵便の書式で書き直します。",

@@ -25,13 +25,13 @@
       },
       {
         "name": "read a building and floor before the street",
-        "input": "Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+        "input": "Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
         "expected": {
           "postalCode": "100-0005",
           "municipalityCode": "13101",
           "town": "Marunouchi",
           "block": "1-2-3",
-          "building": "Marunouchi Bldg",
+          "building": "Sample Bldg",
           "floor": "5"
         }
       },
@@ -165,7 +165,7 @@
     "snakeCase": [
       {
         "name": "return the Japan fields in snake_case",
-        "input": "〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階",
+        "input": "〒100-0005 東京都千代田区丸の内1-2-3 サンプルビル5階",
         "options": { "useSnakeCase": true },
         "expected": {
           "postal_code": "100-0005",
@@ -177,7 +177,7 @@
           "zip_valid": true,
           "postal_type": "postal",
           "block": "1-2-3",
-          "building": "丸ビル",
+          "building": "サンプルビル",
           "floor": "5",
           "postalCode": null,
           "municipalityCode": null

@@ -6,25 +6,25 @@
     "japanese": [
       {
         "name": "write postal code, address and building on three lines",
-        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階",
-        "expected": "〒100-0005\n東京都千代田区丸の内1-2-3\n丸ビル5階"
+        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階",
+        "expected": "〒100-0005\n東京都千代田区丸の内1-2-3\nサンプルビル5階"
       },
       {
         "name": "write the block with markers",
-        "input": "〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階",
+        "input": "〒100-0005 東京都千代田区丸の内1-2-3 サンプルビル5階",
         "options": {
           "blockStyle": "markers"
         },
-        "expected": "〒100-0005\n東京都千代田区丸の内1丁目2番3号\n丸ビル5階"
+        "expected": "〒100-0005\n東京都千代田区丸の内1丁目2番3号\nサンプルビル5階"
       },
       {
         "name": "write one line without the postal code",
-        "input": "〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階",
+        "input": "〒100-0005 東京都千代田区丸の内1-2-3 サンプルビル5階",
         "options": {
           "includePostalCode": false,
           "multiline": false
         },
-        "expected": "東京都千代田区丸の内1-2-3 丸ビル5階"
+        "expected": "東京都千代田区丸の内1-2-3 サンプルビル5階"
       },
       {
         "name": "write a lone ban with 番地",
@@ -81,25 +81,25 @@
       },
       {
         "name": "write a basement floor",
-        "input": "東京都千代田区丸の内1-2-3 丸ビル 地下1階",
-        "expected": "東京都千代田区丸の内1-2-3\n丸ビル地下1階"
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル 地下1階",
+        "expected": "東京都千代田区丸の内1-2-3\nサンプルビル地下1階"
       },
       {
         "name": "set a romaji town and building off with spaces after the kanji prefecture and municipality",
-        "input": "Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
-        "expected": "〒100-0005\n東京都千代田区 Marunouchi 1-2-3\nMarunouchi Bldg 5階"
+        "input": "Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+        "expected": "〒100-0005\n東京都千代田区 Marunouchi 1-2-3\nSample Bldg 5階"
       }
     ],
     "english": [
       {
         "name": "write a romaji address back in English order",
-        "input": "Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
-        "expected": "Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan"
+        "input": "Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+        "expected": "Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan"
       },
       {
         "name": "keep the town and building in Japanese when the address came in Japanese",
-        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階",
-        "expected": "丸ビル 5F, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan"
+        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階",
+        "expected": "サンプルビル 5F, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan"
       },
       {
         "name": "write a ward before its city and a chome after its town",
@@ -124,8 +124,8 @@
       },
       {
         "name": "write the prefecture and municipality in romaji for a Japanese address, with a room",
-        "input": "〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室",
-        "expected": "丸ビル 5F, Room 501, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan"
+        "input": "〒100-0005 東京都千代田区丸の内1-2-3 サンプルビル5階501号室",
+        "expected": "サンプルビル 5F, Room 501, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan"
       }
     ]
   }

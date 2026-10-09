@@ -384,10 +384,10 @@ validateAddress("1 Main St, Beverly Hills, NY 90210").warnings;
 import { parseLocation } from "@johnmorrisdotca/address-plus";
 
 // In Japanese, from the largest part to the smallest
-parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階");
+parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階");
 
 // In romaji, in English order
-parseLocation("Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan");
+parseLocation("Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan");
 
 // Both give
 // {
@@ -395,7 +395,7 @@ parseLocation("Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005,
 //   prefecture: '東京都', prefectureCode: '13', prefectureRomaji: 'Tokyo',
 //   municipality: '千代田区', municipalityCode: '13101', municipalityRomaji: 'Chiyoda-ku',
 //   town: '丸の内' (or 'Marunouchi'), chome: '1', ban: '2', go: '3', block: '1-2-3',
-//   building: '丸ビル' (or 'Marunouchi Bldg'), floor: '5',
+//   building: 'サンプルビル' (or 'Sample Bldg'), floor: '5',
 //   ...and the shared fields below
 // }
 ```
@@ -429,7 +429,7 @@ The parser reads what people actually type:
 | `ban`                | `2`                           | 番 or 番地                                                    |
 | `go`                 | `3`                           | 号                                                            |
 | `block`              | `1-2-3`                       | The numbered block as one string                              |
-| `building`           | `丸ビル`                      | The building's name                                           |
+| `building`           | `サンプルビル`                      | The building's name                                           |
 | `floor`              | `5`                           | 階; `B1` for a basement floor                                 |
 | `room`               | `501`                         | 号室                                                          |
 
@@ -445,7 +445,7 @@ The shared fields are filled too, so the rest of the library treats the address 
 | `street`     | the town (`丸の内`)                |
 | `number`     | the block (`1-2-3`)                |
 | `zip`        | the postal code (`100-0005`)       |
-| `place`      | the building (`丸ビル`)            |
+| `place`      | the building (`サンプルビル`)            |
 
 `{ useSnakeCase: true }` gives the Japanese fields in snake_case as well: `postal_code`, `prefecture_code`, `municipality_romaji`.
 
@@ -454,23 +454,23 @@ The shared fields are filled too, so the rest of the library treats the address 
 ```javascript
 import { formatJapanese, formatJapaneseEnglish, parseLocation } from "@johnmorrisdotca/address-plus";
 
-const address = parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階");
+const address = parseLocation("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階");
 
 formatJapanese(address);
 // 〒100-0005
 // 東京都千代田区丸の内1-2-3
-// 丸ビル5階
+// サンプルビル5階
 
 formatJapanese(address, { blockStyle: "markers" }); // ...丸の内1丁目2番3号
-formatJapanese(address, { multiline: false, includePostalCode: false }); // 東京都千代田区丸の内1-2-3 丸ビル5階
+formatJapanese(address, { multiline: false, includePostalCode: false }); // 東京都千代田区丸の内1-2-3 サンプルビル5階
 
-formatJapaneseEnglish(parseLocation("Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"));
-// Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
+formatJapaneseEnglish(parseLocation("Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"));
+// Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan
 ```
 
-`formatJapaneseEnglish` writes the prefecture and municipality in romaji from the tables, whichever script the address came in, with a ward before its city (`Chuo-ku, Sapporo-shi`). The town and building have no romaji in the tables, so they are written as they were parsed: from an address in Japanese they stay in Japanese (`丸ビル 5F, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan`). A municipality the tables do not know keeps the name it was written with.
+`formatJapaneseEnglish` writes the prefecture and municipality in romaji from the tables, whichever script the address came in, with a ward before its city (`Chuo-ku, Sapporo-shi`). The town and building have no romaji in the tables, so they are written as they were parsed: from an address in Japanese they stay in Japanese (`サンプルビル 5F, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan`). A municipality the tables do not know keeps the name it was written with.
 
-`formatJapanese` writes the prefecture and municipality in kanji from the tables. A town or building parsed from romaji is kept in romaji and set off with spaces, so the scripts do not run together: `東京都千代田区 Marunouchi 1-2-3`, then `Marunouchi Bldg 5階`. With `blockStyle: "markers"`, a block in a town of numbered blocks (住居表示) is written `1丁目2番3号` or `4番2号`, a lone number `488番地`, and a land lot (地番) with no chome, in a town named with 大字 or 字 or with a first number of 100 or more, `12番地3`, since a 号 there would be wrong.
+`formatJapanese` writes the prefecture and municipality in kanji from the tables. A town or building parsed from romaji is kept in romaji and set off with spaces, so the scripts do not run together: `東京都千代田区 Marunouchi 1-2-3`, then `Sample Bldg 5階`. With `blockStyle: "markers"`, a block in a town of numbered blocks (住居表示) is written `1丁目2番3号` or `4番2号`, a lone number `488番地`, and a land lot (地番) with no chome, in a town named with 大字 or 字 or with a first number of 100 or more, `12番地3`, since a 号 there would be wrong.
 
 ### Validation
 

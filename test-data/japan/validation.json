@@ -67,7 +67,7 @@
       },
       {
         "name": "accept a correct address with no region finding",
-        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階",
+        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階",
         "expected": { "isValid": true, "code": null, "noWarnings": true }
       },
       {

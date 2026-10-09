@@ -6,7 +6,7 @@
     "marunouchi": [
       {
         "name": "read the full address with 〒, markers, building and floor",
-        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階",
+        "input": "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階",
         "expected": {
           "country": "JP",
           "postalCode": "100-0005",
@@ -26,8 +26,8 @@
           "go": "3",
           "block": "1-2-3",
           "number": "1-2-3",
-          "building": "丸ビル",
-          "place": "丸ビル",
+          "building": "サンプルビル",
+          "place": "サンプルビル",
           "floor": "5"
         }
       },
@@ -84,14 +84,14 @@
       },
       {
         "name": "read a full-width postal code, ideographic spaces and a full-width floor",
-        "input": "〒１００－０００５　東京都千代田区丸の内1-2-3　丸ビル５Ｆ",
+        "input": "〒１００－０００５　東京都千代田区丸の内1-2-3　サンプルビル５Ｆ",
         "expected": {
           "postalCode": "100-0005",
           "prefectureCode": "13",
           "municipalityCode": "13101",
           "town": "丸の内",
           "block": "1-2-3",
-          "building": "丸ビル",
+          "building": "サンプルビル",
           "floor": "5"
         }
       },
@@ -458,20 +458,20 @@
       },
       {
         "name": "read a building on the same line with no space",
-        "input": "〒100-0005東京都千代田区丸の内1-2-3丸ビル5階",
+        "input": "〒100-0005東京都千代田区丸の内1-2-3サンプルビル5階",
         "expected": {
           "town": "丸の内",
           "block": "1-2-3",
-          "building": "丸ビル",
+          "building": "サンプルビル",
           "floor": "5"
         }
       },
       {
         "name": "read 号 after a building as the room",
-        "input": "東京都千代田区丸の内1-2-3丸ビル501号",
+        "input": "東京都千代田区丸の内1-2-3サンプルビル501号",
         "expected": {
           "go": "3",
-          "building": "丸ビル",
+          "building": "サンプルビル",
           "room": "501"
         }
       },
@@ -488,9 +488,9 @@
       },
       {
         "name": "read a basement floor",
-        "input": "東京都千代田区丸の内1-2-3 丸ビル 地下1階",
+        "input": "東京都千代田区丸の内1-2-3 サンプルビル 地下1階",
         "expected": {
-          "building": "丸ビル",
+          "building": "サンプルビル",
           "floor": "B1"
         }
       },

@@ -73,7 +73,7 @@ export const EXAMPLES = {
   parseIntersection: `parseIntersection("Hollywood Blvd and Vine St, Los Angeles, CA")`,
   parseIntersections: `parseIntersections(["Yonge St and Bloor St, Toronto, ON"])`,
   parseIntersectionsBatch: `parseIntersectionsBatch(["Yonge St and Bloor St, Toronto, ON"]).stats.successful`,
-  parseJapaneseAddress: `parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室")`,
+  parseJapaneseAddress: `parseJapaneseAddress("〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室")`,
   parseLocation: `parseLocation("1234 rue Sainte-Catherine O, Montréal, QC H3G 1P1")`,
   parseLocations: `parseLocations(["100 Queen St W, Toronto, ON M5H 2N2", "大阪府大阪市北区梅田3-1-1"]).map((one) => one?.country)`,
   parseLocationsBatch: `parseLocationsBatch(["100 Queen St W, Toronto, ON M5H 2N2", "大阪府大阪市北区梅田3-1-1"]).stats.successful`,

@@ -31,8 +31,8 @@
       },
       {
         "name": "write a full-width F as F",
-        "input": "丸ビル５Ｆ",
-        "expected": "丸ビル5F"
+        "input": "サンプルビル５Ｆ",
+        "expected": "サンプルビル5F"
       }
     ],
     "kanjiNumerals": [
@@ -53,8 +53,8 @@
       },
       {
         "name": "read a floor",
-        "input": "丸ビル五階",
-        "expected": "丸ビル5階"
+        "input": "サンプルビル五階",
+        "expected": "サンプルビル5階"
       },
       {
         "name": "keep the numeral in 北一条西 while reading the chome",

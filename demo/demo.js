@@ -452,7 +452,7 @@ const PANELS = {
       ["corner", "Hollywood Blvd and Vine St, Los Angeles, CA"],
       ["toronto", "100 Queen St W, Toronto, ON M5H 2N2"],
       ["french", "1234 rue Sainte-Catherine O, Montréal, QC H3G 1P1"],
-      ["kanji", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室"],
+      ["kanji", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室"],
       ["romaji", "1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005"],
       ["fullwidth", "〒５３０－０００１ 大阪府大阪市北区梅田３－１－１"],
     ],
@@ -473,7 +473,7 @@ const PANELS = {
     run: format,
     inputs: ["format-input"],
     examples: [
-      ["japan", "〒100-0005 東京都千代田区丸の内1丁目2番3号 丸ビル5階501号室"],
+      ["japan", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室"],
       ["romaji", "Umeda 3-1-1, Kita-ku, Osaka-shi, Osaka 530-0001"],
       ["us", "123 Main Street Apt 4, Anytown, NY 12345"],
       ["canada", "100 Queen Street West, Toronto, Ontario M5H 2N2"],
