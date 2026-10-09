@@ -14,7 +14,7 @@
 <td align="center" valign="top">
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-phone-dark.webp">
-<img src="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-phone-light.webp" alt="The demo on a phone, in Japanese: the header with its language chooser, patches and Help switch, then the first panel, 住所を読み取る (parseLocation), with the Japanese example 〒100-0005 東京都千代田区丸の内1丁目2番3号 typed in and its example buttons, the 日本語 one pressed" width="190">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-phone-light.webp" alt="The demo on a phone, in Japanese: the header with its language chooser, patches and Help switch, then the first panel, 住所の解析 (parseLocation), with the Japanese example 〒100-0005 東京都千代田区丸の内1丁目2番3号 typed in and its example buttons, the 日本語 one pressed" width="190">
 </picture>
 <br><em>On a phone, in Japanese, in the device's light or dark.</em>
 </td>
@@ -470,7 +470,7 @@ formatJapaneseEnglish(parseLocation("Marunouchi Bldg 5F, 1-2-3 Marunouchi, Chiyo
 
 `formatJapaneseEnglish` writes the prefecture and municipality in romaji from the tables, whichever script the address came in, with a ward before its city (`Chuo-ku, Sapporo-shi`). The town and building have no romaji in the tables, so they are written as they were parsed: from an address in Japanese they stay in Japanese (`丸ビル 5F, 1-2-3 丸の内, Chiyoda-ku, Tokyo 100-0005, Japan`). A municipality the tables do not know keeps the name it was written with.
 
-`formatJapanese` writes the prefecture and municipality in kanji from the tables. A town or building parsed from romaji is kept in romaji and set off with spaces, so the scripts do not run together: `東京都千代田区 Marunouchi 1-2-3`, then `Marunouchi Bldg 5階`.
+`formatJapanese` writes the prefecture and municipality in kanji from the tables. A town or building parsed from romaji is kept in romaji and set off with spaces, so the scripts do not run together: `東京都千代田区 Marunouchi 1-2-3`, then `Marunouchi Bldg 5階`. With `blockStyle: "markers"`, a block in a town of numbered blocks (住居表示) is written `1丁目2番3号` or `4番2号`, a lone number `488番地`, and a land lot (地番) with no chome, in a town named with 大字 or 字 or with a first number of 100 or more, `12番地3`, since a 号 there would be wrong.
 
 ### Validation
 

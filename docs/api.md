@@ -821,7 +821,7 @@ function
 formatJapanese(address: ParsedAddress, options?: JapaneseFormattingOptions): string
 ```
 
-〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室 The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
+Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then 丸ビル5階501号室. The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
 
 ```js
 formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })
@@ -2328,7 +2328,7 @@ function
 formatJapanese(address: ParsedAddress, options?: JapaneseFormattingOptions): string
 ```
 
-〒100-0005 東京都千代田区丸の内1-2-3 丸ビル5階501号室 The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
+Three lines, as an envelope is addressed: 〒100-0005, then 東京都千代田区丸の内1-2-3, then 丸ビル5階501号室. The prefecture and municipality are always in kanji, from the tables. A town or building parsed from romaji has no kanji to write, so it keeps its romaji, set off by spaces so the scripts do not run together: 東京都千代田区 Marunouchi 1-2-3, then Marunouchi Bldg 5階.
 
 ```js
 formatJapanese(parseLocation("〒100-0005 東京都千代田区丸の内1-2-3"), { blockStyle: "markers" })

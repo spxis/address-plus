@@ -35,6 +35,38 @@
         "expected": "京都府京都市中京区寺町通御池上る上本能寺前町488番地"
       },
       {
+        "name": "write a land lot in a 大字 town with 番地, not 号",
+        "input": "埼玉県比企郡小川町大字下里12-3",
+        "options": {
+          "blockStyle": "markers"
+        },
+        "expected": "埼玉県比企郡小川町大字下里12番地3"
+      },
+      {
+        "name": "keep 番地 that was written, rather than turn it into 番 and 号",
+        "input": "埼玉県比企郡小川町大字下里12番地3",
+        "options": {
+          "blockStyle": "markers"
+        },
+        "expected": "埼玉県比企郡小川町大字下里12番地3"
+      },
+      {
+        "name": "write a land lot whose ban is too high for a block with 番地",
+        "input": "奈良県大和郡山市北郡山町248-4",
+        "options": {
+          "blockStyle": "markers"
+        },
+        "expected": "奈良県大和郡山市北郡山町248番地4"
+      },
+      {
+        "name": "write 番 and 号 for a town with no chome that is not named with 大字",
+        "input": "東京都千代田区隼町4番2号",
+        "options": {
+          "blockStyle": "markers"
+        },
+        "expected": "東京都千代田区隼町4番2号"
+      },
+      {
         "name": "write a chome alone",
         "input": "北海道札幌市中央区北一条西3丁目",
         "options": {

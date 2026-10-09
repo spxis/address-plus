@@ -172,11 +172,11 @@ test("in Japanese the labels, the examples and the answers are Japanese, and swi
   await expect(parseTitle).toContainText("Parse");
   await page.locator('[data-lang="ja"]').click();
   await expect(page.locator("html")).toHaveAttribute("lang", "ja");
-  await expect(parseTitle).toContainText("住所を読み取る");
-  await expect(page.locator("#validate-title")).toContainText("住所を検証する");
+  await expect(parseTitle).toContainText("住所の解析");
+  await expect(page.locator("#validate-title")).toContainText("住所の検証");
   await expect(answer(page, "parse")).toContainText("通り名");
   await expect(answer(page, "validate")).toContainText("郵便番号が、別の州や都道府県のものです。");
-  await expect(answer(page, "compare")).toContainText("完全に一致");
+  await expect(answer(page, "compare")).toContainText("完全一致");
   await expect(chip(page, "parse", "ローマ字")).toBeVisible();
   await expect(page.locator("#unreviewed")).toBeVisible();
   await page.locator('[data-lang="en"]').click();

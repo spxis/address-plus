@@ -84,19 +84,19 @@ const panels = [
     fields: field("validate-input", "input", "123 Main St, Seattle, NY 98101"),
     help: [
       "Type an address. Whether it is valid, how sure the parser is, and every error and warning are listed.",
-      "住所を入力します。有効かどうか、読み取りの確からしさ、エラーと警告をすべて示します。",
+      "住所を入力します。有効かどうか、解析の信頼度、エラーと警告をすべて示します。",
     ],
     options: `
           ${row(
             [
               "Strict postal codes: a postal code that belongs to another region, or is in the wrong shape, makes the address invalid instead of raising a warning.",
-              "郵便番号の厳密な検査：別の地域の郵便番号や形の正しくない郵便番号があると、警告ではなく、住所が無効になります。",
+              "郵便番号の厳密な検査：別の地域の郵便番号や形式の正しくない郵便番号があると、警告にとどまらず、住所が無効と判定されます。",
             ],
             `<span class="fam-label" data-say="options"></span><button type="button" class="fam-button" id="validate-strict" data-testid="validate-strict" aria-pressed="false" data-say="validate_strict"></button>`,
           )}`,
     exampleHelp: [
       "Fill the box with an example: a ZIP code from another state, a Canadian postal code from another province, a Japanese postal code from another prefecture, two complete addresses and one that is not.",
-      "例を入れます：別の州の ZIP コード、別の州のカナダの郵便番号、別の都道府県の日本の郵便番号、そろった住所が二つ、不完全な住所が一つ。",
+      "例を入れます：別の州の ZIP コード、別の州のカナダの郵便番号、別の都道府県の日本の郵便番号、完全な住所が二つ、不完全な住所が一つ。",
     ],
   }),
   panel({
@@ -146,7 +146,7 @@ const panels = [
     ],
     exampleHelp: [
       "Fill the box with an example: US ZIP codes, Canadian postal codes, Japanese postal codes in half-width and full-width digits, then a state, a province and two prefectures.",
-      "例を入れます：米国の ZIP コード、カナダの郵便番号、半角と全角の日本の郵便番号、そして州、カナダの州、都道府県。",
+      "例を入れます：米国の ZIP コード、カナダの郵便番号、半角と全角の日本の郵便番号、そして米国の州、カナダの州、都道府県が二つ。",
     ],
   }),
   panel({
