@@ -7,6 +7,7 @@
 import { CA_PROVINCES } from "../constants/ca-provinces";
 import { US_STATES } from "../constants/us-states";
 import { UNIT_PART_PATTERN } from "../patterns/address-patterns";
+import { buildPatterns } from "../patterns/pattern-builder";
 import { WORD_START } from "../patterns/word-boundary";
 
 // What the tidying found out on the way.
@@ -82,6 +83,14 @@ function takeTrailingCountry(text: string): PreparedInput {
   return { country: /canada/i.test(match[1]) ? "CA" : "US", text: before };
 }
 
+let cachedTypeThenNumber: RegExp | null = null;
+
+// A street type, then a number: "Concession 4", "Highway 7".
+function typeThenNumber(): RegExp {
+  cachedTypeThenNumber ??= new RegExp(`^(?:${buildPatterns().streetType.slice(1, -1)})\\.?\\s+\\d+[a-z]?$`, "iu");
+  return cachedTypeThenNumber;
+}
+
 // Split on commas and line breaks, remembering which separator followed each part.
 function splitParts(text: string): string[] {
   return text
@@ -101,8 +110,13 @@ function rewriteParts(text: string): string {
     parts = [`${parts[0]} ${parts[1]}`, ...parts.slice(2)];
   }
 
-  // "Apt 4, 123 Main St": a unit written on the line above the street goes after it.
-  if (parts.length >= 2 && UNIT_PART_PATTERN.test(parts[0]) && /^\d/.test(parts[1])) {
+  // "Apt 4, 123 Main St": a unit written on the line above the street goes after it. So does a lot above a
+  // numbered rural road: "Lot 12, Concession 4".
+  if (
+    parts.length >= 2 &&
+    UNIT_PART_PATTERN.test(parts[0]) &&
+    (/^\d/.test(parts[1]) || typeThenNumber().test(parts[1]))
+  ) {
     parts = [`${parts[1]} ${parts[0]}`, ...parts.slice(2)];
   }
 
@@ -146,6 +160,9 @@ function prepareInput(address: string): PreparedInput {
     const code = `${first}${second}`.toUpperCase();
     return Object.values(US_STATES).includes(code) || Object.values(CA_PROVINCES).includes(code) ? code : whole;
   });
+
+  // A full stop or a stray comma ending the address.
+  text = text.replace(/(\d)[\s.,;]+$/, "$1");
 
   // Semicolons, and a spaced dash after a street that starts with its number, separate parts as commas do.
   if (/^\d/.test(text)) {

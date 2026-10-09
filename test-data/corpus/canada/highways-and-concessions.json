@@ -180,9 +180,7 @@
           "country": "CA"
         },
         "ignoreCase": ["city"],
-        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses",
-        "todo": true,
-        "todoNote": "secUnitType: absent (want \"Lot\"); secUnitNum: absent (want \"12\"); type: absent (want \"Conc\"); street: \"Lot 12\" (want \"4\")"
+        "source": "Canada Post Addressing Guidelines (canadapost-postescanada.ca); the rule is described in our own words and the example constructed for this corpus, rural addresses"
       },
       {
         "name": "1234 Concession Road 6",

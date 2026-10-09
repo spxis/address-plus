@@ -13,6 +13,7 @@ import {
   FACILITY_INDICATORS,
   FACILITY_PATTERNS,
   MUSIC_SQUARE_EAST_PATTERN,
+  ORDINAL_FLOOR_PATTERN,
   SECONDARY_UNIT_PATTERN,
   STANDALONE_UNIT_KEYWORDS,
   UNIT_PART_PATTERN,
@@ -93,6 +94,11 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
     original = original.slice(1, -1).trim();
   }
 
+  // "N/A", "-", "?": no word of two letters and no digit is not an address.
+  if (!/\p{L}{2}/u.test(original) && !/\d/.test(original)) {
+    return null;
+  }
+
   // Japan writes addresses differently enough to have a parser of its own.
   if (options.country === "JP" || (options.country !== "US" && options.country !== "CA" && looksJapanese(original))) {
     return parseJapaneseAddress(original, options);
@@ -124,17 +130,67 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   const special = parseMilitary(text, options) ?? parseRuralRoute(text, options);
   if (special) return finish(special);
 
-  const poBoxMatch = text.match(new RegExp(`^\\s*${patterns.poBox}`, "i"));
+  // A place's name run straight into its address, with no comma: "Barboncino 781 Franklin Ave".
+  const leadingPlace = takeLeadingPlace(text, patterns);
+  const addressText = leadingPlace ? leadingPlace.rest : text;
+  const withPlace = (result: ParsedAddress | null): ParsedAddress | null => {
+    if (result && leadingPlace && !result.place) result.place = leadingPlace.place;
+    return finish(result);
+  };
+
+  const poBoxMatch = addressText.match(new RegExp(`^\\s*${patterns.poBox}`, "i"));
   if (poBoxMatch) {
-    return finish(parsePoBox(text, options));
+    return withPlace(parsePoBox(addressText, options));
   }
 
   // Try standard address parsing
-  return finish(parseStandardAddress(text, options, prepared.country) || parseInformalAddress(text, options));
+  return withPlace(
+    parseStandardAddress(addressText, options, prepared.country) || parseInformalAddress(addressText, options),
+  );
+}
+
+// A place's name before the number, with no comma between: "Black Alliance for Just Immigration 660
+// Nostrand Ave", "ACLU DC P.O. Box 11637". Taken only when the name ends in a word that is not a street
+// type, a unit or a route word, and what follows the number names a street type or is a PO box.
+function takeLeadingPlace(
+  text: string,
+  patterns: ReturnType<typeof buildPatterns>,
+): { place: string; rest: string } | null {
+  if (new RegExp(`^\\s*${patterns.poBox}`, "i").test(text)) return null;
+  const commaAt = text.indexOf(",");
+  const firstPart = commaAt === -1 ? text : text.slice(0, commaAt);
+  const match = firstPart.match(
+    new RegExp(`^([^\\d,#]*?\\p{L}[^\\d,#]*?)\\s+((?:\\d+(?:-\\d+)?[a-z]?|${patterns.poBox})\\s+.+)$`, "iu"),
+  );
+  if (!match) return null;
+
+  const place = match[1].trim();
+  const lastWord = place.split(/\s+/).pop() ?? "";
+  const notName = new RegExp(
+    `^(?:${patterns.streetType.slice(1, -1)}|${patterns.directional.slice(1, -1)}|${UNIT_TYPE_KEYWORDS}|${STANDALONE_UNIT_KEYWORDS}|rr|r\\.r\\.|hc|route|rte|site|comp|box|general|delivery)\\.?$`,
+    "iu",
+  );
+  if (notName.test(lastWord) || /[:;|\u2013\u2014-]$/.test(place)) return null;
+  if (new RegExp(`^(?:${WRITTEN_NUMBERS})$`, "i").test(place)) return null;
+
+  const afterNumber = match[2];
+  const isPoBox = new RegExp(`^${patterns.poBox}`, "i").test(afterNumber);
+  const namesType = new RegExp(`\\s(?:${patterns.streetType.slice(1, -1)})\\.?(?![\\p{L}\\p{N}])`, "iu").test(
+    afterNumber,
+  );
+  if (!isPoBox && !namesType) return null;
+
+  return { place, rest: `${afterNumber}${commaAt === -1 ? "" : text.slice(commaAt)}` };
 }
 
 // Simple validation to check if address contains basic components
 function hasValidAddressComponentsLocal(address: string): boolean {
+  // A street with no number, then a city and state: "Canal Rd, Deltona FL".
+  const firstPart = address.split(",")[0];
+  if (address.includes(",") && STREET_TYPE_ABBREVIATION_AT_END.test(firstPart.trim()) && /\s[A-Z]{2}$/.test(address)) {
+    return true;
+  }
+
   // Basic check for numbers and letters
   return (
     BASIC_VALIDATION_PATTERNS.HAS_DIGITS.test(address) &&
@@ -146,8 +202,12 @@ function hasValidAddressComponentsLocal(address: string): boolean {
 // Set a unit's type and number on result from the unit's text ("Apt. #4B", "Ste 500", "lt42", "#12", "Bsmt").
 // keepText also stores the text as written in unit, as the street-line units always have.
 function applyUnit(result: ParsedAddress, unitText: string, keepText: boolean): void {
-  const unitParts = unitText.match(UNIT_TYPE_NUMBER_PATTERN);
-  if (unitParts) {
+  const ordinalFloor = unitText.trim().match(ORDINAL_FLOOR_PATTERN);
+  const unitParts = ordinalFloor ? null : unitText.match(UNIT_TYPE_NUMBER_PATTERN);
+  if (ordinalFloor) {
+    result.secUnitType = "Floor";
+    result.secUnitNum = ordinalFloor[1];
+  } else if (unitParts) {
     if (unitParts[1] && unitParts[2]) {
       const rawType = unitParts[1].toLowerCase();
       result.secUnitType = SECONDARY_UNIT_TYPES[rawType] || rawType;
@@ -377,7 +437,13 @@ function parseStandardAddress(
     const stateAbbrevMatch = remainingText.match(new RegExp(`\\s+(${patterns.stateAbbrev.slice(1, -1)})\\s*$`, "i"));
     const stateFullMatch = remainingText.match(new RegExp(`\\s+(${patterns.stateFullName.slice(1, -1)})\\s*$`, "i"));
 
-    if (stateAbbrevMatch) {
+    // "26th St 6th Fl": FL after an ordinal is the floor, not Florida.
+    const floorNotState =
+      !!stateAbbrevMatch &&
+      /^fl$/i.test(stateAbbrevMatch[1]) &&
+      /\d(?:st|nd|rd|th)$/i.test(remainingText.slice(0, stateAbbrevMatch.index).trim());
+
+    if (stateAbbrevMatch && !floorNotState) {
       statePart = stateAbbrevMatch[1];
       remainingText = remainingText.replace(stateAbbrevMatch[0], "").trim();
     } else if (stateFullMatch) {
@@ -405,7 +471,15 @@ function parseStandardAddress(
         // Extract if we have a clear non-street-type word at the end
         // AND the remaining text suggests a full address (at least 4+ words)
         const wordCount = remainingText.split(VALIDATION_PATTERNS.WHITESPACE_SPLIT).length;
-        if (wordCount >= 5) {
+        const split =
+          wordCount >= 5 && zipPart
+            ? splitStreetAndCity(remainingText, isCanadianContext(zipPart, statePart, options, countryHint))
+            : null;
+        if (split?.city) {
+          // A ZIP and a street whose type is found: the city is what follows it.
+          cityPart = split.city;
+          remainingText = split.street;
+        } else if (wordCount >= 5) {
           // More conservative: at least "number prefix street type city"
           const singleWordCityMatch = remainingText.match(CITY_PATTERNS.SINGLE_WORD_CITY);
 
@@ -414,8 +488,11 @@ function parseStandardAddress(
             const isStreetType = new RegExp(`^(${patterns.streetType.slice(1, -1)})$`, "i").test(potentialCity);
             const isDirectional = new RegExp(`^(${patterns.directional.slice(1, -1)})$`, "i").test(potentialCity);
 
+            // A unit word ending the line ("Sixth Floor") is not a city either.
+            const isUnitWord = potentialCity.toLowerCase() in SECONDARY_UNIT_TYPES;
+
             // Extract if it's clearly not a street component
-            if (!isStreetType && !isDirectional && potentialCity.length > 2) {
+            if (!isStreetType && !isDirectional && !isUnitWord && potentialCity.length > 2) {
               cityPart = potentialCity;
               remainingText = remainingText.replace(singleWordCityMatch[0], "").trim();
             }
@@ -450,9 +527,11 @@ function parseStandardAddress(
           if (cityStateFullMatch) {
             cityPart = (cityStateFullMatch[1] ?? "").trim();
             statePart = cityStateFullMatch[2].trim();
-          } else {
-            // State or unknown format
+          } else if (new RegExp(`^(?:${patterns.state.slice(1, -1)})\\.?$`, "iu").test(remainingAfterZip)) {
             statePart = remainingAfterZip;
+          } else {
+            // "Brooklyn 11201": no state, so what is left beside the ZIP is the city.
+            cityPart = remainingAfterZip;
           }
         }
       }
@@ -643,6 +722,13 @@ function parseStandardAddress(
         }
       }
     }
+  }
+
+  // "Ste 1 Brooklyn": a unit written at the start of the city's part.
+  const unitBeforeCity = cityPart ? cityPart.match(PREFIX_UNIT_PATTERN) : null;
+  if (unitBeforeCity && !secondaryUnitPart && !/\d/.test(unitBeforeCity[2])) {
+    secondaryUnitPart = unitBeforeCity[1];
+    cityPart = unitBeforeCity[2].trim();
   }
 
   // With a state but no city part, the city may run on after the street: "1005 N Gravenstein Hwy Suite 500

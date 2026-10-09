@@ -133,8 +133,8 @@ function splitStreetAndCity(text: string, canadian: boolean): StreetAndCity {
   const none: StreetAndCity = { city: "", street: text.trim() };
 
   // Past the number, a fraction and a predirectional.
-  let start = 0;
-  if (words[start] && (NUMBER_TOKEN.test(words[start]) || /^#/.test(words[start]))) start += 1;
+  let start = unitWordsAt(words, 0);
+  if (words[start] && NUMBER_TOKEN.test(words[start])) start += 1;
   if (words[start] && FRACTION_TOKEN.test(words[start])) start += 1;
   if (start < words.length - 1 && directionalWord().test(words[start]) && !typeWord().test(words[start + 1] ?? "")) {
     start += 1;

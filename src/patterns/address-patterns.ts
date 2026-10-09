@@ -17,6 +17,10 @@ const STANDALONE_UNIT_KEYWORDS =
 const UNIT_VALUE = String.raw`(?:[a-z]?\d[a-z0-9-]*|[a-z])(?![\p{L}\p{N}])`;
 const UNIT_SEPARATOR = String.raw`\.?(?:\s*#\s*|\s+(?:no\.?|n°)\s*|\s+)`;
 
+// A floor written number first: "6th Floor", "Sixth Floor", "6th Fl". Group 1 is the ordinal.
+const ORDINAL_FLOOR = String.raw`(\d+(?:st|nd|rd|th)|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\s+(?:floor|flr|fl)\.?`;
+const ORDINAL_FLOOR_PATTERN = new RegExp(`^${ORDINAL_FLOOR}$`, "i");
+
 // Written numbers that can appear as street numbers
 // Includes comprehensive ordinal support, plurals, and compound numbers
 // Supports both English and French
@@ -45,13 +49,13 @@ const WRITTEN_NUMBERS = WRITTEN_NUMBERS_EN + "|" + WRITTEN_NUMBERS_FR;
 // Secondary unit parsing patterns
 // A unit at the end of a street line: group 1 is the street before it, group 2 the unit text.
 const SECONDARY_UNIT_PATTERN = new RegExp(
-  `^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|(?:lt|lot)[a-z0-9]+|#\\s*[a-z0-9-]+)\\s*$`,
+  `^(.*?)\\s+((?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|(?:lt|lot)[a-z0-9]+|#\\s*[a-z0-9-]+|${ORDINAL_FLOOR.replace("(", "(?:")})\\s*$`,
   "iu",
 );
 
 // A comma part, or a line, that is only a unit: "Unit 4", "app. 4", "#12", "Bsmt".
 const UNIT_PART_PATTERN = new RegExp(
-  `^(?:(?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|#\\s*[a-z0-9-]+|(?:${STANDALONE_UNIT_KEYWORDS})\\.?)$`,
+  `^(?:(?:${UNIT_TYPE_KEYWORDS})${UNIT_SEPARATOR}${UNIT_VALUE}|#\\s*[a-z0-9-]+|(?:${STANDALONE_UNIT_KEYWORDS})\\.?|${ORDINAL_FLOOR.replace("(", "(?:")})$`,
   "iu",
 );
 
@@ -135,6 +139,7 @@ export {
   FACILITY_INDICATORS,
   FACILITY_PATTERNS,
   MUSIC_SQUARE_EAST_PATTERN,
+  ORDINAL_FLOOR_PATTERN,
   PARENTHETICAL_PATTERN,
   SECONDARY_UNIT_PATTERN,
   STANDALONE_UNIT_KEYWORDS,

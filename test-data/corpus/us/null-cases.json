@@ -51,9 +51,7 @@
         "description": "Input with no address: the placeholder N/A; the parse must fail",
         "input": "N/A",
         "expected": null,
-        "source": "Constructed for this corpus",
-        "todo": true,
-        "todoNote": "parse returned {\"street\":\"N/A\"}"
+        "source": "Constructed for this corpus"
       },
       {
         "name": "only commas",
