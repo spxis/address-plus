@@ -26,7 +26,8 @@ const COMPLETENESS_WEIGHTS = {
 
 /**
  * Checks an address: whether it has what an address needs, whether its ZIP or postal code is well formed and belongs
- * to the state, province or prefecture named, and how sure the parser is.
+ * to the state, province or prefecture named, and how sure the parser is. With country modules in
+ * `options.countries`, an Australian or British address is checked by its module's validator.
  *
  * @param addressString - The address as one string.
  * @param options - What to require and how strict to be (see `ValidationOptions`).
@@ -46,6 +47,7 @@ function validateAddress(addressString: string, options: ValidationOptions = {})
   // Parse the address first
   const parsedAddress = parseLocation(addressString, {
     country: options.country,
+    countries: options.countries,
     strict: options.strictPostalValidation,
     validatePostalCode: true,
   });
@@ -84,7 +86,14 @@ function validateAddress(addressString: string, options: ValidationOptions = {})
   // Validate required fields
   validateRequiredFields(parsedAddress, options, errors);
 
-  if (parsedAddress.country === "JP") {
+  // An address a country module read is checked by that module, completeness included: it knows what its
+  // country's addresses must hold (the United Kingdom has no state to miss).
+  const countryModule = options.countries?.find((module) => module.codes.includes(parsedAddress.country ?? ""));
+  if (countryModule) {
+    const found = countryModule.validate(parsedAddress, options);
+    errors.push(...found.errors);
+    warnings.push(...found.warnings);
+  } else if (parsedAddress.country === "JP") {
     // A Japanese address has no street type or state abbreviation to check; its own checks replace them.
     const japan = validateJapaneseAddress(parsedAddress, options);
     errors.push(...japan.errors);
@@ -104,7 +113,7 @@ function validateAddress(addressString: string, options: ValidationOptions = {})
   }
 
   // Check for incomplete addresses and add warnings
-  checkCompletenessWarnings(parsedAddress, warnings);
+  if (!countryModule) checkCompletenessWarnings(parsedAddress, warnings);
 
   // Generate suggestions
   generateSuggestions(parsedAddress, addressString, suggestions);
@@ -391,7 +400,7 @@ function checkCompletenessWarnings(address: ParsedAddress, warnings: ValidationE
 
 function generateSuggestions(address: ParsedAddress, originalInput: string, suggestions: string[]): void {
   // Suggest adding missing components; a Japanese address has no street type to add
-  if (!address.type && address.street && address.country !== "JP") {
+  if (!address.type && address.street && (address.country === undefined || ["US", "CA"].includes(address.country))) {
     suggestions.push("Consider adding street type (St, Ave, Rd, etc.)");
   }
 

@@ -15,7 +15,7 @@ const address: ParsedAddress = {
 
 expectType<string | undefined>(address.number);
 expectType<string | undefined>(address.street);
-expectType<"CA" | "US" | "JP" | undefined>(address.country);
+expectType<"CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | undefined>(address.country);
 
 // Test ParseOptions type
 const options: ParseOptions = {
@@ -24,7 +24,7 @@ const options: ParseOptions = {
   language: "en",
 };
 
-expectType<"CA" | "US" | "JP" | "auto" | undefined>(options.country);
+expectType<"CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto" | undefined>(options.country);
 expectType<"en" | "fr" | "auto" | undefined>(options.language);
 
 // Test ParsedIntersection type

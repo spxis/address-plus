@@ -1,6 +1,12 @@
 // Export all types from the types directory
 
 export type { AddressParser } from "./address-parser";
+export type {
+  AustralianAddressFields,
+  AustralianPostcodeRange,
+  AustralianState,
+  AustralianStateCode,
+} from "./australia";
 export type { BatchParseError, BatchParseOptions, BatchParseResult, BatchParseStats } from "./batch-parse";
 export type { CleanAddressOptions, CleanAddressResult } from "./clean-address";
 export type {
@@ -11,6 +17,7 @@ export type {
   AddressSimilarityResult,
   FuzzyMatchOptions,
 } from "./comparison";
+export type { CountryComparison, CountryDifference, CountryModule, CountryValidation } from "./country-module";
 export type {
   AddressAbbreviations,
   AddressFormattingOptions,
@@ -22,6 +29,7 @@ export type { JapaneseAddressFields, JapaneseMunicipality, JapanesePrefecture } 
 export type { ParseOptions } from "./parse-options";
 export type { ParsedAddress } from "./parsed-address";
 export type { ParsedIntersection } from "./parsed-intersection";
+export type { UKAddressFields, UKNation, UKNationCode, UKPostcode } from "./united-kingdom";
 
 export type { Region } from "./region";
 

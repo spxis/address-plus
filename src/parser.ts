@@ -2,6 +2,7 @@
 
 import { DIRECTIONAL_MAP, SECONDARY_UNIT_TYPES } from "./constants/index";
 import { ALL_SUB_REGION_NAMES } from "./constants/sub-regions";
+import { pickCountryModule } from "./country/pick";
 import { looksJapanese, parseJapaneseAddress } from "./jp/parse";
 import { parseInformalAddress } from "./parsers/informal-address-parser";
 import { parseIntersection } from "./parsers/intersection-parser";
@@ -85,7 +86,9 @@ const cityAndFullState = (patterns: ReturnType<typeof buildPatterns>): RegExp =>
  * Parses a US, Canadian or Japanese address into its parts. The country is detected from the text (a state, a
  * province, a postal code, Japanese script or romaji designators) unless `options.country` names it. A Japanese
  * address fills its own fields (`prefecture`, `municipality`, `town`, `chome`, `ban`, `go`) and the shared ones that
- * stand for them.
+ * stand for them. Australia and the United Kingdom are read too when their modules are passed in `options.countries`
+ * (`australia` from `/au`, `unitedKingdom` from `/gb`): `options.country` picks one, or each module's own detection
+ * decides, before the US, Canada and Japan are tried.
  *
  * @param address - The address as one string; commas, line breaks and full-width characters are all read.
  * @param options - How to parse: the country, strict postal codes, snake_case keys and the rest (see `ParseOptions`).
@@ -113,6 +116,11 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   if (!/\p{L}{2}/u.test(original) && !/\d/.test(original)) {
     return null;
   }
+
+  // A country read by a module the caller handed in (Australia, the United Kingdom): the hint names it, or the
+  // module's own detection is sure of the address. Without countries, nothing here changes.
+  const countryModule = pickCountryModule(original, options.country, options.countries);
+  if (countryModule) return countryModule.parse(original, options);
 
   // Japan writes addresses differently enough to have a parser of its own.
   if (options.country === "JP" || (options.country !== "US" && options.country !== "CA" && looksJapanese(original))) {

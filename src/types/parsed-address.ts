@@ -1,7 +1,10 @@
 // Parsed address result with all possible fields. A Japanese address fills its own fields (prefecture,
 // municipality, town, chome, ban, go, building, floor, room) and the shared ones that stand for them:
-// state holds the prefecture's JIS code, city the municipality, street the town, number the block.
+// state holds the prefecture's JIS code, city the municipality, street the town, number the block. An
+// Australian or British address, read by its country's module, adds the few fields of its own.
+import type { AustralianAddressFields } from "./australia";
 import type { JapaneseAddressFields } from "./japan";
+import type { UKAddressFields } from "./united-kingdom";
 
 /**
  * What `parseLocation` returns: every part it found, each absent when the address has none. A Japanese address fills
@@ -14,10 +17,10 @@ import type { JapaneseAddressFields } from "./japan";
  * // → {"number":"123","secUnitType":"Apartment","secUnitNum":"4","unit":"Apt 4","street":"Main","type":"St","city":"Anytown","state":"NY","zip":"12345","zipValid":true,"country":"US"}
  * ```
  */
-interface ParsedAddress extends JapaneseAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP"; // Detected country
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
