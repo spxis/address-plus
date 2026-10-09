@@ -1,5 +1,26 @@
 # address-plus
 
+**Try it:** [the demo](https://johnmorrisdotca.github.io/address-plus/), in your browser with nothing to install · [API reference](https://johnmorrisdotca.github.io/address-plus/api.html)
+
+<table align="center">
+<tr>
+<td align="center" valign="top">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-desk-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-desk-light.webp" alt="The demo on a desk, in English: the header with its language chooser, the API reference link, five cloth patches and the Help switch, then panels in two columns. Parse shows 1600 Pennsylvania Ave NW, Washington, DC 20500 split into number 1600, street Pennsylvania, street type Ave, direction NW, city Washington, state DC, ZIP 20500 and country US, with the call parseLocation under it. Validate shows 123 Main St, Seattle, NY 98101 as valid with the warning POSTAL_REGION_MISMATCH: ZIP code 98101 belongs to WA, not NY" width="600">
+</picture>
+<br><em>The demo on a desk: each panel answers the example in its box, with the call that made it.</em>
+</td>
+<td align="center" valign="top">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-phone-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/address-plus/main/docs/images/hero-phone-light.webp" alt="The demo on a phone, in Japanese: the header with its language chooser, patches and Help switch, then the first panel, 住所を読み取る (parseLocation), with the Japanese example 〒100-0005 東京都千代田区丸の内1丁目2番3号 typed in and its example buttons, the 日本語 one pressed" width="190">
+</picture>
+<br><em>On a phone, in Japanese, in the device's light or dark.</em>
+</td>
+</tr>
+</table>
+
 A modern, TypeScript‑first address parser and normalizer for US and Canada. Supports USPS and Canada Post formats, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
 
 ## Features
