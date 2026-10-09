@@ -145,7 +145,7 @@ describe("Compatibility Tests", () => {
 
           if (testCase.expected) {
             Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              expect((result as any)?.[key]).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -166,7 +166,7 @@ describe("Compatibility Tests", () => {
 
           if (testCase.expected) {
             Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              expect((result as any)?.[key]).toBe(testCase.expected?.[key]);
             });
           }
         });
@@ -182,7 +182,7 @@ describe("Compatibility Tests", () => {
 
           if (testCase.expected) {
             Object.keys(testCase.expected).forEach((key) => {
-              expect((result as any)?.[key]).toBe(testCase.expected[key]);
+              expect((result as any)?.[key]).toBe(testCase.expected?.[key]);
             });
           }
         });
