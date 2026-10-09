@@ -68,4 +68,16 @@ export {
 } from "./us-states";
 export { STREET_TYPE_EXPANSIONS, US_STREET_TYPES } from "./us-street-types";
 export { getStateFromZip, getZipPrefixesForState } from "./zip-code-states";
+export {
+  findMunicipalitiesByRomaji,
+  findMunicipalityByCode,
+  findPrefecture,
+  getPostalPrefixesForPrefecture,
+  getPrefectureFromJapanesePostalCode,
+  JP_MUNICIPALITIES,
+  JP_POSTAL_EXCEPTIONS,
+  JP_POSTAL_PREFIXES,
+  JP_PREFECTURES,
+  municipalitiesOf,
+} from "./jp";
 export type { StateCode } from "./zip-code-states";

@@ -31,6 +31,7 @@ import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/addre
 import { capitalizeStreetName } from "./utils/capitalization";
 import { toSnakeCase } from "./utils/case-converter";
 import { detectCountry, parseStateProvince } from "./utils/parsing";
+import { looksJapanese, parseJapaneseAddress } from "./jp/parse";
 import { abbreviateRegionConnectors } from "./utils/region-connectors";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
@@ -50,6 +51,11 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   // Strip surrounding parentheses if present
   if (original.startsWith("(") && original.endsWith(")")) {
     original = original.slice(1, -1).trim();
+  }
+
+  // Japan writes addresses differently enough to have a parser of its own.
+  if (options.country === "JP" || (options.country !== "US" && options.country !== "CA" && looksJapanese(original))) {
+    return parseJapaneseAddress(original, options);
   }
 
   // Check for intersection first

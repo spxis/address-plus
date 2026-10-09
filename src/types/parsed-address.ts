@@ -1,7 +1,11 @@
-// Parsed address result with all possible fields
-interface ParsedAddress {
-  city?: string; // City name
-  country?: "CA" | "US"; // Detected country (US, CA)
+// Parsed address result with all possible fields. A Japanese address fills its own fields (prefecture,
+// municipality, town, chome, ban, go, building, floor, room) and the shared ones that stand for them:
+// state holds the prefecture's JIS code, city the municipality, street the town, number the block.
+import type { JapaneseAddressFields } from "./japan";
+
+interface ParsedAddress extends JapaneseAddressFields {
+  city?: string; // City name, or the municipality in Japan
+  country?: "CA" | "US" | "JP"; // Detected country
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   locality?: string; // Sub-city locality (borough, district, neighborhood)

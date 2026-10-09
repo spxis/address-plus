@@ -3,6 +3,7 @@
 // Country codes used in address parsing
 const COUNTRIES = {
   CANADA: "CA",
+  JAPAN: "JP",
   UNITED_STATES: "US",
 } as const;
 

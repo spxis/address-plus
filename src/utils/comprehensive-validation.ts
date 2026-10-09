@@ -3,6 +3,7 @@
 import { getProvinceFromPostalCode, getStateFromZip, validatePostalCode } from "../constants";
 import { parseLocation } from "../parser";
 import type { AddressValidationResult, ParsedAddress, ValidationError, ValidationOptions } from "../types";
+import { validateJapaneseAddress } from "../jp/validate";
 import { normalizeRegion } from "../utils";
 
 // Constants for validation scoring
@@ -70,17 +71,24 @@ function validateAddress(addressString: string, options: ValidationOptions = {})
   // Validate required fields
   validateRequiredFields(parsedAddress, options, errors);
 
-  // Validate field formats and content
-  validateFieldFormats(parsedAddress, errors, warnings);
+  if (parsedAddress.country === "JP") {
+    // A Japanese address has no street type or state abbreviation to check; its own checks replace them.
+    const japan = validateJapaneseAddress(parsedAddress, options);
+    errors.push(...japan.errors);
+    warnings.push(...japan.warnings);
+  } else {
+    // Validate field formats and content
+    validateFieldFormats(parsedAddress, errors, warnings);
 
-  // Validate postal code if present
-  validatePostalCodeField(parsedAddress, options, errors, warnings);
+    // Validate postal code if present
+    validatePostalCodeField(parsedAddress, options, errors, warnings);
 
-  // Validate state/province
-  validateStateProvince(parsedAddress, warnings);
+    // Validate state/province
+    validateStateProvince(parsedAddress, warnings);
 
-  // The postal code must belong to the state or province named
-  validatePostalRegion(parsedAddress, options, errors, warnings);
+    // The postal code must belong to the state or province named
+    validatePostalRegion(parsedAddress, options, errors, warnings);
+  }
 
   // Check for incomplete addresses and add warnings
   checkCompletenessWarnings(parsedAddress, warnings);

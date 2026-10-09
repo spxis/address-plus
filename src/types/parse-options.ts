@@ -1,6 +1,6 @@
 // Options to control address parsing behavior
 interface ParseOptions {
-  country?: "CA" | "US" | "auto"; // Country to optimize parsing for
+  country?: "CA" | "US" | "JP" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)

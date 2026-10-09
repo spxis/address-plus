@@ -18,6 +18,7 @@ export type {
   FormattedAddress,
   USPSFormattingOptions,
 } from "./formatting";
+export type { JapaneseAddressFields, JapaneseMunicipality, JapanesePrefecture } from "./japan";
 export type { ParseOptions } from "./parse-options";
 export type { ParsedAddress } from "./parsed-address";
 export type { ParsedIntersection } from "./parsed-intersection";

@@ -50,4 +50,12 @@ export { cleanAddress, cleanAddressDetailed } from "./utils/clean-address";
 // Validation functions
 export { getValidationErrors, isValidAddress, validateAddress } from "./utils/comprehensive-validation";
 
+// Japanese addresses; the whole module is also "@johnmorrisdotca/address-plus/jp"
+export { formatJapanese, formatJapaneseEnglish } from "./jp/format";
+export type { JapaneseEnglishFormattingOptions, JapaneseFormattingOptions } from "./jp/format";
+export { kanjiNumeralsToDigits, normalizeJapaneseAddressText } from "./jp/normalize";
+export { looksJapanese, parseJapaneseAddress } from "./jp/parse";
+export { validateJapaneseAddress } from "./jp/validate";
+export type { JapaneseValidation } from "./jp/validate";
+
 export default parser;
