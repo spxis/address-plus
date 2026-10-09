@@ -19,13 +19,13 @@ A modern, TypeScript‑first address parser and normalizer for US and Canada. Su
 
 ```bash
 # npm
-npm install @spxis/address-plus
+npm install @johnmorrisdotca/address-plus
 
 # pnpm
-pnpm add @spxis/address-plus
+pnpm add @johnmorrisdotca/address-plus
 
 # yarn
-yarn add @spxis/address-plus
+yarn add @johnmorrisdotca/address-plus
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ yarn add @spxis/address-plus
 ### JavaScript (ES6+)
 
 ```javascript
-import { parseLocation, parseIntersection } from "@spxis/address-plus";
+import { parseLocation, parseIntersection } from "@johnmorrisdotca/address-plus";
 
 // Parse a standard address
 const result = parseLocation("123 Main Street, Anytown, NY 12345");
@@ -77,7 +77,7 @@ console.log(intersection);
 ### TypeScript
 
 ```typescript
-import { parseLocation, parseIntersection, type ParsedAddress, type ParsedIntersection } from "@spxis/address-plus";
+import { parseLocation, parseIntersection, type ParsedAddress, type ParsedIntersection } from "@johnmorrisdotca/address-plus";
 
 // Typed address parsing
 const address: ParsedAddress | null = parseLocation("1600 Pennsylvania Ave NW, Washington DC 20500");
@@ -112,7 +112,7 @@ console.log(canadianAddress);
 ### Node.js (CommonJS)
 
 ```javascript
-const { parseLocation, parseIntersection } = require("@spxis/address-plus");
+const { parseLocation, parseIntersection } = require("@johnmorrisdotca/address-plus");
 
 // Parse addresses in Node.js
 const address = parseLocation("456 Oak Street, Suite 100, Boston MA 02101");
@@ -332,7 +332,7 @@ import {
   getStateFromZip,
   getPostalPrefixesForProvince,
   getZipPrefixesForState,
-} from "@spxis/address-plus";
+} from "@johnmorrisdotca/address-plus";
 
 getProvinceFromPostalCode("R8M 8G0"); // 'MB'
 getStateFromZip("90210"); // 'CA'
@@ -359,7 +359,7 @@ Process multiple addresses efficiently with built-in batch functions:
 ### Simple Batch Functions
 
 ```javascript
-import { parseLocations, parseAddresses, parseIntersections } from "@spxis/address-plus";
+import { parseLocations, parseAddresses, parseIntersections } from "@johnmorrisdotca/address-plus";
 
 // Process multiple addresses (returns array of results)
 const addresses = [
@@ -383,7 +383,7 @@ const intersectionResults = parseIntersections(intersections);
 ### Advanced Batch Functions (with Statistics)
 
 ```javascript
-import { parseLocationsBatch, parseAddressesBatch } from "@spxis/address-plus";
+import { parseLocationsBatch, parseAddressesBatch } from "@johnmorrisdotca/address-plus";
 
 const addresses = [
   "123 Main St, New York, NY 10001",
