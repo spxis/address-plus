@@ -19,7 +19,7 @@ import { parseAddress, parseInformalAddress, parseIntersection, parseLocation } 
 // Helper Functions
 interface TestCase {
   input: string;
-  expected?: Record<string, any>;
+  expected?: Record<string, unknown>;
   description?: string;
 }
 
@@ -52,7 +52,7 @@ describe("Core Address Parser Tests", () => {
   describe("US Address Parsing", () => {
     Object.entries(testFiles.us).forEach(([fileKey, filePath]) => {
       const data = JSON.parse(readFileSync(join(__dirname, filePath), "utf-8"));
-      
+
       Object.entries(data.tests).forEach(([groupName, testCases]) => {
         const tests = testCases as TestCase[];
         // Use parseIntersection for intersections, parseAddress for famous addresses, parseLocation for everything else
@@ -77,11 +77,11 @@ describe("Core Address Parser Tests", () => {
 
                 if (testCase.expected) {
                   // Handle strict mode expectations
-                  const expectations = testCase.expected.strict || testCase.expected;
+                  const expectations = (testCase.expected.strict || testCase.expected) as Record<string, unknown>;
                   Object.keys(expectations).forEach((key) => {
                     const expectedValue = expectations[key];
-                    const actualValue = (result as any)?.[key];
-                    
+                    const actualValue = (result as Record<string, unknown> | null)?.[key];
+
                     // Handle null expectations for missing fields (e.g., zip: null when no zip field exists)
                     if (expectedValue === null && actualValue === undefined) {
                       expect(actualValue).toBeUndefined(); // This passes
@@ -101,7 +101,7 @@ describe("Core Address Parser Tests", () => {
   describe("Canada Address Parsing", () => {
     Object.entries(testFiles.canada).forEach(([fileKey, filePath]) => {
       const data = JSON.parse(readFileSync(join(__dirname, filePath), "utf-8"));
-      
+
       Object.entries(data.tests).forEach(([groupName, testCases]) => {
         const tests = testCases as TestCase[];
         describe(`${fileKey} - ${groupName}`, () => {
@@ -118,11 +118,11 @@ describe("Core Address Parser Tests", () => {
 
                 if (testCase.expected) {
                   // Handle strict mode expectations
-                  const expectations = testCase.expected.strict || testCase.expected;
+                  const expectations = (testCase.expected.strict || testCase.expected) as Record<string, unknown>;
                   Object.keys(expectations).forEach((key) => {
                     const expectedValue = expectations[key];
-                    const actualValue = (result as any)?.[key];
-                    
+                    const actualValue = (result as Record<string, unknown> | null)?.[key];
+
                     // Handle null expectations for missing fields (e.g., zip: null when no zip field exists)
                     if (expectedValue === null && actualValue === undefined) {
                       expect(actualValue).toBeUndefined(); // This passes
@@ -142,10 +142,10 @@ describe("Core Address Parser Tests", () => {
   describe("Core Function Testing", () => {
     Object.entries(testFiles.core).forEach(([fileKey, filePath]) => {
       const data = JSON.parse(readFileSync(join(__dirname, filePath), "utf-8"));
-      
+
       Object.entries(data.tests).forEach(([groupName, testCases]) => {
         const tests = testCases as TestCase[];
-        
+
         // Determine parser function based on file type
         let parserFunction = parseLocation;
         if (fileKey.includes("informal")) {
@@ -153,14 +153,14 @@ describe("Core Address Parser Tests", () => {
         }
 
         describe(`${fileKey} - ${groupName}`, () => {
-          tests.forEach((testCase, index) => {
-            test(`should ${testCase.expected ? 'parse' : 'return null for'} ${testCase.description || testCase.input}`, () => {
+          tests.forEach((testCase) => {
+            test(`should ${testCase.expected ? "parse" : "return null for"} ${testCase.description || testCase.input}`, () => {
               const result = parserFunction(testCase.input);
 
               if (testCase.expected) {
                 expect(result).toBeTruthy();
                 Object.keys(testCase.expected).forEach((key) => {
-                  expect((result as any)?.[key]).toBe(testCase.expected![key]);
+                  expect((result as Record<string, unknown> | null)?.[key]).toBe(testCase.expected![key]);
                 });
               } else {
                 expect(result).toBeNull();

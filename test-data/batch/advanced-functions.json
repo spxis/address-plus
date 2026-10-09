@@ -6,11 +6,7 @@
     "withStatistics": [
       {
         "description": "Basic batch processing with error tracking",
-        "addresses": [
-          "123 Main St, New York, NY 10001",
-          "",
-          "456 Oak Ave, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001", "", "456 Oak Ave, Los Angeles, CA 90210"],
         "expectedStats": {
           "total": 3,
           "successful": 2,
@@ -25,12 +21,7 @@
       },
       {
         "description": "Error tracking with empty and whitespace strings",
-        "addresses": [
-          "123 Main St, New York, NY 10001",
-          "",
-          "   ",
-          "456 Oak Ave, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001", "", "   ", "456 Oak Ave, Los Angeles, CA 90210"],
         "expectedStats": {
           "total": 4,
           "successful": 2,
@@ -39,11 +30,7 @@
       },
       {
         "description": "Testing stopOnError functionality",
-        "addresses": [
-          "123 Main St, New York, NY 10001",
-          "",
-          "456 Oak Ave, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001", "", "456 Oak Ave, Los Angeles, CA 90210"],
         "options": {
           "stopOnError": true
         },
@@ -102,12 +89,7 @@
     "edgeCases": [
       {
         "description": "Mixed valid and invalid addresses including null/undefined",
-        "addresses": [
-          "123 Main St, New York, NY 10001",
-          null,
-          "",
-          "456 Oak Ave, Los Angeles, CA 90210"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001", null, "", "456 Oak Ave, Los Angeles, CA 90210"],
         "expectedStats": {
           "total": 4,
           "successful": 2,
@@ -132,9 +114,7 @@
     "options": [
       {
         "description": "Testing option passthrough to underlying parsers",
-        "addresses": [
-          "123 Main St, New York, NY 10001"
-        ],
+        "addresses": ["123 Main St, New York, NY 10001"],
         "options": {
           "strict": true,
           "country": "US"

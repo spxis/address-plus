@@ -95,10 +95,7 @@
         "expected": {
           "cleanedAddress": "123 Main Street, Dallas Texas 75201",
           "wasModified": true,
-          "changes": [
-            "Expanded abbreviations to full names",
-            "Applied title case standardization"
-          ]
+          "changes": ["Expanded abbreviations to full names", "Applied title case standardization"]
         },
         "options": {
           "expandAbbreviations": true,
@@ -122,9 +119,7 @@
         "expected": {
           "cleanedAddress": "123 MAIN ST, ANYTOWN CA 90210",
           "wasModified": true,
-          "changes": [
-            "Applied USPS formatting standards"
-          ]
+          "changes": ["Applied USPS formatting standards"]
         },
         "options": {
           "format": "usps"
@@ -136,9 +131,7 @@
         "expected": {
           "cleanedAddress": "123 MAPLE ST, TORONTO ON  M5V 3A8",
           "wasModified": true,
-          "changes": [
-            "Applied Canada Post formatting standards"
-          ]
+          "changes": ["Applied Canada Post formatting standards"]
         },
         "options": {
           "format": "canada-post"
@@ -150,9 +143,7 @@
         "expected": {
           "cleanedAddress": "Xyz123",
           "wasModified": true,
-          "changes": [
-            "Applied smart title case"
-          ]
+          "changes": ["Applied smart title case"]
         },
         "options": {}
       },
@@ -172,10 +163,7 @@
         "name": "standard format with abbreviations",
         "input": "123 Main Street Apt 2B, Anytown California 90210",
         "expected": "Apartment 2b 123 Main St, Anytown CA 90210",
-        "expectContains": [
-          "Main St",
-          "CA"
-        ],
+        "expectContains": ["Main St", "CA"],
         "options": {
           "format": "standard"
         }
@@ -184,10 +172,7 @@
         "name": "standard format without abbreviations",
         "input": "123 Main St Apt 2B, Anytown CA 90210",
         "expected": "Apartment 2b 123 Main Street, Anytown California 90210",
-        "expectContains": [
-          "Main Street",
-          "California"
-        ],
+        "expectContains": ["Main Street", "California"],
         "options": {
           "format": "standard",
           "expandAbbreviations": true
@@ -197,10 +182,7 @@
         "name": "USPS format standardization",
         "input": "123 Main Street Apt 2B, Anytown California 90210",
         "expected": "123 MAIN ST APT 2B, ANYTOWN CA 90210",
-        "expectContains": [
-          "MAIN ST",
-          "APT"
-        ],
+        "expectContains": ["MAIN ST", "APT"],
         "options": {
           "format": "usps"
         }
@@ -209,10 +191,7 @@
         "name": "Canada Post with proper spacing",
         "input": "123 King Street Toronto Ontario M5H1K4",
         "expected": "123 KING ST, TORONTO ON  M5H 1K4",
-        "expectContains": [
-          "KING ST",
-          "ON  M5H"
-        ],
+        "expectContains": ["KING ST", "ON  M5H"],
         "options": {
           "format": "canada-post"
         }

@@ -2,6 +2,7 @@
 
 import { DIRECTIONAL_MAP, SECONDARY_UNIT_TYPES } from "./constants/index";
 import { ALL_SUB_REGION_NAMES } from "./constants/sub-regions";
+import { looksJapanese, parseJapaneseAddress } from "./jp/parse";
 import { parseInformalAddress } from "./parsers/informal-address-parser";
 import { parseIntersection } from "./parsers/intersection-parser";
 import { createParser, parseAddress, parser, setParseLocationImpl } from "./parsers/parser-orchestrator";
@@ -24,14 +25,13 @@ import {
   ZIP_VALIDATION_PATTERNS,
 } from "./patterns/core-patterns";
 import { CANADIAN_POSTAL_LIBERAL_PATTERN, CITY_PATTERNS, ZIP_CODE_PATTERN } from "./patterns/location-patterns";
+import { BASIC_VALIDATION_PATTERNS, DIGIT_PATTERNS, ROAD_NAME_PATTERNS } from "./patterns/parser-patterns";
 import { buildPatterns } from "./patterns/pattern-builder";
-import { BASIC_VALIDATION_PATTERNS, DIGIT_PATTERNS, ROAD_NAME_PATTERNS, UTILITY_PATTERNS } from "./patterns/parser-patterns";
 import type { ParsedAddress, ParseOptions } from "./types";
-import { hasValidAddressComponents, setValidatedPostalCode } from "./utils/address-validation";
+import { setValidatedPostalCode } from "./utils/address-validation";
 import { capitalizeStreetName } from "./utils/capitalization";
 import { toSnakeCase } from "./utils/case-converter";
 import { detectCountry, parseStateProvince } from "./utils/parsing";
-import { looksJapanese, parseJapaneseAddress } from "./jp/parse";
 import { abbreviateRegionConnectors } from "./utils/region-connectors";
 import { normalizeStreetType } from "./utils/street-type-normalizer";
 
@@ -65,7 +65,7 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   if (new RegExp(patterns.intersection, "i").test(connectorsChecked)) {
     const result = parseIntersection(connectorsChecked, options);
     if (result && options.useSnakeCase) {
-      return toSnakeCase(result) as any;
+      return toSnakeCase(result) as unknown as ParsedAddress;
     }
     return result;
   }
@@ -75,7 +75,7 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
   if (poBoxMatch) {
     const result = parsePoBox(original, options);
     if (result && options.useSnakeCase) {
-      return toSnakeCase(result) as any;
+      return toSnakeCase(result) as unknown as ParsedAddress;
     }
     return result;
   }
@@ -87,7 +87,11 @@ function parseLocation(address: string, options: ParseOptions = {}): ParsedAddre
 // Simple validation to check if address contains basic components
 function hasValidAddressComponentsLocal(address: string): boolean {
   // Basic check for numbers and letters
-  return BASIC_VALIDATION_PATTERNS.HAS_DIGITS.test(address) && BASIC_VALIDATION_PATTERNS.HAS_LETTERS.test(address) && address.trim().length > 3;
+  return (
+    BASIC_VALIDATION_PATTERNS.HAS_DIGITS.test(address) &&
+    BASIC_VALIDATION_PATTERNS.HAS_LETTERS.test(address) &&
+    address.trim().length > 3
+  );
 }
 
 // Parse standard addresses with number, street, type, city, state, zip
@@ -112,12 +116,6 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   // Detect facility addresses (facility name comes first, followed by actual address)
   let addressStartIndex = 0;
   let facilityName = "";
-  // Track if address was embedded inline in the first part (via delimiter or parentheses)
-  let addressInlineInFirstPart = false;
-  // Preserve delimiter used between facility and address when inline
-  let facilityDelimiter: string | null = null;
-  // Preserve original spaces between facility and trailing Island phrase
-  let preservedFacilitySpacing: string | null = null;
   // Address part override when inline address found in first comma part
   let addressPartOverride: string | null = null;
 
@@ -151,22 +149,17 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
         addressPartOverride = parenInline[2].trim();
         addressStartIndex = 0;
         excludedPartIndices.add(0);
-        addressInlineInFirstPart = true;
       } else if (delimInline) {
         facilityName = delimInline[1].trim();
-        facilityDelimiter = delimInline[2];
         addressPartOverride = delimInline[3].trim();
         addressStartIndex = 0;
         excludedPartIndices.add(0);
-        addressInlineInFirstPart = true;
       } else if (trailingIsland) {
         // Keep trailing Island phrase as address part and preserve spacing
         facilityName = trailingIsland[1].trim();
-        preservedFacilitySpacing = trailingIsland[2];
         addressPartOverride = trailingIsland[3].trim();
         addressStartIndex = 0;
         excludedPartIndices.add(0);
-        addressInlineInFirstPart = true;
       }
 
       // Check if this looks like a facility name vs a street name
@@ -179,7 +172,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
       const hasMultipleWords = words.length >= 2;
       const hasFacilityIndicator = words.some((word) =>
-        FACILITY_INDICATORS.includes(word.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, "") as any),
+        FACILITY_INDICATORS.includes(
+          word.toLowerCase().replace(VALIDATION_PATTERNS.NON_WORD, "") as (typeof FACILITY_INDICATORS)[number],
+        ),
       );
 
       // If it's multiple words with facility indicators, treat as facility
@@ -199,7 +194,6 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
   }
 
   // Extract ZIP from end and work backwards
-  const invalidZipCandidate = ""; // Track invalid ZIP patterns for validation in strict mode
   let zipPart = "";
   let statePart = "";
   let cityPart = "";
@@ -802,19 +796,20 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
     if (suffixMatch) {
       const beforeDirectional = suffixMatch[1].trim();
       const dirRaw = suffixMatch[2].toLowerCase();
-      
+
       // Don't extract directionals that are clearly part of road names
-      const isPartOfRoadName = (
+      const isPartOfRoadName =
         ROAD_NAME_PATTERNS.NUMBERED_ROAD.test(beforeDirectional) || // "County Road 250", "State Highway 1A"
         ROAD_NAME_PATTERNS.ORDINAL_STREET.test(beforeDirectional) || // "1st Street", "42nd Avenue"
-        ROAD_NAME_PATTERNS.DIRECTIONAL_STREET.test(beforeDirectional) // "North Street", "West Avenue"
-      );
-      
+        ROAD_NAME_PATTERNS.DIRECTIONAL_STREET.test(beforeDirectional); // "North Street", "West Avenue"
+
       if (!isPartOfRoadName) {
         remaining = beforeDirectional;
         // Try multiple directional formats: exact match, without dot, with dot
         const normalizedDirectional =
-          DIRECTIONAL_MAP[dirRaw] || DIRECTIONAL_MAP[dirRaw.replace(BASIC_VALIDATION_PATTERNS.TRAILING_DOT, "")] || DIRECTIONAL_MAP[dirRaw + "."];
+          DIRECTIONAL_MAP[dirRaw] ||
+          DIRECTIONAL_MAP[dirRaw.replace(BASIC_VALIDATION_PATTERNS.TRAILING_DOT, "")] ||
+          DIRECTIONAL_MAP[dirRaw + "."];
         result.suffix = normalizedDirectional || suffixMatch[2].toUpperCase();
       }
     }
@@ -849,7 +844,9 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
       // English pattern with directional: "Main St West" or "Front Street West"
       result.street = capitalizeStreetName(streetTypeWithDirectionalMatch[1].trim());
       result.type = normalizeStreetType(streetTypeWithDirectionalMatch[2]);
-      const dirRaw = streetTypeWithDirectionalMatch[3].toLowerCase().replace(BASIC_VALIDATION_PATTERNS.TRAILING_DOT, ""); // Remove trailing dot
+      const dirRaw = streetTypeWithDirectionalMatch[3]
+        .toLowerCase()
+        .replace(BASIC_VALIDATION_PATTERNS.TRAILING_DOT, ""); // Remove trailing dot
       const normalizedDirectional =
         DIRECTIONAL_MAP[dirRaw] ||
         DIRECTIONAL_MAP[dirRaw + "."] ||
@@ -971,7 +968,7 @@ function parseStandardAddress(address: string, options: ParseOptions = {}): Pars
 
   // Convert to snake_case if requested for backward compatibility
   if (finalResult && options.useSnakeCase) {
-    return toSnakeCase(finalResult) as any;
+    return toSnakeCase(finalResult) as unknown as ParsedAddress;
   }
 
   return finalResult;

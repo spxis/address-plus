@@ -12,7 +12,7 @@ const invalidCasesTests = testData.tests?.invalidCases || [];
 
 describe("Postal Code to Province Mapping", () => {
   describe("Province Mapping", () => {
-    provinceMappingTests.forEach(({ name, description, input, expected }: PostalMappingTestCase) => {
+    provinceMappingTests.forEach(({ name, input, expected }: PostalMappingTestCase) => {
       it(`should ${name}`, () => {
         const result = getProvinceFromPostalCode(input);
         expect(result).toBe(expected);
@@ -21,7 +21,7 @@ describe("Postal Code to Province Mapping", () => {
   });
 
   describe("Format Variations", () => {
-    formatVariationsTests.forEach(({ name, description, input, expected }: PostalMappingTestCase) => {
+    formatVariationsTests.forEach(({ name, input, expected }: PostalMappingTestCase) => {
       it(`should handle ${name}`, () => {
         const result = getProvinceFromPostalCode(input);
         expect(result).toBe(expected);
@@ -30,7 +30,7 @@ describe("Postal Code to Province Mapping", () => {
   });
 
   describe("Invalid Cases", () => {
-    invalidCasesTests.forEach(({ name, description, input, expected }: PostalMappingTestCase) => {
+    invalidCasesTests.forEach(({ name, input, expected }: PostalMappingTestCase) => {
       it(`should handle ${name}`, () => {
         const result = getProvinceFromPostalCode(input);
         expect(result).toBe(expected);

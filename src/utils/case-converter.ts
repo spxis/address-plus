@@ -14,8 +14,8 @@ const FIELD_NAME_MAPPING: Record<string, string> = {
 };
 
 // Convert a camelCase ParsedAddress to snake_case for backward compatibility
-function toSnakeCase(address: ParsedAddress): Record<string, any> {
-  const result: Record<string, any> = {};
+function toSnakeCase(address: ParsedAddress): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(address)) {
     if (value !== undefined) {
@@ -28,14 +28,14 @@ function toSnakeCase(address: ParsedAddress): Record<string, any> {
 }
 
 // Convert a snake_case object to camelCase ParsedAddress
-function toCamelCase(address: Record<string, any>): ParsedAddress {
+function toCamelCase(address: Record<string, unknown>): ParsedAddress {
   const result: ParsedAddress = {};
   const reverseMapping = Object.fromEntries(Object.entries(FIELD_NAME_MAPPING).map(([camel, snake]) => [snake, camel]));
 
   for (const [key, value] of Object.entries(address)) {
     if (value !== undefined) {
       const camelKey = reverseMapping[key] || key;
-      (result as any)[camelKey] = value;
+      (result as Record<string, unknown>)[camelKey] = value;
     }
   }
 

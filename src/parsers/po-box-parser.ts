@@ -19,7 +19,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
   //  - RR 2 Site 10 Comp 5 Whitehorse YT Y1A 0C1 (not a pure PO Box, but special postal)
 
   const text = address.trim();
-  const poMatch = text.match(new RegExp(`^\s*${patterns.poBox}`, "i"));
+  const poMatch = text.match(new RegExp(`^\\s*${patterns.poBox}`, "i"));
   if (!poMatch) return null;
 
   // First, try a strict US PO Box pattern: indicator + number + city + state + zip
@@ -67,7 +67,7 @@ function parsePoBox(address: string, options: ParseOptions = {}): ParsedAddress 
     if (kind.startsWith("rr")) {
       result.rr = value || undefined;
       if (value) {
-        (result as Record<string, any>).ruralRoute = `RR ${value}`;
+        result.ruralRoute = `RR ${value}`;
       }
     } else if (kind === "rpo") {
       result.rpo = value || undefined;

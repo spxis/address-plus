@@ -1,7 +1,7 @@
 // Test Interfaces for Address Plus Test Suite
 // This file consolidates all test case interfaces used across the test files
 
-import type { BatchParseOptions, CleanAddressOptions, ParsedAddress, ParsedIntersection, ValidationOptions } from "../../types";
+import type { BatchParseOptions, ParsedAddress, ParsedIntersection, ValidationOptions } from "../../types";
 
 // ============================================================================
 // Common Test Types
@@ -63,7 +63,7 @@ interface CleanAddressTestCase {
   name: string;
   input: string;
   expected: string;
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 interface CleanAddressDetailedTestCase {
@@ -75,7 +75,7 @@ interface CleanAddressDetailedTestCase {
     wasModified: boolean;
     changes: string[];
   };
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 interface FormatSpecificTestCase {
@@ -83,14 +83,14 @@ interface FormatSpecificTestCase {
   input: string;
   expected: string;
   expectContains: string[];
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 interface EdgeCaseTestCase {
   name: string;
   input: string;
   expected: string;
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 interface AdditionalTestCase {
@@ -107,9 +107,9 @@ interface AdditionalTestCase {
 interface ComparisonTestCase {
   description: string;
   input: {
-    address1: Record<string, any>;
-    address2: Record<string, any>;
-    options?: Record<string, any>;
+    address1: Record<string, unknown>;
+    address2: Record<string, unknown>;
+    options?: Record<string, unknown>;
   };
   expected: {
     isSame: boolean;
@@ -121,8 +121,8 @@ interface ComparisonTestCase {
 interface SimilarityTestCase {
   description: string;
   input: {
-    address1: Record<string, any>;
-    address2: Record<string, any>;
+    address1: Record<string, unknown>;
+    address2: Record<string, unknown>;
   };
   expected: {
     similarity: number;
@@ -132,9 +132,9 @@ interface SimilarityTestCase {
 interface ComparisonEdgeCaseTestCase {
   description: string;
   input: {
-    address1: Record<string, any> | null;
-    address2: Record<string, any> | null;
-    options?: Record<string, any>;
+    address1: Record<string, unknown> | null;
+    address2: Record<string, unknown> | null;
+    options?: Record<string, unknown>;
   };
   expected: {
     isSame: boolean;
@@ -152,7 +152,7 @@ interface ComparisonEdgeCaseTestCase {
 
 interface FormattingTestCase {
   description: string;
-  input: Record<string, any>;
+  input: Record<string, unknown>;
   expected: {
     lines?: string[];
     singleLine?: string;
@@ -162,11 +162,11 @@ interface FormattingTestCase {
     regex?: string;
     country?: string;
     hasProperties?: string[];
-    streetTypes?: Record<string, any>;
-    directions?: Record<string, any>;
-    states?: Record<string, any>;
-    provinces?: Record<string, any>;
-    unitTypes?: Record<string, any>;
+    streetTypes?: Record<string, unknown>;
+    directions?: Record<string, unknown>;
+    states?: Record<string, unknown>;
+    provinces?: Record<string, unknown>;
+    unitTypes?: Record<string, unknown>;
     usps?: string;
     canadaPost?: string;
     informal?: string;
@@ -174,7 +174,7 @@ interface FormattingTestCase {
     directionals?: Record<string, string>;
     abbreviations?: Record<string, string>;
   };
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
 }
 
 // ============================================================================
@@ -196,7 +196,7 @@ interface ValidationTestCase {
     errorsLength?: number;
     errorsLengthGreaterThan?: number;
     warningsLengthGreaterThan?: number;
-    parsedAddress?: Record<string, any>;
+    parsedAddress?: Record<string, unknown>;
     parsedAddressNull?: boolean;
     firstErrorCode?: string;
     suggestionsLengthGreaterThan?: number;
@@ -474,57 +474,48 @@ interface LegacyTestData {
 // ============================================================================
 
 export type {
+  AdditionalTestCase,
+  AddressTestCase,
+  AdvancedFunctionTestData,
   // Common
   BaseTestCase,
-  TestCaseWithExpected,
-  NamedTestCase,
-  
-  // Region Normalization
-  RegionTestCase,
-  FuzzyMatchTestCase,
-  NullTestCase,
-  
-  // Postal Mappings
-  PostalMappingTestCase,
-  
-  // Address Cleaning
-  CleanAddressTestCase,
-  CleanAddressDetailedTestCase,
-  FormatSpecificTestCase,
-  EdgeCaseTestCase,
-  AdditionalTestCase,
-  
-  // Address Comparison
-  ComparisonTestCase,
-  SimilarityTestCase,
-  ComparisonEdgeCaseTestCase,
-  
-  // Address Formatting
-  FormattingTestCase,
-  
-  // Validation
-  ValidationTestCase,
-  IsValidTestCase,
-  GetValidationErrorsTestCase,
-  ConfidenceScoringTestCase,
-  
+  BatchParseFunctionTestData,
   // Batch Parser
   BatchTestCase,
   BatchTestData,
-  BatchParseFunctionTestData,
-  AdvancedFunctionTestData,
-  
-  // Strict Mode
-  PostalExpectedResult,
-  StrictModeTestCase,
-  StrictModeTestData,
-  
+  CleanAddressDetailedTestCase,
+  // Address Cleaning
+  CleanAddressTestCase,
+  ComparisonEdgeCaseTestCase,
+  // Address Comparison
+  ComparisonTestCase,
   // Compatibility
   CompatibilityComparisonTestCase,
-  SnakeCaseTestCase,
-  AddressTestCase,
-  MultipleParserTestCase,
-  KeyTestCase,
   CompatibilityTestData,
+  ConfidenceScoringTestCase,
+  EdgeCaseTestCase,
+  FormatSpecificTestCase,
+  // Address Formatting
+  FormattingTestCase,
+  FuzzyMatchTestCase,
+  GetValidationErrorsTestCase,
+  IsValidTestCase,
+  KeyTestCase,
   LegacyTestData,
+  MultipleParserTestCase,
+  NamedTestCase,
+  NullTestCase,
+  // Strict Mode
+  PostalExpectedResult,
+  // Postal Mappings
+  PostalMappingTestCase,
+  // Region Normalization
+  RegionTestCase,
+  SimilarityTestCase,
+  SnakeCaseTestCase,
+  StrictModeTestCase,
+  StrictModeTestData,
+  TestCaseWithExpected,
+  // Validation
+  ValidationTestCase,
 };

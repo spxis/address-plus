@@ -1,9 +1,9 @@
 // Comprehensive address validation with confidence scoring and detailed error reporting
 
 import { getProvinceFromPostalCode, getStateFromZip, validatePostalCode } from "../constants";
+import { validateJapaneseAddress } from "../jp/validate";
 import { parseLocation } from "../parser";
 import type { AddressValidationResult, ParsedAddress, ValidationError, ValidationOptions } from "../types";
-import { validateJapaneseAddress } from "../jp/validate";
 import { normalizeRegion } from "../utils";
 
 // Constants for validation scoring

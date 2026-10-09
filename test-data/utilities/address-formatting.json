@@ -16,10 +16,7 @@
         },
         "options": {},
         "expected": {
-          "lines": [
-            "123 Main Street",
-            "Anytown California 90210"
-          ],
+          "lines": ["123 Main Street", "Anytown California 90210"],
           "singleLine": "123 Main Street, Anytown California 90210",
           "format": "standard"
         },
@@ -40,10 +37,7 @@
           "abbreviateStates": true
         },
         "expected": {
-          "lines": [
-            "123 Main St",
-            "Anytown CA 90210"
-          ]
+          "lines": ["123 Main St", "Anytown CA 90210"]
         },
         "description": "Format with abbreviations when requested"
       },
@@ -63,10 +57,7 @@
           "abbreviateStates": true
         },
         "expected": {
-          "lines": [
-            "123 MAIN ST",
-            "ANYTOWN CA 90210"
-          ]
+          "lines": ["123 MAIN ST", "ANYTOWN CA 90210"]
         },
         "description": "Format in uppercase when requested"
       },
@@ -92,10 +83,7 @@
           "abbreviateStates": true
         },
         "expected": {
-          "lines": [
-            "Apt 42 789 N Elm Blvd E",
-            "Springfield IL 62701-1234"
-          ]
+          "lines": ["Apt 42 789 N Elm Blvd E", "Springfield IL 62701-1234"]
         },
         "description": "Include secondary units"
       },
@@ -120,10 +108,7 @@
           "abbreviateDirections": true
         },
         "expected": {
-          "lines": [
-            "789 N Elm Blvd E",
-            "Springfield Illinois 62701-1234"
-          ],
+          "lines": ["789 N Elm Blvd E", "Springfield Illinois 62701-1234"],
           "shouldNotContain": "Apt"
         },
         "description": "Exclude secondary units when requested"
@@ -141,11 +126,7 @@
           "includeCountry": true
         },
         "expected": {
-          "lines": [
-            "10 Downing Street",
-            "London SW1A 2AA",
-            "UK"
-          ]
+          "lines": ["10 Downing Street", "London SW1A 2AA", "UK"]
         },
         "description": "Include country for international addresses"
       },
@@ -163,10 +144,7 @@
           "includeCountry": true
         },
         "expected": {
-          "lines": [
-            "123 Main Street",
-            "Anytown California 90210"
-          ],
+          "lines": ["123 Main Street", "Anytown California 90210"],
           "shouldNotContain": "US"
         },
         "description": "Do not include country for US/CA addresses even when requested"
@@ -191,10 +169,7 @@
           "abbreviateStreetTypes": true
         },
         "expected": {
-          "lines": [
-            "Apt  42  789  North  Elm  Blvd  East",
-            "Springfield  Illinois  62701-1234"
-          ],
+          "lines": ["Apt  42  789  North  Elm  Blvd  East", "Springfield  Illinois  62701-1234"],
           "shouldContain": "  "
         },
         "description": "Use custom separator"
@@ -213,10 +188,7 @@
         },
         "options": {},
         "expected": {
-          "lines": [
-            "123 MAIN ST",
-            "ANYTOWN CA 90210"
-          ],
+          "lines": ["123 MAIN ST", "ANYTOWN CA 90210"],
           "format": "usps"
         },
         "description": "Format according to USPS standards"
@@ -238,10 +210,7 @@
         },
         "options": {},
         "expected": {
-          "lines": [
-            "789 N ELM BLVD E APT 42",
-            "SPRINGFIELD IL 62701-1234"
-          ]
+          "lines": ["789 N ELM BLVD E APT 42", "SPRINGFIELD IL 62701-1234"]
         },
         "description": "Format complex address with USPS standards"
       },
@@ -259,10 +228,7 @@
           "standardizeCase": false
         },
         "expected": {
-          "lines": [
-            "123 Main St",
-            "Anytown CA 90210"
-          ]
+          "lines": ["123 Main St", "Anytown CA 90210"]
         },
         "description": "Allow case control"
       },
@@ -281,9 +247,7 @@
           "includeLastLine": true
         },
         "expected": {
-          "lines": [
-            "ANYTOWN CA 90210"
-          ]
+          "lines": ["ANYTOWN CA 90210"]
         },
         "description": "Allow selective line inclusion"
       }
@@ -301,10 +265,7 @@
         },
         "options": {},
         "expected": {
-          "lines": [
-            "456 OAK AVE",
-            "TORONTO ON  M5V 3A8"
-          ],
+          "lines": ["456 OAK AVE", "TORONTO ON  M5V 3A8"],
           "format": "canada-post",
           "country": "CA"
         },
@@ -322,10 +283,7 @@
         },
         "options": {},
         "expected": {
-          "lines": [
-            "456 OAK AVE",
-            "TORONTO ON  M5V 3A8"
-          ],
+          "lines": ["456 OAK AVE", "TORONTO ON  M5V 3A8"],
           "regex": "\\s{2}M5V 3A8$"
         },
         "description": "Use proper postal code spacing"
@@ -344,10 +302,7 @@
           "standardizeCase": false
         },
         "expected": {
-          "lines": [
-            "456 Oak Ave",
-            "Toronto ON  M5V 3A8"
-          ]
+          "lines": ["456 Oak Ave", "Toronto ON  M5V 3A8"]
         },
         "description": "Allow case control"
       },
@@ -362,10 +317,7 @@
         },
         "options": {},
         "expected": {
-          "lines": [
-            "456 OAK AVE",
-            "TORONTO ON"
-          ]
+          "lines": ["456 OAK AVE", "TORONTO ON"]
         },
         "description": "Handle addresses without postal codes"
       }
@@ -374,13 +326,7 @@
       {
         "input": {},
         "expected": {
-          "hasProperties": [
-            "streetTypes",
-            "directions",
-            "states",
-            "provinces",
-            "unitTypes"
-          ]
+          "hasProperties": ["streetTypes", "directions", "states", "provinces", "unitTypes"]
         },
         "description": "Return all abbreviation mappings"
       },
@@ -448,9 +394,7 @@
           "street": "Main"
         },
         "expected": {
-          "lines": [
-            "Main"
-          ]
+          "lines": ["Main"]
         },
         "description": "Handle missing address components gracefully"
       },
@@ -467,9 +411,7 @@
           "zip": "90210"
         },
         "expected": {
-          "lines": [
-            "90210"
-          ]
+          "lines": ["90210"]
         },
         "description": "Handle address with only postal code"
       },
@@ -486,10 +428,7 @@
           "abbreviateStates": true
         },
         "expected": {
-          "lines": [
-            "123 Main Xyz",
-            "Anytown Somestate"
-          ]
+          "lines": ["123 Main Xyz", "Anytown Somestate"]
         },
         "description": "Preserve unknown abbreviations"
       }

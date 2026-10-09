@@ -5,9 +5,9 @@
 interface TestCaseBase {
   name?: string; // Human-readable name or description of what this test case validates
   description?: string; // Human-readable description of what this test case validates (alternative to name)
-  input: any; // The input data for the test
-  expected: any; // The expected output/result of the test
-  options?: Record<string, any>; // Optional configuration or parsing options for the test
+  input: unknown; // The input data for the test
+  expected: unknown; // The expected output/result of the test
+  options?: Record<string, unknown>; // Optional configuration or parsing options for the test
 }
 
 // Schema for test case files with grouped test categories
@@ -29,12 +29,12 @@ interface AddressParsingTestCase extends TestCaseBase {
     state?: string;
     zip?: string;
     country?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected parsed address components
   options?: {
     strict?: boolean;
     country?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Optional parsing configuration
 }
 
@@ -45,7 +45,7 @@ interface AddressFormattingTestCase extends TestCaseBase {
   options?: {
     format?: string;
     abbreviate?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Optional formatting configuration
 }
 
@@ -58,7 +58,7 @@ interface AddressValidationTestCase extends TestCaseBase {
     completeness?: number;
     errors?: string[];
     warnings?: string[];
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected validation results
 }
 
@@ -72,7 +72,7 @@ interface AddressComparisonTestCase extends TestCaseBase {
     isSame?: boolean;
     similarity?: number;
     differences?: string[];
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected comparison results
 }
 
@@ -82,12 +82,12 @@ interface CleanAddressTestCase extends TestCaseBase {
   expected: {
     cleaned: string;
     changes?: string[];
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected cleaned address and changes
   options?: {
     format?: string;
     abbreviate?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Optional cleaning configuration
 }
 
@@ -95,7 +95,7 @@ interface CleanAddressTestCase extends TestCaseBase {
 interface BatchProcessingTestCase extends TestCaseBase {
   input: string[]; // Array of input addresses
   expected: {
-    results?: any[];
+    results?: unknown[];
     statistics?: {
       total: number;
       successful: number;
@@ -105,7 +105,7 @@ interface BatchProcessingTestCase extends TestCaseBase {
       index: number;
       error: string;
     }>;
-    [key: string]: any;
+    [key: string]: unknown;
   }; // Expected batch processing results
 }
 
@@ -124,18 +124,18 @@ type TestCategory<T extends TestFileSchema> = {
 }[keyof T];
 
 // Validation function for test file schema
-function validateTestFile(data: any): data is TestFileSchema {
+function validateTestFile(data: unknown): data is TestFileSchema {
   if (typeof data !== "object" || data === null) {
     return false;
   }
 
   // Handle array format (direct array of test cases)
   if (Array.isArray(data)) {
-    return data.every((item: any) => validateTestCase(item));
+    return data.every((item: unknown) => validateTestCase(item));
   }
 
   // Handle object format - recursively check for test case arrays
-  function hasValidTestCases(obj: any, depth: number = 0): boolean {
+  function hasValidTestCases(obj: unknown, depth: number = 0): boolean {
     if (typeof obj !== "object" || obj === null || depth > 5) {
       return false;
     }
@@ -149,7 +149,7 @@ function validateTestFile(data: any): data is TestFileSchema {
         // Check if this array contains valid test cases
         if (value.length > 0) {
           // Allow arrays that are mostly test cases (80% threshold)
-          const validTestCases = value.filter((item: any) => validateTestCase(item));
+          const validTestCases = value.filter((item: unknown) => validateTestCase(item));
 
           if (validTestCases.length >= Math.max(1, value.length * 0.8)) {
             return true;
@@ -170,10 +170,11 @@ function validateTestFile(data: any): data is TestFileSchema {
 }
 
 // Validation function for individual test cases
-function validateTestCase(data: any): data is TestCase {
-  if (typeof data !== "object" || data === null) {
+function validateTestCase(input: unknown): input is TestCase {
+  if (typeof input !== "object" || input === null) {
     return false;
   }
+  const data = input as Record<string, unknown>;
 
   // Must have either name or description (but allow for very simple cases)
   if (

@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import testData from "../../../test-data/utilities/clean-address.json";
 import { cleanAddress, cleanAddressDetailed } from "../../utils/clean-address";
-import type { 
-  CleanAddressTestCase, 
-  CleanAddressDetailedTestCase, 
-  FormatSpecificTestCase, 
-  EdgeCaseTestCase, 
-  AdditionalTestCase 
+import type {
+  AdditionalTestCase,
+  CleanAddressDetailedTestCase,
+  CleanAddressTestCase,
+  EdgeCaseTestCase,
+  FormatSpecificTestCase,
 } from "../types/test-interfaces";
 
 // Extract test cases from new structure
@@ -78,7 +78,7 @@ describe("Clean Address API", () => {
   });
 
   describe("Additional Tests", () => {
-    additionalTests.forEach(({ name, description, input, expected }: AdditionalTestCase) => {
+    additionalTests.forEach(({ name, input, expected }: AdditionalTestCase) => {
       it(`should handle ${name}`, () => {
         const result = cleanAddress(input);
         expect(result).toBe(expected);
