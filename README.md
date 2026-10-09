@@ -400,17 +400,20 @@ parseLocation("Sample Bldg 5F, 1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Jap
 // }
 ```
 
-An address is read as Japanese when it is in Japanese script, ends with Japan, or names a prefecture beside a Japanese postal code (`NNN-NNNN`) or a romaji designator (`-ku`, `-shi`, `-ken`). A US or Canadian address that only mentions a Japanese place, such as `100 Tokyo Ave, Brooklyn, NY 11201`, is still read as US or Canadian. `{ country: "JP" }` skips the detection.
+An address is read as Japanese when it is in Japanese script, ends with Japan, or names a prefecture beside a Japanese postal code (`NNN-NNNN`), a romaji designator (`-ku`, `-shi`, `-ken`) or a municipality written with an English word (`Chiyoda City`). A US or Canadian address that only mentions a Japanese place, such as `100 Tokyo Ave, Brooklyn, NY 11201`, is still read as US or Canadian. `{ country: "JP" }` skips the detection.
 
 The parser reads what people actually type:
 
-- full-width digits and letters (`１－２－３`, `５Ｆ`), every kind of dash, and the long-vowel mark `ー` between digits, while a `ー` inside a name such as ハーバー stays;
-- the block as `1丁目2番3号`, `1-2-3`, `1の2の3`, `一丁目二番三号`, `2番地3` or a lone `488`; kanji numerals that belong to a name (三番町, 麻布十番, 北一条西) are left alone;
+- full-width digits and letters (`１－２－３`, `５Ｆ`), half-width katakana, every kind of dash (the hyphens, dashes and minus signs, `ー` and `ｰ`, the box-drawing `─` and `━`), while a `ー` inside a name such as ハーバー stays;
+- the block as `1丁目2番3号`, `1-2-3`, `1の2の3`, `一丁目二番三号`, `一-二-三`, `2番地3`, Sakai's `3丁1番9号` or a lone `488`, a fourth number or one after a further dash as the room (`2-3-10-107`, `6番23-2`), and a lettered go (`14-イ22`); kanji numerals that belong to a name (三番町, 麻布十番, 北一条西, 二階堂) are left alone, as is a town whose name holds a number (和歌山市7番町);
+- Kyoto's street directions (`寺町通御池上る上本能寺前町488`), reported apart from the town in `streetDirections`;
+- Hokkaido's grid towns (`北1条西2丁目`, `6条通9丁目`), the `条` kept in the town;
 - a postal code after 〒 or not, with or without its hyphen, at the start or the end;
 - 日本 or Japan at either end;
-- a prefecture left out (千代田区丸の内1-2-3 is in Tokyo) or written without its designator (東京千代田区);
-- a designated city without its ward (大阪市, Sapporo), and a town or village without its district (当別町 for 石狩郡当別町);
-- romaji with or without macrons, and with `-to`, `-do`, `-fu`, `-ken`, `Prefecture`, `Pref.`, `City` or `Metropolis`;
+- a prefecture left out (千代田区丸の内1-2-3 is in Tokyo) or written without its designator (東京千代田区, 千葉市川市);
+- a designated city without its ward (大阪市, Sapporo), a ward with only its prefecture (大阪府北区), a town or village without its district (当別町 for 石狩郡当別町), and spaces inside any of them (京都市 下京区);
+- 巿 typed for 市, and `ヶ` or an old kanji in a municipality's name (鎌ケ谷市, 飛驒市);
+- romaji with or without macrons, with `-to`, `-do`, `-fu`, `-ken`, `Prefecture`, `Pref.`, `City` or `Metropolis`, in English order or Japanese order, on one line or several;
 - a building, its floor (`5階`, `5F`, `地下1階`) and its room (`501号室`, or `501号` after a building name).
 
 ### Fields
@@ -424,6 +427,7 @@ The parser reads what people actually type:
 | `municipality`       | `千代田区`                    | 市区町村, with the district for a town or village (石狩郡当別町) |
 | `municipalityCode`   | `13101`                       | JIS X 0402 code                                               |
 | `municipalityRomaji` | `Chiyoda-ku`                  | Romaji with its designators: `Sapporo-shi Chuo-ku`            |
+| `streetDirections`   | `寺町通御池上る`              | Kyoto's street directions (通り名) written before the town    |
 | `town`               | `丸の内`                      | 町名 or 大字, without the chome; as written                   |
 | `chome`              | `1`                           | 丁目                                                          |
 | `ban`                | `2`                           | 番 or 番地                                                    |
@@ -433,7 +437,9 @@ The parser reads what people actually type:
 | `floor`              | `5`                           | 階; `B1` for a basement floor                                 |
 | `room`               | `501`                         | 号室                                                          |
 
-Two numbers after a town are ambiguous: in a city, `丸の内1-2` is 1丁目2番; in a rural town with no chome, `大字下里12-3` is 12番地3. A pair is read as chome and ban unless the town is named with 大字 or 字, or the first number is 100 or more, and then as ban and go. `block` is the same either way, so read `block` when the parts must be certain.
+Two numbers straight after a town are read as ban and go: `寿町2-31` is 2番31号, and `大字下里12-3` is 12番地3. They could be a chome and a ban (`丸の内1-2` for 1丁目2番), but almost never are: of the 907 addresses in Geolonia's test set that end in a bare pair after the town, 899 are ban and go, since a person in a town of chome writes all three numbers. A chome written as such (`1丁目2-3`) is kept. Three numbers are chome, ban and go, unless the town is named with 大字 or 字 or the first number is 100 or more, and then ban, go and a room. `block` is the same either way, so read `block` when the parts must be certain.
+
+The Japanese corpus (`test-data/corpus/japan/`, 1,118 cases from Geolonia's tests and original shapes) is described in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md#the-japanese-corpus), with the 13 cases still wrong and why.
 
 The shared fields are filled too, so the rest of the library treats the address like any other:
 

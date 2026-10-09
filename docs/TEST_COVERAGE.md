@@ -1,8 +1,9 @@
-# Test Coverage: the US and Canadian Address Corpora
+# Test Coverage: the US, Canadian and Japanese Address Corpora
 
 This document says what address shapes the US and Canadian postal authorities define, which of them the
 hand-written tests already exercised, what the corpus under `test-data/corpus/` adds, and, last, what the
 parser got wrong when the corpus was written and how the fixing pass that followed dealt with each cause.
+The Japanese corpus, added after 1.3.0, has a part of its own: see "The Japanese corpus" below.
 
 ## In numbers
 
@@ -10,7 +11,8 @@ parser got wrong when the corpus was written and how the fixing pass that follow
 | --- | ---: | ---: | ---: | ---: |
 | United States (`test-data/corpus/us/`, 14 files) | 1,092 | 1,091 | 1 | 149 |
 | Canada (`test-data/corpus/canada/`, 10 files) | 513 | 513 | 0 | 150 |
-| Total | 1,605 | 1,604 | 1 | 299 |
+| Japan (`test-data/corpus/japan/`, 11 files) | 1,118 | 1,105 | 13 | 153 |
+| Total | 2,723 | 2,709 | 14 | 452 |
 
 Before the corpus, `test-data/` held about 440 address inputs written by hand (the 600 test cases count
 the function tests in TypeScript too). They exercised 34 distinct street types, 13 unit designators and
@@ -22,8 +24,10 @@ Field by field, over every field value a corpus case names other than `country`:
 | --- | ---: | ---: |
 | United States (6,715 field values) | 6,714 (99.99%) | 6,350 (94.6%) |
 | Canada (3,193 field values) | 3,193 (100%) | 1,215 (38.1%) |
+| Japan (6,424 field values) | 6,400 (99.6%) | (parse-address reads no Japanese) |
 
-Before the fixing pass the same count gave address-plus 94.7% in the United States and 89.9% in Canada.
+Before the fixing pass the same count gave address-plus 94.7% in the United States, 89.9% in Canada and 95.0% in
+Japan.
 
 ## How the corpus works
 
@@ -599,6 +603,150 @@ before a comma they are read as units.
    `100 South St` (the street South), the rural route and highway contract cases, and the cleaning and
    formatting cases that wrote the unit before the number.
 
+## The Japanese corpus
+
+The corpus under `test-data/corpus/japan/` was written after 1.3.0, the same way: cases first, with what the
+parser got wrong marked todo, then a fixing pass. It runs through `parseLocation`, as a user calls it, and the
+Japanese module's own suites (`src/__tests__/japan/`) still test the formatters, validation and lookups.
+
+### How a Japanese case is judged
+
+The case shape and the judge are the ones above. The core fields are Japan's own, since the shared fields a
+Japanese address fills (`state`, `city`, `street`, `number`, `zip`) only repeat them: `postalCode`, `prefecture`,
+`municipality`, `streetDirections`, `town`, `chome`, `ban`, `go`, `building`, `floor`, `room` and `country`. A
+case may also name `municipalityCode` (set to `null` when the municipality must not be identified), and may carry
+`options` for `parseLocation`, which the US and Canadian cases never need.
+
+### Conventions the expected values follow
+
+- `prefecture` and `municipality` are the official names from the tables (Geolonia 住所データ), with the district
+  for a town or village in one (`北佐久郡軽井沢町`), whatever form the input wrote them in: without the district,
+  in romaji, with `ヶ` for `ケ` or an old form of a kanji (`飛驒市` is `飛騨市`). A municipality the tables do not
+  know (an old city since merged away, a made-up name) is kept as written, with no code.
+- `town` is kept as written, folded to one width, with its chome taken off. The library has no table of towns, so
+  where Geolonia rewrites a town to its official spelling (`大字` added or dropped, `舟` for `船`, `澤` for `沢`),
+  the corpus keeps the input's spelling and says so in the case's description. `大字`, `字` and `小字` stay in the
+  town (`大字芝字宮根`), and a `小字` written straight after the town with no number is part of it (`西丹波町三五十`).
+  Spaces inside a town are dropped (`藤橋町 亥` is `藤橋町亥`). A Hokkaido grid town keeps its `条` and direction
+  (`北1条西`, `6条通`), and its `丁目` is the chome.
+- Numbers are ASCII digits, whatever was written: full-width, kanji (`二十三`, `一〇一` read digit by digit), any
+  of the dashes listed under `numerals-and-dashes`, `の` or `ノ`.
+- The block: `chome`, `ban` and `go`, from the markers when they are written (`1丁目2番3号`, `2番地3`, Sakai's `3丁`
+  for `3丁目`). Three hyphenated numbers are chome, ban and go; a fourth is the `room`, as is a number after a
+  further dash (`6番23-2`). A pair is ban and go (`寿町2-31` is 2番31号): see cause 1 below. A go may lead with a
+  letter (`14-イ22`, `14-A22`).
+- Kyoto's street directions (`寺町通御池上る`) are reported in `streetDirections`, and the town after them is the
+  `town`.
+- What follows the block is the `building`, with its `floor` (`5`, `B1` for `地下1階` or `B1F`) and `room`
+  (`501号室`, `501号` after a building, `#202`, or a number after a space) taken out.
+- A romaji address keeps its town and building in romaji (`Marunouchi`, `Sample Bldg`), since the tables have no
+  romaji for towns; its prefecture and municipality come back in kanji from the tables.
+
+### Sources and licences
+
+| Source | Licence | Used for |
+| --- | --- | --- |
+| Geolonia normalize-japanese-addresses, `test/addresses/addresses.csv` (github.com/geolonia/normalize-japanese-addresses, commit 4e694d6, checked 2026-10-09) | MIT (`LICENSE.txt` in that repository) | `geolonia-addresses.json`: 837 of its 7,191 real addresses, converted to this library's fields. Every tenth row in file order (704), every row Geolonia annotated with a note (48, their notes rendered in English in each description), and every row whose town is written otherwise than its official form or whose block carries a room (85). Ten rows are left out, each named with its reason in the conversion: what follows the town is not an address (`以下未定`, two buildings each with its own lot) or the town is not written at all. The inputs are Geolonia's; each case's source names its line. |
+| Geolonia normalize-japanese-addresses, `test/main/main.test.ts` (same commit) | MIT | `geolonia-normalize.json`: the 38 inputs of their own shape tests (levels, 豊洲 written seven ways, lettered numbers, 藤橋町亥, old kanji, 小字), with this library's reading of each. |
+| Geolonia 住所データ (github.com/geolonia/japanese-addresses), already the source of the tables (`pnpm data:jp`) | MIT | The official names of prefectures and municipalities every expected value uses. |
+| Japan Post's guidance on writing an address (郵便番号・住所の書き方), the residence indication system (住居表示, Act on Residence Indication, 1962), and Kyoto City's explanation of its street-name addresses | Rules described in our own words; nothing copied | The shapes of the 243 original cases in the other nine files. Every input there is constructed: real towns, mostly city and ward offices, with made-up buildings (`サンプルビル`). |
+
+The whole of Geolonia's file was also run through the converter once, outside the suite, as a check on the sample:
+before the fixing pass 6,369 of the 7,059 rows it could convert came out right, and after it 7,028 (99.6%). Most of
+the 31 left are the converter's own limits (a remainder such as `（Ａ棟），１６－１６（Ｂ棟）` it does not split, and
+Geolonia's test file writing `鎌ケ谷市` where its own table has `鎌ヶ谷市`), not the parser's.
+
+### Gap analysis
+
+Before the corpus, `test-data/japan/` held about 70 hand-written parse inputs and the 1,000 generated records from
+REST in Pieces, all written with the markers. The last column gives the todo cases now and, in brackets, when the
+corpus was written.
+
+| File | Group | What it covers | Cases | Todo now (before the fix) |
+| --- | --- | --- | ---: | ---: |
+| `geolonia-addresses` | sample | Every tenth of Geolonia's real addresses | 704 | 0 (56) |
+| `geolonia-addresses` | notedByGeolonia | The rows Geolonia annotated: misspellings, 巿, spaces, 町 left out, Kyoto, buildings | 48 | 4 (18) |
+| `geolonia-addresses` | writtenDifferently | Towns written otherwise than officially, rooms after the block | 85 | 5 (13) |
+| `geolonia-normalize` | levels | Prefecture only, municipality only, made-up names, no place | 6 | 0 (0) |
+| `geolonia-normalize` | toyosu | One block written eight ways | 8 | 0 (1) |
+| `geolonia-normalize` | letteredNumbers | `14-イ22`, `14-A22`, `一四━Ａ二二` | 3 | 0 (3) |
+| `geolonia-normalize` | nanao | A 小字, kanji numbers, spaces, no prefecture | 5 | 0 (3) |
+| `geolonia-normalize` | textForms | NFKD input, a numeral inside a town, a lone number | 4 | 2 (2) |
+| `geolonia-normalize` | oldKanji | 亞, 澤, 麩, 驒, さき | 10 | 0 (1) |
+| `geolonia-normalize` | koaza | 小字 in kanji numerals | 2 | 0 (0) |
+| `numerals-and-dashes` | kanjiNumerals | 一丁目二番三号, 十, 千二百三十四番地, 一〇一号室, numerals in names | 14 | 0 (4) |
+| `numerals-and-dashes` | widths | Full-width and half-width digits, letters, spaces and katakana | 8 | 0 (0) |
+| `numerals-and-dashes` | dashes | Sixteen dashes, ー between full-width digits, の, ノ | 19 | 0 (4) |
+| `numerals-and-dashes` | markers | 丁目, 番, 番地, 号, 番地の, 丁, four numbers, a lettered go | 14 | 0 (5) |
+| `postal-codes` | marked | 〒 with and without hyphen, widths, ー, at the end, alone, on its own line | 12 | 0 (0) |
+| `postal-codes` | unmarked | No 〒, 郵便番号, 日本 first | 7 | 0 (0) |
+| `buildings` | floors | 階, F, 地下, B1F, a number in a name, kanji floors | 10 | 0 (0) |
+| `buildings` | rooms | 号室, 号, #, a fourth number, full-width | 9 | 0 (0) |
+| `rural-and-districts` | oaza | 大字, 字, 小字, land lots | 9 | 0 (0) |
+| `rural-and-districts` | districts | 郡 written or not, 府中町 against 府中市, a space after 郡 | 8 | 0 (2) |
+| `kyoto-directions` | directions | 上る, 上ル, 上がる, 下る, 下ル, 東入, 西入, 東入ル, 西入る, 下立売通, town first | 15 | 0 (14) |
+| `hokkaido-grid` | jo | 札幌's 条 and 丁目, 旭川's 条通, 帯広, romaji `1-jo` | 11 | 0 (0) |
+| `designated-cities` | wards | All twenty designated cities with a ward | 20 | 1 (8) |
+| `designated-cities` | withoutPrefecture | Five of them without the prefecture | 5 | 0 (1) |
+| `designated-cities` | cityAlone | A city alone, a ward with only its prefecture, a space before the ward | 6 | 0 (3) |
+| `tokyo-wards` | wards | All 23 wards | 23 | 0 (1) |
+| `tokyo-wards` | withoutPrefecture | Five without 東京都 | 5 | 0 (0) |
+| `tokyo-wards` | shortPrefecture | 東京 without 都, 日本 at the end | 2 | 0 (0) |
+| `romaji` | englishOrder | Block first, chome as a word, macrons, case, lines, 〒 | 14 | 0 (2) |
+| `romaji` | designators | -ku, -shi, -cho, -machi, -gun, City, Prefecture, -to | 12 | 0 (3) |
+| `romaji` | japaneseOrder | Prefecture first, with and without commas | 2 | 0 (1) |
+| `unknown-and-not-addresses` | oldNames | 浦和市, 清水市, 保谷市, Urawa-shi, 驒, ケ, 巿 | 7 | 0 (5) |
+| `unknown-and-not-addresses` | misspelt | A made-up city and town, 東京部, 東京 alone, Tokio, 府中市 | 6 | 1 (3) |
+| `unknown-and-not-addresses` | notAddresses | A greeting, 日本, kana, a US street named Tokyo, Tokyo, Japan | 5 | 0 (0) |
+
+### What the parser got wrong, and how each cause was fixed
+
+Each todo case was counted once, under its first cause in this list; a case can suffer from more than one (`藤橋町 亥 45-1` has a space in its town and a pair after it, and is counted under the pair).
+
+| Cause | Cases | Status | The fix |
+| --- | ---: | --- | --- |
+| 1. A pair of numbers after a town without chome read as chome and ban (`寿町2-31` gave 2丁目31番) | 76 | Fixed | A bare pair is ban and go. Of the 907 addresses in Geolonia's file that end in a bare pair after the town, 899 are ban and go: a person in a town of chome writes all three numbers. A chome written as such is kept. The same in romaji (`58-9 Shirakaba-cho`). Three numbers in a 大字 town or with a first number of 100 or more are ban, go and a room. |
+| 2. Kyoto street directions read as part of the town | 19 | Fixed | A new field, `streetDirections`, takes the locator up to its last direction (上る, 上ル, 上がる, 下る, 下ル, 東入, 西入, with or without る or ル); the town follows it, or comes before it and ends in 町. Only in Kyoto prefecture. `formatJapanese` and `formatJapaneseEnglish` write the directions back before the town. |
+| 3. The town's own chome is needed | 10 | Left | See below. |
+| 4. A space inside the municipality (`京都市 下京区`, `上北郡 横浜町`) | 6 | Fixed | The municipality is matched as if the spaces were not there, when that takes in more |
+| 5. Kanji numerals not read before a dash (`四-2-27`), before 号室 (`一〇一号室`), or 階 read in `二階堂` | 6 | 5 fixed, 1 left | A numeral before a dash or 号室 is a number; 階 followed by a kanji is a name. `串本千二百三十四`, a number in kanji at the end with no marker, is left: see below |
+| 6. 丁 written for 丁目 (Sakai's `3丁1番9号`) | 5 | Fixed | 丁 followed by a number, a dash or the end is a chome |
+| 7. Look-alike or old characters in a municipality (巿, 驒, ケ for ヶ) | 4 | Fixed | 巿 (U+5DFF) becomes 市; ヶ, ヵ, 驒, 﨑 and 髙 are folded when municipality names are matched, never in what is returned (no two municipalities meet when folded) |
+| 8. A town whose name holds a number and 番 (`和歌山市7番町`, `学校町通1番町`) | 4 | Fixed | 番 followed by 町 or 丁 does not start the block |
+| 9. Dashes not read as dashes (─, ━, ⁃, ˗) | 4 | Fixed | Added to the dashes read between numbers |
+| 10. Lettered numbers (`14-イ22`) | 4 | Fixed | A go may lead with a Latin or katakana letter |
+| 11. Spaces inside the town (`藤橋町 亥`) | 1 | Fixed | Spaces between two letters of Japanese script in a town are dropped |
+| 12. Separators left after the block (`6番23-2`, `1-4-1-レジデンス`) | 3 | Fixed | A number after a further dash is the room; a dash before a building is dropped |
+| 13. A prefecture written short or misspelt (`千葉市川市`, `東京部`, `東京` alone) | 3 | 2 fixed, 1 left | With no prefecture in full, the reading that takes in more wins: 千葉 and 市川市 over 千葉市; a short prefecture alone is the prefecture. `東京部` (部 for 都) is left |
+| 14. Romaji shapes | 6 | Fixed | Lines are parts; a prefecture, district, city or ward designator ends a part (`Tokyo-to Chiyoda-ku Marunouchi 1-2-3`); 〒 before romaji leaves it romaji; `Chiyoda City` makes an address Japanese; `Urawa-shi` is not taken for the ward 浦和区; a misspelt prefecture after the municipality is not a building. A JIS code in a street number (`Fl 34`) no longer makes a US address look Japanese |
+| 15. A ward written with only its prefecture (`大阪府北区`) | 1 | Fixed | The ward of the city named like the prefecture, before any 北区 elsewhere |
+| 16. Hamamatsu's 2024 wards | 1 | Left | See below |
+
+### What is still wrong
+
+Thirteen cases stay todo, for three reasons.
+
+- **The town's own chome (10).** `東京都文京区小石川1` and `新潟県長岡市東坂之上町3` end in a lone number that
+  Geolonia reads as the chome, because its table says those towns have chome; `岩手県花巻市12丁目704` is a town
+  whose own name is 十二丁目; and `菅生ケ丘1-15-1`, `皇山町41-19-10` and `井田中ノ町41-25-2` are three numbers in towns
+  with no chome. Telling these apart needs a table of every town that has chome. Geolonia's data has one (22,062
+  towns), but it is about 230 KB of text, as large again as the municipality table, so it is not bundled; an
+  opt-in table would be a separate entry point, a decision for a later version.
+- **Hamamatsu's 2024 wards (1).** `浜松市中央区`, `浜名区` and `天竜区` date from 1 January 2024, and Geolonia's data,
+  checked again on 2026-10-09, still lists the old seven wards. The README says so; the case passes when the data
+  does.
+- **Two inputs with nothing to go on (2).** `串本町串本千二百三十四` writes a land lot in kanji with no marker, and
+  `東京部千代田区` misspells the prefecture's designator. Reading either would mean guessing at text that is just as
+  often part of a name.
+
+### Intersections
+
+`parseIntersection` is not in the corpus, which runs `parseLocation`, and has its own suite
+(`test-data/us/intersections.json`). Seven cases were added there for a gap found alongside: with no comma, the
+city was the one or two words before the state, so `Main St and Pine St Tacoma WA` gave the city `St Tacoma` and
+`Salt Lake City` lost a word. The second street now ends at its type, as a street address's does.
+
 ## Not done here
 
-- The corpus is US and Canada only; the Japanese module is tested by its own suites.
+- Intersections are not in the corpus (above), nor are strict mode and postal validation, which have suites of
+  their own.

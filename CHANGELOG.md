@@ -4,6 +4,26 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+### Added
+
+- A Japanese address corpus of 1,118 cases (`test-data/corpus/japan/`): 837 of the real addresses in Geolonia's normalize-japanese-addresses tests (MIT), its 38 normaliser shapes, and original cases for kanji and full-width numerals, sixteen kinds of dash, postal codes, buildings, 大字 and 郡, Kyoto's street directions, Hokkaido's grids, the twenty designated cities, Tokyo's 23 wards, romaji and unknown places. `docs/TEST_COVERAGE.md` describes it.
+- `streetDirections` on a Japanese address: Kyoto's street directions (`寺町通御池上る`), apart from the town they lead to (`上本能寺前町`). `formatJapanese` and `formatJapaneseEnglish` write them back before the town.
+
+### Changed
+
+- Two numbers straight after a Japanese town are ban and go, not chome and ban: `寿町2-31` is 2番31号, and `丸の内1-2` now gives ban 1 and go 2 where it gave chome 1 and ban 2. A chome written as such (`1丁目2-3`) is unchanged, as are three numbers. In Geolonia's test set 899 of 907 such pairs are ban and go. The same in romaji (`58-9 Shirakaba-cho`).
+- Three numbers after a town named with 大字 or 字, or whose first number is 100 or more, are ban, go and a room.
+- A Kyoto town written with its street directions (`寺町通御池上る上本能寺前町`) now has the town `上本能寺前町`; the directions are in `streetDirections`.
+- `Urawa-shi` and other romaji names of a city merged away are no longer taken for the ward that kept the name (浦和区); they stay unidentified, as in Japanese script.
+
+### Fixed
+
+- Japanese: 丁 for 丁目 (`3丁1番9号`); a town named with 番町 or 番丁 (`和歌山市7番町`, `学校町通1番町`); a room after a further dash (`6番23-2`, `1番2-403号`); a lettered go (`14-イ22`); kanji numerals before a dash (`四-2-27`, `一-二-三`) or 号室 (`一〇一号室`); `二階堂` read as a town, not a second floor; the dashes `─`, `━`, `⁃` and `˗`.
+- Japanese: spaces inside a municipality (`京都市 下京区`, `上北郡 横浜町`) or a town (`藤橋町 亥`); 巿 typed for 市; `ヶ`, `驒`, `﨑` and `髙` written for `ケ`, `騨`, `崎` and `高` in a municipality's name; a short prefecture before a city (`千葉市川市`); a ward with only its prefecture (`大阪府北区`); a prefecture alone without its designator (`東京`).
+- Romaji Japanese: an address on several lines, in Japanese order without commas (`Tokyo-to Chiyoda-ku Marunouchi 1-2-3`), with 〒 before it, or with `Chiyoda City` and no `-ku`; a misspelt prefecture after the municipality is no longer read as the building.
+- A US address whose street number matches a prefecture's JIS code (`Fl 34`) is no longer taken for a Japanese one.
+- `parseIntersection` takes the whole city after the second street when there is no comma: `Main St and Pine St Tacoma WA` gives the city `Tacoma`, not `St Tacoma`, and `Salt Lake City` keeps all three words.
+
 ## 1.3.0 - 2026-10-09
 
 ### Added
