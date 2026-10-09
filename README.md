@@ -35,7 +35,7 @@ A modern, TypeScript‑first address parser and normalizer for the US, Canada an
 - **Batch Processing**: Efficiently process multiple addresses with performance statistics
 - **One Small Dependency**: `fast-levenshtein`, for fuzzy state and province names (kanji numerals are read with `@johnmorrisdotca/hikidashi`, bundled into the build)
 - **TypeScript First**: Full type definitions included
-- **Drop-in Replacement**: API compatible with parse-address
+- **Drop-in Replacement**: API compatible with parse-address; [Migrating from parse-address](docs/MIGRATING_FROM_PARSE_ADDRESS.md) maps every call and field and lists where the answers differ on purpose
 
 ## Installation
 
@@ -161,6 +161,10 @@ const addresses = [
 const parsed = addresses.map((addr) => parseLocation(addr));
 console.log(parsed);
 ```
+
+## Migrating from parse-address
+
+Replace the package and keep your calls: `parseLocation`, `parseAddress`, `parseIntersection` and `parseInformalAddress` have the same names and return the same fields, and `{ useSnakeCase: true }` gives parse-address's `sec_unit_type` and `sec_unit_num`. [Migrating from parse-address](docs/MIGRATING_FROM_PARSE_ADDRESS.md) maps every call and field, shows side by side each answer that differs on purpose (a unit designator in full, a fraction kept with the number, Canada's unit-civic pairs), and notes the one function that reads less than parse-address's (`parseInformalAddress`; call `parseLocation` instead).
 
 ## Address Components
 
@@ -677,6 +681,8 @@ Batch processing provides several advantages over individual parsing:
 
 - **Comprehensive test suite**: Vitest runs every parsing scenario from JSON test data, for the US, Canada and each other country
 - **Multi-format support**: Extensive test coverage for US, Canadian and Japanese addresses, including every Japanese prefecture and municipality and 1,000 generated Japanese records from REST in Pieces
+- **Address corpora**: 2,723 cases from USPS Publication 28, Canada Post's guidelines, libpostal, parse-address's shapes and Geolonia's Japanese test addresses, with every case still wrong listed and explained in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md)
+- **Documented examples that run**: every export's TSDoc example is run against the built package by `pnpm docs:check`
 - **Edge case testing**: Validation of complex parsing scenarios and error conditions
 - **Type tests**: `tsd` checks the published type definitions
 - **Package check**: `pnpm test:package` packs the built package, installs it in a clean project, and proves that `require`, `import` and the types work for each entry point
@@ -684,8 +690,8 @@ Batch processing provides several advantages over individual parsing:
 
 ## Performance
 
-- **Zero dependencies**: No external packages required
-- **Lightweight**: < 50KB bundle size
+- **One small dependency**: `fast-levenshtein`, for fuzzy state and province names; hikidashi is bundled in
+- **Size**: the whole library, minified for the browser with every table (US, Canada, and Japan's 1,894 municipalities and its postal prefixes), is about 600 KB, 107 KB gzipped; the `/jp` entry point and tree-shaking take what a caller does not use
 - **Fast**: Regex-based parsing optimized for performance
 - **Memory efficient**: Minimal object allocation
 
