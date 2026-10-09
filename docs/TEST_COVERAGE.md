@@ -1,9 +1,12 @@
-# Test Coverage: the US, Canadian and Japanese Address Corpora
+# Test Coverage: the US, Canadian, Japanese, Australian and British Address Corpora
 
 This document says what address shapes the US and Canadian postal authorities define, which of them the
 hand-written tests already exercised, what the corpus under `test-data/corpus/` adds, and, last, what the
 parser got wrong when the corpus was written and how the fixing pass that followed dealt with each cause.
-The Japanese corpus, added after 1.3.0, has a part of its own: see "The Japanese corpus" below.
+The Japanese corpus, added after 1.3.0, has a part of its own: see "The Japanese corpus" below. So do the
+Australian and British corpora, added after 1.4.0 with the `/au` and `/gb` country modules: see "The Australian
+corpus" and "The British corpus". How a country module is chosen for an address is in
+[COUNTRIES.md](COUNTRIES.md).
 
 ## In numbers
 
@@ -12,7 +15,9 @@ The Japanese corpus, added after 1.3.0, has a part of its own: see "The Japanese
 | United States (`test-data/corpus/us/`, 14 files) | 1,092 | 1,091 | 1 | 149 |
 | Canada (`test-data/corpus/canada/`, 10 files) | 513 | 513 | 0 | 150 |
 | Japan (`test-data/corpus/japan/`, 11 files) | 1,118 | 1,105 | 13 | 153 |
-| Total | 2,723 | 2,709 | 14 | 452 |
+| Australia (`test-data/corpus/au/`, 6 files) | 266 | 266 | 0 | 5 |
+| United Kingdom (`test-data/corpus/gb/`, 7 files) | 190 | 182 | 8 | 9 |
+| Total | 3,179 | 3,157 | 22 | 466 |
 
 Before the corpus, `test-data/` held about 440 address inputs written by hand (the 600 test cases count
 the function tests in TypeScript too). They exercised 34 distinct street types, 13 unit designators and
@@ -25,6 +30,8 @@ Field by field, over every field value a corpus case names other than `country`:
 | United States (6,715 field values) | 6,714 (99.99%) | 6,350 (94.6%) |
 | Canada (3,193 field values) | 3,193 (100%) | 1,215 (38.1%) |
 | Japan (6,424 field values) | 6,400 (99.6%) | (parse-address reads no Japanese) |
+| Australia (1,623 field values) | 1,623 (100%) | (not compared) |
+| United Kingdom (1,141 field values) | 1,124 (98.5%) | (not compared) |
 
 Before the fixing pass the same count gave address-plus 94.7% in the United States, 89.9% in Canada and 95.0% in
 Japan.
@@ -129,7 +136,7 @@ Where the library has a documented convention, the corpus follows it:
 | Canada Post Addressing Guidelines | Rules described in our own words; nothing copied | Street types in both languages, unit and civic number order, French addresses, postal codes, province symbols, rural routes, site and compartment, general delivery, PO boxes and stations. Every input is constructed. |
 | parse-address `test.js` (github.com/hassansin/parse-address) | ISC | The SHAPES of its 65 street-address cases, each written again as an original address (`us/parse-address-shapes.json`), and of its intersection cases (`us/intersections.json` in `test-data/`). No input is copied. Six cases keep a note where address-plus departs from parse-address on purpose, each saying why in its description. |
 | Geo::StreetAddress::US `t/01_parser.t` (metacpan.org) | Artistic or GPL | Its shapes only, read to check that every one has an original case here (see "Shapes from parse-address and Geo::StreetAddress::US"); five shapes only it tests became `shape 66` to `shape 70`. No input is copied. |
-| libpostal `test/test_parser.c` (github.com/openvenues/libpostal) | MIT | All 40 US street addresses and the 3 Canadian ones, their labelled components converted to this library's fields. libpostal's fixtures hold only these; its large training data comes from OpenStreetMap (ODbL) and OpenAddresses and is not used. |
+| libpostal `test/test_parser.c` (github.com/openvenues/libpostal) | MIT | All 40 US street addresses and the 3 Canadian ones, their labelled components converted to this library's fields. libpostal's fixtures also hold 29 British addresses and one Manx one (written again as original addresses of the same shapes for the British corpus, below), 7 French, 3 German and about 20 other countries' handfuls (Austria 8, Colombia 6, Russia 5, the Netherlands, Japan, Spain, Jamaica and others), and none from Australia; this document said once that they held only US and Canadian addresses, which was wrong. Its large training data comes from OpenStreetMap (ODbL) and OpenAddresses and is not used. |
 
 The parity test (below) still runs the `parse-address` npm package live, as a dev dependency. That is fine: it is
 ISC licensed, and the test only reads what the package returns for our inputs; none of its test inputs are carried.
@@ -746,7 +753,190 @@ Thirteen cases stay todo, for three reasons.
 city was the one or two words before the state, so `Main St and Pine St Tacoma WA` gave the city `St Tacoma` and
 `Salt Lake City` lost a word. The second street now ends at its type, as a street address's does.
 
+## The Australian corpus
+
+The corpus under `test-data/corpus/au/` was written after 1.4.0 with the Australian module (`/au`). Unlike the others,
+the parser came first: it was written from Australia Post's guidelines and AS4590, then the corpus was written from
+the same rules without reading its output, and run. Five cases came out wrong; all five were fixed.
+
+### How an Australian case is judged
+
+The case shape and the judge are the ones above. Each case is read as a user with the module reads it:
+`parseLocation(input, { country: "AU", countries: [australia, unitedKingdom] })`, the hint being the reliable path.
+Whether the same address is recognised with no hint is the detection suite's question
+(`src/__tests__/countries/detection.test.ts`): every case that ends with a state and an Australian postcode is, and no
+US, Canadian or Japanese case is taken for Australian. The core fields are `building`, `secUnitType`, `secUnitNum`,
+`floorType`, `floor`, `lot`, `number`, `street`, `type`, `suffix`, `city`, `state`, `zip` and `country`.
+
+### Conventions the expected values follow
+
+- `type` is AS4590's abbreviation in proper case (`St`, `Pde`, `Cres`, `Bvd`), whichever way it was written (`Parade`,
+  `Boulevarde`, `Crs`, `Terr`). A street that is only `The` and a type, or a type alone (`The Esplanade`, `Broadway`),
+  has no type: the whole is its name.
+- `suffix` is AS4590's street suffix code (`N`, `NE`, `EX`, `UP`), and only when a comma or the end follows it. With no
+  comma, a direction after the type starts the suburb (`100 Miller St North Sydney` is in North Sydney): suburbs named
+  so are far more common than street suffixes.
+- `secUnitType` is the unit type's word (`Unit`, `Apartment`, `Shop`, `Suite`) from AS4590's code or word (`U`, `Apt`,
+  `Ste`); a unit before a slash with no type (`3/12`) is a `Unit`. A postal delivery is reported in Australia Post's
+  form (`PO Box`, `GPO Box`, `Locked Bag`, `RMB`, `Care PO`) with its number in `secUnitNum`.
+- `floorType` is the level type in words (`Level`, `Floor`, `Ground Floor`, `Lower Ground Floor`, `Basement`,
+  `Mezzanine`), from AS4590's codes too (`L6`, `LG`, `B2`); `floor` its number.
+- `city` is the suburb or town as written; `state` the state's code, whether written as a code, a name or with full
+  stops (`N.S.W.`); `zip` the four digits.
+- The edges of each block of postcodes are tested with a placeholder address in the state's capital: only the
+  postcode's block matters to them.
+
+### Sources and licences
+
+| Source | Licence | Used for |
+| --- | --- | --- |
+| Australia Post's addressing guidelines and AS4590 (Interchange of client information), the codes of which the Address Presentation Standard uses | Rules and codes described in our own words; nothing copied | Every shape: street types and suffixes, unit, level and postal delivery types, the layout of the last line. Every input is constructed: real suburbs and postcodes, invented numbers and streets. |
+| The UPU's addressing sheet for Australia, from Australia Post | Shapes only | Six cases are written in the shapes it shows (a level and number on one line, an RMB, a Locked Bag); the addresses are made up. |
+| Australian Bureau of Statistics, ASGS Edition 3, Postal Areas | CC BY 4.0 | Which postcodes cross a border, for the `acrossBorders` group; the same data the validator reads. |
+
+libpostal's fixtures hold no Australian address, so none is converted.
+
+### Gap analysis
+
+Before the module, address-plus read no Australian address: `parseLocation` gives `3/12 Smith St, Parramatta NSW 2150`
+the number `3/12` and the city `Parramatta NSW 2150`, with no state, postcode or country, as it still does without the
+module.
+
+| File | Group | What it covers | Cases | Todo now (before the fix) |
+| --- | --- | --- | ---: | ---: |
+| `street-addresses` | numbers | A number, a letter, a range, a comma after it, a rural number | 7 | 0 (0) |
+| `street-addresses` | layout | Commas or none, lines, two spaces, capitals, lower case, Australia, suburbs ending or starting in a street-type word | 20 | 0 (1) |
+| `street-addresses` | streetTypes | 46 street types written in full | 46 | 0 (0) |
+| `street-addresses` | abbreviations | 26 ways of writing them short | 26 | 0 (0) |
+| `street-addresses` | suffixes | North, West, E, Extension, Upper, North East; a direction starting the suburb | 8 | 0 (0) |
+| `units-and-levels` | slash | `3/12`, `3A/12`, `B/7`, a range, spaces, `Unit 3/12`, `U3/12`, `Flat 2/7` | 11 | 0 (0) |
+| `units-and-levels` | unitTypes | Unit four ways, 19 more of AS4590's unit types (with Apt and Ste), a decimal suite | 26 | 0 (0) |
+| `units-and-levels` | levels | Level, L, Floor, 3rd Floor, Ground, Basement, B2, LG, UG, Mezzanine | 13 | 0 (0) |
+| `units-and-levels` | combined | A suite on a level, a building and a level, a shop in a centre | 6 | 0 (1) |
+| `postal-delivery` | boxes | PO Box written six ways, GPO Box, a box-only postcode | 10 | 0 (0) |
+| `postal-delivery` | bags | Locked Bag, Locked Mail Bag, Private Bag | 5 | 0 (0) |
+| `postal-delivery` | rural | RMB, RMB on a highway, RSD, RMS, CMB, CMA, CPA, MS, Care PO, C/- Post Office | 12 | 0 (1) |
+| `lots-and-roads` | lots | Lot 12 with and without a comma, a lettered lot, a lot on a highway | 5 | 0 (0) |
+| `lots-and-roads` | roads | Highways, a road named for a mount, a suburb starting with Lane | 5 | 0 (2) |
+| `states-and-postcodes` | codes | Every state by its code | 8 | 0 (0) |
+| `states-and-postcodes` | names | Every state by its name | 8 | 0 (0) |
+| `states-and-postcodes` | forms | Vic, Qld, Tas, N.S.W., W.A., a suburb named Victoria Park | 6 | 0 (0) |
+| `states-and-postcodes` | blockEdges | The first and last postcode of every block | 24 | 0 (0) |
+| `states-and-postcodes` | acrossBorders | Postcodes serving two states, the external territories | 7 | 0 (0) |
+| `states-and-postcodes` | leftOut | No state, no postcode, neither, no suburb, the last line alone | 5 | 0 (0) |
+| `null-cases` | notAnAddress | Words, a city, a state or a number alone | 8 | 0 (0) |
+
+### What the parser got wrong, and how each cause was fixed
+
+| Cause | Cases | Status | The fix |
+| --- | ---: | --- | --- |
+| 1. With no comma, a suburb whose first word is also a street type (`7 Main St Mount Druitt`, `88 River Rd Lane Cove`, `Mount Macedon Rd Mount Macedon`) | 3 | Fixed | A run of street-type words is one type (`Beach Park Rd`) unless it reaches a type that always ends a street (`St`, `Rd`, `Ave`, `Hwy` and eleven others), after which the suburb begins |
+| 2. `C/- Post Office` not read as Care PO | 1 | Fixed | A postal delivery with no number is taken when it is any spelling of Care PO, not only one starting `Care` |
+| 3. A building's name ending in a street-type word (`The Rocks Centre`) read as a street, then rewritten | 1 | Fixed | A part with no number before a part that holds the street is a building's name |
+
+One convention was settled while writing the corpus rather than by a failing case: with no comma, a direction after
+the street type (`100 Miller St North Sydney`) starts the suburb rather than being a suffix; with a comma it is the
+suffix.
+
+### What is still wrong
+
+Nothing in the corpus. Not in it, and not read: corner addresses (`Cnr George and King Sts`), which are written
+several ways and name two streets; and a suburb, with no comma, after a street with no type.
+
+## The British corpus
+
+The corpus under `test-data/corpus/gb/` was written after 1.4.0 with the British module (`/gb`), the same way as the
+Australian one: the parser first, from Royal Mail's rules, then the corpus from the same rules, then a fixing pass.
+Nine cases came out wrong; one was fixed, and eight are left, each for a reason below.
+
+### How a British case is judged
+
+Each case is read with `parseLocation(input, { country: "GB", countries: [australia, unitedKingdom] })`. The core
+fields are the parts of Royal Mail's Postcode Address File and what the postcode tells: `subBuilding`, `secUnitType`,
+`secUnitNum`, `floorType`, `floor`, `building`, `number`, `dependentThoroughfare`, `street`, `type`,
+`doubleDependentLocality`, `locality`, `city`, `county`, `bfpo`, `zip`, `nation` and `country`. Every case with a
+postcode in Royal Mail's grammar is also recognised with no hint, and no US, Canadian or Japanese case is taken for
+British (the detection suite).
+
+### Conventions the expected values follow
+
+- `type` is the thoroughfare's descriptor in full (`Street`, `Road`, `Gardens`), as Royal Mail writes it, whichever way
+  it was written (`St`, `Rd.`, `Gdns`); `street` is the rest. A street with no descriptor among the 69 the parser knows
+  has no type (`Kingsway`, `Marygate`); `The` and a descriptor is a name (`The Green`, `The Blvd` as `The Boulevard`).
+- `zip` is the postcode in capitals with one space; `zipValid` says whether it follows the grammar (an area Royal Mail
+  does not use, `AA1 1AA`, still follows it). `nation` is the nation the postcode delivers to, from Code-Point Open, or
+  for Northern Ireland from its area; with no postcode, the nation written at the end.
+- `country` is `GB`, or `JE`, `GY` or `IM` for a postcode or a name of a Crown Dependency.
+- A building's name that holds its number, before a thoroughfare (`14C Kingsley Tower, Elm Walk`), is the building's
+  name, as the Postcode Address File keeps it; a number before a dependent thoroughfare (`2A Mill Cottages, Church
+  Road`) is the number.
+- `city` is the post town as written; a county after it is the `county`, never the town, and a town that shares a
+  county's name (Durham) is the town.
+
+### Sources and licences
+
+| Source | Licence | Used for |
+| --- | --- | --- |
+| Royal Mail's addressing rules: the Postcode Address File's parts and the postcode format | Rules described in our own words; nothing copied | Every shape. Every input is constructed: real towns and postcode districts, invented numbers, streets and inward codes. |
+| The UPU's addressing sheet for the United Kingdom, from Royal Mail | Shapes only | `paf-shapes.json`: one original address for each combination of parts Royal Mail's examples show. |
+| libpostal `test/test_parser.c`, `test_gb_parses` and `test_im_parses` | MIT code; the inputs are third-party addresses | `libpostal-shapes.json`: all 29 British fixtures and the Manx one, each written again as an original address of the same shape (the same parts, order and punctuation, other names, numbers and inward codes), as parse-address's were. Each case's source names the fixture's line. |
+| Ordnance Survey Code-Point Open | OGL v3 (contains Royal Mail data) | The nations the `nations` group expects, as the module reads them. |
+
+### Gap analysis
+
+Before the module, address-plus read no British address: `parseLocation` gives `10 Downing Street, London SW1A 2AA`
+the type `St` and the city `London SW1A 2AA`, with no postcode or country, as it still does without the module.
+
+| File | Group | What it covers | Cases | Todo now (before the fix) |
+| --- | --- | --- | ---: | ---: |
+| `postcodes` | formats | The six formats and GIR 0AA | 7 | 1 (1) |
+| `postcodes` | writing | No space, lower case, two spaces, on its own line, before the town, after the street, no commas | 8 | 0 (0) |
+| `postcodes` | notPostcodes | A first letter Q, C in the inward code, an area not in use | 3 | 0 (0) |
+| `postcodes` | forces | BFPO with and without a space | 2 | 0 (0) |
+| `postcodes` | crownDependencies | Jersey, Guernsey, the Isle of Man, Channel Islands written | 5 | 0 (0) |
+| `postcodes` | nations | Northern Ireland, Scotland, Wales, districts on and across the borders | 8 | 0 (0) |
+| `paf-shapes` | shapes | Each combination of PAF parts Royal Mail shows | 9 | 3 (3) |
+| `sub-buildings` | numbered | Flat, Apartment, Apt, Unit, Studio, Suite, Maisonette, Glasgow's 2/1, Edinburgh's 1F2 | 13 | 0 (0) |
+| `sub-buildings` | named | Basement, Ground Floor, Top Floor and Garden Flat | 4 | 0 (0) |
+| `sub-buildings` | floors | 2nd Floor, Floor 3, Ground Floor, a studio on a floor | 4 | 0 (0) |
+| `thoroughfares` | descriptors | 34 descriptors in full | 34 | 0 (0) |
+| `thoroughfares` | abbreviations | 18 ways of writing them short | 18 | 0 (0) |
+| `thoroughfares` | noDescriptor | Kingsway, The Strand, Broadway, The Green, The Blvd, Marygate | 6 | 0 (0) |
+| `thoroughfares` | names | St at the start, Upper Street, High Street, a hyphen | 4 | 0 (0) |
+| `thoroughfares` | numbers | A letter, a range, nought, a comma, thousands | 5 | 0 (0) |
+| `localities-and-counties` | localities | A dependent locality, two, a London district | 3 | 0 (0) |
+| `localities-and-counties` | counties | Ten counties in full and short, a town named like a county | 11 | 0 (0) |
+| `localities-and-counties` | countries | UK, U.K., United Kingdom, Great Britain, a nation, a nation with no postcode, a town alone | 9 | 0 (0) |
+| `libpostal-shapes` | shapes | libpostal's 29 British fixtures and its Manx one | 30 | 4 (5) |
+| `null-cases` | notAnAddress | Words, a town or an outward code alone | 7 | 0 (0) |
+
+### What the parser got wrong, and how each cause was fixed
+
+| Cause | Cases | Status | The fix |
+| --- | ---: | --- | --- |
+| 1. A dependent locality read as a thoroughfare (`Leigh Hill`, `Lower Stanton`) | 3 | Left | See below |
+| 2. A name run into the street with no comma (`Sovereign Retail Park Lottbridge Drove`, a whole address with no comma) | 3 | Left | See below |
+| 3. A lone organisation's name before the town read as a street (`Girobank, Bootle`) | 1 | Left | See below |
+| 4. A numbered building's name before a street with no descriptor (`8 Market Place Shopping Centre, Bondgate`) | 1 | Left | See below |
+| 5. A building number with a minus sign (`-2 Abbey Road`, as libpostal writes one) | 1 | Fixed | The minus sign is kept with the number |
+
+### What is still wrong
+
+Eight cases stay todo, for one reason underneath: without Royal Mail's Postcode Address File, which is licensed and
+not used, a name's part is known only from its words and its place.
+
+- **A locality that looks like a thoroughfare (3).** `The Grange, Leigh Hill, REIGATE` names a dependent locality that
+  ends in `Hill`, a thoroughfare descriptor, and `3 Lower Stanton, Chew Magna` numbers a double dependent locality as a
+  street would be numbered. Royal Mail's own examples have both shapes; only its file tells them from a street.
+- **A name run into the street (3).** With no comma, where a building's name ends and the street begins
+  (`Sovereign Retail Park Lottbridge Drove`), or a locality and the post town (`Hoxton London`), is a guess.
+- **A lone name before the town (1).** `Castle Head, Hinckley` is a street and `Girobank, Bootle` an organisation; the
+  parser reads a lone name with no descriptor as a street, which libpostal's fixtures have more of.
+- **A numbered building before a street with no descriptor (1).** `8 Market Place Shopping Centre, Bondgate`: the
+  parser takes the numbered part for the street, since `Bondgate` has no descriptor to mark it as one.
+
 ## Not done here
 
 - Intersections are not in the corpus (above), nor are strict mode and postal validation, which have suites of
   their own.
+- Australian corner addresses (`Cnr George and King Sts`) are not read, and so not in the corpus.
