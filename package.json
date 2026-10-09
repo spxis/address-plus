@@ -37,7 +37,11 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:types && pnpm schema:validate",
     "data:jp": "node scripts/jp/update-jp-data.ts",
     "data:sub-regions": "node scripts/sub-regions/update-sub-regions.ts",
-    "prepublishOnly": "pnpm check && pnpm build"
+    "prepublishOnly": "pnpm check && pnpm build",
+    "site": "pnpm build && node scripts/site.mjs",
+    "test:demo": "pnpm site && playwright test",
+    "screenshots:readme": "pnpm site && node scripts/readme-pictures.mjs",
+    "docs:make": "node scripts/docs.mjs"
   },
   "keywords": [
     "address",
@@ -69,6 +73,7 @@
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "@johnmorrisdotca/hikidashi": "^1.0.2",
+    "@playwright/test": "^1.64.0",
     "@types/fast-levenshtein": "^0.0.4",
     "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "^5.0.0",

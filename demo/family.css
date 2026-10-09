@@ -1,0 +1,179 @@
+/* sha256 of every line after this one: c1e392564a7fd94d0bb5cfaefb6d4fedfd147fc3e27f3a7afd8d8dac8c94a227 */
+/*
+ * family.css: the one look of the johnmorrisdotca packages' demo sites
+ * (korokoro, kyuubu, hitotsu, toranpu, tane, narabe, tenka, kumimoji).
+ *
+ * Identical, byte for byte, in every package. A package never edits this
+ * file: what is its own (a cube, a card table, a map) goes in a stylesheet of
+ * its own, loaded after this one. A test in each repository holds the copy to
+ * the hash on the first line.
+ *
+ * The values are Korokoro's: its page (demo/index.html) and its tray
+ * (src/ui/style.ts), with everything about dice left behind.
+ *
+ * Contents: 1 colours and type · 2 the page · 3 the header · 4 the language
+ * chooser · 5 the footer · 6 buttons and pills · 7 segmented choices and
+ * chips · 8 fields · 9 panels and tabs · 10 cards · 11 the felt · 12 code
+ * and notation · 13 tables · 14 small things · 15 focus.
+ */
+
+/* 1. Colours and type. Light by default, dark when the device asks, and either one forced by data-theme on <html>. */
+:root {
+  color-scheme: light dark;
+  --page: #f4efe4; --ink: #1f2320; --muted: #6b6f68; --rule: #ddd6c6;
+  --surface: #fbf8f1;
+  --felt: #2f5d4a; --felt-deep: #1f4135; --felt-ink: #f3efe4;
+  --accent: #b5452c; --accent-ink: #fff; --good: #2f7a4f; --bad: #b5452c;
+  --gold: #e0b43b; --gold-ink: #1f2320;
+  --radius: 16px;
+  --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Room kept for the header's words in the longer of the two languages, so that switching moves nothing below. A page sets its own. */
+  --intro-room: 12.5rem; --intro-room-wide: 6.5rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #141614; --ink: #ece8dc; --muted: #a09d93; --rule: #3a3d38;
+    --surface: #1d201e;
+    --felt: #214337; --felt-deep: #152c24;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #141614; --ink: #ece8dc; --muted: #a09d93; --rule: #3a3d38;
+  --surface: #1d201e;
+  --felt: #214337; --felt-deep: #152c24;
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+/* 2. The page. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--font); -webkit-tap-highlight-color: transparent; }
+/* 1100px of content and a 16px gutter each side: 1132px under border-box. */
+main { max-width: 1132px; margin: 0 auto; padding: 20px 16px 40px; }
+main > * { min-width: 0; max-width: 100%; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .32; cursor: default; }
+[hidden] { display: none !important; }
+
+/* 3. The header: the name with its kana beside it, the pitch, a line on the name, and the chooser with the two pills. */
+header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-bottom: 18px; }
+h1 { margin: 0; font-size: 1.8rem; letter-spacing: -.01em; }
+h1 span { font-size: 1rem; color: var(--muted); margin-left: 6px; font-weight: 500; }
+header p { margin: 2px 0 0; color: var(--muted); }
+.intro { min-height: var(--intro-room); }
+@media (min-width: 700px) { .intro { min-height: var(--intro-room-wide); } }
+.name { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
+nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* 44px inside a 1px border: 46px under border-box. */
+nav a { text-decoration: none; color: inherit; border: 1px solid var(--rule); border-radius: 999px; padding: 0 14px; min-height: 46px; display: inline-flex; align-items: center; font-size: .9rem; font-weight: 600; }
+nav a:hover { border-color: var(--ink); }
+
+/* 4. The language chooser. */
+.lang { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; }
+.lang button { font: inherit; font-size: .9rem; font-weight: 600; color: var(--muted); background: transparent; border: 0; border-radius: 999px; min-width: 44px; min-height: 44px; padding: 0 14px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
+.unreviewed { margin: 14px 0 0; font-size: .85rem; color: var(--muted); }
+
+/* 5. The footer: a note, the install line and the licence, and the family. */
+footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: space-between; }
+footer code { font-family: monospace; font-size: .8rem; }
+footer .family { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; }
+footer .family a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 6px; }
+footer .family a[aria-current="page"] { color: var(--ink); font-weight: 600; text-decoration: none; }
+
+/* 6. Buttons and pills, 44px to the touch. */
+.fam-button { border: 1px solid var(--rule); background: var(--surface); color: var(--ink); border-radius: 999px; min-height: 44px; min-width: 44px; padding: 0 14px; font-size: .85rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+.fam-button:hover:not(:disabled) { border-color: var(--ink); }
+.fam-button[data-primary="true"], .fam-button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.fam-button[data-accent="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.fam-button[data-danger="true"] { border-color: var(--bad); color: var(--bad); }
+.fam-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* 7. Segmented choices, and chips. */
+.fam-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.fam-label { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 3.2rem; }
+.fam-seg { display: inline-flex; flex-wrap: wrap; gap: 4px; background: var(--surface); border: 1px solid var(--rule); border-radius: 26px; padding: 3px; }
+.fam-seg button { border: 0; background: transparent; border-radius: 999px; min-width: 44px; min-height: 44px; padding: 0 10px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 5px; transition: background .15s, color .15s; }
+.fam-seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.fam-seg button:hover:not([aria-pressed="true"]):not(:disabled) { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.fam-chip { min-width: 0; min-height: 44px; border: 1px solid var(--rule); background: var(--surface); border-radius: 999px; padding: 0 10px; font-weight: 700; font-size: .9rem; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.fam-chip[data-lit="true"] { border-color: var(--ink); }
+.fam-badge { display: inline-block; border-radius: 999px; padding: 2px 10px; font-weight: 700; font-size: .8rem; background: var(--ink); color: var(--surface); }
+.fam-badge[data-tone="good"] { background: var(--gold); color: var(--gold-ink); }
+.fam-badge[data-tone="bad"] { background: var(--bad); color: #fff; }
+
+/* 8. Fields. */
+.fam-field { min-height: 44px; border: 1px solid var(--rule); border-radius: 10px; padding: 0 10px; background: var(--surface); color: var(--ink); font: inherit; min-width: 0; }
+textarea.fam-field { padding: 8px 10px; resize: vertical; }
+.fam-field[data-mono="true"] { font-family: var(--mono); }
+.fam-field[aria-invalid="true"] { border-color: var(--bad); }
+.fam-error { color: var(--bad); font-size: .8rem; overflow-wrap: anywhere; }
+
+/* 9. Panels and tabs. */
+.fam-panels { border: 1px solid var(--rule); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.fam-tabs { display: flex; border-bottom: 1px solid var(--rule); }
+.fam-tabs button { flex: 1; border: 0; background: transparent; min-height: 44px; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; }
+.fam-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.fam-panel { padding: 14px; display: grid; gap: 14px; }
+.fam-panel > * { min-width: 0; max-width: 100%; }
+.fam-panel h2, .fam-panel h3, .fam-panel h4 { margin: 0; font-size: .85rem; font-weight: 600; }
+.fam-panel p { margin: 0; }
+.fam-empty { color: var(--muted); text-align: center; padding: 18px 0; }
+
+/* 10. A section under the main thing, and its cards: a heading, a line, and a grid of things to tap. */
+.more { margin-top: 28px; }
+.more h2 { margin: 0 0 4px; font-size: 1.05rem; }
+.more p { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
+.more ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+.more li > button { width: 100%; min-height: 44px; text-align: left; font: inherit; color: inherit; background: transparent; border: 1px solid var(--rule); border-radius: 12px; padding: 8px 12px; cursor: pointer; display: grid; gap: 2px; }
+.more li > button:hover { border-color: var(--ink); }
+.more code { font-family: var(--mono); font-weight: 700; }
+.more li span { color: var(--muted); font-size: .85rem; }
+.fam-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+.fam-card { border: 1px solid var(--rule); border-radius: 12px; padding: 10px 12px; display: grid; gap: 2px; }
+.fam-card b { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.fam-card span { font-size: .75rem; color: var(--muted); }
+
+/* 11. The felt: the green table the thing itself sits on. */
+.fam-felt { position: relative; min-width: 0; border-radius: calc(var(--radius) + 6px); padding: 26px 16px 18px; color: var(--felt-ink);
+  background: radial-gradient(120% 90% at 50% 20%, var(--felt) 0%, var(--felt-deep) 100%);
+  box-shadow: inset 0 2px 18px rgba(0,0,0,.35), inset 0 0 0 6px rgba(0,0,0,.12), 0 1px 0 rgba(255,255,255,.4); overflow: hidden; }
+.fam-felt::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: .12; background-image: radial-gradient(rgba(255,255,255,.5) 1px, transparent 1px); background-size: 5px 5px; }
+.fam-felt > * { position: relative; z-index: 3; }
+.fam-felt .fam-button { background: rgba(0,0,0,.28); color: var(--felt-ink); border-color: transparent; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); }
+.fam-felt .fam-button[aria-pressed="true"], .fam-felt .fam-button[data-primary="true"] { background: var(--felt-ink); color: var(--felt-deep); box-shadow: none; }
+.fam-hint { font-size: .85rem; opacity: .85; letter-spacing: .02em; text-align: center; min-height: 1.3em; }
+
+/* 12. Code and notation. */
+code, kbd, pre { font-family: var(--mono); }
+pre { margin: 0; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); font-size: .85rem; line-height: 1.5; overflow-x: auto; max-width: 100%; }
+kbd { font-size: .8rem; border: 1px solid var(--rule); border-radius: 5px; padding: 0 5px; }
+.fam-notation { font-family: var(--mono); font-size: .9rem; overflow-wrap: anywhere; }
+.fam-code { font-family: var(--mono); font-weight: 700; font-size: .85rem; border: 1px solid var(--rule); border-radius: 8px; padding: 1px 7px; background: var(--surface); white-space: nowrap; }
+
+/* 13. Tables. A wide one scrolls inside its own box, never the page. */
+.fam-table-box { position: relative; overflow-x: auto; max-width: 100%; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .85rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+tr:last-child > td { border-bottom: 0; }
+td[data-number="true"], th[data-number="true"] { text-align: right; }
+
+/* 14. Small things. */
+.fam-fine { font-size: .75rem; color: var(--muted); margin: 0; }
+.fam-muted { color: var(--muted); }
+.fam-big { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.fam-good { color: var(--good); }
+.fam-bad { color: var(--bad); }
+.fam-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+details.fam-fold > summary { min-height: 44px; display: flex; align-items: center; gap: 6px; cursor: pointer; list-style: none; font-size: .85rem; }
+details.fam-fold > summary::before { content: "▸"; }
+details.fam-fold[open] > summary::before { content: "▾"; }
+details.fam-fold > summary::-webkit-details-marker { display: none; }
+
+/* 15. Focus. Motion is each package's own: under prefers-reduced-motion it stills what it animates. */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
