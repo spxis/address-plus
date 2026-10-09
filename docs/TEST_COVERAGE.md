@@ -2,26 +2,28 @@
 
 This document says what address shapes the US and Canadian postal authorities define, which of them the
 hand-written tests already exercised, what the corpus under `test-data/corpus/` adds, and, last, what the
-parser gets wrong today. That last section is the brief for the fixing pass.
+parser got wrong when the corpus was written and how the fixing pass that followed dealt with each cause.
 
 ## In numbers
 
-| | Cases | Pass today | Todo (wrong today) |
-| --- | ---: | ---: | ---: |
-| United States (`test-data/corpus/us/`, 14 files) | 1,087 | 938 | 149 |
-| Canada (`test-data/corpus/canada/`, 10 files) | 513 | 363 | 150 |
-| Total | 1,600 | 1,301 | 299 |
+| | Cases | Pass today | Todo (wrong today) | Todo before the fixing pass |
+| --- | ---: | ---: | ---: | ---: |
+| United States (`test-data/corpus/us/`, 14 files) | 1,092 | 1,091 | 1 | 149 |
+| Canada (`test-data/corpus/canada/`, 10 files) | 513 | 513 | 0 | 150 |
+| Total | 1,605 | 1,604 | 1 | 299 |
 
 Before the corpus, `test-data/` held about 440 address inputs written by hand (the 600 test cases count
 the function tests in TypeScript too). They exercised 34 distinct street types, 13 unit designators and
 no military, urbanization, private mailbox, trailing-country or province-in-parentheses address at all.
 
-Field by field, over every field value a corpus case names:
+Field by field, over every field value a corpus case names other than `country`:
 
 | | address-plus right | parse-address right |
 | --- | ---: | ---: |
-| United States (6,644 field values) | 6,295 (94.7%) | 6,261 (94.2%) |
-| Canada (3,155 field values) | 2,836 (89.9%) | 1,209 (38.3%) |
+| United States (6,715 field values) | 6,714 (99.99%) | 6,350 (94.6%) |
+| Canada (3,193 field values) | 3,193 (100%) | 1,215 (38.1%) |
+
+Before the fixing pass the same count gave address-plus 94.7% in the United States and 89.9% in Canada.
 
 ## How the corpus works
 
@@ -46,7 +48,9 @@ that also states the licence of what the file draws on, and `tests`, one array p
   lowercase or all capitals, for the free-text fields `street`, `city` and `station`; normalized fields
   (`type`, `state`, `prefix`, `secUnitType`) are always compared exactly.
 - `partial: true` turns off the absence check below. It is used only where a part of the address has no
-  field yet (a military delivery line, a compartment number) or how a part should split is unsettled.
+  field here (a neighbourhood or county in libpostal's fixtures), where how a part should split is
+  unsettled (a numbered concession or sideroad), or where the case asserts only what must not be invented.
+  The military, compartment and highway contract cases were partial until those parts had fields.
 - `todo: true` with a one-line `todoNote` marks a case the parser gets wrong today. The note says what
   comes out instead, field by field, for example `type: "Crt" (want "Ct")`.
 
@@ -81,7 +85,9 @@ Where the library has a documented convention, the corpus follows it:
 - `type` is the USPS standard abbreviation in proper case (`St`, `Xing`, `Holw`), in both countries.
   Where USPS Publication 28 Appendix C1 lacks the word, it is Canada Post's abbreviation (`Conc`, `Ch`,
   `Crois`, `Mtée`). Canadian spellings count as the same word (`Centre` is `Ctr`, `Harbour` is `Hbr`).
-  This matches the library's existing tests (a Canadian `Trail` is `Trl`).
+  This matches the library's existing tests (a Canadian `Trail` is `Trl`). It is a known divergence
+  from Canada Post, not a bug: Canada Post writes `Crt`, `Lane`, `Trail` and `Terr` where the library
+  writes `Ct`, `Ln`, `Trl` and `Ter`.
 - French street types come before the name and are reported the same way (`rue Principale` is type
   `Rue`, street `Principale`). Words both languages share take the English abbreviation (`avenue` is
   `Ave`, `boulevard` is `Blvd`), as the library's own parked cases expect.
@@ -92,13 +98,22 @@ Where the library has a documented convention, the corpus follows it:
   `PO BOX`) and `CP` for any spelling of the French case postale. French unit words stay French
   (`Appartement`, `Bureau`, `Unité`). A Canadian unit-civic pair with no designator (`4-123 Main St`)
   reports `Unit`.
+- A hyphenated leading number is read by country. In a Canadian address (a province, a postal code or
+  `country: "CA"` says so) it is Canada Post's unit-civic pair, unit first: `4-123 Main St` and
+  `Unit 4-123 Main St` are unit 4 at civic 123, and so is `53-55 Water Street` (unit 53 at 55), which the
+  hand-written cases in `canada/basic.json` and `canada/famous-addresses.json` used to read as a range.
+  When the address names a unit elsewhere (`53-55 Water St., Suite 400`), the hyphen joins a range and the
+  number stays `53-55`. In a US address a hyphenated number such as Queens' `87-11` is one number.
 - `number` keeps a fraction (`123 1/2`, per the README) and a letter (`123A`).
 - A route-numbered road keeps its qualifier and number in `street` with the road word abbreviated and
   no `type` (`US Hwy 431`, `County Rd 45`), as `parser.ts` does on purpose. A Canadian highway follows
   Canada Post instead: `Hwy 7` is type `Hwy`, street `7`, as for a French type.
 - Rural routes report `rr` (the number) and `ruralRoute` (`RR 2`); a highway contract route reports
-  `ruralRoute: "HC 68"`; the box on a route is `secUnitType: "Box"`. General delivery reports
+  `highwayContract` (the number) and `ruralRoute: "HC 68"`; the box on a route is `secUnitType: "Box"`.
+  A Canadian site and compartment report `site` and `compartment`. General delivery reports
   `generalDelivery: true` and `street: "General Delivery"`. A Puerto Rico urbanization goes in `locality`.
+- A military address reports its delivery line (`PSC 802 Box 74`, `USS Mitscher DDG 57`) in `military`,
+  as written, APO, FPO or DPO in `city`, and AA, AE or AP in `state`.
 - Postal codes are reported in capitals with one space (`M5H 2N2`); ZIP+4 is split into `zip` and `plus4`.
 - `country` is `US` or `CA` whenever a state, province or postal code says so.
 
@@ -216,53 +231,54 @@ own suite.
 ## Gap analysis: United States
 
 The authority is USPS Publication 28. "Before" counts the hand-written inputs in `test-data/` (us, core,
-canada and todo) that show the shape.
+canada and todo) that show the shape; the last column gives the todo cases now and, in brackets, when the
+corpus was written, before the fixing pass.
 
-| Shape (Pub 28) | Before | Corpus file and group | Cases | Todo |
+| Shape (Pub 28) | Before | Corpus file and group | Cases | Todo now (before the fix) |
 | --- | ---: | --- | ---: | ---: |
-| Every primary street suffix (Appendix C1), in full | 34 types in all | `street-suffixes` fullWord | 206 | 2 |
-| Every standard suffix abbreviation | (included above) | `street-suffixes` abbreviation | 186 | 3 |
-| Common suffix spellings C1 maps (AV, BOULV, STR, HIWAY) | few | `street-suffixes` variantSpelling | 30 | 0 |
-| Predirectionals, 8 directions, abbreviated, in full, dotted | some | `directionals` prefix | 24 | 0 |
-| Postdirectionals, 8 directions, with and without a comma | some | `directionals` suffix | 24 | 0 |
-| Pre- and postdirectional together | 0 | `directionals` prefixAndSuffix | 4 | 0 |
-| Directional word as the street name (North St) | 1 | `directionals` directionalAsName | 11 | 6 |
-| Every secondary unit designator (Appendix C2), abbreviated | 13 designators | `secondary-units` abbreviated | 24 | 8 |
-| Designators in full | | `secondary-units` fullWord | 16 | 4 |
-| Designator after a comma | | `secondary-units` afterComma | 24 | 17 |
-| `#` as the designator | few | `secondary-units` poundSign | 4 | 0 |
-| Unit variants (Apt #, Apt., lettered, Florida FL) and unit first | few | `secondary-units` variants | 14 | 5 |
-| Fractional numbers | 2 | `primary-numbers` fractions | 5 | 0 |
-| Numbers with a letter (123A) | 0 | `primary-numbers` lettered | 4 | 4 |
-| Number ranges (912-914) | few | `primary-numbers` ranges | 3 | 0 |
-| Queens and Hawaii hyphenated numbers | 2 | `primary-numbers` hyphenated | 6 | 0 |
-| Utah grid (48 S 400 E) | 6 | `primary-numbers` grid | 6 | 0 |
-| Wisconsin grid (W204N11912) | 5 | `primary-numbers` wisconsinGrid | 5 | 0 |
-| Numbers spelled out (One Microsoft Way) | few | `primary-numbers` written | 3 | 3 |
-| Ordinal and spelled-out numbered streets | some | `street-names` ordinal | 22 | 0 |
-| Bare-number streets (83 St) | 0 | `street-names` numeric | 4 | 0 |
-| Route-numbered roads (US Hwy 431, County Rd 45) | 6 | `street-names` routeNumbered | 6 | 0 |
-| Suffix words used as the name (Park Ave, Court St) | few | `street-names` suffixWordAsName | 8 | 0 |
-| Streets with no suffix (Broadway, Avenue A) | few | `street-names` noSuffix | 5 | 3 |
-| Names of several words, apostrophes, St. for Saint | some | `street-names` multiword | 10 | 3 |
-| PO Box spellings (P.O., Post Office Box, POBox, Box, POB) | 9 | `po-box-and-rural` poBox | 12 | 3 |
-| Private mailbox (PMB) | 0 | `po-box-and-rural` privateMailbox | 3 | 3 |
-| Rural route (RR, R.R., Rural Route, RFD) | 4 | `po-box-and-rural` ruralRoute | 7 | 7 |
-| Highway contract route (HC, Star Route) | 1 | `po-box-and-rural` highwayContract | 4 | 4 |
-| General delivery | 5 | `po-box-and-rural` generalDelivery | 6 | 1 |
-| Military: APO, FPO, DPO with AA, AE, AP | 0 | `military` | 14 | 14 |
-| Puerto Rico urbanizations and Spanish-order streets | 0 | `territories` puertoRico | 7 | 4 |
-| Guam, Virgin Islands, American Samoa, Northern Marianas, freely associated states | 0 | `territories` islands | 11 | 1 |
-| Every state, DC and territory by code, by name, without commas | most codes | `states` | 168 | 2 |
-| ZIP, ZIP+4 with hyphen, run together, with spaces; leading zeros | 30 with hyphen | `zip-codes` | 18 | 1 |
-| Lowercase and capitals | 10 lowercase, 0 capitals | `formatting` letterCase | 16 | 0 |
-| Punctuation variants | some | `formatting` punctuation | 6 | 2 |
-| No commas, extra spaces | some | `formatting` spacing | 16 | 4 |
-| Multiline (LF and CRLF), unit on its own line | 4 | `formatting` multiline | 19 | 1 |
-| Trailing country (USA, United States, U.S.A.) | 0 | `formatting` trailingCountry | 12 | 11 |
-| parse-address's and Geo::StreetAddress::US's shapes, original inputs | 23 in compatibility.json | `parse-address-shapes` | 70 | 8 |
-| libpostal's US fixtures | 0 | `libpostal-fixtures` | 40 | 23 |
-| Inputs that are not addresses | 7 | `null-cases` | 9 | 1 |
+| Every primary street suffix (Appendix C1), in full | 34 types in all | `street-suffixes` fullWord | 206 | 0 (2) |
+| Every standard suffix abbreviation | (included above) | `street-suffixes` abbreviation | 186 | 0 (3) |
+| Common suffix spellings C1 maps (AV, BOULV, STR, HIWAY) | few | `street-suffixes` variantSpelling | 30 | 0 (0) |
+| Predirectionals, 8 directions, abbreviated, in full, dotted | some | `directionals` prefix | 24 | 0 (0) |
+| Postdirectionals, 8 directions, with and without a comma | some | `directionals` suffix | 24 | 0 (0) |
+| Pre- and postdirectional together | 0 | `directionals` prefixAndSuffix | 4 | 0 (0) |
+| Directional word as the street name (North St) | 1 | `directionals` directionalAsName | 11 | 0 (6) |
+| Every secondary unit designator (Appendix C2), abbreviated | 13 designators | `secondary-units` abbreviated | 24 | 0 (8) |
+| Designators in full | | `secondary-units` fullWord | 16 | 0 (4) |
+| Designator after a comma | | `secondary-units` afterComma | 24 | 0 (17) |
+| `#` as the designator | few | `secondary-units` poundSign | 4 | 0 (0) |
+| Unit variants (Apt #, Apt., lettered, Florida FL) and unit first | few | `secondary-units` variants | 14 | 0 (5) |
+| Fractional numbers | 2 | `primary-numbers` fractions | 5 | 0 (0) |
+| Numbers with a letter (123A) | 0 | `primary-numbers` lettered | 4 | 0 (4) |
+| Number ranges (912-914) | few | `primary-numbers` ranges | 3 | 0 (0) |
+| Queens and Hawaii hyphenated numbers | 2 | `primary-numbers` hyphenated | 6 | 0 (0) |
+| Utah grid (48 S 400 E) | 6 | `primary-numbers` grid | 6 | 0 (0) |
+| Wisconsin grid (W204N11912) | 5 | `primary-numbers` wisconsinGrid | 5 | 0 (0) |
+| Numbers spelled out (One Microsoft Way) | few | `primary-numbers` written | 3 | 0 (3) |
+| Ordinal and spelled-out numbered streets | some | `street-names` ordinal | 22 | 0 (0) |
+| Bare-number streets (83 St) | 0 | `street-names` numeric | 4 | 0 (0) |
+| Route-numbered roads (US Hwy 431, County Rd 45) | 6 | `street-names` routeNumbered | 6 | 0 (0) |
+| Suffix words used as the name (Park Ave, Court St) | few | `street-names` suffixWordAsName | 8 | 0 (0) |
+| Streets with no suffix (Broadway, Avenue A) | few | `street-names` noSuffix | 5 | 1 (3) |
+| Names of several words, apostrophes, St. for Saint | some | `street-names` multiword | 10 | 0 (3) |
+| PO Box spellings (P.O., Post Office Box, POBox, Box, POB) | 9 | `po-box-and-rural` poBox | 12 | 0 (3) |
+| Private mailbox (PMB) | 0 | `po-box-and-rural` privateMailbox | 3 | 0 (3) |
+| Rural route (RR, R.R., Rural Route, RFD) | 4 | `po-box-and-rural` ruralRoute | 7 | 0 (7) |
+| Highway contract route (HC, Star Route) | 1 | `po-box-and-rural` highwayContract | 4 | 0 (4) |
+| General delivery | 5 | `po-box-and-rural` generalDelivery | 6 | 0 (1) |
+| Military: APO, FPO, DPO with AA, AE, AP | 0 | `military` | 14 | 0 (14) |
+| Puerto Rico urbanizations and Spanish-order streets | 0 | `territories` puertoRico | 7 | 0 (4) |
+| Guam, Virgin Islands, American Samoa, Northern Marianas, freely associated states | 0 | `territories` islands | 11 | 0 (1) |
+| Every state, DC and territory by code, by name, without commas | most codes | `states` | 168 | 0 (2) |
+| ZIP, ZIP+4 with hyphen, run together, with spaces; leading zeros | 30 with hyphen | `zip-codes` | 18 | 0 (1) |
+| Lowercase and capitals | 10 lowercase, 0 capitals | `formatting` letterCase | 16 | 0 (0) |
+| Punctuation variants | some | `formatting` punctuation | 6 | 0 (2) |
+| No commas, extra spaces | some | `formatting` spacing | 16 | 0 (4) |
+| Multiline (LF and CRLF), unit on its own line | 4 | `formatting` multiline | 19 | 0 (1) |
+| Trailing country (USA, United States, U.S.A.) | 0 | `formatting` trailingCountry | 12 | 0 (11) |
+| parse-address's and Geo::StreetAddress::US's shapes, original inputs | 23 in compatibility.json | `parse-address-shapes` | 70 | 0 (8) |
+| libpostal's US fixtures | 0 | `libpostal-fixtures` | 40 | 0 (23) |
+| Inputs that are not addresses | 7 | `null-cases` | 9 | 0 (1) |
 
 Not covered, on purpose: intersections (`parseIntersection` has its own suite), strict mode and postal
 validation (their own suites), and addresses with a recipient or attention line, which Pub 28 places above
@@ -272,40 +288,40 @@ the delivery address and this parser does not model.
 
 The authority is Canada Post's Addressing Guidelines.
 
-| Shape (Canada Post) | Before | Corpus file and group | Cases | Todo |
+| Shape (Canada Post) | Before | Corpus file and group | Cases | Todo now (before the fix) |
 | --- | ---: | --- | ---: | ---: |
-| English street types in full (116 types) | a dozen | `street-types` english | 116 | 7 |
-| English types by Canada Post's abbreviation | few | `street-types` englishAbbreviation | 48 | 6 |
-| French street types before the name (29 types) | Rue, Ch, Place, Promenade, Square | `street-types` french | 29 | 20 |
-| French types abbreviated (av., boul., ch., crois., imp.) | 1 | `street-types` frenchAbbreviation | 5 | 5 |
-| Civic number with a letter or a half (123A, 123 1/2) | 0 | `civic-numbers` civicSuffix | 6 | 3 |
-| Unit before the civic number (4-123, Unit 4-123, #4-123, Apt 4, ...) | 0 (the hyphenated inputs there are expected to be ranges) | `civic-numbers` unitBeforeCivic | 24 | 24 |
-| Unit after the street, with and without a comma | some | `civic-numbers` unitAfterStreet | 18 | 3 |
-| French comma after the civic number (123, rue Principale) | 4 | `french` civicNumberComma | 24 | 17 |
-| Province in parentheses (Montréal (Québec)) | 0 | `french` provinceInParentheses | 7 | 7 |
-| French directionals (Est, Ouest, Nord-Ouest, O.) | few | `french` directionals | 10 | 2 |
-| French unit words (app., appartement, bureau, unité) | 2 | `french` units | 8 | 8 |
-| Saint abbreviated (St-Laurent, Ste-Foy) | few | `french` saints | 4 | 0 |
-| Postal code with and without the space, lowercase, hyphen, province run in | 4 unspaced | `postal-codes` formats | 9 | 1 |
-| Every first letter Canada Post assigns, rural codes | some | `postal-codes` firstLetter | 20 | 0 |
-| X codes split between NT and NU, and with no province | 7 X codes | `postal-codes` northwestTerritoriesAndNunavut | 8 | 0 |
-| Every province and territory by code | most | `provinces` code | 13 | 0 |
-| By English name | some | `provinces` englishName | 13 | 0 |
-| By French name | 0 | `provinces` frenchName | 7 | 1 |
-| Without commas | some | `provinces` noCommas | 13 | 2 |
-| Old and informal abbreviations (PQ, Que., NF, P.E.I.) | 0 | `provinces` alternative | 17 | 4 |
-| Rural routes (RR 2, R.R. 2, civic on a rural route) | 4 | `rural-and-postal` ruralRoute | 7 | 7 |
-| Site and compartment | 1 | `rural-and-postal` siteAndCompartment | 3 | 3 |
-| General delivery, GD, poste restante | 5 | `rural-and-postal` generalDelivery | 5 | 2 |
-| PO Box and CP with station, succursale, RPO | 8 | `rural-and-postal` postOfficeBox | 10 | 4 |
-| Numbered highways and Quebec routes | some | `highways-and-concessions` highways | 7 | 4 |
-| Concession and lot, lines, numbered rural roads | 0 | `highways-and-concessions` ruralRoads | 10 | 1 |
-| Lowercase and capitals | few | `formatting` letterCase | 16 | 0 |
-| No commas, postal code unspaced | some | `formatting` spacing | 16 | 2 |
-| Canada Post's printed block, two lines | few | `formatting` multiline | 16 | 0 |
-| Trailing Canada, after a comma and on its own line | 0 | `formatting` trailingCountry | 16 | 16 |
-| libpostal's Canadian fixtures | 0 | `libpostal-fixtures` | 3 | 1 |
-| Inputs that are not addresses | 7 | `null-cases` | 5 | 0 |
+| English street types in full (116 types) | a dozen | `street-types` english | 116 | 0 (7) |
+| English types by Canada Post's abbreviation | few | `street-types` englishAbbreviation | 48 | 0 (6) |
+| French street types before the name (29 types) | Rue, Ch, Place, Promenade, Square | `street-types` french | 29 | 0 (20) |
+| French types abbreviated (av., boul., ch., crois., imp.) | 1 | `street-types` frenchAbbreviation | 5 | 0 (5) |
+| Civic number with a letter or a half (123A, 123 1/2) | 0 | `civic-numbers` civicSuffix | 6 | 0 (3) |
+| Unit before the civic number (4-123, Unit 4-123, #4-123, Apt 4, ...) | 0 (`53-55 Water Street` there was expected to be a range; it is now unit 53 at 55) | `civic-numbers` unitBeforeCivic | 24 | 0 (24) |
+| Unit after the street, with and without a comma | some | `civic-numbers` unitAfterStreet | 18 | 0 (3) |
+| French comma after the civic number (123, rue Principale) | 4 | `french` civicNumberComma | 24 | 0 (17) |
+| Province in parentheses (Montréal (Québec)) | 0 | `french` provinceInParentheses | 7 | 0 (7) |
+| French directionals (Est, Ouest, Nord-Ouest, O.) | few | `french` directionals | 10 | 0 (2) |
+| French unit words (app., appartement, bureau, unité) | 2 | `french` units | 8 | 0 (8) |
+| Saint abbreviated (St-Laurent, Ste-Foy) | few | `french` saints | 4 | 0 (0) |
+| Postal code with and without the space, lowercase, hyphen, province run in | 4 unspaced | `postal-codes` formats | 9 | 0 (1) |
+| Every first letter Canada Post assigns, rural codes | some | `postal-codes` firstLetter | 20 | 0 (0) |
+| X codes split between NT and NU, and with no province | 7 X codes | `postal-codes` northwestTerritoriesAndNunavut | 8 | 0 (0) |
+| Every province and territory by code | most | `provinces` code | 13 | 0 (0) |
+| By English name | some | `provinces` englishName | 13 | 0 (0) |
+| By French name | 0 | `provinces` frenchName | 7 | 0 (1) |
+| Without commas | some | `provinces` noCommas | 13 | 0 (2) |
+| Old and informal abbreviations (PQ, Que., NF, P.E.I.) | 0 | `provinces` alternative | 17 | 0 (4) |
+| Rural routes (RR 2, R.R. 2, civic on a rural route) | 4 | `rural-and-postal` ruralRoute | 7 | 0 (7) |
+| Site and compartment | 1 | `rural-and-postal` siteAndCompartment | 3 | 0 (3) |
+| General delivery, GD, poste restante | 5 | `rural-and-postal` generalDelivery | 5 | 0 (2) |
+| PO Box and CP with station, succursale, RPO | 8 | `rural-and-postal` postOfficeBox | 10 | 0 (4) |
+| Numbered highways and Quebec routes | some | `highways-and-concessions` highways | 7 | 0 (4) |
+| Concession and lot, lines, numbered rural roads | 0 | `highways-and-concessions` ruralRoads | 10 | 0 (1) |
+| Lowercase and capitals | few | `formatting` letterCase | 16 | 0 (0) |
+| No commas, postal code unspaced | some | `formatting` spacing | 16 | 0 (2) |
+| Canada Post's printed block, two lines | few | `formatting` multiline | 16 | 0 (0) |
+| Trailing Canada, after a comma and on its own line | 0 | `formatting` trailingCountry | 16 | 0 (16) |
+| libpostal's Canadian fixtures | 0 | `libpostal-fixtures` | 3 | 0 (1) |
+| Inputs that are not addresses | 7 | `null-cases` | 5 | 0 (0) |
 
 ## Parity with parse-address
 
@@ -313,24 +329,60 @@ The authority is Canada Post's Addressing Guidelines.
 and compares the eleven fields both report, on a common spelling (case folded, `Apt` and `Apartment` the
 same unit). The figures are in `test-data/corpus/parity.json` and in the test's title:
 
-- **Raw parity: 7,310 of 9,752 fields agree (75.0%)**, and 902 of 1,600 inputs agree on every field.
-  This is reported, not held: 206 field values are wrong in the same way in both parsers, and fixing
-  any of them lowers raw parity.
-- **Compatibility: of the 7,549 field values parse-address gets right, address-plus also gets 7,266 right
-  (96.3%).** This is the gate. It may only rise; after an improvement, record it with
+- **Raw parity: 7,568 of 9,923 fields agree (76.3%)**, and 979 of 1,605 inputs agree on every field
+  (before the fixing pass: 7,326 of 9,772, 75.0%, and 904 inputs). This is reported, not held: a field
+  both parsers got wrong in the same way and address-plus now gets right lowers it.
+- **Compatibility: of the 7,565 field values parse-address gets right, address-plus also gets all 7,565
+  right (100%)**; before the fixing pass it was 7,282 of 7,563 (96.3%). This is the gate. It may only
+  rise; after an improvement, record it with
   `CORPUS_PARITY_RECORD=1 pnpm exec vitest run src/__tests__/corpus/parse-address-parity.test.ts`.
 
-The 283 field values parse-address gets right and address-plus does not are the drop-in regressions. The
-largest groups: secondary units DEPT, HNGR, KEY, PIER, SLIP, SPC, STOP and TRLR, and units after a comma
-(69 fields); a trailing country, semicolons and a unit on the line above (43); libpostal's venue-name and
-floor-first lines (29); the parse-address shapes (23 at the time, listed under their causes below); directional
-words used as the street name (12); PMB, POB and PO Box ZIP+4 (13).
+There are no drop-in regressions left: no field value parse-address gets right that address-plus does not.
+The 283 there were when the corpus was written (secondary units DEPT, HNGR, KEY, PIER, SLIP, SPC, STOP and
+TRLR and units after a comma, a trailing country, semicolons and a unit on the line above, libpostal's
+venue-name and floor-first lines, the parse-address shapes, directional words used as the street name, PMB,
+POB and PO Box ZIP+4) are all fixed.
 
-## What the parser gets wrong today
+## What the parser got wrong, and how each cause was fixed
 
-Each todo case is counted once, under its first cause in this list; a case can suffer from more than one.
-Counts are cases (US + Canada). Inputs are quoted exactly; outputs leave out `zipValid`, `unit` and
-`country`. The pointers say where the behaviour lives, as a starting point only.
+The causes below are the brief the corpus left for the fixing pass, kept as the record of what was wrong.
+The fixing pass took them in order; every one is fixed but part of cause 19, and 298 of the 299 todo cases
+now assert. The table says how; the sections after it are the brief as it was written.
+
+| Cause | Cases | Status | The fix |
+| --- | ---: | --- | --- |
+| 1. Unit designators missing | 32 | Fixed | Every Pub 28 designator, with `.`, `#` or `No.` before the value, and the French unit words (`UNIT_TYPE_KEYWORDS`, `src/patterns/address-patterns.ts`); HNGR is Hangar |
+| 2. Trailing country | 28 | Fixed | Removed before parsing, and kept as the country (`src/utils/prepare-input.ts`) |
+| 3. Rural and highway contract routes | 22 | Fixed | A parser of their own (`src/parsers/rural-route-parser.ts`), and an RR after a street or in a part of its own; new fields `highwayContract` and `compartment` |
+| 4. Canadian unit-civic pair | 22 | Fixed | Split in a Canadian address only (see the conventions); a US hyphenated number stays whole |
+| 5. Street type tables | 18 | Fixed | A USPS abbreviation stays itself; Canadian spellings map to the USPS word; Canada Post's own types known in full; Est is Estate outside Canada; NO and SO |
+| 6. A unit in a comma part of its own | 16 | Fixed | Set aside before the city is chosen, with no-number designators and number-first floors |
+| 7. Names re-cased | 15 | Fixed | A mixed-case word is kept as written; a lowercase particle stays lowercase (`src/utils/capitalization.ts`) |
+| 8. APO, FPO and DPO | 14 | Fixed | A parser of its own (`src/parsers/military-parser.ts`); new field `military` |
+| 9. French types with a period, missing types | 14 | Fixed | A type may end in a period; carré, cours, rond-point, allée, quai, parc, pointe and île added |
+| 10. French civic number and comma; `\b` and accents | 13 | Fixed | The comma is dropped before parsing; word edges are Unicode lookarounds everywhere a state, city or type is matched (`src/patterns/word-boundary.ts`) |
+| 11. City with no comma before it | 12 | Fixed | The street ends at its first type that a city can follow (`src/utils/split-city.ts`) |
+| 12. Directional as the street name | 8 | Fixed | A directional followed only by a type is the name |
+| 13. Number with a trailing letter | 8 | Fixed | `123A`, `2455-B`; a trailing N, S, E or W is still a directional (`412E`) |
+| 14. PO box variants | 8 | Fixed | Box and POB are PO Box, case postale is CP, STN is a station, ZIP+4 split; GD and poste restante are general delivery |
+| 15. Province in parentheses | 8 | Fixed | Rewritten as the code before parsing |
+| 16. Unit before the street line | 6 | Fixed | Moved after the street before parsing |
+| 17. Types that are also unit words | 6 | Fixed | A designator is a unit only with a value, or, with none, after a street type |
+| 18. Comma between state and ZIP | 5 | Fixed | Joined before parsing |
+| 19. A type or unit word inside a name | 5 | 4 fixed, 1 left | Outside Canada and Puerto Rico a type before the name is part of it (`Avenue A`, `Avenue of the Americas`); a unit needs a value, so `Old Post Office Rd` is a street. `1 Bowling Green` is left: see below |
+| 20. Province spellings | 5 | Fixed | PQ, Que., NF and Nfld. added; accents no longer break the match |
+| Smaller causes | 34 | Fixed | A place's name before the number; urbanization in `locality`; runs of spaces; PMB; numbers spelled out; semicolons and a spaced dash; number-first floors; D.C. with periods; Canadian highways with a direction; a unit after a grid street; FL after General Delivery; `N/A`; quotes; a street with no number; a county part |
+
+### What is still wrong
+
+`1 Bowling Green, New York, NY 10004` gives street `Bowling`, type `Grn`, where the corpus wants the whole
+`Bowling Green` with no type. Green is a Publication 28 suffix, and nothing in the address tells this
+street from `12 Maple Green`; telling them apart needs a list of named streets, which this library does
+not carry. The case stays todo.
+
+Each todo case below was counted once, under its first cause in this list; a case can suffer from more than
+one. Counts are cases (US + Canada). Inputs are quoted exactly; outputs leave out `zipValid`, `unit` and
+`country`. The pointers said where the behaviour lived, as a starting point only.
 
 ### 1. Secondary unit designators missing from the unit pattern: 32 (US 26, CA 6)
 
@@ -530,33 +582,23 @@ before a comma they are read as units.
 | FL read as a floor after General Delivery | 1 | `General Delivery, Tampa FL 33602` gives unit `Floor` `33602` |
 | Other single cases | 7 | `321 S. Washington` gives street `S.`, state `WA`; `30 w 26 st` gives suffix `ST`; `N/A` parses to street `N/A`; `'45 Quaker Ave, Ste 105'` keeps the quotes; `Canal Rd, Deltona FL` loses city and state; `4411 Stone Way North Seattle, King County, WA 98103` takes the county as the city; `Lot 12, Concession 4, Smiths Falls ON K7A 4S5` gives city `Concession 4` |
 
-## Open questions for the fixing pass
+## Questions the fixing pass settled
 
-These are decisions, not bugs; the corpus takes one side of each, stated here so it can be changed in
-one place if the author decides otherwise.
-
-1. **A Canadian `53-55` is a range or a unit-civic pair?** Canada Post's rule is unit, hyphen, civic, and
-   the corpus expects `4-123 Main St` to be unit 4 at 123. `canada/basic.json` and
-   `canada/famous-addresses.json` expect `53-55 Water Street, Vancouver` to be the range `53-55`. The two
-   cannot both hold for every input. The corpus keeps its unit-civic cases unambiguous (the unit is much
-   smaller than the civic number, has a letter, or is larger than it) so a rule such as "a range when the
-   second number is just above the first and of the same parity, a unit otherwise" satisfies both sets.
-2. **Canada Post or USPS abbreviations for Canadian types?** The corpus follows the library's existing
-   choice (USPS where the word exists). Canada Post would give `Crt`, `Lane`, `Trail`, `Terr`. If the
-   library switches, the Canadian `type` values change in `canada/street-types.json` and its formatting
-   cases, and `canada/special-cases.json` (`Confederation Trail` as `Trl`) changes with them.
-3. **Fields for parts with none yet.** The military delivery line (PSC 802 Box 74), a site's compartment,
-   a highway contract route's own field, and the urbanization (the corpus uses `locality`).
-4. **Existing hand-written cases that hold today's output, not the right one.** `us/basic.json` expects
-   `1005 N Gravenstein Hwy Suite 500 Sebastopol, CA` to give street `Gravenstein Hwy Suite 500 Sebastopol`
-   (parse-address and the corpus expect street `Gravenstein`, unit `Suite 500`, city `Sebastopol`);
-   `us/compatibility.json` expects `123 Maple Rochester, New York` to give street `Maple Rochester`;
-   `canada/basic.json` expects `456 Rue Saint-Jacques Montréal QC` to give street `Saint-Jacques Montréal`.
-   Fixing causes 1, 6 and 11 will break those cases, and they should then be corrected, not the fix.
+1. **A Canadian `53-55`.** Canada Post's reading: unit 53 at civic 55, in a Canadian address, unless the
+   address names a unit elsewhere. `canada/basic.json` and `canada/famous-addresses.json` were changed to
+   it. See the conventions above.
+2. **Canada Post or USPS abbreviations for Canadian types.** USPS, as the library always had them; Canada
+   Post's `Crt`, `Lane`, `Trail` and `Terr` are a known divergence, noted in the conventions.
+3. **Fields for parts with none.** `military` holds the military delivery line, `compartment` a site's
+   compartment and `highwayContract` a highway contract route's number; a Puerto Rico urbanization stays
+   in `locality`.
+4. **Existing hand-written cases that held the old output.** Corrected to the right output wherever a
+   fix changed them: among others `1005 N Gravenstein Hwy Suite 500 Sebastopol, CA` (street
+   `Gravenstein`, unit `Suite 500`, city `Sebastopol`), `123 Maple Rochester, New York` (street `Maple`,
+   city `Rochester`), `456 Rue Saint-Jacques Montréal QC` (street `Saint-Jacques`, city `Montréal`),
+   `100 South St` (the street South), the rural route and highway contract cases, and the cleaning and
+   formatting cases that wrote the unit before the number.
 
 ## Not done here
 
-- `pnpm typecheck` already failed before this work, in `src/__tests__/types.test-d.ts` (the `JP` country)
-  and `src/__tests__/core/compatibility.test.ts` (no types for `parse-address`, possibly null
-  expectations). The corpus files add no type errors.
-- The corpus is US and Canada only; the Japanese module is being tested by its own work.
+- The corpus is US and Canada only; the Japanese module is tested by its own suites.

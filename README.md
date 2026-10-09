@@ -685,11 +685,8 @@ Batch processing provides several advantages over individual parsing:
 
 ## Browser Support
 
-- Chrome 61+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
-- Node.js 24 or newer
+The build targets ES2022, so it runs in any current browser with ES2022 support (Chrome 94, Firefox 93,
+Safari 15, Edge 94 or newer) and in Node.js 24 or newer.
 
 ## License
 

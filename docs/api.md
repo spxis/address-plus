@@ -1,6 +1,6 @@
 # API reference
 
-Every export of every entry point of @johnmorrisdotca/address-plus 1.1.0, with its signature, its comment and, for each function, one example with the answer it gives. Made from the source by `pnpm docs:make`; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html.
+Every export of every entry point of @johnmorrisdotca/address-plus 1.2.0, with its signature, its comment and, for each function, one example with the answer it gives. Made from the source by `pnpm docs:make`; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html.
 
 ## @johnmorrisdotca/address-plus
 
@@ -335,7 +335,7 @@ function
 buildRegexFromDict(dict: Record<string, string>, capture?: boolean): RegExp
 ```
 
-Build regex patterns from dictionary
+Build regex patterns from dictionary. Keys match as whole words in any alphabet, so "québec" is found at the start of a string and "al" is not found inside "Montréal".
 
 ```js
 buildRegexFromDict({ street: "St", avenue: "Ave" }).test("avenue")
@@ -410,7 +410,7 @@ const
 CA_STREET_TYPES: Record<string, string>
 ```
 
-Canadian Street Types (Canada Post official abbreviations) - bilingual Includes both English and French terms for comprehensive address parsing Mapping of Canadian street types and their variations to official Canada Post abbreviations Includes both English and French terms
+Canadian Street Types (Canada Post official abbreviations) - bilingual Includes both English and French terms for comprehensive address parsing Mapping of Canadian street types and their variations to official Canada Post abbreviations Includes both English and French terms Where USPS Publication 28 has the same word, the library reports the USPS abbreviation (Court is Ct, not Canada Post's Crt; Park is Park): see the conventions in docs/TEST_COVERAGE.md. The words Pub 28 lacks keep Canada Post's abbreviation.
 
 ### CanadaPostFormattingOptions
 
@@ -455,11 +455,11 @@ function
 capitalizeStreetName(text: string): string
 ```
 
-Properly capitalize common street names with French and acronym support
+Capitalize a street name. A word written in mixed case is kept as written ("O'Farrell", "De La Vina", "d'Youville", "McKinley"); a word written all in lowercase or all in capitals is title-cased, except a lowercase particle, which stays lowercase ("rue des Jardins" gives "des Jardins").
 
 ```js
 capitalizeStreetName("o'brien")
-// "O'brien"
+// "O'Brien"
 ```
 
 ### capitalizeWords
@@ -484,8 +484,6 @@ const
 ```ts
 CITY_PATTERNS: { readonly BASIC_CITY: RegExp; readonly MULTI_WORD_CITY: RegExp; readonly SINGLE_WORD_CITY: RegExp; readonly TWO_WORD_CITY: RegExp; }
 ```
-
-City name extraction patterns
 
 ### cleanAddress
 
@@ -1419,11 +1417,14 @@ type
 
 ```ts
 interface ParsedAddress extends JapaneseAddressFields {
-  city?: string; // City name, or the municipality in Japan
+  city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
+  compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
   country?: "CA" | "US" | "JP"; // Detected country
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
-  locality?: string; // Sub-city locality (borough, district, neighborhood)
+  highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
+  locality?: string; // Sub-city locality (borough, district, neighborhood), or a Puerto Rico urbanization
+  military?: string; // Military delivery line ("PSC 802 Box 74", "Unit 2050 Box 4190"); state is AA, AE or AP
   number?: string; // Street number
   place?: string; // Place name (landmark, POI, building, monument, etc.)
   plus4?: string; // Extended ZIP+4 code
@@ -1436,8 +1437,8 @@ interface ParsedAddress extends JapaneseAddressFields {
   secUnitNum?: string; // Secondary unit number
   secUnitType?: string; // Secondary unit type (apt, suite, etc.)
   secondary?: string; // Legacy properties for backward compatibility
-  site?: string; // Site or compartment number
-  state?: string; // State/Province code
+  site?: string; // Site number on a Canadian rural route (the 6 in "SITE 6 COMP 10 RR 8")
+  state?: string; // State/Province code; AA, AE or AP for a military address
   station?: string; // Station or Succursale identifier (e.g., Station A, Succ. Centre-ville)
   street?: string; // Street name
   suffix?: string; // Directional suffix
@@ -1781,7 +1782,7 @@ const
 POSTAL_CODE_TO_PROVINCE: Record<string, string>
 ```
 
-Canadian postal code to province mapping Based on Canada Post guidelines: https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/postal-codes.page Map postal code first letter to province abbreviation Canadian postal codes follow the pattern: Letter-Digit-Letter Digit-Letter-Digit The first letter indicates the province/territory
+Map postal code first letter to province abbreviation Canadian postal codes follow the pattern: Letter-Digit-Letter Digit-Letter-Digit The first letter indicates the province/territory
 
 ### PostalValidationResult
 
@@ -1848,7 +1849,7 @@ const
 SECONDARY_UNIT_PATTERN: RegExp
 ```
 
-Secondary unit parsing patterns Pattern for secondary unit types and numbers Matches: "apt 123", "suite 5A", "unit 12", "floor 86", "building 4", "gate B", "#45", "# 45", "lt42" Conservative update to handle specific cases without breaking existing patterns
+Secondary unit parsing patterns A unit at the end of a street line: group 1 is the street before it, group 2 the unit text.
 
 ### SECONDARY_UNIT_TYPES
 
@@ -1858,7 +1859,7 @@ const
 SECONDARY_UNIT_TYPES: Record<string, string>
 ```
 
-Secondary unit types and abbreviations Mapping of secondary unit types to their standardized proper case forms Changed from abbreviations to full words in proper case for consistency
+Secondary unit types and abbreviations Mapping of secondary unit types to their standardized proper case forms: USPS Publication 28 Appendix C2's words in full, and Canada Post's French unit words, which stay French.
 
 ### setValidatedPostalCode
 
@@ -1923,8 +1924,6 @@ type StateCode =
   | "OR"
   …
 ```
-
-US ZIP code → state/territory (2-letter) resolver Complete, zero-padded string comparisons (no octal issues). - Accepts 5-digit or ZIP+4 formats - Returns a single 2-letter code, or undefined if invalid/unmapped - Covers all 50 states, DC, territories, and military/diplomatic (AA/AE/AP)
 
 ### STREET_NAME_ACRONYMS
 
@@ -2040,10 +2039,10 @@ Schema definitions for JSON test case files Provides type safety and consistency
 const
 
 ```ts
-UNIT_TYPE_KEYWORDS: "suite|ste|apt|apartment|unit|floor|fl|building|bldg|gate|lobby|lot|lt|rm|room|office|off|level|lv|desk|workstation|booth|stall|bay"
+UNIT_TYPE_KEYWORDS: string
 ```
 
-Address-specific patterns for components, units, and facilities Unit type keywords pattern (for building regex patterns) Updated to include more comprehensive unit types
+Address-specific patterns for components, units, and facilities Secondary unit designators that take a number or letter after them (USPS Publication 28 Appendix C2, Canada Post's English and French unit words, and a few spellings people write). Longest first, so "apartment" is tried before "apt" and "suite" before "su".
 
 ### UNIT_TYPE_NUMBER_PATTERN
 
@@ -2053,7 +2052,7 @@ const
 UNIT_TYPE_NUMBER_PATTERN: RegExp
 ```
 
-Pattern for extracting unit type and number Used to parse the secondary unit match Conservative update to handle specific cases like lt42
+Pattern for extracting unit type and number from a unit's text. Groups: 1 designator and 2 value ("apt 123", "Apt. #4B"), 3 and 4 a lot run together ("lt42"), 5 the value after a bare "#".
 
 ### US_REGIONS
 
@@ -2579,11 +2578,14 @@ type
 
 ```ts
 interface ParsedAddress extends JapaneseAddressFields {
-  city?: string; // City name, or the municipality in Japan
+  city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
+  compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
   country?: "CA" | "US" | "JP"; // Detected country
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
-  locality?: string; // Sub-city locality (borough, district, neighborhood)
+  highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
+  locality?: string; // Sub-city locality (borough, district, neighborhood), or a Puerto Rico urbanization
+  military?: string; // Military delivery line ("PSC 802 Box 74", "Unit 2050 Box 4190"); state is AA, AE or AP
   number?: string; // Street number
   place?: string; // Place name (landmark, POI, building, monument, etc.)
   plus4?: string; // Extended ZIP+4 code
@@ -2596,8 +2598,8 @@ interface ParsedAddress extends JapaneseAddressFields {
   secUnitNum?: string; // Secondary unit number
   secUnitType?: string; // Secondary unit type (apt, suite, etc.)
   secondary?: string; // Legacy properties for backward compatibility
-  site?: string; // Site or compartment number
-  state?: string; // State/Province code
+  site?: string; // Site number on a Canadian rural route (the 6 in "SITE 6 COMP 10 RR 8")
+  state?: string; // State/Province code; AA, AE or AP for a military address
   station?: string; // Station or Succursale identifier (e.g., Station A, Succ. Centre-ville)
   street?: string; // Street name
   suffix?: string; // Directional suffix

@@ -4,6 +4,47 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+### Added
+
+- `docs/TEST_COVERAGE.md` lists every shape of address that parse-address's and Geo::StreetAddress::US's test suites exercise, each with an original case in the corpus that covers it. The corpus no longer carries any input of those suites: their 65 street-address cases are rewritten as original addresses of the same shapes (`test-data/corpus/us/parse-address-shapes.json`), five shapes only the Perl module tests are added, and the intersection cases use original streets.
+
+### Changed
+
+- In a Canadian address a hyphenated leading number is Canada Post's unit and civic number, unit first: `4-123 Main St`, `Unit 4-123 Main St` and `53-55 Water Street` are unit 4 at 123 and unit 53 at 55. In a US address a hyphenated number such as Queens' `87-11` stays whole, and so does a Canadian one when the address names a unit elsewhere.
+- New fields on `ParsedAddress`: `military` (the military delivery line, such as `PSC 802 Box 74`, with APO, FPO or DPO as the city and AA, AE or AP as the state), `compartment` (a Canadian site's compartment) and `highwayContract` (a highway contract route's number).
+- `formatAddress` and `cleanAddress` write the unit after the street; `formatCanadaPost` joins it to the civic number, unit first (`4-123 MAIN ST`).
+- A type written before the name is a type only in Canada and Puerto Rico; elsewhere it is part of the name (`Avenue of the Americas`).
+- Street names keep the letters they were written with when mixed case (`O'Farrell`, `De La Vina`), and a lowercase French particle stays lowercase (`rue des Jardins` gives `des Jardins`).
+- Case postale is reported as `CP`, and Box and POB as `PO Box`.
+
+### Fixed
+
+- Every USPS secondary unit designator is read (DEPT, HNGR, KEY, PIER, SLIP, SPC, STOP, TRLR and the rest), with a period, `#` or `No.` before its value, as are the French app., appartement, bureau and unité; HNGR is Hangar.
+- A trailing USA, United States or Canada no longer stops the city, state and ZIP being read.
+- Rural routes (RR, R.R., Rural Route, RFD), highway contract routes (HC, Star Route) and Canadian site and compartment addresses are read.
+- A Canadian unit and civic number joined by a hyphen are split into the unit and the number.
+- Street types: CT is Ct, Pk is Park, Landng, Villge, Exten, Crnrs, Cross and Harbour map to the USPS words, Canada Post's Circuit, Cul-de-sac and Diversion are known in full, Est is Estate outside Canada, and French Nord-Ouest and Sud-Ouest are NO and SO.
+- A unit in a comma part of its own is read as the unit, not as the city.
+- Street names are no longer lowercased and re-capitalized (O'farrell, D'youville, Des Jardins).
+- APO, FPO and DPO addresses are read.
+- French types with a period (av., boul., ch., crois., imp.) and carré, cours, rond-point, allée, quai, parc, pointe and île are read.
+- Canada Post's comma after a French civic number (`275, rue Notre-Dame Est`) is read, and an accented city no longer hides a state: the "al" ending Montréal was read as Alabama, because `\b` treated accented letters as word breaks.
+- A city with no comma before it is found after the street (`1600 Amphitheatre Pkwy Mountain View CA`, `8605 Sycamore St Salt Lake City UT`).
+- A directional that is the whole street name (North St, Northwest Hwy) is the name, not a predirectional.
+- A civic number with a letter (`123A`, `2455-B`) is read as the number.
+- Post office box variants: Box alone, POB, case postale, STN, a PO box's ZIP+4, GD and poste restante.
+- A province in parentheses (`Montréal (Québec)`) is read as the province.
+- A unit written on the line above the street is read as the unit.
+- Street suffixes that are also unit words (Key, Trailer, Front, Gate) are read as the type when no value follows.
+- A comma between the state and the ZIP no longer makes the state the city.
+- `Avenue A`, `Avenue of the Americas` and `Old Post Office Rd` keep their whole names.
+- PQ, Que., NF, Nfld. and Île-du-Prince-Édouard are read as provinces.
+- Smaller faults: a place's name before the number, a Puerto Rico urbanization (now `locality`), runs of spaces, PMB, numbers spelled out, semicolons and a spaced dash as separators, number-first floors, D.C. with periods, a Canadian highway's direction, a unit after a grid street, FL after General Delivery, `N/A`, quotes round the address, a street with no number and a county read as the city.
+- `cleanAddressDetailed` and `formatAddress` no longer put the unit before the number ("Apartment 4 123 Main St").
+- Title case no longer damages postal codes, directionals and PO Box ("M5h 2n2", "Nw", "Po Box"), nor turns "de la" into DE LA.
+- `normalizeRegion` no longer fuzzy-matches loosely (Osaka gave AK, Tokyo OH, Kyoto CO): the whole input must be close to a whole name, and a Japanese prefecture's name never matches.
+- `getZipPrefixesForState` and `getPostalPrefixesForProvince` accept a name ("New York", "Quebec").
+
 ## 1.2.0 - 2026-10-09
 
 ### Added
