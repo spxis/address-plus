@@ -24,6 +24,7 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 - Japanese: spaces inside a municipality (`京都市 下京区`, `上北郡 横浜町`) or a town (`藤橋町 亥`); 巿 typed for 市; `ヶ`, `驒`, `﨑` and `髙` written for `ケ`, `騨`, `崎` and `高` in a municipality's name; a short prefecture before a city (`千葉市川市`); a ward with only its prefecture (`大阪府北区`); a prefecture alone without its designator (`東京`).
 - Romaji Japanese: an address on several lines, in Japanese order without commas (`Tokyo-to Chiyoda-ku Marunouchi 1-2-3`), with 〒 before it, or with `Chiyoda City` and no `-ku`; a misspelt prefecture after the municipality is no longer read as the building.
 - A US address whose street number matches a prefecture's JIS code (`Fl 34`) is no longer taken for a Japanese one.
+- `cleanAddress` and `cleanAddressDetailed` write a Japanese address the way Japan Post asks, on one line (`〒100-0005 東京都千代田区丸の内1-2-3`), where they gave a mangled US-style line (`1-2-3 丸の内, 千代田区 13 100-0005`).
 - `parseIntersection` takes the whole city after the second street when there is no comma: `Main St and Pine St Tacoma WA` gives the city `Tacoma`, not `St Tacoma`, and `Salt Lake City` keeps all three words.
 
 ## 1.3.0 - 2026-10-09

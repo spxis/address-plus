@@ -13,6 +13,7 @@ import {
   US_STATE_NAMES as US_STATE_NAMES_TO_CODES,
 } from "../constants/index.js";
 import { parseLocation } from "../index.js";
+import { formatJapanese } from "../jp/format";
 import { UTILITY_PATTERNS } from "../patterns/parser-patterns";
 import type { CleanAddressOptions, CleanAddressResult } from "../types/clean-address.js";
 import type { ParsedAddress } from "../types/index.js";
@@ -79,6 +80,19 @@ function cleanAddressDetailed(addressString: string, options: CleanAddressOption
       cleanedAddress: addressString.trim(),
       wasModified: false,
       changes: ["Could not parse address"],
+    };
+  }
+
+  // A Japanese address is written back the way Japan Post asks, in one line: one width of digit, the block as
+  // 1-2-3, the prefecture and municipality from the tables. Letter case and abbreviations do not apply to it.
+  if (parsedAddress.country === "JP") {
+    const japanese = formatJapanese(parsedAddress, { multiline: false });
+    const wasModified = japanese !== addressString.trim();
+
+    return {
+      cleanedAddress: japanese,
+      wasModified,
+      changes: wasModified ? ["Wrote the Japanese address the way Japan Post asks"] : [],
     };
   }
 

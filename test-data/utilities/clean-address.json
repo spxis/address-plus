@@ -86,6 +86,19 @@
         "options": {
           "removeExtraSpaces": true
         }
+      },
+      {
+        "name": "Japanese address in full-width digits written the Japan Post way",
+        "input": "〒１００－０００５　東京都千代田区丸の内１－２－３",
+        "expected": "〒100-0005 東京都千代田区丸の内1-2-3",
+        "options": {
+          "standardizeCase": "title"
+        }
+      },
+      {
+        "name": "Japanese address in kanji numerals keeps its building and floor",
+        "input": "東京都千代田区丸の内一丁目二番三号　サンプルビル五階",
+        "expected": "東京都千代田区丸の内1-2-3 サンプルビル5階"
       }
     ],
     "cleanAddressDetailed": [
