@@ -4,6 +4,8 @@ All notable changes to this project are written here, in the style of [Keep a Ch
 
 ## Unreleased
 
+## 1.6.0 - 2026-10-09
+
 ### Added
 
 - France, as a module of its own: `@johnmorrisdotca/address-plus/fr`. `parseFrenchAddress` reads an address the way La Poste lays one out (its specification SP 8855): who it is care of (`Chez`), an apartment or a door, a floor, a staircase, an entrance, the building, residence or zone, the number with its extension (`12 bis`, `12 B`, `12-14`), the type of voie first and in full in `type` (`rue de la Paix` is `Rue` and `de la Paix`; `av.`, `bd`, `chemin`, `rond-point` and thirty more), a lieu-dit, a box (`BP`, `CS`, `TSA`), and the line of the postcode, the commune and its CEDEX or arrondissement; `F-75008` too. The postcode names the department in `state` (Corsica's 20 split at 20200 into `2A` and `2B`, `971` to `976` overseas). `validateFrenchAddress` checks the postcode against the 6,328 in La Poste's base officielle (it skips that for an address with a CEDEX, whose code the base does not list), `formatLaPoste` writes the six lines in capitals without accents or punctuation, and `compareFrenchAddresses` takes `av.` and `avenue`, `St` and `Saint`, accents and hyphens as the same. `isValidFrenchPostcode`, `isKnownFrenchPostcode`, `parseFrenchPostcode`, `getDepartmentFromFrenchPostcode`, `findFrenchDepartment`, the 101 departments with their regions (`FR_DEPARTMENTS`) and the overseas collectivities (`FR_COLLECTIVITIES`) are in it too, with the tables of words (`FR_STREET_TYPES`, `FR_UNIT_TYPES`, `FR_BUILDING_WORDS`, `FR_NUMBER_EXTENSIONS`).
