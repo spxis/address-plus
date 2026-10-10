@@ -21,13 +21,14 @@ interface ParseOptions {
     | "IM"
     | "JE"
     | FrenchPostalCountry
+    | "DE"
     | "GP"
     | "MQ"
     | "GF"
     | "RE"
     | "YT"
-    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
-  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR, DE and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr", germany from "/de"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)

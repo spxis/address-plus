@@ -486,7 +486,10 @@ function looksFrench(text: string): boolean {
       "",
     );
 
-  return partsOf(before).some((part) => startsWithStreetType(street(part)));
+  // A German street is Allee der Kosmonauten 8: the French type written with no accent and the number after the name.
+  const german = (part: string): boolean => /^Allee\s.*\s\d+\s?[A-Za-z]?$/.test(part.trim());
+
+  return partsOf(before).some((part) => !german(part) && startsWithStreetType(street(part)));
 }
 
 export { looksFrench, parseFrenchAddress };

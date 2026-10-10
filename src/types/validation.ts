@@ -57,7 +57,7 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR, DE and the rest need their module in countries
   countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 

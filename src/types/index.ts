@@ -32,6 +32,7 @@ export type {
   FrenchPostalCountry,
   FrenchPostcode,
 } from "./france";
+export type { GermanAddressFields, GermanPostcode, GermanState, GermanStateCode } from "./germany";
 export type { JapaneseAddressFields, JapaneseMunicipality, JapanesePrefecture } from "./japan";
 export type { ParseOptions } from "./parse-options";
 export type { ParsedAddress } from "./parsed-address";

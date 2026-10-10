@@ -1,7 +1,7 @@
 // Parsed address result with all possible fields. A Japanese address fills its own fields (prefecture,
 // municipality, town, chome, ban, go, building, floor, room) and the shared ones that stand for them:
 // state holds the prefecture's JIS code, city the municipality, street the town, number the block. An
-// Australian, British or French address, read by its country's module, adds the few fields of its own.
+// Australian, British, French or German address, read by its country's module, adds the few fields of its own.
 import type { AustralianAddressFields } from "./australia";
 import type { FrenchAddressFields, FrenchPostalCountry } from "./france";
 import type { JapaneseAddressFields } from "./japan";
@@ -21,7 +21,7 @@ import type { UKAddressFields } from "./united-kingdom";
 interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, FrenchAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man) and FR (with Monaco and the overseas collectivities) only from their modules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry | "DE"; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man), FR (with Monaco and the overseas collectivities) and DE only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"

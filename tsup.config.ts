@@ -6,6 +6,7 @@ export default defineConfig({
     "jp/index": "src/jp/index.ts",
     "au/index": "src/au/index.ts",
     "gb/index": "src/gb/index.ts",
+    "de/index": "src/de/index.ts",
     "fr/index": "src/fr/index.ts",
   },
   format: ["esm", "cjs"],
