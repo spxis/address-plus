@@ -106,6 +106,7 @@ describe("telling Australian, British and French addresses apart with no hint", 
     ["12 Bath Street, St Helier JE2 4ST", "JE"],
     ["12 rue de la Paix, 75002 Paris", "FR"],
     ["15 boulevard Haussmann, 75009 PARIS CEDEX 09", "FR"],
+    ["12 rue de la Paix, 75099 Paris", "FR"],
     ["1 place du Casino, 98000 Monaco", "MC"],
     ["Avenue Pouvanaa a Oopa, 98714 Papeete, Polynésie française", "PF"],
     ["100 Queen St W, Toronto, ON M5H 2N2", "CA"],
@@ -118,6 +119,12 @@ describe("telling Australian, British and French addresses apart with no hint", 
     ["2 Court Square, Long Island City, NY 11101", "US"],
   ])("reads %s as %s", (input, country) => {
     expect(parseLocation(input, { countries: [australia, france, unitedKingdom] })?.country).toBe(country);
+  });
+
+  it("leaves a postcode that names no department to the core, with a French street beside it", () => {
+    const input = "12 rue de la Paix, 96000 Paris";
+
+    expect(parseLocation(input, { countries: [australia, france, unitedKingdom] })).toEqual(parseLocation(input));
   });
 
   it("leaves a German address, whose postcode comes first too, to the core", () => {
