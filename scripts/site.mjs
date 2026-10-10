@@ -177,7 +177,7 @@ const panels = [
     ],
     exampleHelp: [
       "Fill the box with an example: US ZIP codes, Canadian postal codes, Japanese postal codes in half-width and full-width digits, an Australian postcode that serves two states, French postcodes in Paris, Corsica and French Polynesia, German postcodes in Berlin and Bavaria, British postcodes in England, Wales and Jersey, then a state, a province and two prefectures.",
-      "例を入れます：米国の ZIP コード、カナダの郵便番号、半角と全角の日本の郵便番号、二つの州にまたがるオーストラリアの郵便番号、パリ、コルシカ島、フランス領ポリネシアの郵便番号、ベルリンとバイエルンの郵便番号、イングランド、ウェールズ、ジャージー島の郵便番号、そして米国の州、カナダの州、都道府県が二つ。",
+      "例を入れます：米国の ZIP コード、カナダの郵便番号、半角と全角の日本の郵便番号、二つの州にまたがるオーストラリアの郵便番号、パリ、コルシカ島、仏領ポリネシアの郵便番号、ベルリンとバイエルンの郵便番号、イングランド、ウェールズ、ジャージー島の郵便番号、そして米国の州、カナダの州、都道府県が二つ。",
     ],
   }),
   panel({
