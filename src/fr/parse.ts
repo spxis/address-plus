@@ -442,10 +442,11 @@ function parseFrenchAddress(text: string, options: ParseOptions = {}): ParsedAdd
 
 /**
  * Whether an address is surely French, with no hint: it ends with France, an overseas department, Monaco or one of the
- * collectivities, or holds CEDEX beside a postcode, or its last line begins with a postcode La Poste lists followed by a
- * commune (`75008 Paris`) while its street begins with a French type of voie (`rue`, `avenue`, `chemin`). A US ZIP code
- * follows its state and a Canadian one ends in a digit, so neither is the shape of that last line; a German one has its
- * postcode first too, but its streets end in `straße` or `weg` and begin with no French type.
+ * collectivities, or holds CEDEX beside a postcode, or its last line begins with a postcode whose number names a
+ * department, a collectivity or Monaco, followed by a commune (`75008 Paris`), while the address has a French type of
+ * voie (`rue`, `avenue`, `chemin`) at the start of a street, a `BP`, a `TSA` or a `lieu-dit`. A US ZIP code follows its
+ * state and a Canadian one ends in a digit, so neither is the shape of that last line; a German one has its postcode
+ * first too, but its streets end in `straße` or `weg` and begin with no French type.
  *
  * @param text - The address as one string.
  * @returns `true` when the address is French beyond doubt, `false` otherwise.
@@ -462,9 +463,18 @@ function looksFrench(text: string): boolean {
   if (takeCountry(work)) return true;
   // An arrondissement of Paris, Lyon or Marseille is written nowhere else.
   if (/\barr(?:ondissement|\.)\s+(?:de\s+)?(?:Paris|Lyon|Marseille)\b/i.test(work)) return true;
-  // The last line: a postcode La Poste lists and a commune after it, with nothing like a US state before the postcode.
+  // The last line: a postcode and a commune after it, with nothing like a US state before the postcode.
   const line = /(?:^|[\s,])(?:F(?:R)?[-\s]?)?(\d{5})\s+\p{L}[^,]*$/iu.exec(work);
-  if (!line || line.index === undefined || !parseFrenchPostcode(line[1])?.known) return false;
+  const postcode = line ? parseFrenchPostcode(line[1]) : null;
+  // Whose number names a department, a collectivity or Monaco: a postcode La Poste does not list is a typo in one.
+  if (
+    !line ||
+    line.index === undefined ||
+    !postcode ||
+    !(postcode.known || postcode.country !== "FR" || postcode.department)
+  ) {
+    return false;
+  }
   const before = work.slice(0, line.index + (/^[\s,]/.test(line[0]) ? 1 : 0));
   if (/\b(?!FR\b)[A-Z]{2}[\s,]+$/.test(before)) return false;
   // A box or a lieu-dit before it is French, as the words are (BP, boîte postale, lieu-dit).
