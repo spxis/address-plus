@@ -8,6 +8,7 @@ import { join } from "path";
 import { describe, expect, it } from "vitest";
 
 import { australia } from "../../au";
+import { germany } from "../../de";
 import { france } from "../../fr";
 import { unitedKingdom } from "../../gb";
 import { parseLocation } from "../../parser";
@@ -150,10 +151,28 @@ const FRANCE_CORE_FIELDS: CorpusField[] = [
   "country",
 ];
 
+// Germany's core fields: the lines above the street, the street and its number, the place and the Land.
+const GERMANY_CORE_FIELDS: CorpusField[] = [
+  "careOf",
+  "building",
+  "secUnitType",
+  "secUnitNum",
+  "floorType",
+  "floor",
+  "street",
+  "number",
+  "locality",
+  "city",
+  "state",
+  "zip",
+  "country",
+];
+
 // The core fields each corpus folder is judged by.
 const CORE_FIELDS_BY_COUNTRY: Readonly<Record<string, CorpusField[]>> = {
   au: AUSTRALIA_CORE_FIELDS,
   canada: CORE_FIELDS,
+  de: GERMANY_CORE_FIELDS,
   fr: FRANCE_CORE_FIELDS,
   gb: UK_CORE_FIELDS,
   japan: JAPAN_CORE_FIELDS,
@@ -163,8 +182,8 @@ const CORE_FIELDS_BY_COUNTRY: Readonly<Record<string, CorpusField[]>> = {
 // The country modules every case of a module's folder is read with, and the hint each folder gives: a case in au/ is
 // read as parseLocation(input, { country: "AU", countries }), the reliable path. Whether the same addresses are told
 // apart with no hint is the detection suite's question (src/__tests__/countries/detection.test.ts).
-const COUNTRY_MODULES: readonly CountryModule[] = [australia, france, unitedKingdom];
-const MODULE_HINTS: Readonly<Record<string, ParseOptions["country"]>> = { au: "AU", fr: "FR", gb: "GB" };
+const COUNTRY_MODULES: readonly CountryModule[] = [australia, france, germany, unitedKingdom];
+const MODULE_HINTS: Readonly<Record<string, ParseOptions["country"]>> = { au: "AU", de: "DE", fr: "FR", gb: "GB" };
 
 const CORPUS_ROOT: string = join(__dirname, "../../../test-data/corpus");
 
@@ -318,6 +337,7 @@ export {
   COUNTRY_MODULES,
   describeMismatches,
   FRANCE_CORE_FIELDS,
+  GERMANY_CORE_FIELDS,
   JAPAN_CORE_FIELDS,
   judgeCase,
   loadCorpus,

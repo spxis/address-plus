@@ -1,0 +1,136 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "German Boxes and Packstations",
+  "description": "A Postfach with its number in pairs, short and five digits long, with Nr., abbreviated, in capitals and under a firm's name, and a Packstation and a Postfiliale. Original cases written for this corpus from Deutsche Post's addressing guidance, described in our own words; the postcodes are in GeoNames' list for Germany (CC BY 4.0).",
+  "tests": {
+    "boxes": [
+      {
+        "name": "Postfach",
+        "description": "A Postfach, its number in pairs",
+        "input": "Postfach 12 34 56, 50667 Köln",
+        "expected": {
+          "secUnitType": "Postfach",
+          "secUnitNum": "123456",
+          "city": "Köln",
+          "state": "NW",
+          "zip": "50667",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Postfach short",
+        "description": "A short number",
+        "input": "Postfach 1234, 20095 Hamburg",
+        "expected": {
+          "secUnitType": "Postfach",
+          "secUnitNum": "1234",
+          "city": "Hamburg",
+          "state": "HH",
+          "zip": "20095",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Postfach, five digits",
+        "description": "A five-digit number, which is not the postcode",
+        "input": "Postfach 12345, 80331 München",
+        "expected": {
+          "secUnitType": "Postfach",
+          "secUnitNum": "12345",
+          "city": "München",
+          "state": "BY",
+          "zip": "80331",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Postfach Nr.",
+        "description": "The word Nr. before the number",
+        "input": "Postfach Nr. 12, 70173 Stuttgart",
+        "expected": {
+          "secUnitType": "Postfach",
+          "secUnitNum": "12",
+          "city": "Stuttgart",
+          "state": "BW",
+          "zip": "70173",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pf.",
+        "description": "The abbreviation",
+        "input": "Pf. 1234, 60311 Frankfurt am Main",
+        "expected": {
+          "secUnitType": "Postfach",
+          "secUnitNum": "1234",
+          "city": "Frankfurt am Main",
+          "state": "HE",
+          "zip": "60311",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a firm and a Postfach",
+        "description": "A firm's name above its Postfach",
+        "input": "Hofgarten GmbH, Postfach 12 34, 80331 München",
+        "expected": {
+          "building": "Hofgarten GmbH",
+          "secUnitType": "Postfach",
+          "secUnitNum": "1234",
+          "city": "München",
+          "state": "BY",
+          "zip": "80331",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "capitals",
+        "description": "A Postfach in capitals",
+        "input": "POSTFACH 12 34 56, 50667 KÖLN",
+        "expected": {
+          "secUnitType": "Postfach",
+          "secUnitNum": "123456",
+          "city": "KÖLN",
+          "state": "NW",
+          "zip": "50667",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Packstation",
+        "description": "A DHL Packstation",
+        "input": "Packstation 123, 70173 Stuttgart",
+        "expected": {
+          "secUnitType": "Packstation",
+          "secUnitNum": "123",
+          "city": "Stuttgart",
+          "state": "BW",
+          "zip": "70173",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Postfiliale",
+        "description": "A Postfiliale",
+        "input": "Postfiliale 456, 20095 Hamburg",
+        "expected": {
+          "secUnitType": "Postfiliale",
+          "secUnitNum": "456",
+          "city": "Hamburg",
+          "state": "HH",
+          "zip": "20095",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

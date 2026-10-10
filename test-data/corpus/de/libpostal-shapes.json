@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "German Shapes From libpostal's Fixtures",
+  "description": "The three German fixtures of libpostal's test_parser.c (MIT licence), each written again as an original input of the same shape: the same parts, order and punctuation, another place. Each case's source names the fixture it follows.",
+  "tests": {
+    "shapes": [
+      {
+        "name": "a name, street, number, postcode, place and country",
+        "description": "libpostal's first German fixture: a firm's name, a street ending in -straße, its number, the postcode, the place and the country, with no commas",
+        "input": "Hofgarten Brauerei Lindenallee 12 80331 München Deutschland",
+        "expected": {
+          "building": "Hofgarten Brauerei",
+          "street": "Lindenallee",
+          "number": "12",
+          "city": "München",
+          "state": "BY",
+          "zip": "80331",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_de_parses (a name, a street, a number, a postcode, a place and a country, with umlauts): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "the same transliterated",
+        "description": "libpostal's second fixture: the same address with the umlauts written ae, oe, ue and ss",
+        "input": "Muenchner Hofbraeu Lindenstrasse 14 04109 Leipzig Deutschland",
+        "expected": {
+          "building": "Muenchner Hofbraeu",
+          "street": "Lindenstrasse",
+          "number": "14",
+          "city": "Leipzig",
+          "state": "SN",
+          "zip": "04109",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_de_parses (the same, transliterated): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "the country's code",
+        "description": "libpostal's third fixture: the same, with the country's code at the end and no comma",
+        "input": "Kloster Braeu Lindenstrasse 14 04109 Leipzig DE",
+        "expected": {
+          "building": "Kloster Braeu",
+          "street": "Lindenstrasse",
+          "number": "14",
+          "city": "Leipzig",
+          "state": "SN",
+          "zip": "04109",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_de_parses (the same, with DE for the country): the same parts, order and punctuation, another place; nothing copied"
+      }
+    ]
+  }
+}

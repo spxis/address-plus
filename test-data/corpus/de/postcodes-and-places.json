@@ -1,0 +1,299 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "German Postcodes and Places",
+  "description": "The line of the postcode and the place: with and without a comma, with D- and DE- before the code and the country after the place, on lines of their own, with a hyphen, brackets, an Ortsteil, and with the postcode or the place missing. Original cases written for this corpus from Deutsche Post's addressing guidance and DIN 5008's layout, described in our own words; the postcodes and their Länder are GeoNames' (CC BY 4.0).",
+  "tests": {
+    "postcodeLine": [
+      {
+        "name": "after the street",
+        "description": "The usual line, with a comma",
+        "input": "Hauptstraße 12, 10115 Berlin",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "D- before the postcode",
+        "description": "The country's letter, hyphenated",
+        "input": "Hauptstraße 12, D-10115 Berlin",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "DE- before the postcode",
+        "description": "The country's code, hyphenated",
+        "input": "Hauptstraße 12, DE-10115 Berlin",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "D with a space",
+        "description": "The country's letter, a space",
+        "input": "Hauptstraße 12, D 10115 Berlin",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Deutschland at the end",
+        "description": "The country in German after the place",
+        "input": "Hauptstraße 12, 10115 Berlin, Deutschland",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "DEUTSCHLAND with no comma",
+        "description": "The country in capitals with no comma",
+        "input": "HAUPTSTRASSE 12 10115 BERLIN DEUTSCHLAND",
+        "expected": {
+          "street": "HAUPTSTRASSE",
+          "number": "12",
+          "city": "BERLIN",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Germany at the end",
+        "description": "The country in English",
+        "input": "Hauptstraße 12, 10115 Berlin, Germany",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bundesrepublik Deutschland",
+        "description": "The country's long name",
+        "input": "Hauptstraße 12, 10115 Berlin, Bundesrepublik Deutschland",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "DE at the end",
+        "description": "The country's code after a comma",
+        "input": "Hauptstraße 12, 10115 Berlin, DE",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "postcode on its own line",
+        "description": "The postcode and the place on separate lines",
+        "input": "Hauptstraße 12\n10115\nBerlin",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a hyphenated place",
+        "description": "A place with a hyphen",
+        "input": "Hauptstraße 12, 10115 Berlin-Mitte",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin-Mitte",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a place of several words",
+        "description": "A place of three words",
+        "input": "Hauptstraße 12, 60311 Frankfurt am Main",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Frankfurt am Main",
+          "state": "HE",
+          "zip": "60311",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a river in brackets",
+        "description": "A place with its river in brackets",
+        "input": "Hauptstraße 12, 06108 Halle (Saale)",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Halle (Saale)",
+          "state": "ST",
+          "zip": "06108",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a place in the Breisgau",
+        "description": "A place with an im",
+        "input": "Hauptstraße 12, 79098 Freiburg im Breisgau",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Freiburg im Breisgau",
+          "state": "BW",
+          "zip": "79098",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "OT",
+        "description": "An Ortsteil after the place",
+        "input": "Dorfstraße 5, 04109 Leipzig OT Gohlis",
+        "expected": {
+          "street": "Dorfstraße",
+          "number": "5",
+          "locality": "Gohlis",
+          "city": "Leipzig",
+          "state": "SN",
+          "zip": "04109",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "Ortsteil",
+        "description": "An Ortsteil written out",
+        "input": "Dorfstraße 5, 04109 Leipzig Ortsteil Gohlis",
+        "expected": {
+          "street": "Dorfstraße",
+          "number": "5",
+          "locality": "Gohlis",
+          "city": "Leipzig",
+          "state": "SN",
+          "zip": "04109",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a locality line",
+        "description": "An Ortsteil on a line of its own after the street",
+        "input": "Dorfstraße 5, Gohlis, 04109 Leipzig",
+        "expected": {
+          "street": "Dorfstraße",
+          "number": "5",
+          "locality": "Gohlis",
+          "city": "Leipzig",
+          "state": "SN",
+          "zip": "04109",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a leading zero",
+        "description": "A postcode that begins with 0",
+        "input": "Hauptstraße 12, 01067 Dresden",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Dresden",
+          "state": "SN",
+          "zip": "01067",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "no postcode",
+        "description": "A street and a place with no postcode",
+        "input": "Hauptstraße 12, Berlin",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "city": "Berlin",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "no place",
+        "description": "A street and a postcode with no place",
+        "input": "Hauptstraße 12, 10115",
+        "expected": {
+          "street": "Hauptstraße",
+          "number": "12",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a place and the country",
+        "description": "A place and the country, nothing more",
+        "input": "Berlin, Deutschland",
+        "expected": {
+          "city": "Berlin",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

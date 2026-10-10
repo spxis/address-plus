@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "German Null Cases",
+  "description": "Text the German parser reads as no address: nothing, a greeting, a sentence, a name and a place on its own. Original cases written for this corpus.",
+  "tests": {
+    "notAnAddress": [
+      {
+        "name": "empty",
+        "description": "Nothing at all",
+        "input": "",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "spaces",
+        "description": "Only spaces",
+        "input": "   ",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a greeting",
+        "description": "Words that are no address",
+        "input": "Hallo zusammen",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a sentence",
+        "description": "A sentence of German",
+        "input": "Ich möchte einen Tisch für zwei reservieren",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a name alone",
+        "description": "A person's name",
+        "input": "Max Mustermann",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a place alone",
+        "description": "A place with nothing else",
+        "input": "Heidelberg",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a place and a comma",
+        "description": "A place with its comma",
+        "input": "Heidelberg,",
+        "expected": null,
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      }
+    ]
+  }
+}
