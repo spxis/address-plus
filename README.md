@@ -890,4 +890,5 @@ pnpm lint:fix  # ESLint and Prettier, fixing what they can
 
 ## Related Projects
 
+- [REST in Pieces](https://github.com/spxis/rest-in-pieces) - A fake-data REST service that uses address-plus to write invented addresses in seven countries, each in its post's own format with a postcode that exists in the right region, and to validate and format addresses sent to it
 - [parse-address](https://github.com/scaleway/parse-address) - Original inspiration and API compatibility target
