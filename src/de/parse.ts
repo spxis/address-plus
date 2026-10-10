@@ -144,9 +144,14 @@ function readFloor(part: string, result: ParsedAddress): boolean {
   result.floorType = FLOOR_TYPES[plain(kind)] ?? kind;
   const number = floor[1] ?? floor[3];
   if (number) result.floor = number;
-  if (floor[5] && !result.secUnitType) {
-    result.secUnitType = "Wohnung";
-    result.secUnitNum = floor[5].toLowerCase().replace(/^li$/, "links").replace(/^re$/, "rechts");
+  if (floor[5]) {
+    const side = floor[5].toLowerCase().replace(/^li$/, "links").replace(/^re$/, "rechts");
+    // The side of the landing is the flat when no flat is named; beside a flat's number it is kept with the building.
+    if (result.secUnitType) addBuilding(result, side);
+    else {
+      result.secUnitType = "Wohnung";
+      result.secUnitNum = side;
+    }
   }
 
   return true;
@@ -210,7 +215,9 @@ function takeDelivery(part: string, result: ParsedAddress): string {
   if (readFloor(part, result)) return "";
   const unit = UNIT.exec(part);
   const unitType = unit ? UNIT_TYPE_FORMS.get(plain(unit[1])) : undefined;
-  if (unit && unitType && !result.secUnitType) {
+  if (unit && unitType && (!result.secUnitType || /^(links|rechts|mitte)$/.test(result.secUnitNum ?? ""))) {
+    // A flat's number after a floor's side of the landing (2. OG links, Wohnung 12) takes the flat's place.
+    if (result.secUnitNum) addBuilding(result, result.secUnitNum);
     result.secUnitType = unitType;
     result.secUnitNum = unit[2].toUpperCase();
     return "";

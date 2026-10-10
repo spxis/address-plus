@@ -285,7 +285,7 @@
         "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
       }
     ],
-    "separate type": [
+    "separateType": [
       {
         "name": "an adjective",
         "description": "A name and a separate type",

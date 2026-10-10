@@ -94,7 +94,7 @@
         "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
       }
     ],
-    "flats and floors": [
+    "flats": [
       {
         "name": "Wohnung",
         "description": "A flat",
@@ -291,6 +291,44 @@
         "expected": {
           "secUnitType": "Wohnung",
           "secUnitNum": "links",
+          "floorType": "Obergeschoss",
+          "floor": "2",
+          "street": "Hauptstraße",
+          "number": "5",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a side beside a flat",
+        "description": "A flat's number and a floor with its side",
+        "input": "Wohnung 12, 2. OG links, Hauptstraße 5, 10115 Berlin",
+        "expected": {
+          "building": "links",
+          "secUnitType": "Wohnung",
+          "secUnitNum": "12",
+          "floorType": "Obergeschoss",
+          "floor": "2",
+          "street": "Hauptstraße",
+          "number": "5",
+          "city": "Berlin",
+          "state": "BE",
+          "zip": "10115",
+          "country": "DE"
+        },
+        "source": "Original case written for this corpus; Deutsche Post's addressing guidance and DIN 5008's layout (the street and its number, the postcode and the place, the lines above), described in our own words; nothing copied"
+      },
+      {
+        "name": "a side before a flat",
+        "description": "The floor and its side first, then the flat",
+        "input": "2. OG links, Wohnung 12, Hauptstraße 5, 10115 Berlin",
+        "expected": {
+          "building": "links",
+          "secUnitType": "Wohnung",
+          "secUnitNum": "12",
           "floorType": "Obergeschoss",
           "floor": "2",
           "street": "Hauptstraße",
