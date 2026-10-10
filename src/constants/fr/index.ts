@@ -1,32 +1,20 @@
 // France's postcodes: the shape La Poste gives them, which department or territory each number belongs to, whether La
 // Poste's base lists it, and lookups over the departments and the overseas collectivities.
 
+import { unpackPostcodes } from "../../country/shared";
 import type { FrenchCollectivity, FrenchDepartment, FrenchPostalCountry, FrenchPostcode } from "../../types/france";
 import { FR_COLLECTIVITIES, FR_DEPARTMENTS } from "./departments.data";
 import { FR_POSTCODE_PLACES, FR_POSTCODES_PACKED } from "./postcodes.data";
 
 // A postcode is five digits. The overseas ones begin 97 or 98.
 const POSTCODE_SHAPE = /^\d{5}$/;
-const BASE36 = "0123456789abcdefghijklmnopqrstuvwxyz";
-
 let known: Set<string> | undefined;
 
-// The postcodes of La Poste's base, unpacked the first time they are asked for: the first step is the first
-// postcode's number, each next step is base 36, and a step of 36 or more is a tilde and three digits.
+// The postcodes of La Poste's base, unpacked the first time they are asked for.
 function knownPostcodes(): Set<string> {
-  if (known) return known;
-  const found = new Set<string>();
-  let number = 0;
-  for (let at = 0; at < FR_POSTCODES_PACKED.length;) {
-    const long = FR_POSTCODES_PACKED[at] === "~";
-    const digits = long ? FR_POSTCODES_PACKED.slice(at + 1, at + 4) : FR_POSTCODES_PACKED[at];
-    number += [...digits].reduce((sum, digit) => sum * 36 + BASE36.indexOf(digit), 0);
-    found.add(String(number).padStart(5, "0"));
-    at += long ? 4 : 1;
-  }
-  known = found;
+  known ??= unpackPostcodes(FR_POSTCODES_PACKED, 5);
 
-  return found;
+  return known;
 }
 
 /**
