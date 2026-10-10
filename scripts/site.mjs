@@ -127,7 +127,7 @@ const panels = [
           )}`,
     exampleHelp: [
       "Fill the box with an example: a ZIP code from another state, a Canadian postal code from another province, a Japanese postal code from another prefecture, an Australian postcode from another state, a Jersey postcode, a French postcode La Poste does not list, a German one GeoNames does not list, Monaco, two complete addresses and one that is not.",
-      "例を入れます：別の州の ZIP コード、別の州のカナダの郵便番号、別の都道府県の日本の郵便番号、別の州のオーストラリアの郵便番号、ジャージー島の郵便番号、フランスの存在しない郵便番号、ドイツの存在しない郵便番号、モナコ、完全な住所が二つ、不完全な住所が一つ。",
+      "例を入れます：別の州の ZIP コード、別の州のカナダの郵便番号、別の都道府県の日本の郵便番号、別の州のオーストラリアの郵便番号、ジャージー島の郵便番号、フランスの一覧にない郵便番号、ドイツの一覧にない郵便番号、モナコ、完全な住所が二つ、不完全な住所が一つ。",
     ],
   }),
   panel({
