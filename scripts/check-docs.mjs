@@ -56,6 +56,7 @@ const typings = [
   "dist/au/index.d.ts",
   "dist/gb/index.d.ts",
   "dist/fr/index.d.ts",
+  "dist/de/index.d.ts",
 ].map((file) => join(root, file));
 if (typings.some((file) => !existsSync(file))) {
   problems.push("dist/*.d.ts is missing: run pnpm build first");

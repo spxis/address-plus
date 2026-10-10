@@ -167,7 +167,7 @@ export async function exampleScope() {
   const { default: parser, ...named } = library;
   // The country entry points' exports join the scope, so an example may hand australia to parseLocation.
   const countries = await Promise.all(
-    ["au", "gb", "fr"].map((entry) => import(pathToFileURL(join(root, "dist", entry, "index.js")).href)),
+    ["au", "gb", "fr", "de"].map((entry) => import(pathToFileURL(join(root, "dist", entry, "index.js")).href)),
   );
   const scope = { ...Object.assign({}, ...countries), ...named, parser };
   const names = Object.keys(scope).filter((key) => /^[A-Za-z_$][\w$]*$/.test(key));
