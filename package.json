@@ -26,6 +26,11 @@
       "types": "./dist/gb/index.d.ts",
       "import": "./dist/gb/index.js",
       "require": "./dist/gb/index.cjs"
+    },
+    "./fr": {
+      "types": "./dist/fr/index.d.ts",
+      "import": "./dist/fr/index.js",
+      "require": "./dist/fr/index.cjs"
     }
   },
   "sideEffects": false,

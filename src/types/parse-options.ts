@@ -1,4 +1,5 @@
 import type { CountryModule } from "./country-module";
+import type { FrenchPostalCountry } from "./france";
 
 /**
  * Options for every parser: the country, strict postal codes, snake_case keys and the rest. Every one is optional.
@@ -10,8 +11,23 @@ import type { CountryModule } from "./country-module";
  * ```
  */
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
-  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  country?:
+    | "CA"
+    | "US"
+    | "JP"
+    | "AU"
+    | "GB"
+    | "GY"
+    | "IM"
+    | "JE"
+    | FrenchPostalCountry
+    | "GP"
+    | "MQ"
+    | "GF"
+    | "RE"
+    | "YT"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)

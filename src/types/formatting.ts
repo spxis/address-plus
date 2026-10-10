@@ -69,7 +69,7 @@ interface FormattedAddress {
   deliveryLine?: string; // Street address line
   lastLine?: string; // City/state/postal line
   country?: string; // Country designation
-  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail" | "la-poste"; // Formatting standard used
 }
 
 /**

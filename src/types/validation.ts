@@ -1,5 +1,7 @@
 // Types for address validation results and confidence scoring
 
+import type { ParseOptions } from "./parse-options";
+
 /**
  * One finding of a validator: the field it is about, its code, a message, and how serious it is.
  *
@@ -55,7 +57,7 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
   countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 
