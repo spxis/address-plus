@@ -5,8 +5,8 @@ export const WORDS = {
   en: {
     pageApi: "API reference",
     pitch:
-      "Parse, validate, format and compare addresses from the US, Canada, Japan, Australia, France and the UK, in TypeScript. Type in any panel and the answer appears, worked out by the package itself, with the call that made it.",
-    name: "Named for parse-address, which it replaces call for call, plus Canada, Japan, Australia, France, the UK, checking and formatting.",
+      "Parse, validate, format and compare addresses from the US, Canada, Japan, Australia, France, Germany and the UK, in TypeScript. Type in any panel and the answer appears, worked out by the package itself, with the call that made it.",
+    name: "Named for parse-address, which it replaces call for call, plus Canada, Japan, Australia, France, Germany, the UK, checking and formatting.",
     nameLink: "README",
     input: "Type",
     examples: "Try",
@@ -29,6 +29,7 @@ export const WORDS = {
       GY: "Guernsey",
       IM: "Isle of Man",
       FR: "France",
+      DE: "Germany",
       MC: "Monaco",
       PM: "Saint-Pierre and Miquelon",
       BL: "Saint-Barthélemy",
@@ -100,6 +101,15 @@ export const WORDS = {
       cedex: "CEDEX",
       arrondissement: "Arrondissement",
     },
+    // What a German address calls the shared fields, over the names above.
+    fieldsGermany: {
+      secUnitType: "Flat, box or Packstation",
+      secUnitNum: "Its number",
+      building: "Building or firm",
+      city: "Place",
+      state: "Land",
+      zip: "Postcode",
+    },
     // What a French address calls the shared fields, over the names above.
     fieldsFrance: {
       secUnitType: "Apartment or door",
@@ -112,7 +122,7 @@ export const WORDS = {
     // parse
     parse_title: "Parse",
     parse_blurb:
-      "Type an address from the US, Canada, Japan, Australia, France or the UK, written the way a person would: a street address, a PO box, the corner of two streets, French, Japanese script, romaji, full-width digits, Australia's 3/12, a French residence with its bis and CEDEX, a British flat. Each part comes back in a field of its own. Australia, France and the UK are read by their own modules, which the page hands to parseLocation.",
+      "Type an address from the US, Canada, Japan, Australia, France, Germany or the UK, written the way a person would: a street address, a PO box, the corner of two streets, French, Japanese script, romaji, full-width digits, Australia's 3/12, a French residence with its bis and CEDEX, a German street with its number after it, a British flat. Each part comes back in a field of its own. Australia, France, Germany and the UK are read by their own modules, which the page hands to parseLocation.",
     parse_country: "Country",
     parse_auto: "Detect",
     parse_us: "US",
@@ -120,6 +130,7 @@ export const WORDS = {
     parse_jp: "Japan",
     parse_au: "Australia",
     parse_fr: "France",
+    parse_de: "Germany",
     parse_gb: "UK",
     parse_shared:
       "A Japanese address also fills the shared fields (state, city, street, number, zip) with the same values. The JSON below has them all.",
@@ -140,7 +151,7 @@ export const WORDS = {
     // format
     format_title: "Format",
     format_blurb:
-      "Type an address and it is written out the way its post office asks: USPS for the US, Canada Post for Canada, Australia Post for Australia, La Poste for France, Royal Mail for the UK, and for Japan both the Japanese order, as an envelope is addressed, and the English order. The country it was read as picks the format.",
+      "Type an address and it is written out the way its post office asks: USPS for the US, Canada Post for Canada, Australia Post for Australia, La Poste for France, Deutsche Post for Germany, Royal Mail for the UK, and for Japan both the Japanese order, as an envelope is addressed, and the English order. The country it was read as picks the format.",
     format_block: "Block",
     format_hyphen: "1-2-3",
     format_markers: "1丁目2番3号",
@@ -148,6 +159,7 @@ export const WORDS = {
     format_canada: "Canada Post",
     format_australia: "Australia Post",
     format_france: "La Poste",
+    format_germany: "Deutsche Post",
     format_royal: "Royal Mail",
     format_single: "On one line",
     format_japanese: "Japanese order",
@@ -174,17 +186,18 @@ export const WORDS = {
     // postal
     postal_title: "Postal code and region",
     postal_blurb:
-      "Type a US ZIP code, a Canadian, Japanese, Australian, French or British postal code to find the state, province, prefecture, department or nation it belongs to. A five-digit code is read as a US ZIP code, and as a French postcode too when La Poste lists it. Type a US state, Canadian province or Japanese prefecture, by its code or its name, to list the codes it uses.",
+      "Type a US ZIP code, a Canadian, Japanese, Australian, French, German or British postal code to find the state, province, prefecture, department, Land or nation it belongs to. A five-digit code is read as a US ZIP code, and as a French or German postcode too when La Poste's or GeoNames' list has it. Type a US state, Canadian province or Japanese prefecture, by its code or its name, to list the codes it uses.",
     postal_kind: "Read as",
     postal_region: "Belongs to",
     postal_prefixes: "Codes start with",
     postal_count: "{count} prefixes",
     postal_unknown: "A postal code in the right shape, but no region uses it.",
     postal_none:
-      "Not a postal code or a region this knows. Try 98101, M5H 2N2, 100-0005, 2620, 75008, SW1A 2AA, WA, Quebec or 大阪府.",
+      "Not a postal code or a region this knows. Try 98101, M5H 2N2, 100-0005, 2620, 75008, 80331, SW1A 2AA, WA, Quebec or 大阪府.",
     postal_area: "Postcode area",
     postal_district: "District",
     postal_france_region: "Region",
+    postal_land: "Land",
     postal_kinds: {
       zip: "US ZIP code",
       ca: "Canadian postal code",
@@ -195,6 +208,7 @@ export const WORDS = {
       au: "Australian postcode",
       gb: "British postcode",
       fr: "French postcode",
+      de: "German postcode",
     },
     // clean
     clean_title: "Clean",
@@ -227,6 +241,7 @@ export const WORDS = {
       formatJapanese: "Japan Post",
       formatAustraliaPost: "Australia Post",
       formatLaPoste: "La Poste",
+      formatDeutschePost: "Deutsche Post",
       formatRoyalMail: "Royal Mail",
     },
     // japan
@@ -258,12 +273,12 @@ export const WORDS = {
     // bulk
     bulk_title: "Paste a list",
     bulk_blurb:
-      "Paste addresses one to a line, from the US, Canada, Japan, Australia, France and the UK mixed as they come. Each is parsed, checked and written the way its post office asks, in a table you can save as CSV, JSON or text.",
+      "Paste addresses one to a line, from the US, Canada, Japan, Australia, France, Germany and the UK mixed as they come. Each is parsed, checked and written the way its post office asks, in a table you can save as CSV, JSON or text.",
     bulk_list: "List",
     bulk_try: "Try",
     bulk_sample: "A mixed list",
     bulk_sample_tip:
-      "Fill the box with seventeen addresses: tidy and untidy, six countries, and one line that is not an address",
+      "Fill the box with nineteen addresses: tidy and untidy, seven countries, and one line that is not an address",
     bulk_clear: "Empty",
     bulk_clear_tip: "Empty the box",
     bulk_save: "Save",
@@ -281,6 +296,7 @@ export const WORDS = {
       JP: "Japan",
       AU: "Australia",
       FR: "France",
+      DE: "Germany",
       GB: "UK",
       other: "No country",
       none: "Not read",
@@ -300,7 +316,7 @@ export const WORDS = {
     // corpus
     corpus_title: "The test corpus, run in your browser",
     corpus_blurb:
-      "Every case of the package's address corpus: USPS Publication 28, Canada Post's guidelines, Australia Post's, La Poste's and Royal Mail's rules, libpostal, parse-address's shapes and Geolonia's Japanese test addresses. Load it and each case is parsed here, now, and held to what it expects. The few the parser still gets wrong are listed with what comes out instead.",
+      "Every case of the package's address corpus: USPS Publication 28, Canada Post's guidelines, Australia Post's, La Poste's, Deutsche Post's and Royal Mail's rules, libpostal, parse-address's shapes and Geolonia's Japanese test addresses. Load it and each case is parsed here, now, and held to what it expects. The few the parser still gets wrong are listed with what comes out instead.",
     corpus_load: "Load and run every case",
     corpus_loading: "Running…",
     corpus_failed: "The corpus could not be loaded.",
@@ -313,6 +329,7 @@ export const WORDS = {
     corpus_japan: "Japan",
     corpus_au: "Australia",
     corpus_fr: "France",
+    corpus_de: "Germany",
     corpus_gb: "UK",
     corpus_wrong: "Only the ones still wrong",
     corpus_wrong_tip: "Show only the cases the parser does not get right yet",
@@ -341,6 +358,8 @@ export const WORDS = {
         level: "Australia, a level",
         france: "France, a bis",
         residence: "France, a residence",
+        germany: "Germany, a street",
+        careof: "Germany, c/o and a floor",
         flat: "UK, a flat",
         london: "London",
       },
@@ -353,6 +372,7 @@ export const WORDS = {
         short: "Incomplete",
         australia: "Another Australian state",
         france: "A French postcode La Poste does not list",
+        germany: "A German postcode GeoNames does not list",
         monaco: "Monaco",
         jersey: "Jersey",
       },
@@ -364,6 +384,7 @@ export const WORDS = {
         pobox: "PO box",
         australia: "Australia",
         france: "France",
+        germany: "Germany",
         uk: "UK",
       },
       compare: {
@@ -373,6 +394,7 @@ export const WORDS = {
         fullwidth: "Full-width",
         australia: "3/12 and Unit 3",
         france: "av. and avenue",
+        germany: "Straße and Str.",
         uk: "UK postcode spacing",
         different: "Different",
       },
@@ -398,8 +420,8 @@ export const WORDS = {
   ja: {
     pageApi: "API（英語）",
     pitch:
-      "米国、カナダ、日本、オーストラリア、フランス、イギリスの住所を解析・検証・書式化・比較する TypeScript パッケージです。どのパネルも、入力するとすぐに結果が表示されます。結果はこのパッケージ自体が計算したもので、そのときの呼び出しも併せて示します。",
-    name: "名前は parse-address にちなんでいます。parse-address の代わりに同じ呼び出し方のまま使え、さらにカナダ、日本、オーストラリア、フランス、イギリスの住所と、検証、書式化にも対応しています。",
+      "米国、カナダ、日本、オーストラリア、フランス、ドイツ、イギリスの住所を解析・検証・書式化・比較する TypeScript パッケージです。どのパネルも、入力するとすぐに結果が表示されます。結果はこのパッケージ自体が計算したもので、そのときの呼び出しも併せて示します。",
+    name: "名前は parse-address にちなんでいます。parse-address の代わりに同じ呼び出し方のまま使え、さらにカナダ、日本、オーストラリア、フランス、ドイツ、イギリスの住所と、検証、書式化にも対応しています。",
     nameLink: "README（英語）",
     input: "入力",
     examples: "例",
@@ -422,6 +444,7 @@ export const WORDS = {
       GY: "ガーンジー島",
       IM: "マン島",
       FR: "フランス",
+      DE: "ドイツ",
       MC: "モナコ",
       PM: "サンピエール島・ミクロン島",
       BL: "サン・バルテルミー島",
@@ -492,6 +515,15 @@ export const WORDS = {
       cedex: "CEDEX",
       arrondissement: "区（arrondissement）",
     },
+    // ドイツの住所では、共通の項目を次の名前で表示します。
+    fieldsGermany: {
+      secUnitType: "部屋・私書箱などの種類",
+      secUnitNum: "その番号",
+      building: "建物名・会社名",
+      city: "市町村",
+      state: "州（Land）",
+      zip: "郵便番号",
+    },
     // フランスの住所では、共通の項目を次の名前で表示します。
     fieldsFrance: {
       secUnitType: "部屋の種類",
@@ -503,7 +535,7 @@ export const WORDS = {
     },
     parse_title: "住所の解析",
     parse_blurb:
-      "米国、カナダ、日本、オーストラリア、フランス、イギリスの住所を、ふだん書くとおりに入力します。番地のある住所、私書箱、二つの通りの交差点、フランス語、日本語の表記、ローマ字、全角数字、オーストラリアの「3/12」、枝番（bis）や建物名、CEDEX のあるフランスの住所、イギリスのフラット（集合住宅の一戸）にも対応します。住所の各部分が、それぞれの項目に分かれて返ります。オーストラリア、フランス、イギリスの住所は、それぞれ専用のモジュールで読み取ります。このページでは、そのモジュールを parseLocation に渡しています。",
+      "米国、カナダ、日本、オーストラリア、フランス、ドイツ、イギリスの住所を、ふだん書くとおりに入力します。番地のある住所、私書箱、二つの通りの交差点、フランス語、日本語の表記、ローマ字、全角数字、オーストラリアの「3/12」、枝番（bis）や建物名、CEDEX のあるフランスの住所、番地が通り名の後に来るドイツの住所、イギリスのフラット（集合住宅の一戸）にも対応します。住所の各部分が、それぞれの項目に分かれて返ります。オーストラリア、フランス、ドイツ、イギリスの住所は、それぞれ専用のモジュールで読み取ります。このページでは、そのモジュールを parseLocation に渡しています。",
     parse_country: "国",
     parse_auto: "自動判定",
     parse_us: "米国",
@@ -511,6 +543,7 @@ export const WORDS = {
     parse_jp: "日本",
     parse_au: "オーストラリア",
     parse_fr: "フランス",
+    parse_de: "ドイツ",
     parse_gb: "イギリス",
     parse_shared:
       "日本の住所では、共通の項目（state、city、street、number、zip）にも同じ値が入ります。すべての項目は下の JSON で確認できます。",
@@ -553,7 +586,7 @@ export const WORDS = {
     },
     format_title: "住所の書式化",
     format_blurb:
-      "住所を入力すると、その国の郵便の決まりに沿った書き方に整えます。米国は USPS、カナダは Canada Post、オーストラリアは Australia Post、フランスは La Poste、イギリスは Royal Mail の書式です。日本の住所は、封筒の宛名と同じ日本式の順序と、英語式の順序の両方で出力します。どの書式を使うかは、住所から判定した国で決まります。",
+      "住所を入力すると、その国の郵便の決まりに沿った書き方に整えます。米国は USPS、カナダは Canada Post、オーストラリアは Australia Post、フランスは La Poste、ドイツは Deutsche Post、イギリスは Royal Mail の書式です。日本の住所は、封筒の宛名と同じ日本式の順序と、英語式の順序の両方で出力します。どの書式を使うかは、住所から判定した国で決まります。",
     format_block: "番地の書き方",
     format_hyphen: "1-2-3",
     format_markers: "1丁目2番3号",
@@ -561,6 +594,7 @@ export const WORDS = {
     format_canada: "Canada Post",
     format_australia: "Australia Post",
     format_france: "La Poste",
+    format_germany: "Deutsche Post",
     format_royal: "Royal Mail",
     format_single: "1行表記",
     format_japanese: "日本式の表記",
@@ -591,17 +625,18 @@ export const WORDS = {
     differences: { missing: "片方にない", different: "異なる", similar: "似ている", typo: "打ち間違いの可能性" },
     postal_title: "郵便番号と地域",
     postal_blurb:
-      "米国の ZIP コード、カナダ・日本・オーストラリア・フランス・イギリスの郵便番号を入力すると、その番号が属する州、都道府県、県（département）、構成国がわかります。5桁の番号は米国の ZIP コードとして読み、La Poste の一覧にあればフランスの郵便番号としても読みます。米国の州、カナダの州・準州、日本の都道府県をコードか名前で入力すると、そこで使われる番号の先頭部分を一覧にします。",
+      "米国の ZIP コード、カナダ・日本・オーストラリア・フランス・ドイツ・イギリスの郵便番号を入力すると、その番号が属する州、都道府県、県（département）、州（Land）、構成国がわかります。5桁の番号は米国の ZIP コードとして読み、La Poste や GeoNames の一覧にあれば、フランスやドイツの郵便番号としても読みます。米国の州、カナダの州・準州、日本の都道府県をコードか名前で入力すると、そこで使われる番号の先頭部分を一覧にします。",
     postal_kind: "種類",
     postal_region: "属する地域",
     postal_prefixes: "番号の先頭",
     postal_count: "{count}件",
     postal_unknown: "郵便番号の形式ですが、どの地域にも該当しません。",
     postal_none:
-      "郵便番号としても地域としても読み取れません。98101、M5H 2N2、100-0005、2620、75008、SW1A 2AA、WA、Quebec、大阪府 などを試してください。",
+      "郵便番号としても地域としても読み取れません。98101、M5H 2N2、100-0005、2620、75008、80331、SW1A 2AA、WA、Quebec、大阪府 などを試してください。",
     postal_area: "郵便番号のエリア",
     postal_district: "郵便番号の地区",
     postal_france_region: "地域圏（région）",
+    postal_land: "州（Land）",
     postal_kinds: {
       zip: "米国の ZIP コード",
       ca: "カナダの郵便番号",
@@ -612,6 +647,7 @@ export const WORDS = {
       au: "オーストラリアの郵便番号",
       gb: "イギリスの郵便番号",
       fr: "フランスの郵便番号",
+      de: "ドイツの郵便番号",
     },
     clean_title: "表記の整理",
     clean_blurb:
@@ -643,6 +679,7 @@ export const WORDS = {
       formatJapanese: "日本郵便",
       formatAustraliaPost: "Australia Post",
       formatLaPoste: "La Poste",
+      formatDeutschePost: "Deutsche Post",
       formatRoyalMail: "Royal Mail",
     },
     // japan
@@ -674,11 +711,11 @@ export const WORDS = {
     // bulk
     bulk_title: "一覧を貼り付け",
     bulk_blurb:
-      "住所を1行に1件ずつ貼り付けます。米国、カナダ、日本、オーストラリア、フランス、イギリスの住所が混ざっていてもかまいません。1件ずつ解析・検証し、それぞれの国の郵便の書式で書き直して表にします。表は CSV、JSON、テキストで保存できます。",
+      "住所を1行に1件ずつ貼り付けます。米国、カナダ、日本、オーストラリア、フランス、ドイツ、イギリスの住所が混ざっていてもかまいません。1件ずつ解析・検証し、それぞれの国の郵便の書式で書き直して表にします。表は CSV、JSON、テキストで保存できます。",
     bulk_list: "一覧",
     bulk_try: "例",
     bulk_sample: "混ざった一覧",
-    bulk_sample_tip: "入力欄に17行を入れます。整った住所と乱れた住所を6か国分、それに住所ではない行を1行含みます",
+    bulk_sample_tip: "入力欄に19行を入れます。整った住所と乱れた住所を7か国分、それに住所ではない行を1行含みます",
     bulk_clear: "空にする",
     bulk_clear_tip: "入力欄を空にします",
     bulk_save: "保存",
@@ -697,6 +734,7 @@ export const WORDS = {
       JP: "日本",
       AU: "オーストラリア",
       FR: "フランス",
+      DE: "ドイツ",
       GB: "イギリス",
       other: "国不明",
       none: "読み取れず",
@@ -716,7 +754,7 @@ export const WORDS = {
     // corpus
     corpus_title: "テスト用の住所データを、このブラウザーで実行",
     corpus_blurb:
-      "このパッケージのテスト用住所データ（USPS Publication 28、Canada Post のガイドライン、Australia Post、La Poste、Royal Mail の規則、libpostal、parse-address の住所パターン、Geolonia の日本の住所テストデータ）をすべて収録しています。読み込むと、この場ですべての例を解析し、期待される結果と照らし合わせます。まだ正しく読めない少数の例は、実際に出た結果とともに一覧にします。",
+      "このパッケージのテスト用住所データ（USPS Publication 28、Canada Post のガイドライン、Australia Post、La Poste、Deutsche Post、Royal Mail の規則、libpostal、parse-address の住所パターン、Geolonia の日本の住所テストデータ）をすべて収録しています。読み込むと、この場ですべての例を解析し、期待される結果と照らし合わせます。まだ正しく読めない少数の例は、実際に出た結果とともに一覧にします。",
     corpus_load: "読み込んで実行",
     corpus_loading: "実行中…",
     corpus_failed: "テスト用の住所データを読み込めませんでした。",
@@ -729,6 +767,7 @@ export const WORDS = {
     corpus_japan: "日本",
     corpus_au: "オーストラリア",
     corpus_fr: "フランス",
+    corpus_de: "ドイツ",
     corpus_gb: "イギリス",
     corpus_wrong: "正しく読めない例だけ",
     corpus_wrong_tip: "まだ正しく読めない例だけを表示します",
@@ -756,6 +795,8 @@ export const WORDS = {
         level: "オーストラリア（階）",
         france: "フランス（枝番）",
         residence: "フランス（建物名つき）",
+        germany: "ドイツ（通りと番地）",
+        careof: "ドイツ（気付と階）",
         flat: "イギリス（フラット）",
         london: "ロンドン",
       },
@@ -768,6 +809,7 @@ export const WORDS = {
         short: "不完全な住所",
         australia: "オーストラリアの他州の郵便番号",
         france: "フランスの存在しない郵便番号",
+        germany: "ドイツの存在しない郵便番号",
         monaco: "モナコ",
         jersey: "ジャージー島",
       },
@@ -779,6 +821,7 @@ export const WORDS = {
         pobox: "私書箱",
         australia: "オーストラリア",
         france: "フランス",
+        germany: "ドイツ",
         uk: "イギリス",
       },
       compare: {
@@ -788,6 +831,7 @@ export const WORDS = {
         fullwidth: "全角と半角",
         australia: "「3/12」と「Unit 3」",
         france: "「av.」と「avenue」",
+        germany: "「Straße」と「Str.」",
         uk: "郵便番号の空白の有無",
         different: "別の住所",
       },

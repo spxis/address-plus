@@ -9,6 +9,14 @@ import {
   getStatesForAustralianPostcode,
 } from "./lib/au.js";
 import {
+  compareGermanAddresses,
+  DE_STATES,
+  formatDeutschePost,
+  germany,
+  isKnownGermanPostcode,
+  parseGermanPostcode,
+} from "./lib/de.js";
+import {
   compareFrenchAddresses,
   formatLaPoste,
   FR_COLLECTIVITIES,
@@ -49,9 +57,9 @@ import {
 } from "./lib/index.js";
 import { WORDS } from "./words.js";
 
-// Australia, France and the United Kingdom are modules of their own; every panel hands them to the parser.
-const COUNTRIES = [australia, france, unitedKingdom];
-const WITH_MODULES = "{ countries: [australia, france, unitedKingdom] }";
+// Australia, France, Germany and the United Kingdom are modules of their own; every panel hands them to the parser.
+const COUNTRIES = [australia, france, germany, unitedKingdom];
+const WITH_MODULES = "{ countries: [australia, france, germany, unitedKingdom] }";
 
 // The order the fields of a parsed address are listed in. A Japanese address lists its own fields; the shared
 // ones (state, city, street, number, zip) hold the same values again and are left to the JSON.
@@ -82,6 +90,22 @@ const FIELDS_WEST = [
   "state",
   "zip",
   "plus4",
+  "country",
+];
+// Germany's fields, in the order a German address is written.
+const FIELDS_DE = [
+  "careOf",
+  "building",
+  "secUnitType",
+  "secUnitNum",
+  "floorType",
+  "floor",
+  "street",
+  "number",
+  "locality",
+  "city",
+  "state",
+  "zip",
   "country",
 ];
 // France's fields, in the order La Poste writes them.
@@ -279,7 +303,7 @@ const nationName = (code) => {
   return nation ? `${code} · ${ja() ? nation.nameJa : nation.name}` : code;
 };
 
-/** An address read the way every panel reads one: with the three country modules, and a country if one is picked. */
+/** An address read the way every panel reads one: with the four country modules, and a country if one is picked. */
 const read = (text, country = "auto") =>
   parseLocation(text, country === "auto" ? { countries: COUNTRIES } : { country, countries: COUNTRIES });
 const BRITISH = new Set(["GB", "JE", "GY", "IM"]);
@@ -288,6 +312,7 @@ const FRENCH = new Set(["FR", "MC", "PM", "BL", "MF", "WF", "PF", "NC"]);
 function moduleFormat(address) {
   if (address?.country === "AU") return { format: formatAustraliaPost(address), call: "formatAustraliaPost" };
   if (FRENCH.has(address?.country)) return { format: formatLaPoste(address), call: "formatLaPoste" };
+  if (address?.country === "DE") return { format: formatDeutschePost(address), call: "formatDeutschePost" };
   if (BRITISH.has(address?.country)) return { format: formatRoyalMail(address), call: "formatRoyalMail" };
   return null;
 }
@@ -303,10 +328,16 @@ function fieldRows(address) {
         ? FIELDS_AU
         : FRENCH.has(address.country)
           ? FIELDS_FR
-          : BRITISH.has(address.country)
-            ? FIELDS_GB
-            : FIELDS_WEST;
-  const labels = FRENCH.has(address.country) ? { ...say("fields"), ...say("fieldsFrance") } : say("fields");
+          : address.country === "DE"
+            ? FIELDS_DE
+            : BRITISH.has(address.country)
+              ? FIELDS_GB
+              : FIELDS_WEST;
+  const labels = FRENCH.has(address.country)
+    ? { ...say("fields"), ...say("fieldsFrance") }
+    : address.country === "DE"
+      ? { ...say("fields"), ...say("fieldsGermany") }
+      : say("fields");
   return order
     .filter((key) => address[key] !== undefined && address[key] !== "")
     .map((key) => [
@@ -335,7 +366,7 @@ function parse() {
     address?.country === "JP" ? (address.block ?? address.prefecture) : (address?.street ?? address?.street1);
   show(
     "parse-call",
-    `parseLocation(${quote(text)}, { ${country === "auto" ? "" : `country: ${quote(country)}, `}countries: [australia, france, unitedKingdom] })  // ${address === null ? "null" : `{ country: ${quote(address.country)}${lead ? `, … ${quote(lead)}` : ""} }`}`,
+    `parseLocation(${quote(text)}, { ${country === "auto" ? "" : `country: ${quote(country)}, `}countries: [australia, france, germany, unitedKingdom] })  // ${address === null ? "null" : `{ country: ${quote(address.country)}${lead ? `, … ${quote(lead)}` : ""} }`}`,
   );
 }
 
@@ -363,7 +394,7 @@ function validate() {
   const first = result.errors[0] ?? result.warnings[0];
   show(
     "validate-call",
-    `validateAddress(${quote(text)}, { countries: [australia, france, unitedKingdom]${strict ? ", strictPostalValidation: true" : ""} })  // { isValid: ${result.isValid}${first ? `, ${result.errors.length > 0 ? "errors" : "warnings"}: [${quote(first.code)}${result.errors.length + result.warnings.length > 1 ? ", …" : ""}]` : ""} }`,
+    `validateAddress(${quote(text)}, { countries: [australia, france, germany, unitedKingdom]${strict ? ", strictPostalValidation: true" : ""} })  // { isValid: ${result.isValid}${first ? `, ${result.errors.length > 0 ? "errors" : "warnings"}: [${quote(first.code)}${result.errors.length + result.warnings.length > 1 ? ", …" : ""}]` : ""} }`,
   );
 }
 
@@ -386,11 +417,12 @@ function format() {
     facts(out, [
       [
         say(
-          call === "formatAustraliaPost"
-            ? "format_australia"
-            : call === "formatLaPoste"
-              ? "format_france"
-              : "format_royal",
+          {
+            formatAustraliaPost: "format_australia",
+            formatLaPoste: "format_france",
+            formatDeutschePost: "format_germany",
+            formatRoyalMail: "format_royal",
+          }[call],
         ),
         lines(formatted.lines.join("\n")),
         "lines",
@@ -445,18 +477,30 @@ function compare() {
     show("compare-call", `parseLocation(${quote(one === null ? first : second)}, ${WITH_MODULES})  // null`);
     return;
   }
-  // Two Australian, French or British addresses are compared by their own module, which knows their forms.
+  // Two Australian, French, German or British addresses are compared by their own module, which knows their forms.
   const both =
     one.country === "AU" && two.country === "AU"
       ? "AU"
       : FRENCH.has(one.country) && FRENCH.has(two.country)
         ? "FR"
-        : BRITISH.has(one.country) && BRITISH.has(two.country)
-          ? "GB"
-          : null;
+        : one.country === "DE" && two.country === "DE"
+          ? "DE"
+          : BRITISH.has(one.country) && BRITISH.has(two.country)
+            ? "GB"
+            : null;
   if (both) {
-    const call = { AU: "compareAustralianAddresses", FR: "compareFrenchAddresses", GB: "compareUKAddresses" }[both];
-    const compareWith = { AU: compareAustralianAddresses, FR: compareFrenchAddresses, GB: compareUKAddresses }[both];
+    const call = {
+      AU: "compareAustralianAddresses",
+      DE: "compareGermanAddresses",
+      FR: "compareFrenchAddresses",
+      GB: "compareUKAddresses",
+    }[both];
+    const compareWith = {
+      AU: compareAustralianAddresses,
+      DE: compareGermanAddresses,
+      FR: compareFrenchAddresses,
+      GB: compareUKAddresses,
+    }[both];
     const result = compareWith(one, two);
     const pairs = [[say("compare_same"), badge(result.isSame), "isSame"]];
     if (result.differences.length > 0) {
@@ -578,19 +622,35 @@ function postal() {
     const state = getStateFromZip(text);
     called = `getStateFromZip(${quote(text)})  // ${quote(state)}`;
     answer = state;
-    const rows = [
-      [say("postal_kind"), kinds.zip],
-      [say("postal_region"), state ? `${state} · ${stateName(state)}` : say("postal_unknown")],
-    ];
-    // A five-digit code that La Poste lists is a French postcode too: both readings are shown.
-    const french = /^\d{5}$/.test(text) && isKnownFrenchPostcode(text) ? parseFrenchPostcode(text) : null;
+    const rows = [];
+    // A five-digit code that La Poste's list or GeoNames' list has is a French or a German postcode too: every reading is shown.
+    const five = /^\d{5}$/.test(text);
+    const french = five && isKnownFrenchPostcode(text) ? parseFrenchPostcode(text) : null;
+    const german = five && isKnownGermanPostcode(text) ? parseGermanPostcode(text) : null;
+    if (state || (!french && !german)) {
+      rows.push(
+        [say("postal_kind"), kinds.zip],
+        [say("postal_region"), state ? `${state} · ${stateName(state)}` : say("postal_unknown")],
+      );
+    }
     if (french) {
       const where = frenchPlace(french);
       called += `\nparseFrenchPostcode(${quote(text)})  // { place: ${quote(french.place)}, country: ${quote(french.country)} }`;
-      answer = state ? { state, france: french } : french;
-      if (!state) rows.length = 0;
+      answer = { ...(state ? { state } : {}), france: french };
       rows.push([say("postal_kind"), kinds.fr], [say("postal_region"), where.name]);
       if (where.region) rows.push([say("postal_france_region"), where.region]);
+    }
+    if (german) {
+      const land = DE_STATES.find((one) => one.code === german.state);
+      called += `\nparseGermanPostcode(${quote(text)})  // { state: ${quote(german.state)} }`;
+      answer =
+        answer !== null && typeof answer === "object"
+          ? { ...answer, germany: german }
+          : { ...(state ? { state } : {}), germany: german };
+      rows.push(
+        [say("postal_kind"), kinds.de],
+        [say("postal_land"), land ? `${land.code} · ${ja() ? land.nameJa : land.name}` : say("postal_unknown")],
+      );
     }
     facts(out, rows);
   } else if (CANADIAN_POSTAL.test(text)) {
@@ -724,6 +784,8 @@ const PANELS = {
       ["level", "Level 6, 51 Jacobson St, Brisbane QLD 4000"],
       ["france", "12 bis rue de la Paix, 75002 Paris"],
       ["residence", "Résidence Les Lilas, Apt 12, 4 av. des Écoles, 31000 Toulouse"],
+      ["germany", "Hauptstraße 12a, 10115 Berlin"],
+      ["careof", "c/o Weber, Hinterhaus, 2. OG, Kastanienallee 4b, 10435 Berlin"],
       ["flat", "Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA"],
       ["london", "10 Downing Street, London SW1A 2AA"],
     ],
@@ -740,6 +802,7 @@ const PANELS = {
       ["short", "123 Main St"],
       ["australia", "1 Main St, Sydney VIC 2000"],
       ["france", "12 rue de la Paix, 75099 Paris"],
+      ["germany", "Hauptstraße 12, 10000 Berlin"],
       ["monaco", "Place du Casino, 98000 Monaco"],
       ["jersey", "12 Bath Street, St Helier JE2 4ST"],
     ],
@@ -755,6 +818,7 @@ const PANELS = {
       ["pobox", "PO Box 1234, Springfield, IL 62701"],
       ["australia", "Unit 3/12 Smith Street, Parramatta NSW 2150"],
       ["france", "Chez Mme Martin, Apt 5, 15 bis rue d'Aboukir, BP 12, 69003 Lyon"],
+      ["germany", "c/o Weber, Hinterhaus, 2. OG, Kastanienallee 4b, 10435 Berlin"],
       ["uk", "Flat 2, Rose Court, 14 High St, Kingsbury, London NW9 0AA"],
     ],
   },
@@ -768,6 +832,7 @@ const PANELS = {
       ["fullwidth", ["東京都千代田区丸の内1丁目2番3号", "東京都千代田区丸の内１－２－３"]],
       ["australia", ["3/12 Smith Street, Parramatta NSW 2150", "Unit 3, 12 Smith St, PARRAMATTA New South Wales 2150"]],
       ["france", ["12 rue de l'Église, 38000 Grenoble", "12 R. DE L EGLISE, 38000 GRENOBLE"]],
+      ["germany", ["Müllerstraße 5, 13353 Berlin", "MUELLERSTR. 5, 13353 BERLIN"]],
       ["uk", ["10 Downing Street, London SW1A 2AA", "10 DOWNING ST, LONDON, SW1A2AA"]],
       ["different", ["123 Main St, Springfield, IL 62701", "456 Oak Ave, Portland, OR 97201"]],
     ],
@@ -784,6 +849,7 @@ const PANELS = {
       "５３０－０００１",
       "2620",
       "75008",
+      "80331",
       "20200",
       "98714",
       "SW1A 2AA",

@@ -338,6 +338,9 @@
 [data-kind="AU"] {
   --kind: #7a4f8f;
 }
+[data-kind="DE"] {
+  --kind: #8a7a2f;
+}
 [data-kind="FR"] {
   --kind: #a64a78;
 }

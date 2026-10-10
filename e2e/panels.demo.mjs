@@ -13,7 +13,7 @@ test("every panel answers its first example as the page opens, with the call tha
   await expect(answer(page, "parse")).toContainText("Pennsylvania");
   await expect(answer(page, "parse")).toContainText("DC");
   await expect(call(page, "parse")).toContainText(
-    'parseLocation("1600 Pennsylvania Ave NW, Washington, DC 20500", { countries: [australia, france, unitedKingdom] })',
+    'parseLocation("1600 Pennsylvania Ave NW, Washington, DC 20500", { countries: [australia, france, germany, unitedKingdom] })',
   );
   await expect(answer(page, "validate")).toContainText("POSTAL_REGION_MISMATCH");
   await expect(call(page, "validate")).toContainText("validateAddress(");
