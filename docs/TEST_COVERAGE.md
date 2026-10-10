@@ -1,11 +1,12 @@
-# Test Coverage: the US, Canadian, Japanese, Australian, French and British Address Corpora
+# Test Coverage: the US, Canadian, Japanese, Australian, French, German and British Address Corpora
 
 This document says what address shapes the US and Canadian postal authorities define, which of them the
 hand-written tests already exercised, what the corpus under `test-data/corpus/` adds, and, last, what the
 parser got wrong when the corpus was written and how the fixing pass that followed dealt with each cause.
 The Japanese corpus, added after 1.3.0, has a part of its own: see "The Japanese corpus" below. So do the
 Australian and British corpora, added after 1.4.0 with the `/au` and `/gb` country modules: see "The Australian
-corpus" and "The British corpus". The French corpus came with the `/fr` module after 1.5.0: see "The French corpus". How
+corpus" and "The British corpus". The French and German corpora came with the `/fr` and `/de` modules after 1.5.0: see "The French corpus" and "The German
+corpus". How
 a country module is chosen for an address is in [COUNTRIES.md](COUNTRIES.md).
 
 ## In numbers
@@ -18,7 +19,8 @@ a country module is chosen for an address is in [COUNTRIES.md](COUNTRIES.md).
 | Australia (`test-data/corpus/au/`, 6 files) | 266 | 266 | 0 | 5 |
 | United Kingdom (`test-data/corpus/gb/`, 7 files) | 190 | 182 | 8 | 9 |
 | France (`test-data/corpus/fr/`, 7 files) | 196 | 196 | 0 | 11 |
-| Total | 3,375 | 3,353 | 22 | 477 |
+| Germany (`test-data/corpus/de/`, 7 files) | 151 | 151 | 0 | 2 |
+| Total | 3,526 | 3,504 | 22 | 479 |
 
 Before the corpus, `test-data/` held about 440 address inputs written by hand (the 600 test cases count
 the function tests in TypeScript too). They exercised 34 distinct street types, 13 unit designators and
@@ -34,6 +36,7 @@ Field by field, over every field value a corpus case names other than `country`:
 | Australia (1,623 field values) | 1,623 (100%) | (not compared) |
 | United Kingdom (1,141 field values) | 1,124 (98.5%) | (not compared) |
 | France (1,157 field values) | 1,157 (100%) | (not compared) |
+| Germany (778 field values) | 778 (100%) | (not compared) |
 
 Before the fixing pass the same count gave address-plus 94.7% in the United States, 89.9% in Canada and 95.0% in
 Japan.
@@ -1041,6 +1044,91 @@ Nothing in the corpus. What the parser cannot do without the commune and street 
   `75002 Lyon` is read as it is written.
 - **The recipient.** A person's or a company's name above the address (La Poste's first line) is the `building`, since
   it comes before the street and is none of the other lines.
+
+## The German corpus
+
+The corpus under `test-data/corpus/de/` was written after the French one with the German module (`/de`), the same way:
+the parser first, from Deutsche Post's rules and DIN 5008's layout as they are described publicly, then the corpus from the
+same rules, then a fixing pass. Two cases came out wrong when they were first run; both were fixed, and none is left.
+
+### How a German case is judged
+
+Each case is read with `parseLocation(input, { country: "DE", countries: [australia, france, germany, unitedKingdom] })`.
+The core fields are `careOf`, `building`, `secUnitType`, `secUnitNum`, `floorType`, `floor`, `street`, `number`, `locality`,
+`city`, `state` (the Land the postcode is in) and `zip`, and `country`; a core field a case does not name must be absent.
+Every case that ends with a country, or has a street that ends in a German suffix and its number with a postcode first on
+the last line, or a Postfach, is also recognised with no hint (95% of the corpus is), and no case of any other country's
+corpus is taken for German (the detection suite), nor a German case for French, Australian or British.
+
+### Conventions the expected values follow
+
+- `street` is the whole name of the street as it was written, suffix and all (`Hauptstraße`, `Hauptstrasse`, `Hauptstr.`,
+  `Berliner Straße`, `Am Markt`, `Platz der Republik`): in German the type is part of the name, so there is no `type`.
+- `number` is the house number with its letter in capitals (`12A`) or its range (`12-14`, `12/14`), spaces taken out; a
+  number before the street (`12 Hauptstraße`) is the same number.
+- A `Postfach`, a `Packstation` and a `Postfiliale` are the `secUnitType`, with the number (run together) in `secUnitNum`.
+- A floor's number and kind are `floor` and `floorType` in full (`2` and `Obergeschoss` for `2. OG`); its side (`links`) is a
+  `Wohnung` with that `secUnitNum` when no flat is named, and kept in the `building` beside a flat's number.
+- `state` is the Land the postcode is in, from GeoNames' list; every postcode in the corpus is in it.
+- `city` is the place as written, with its hyphen, brackets or river (`Halle (Saale)`, `Berlin-Mitte`); an Ortsteil is the
+  `locality`, whether it follows `OT` after the place or has a line of its own after the street.
+- A line above the street that is none of the others is the `building`, a firm's name among them; with a Postfach and no
+  street it is the `building` too.
+
+### Sources and licences
+
+| Source | Licence | Used for |
+| --- | --- | --- |
+| Deutsche Post's addressing guidance and DIN 5008's layout | Rules described in our own words; nothing copied | Every shape. Every input is constructed: real places with real postcodes, invented streets, numbers and names. |
+| libpostal `test/test_parser.c`, `test_de_parses` | MIT code; the inputs are third-party addresses | `libpostal-shapes.json`: all three German fixtures, each written again as an original input of the same shape. |
+| GeoNames, postal code data for Germany | Creative Commons Attribution 4.0 | The postcodes and Länder the cases use, each checked against the list. |
+
+### Gap analysis
+
+Before the module, address-plus read no German address: `parseLocation` gives `Hauptstraße 12, 10115 Berlin` the street
+`Hauptstraße 12`, the city `10115 Berlin`, and no postcode or country, as it still does without the module.
+
+| File | Group | What it covers | Cases | Todo now (before the fix) |
+| --- | --- | --- | ---: | ---: |
+| `street-addresses` | suffixes | 20 suffixes, abbreviated, written with ss, and standing alone (Am Markt, Alter Hof) | 20 | 0 (0) |
+| `street-addresses` | separateType | An adjective and a type, a name with no suffix | 5 | 0 (1) |
+| `street-addresses` | prepositions | Am, An der, Auf dem, Im, Zum, Zur, Unter den, Bei der, Platz der, Straße des | 11 | 0 (0) |
+| `street-addresses` | names | Hyphens, a title, umlauts and ue, capitals, a saint, line breaks, no comma | 10 | 0 (0) |
+| `street-addresses` | numbers | A letter, a range, a slash, Nr., Hausnummer, four digits, none, first | 11 | 0 (0) |
+| `delivery-points` | careOf | c/o, z. Hd., zu Händen, bei, and Bei der as a street | 6 | 0 (0) |
+| `delivery-points` | flats | Wohnung, Whg., App., Zimmer, Büro, EG, OG, Etage, DG, UG, a side, a side beside a flat | 16 | 0 (0) |
+| `delivery-points` | buildings | Hinterhaus, Haus B, a block, a firm, a name run into the street, everything together | 10 | 0 (0) |
+| `postcodes-and-places` | postcodeLine | D- and DE-, the country after, lines of their own, hyphens, brackets, an Ortsteil, no postcode, no place | 21 | 0 (0) |
+| `postfach-and-packstation` | boxes | Postfach in pairs, short, five digits, Nr., Pf., Packstation, Postfiliale, under a firm | 9 | 1 (1) |
+| `lands` | capitals | One postcode in each of the sixteen Länder | 16 | 0 (0) |
+| `lands` | borders | Six postcodes along the Länder's borders | 6 | 0 (0) |
+| `libpostal-shapes` | shapes | libpostal's three German fixtures | 3 | 0 (0) |
+| `null-cases` | notAnAddress | Nothing, a greeting, a sentence, a name, a place | 7 | 0 (0) |
+
+### What the parser got wrong, and how each cause was fixed
+
+| Cause | Cases | Status | The fix |
+| --- | ---: | --- | --- |
+| 1. A firm's name above a Postfach read as the locality | 1 | Fixed | With a box and no street, the other lines are the building's |
+| 2. A name of an adjective and a noun with no suffix (`Große Bleiche`) | 1 | Fixed | The adjectives that begin a street's name (`Große`, `Kleine`, `Lange`, `Hohe`, `Breite`, `Schmale`, with `Alte` and `Neue`) are openers |
+
+Beside the corpus, one detection case went wrong: `Allee der Kosmonauten 8, 10115 Berlin`, which begins with the French
+type `Allee` written without its accent, was taken for French. The French detection now leaves a part that begins `Allee` and
+ends in a number to Germany.
+
+### What is still wrong
+
+Nothing in the corpus. What the parser cannot do without a street list, which it does not carry:
+
+- **A street of two words with no suffix, whose first word is no opener** (`Kurzes Eck 5`) is read as the street `Eck` and a
+  building `Kurzes`: the first word begins a street's name only when it is a preposition or one of the adjectives the
+  module knows (`Am`, `Alte`, `Große`). A street that is one word with no suffix (`Brunnen 3`) is read right.
+- **Where a firm's name ends and the street begins with no comma.** `Hofgarten Brauerei Lindenallee 12` is read at the last
+  word that ends with a suffix, or at the word before a type standing alone (`Kleiner Wall 3`): right for the streets
+  that look like streets, and the same guess as above for the ones that do not.
+- **A Bundesland written in the address.** Germans seldom write it, and the module does not read one: `state` is the Land the
+  postcode is in.
+- **Austria and Switzerland**, whose streets and numbers look German but whose postcodes are four digits, are not read.
 
 ## Not done here
 

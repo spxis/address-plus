@@ -2,7 +2,7 @@
 
 **Try it:** [the demo](https://johnmorrisdotca.github.io/address-plus/), in your browser with nothing to install · [API reference](https://johnmorrisdotca.github.io/address-plus/api.html)
 
-The demo parses, validates, formats, compares and cleans an address as you type; takes a pasted list of addresses from all six countries and saves the results as CSV, JSON or text; takes a Japanese address apart, each part beside its reading and romaji; and runs the whole test corpus, 3,375 cases, in your browser, listing the few still wrong. Every panel copies its call as code or a link that opens the page as you left it. Nothing you type leaves the page.
+The demo parses, validates, formats, compares and cleans an address as you type; takes a pasted list of addresses from all seven countries and saves the results as CSV, JSON or text; takes a Japanese address apart, each part beside its reading and romaji; and runs the whole test corpus, 3,526 cases, in your browser, listing the few still wrong. Every panel copies its call as code or a link that opens the page as you left it. Nothing you type leaves the page.
 
 <table align="center">
 <tr>
@@ -23,14 +23,14 @@ The demo parses, validates, formats, compares and cleans an address as you type;
 </tr>
 </table>
 
-A modern, TypeScript‑first address parser and normalizer for the US, Canada and Japan, with Australia, France and the United Kingdom as modules of their own. Supports USPS, Canada Post, Australia Post, La Poste and Royal Mail formats, Japanese addresses written in Japanese or in romaji, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
+A modern, TypeScript‑first address parser and normalizer for the US, Canada and Japan, with Australia, France, Germany and the United Kingdom as modules of their own. Supports USPS, Canada Post, Australia Post, La Poste, Deutsche Post and Royal Mail formats, Japanese addresses written in Japanese or in romaji, bilingual abbreviations, ZIP and postal codes, facility name detection, and parenthetical parsing. Lightweight, regex‑driven, and API‑compatible with parse-address for seamless upgrades.
 
 ## Features
 
 - **US Address Parsing**: Full USPS format support with street types, directionals, and secondary units
 - **Canadian Address Parsing**: Canada Post bilingual support (English/French)
 - **Japanese Address Parsing**: Addresses in Japanese (〒100-0005 東京都千代田区丸の内1丁目2番3号) or romaji (1-2-3 Marunouchi, Chiyoda-ku, Tokyo), with every prefecture and municipality and the prefecture each postal code delivers to
-- **Australia, France and the United Kingdom**: `/au` reads `3/12 Smith St, Parramatta NSW 2150` the Australia Post way, `/fr` reads `12 bis rue de la Paix, 75002 Paris` the La Poste way, and `/gb` reads `Flat 2, 14 High Street, London NW9 0AA` the Royal Mail way, each with its own validator, formatter and postcode lookups; a country costs only the callers who import it
+- **Australia, France, Germany and the United Kingdom**: `/au` reads `3/12 Smith St, Parramatta NSW 2150` the Australia Post way, `/fr` reads `12 bis rue de la Paix, 75002 Paris` the La Poste way, `/de` reads `Hauptstraße 12a, 10115 Berlin` the Deutsche Post way, and `/gb` reads `Flat 2, 14 High Street, London NW9 0AA` the Royal Mail way, each with its own validator, formatter and postcode lookups; a country costs only the callers who import it
 - **Facility Detection**: Extracts business/landmark names with various separators
 - **Intersection Parsing**: Handles street intersections with multiple formats, and knows "Newfoundland and Labrador" is a province, not two streets
 - **Postal Codes Know Their Region**: Finds the state or province a ZIP or postal code belongs to, lists the codes a region uses, and flags an address whose code names another region
@@ -549,9 +549,9 @@ The tables in `src/constants/jp/` are generated, and `pnpm data:jp` regenerates 
 
 Geolonia's data predates Hamamatsu's reorganisation of its wards on 1 January 2024, so its new wards `中央区`, `浜名区` and `天竜区` are not yet in the tables: `浜松市中央区元城町103-2` is read as 浜松市 (22130) with the town `中央区元城町`.
 
-## Australian, French and British Addresses
+## Australian, French, German and British Addresses
 
-Australia, France and the United Kingdom are modules of their own, so they cost only the callers who import them. Each has
+Australia, France, Germany and the United Kingdom are modules of their own, so they cost only the callers who import them. Each has
 its own parser, validator, formatter and comparer, and a module object to hand to `parseLocation` and
 `validateAddress`, which then read its addresses beside the US, Canadian and Japanese ones:
 
@@ -559,9 +559,10 @@ its own parser, validator, formatter and comparer, and a module object to hand t
 import { parseLocation, validateAddress } from "@johnmorrisdotca/address-plus";
 import { australia } from "@johnmorrisdotca/address-plus/au";
 import { france } from "@johnmorrisdotca/address-plus/fr";
+import { germany } from "@johnmorrisdotca/address-plus/de";
 import { unitedKingdom } from "@johnmorrisdotca/address-plus/gb";
 
-const countries = [australia, france, unitedKingdom];
+const countries = [australia, france, germany, unitedKingdom];
 
 parseLocation("3/12 Smith St, Parramatta NSW 2150", { countries });
 // { secUnitType: 'Unit', secUnitNum: '3', number: '12', street: 'Smith', type: 'St',
@@ -575,6 +576,10 @@ parseLocation("Résidence Les Lilas, Apt 12, 4 bis av. des Écoles, 31000 Toulou
 // { building: 'Résidence Les Lilas', secUnitType: 'Appartement', secUnitNum: '12', number: '4', numberExtension: 'bis',
 //   type: 'Avenue', street: 'des Écoles', city: 'Toulouse', state: '31', zip: '31000', zipValid: true, country: 'FR' }
 
+parseLocation("c/o Weber, Hinterhaus, Kastanienallee 4b, 10435 Berlin", { countries });
+// { careOf: 'Weber', building: 'Hinterhaus', street: 'Kastanienallee', number: '4B', city: 'Berlin',
+//   state: 'BE', zip: '10435', zipValid: true, country: 'DE' }
+
 parseLocation("12 Smith St, Parramatta", { country: "AU", countries }); // the hint: read as Australian
 validateAddress("1 Main St, Sydney VIC 2000", { countries }).warnings[0].message;
 // 'Postcode 2000 belongs to NSW, not VIC'
@@ -585,7 +590,10 @@ With no hint, an address is Australian when it ends with a state and an Australi
 postcode in Royal Mail's grammar near its end, or ends with the United Kingdom or a nation. A Canadian postal code is
 never taken for a British one: it ends in a digit. A French address is told by its country at the end, a CEDEX, an arrondissement,
 or a last line of a postcode whose number names a department and a commune (`75008 Paris`) beside a French type of voie (`rue`, `avenue`,
-`chemin`), a box or a lieu-dit; a US ZIP code follows its state, so `New York, NY 10036` stays American. Without `countries`, nothing changes. When the country is known, pass
+`chemin`), a box or a lieu-dit; a US ZIP code follows its state, so `New York, NY 10036` stays American. A German address is told
+by Germany or Deutschland at its end, or a last line of a postcode and a place beside a street that ends in a German suffix
+and is followed by its number (`Hauptstraße 12`, `Am Markt 5`), a Postfach or a Packstation: a French street begins with its
+number, so the two never meet. Without `countries`, nothing changes. When the country is known, pass
 it: the hint is the reliable path. [docs/COUNTRIES.md](docs/COUNTRIES.md) has the design, the detection rules, the
 fields each country fills and where its data comes from.
 
@@ -673,8 +681,36 @@ punctuation (`keepAccents: true` keeps the accents). The 101 departments and the
 2.0). No commune name or street name of France is in the package: the commune beside a postcode is not checked against
 it, and a street is whatever follows the type of voie.
 
-The corpora (`test-data/corpus/au/`, 266 cases, `test-data/corpus/fr/`, 196, and `test-data/corpus/gb/`, 190, with
-libpostal's British and French fixtures written again as original addresses) are described in
+### Germany
+
+```javascript
+import {
+  formatDeutschePost,
+  getStateFromGermanPostcode,
+  parseGermanAddress,
+  validateGermanAddress,
+} from "@johnmorrisdotca/address-plus/de";
+
+const address = parseGermanAddress("c/o Weber, Wohnung 12, 2. OG links, Straße des 17. Juni 5, 10623 Berlin");
+formatDeutschePost(address).lines;
+// ['c/o Weber', 'Wohnung 12', '2. OG', 'Straße des 17. Juni 5', '10623 Berlin']
+getStateFromGermanPostcode("80331"); // 'BY': Bavaria
+validateGermanAddress(parseGermanAddress("Hauptstraße 12, 00000 Berlin")).warnings[0].message;
+// "Postcode 00000 is not in GeoNames' list for Germany"
+```
+
+It reads the lines of a German address: who it is care of (`c/o`, `z. Hd.`, `bei`), a part of the building (`Hinterhaus`,
+`Haus B`, a firm's name), a flat (`Wohnung 12`, `Whg. 3b`), a floor (`2. OG`, `EG`, `3. Etage`, with its side), the street
+and its house number after it (`Hauptstraße 12a`, `Berliner Str. 7-9`, `Am Markt 5`, `Platz der Republik 1`; the whole name
+as written in `street`, since a German street's type is part of its name), a Postfach (`Postfach 12 34 56`) or a Packstation,
+and the line of the postcode and the place (`D-10115 Berlin`, `Halle (Saale)`, `Leipzig OT Gohlis`). The postcode names the
+Land in `state`. The validator checks the postcode against the 10,813 in GeoNames' list for Germany (Creative Commons
+Attribution 4.0), which is not Deutsche Post's directory and not current to the day, so a postcode it does not list is
+a warning. The formatter writes Deutsche Post's lines with no punctuation at the end of one, and a Postfach's number in pairs.
+The sixteen Länder are kuni's, with their Japanese names. No place name or street name of Germany is in the package.
+
+The corpora (`test-data/corpus/au/`, 266 cases, `test-data/corpus/de/`, 151, `test-data/corpus/fr/`, 196, and
+`test-data/corpus/gb/`, 190, with libpostal's British, French and German fixtures written again as original addresses) are described in
 [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md).
 
 ## Batch Processing
@@ -812,7 +848,7 @@ Batch processing provides several advantages over individual parsing:
 
 - **Comprehensive test suite**: Vitest runs every parsing scenario from JSON test data, for the US, Canada and each other country
 - **Multi-format support**: Extensive test coverage for US, Canadian and Japanese addresses, including every Japanese prefecture and municipality and 1,000 generated Japanese records from REST in Pieces
-- **Address corpora**: 3,375 cases from USPS Publication 28, Canada Post's guidelines, Australia Post's, La Poste's and Royal Mail's rules, libpostal, parse-address's shapes and Geolonia's Japanese test addresses, with every case still wrong listed and explained in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md)
+- **Address corpora**: 3,526 cases from USPS Publication 28, Canada Post's guidelines, Australia Post's, La Poste's, Deutsche Post's and Royal Mail's rules, libpostal, parse-address's shapes and Geolonia's Japanese test addresses, with every case still wrong listed and explained in [docs/TEST_COVERAGE.md](docs/TEST_COVERAGE.md)
 - **Documented examples that run**: every export's TSDoc example is run against the built package by `pnpm docs:check`
 - **Edge case testing**: Validation of complex parsing scenarios and error conditions
 - **Type tests**: `tsd` checks the published type definitions
@@ -822,7 +858,7 @@ Batch processing provides several advantages over individual parsing:
 ## Performance
 
 - **One small dependency**: `fast-levenshtein`, for fuzzy state and province names; hikidashi is bundled in
-- **Size**: the whole library, minified for the browser with every table (US, Canada, and Japan's 1,894 municipalities and its postal prefixes), is about 600 KB, 107 KB gzipped; the `/jp` entry point and tree-shaking take what a caller does not use. `/au` is 16 KB (7 KB gzipped), `/fr` 27 KB (9 KB gzipped) and `/gb` 20 KB (9 KB gzipped), and none is in the main entry point
+- **Size**: the whole library, minified for the browser with every table (US, Canada, and Japan's 1,894 municipalities and its postal prefixes), is about 600 KB, 107 KB gzipped; the `/jp` entry point and tree-shaking take what a caller does not use. `/au` is 16 KB (7 KB gzipped), `/de` 26 KB (12 KB gzipped), `/fr` 28 KB (9 KB gzipped) and `/gb` 20 KB (9 KB gzipped), and none is in the main entry point
 - **Fast**: Regex-based parsing optimized for performance
 - **Memory efficient**: Minimal object allocation
 
