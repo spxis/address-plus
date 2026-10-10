@@ -1,0 +1,426 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "French Postcodes and Communes",
+  "description": "The line of the postcode and the commune: with and without a comma, with F- and FR- before the code and the country after the commune, on lines of their own, with a CEDEX, a box and an arrondissement. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
+  "tests": {
+    "the postcode and the commune": [
+      {
+        "name": "after the street",
+        "description": "The usual line, with a comma",
+        "input": "12 rue de la Paix, 75002 Paris",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "F- before the postcode",
+        "description": "The country's letter, hyphenated, before the code",
+        "input": "12 rue de la Paix, F-75002 Paris",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "FR- before the postcode",
+        "description": "The country's code, hyphenated",
+        "input": "12 rue de la Paix, FR-75002 Paris",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "France at the end",
+        "description": "The country written after the commune",
+        "input": "12 rue de la Paix, 75002 Paris, France",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "FRANCE with no comma",
+        "description": "The country in capitals after the commune, with no comma",
+        "input": "12 RUE DE LA PAIX 75002 PARIS FRANCE",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "DE LA PAIX",
+          "city": "PARIS",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "République française",
+        "description": "The country's long name",
+        "input": "12 rue de la Paix, 75002 Paris, République française",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "FR at the end",
+        "description": "The country's code after a comma",
+        "input": "12 rue de la Paix, 75002 Paris, FR",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "postcode on its own line",
+        "description": "The postcode and the commune on separate lines",
+        "input": "12 rue de la Paix\n75002\nParis",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "hyphenated commune",
+        "description": "A commune with hyphens",
+        "input": "5 rue de la Gare, 13100 Aix-en-Provence",
+        "expected": {
+          "number": "5",
+          "type": "Rue",
+          "street": "de la Gare",
+          "city": "Aix-en-Provence",
+          "state": "13",
+          "zip": "13100",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "commune with an article",
+        "description": "A commune that begins with Le",
+        "input": "8 quai de la Gare, 76600 Le Havre",
+        "expected": {
+          "number": "8",
+          "type": "Quai",
+          "street": "de la Gare",
+          "city": "Le Havre",
+          "state": "76",
+          "zip": "76600",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "commune of several words",
+        "description": "A commune of three words",
+        "input": "14 rue de l'Église, 85000 La Roche-sur-Yon",
+        "expected": {
+          "number": "14",
+          "type": "Rue",
+          "street": "de l'Église",
+          "city": "La Roche-sur-Yon",
+          "state": "85",
+          "zip": "85000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "postcode with a leading zero",
+        "description": "A postcode that begins with 0",
+        "input": "10 rue Masséna, 06000 Nice",
+        "expected": {
+          "number": "10",
+          "type": "Rue",
+          "street": "Masséna",
+          "city": "Nice",
+          "state": "06",
+          "zip": "06000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "no postcode",
+        "description": "A street and a commune with no postcode",
+        "input": "12 rue de la Paix, Paris",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "no commune",
+        "description": "A street and a postcode with no commune",
+        "input": "12 rue de la Paix, 75002",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "CEDEX": [
+      {
+        "name": "CEDEX 08",
+        "description": "A CEDEX with its number",
+        "input": "15 boulevard Haussmann, 75009 PARIS CEDEX 09",
+        "expected": {
+          "number": "15",
+          "type": "Boulevard",
+          "street": "Haussmann",
+          "city": "PARIS",
+          "cedex": "CEDEX 09",
+          "state": "75",
+          "zip": "75009",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Cedex 1",
+        "description": "A CEDEX written in proper case",
+        "input": "BP 123, 31100 Toulouse Cedex 1",
+        "expected": {
+          "postalBoxType": "BP",
+          "postalBoxNum": "123",
+          "city": "Toulouse",
+          "cedex": "CEDEX 1",
+          "state": "31",
+          "zip": "31100",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "CEDEX alone",
+        "description": "A CEDEX with no number",
+        "input": "2 rue du Port, 33000 BORDEAUX CEDEX",
+        "expected": {
+          "number": "2",
+          "type": "Rue",
+          "street": "du Port",
+          "city": "BORDEAUX",
+          "cedex": "CEDEX",
+          "state": "33",
+          "zip": "33000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "CS and CEDEX",
+        "description": "A course spéciale and a CEDEX",
+        "input": "CS 30001, 59000 Lille CEDEX",
+        "expected": {
+          "postalBoxType": "CS",
+          "postalBoxNum": "30001",
+          "city": "Lille",
+          "cedex": "CEDEX",
+          "state": "59",
+          "zip": "59000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "street, CS and CEDEX",
+        "description": "A street with a CS after it",
+        "input": "18 avenue Foch, CS 20123, 54000 Nancy CEDEX",
+        "expected": {
+          "number": "18",
+          "type": "Avenue",
+          "street": "Foch",
+          "postalBoxType": "CS",
+          "postalBoxNum": "20123",
+          "city": "Nancy",
+          "cedex": "CEDEX",
+          "state": "54",
+          "zip": "54000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "CEDEX with the country",
+        "description": "A CEDEX and the country after it",
+        "input": "1 place de la Bourse, 33000 Bordeaux Cedex, France",
+        "expected": {
+          "number": "1",
+          "type": "Place",
+          "street": "de la Bourse",
+          "city": "Bordeaux",
+          "cedex": "CEDEX",
+          "state": "33",
+          "zip": "33000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "arrondissements": [
+      {
+        "name": "Paris 8e",
+        "description": "The arrondissement after Paris",
+        "input": "12 rue de Berri, 75008 Paris 8e",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de Berri",
+          "city": "Paris",
+          "arrondissement": "8",
+          "state": "75",
+          "zip": "75008",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lyon 3ème",
+        "description": "The arrondissement of Lyon with ème",
+        "input": "8 rue Pasteur, 69003 Lyon 3ème",
+        "expected": {
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "arrondissement": "3",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Marseille 1er",
+        "description": "The first arrondissement",
+        "input": "3 rue Paradis, 13001 Marseille 1er",
+        "expected": {
+          "number": "3",
+          "type": "Rue",
+          "street": "Paradis",
+          "city": "Marseille",
+          "arrondissement": "1",
+          "state": "13",
+          "zip": "13001",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Paris 08",
+        "description": "The arrondissement as two digits",
+        "input": "12 rue de Berri, 75008 PARIS 08",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de Berri",
+          "city": "PARIS",
+          "arrondissement": "8",
+          "state": "75",
+          "zip": "75008",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Marseille 13",
+        "description": "An arrondissement of two digits",
+        "input": "20 boulevard Michelet, 13008 Marseille 08",
+        "expected": {
+          "number": "20",
+          "type": "Boulevard",
+          "street": "Michelet",
+          "city": "Marseille",
+          "arrondissement": "8",
+          "state": "13",
+          "zip": "13008",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Paris with no arrondissement",
+        "description": "Paris written with the postcode alone",
+        "input": "12 rue de Berri, 75008 Paris",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de Berri",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75008",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a number after another commune",
+        "description": "A number after a commune that has no arrondissements stays out of it",
+        "input": "12 rue de la Paix, 59000 Lille 2",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Lille 2",
+          "state": "59",
+          "zip": "59000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

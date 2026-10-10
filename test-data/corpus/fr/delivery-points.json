@@ -1,0 +1,571 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "French Delivery Points",
+  "description": "The lines above the street: an apartment or a door, a floor, a staircase, an entrance, a building or a residence, and who the address is care of. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
+  "tests": {
+    "apartments and doors": [
+      {
+        "name": "Apt",
+        "description": "An apartment abbreviated",
+        "input": "Apt 12, 4 avenue des Écoles, 31000 Toulouse",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "12",
+          "number": "4",
+          "type": "Avenue",
+          "street": "des Écoles",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Appartement",
+        "description": "An apartment written out",
+        "input": "Appartement 4B, 8 rue Pasteur, 69003 Lyon",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "4B",
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Appt.",
+        "description": "An apartment as appt. with a full stop",
+        "input": "Appt. 7, 15 rue Victor Hugo, 44000 Nantes",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "7",
+          "number": "15",
+          "type": "Rue",
+          "street": "Victor Hugo",
+          "city": "Nantes",
+          "state": "44",
+          "zip": "44000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "App",
+        "description": "An apartment as app",
+        "input": "App 21, 3 rue des Lilas, 35000 Rennes",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "21",
+          "number": "3",
+          "type": "Rue",
+          "street": "des Lilas",
+          "city": "Rennes",
+          "state": "35",
+          "zip": "35000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Porte",
+        "description": "A door",
+        "input": "Porte 3, 12 impasse du Moulin, 33000 Bordeaux",
+        "expected": {
+          "secUnitType": "Porte",
+          "secUnitNum": "3",
+          "number": "12",
+          "type": "Impasse",
+          "street": "du Moulin",
+          "city": "Bordeaux",
+          "state": "33",
+          "zip": "33000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bureau",
+        "description": "An office",
+        "input": "Bureau 21, 5 rue de la République, 69002 Lyon",
+        "expected": {
+          "secUnitType": "Bureau",
+          "secUnitNum": "21",
+          "number": "5",
+          "type": "Rue",
+          "street": "de la République",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "apartment no. with n°",
+        "description": "The sign for number before the apartment's",
+        "input": "Appartement n° 14, 6 rue Gambetta, 59000 Lille",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "14",
+          "number": "6",
+          "type": "Rue",
+          "street": "Gambetta",
+          "city": "Lille",
+          "state": "59",
+          "zip": "59000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "capitals",
+        "description": "An apartment in capitals",
+        "input": "APPARTEMENT 12, 4 AVENUE DES ECOLES, 31000 TOULOUSE",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "12",
+          "number": "4",
+          "type": "Avenue",
+          "street": "DES ECOLES",
+          "city": "TOULOUSE",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "floors, staircases and entrances": [
+      {
+        "name": "3e étage",
+        "description": "A floor in ordinals",
+        "input": "3e étage, 8 rue Pasteur, 69003 Lyon",
+        "expected": {
+          "floorType": "Étage",
+          "floor": "3",
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "3ème étage",
+        "description": "The ordinal written with ème",
+        "input": "3ème étage, 8 rue Pasteur, 69003 Lyon",
+        "expected": {
+          "floorType": "Étage",
+          "floor": "3",
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Étage 2",
+        "description": "The floor after the word",
+        "input": "Étage 2, 14 rue de la Liberté, 21000 Dijon",
+        "expected": {
+          "floorType": "Étage",
+          "floor": "2",
+          "number": "14",
+          "type": "Rue",
+          "street": "de la Liberté",
+          "city": "Dijon",
+          "state": "21",
+          "zip": "21000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Etage without accent",
+        "description": "The floor with no accent",
+        "input": "Etage 5, 14 rue de la Liberté, 21000 Dijon",
+        "expected": {
+          "floorType": "Étage",
+          "floor": "5",
+          "number": "14",
+          "type": "Rue",
+          "street": "de la Liberté",
+          "city": "Dijon",
+          "state": "21",
+          "zip": "21000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "1er étage",
+        "description": "The first floor",
+        "input": "1er étage, 9 place Kléber, 67000 Strasbourg",
+        "expected": {
+          "floorType": "Étage",
+          "floor": "1",
+          "number": "9",
+          "type": "Place",
+          "street": "Kléber",
+          "city": "Strasbourg",
+          "state": "67",
+          "zip": "67000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Rez-de-chaussée",
+        "description": "The ground floor",
+        "input": "Rez-de-chaussée, 9 place Kléber, 67000 Strasbourg",
+        "expected": {
+          "floorType": "Rez-de-chaussée",
+          "number": "9",
+          "type": "Place",
+          "street": "Kléber",
+          "city": "Strasbourg",
+          "state": "67",
+          "zip": "67000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "RDC",
+        "description": "The ground floor abbreviated",
+        "input": "RDC, 9 place Kléber, 67000 Strasbourg",
+        "expected": {
+          "floorType": "Rez-de-chaussée",
+          "number": "9",
+          "type": "Place",
+          "street": "Kléber",
+          "city": "Strasbourg",
+          "state": "67",
+          "zip": "67000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Escalier",
+        "description": "A staircase",
+        "input": "Escalier B, 8 rue Pasteur, 69003 Lyon",
+        "expected": {
+          "staircase": "B",
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Esc.",
+        "description": "A staircase abbreviated",
+        "input": "Esc. C, 8 rue Pasteur, 69003 Lyon",
+        "expected": {
+          "staircase": "C",
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Entrée",
+        "description": "An entrance",
+        "input": "Entrée A, 20 rue des Écoles, 31000 Toulouse",
+        "expected": {
+          "entrance": "A",
+          "number": "20",
+          "type": "Rue",
+          "street": "des Écoles",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "all of them",
+        "description": "Door, floor, staircase and entrance, each on a line",
+        "input": "Apt 5, 2e étage, Escalier A, Entrée 2, 15 rue Victor Hugo, 69003 Lyon",
+        "expected": {
+          "secUnitType": "Appartement",
+          "secUnitNum": "5",
+          "floorType": "Étage",
+          "floor": "2",
+          "staircase": "A",
+          "entrance": "2",
+          "number": "15",
+          "type": "Rue",
+          "street": "Victor Hugo",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "buildings and residences": [
+      {
+        "name": "Résidence",
+        "description": "A residence",
+        "input": "Résidence Les Lilas, 12 rue de la Paix, 75002 Paris",
+        "expected": {
+          "building": "Résidence Les Lilas",
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bâtiment",
+        "description": "A building by its letter",
+        "input": "Bâtiment A, 12 rue de la Paix, 75002 Paris",
+        "expected": {
+          "building": "Bâtiment A",
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Paix",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75002",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bât.",
+        "description": "A building abbreviated",
+        "input": "Bât. C, 7 allée des Roses, 31000 Toulouse",
+        "expected": {
+          "building": "Bât. C",
+          "number": "7",
+          "type": "Allée",
+          "street": "des Roses",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Immeuble",
+        "description": "A building by its name",
+        "input": "Immeuble Le Carré, 3 rue du Port, 17000 La Rochelle",
+        "expected": {
+          "building": "Immeuble Le Carré",
+          "number": "3",
+          "type": "Rue",
+          "street": "du Port",
+          "city": "La Rochelle",
+          "state": "17",
+          "zip": "17000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Tour",
+        "description": "A tower",
+        "input": "Tour 2, 1 place de la Défense, 92400 Courbevoie",
+        "expected": {
+          "building": "Tour 2",
+          "number": "1",
+          "type": "Place",
+          "street": "de la Défense",
+          "city": "Courbevoie",
+          "state": "92",
+          "zip": "92400",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Résidence and building",
+        "description": "A residence and a building, on two lines",
+        "input": "Résidence du Parc, Bâtiment B, 6 avenue Foch, 54000 Nancy",
+        "expected": {
+          "building": "Résidence du Parc, Bâtiment B",
+          "number": "6",
+          "type": "Avenue",
+          "street": "Foch",
+          "city": "Nancy",
+          "state": "54",
+          "zip": "54000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a name before the street",
+        "description": "A name that is none of the above, before the street",
+        "input": "Hôtel de Ville, 1 place de la Mairie, 67000 Strasbourg",
+        "expected": {
+          "building": "Hôtel de Ville",
+          "number": "1",
+          "type": "Place",
+          "street": "de la Mairie",
+          "city": "Strasbourg",
+          "state": "67",
+          "zip": "67000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Pavillon",
+        "description": "A pavilion",
+        "input": "Pavillon 4, 2 chemin des Cerisiers, 44000 Nantes",
+        "expected": {
+          "building": "Pavillon 4",
+          "number": "2",
+          "type": "Chemin",
+          "street": "des Cerisiers",
+          "city": "Nantes",
+          "state": "44",
+          "zip": "44000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bat abbreviated without stop",
+        "description": "A building abbreviated with no full stop",
+        "input": "Bat B, 9 rue des Fleurs, 35000 Rennes",
+        "expected": {
+          "building": "Bat B",
+          "number": "9",
+          "type": "Rue",
+          "street": "des Fleurs",
+          "city": "Rennes",
+          "state": "35",
+          "zip": "35000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "care of and everything together": [
+      {
+        "name": "Chez",
+        "description": "The person the address is care of",
+        "input": "Chez M. Dupont, 3 chemin des Vignes, 33000 Bordeaux",
+        "expected": {
+          "careOf": "M. Dupont",
+          "number": "3",
+          "type": "Chemin",
+          "street": "des Vignes",
+          "city": "Bordeaux",
+          "state": "33",
+          "zip": "33000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Chez Mme",
+        "description": "Care of, then a residence",
+        "input": "Chez Mme Martin, Résidence Les Pins, 15 rue Victor Hugo, 69003 Lyon",
+        "expected": {
+          "careOf": "Mme Martin",
+          "building": "Résidence Les Pins",
+          "number": "15",
+          "type": "Rue",
+          "street": "Victor Hugo",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "c/o",
+        "description": "Care of written as c/o",
+        "input": "c/o Durand, 8 rue Pasteur, 69003 Lyon",
+        "expected": {
+          "careOf": "Durand",
+          "number": "8",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "six lines",
+        "description": "Every line La Poste's norm has, in its order",
+        "input": "Chez Mme Martin, Apt 5, 2e étage, Escalier A, Résidence Les Pins, 15 rue Victor Hugo, Les Granges, 69003 Lyon",
+        "expected": {
+          "careOf": "Mme Martin",
+          "building": "Résidence Les Pins",
+          "secUnitType": "Appartement",
+          "secUnitNum": "5",
+          "floorType": "Étage",
+          "floor": "2",
+          "staircase": "A",
+          "number": "15",
+          "type": "Rue",
+          "street": "Victor Hugo",
+          "lieuDit": "Les Granges",
+          "city": "Lyon",
+          "state": "69",
+          "zip": "69003",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "on separate lines",
+        "description": "The same on lines of their own",
+        "input": "Apt 12\nRésidence Les Lilas\n4 av. des Écoles\n31000 Toulouse",
+        "expected": {
+          "building": "Résidence Les Lilas",
+          "secUnitType": "Appartement",
+          "secUnitNum": "12",
+          "number": "4",
+          "type": "Avenue",
+          "street": "des Écoles",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

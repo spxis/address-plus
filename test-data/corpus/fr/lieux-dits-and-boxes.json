@@ -1,0 +1,260 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "French Lieux-dits and Boxes",
+  "description": "A named place on a line of its own, the words lieu-dit, and the three kinds of box (BP, CS, TSA), with a street and without, and a five-digit box number that is not a postcode. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
+  "tests": {
+    "lieux-dits": [
+      {
+        "name": "after the street",
+        "description": "A lieu-dit on the line after the street",
+        "input": "3 chemin de la Combe, La Combe, 38000 Grenoble",
+        "expected": {
+          "number": "3",
+          "type": "Chemin",
+          "street": "de la Combe",
+          "lieuDit": "La Combe",
+          "city": "Grenoble",
+          "state": "38",
+          "zip": "38000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lieu-dit written",
+        "description": "The words lieu-dit before the name",
+        "input": "Lieu-dit Le Moulin, 85000 La Roche-sur-Yon",
+        "expected": {
+          "lieuDit": "Le Moulin",
+          "city": "La Roche-sur-Yon",
+          "state": "85",
+          "zip": "85000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lieu dit without a hyphen",
+        "description": "Lieu dit with a space",
+        "input": "Lieu dit Les Granges, 05000 Gap",
+        "expected": {
+          "lieuDit": "Les Granges",
+          "city": "Gap",
+          "state": "05",
+          "zip": "05000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lieu-dit alone",
+        "description": "A name on its own line is the lieu-dit",
+        "input": "Les Granges, 05000 Gap",
+        "expected": {
+          "lieuDit": "Les Granges",
+          "city": "Gap",
+          "state": "05",
+          "zip": "05000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "number and lieu-dit",
+        "description": "A number and a name with no type of voie",
+        "input": "12 Le Bourg, 63000 Clermont-Ferrand",
+        "expected": {
+          "number": "12",
+          "street": "Le Bourg",
+          "city": "Clermont-Ferrand",
+          "state": "63",
+          "zip": "63000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "building and lieu-dit",
+        "description": "A name before and a name after",
+        "input": "Ferme du Bois, 4 route de Brest, Kerlann, 29200 Brest",
+        "expected": {
+          "building": "Ferme du Bois",
+          "number": "4",
+          "type": "Route",
+          "street": "de Brest",
+          "lieuDit": "Kerlann",
+          "city": "Brest",
+          "state": "29",
+          "zip": "29200",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Lieu-dit after the street",
+        "description": "The words lieu-dit after the street",
+        "input": "8 route de Gap, Lieu-dit Les Prés, 05000 Gap",
+        "expected": {
+          "number": "8",
+          "type": "Route",
+          "street": "de Gap",
+          "lieuDit": "Les Prés",
+          "city": "Gap",
+          "state": "05",
+          "zip": "05000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "boxes": [
+      {
+        "name": "BP",
+        "description": "A boîte postale",
+        "input": "BP 45, 29200 Brest",
+        "expected": {
+          "postalBoxType": "BP",
+          "postalBoxNum": "45",
+          "city": "Brest",
+          "state": "29",
+          "zip": "29200",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "B.P.",
+        "description": "A boîte postale with stops",
+        "input": "B.P. 12, 31000 Toulouse",
+        "expected": {
+          "postalBoxType": "BP",
+          "postalBoxNum": "12",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Boîte postale",
+        "description": "A boîte postale written out",
+        "input": "Boîte postale 7, 63000 Clermont-Ferrand",
+        "expected": {
+          "postalBoxType": "BP",
+          "postalBoxNum": "7",
+          "city": "Clermont-Ferrand",
+          "state": "63",
+          "zip": "63000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "CS",
+        "description": "A course spéciale",
+        "input": "CS 12345, 59000 Lille",
+        "expected": {
+          "postalBoxType": "CS",
+          "postalBoxNum": "12345",
+          "city": "Lille",
+          "state": "59",
+          "zip": "59000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "CS glued",
+        "description": "A course spéciale with no space",
+        "input": "CS30001, 31100 Toulouse",
+        "expected": {
+          "postalBoxType": "CS",
+          "postalBoxNum": "30001",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31100",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "TSA",
+        "description": "A tri service arrivée",
+        "input": "TSA 90001, 75008 Paris",
+        "expected": {
+          "postalBoxType": "TSA",
+          "postalBoxNum": "90001",
+          "city": "Paris",
+          "state": "75",
+          "zip": "75008",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "street and BP",
+        "description": "A street and a box",
+        "input": "15 rue du Port, BP 12, 17000 La Rochelle",
+        "expected": {
+          "number": "15",
+          "type": "Rue",
+          "street": "du Port",
+          "postalBoxType": "BP",
+          "postalBoxNum": "12",
+          "city": "La Rochelle",
+          "state": "17",
+          "zip": "17000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "BP at the end of the street's line",
+        "description": "A box at the end of the street's own line",
+        "input": "15 rue du Port BP 12, 17000 La Rochelle",
+        "expected": {
+          "number": "15",
+          "type": "Rue",
+          "street": "du Port",
+          "postalBoxType": "BP",
+          "postalBoxNum": "12",
+          "city": "La Rochelle",
+          "state": "17",
+          "zip": "17000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a company and a box",
+        "description": "A company's name above its box",
+        "input": "Société Delmas, BP 45, 29200 Brest",
+        "expected": {
+          "building": "Société Delmas",
+          "postalBoxType": "BP",
+          "postalBoxNum": "45",
+          "city": "Brest",
+          "state": "29",
+          "zip": "29200",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a five-digit box is not the postcode",
+        "description": "A five-digit box number after BP and the postcode after it",
+        "input": "BP 12345, 44000 Nantes",
+        "expected": {
+          "postalBoxType": "BP",
+          "postalBoxNum": "12345",
+          "city": "Nantes",
+          "state": "44",
+          "zip": "44000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

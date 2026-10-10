@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "French Null Cases",
+  "description": "Text the French parser reads as no address: nothing, a greeting, a sentence, a name and a commune on its own. Original cases written for this corpus.",
+  "tests": {
+    "not addresses": [
+      {
+        "name": "empty",
+        "description": "Nothing at all",
+        "input": "",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "spaces",
+        "description": "Only spaces",
+        "input": "   ",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a greeting",
+        "description": "Words that are no address",
+        "input": "Bonjour tout le monde",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a sentence",
+        "description": "A sentence of French",
+        "input": "Je voudrais réserver une table pour deux",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a name alone",
+        "description": "A person's name",
+        "input": "Jean Dupont",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a commune alone",
+        "description": "A commune with nothing else",
+        "input": "Grenoble",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a commune and a comma",
+        "description": "A commune with its comma",
+        "input": "Grenoble,",
+        "expected": null,
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ]
+  }
+}

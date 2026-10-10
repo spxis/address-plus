@@ -6,6 +6,7 @@
 import { describe, expect, it } from "vitest";
 
 import { australia, looksAustralian } from "../../au";
+import { france, looksFrench } from "../../fr";
 import { looksBritish, unitedKingdom } from "../../gb";
 import { parseLocation } from "../../parser";
 import { validateAddress } from "../../utils/comprehensive-validation";
@@ -27,7 +28,7 @@ describe("the US, Canadian and Japanese corpora with the country modules handed 
   }
 });
 
-describe("telling Australian and British addresses apart with no hint", () => {
+describe("telling Australian, British and French addresses apart with no hint", () => {
   const sure = (country: string): string[] =>
     allCases(country)
       .filter((testCase) => testCase.expected !== null)
@@ -52,16 +53,44 @@ describe("telling Australian and British addresses apart with no hint", () => {
     expect(misread).toEqual([]);
   });
 
+  it("reads every French case that ends with France, holds a CEDEX or has a French street and a postcode first, as French", () => {
+    const misread = sure("fr")
+      .filter((input) => looksFrench(input))
+      .filter(
+        (input) =>
+          !["FR", "MC", "PM", "BL", "MF", "WF", "PF", "NC"].includes(
+            parseLocation(input, { countries: COUNTRY_MODULES })?.country ?? "",
+          ),
+      );
+
+    expect(misread).toEqual([]);
+  });
+
   it("detects most of each corpus without a hint", () => {
     const share = (country: string, detect: (text: string) => boolean): number =>
       sure(country).filter(detect).length / sure(country).length;
 
     expect(share("au", looksAustralian)).toBeGreaterThan(0.9);
     expect(share("gb", looksBritish)).toBeGreaterThan(0.9);
+    expect(share("fr", looksFrench)).toBeGreaterThan(0.9);
   });
 
   it("claims no US, Canadian or Japanese case", () => {
     const claimed = [...allCases("us"), ...allCases("canada"), ...allCases("japan")]
+      .map((testCase) => testCase.input)
+      .filter((input) => looksAustralian(input) || looksBritish(input) || looksFrench(input));
+
+    expect(claimed).toEqual([]);
+  });
+
+  it("claims no case of another country's corpus for France", () => {
+    const claimed = [...allCases("au"), ...allCases("gb")].map((testCase) => testCase.input).filter(looksFrench);
+
+    expect(claimed).toEqual([]);
+  });
+
+  it("is not claimed by the Australian or British modules for any French case", () => {
+    const claimed = allCases("fr")
       .map((testCase) => testCase.input)
       .filter((input) => looksAustralian(input) || looksBritish(input));
 
@@ -75,12 +104,26 @@ describe("telling Australian and British addresses apart with no hint", () => {
     ["10 Downing Street, London SW1A 2AA", "GB"],
     ["Flat 2, 14 Byres Road, Glasgow G11 5RD", "GB"],
     ["12 Bath Street, St Helier JE2 4ST", "JE"],
+    ["12 rue de la Paix, 75002 Paris", "FR"],
+    ["15 boulevard Haussmann, 75009 PARIS CEDEX 09", "FR"],
+    ["1 place du Casino, 98000 Monaco", "MC"],
+    ["Avenue Pouvanaa a Oopa, 98714 Papeete, Polynésie française", "PF"],
     ["100 Queen St W, Toronto, ON M5H 2N2", "CA"],
     ["4-123 Main St, Vancouver BC V5Y 1V4", "CA"],
     ["123 Main St, Seattle, WA 98101", "US"],
     ["〒100-0005 東京都千代田区丸の内1-2-3", "JP"],
+    ["100 Avenue of the Americas, New York, NY 10036", "US"],
+    ["100 Avenue of the Americas, New York, NY 10036 USA", "US"],
+    ["1 Place Ville Marie, Montréal, QC H3B 4S6", "CA"],
+    ["2 Court Square, Long Island City, NY 11101", "US"],
   ])("reads %s as %s", (input, country) => {
-    expect(parseLocation(input, { countries: [australia, unitedKingdom] })?.country).toBe(country);
+    expect(parseLocation(input, { countries: [australia, france, unitedKingdom] })?.country).toBe(country);
+  });
+
+  it("leaves a German address, whose postcode comes first too, to the core", () => {
+    const input = "Hauptstraße 5, 10115 Berlin";
+
+    expect(parseLocation(input, { countries: [australia, france, unitedKingdom] })).toEqual(parseLocation(input));
   });
 
   it("leaves a Washington ZIP code cut to four digits to the core, as without the modules", () => {
@@ -107,6 +150,13 @@ describe("the country hint", () => {
     });
   });
 
+  it("reads an address as French when told to, with the country's code or an overseas department's", () => {
+    expect(parseLocation("12 rue de la Paix, Paris", { country: "FR", countries: [france] })?.country).toBe("FR");
+    expect(
+      parseLocation("5 rue Victor Hugo, 97200 Fort-de-France", { country: "MQ", countries: [france] })?.state,
+    ).toBe("972");
+  });
+
   it("reads Jersey with the British module", () => {
     expect(
       parseLocation("12 Bath Street, St Helier JE2 4ST", { country: "JE", countries: [unitedKingdom] })?.country,
@@ -118,6 +168,7 @@ describe("the country hint", () => {
     expect(() =>
       parseLocation("10 Downing Street, London SW1A 2AA", { country: "GB", countries: [australia] }),
     ).toThrow(/country module/);
+    expect(() => parseLocation("12 rue de la Paix, 75002 Paris", { country: "FR" })).toThrow(/countries/);
   });
 
   it("keeps US, Canada and Japan in the core", () => {

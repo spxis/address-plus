@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "French Shapes From libpostal's Fixtures",
+  "description": "The seven French fixtures of libpostal's test_parser.c (MIT licence), each written again as an original input of the same shape: the same parts, order and punctuation, another commune. A commune alone is not an address, and reads as none. Each case's source names the fixture it follows.",
+  "tests": {
+    "libpostal's French fixtures": [
+      {
+        "name": "a commune with an accent",
+        "description": "libpostal 'Chambéry' (a commune alone, with an accent): a name alone is not an address",
+        "input": "Annecy-le-Vieux",
+        "expected": null,
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (a commune alone, accented): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "a commune without its accent",
+        "description": "libpostal 'Chambery' (the same, with no accent)",
+        "input": "Nimes",
+        "expected": null,
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (a commune alone, unaccented): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "commune and country",
+        "description": "libpostal 'Paris, France': a commune and the country's name",
+        "input": "Lille, France",
+        "expected": {
+          "city": "Lille",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (commune, country name): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "a commune alone",
+        "description": "libpostal 'Paris' (the commune alone)",
+        "input": "Nantes",
+        "expected": null,
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (the commune alone): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "commune and code",
+        "description": "libpostal 'Paris, FR': a commune and the country's code",
+        "input": "Rennes, FR",
+        "expected": {
+          "city": "Rennes",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (commune, country code): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "arrondissement in Roman numerals",
+        "description": "libpostal 'IXe arrondissement Paris': the arrondissement in Roman numerals, then the commune",
+        "input": "VIIe arrondissement Lyon",
+        "expected": {
+          "city": "Lyon",
+          "arrondissement": "7",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (arrondissement in Roman numerals): the same parts, order and punctuation, another place; nothing copied"
+      },
+      {
+        "name": "arrondissement in Arabic numerals",
+        "description": "libpostal '9e arrondissement Paris': the arrondissement in Arabic numerals, then the commune",
+        "input": "3e arrondissement Marseille",
+        "expected": {
+          "city": "Marseille",
+          "arrondissement": "3",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus in the shape of libpostal's test_parser.c (MIT) fixture test_fr_parses (arrondissement in Arabic numerals): the same parts, order and punctuation, another place; nothing copied"
+      }
+    ]
+  }
+}

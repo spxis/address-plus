@@ -1,0 +1,321 @@
+{
+  "$schema": "../../../schemas/test-file.json",
+  "name": "French Overseas Departments, Collectivities, Monaco and Corsica",
+  "description": "Addresses in the overseas departments (971 to 976), the collectivities that have codes of their own (Saint-Pierre-et-Miquelon, Saint-Barthélemy, Saint-Martin, Wallis-et-Futuna, French Polynesia, New Caledonia), Monaco, and Corsica's two departments. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0), the departments' codes and the collectivities INSEE's (Licence Ouverte 2.0).",
+  "tests": {
+    "departments overseas": [
+      {
+        "name": "Guadeloupe",
+        "description": "A town in Guadeloupe",
+        "input": "12 rue Schoelcher, 97110 Pointe-à-Pitre",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "Schoelcher",
+          "city": "Pointe-à-Pitre",
+          "state": "971",
+          "zip": "97110",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Martinique",
+        "description": "A town in Martinique",
+        "input": "5 rue Victor Hugo, 97200 Fort-de-France",
+        "expected": {
+          "number": "5",
+          "type": "Rue",
+          "street": "Victor Hugo",
+          "city": "Fort-de-France",
+          "state": "972",
+          "zip": "97200",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Guyane",
+        "description": "A town in Guyane",
+        "input": "3 avenue du Général de Gaulle, 97300 Cayenne",
+        "expected": {
+          "number": "3",
+          "type": "Avenue",
+          "street": "du Général de Gaulle",
+          "city": "Cayenne",
+          "state": "973",
+          "zip": "97300",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "La Réunion",
+        "description": "A town on La Réunion",
+        "input": "20 rue de Paris, 97400 Saint-Denis",
+        "expected": {
+          "number": "20",
+          "type": "Rue",
+          "street": "de Paris",
+          "city": "Saint-Denis",
+          "state": "974",
+          "zip": "97400",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Mayotte",
+        "description": "A town in Mayotte",
+        "input": "1 place du Marché, 97600 Mamoudzou",
+        "expected": {
+          "number": "1",
+          "type": "Place",
+          "street": "du Marché",
+          "city": "Mamoudzou",
+          "state": "976",
+          "zip": "97600",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Guadeloupe at the end",
+        "description": "The territory written after the commune",
+        "input": "12 rue Schoelcher, 97110 Pointe-à-Pitre, Guadeloupe",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "Schoelcher",
+          "city": "Pointe-à-Pitre",
+          "state": "971",
+          "zip": "97110",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "La Réunion at the end",
+        "description": "The territory with its article after the commune",
+        "input": "20 rue de Paris, 97400 Saint-Denis, La Réunion",
+        "expected": {
+          "number": "20",
+          "type": "Rue",
+          "street": "de Paris",
+          "city": "Saint-Denis",
+          "state": "974",
+          "zip": "97400",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a territory with no postcode",
+        "description": "A territory at the end and no postcode",
+        "input": "12 rue de la Gare, Cayenne, Guyane",
+        "expected": {
+          "number": "12",
+          "type": "Rue",
+          "street": "de la Gare",
+          "city": "Cayenne",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "collectivities and Monaco": [
+      {
+        "name": "Polynésie française",
+        "description": "A town in French Polynesia",
+        "input": "Avenue Pouvanaa a Oopa, 98714 Papeete, Polynésie française",
+        "expected": {
+          "type": "Avenue",
+          "street": "Pouvanaa a Oopa",
+          "city": "Papeete",
+          "zip": "98714",
+          "country": "PF"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Nouvelle-Calédonie",
+        "description": "A town in New Caledonia",
+        "input": "5 rue de Sébastopol, 98800 Nouméa, Nouvelle-Calédonie",
+        "expected": {
+          "number": "5",
+          "type": "Rue",
+          "street": "de Sébastopol",
+          "city": "Nouméa",
+          "zip": "98800",
+          "country": "NC"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Wallis-et-Futuna",
+        "description": "A town in Wallis and Futuna",
+        "input": "Route Territoriale 1, 98600 Mata-Utu, Wallis-et-Futuna",
+        "expected": {
+          "type": "Route",
+          "street": "Territoriale 1",
+          "city": "Mata-Utu",
+          "zip": "98600",
+          "country": "WF"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Saint-Pierre-et-Miquelon",
+        "description": "A town in Saint-Pierre-et-Miquelon",
+        "input": "4 rue du Général de Gaulle, 97500 Saint-Pierre, Saint-Pierre-et-Miquelon",
+        "expected": {
+          "number": "4",
+          "type": "Rue",
+          "street": "du Général de Gaulle",
+          "city": "Saint-Pierre",
+          "zip": "97500",
+          "country": "PM"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Saint-Barthélemy",
+        "description": "Gustavia, which has a Guadeloupe postcode",
+        "input": "Rue du Roi Oscar II, 97133 Gustavia, Saint-Barthélemy",
+        "expected": {
+          "type": "Rue",
+          "street": "du Roi Oscar II",
+          "city": "Gustavia",
+          "zip": "97133",
+          "country": "BL"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Saint-Martin",
+        "description": "Marigot, which has a Guadeloupe postcode",
+        "input": "Rue de la République, 97150 Marigot, Saint-Martin",
+        "expected": {
+          "type": "Rue",
+          "street": "de la République",
+          "city": "Marigot",
+          "zip": "97150",
+          "country": "MF"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Monaco",
+        "description": "Monaco, written like France",
+        "input": "Place du Casino, 98000 Monaco",
+        "expected": {
+          "type": "Place",
+          "street": "du Casino",
+          "city": "Monaco",
+          "zip": "98000",
+          "country": "MC"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Monaco at the end",
+        "description": "Monaco, after the commune",
+        "input": "7 avenue de la Costa, 98000 Monaco, Monaco",
+        "expected": {
+          "number": "7",
+          "type": "Avenue",
+          "street": "de la Costa",
+          "city": "Monaco",
+          "zip": "98000",
+          "country": "MC"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Polynésie française alone",
+        "description": "A territory's name and no postcode",
+        "input": "Papeete, Polynésie française",
+        "expected": {
+          "city": "Papeete",
+          "country": "PF"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a commune named Saint-Martin",
+        "description": "A commune of France with the collectivity's name stays a commune",
+        "input": "3 rue de l'Église, 32300 Saint-Martin",
+        "expected": {
+          "number": "3",
+          "type": "Rue",
+          "street": "de l'Église",
+          "city": "Saint-Martin",
+          "state": "32",
+          "zip": "32300",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ],
+    "Corsica": [
+      {
+        "name": "Ajaccio",
+        "description": "Corse-du-Sud, 2A",
+        "input": "4 cours Napoléon, 20000 Ajaccio",
+        "expected": {
+          "number": "4",
+          "type": "Cours",
+          "street": "Napoléon",
+          "city": "Ajaccio",
+          "state": "2A",
+          "zip": "20000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Bastia",
+        "description": "Haute-Corse, 2B",
+        "input": "2 rue César Campinchi, 20200 Bastia",
+        "expected": {
+          "number": "2",
+          "type": "Rue",
+          "street": "César Campinchi",
+          "city": "Bastia",
+          "state": "2B",
+          "zip": "20200",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "20190",
+        "description": "The last postcode of Corse-du-Sud",
+        "input": "Lieu-dit Tiuccia, 20190 Zigliara",
+        "expected": {
+          "lieuDit": "Tiuccia",
+          "city": "Zigliara",
+          "state": "2A",
+          "zip": "20190",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "20600",
+        "description": "A postcode of Haute-Corse",
+        "input": "1 route de la Mer, 20600 Furiani",
+        "expected": {
+          "number": "1",
+          "type": "Route",
+          "street": "de la Mer",
+          "city": "Furiani",
+          "state": "2B",
+          "zip": "20600",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      }
+    ]
+  }
+}
