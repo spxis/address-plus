@@ -3,7 +3,7 @@
   "name": "French Null Cases",
   "description": "Text the French parser reads as no address: nothing, a greeting, a sentence, a name and a commune on its own. Original cases written for this corpus.",
   "tests": {
-    "not addresses": [
+    "notAnAddress": [
       {
         "name": "empty",
         "description": "Nothing at all",

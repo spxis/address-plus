@@ -88,8 +88,9 @@ const FR_UNIT_TYPES: Readonly<Record<string, readonly string[]>> = {
 };
 
 /**
- * The words that open the line naming a building or a residence, which the parser keeps whole as `building`
- * (`Résidence Les Lilas`, `Bâtiment A`), with their abbreviations.
+ * The words that open the line naming a building, a residence or a zone (La Poste's third line), which the parser keeps
+ * whole as `building` (`Résidence Les Lilas`, `Bâtiment A`, `Zone industrielle Nord`, `ZAC des Prés`), with their
+ * abbreviations.
  *
  * @example
  * ```ts
@@ -102,11 +103,16 @@ const FR_BUILDING_WORDS: Readonly<Record<string, readonly string[]>> = {
   Immeuble: ["IMM"],
   Résidence: ["RES", "RESIDENCE", "RÉS"],
   Tour: [],
-  Villa: [],
   Hall: [],
   Pavillon: ["PAV"],
   Palais: [],
   Maison: [],
+  Zone: [],
+  ZI: [],
+  ZA: [],
+  ZAC: [],
+  ZAD: [],
+  Centre: ["CTRE", "CCAL"],
 };
 
 /**

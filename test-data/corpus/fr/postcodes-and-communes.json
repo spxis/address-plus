@@ -3,7 +3,7 @@
   "name": "French Postcodes and Communes",
   "description": "The line of the postcode and the commune: with and without a comma, with F- and FR- before the code and the country after the commune, on lines of their own, with a CEDEX, a box and an arrondissement. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
   "tests": {
-    "the postcode and the commune": [
+    "postcodeLine": [
       {
         "name": "after the street",
         "description": "The usual line, with a comma",
@@ -212,7 +212,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "CEDEX": [
+    "cedex": [
       {
         "name": "CEDEX 08",
         "description": "A CEDEX with its number",

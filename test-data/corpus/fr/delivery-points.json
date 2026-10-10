@@ -3,7 +3,7 @@
   "name": "French Delivery Points",
   "description": "The lines above the street: an apartment or a door, a floor, a staircase, an entrance, a building or a residence, and who the address is care of. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
   "tests": {
-    "apartments and doors": [
+    "apartments": [
       {
         "name": "Apt",
         "description": "An apartment abbreviated",
@@ -141,7 +141,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "floors, staircases and entrances": [
+    "floors": [
       {
         "name": "3e étage",
         "description": "A floor in ordinals",
@@ -329,7 +329,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "buildings and residences": [
+    "buildings": [
       {
         "name": "Résidence",
         "description": "A residence",
@@ -459,6 +459,87 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       },
       {
+        "name": "Zone industrielle",
+        "description": "An industrial zone, on the building's line",
+        "input": "Zone industrielle Nord, 12 allée des Artisans, 33700 Mérignac",
+        "expected": {
+          "building": "Zone industrielle Nord",
+          "number": "12",
+          "type": "Allée",
+          "street": "des Artisans",
+          "city": "Mérignac",
+          "state": "33",
+          "zip": "33700",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "ZAC",
+        "description": "A zone d'aménagement concerté by its initials",
+        "input": "ZAC des Prés, 5 rue du Commerce, 31000 Toulouse",
+        "expected": {
+          "building": "ZAC des Prés",
+          "number": "5",
+          "type": "Rue",
+          "street": "du Commerce",
+          "city": "Toulouse",
+          "state": "31",
+          "zip": "31000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "Centre commercial",
+        "description": "A shopping centre",
+        "input": "Centre commercial Les Arcades, 1 place du Marché, 44000 Nantes",
+        "expected": {
+          "building": "Centre commercial Les Arcades",
+          "number": "1",
+          "type": "Place",
+          "street": "du Marché",
+          "city": "Nantes",
+          "state": "44",
+          "zip": "44000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "an entrance and a building",
+        "description": "The entrance and the building, on lines of their own",
+        "input": "Entrée B, Bâtiment Les Ormes, 20 rue des Lilas, 35000 Rennes",
+        "expected": {
+          "building": "Bâtiment Les Ormes",
+          "entrance": "B",
+          "number": "20",
+          "type": "Rue",
+          "street": "des Lilas",
+          "city": "Rennes",
+          "state": "35",
+          "zip": "35000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a name run into the street",
+        "description": "A residence's name and the street on one line, with no comma",
+        "input": "Résidence du Parc 12 rue Pasteur, 54000 Nancy",
+        "expected": {
+          "building": "Résidence du Parc",
+          "number": "12",
+          "type": "Rue",
+          "street": "Pasteur",
+          "city": "Nancy",
+          "state": "54",
+          "zip": "54000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
         "name": "Bat abbreviated without stop",
         "description": "A building abbreviated with no full stop",
         "input": "Bat B, 9 rue des Fleurs, 35000 Rennes",
@@ -475,7 +556,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "care of and everything together": [
+    "careOf": [
       {
         "name": "Chez",
         "description": "The person the address is care of",

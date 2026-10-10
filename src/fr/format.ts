@@ -1,6 +1,6 @@
-// Writes an address in France the way La Poste asks (NF Z10-011): each part on a line of its own, from the delivery
-// point and the building to the street, the lieu-dit or box, and the line of the postcode and the commune, in capitals
-// with no accents and no punctuation.
+// Writes an address in France the way La Poste asks (its specification SP 8855, volume 2, which follows the norm NF
+// Z10-011): the delivery point, the building, the street, the lieu-dit or box, and the line of the postcode and the
+// commune, in capitals with no accents and no punctuation.
 
 import { foldedName } from "../constants/fr";
 import type { FormattedAddress } from "../types/formatting";
@@ -34,11 +34,11 @@ const COUNTRY_LINES: Readonly<Record<string, string>> = {
 const joined = (...words: (string | undefined)[]): string => words.filter(Boolean).join(" ");
 
 /**
- * Writes an address in France as La Poste asks: the person it is care of, the apartment, floor, staircase and entrance,
- * the building, the number and street, the lieu-dit and the box, then the postcode, the commune and its CEDEX, each on
- * its own line, in capitals without accents or punctuation. The arrondissement of Paris, Lyon or Marseille is not
- * written when there is a postcode, which carries it (`75008 PARIS`, as La Poste's own list has it); without one it is
- * written in two digits (`PARIS 08`).
+ * Writes an address in France as La Poste's specification asks (SP 8855): the person it is care of, then the line of the
+ * apartment, the floor and the staircase, the line of the entrance and the building, the number and street, the
+ * lieu-dit and the box, then the postcode, the commune and its CEDEX, each on its own line, in capitals without accents
+ * or punctuation. The arrondissement of Paris, Lyon or Marseille is not written when there is a postcode, which carries
+ * it (`75008 PARIS`, as La Poste's own list has it); without one it is written in two digits (`PARIS 08`).
  *
  * @param address - The address as `parseFrenchAddress` returns it.
  * @param options - Whether to add the country, and whether to keep accents (see `LaPosteFormattingOptions`).
@@ -59,12 +59,16 @@ function formatLaPoste(address: ParsedAddress, options: LaPosteFormattingOptions
   };
 
   if (address.careOf) push(joined("Chez", address.careOf));
-  // The lines above the street name the delivery point: the door, the floor, the staircase, the entrance.
-  push(joined(address.secUnitType, address.secUnitNum));
-  push(joined(address.floorType, address.floor));
-  if (address.staircase) push(`Escalier ${address.staircase}`);
-  if (address.entrance) push(`Entrée ${address.entrance}`);
-  if (address.building) push(address.building);
+  // La Poste's second line holds the delivery point: the apartment or box number, the floor, the staircase.
+  push(
+    joined(
+      joined(address.secUnitType, address.secUnitNum),
+      joined(address.floorType, address.floor),
+      address.staircase ? `Escalier ${address.staircase}` : undefined,
+    ),
+  );
+  // And its third the entrance and the building, residence or zone.
+  push(joined(address.entrance ? `Entrée ${address.entrance}` : undefined, address.building));
   const deliveryLine = write(joined(address.number, address.numberExtension, address.type, address.street));
   if (deliveryLine) lines.push(deliveryLine);
   if (address.lieuDit) push(address.lieuDit);

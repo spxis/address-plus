@@ -1,7 +1,7 @@
-// Reads an address in France in the shape La Poste asks for (NF Z10-011): who or what the address is care of, the
-// delivery point (an apartment, a floor, a staircase), the building or residence, the number and the street, a
-// lieu-dit or a box, and the line of the postcode, the commune and a CEDEX. The postcode comes before the commune, and
-// may stand anywhere after the street.
+// Reads an address in France in the shape La Poste asks for (its specification SP 8855, which follows the norm NF
+// Z10-011): who or what the address is care of, the delivery point (an apartment, a floor, a staircase), the entrance,
+// the building, residence or zone, the number and the street, a lieu-dit or a box, and the line of the postcode, the
+// commune and a CEDEX. The postcode comes before the commune, and may stand anywhere after the street.
 
 import { isValidFrenchPostcode, parseFrenchPostcode } from "../constants/fr";
 import {
@@ -61,7 +61,7 @@ const ARRONDISSEMENT_BEFORE =
   /^(\d{1,2}|[IVX]{1,5})\s*(?:er|e|ème|eme|è|ieme|ième)?\s+arr(?:ondissement|\.)?\s+(?:de\s+)?(Paris|Lyon|Marseille)$/i;
 
 const CARE_OF = /^(?:chez|c\/o|aux bons soins de)\s+(.+)$/i;
-const LIEU_DIT = /^lieu[-\s]?dit\s+(.+)$/i;
+const LIEU_DIT = /^(?:lieu[-\s]?dit|ld)\s+(.+)$/i;
 // "3e étage", "3ème étage", "Étage 3", "Rez-de-chaussée", "RDC".
 const FLOOR =
   /^(?:(\d{1,2})\s*(?:er|e|ème|eme|è|ieme|ième)\s+(?:étage|etage)|(?:étage|etage|niveau)\s*(\d{1,2})|(rez[-\s]de[-\s]chauss[ée]e|rdc|sous[-\s]sol))$/i;
@@ -73,6 +73,8 @@ const NUMBER_ONLY = /^(?:n°\s*)?\d{1,4}(?:\s*-\s*\d{1,4})?\s*(?:bis|ter|quater|
 // "12 rue", "12bis rue", "12-14 rue", "N° 12 rue": the number, a glued extension, and the rest.
 const NUMBERED =
   /^(?:n°\s*)?(\d{1,4}(?:\s*[-–]\s*\d{1,4})?)(bis|ter|quater|quinquies|sexies|septies|[A-Za-z])?(?=[\s,.]|$)[\s,.]*(.*)$/i;
+// "Résidence du Parc 12 rue Pasteur": a name, then a number and a street, with no comma between them.
+const NAME_THEN_NUMBER = /^(.+?)\s+(\d{1,4}(?:\s*-\s*\d{1,4})?(?:bis|ter|quater|[A-Za-z])?)\s+(.+)$/i;
 const EXTENSION_THEN_REST = /^(bis|ter|quater|quinquies|sexies|septies)\b[\s,.]*(.*)$/i;
 const LETTER_THEN_REST = /^([A-Za-z])\b[\s,.]*(.*)$/;
 
@@ -250,12 +252,23 @@ function readDelivery(parts: string[], result: ParsedAddress): void {
   }
   const rests = parts.map((part) => takeDelivery(takeBox(part, result), result)).filter((rest) => rest !== "");
   const isStreet = (text: string): boolean => NUMBERED.test(text) || startsWithStreetType(text);
+  // A name run into the street with no comma ("Résidence du Parc 12 rue Pasteur"): the name goes up a line.
+  for (let at = 0; at < rests.length; at += 1) {
+    const joined = NAME_THEN_NUMBER.exec(rests[at]);
+    if (joined && !isStreet(rests[at]) && startsWithStreetType(joined[3]) && !rests.slice(0, at).some(isStreet)) {
+      rests.splice(at, 1, joined[1], `${joined[2]} ${joined[3]}`);
+      break;
+    }
+  }
   const streetAt = rests.findIndex(isStreet);
   if (streetAt >= 0) {
     readStreetLine(rests[streetAt], result);
-    rests
-      .slice(0, streetAt)
-      .forEach((text) => (result.building = result.building ? `${result.building}, ${text}` : text));
+    // What comes before the street is the building's, unless it is named a lieu-dit.
+    for (const text of rests.slice(0, streetAt)) {
+      const named = LIEU_DIT.exec(text)?.[1];
+      if (named) result.lieuDit = named;
+      else result.building = result.building ? `${result.building}, ${text}` : text;
+    }
     // What follows the street: a lieu-dit, written with or without its name's words.
     const after = rests.slice(streetAt + 1);
     if (after.length > 0) result.lieuDit = LIEU_DIT.exec(after.join(", "))?.[1] ?? after.join(", ");

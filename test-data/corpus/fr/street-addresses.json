@@ -3,7 +3,7 @@
   "name": "French Street Addresses",
   "description": "The number and its extension (bis, ter, a letter, a range), every type of voie La Poste uses and its abbreviations, names with particles, saints, accents, apostrophes and numbers in them, a street with no type, and the whole address in capitals. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
   "tests": {
-    "types of voie": [
+    "types": [
       {
         "name": "Rue",
         "description": "The commonest type of voie, in front of the name",
@@ -425,7 +425,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "abbreviations of the type": [
+    "abbreviations": [
       {
         "name": "av.",
         "description": "Avenue abbreviated with a full stop",
@@ -682,7 +682,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "numbers and their extensions": [
+    "numbers": [
       {
         "name": "bis",
         "description": "The extension written as a word",

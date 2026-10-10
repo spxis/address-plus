@@ -212,9 +212,7 @@ describe("the La Poste formatter", () => {
 
     expect(formatLaPoste(address).lines).toEqual([
       "CHEZ MME MARTIN",
-      "APPARTEMENT 5",
-      "ETAGE 2",
-      "ESCALIER A",
+      "APPARTEMENT 5 ETAGE 2 ESCALIER A",
       "RESIDENCE LES PINS",
       "15 BIS RUE D ABOUKIR",
       "LES GRANGES",
@@ -234,6 +232,17 @@ describe("the La Poste formatter", () => {
       country: "FR",
       format: "la-poste",
     });
+  });
+
+  it("puts an entrance with the building on the third line, and a zone too", () => {
+    expect(formatLaPoste(parsed("Entrée A, Bâtiment Jonquille, Caudos, 33380 Mios")).lines).toEqual([
+      "ENTREE A BATIMENT JONQUILLE",
+      "CAUDOS",
+      "33380 MIOS",
+    ]);
+    expect(
+      formatLaPoste(parsed("Zone industrielle Ouest, 35 impasse des Gabarres, BP 18, 33500 Libourne CEDEX")).lines,
+    ).toEqual(["ZONE INDUSTRIELLE OUEST", "35 IMPASSE DES GABARRES", "BP 18", "33500 LIBOURNE CEDEX"]);
   });
 
   it("keeps a CEDEX on the last line and leaves an arrondissement to the postcode", () => {

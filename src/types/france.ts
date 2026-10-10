@@ -1,6 +1,6 @@
-// Addresses in France, as La Poste writes them (NF Z10-011, the norm La Poste's guidance follows): the delivery point
-// and the building, the number and the street, a lieu-dit or a postal box, and the line of the postcode, the commune
-// and a CEDEX. The overseas departments and collectivities and Monaco are written the same way.
+// Addresses in France, as La Poste writes them (its specification SP 8855, which follows the norm NF Z10-011): the
+// delivery point and the building, the number and the street, a lieu-dit or a postal box, and the line of the postcode,
+// the commune and a CEDEX. The overseas departments and collectivities and Monaco are written the same way.
 
 /**
  * The country an address in La Poste's base belongs to: `FR` for France (the metropolis and the overseas

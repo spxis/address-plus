@@ -3,7 +3,7 @@
   "name": "French Lieux-dits and Boxes",
   "description": "A named place on a line of its own, the words lieu-dit, and the three kinds of box (BP, CS, TSA), with a street and without, and a five-digit box number that is not a postcode. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0).",
   "tests": {
-    "lieux-dits": [
+    "lieuxDits": [
       {
         "name": "after the street",
         "description": "A lieu-dit on the line after the street",
@@ -29,6 +29,38 @@
           "city": "La Roche-sur-Yon",
           "state": "85",
           "zip": "85000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "LD",
+        "description": "Lieu-dit as LD",
+        "input": "LD Les Prés, 4 chemin du Moulin, 05000 Gap",
+        "expected": {
+          "number": "4",
+          "type": "Chemin",
+          "street": "du Moulin",
+          "lieuDit": "Les Prés",
+          "city": "Gap",
+          "state": "05",
+          "zip": "05000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a lieu-dit before the street",
+        "description": "The lieu-dit before the street is the building's line",
+        "input": "Lieu-dit Les Prés, 4 chemin du Moulin, 05000 Gap",
+        "expected": {
+          "number": "4",
+          "type": "Chemin",
+          "street": "du Moulin",
+          "lieuDit": "Les Prés",
+          "city": "Gap",
+          "state": "05",
+          "zip": "05000",
           "country": "FR"
         },
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
@@ -222,6 +254,26 @@
           "city": "La Rochelle",
           "state": "17",
           "zip": "17000",
+          "country": "FR"
+        },
+        "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
+      },
+      {
+        "name": "a box and the commune it is in",
+        "description": "A box, then the geographic commune on its own line, as the specification has it",
+        "input": "Zone industrielle Nord, 12 allée des Artisans, BP 27 Mérignac, 33700 Mérignac CEDEX",
+        "expected": {
+          "building": "Zone industrielle Nord",
+          "number": "12",
+          "type": "Allée",
+          "street": "des Artisans",
+          "lieuDit": "Mérignac",
+          "postalBoxType": "BP",
+          "postalBoxNum": "27",
+          "city": "Mérignac",
+          "cedex": "CEDEX",
+          "state": "33",
+          "zip": "33700",
           "country": "FR"
         },
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"

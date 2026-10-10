@@ -3,7 +3,7 @@
   "name": "French Shapes From libpostal's Fixtures",
   "description": "The seven French fixtures of libpostal's test_parser.c (MIT licence), each written again as an original input of the same shape: the same parts, order and punctuation, another commune. A commune alone is not an address, and reads as none. Each case's source names the fixture it follows.",
   "tests": {
-    "libpostal's French fixtures": [
+    "shapes": [
       {
         "name": "a commune with an accent",
         "description": "libpostal 'Chambéry' (a commune alone, with an accent): a name alone is not an address",

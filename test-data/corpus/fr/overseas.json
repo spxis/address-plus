@@ -3,7 +3,7 @@
   "name": "French Overseas Departments, Collectivities, Monaco and Corsica",
   "description": "Addresses in the overseas departments (971 to 976), the collectivities that have codes of their own (Saint-Pierre-et-Miquelon, Saint-Barthélemy, Saint-Martin, Wallis-et-Futuna, French Polynesia, New Caledonia), Monaco, and Corsica's two departments. Original cases written for this corpus from La Poste's addressing guidance, described in our own words; the postcodes and communes are La Poste's base officielle (Licence Ouverte 2.0), the departments' codes and the collectivities INSEE's (Licence Ouverte 2.0).",
   "tests": {
-    "departments overseas": [
+    "departments": [
       {
         "name": "Guadeloupe",
         "description": "A town in Guadeloupe",
@@ -123,7 +123,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "collectivities and Monaco": [
+    "collectivities": [
       {
         "name": "Polynésie française",
         "description": "A town in French Polynesia",
@@ -257,7 +257,7 @@
         "source": "Original case written for this corpus; La Poste's addressing guidance (the parts of NF Z10-011: delivery point, building, number and street, lieu-dit, postcode and commune), described in our own words; nothing copied"
       }
     ],
-    "Corsica": [
+    "corsica": [
       {
         "name": "Ajaccio",
         "description": "Corse-du-Sud, 2A",
