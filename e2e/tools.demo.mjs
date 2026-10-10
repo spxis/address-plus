@@ -23,23 +23,26 @@ test("paste a list: the sample is read into a table, counted by country, and sav
 }, testInfo) => {
   const errors = await open(page);
   const summary = page.locator(at("bulk-summary"));
-  await expect(summary).toContainText("14 of 15 read");
+  await expect(summary).toContainText("16 of 17 read");
   await expect(summary).toContainText("US 4");
   await expect(summary).toContainText("Canada 3");
   await expect(summary).toContainText("Japan 3");
   await expect(summary).toContainText("Australia 2");
+  await expect(summary).toContainText("France 2");
   await expect(summary).toContainText("UK 2");
   await expect(summary).toContainText("Not read 1");
   const rows = page.locator(`${at("bulk-table")} tbody tr`);
-  await expect(rows).toHaveCount(15);
+  await expect(rows).toHaveCount(17);
   await expect(rows.nth(1)).toContainText("350 FIFTH AVE");
   await expect(rows.nth(2)).toContainText("POSTAL_REGION_MISMATCH");
   await expect(rows.nth(7)).toContainText("東京都");
   await expect(rows.nth(10)).toContainText("UNIT 3 12 SMITH ST, PARRAMATTA NSW 2150");
   await expect(rows.nth(11)).toContainText("POSTAL_REGION_MISMATCH");
-  await expect(rows.nth(12)).toContainText("Rose Court");
-  await expect(rows.nth(13)).toContainText("SW1A 2AA");
-  await expect(rows.nth(14)).toContainText("Not an address");
+  await expect(rows.nth(12)).toContainText("RESIDENCE LES LILAS");
+  await expect(rows.nth(13)).toContainText("75009 PARIS CEDEX 09");
+  await expect(rows.nth(14)).toContainText("Rose Court");
+  await expect(rows.nth(15)).toContainText("SW1A 2AA");
+  await expect(rows.nth(16)).toContainText("Not an address");
 
   const csv = await saved(page, "bulk-csv", testInfo);
   expect(csv.name).toBe("addresses.csv");
@@ -47,9 +50,9 @@ test("paste a list: the sample is read into a table, counted by country, and sav
   expect(csv.text.startsWith("\ufeff")).toBe(true);
   const csvLines = csv.text.trim().split("\r\n");
   expect(csvLines[0]).toBe(
-    "input,country,number,street,unit,city,region,postal,check,formatted,prefecture,municipality,streetDirections,town,chome,ban,go,building,floor,room,floorType,lot,subBuilding,dependentThoroughfare,locality,county,nation,bfpo",
+    "input,country,number,street,unit,city,region,postal,check,formatted,prefecture,municipality,streetDirections,town,chome,ban,go,building,floor,room,floorType,lot,subBuilding,dependentThoroughfare,locality,county,nation,bfpo,careOf,numberExtension,staircase,entrance,lieuDit,postalBoxType,postalBoxNum,cedex,arrondissement",
   );
-  expect(csvLines).toHaveLength(16);
+  expect(csvLines).toHaveLength(18);
   expect(csvLines[1]).toContain(
     '"1600 Pennsylvania Ave NW, Washington, DC 20500",US,1600,Pennsylvania Ave NW,,Washington,DC,20500,OK,',
   );
@@ -58,21 +61,23 @@ test("paste a list: the sample is read into a table, counted by country, and sav
   const json = await saved(page, "bulk-json", testInfo);
   expect(json.name).toBe("addresses.json");
   const records = JSON.parse(json.text);
-  expect(records).toHaveLength(15);
+  expect(records).toHaveLength(17);
   expect(records[0].parsed.state).toBe("DC");
   expect(records[2].findings[0].code).toBe("POSTAL_REGION_MISMATCH");
   expect(records[10].parsed.country).toBe("AU");
-  expect(records[13].parsed.nation).toBe("ENG");
-  expect(records[14].parsed).toBeNull();
+  expect(records[12].parsed.country).toBe("FR");
+  expect(records[13].parsed.cedex).toBe("CEDEX 09");
+  expect(records[15].parsed.nation).toBe("ENG");
+  expect(records[16].parsed).toBeNull();
 
   const txt = await saved(page, "bulk-txt", testInfo);
   expect(txt.name).toBe("addresses.txt");
   const txtLines = txt.text.trim().split("\n");
-  expect(txtLines).toHaveLength(15);
+  expect(txtLines).toHaveLength(17);
   // Canada Post puts two spaces between the province and the postal code.
   expect(txtLines[4]).toBe("100 QUEEN ST W, TORONTO ON  M5H 2N2");
-  expect(txtLines[13]).toBe("10 downing Street, LONDON, SW1A 2AA");
-  expect(txtLines[14]).toBe("see attached");
+  expect(txtLines[15]).toBe("10 downing Street, LONDON, SW1A 2AA");
+  expect(txtLines[16]).toBe("see attached");
 
   // A new list replaces the table; an empty one says what to do and saves nothing.
   await type(page, "bulk-input", "PO Box 1234, Springfield, IL 62701\n大阪府大阪市北区梅田3-1-1");
@@ -82,7 +87,7 @@ test("paste a list: the sample is read into a table, counted by country, and sav
   await expect(summary).toContainText("Paste addresses in the box");
   await expect(page.locator(at("bulk-csv"))).toBeDisabled();
   await tap(page, at("bulk-sample"), testInfo);
-  await expect(rows).toHaveCount(15);
+  await expect(rows).toHaveCount(17);
   await noSidewaysScroll(page);
   expect(errors).toEqual([]);
 });
@@ -203,7 +208,7 @@ test("clean shows the address typed, cleaned, then as its post office writes it"
 
 test("the new tools speak Japanese with the page", async ({ page }, testInfo) => {
   const errors = await open(page, "?lang=ja");
-  await expect(page.locator(at("bulk-summary"))).toContainText("15件中14件を読み取り");
+  await expect(page.locator(at("bulk-summary"))).toContainText("17件中16件を読み取り");
   await expect(page.locator(at("japan-panel"))).toContainText("日本の住所を部分ごとに");
   await expect(page.locator(at("japan-answer"))).toContainText("配達先：京都府");
   await expect(page.locator(at("parse-copy-code"))).toHaveText("コードをコピー");

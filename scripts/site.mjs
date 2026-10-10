@@ -21,9 +21,11 @@ const USES = {
   usePostal: `getPrefectureFromJapanesePostalCode("530-0001")`,
   useJp: `import { parseJapaneseAddress } from "@johnmorrisdotca/address-plus/jp";`,
   useAuImport: `import { australia } from "@johnmorrisdotca/address-plus/au";`,
+  useFrImport: `import { france } from "@johnmorrisdotca/address-plus/fr";`,
   useGbImport: `import { unitedKingdom } from "@johnmorrisdotca/address-plus/gb";`,
-  useAu: `parseLocation("3/12 Smith St, Parramatta NSW 2150", { countries: [australia, unitedKingdom] })?.secUnitNum`,
-  useGb: `parseLocation("10 Downing St, London SW1A 2AA", { countries: [australia, unitedKingdom] })?.nation`,
+  useAu: `parseLocation("3/12 Smith St, Parramatta NSW 2150", { countries: [australia, france, unitedKingdom] })?.secUnitNum`,
+  useFr: `parseLocation("12 bis rue de la Paix, 75002 Paris", { countries: [australia, france, unitedKingdom] })?.numberExtension`,
+  useGb: `parseLocation("10 Downing St, London SW1A 2AA", { countries: [australia, france, unitedKingdom] })?.nation`,
 };
 
 const escape = (text) =>
@@ -80,8 +82,8 @@ const panels = [
     code: "parseLocation",
     fields: field("parse-input", "input", "1600 Pennsylvania Ave NW, Washington, DC 20500"),
     help: [
-      "Type an address from the US, Canada, Japan, Australia or the UK. Each part of it is shown in its own field.",
-      "米国、カナダ、日本、オーストラリア、イギリスの住所を入力します。住所の各部分が、それぞれの項目に分かれて表示されます。",
+      "Type an address from the US, Canada, Japan, Australia, France or the UK. Each part of it is shown in its own field.",
+      "米国、カナダ、日本、オーストラリア、フランス、イギリスの住所を入力します。住所の各部分が、それぞれの項目に分かれて表示されます。",
     ],
     options: `
           ${row(
@@ -95,12 +97,13 @@ const panels = [
               { say: "parse_ca", value: "CA", pressed: false },
               { say: "parse_jp", value: "JP", pressed: false },
               { say: "parse_au", value: "AU", pressed: false },
+              { say: "parse_fr", value: "FR", pressed: false },
               { say: "parse_gb", value: "GB", pressed: false },
             ]),
           )}`,
     exampleHelp: [
-      "Fill the box with an example: a street address, a landmark, a PO box, an intersection, Canada in English and French, Japan in Japanese script, in romaji and in full-width digits, Australia with a unit and a level, and the UK with a flat and with a postcode alone.",
-      "例を入力欄に入れます：番地のある住所、建物名つき、私書箱、交差点、英語とフランス語のカナダの住所、日本語・ローマ字・全角数字の日本の住所、部屋番号や階のあるオーストラリアの住所、フラットつきのイギリスの住所と、郵便番号だけのイギリスの住所。",
+      "Fill the box with an example: a street address, a landmark, a PO box, an intersection, Canada in English and French, Japan in Japanese script, in romaji and in full-width digits, Australia with a unit and a level, France with a bis and a residence, and the UK with a flat and with a postcode alone.",
+      "例を入力欄に入れます：番地のある住所、建物名つき、私書箱、交差点、英語とフランス語のカナダの住所、日本語・ローマ字・全角数字の日本の住所、部屋番号や階のあるオーストラリアの住所、枝番や建物名のあるフランスの住所、フラットつきのイギリスの住所と、郵便番号だけのイギリスの住所。",
     ],
   }),
   panel({
@@ -120,13 +123,13 @@ const panels = [
             `<span class="fam-label" data-say="options"></span><button type="button" class="fam-button" id="validate-strict" data-testid="validate-strict" aria-pressed="false" data-say="validate_strict"></button>`,
           )}`,
     exampleHelp: [
-      "Fill the box with an example: a ZIP code from another state, a Canadian postal code from another province, a Japanese postal code from another prefecture, an Australian postcode from another state, a Jersey postcode, two complete addresses and one that is not.",
-      "例を入れます：別の州の ZIP コード、別の州のカナダの郵便番号、別の都道府県の日本の郵便番号、別の州のオーストラリアの郵便番号、ジャージー島の郵便番号、完全な住所が二つ、不完全な住所が一つ。",
+      "Fill the box with an example: a ZIP code from another state, a Canadian postal code from another province, a Japanese postal code from another prefecture, an Australian postcode from another state, a Jersey postcode, a French postcode La Poste does not list, Monaco, two complete addresses and one that is not.",
+      "例を入れます：別の州の ZIP コード、別の州のカナダの郵便番号、別の都道府県の日本の郵便番号、別の州のオーストラリアの郵便番号、ジャージー島の郵便番号、フランスの存在しない郵便番号、モナコ、完全な住所が二つ、不完全な住所が一つ。",
     ],
   }),
   panel({
     name: "format",
-    code: "formatUSPS · formatCanadaPost · formatJapanese · formatAustraliaPost · formatRoyalMail",
+    code: "formatUSPS · formatCanadaPost · formatJapanese · formatAustraliaPost · formatLaPoste · formatRoyalMail",
     fields: field("format-input", "input", "〒100-0005 東京都千代田区丸の内1丁目2番3号 サンプルビル5階501号室"),
     help: [
       "Type an address. It is written out in its country's postal format.",
@@ -144,34 +147,34 @@ const panels = [
             ]),
           )}`,
     exampleHelp: [
-      "Fill the box with an example: Japan in Japanese script and in romaji, a US address with a unit, a Canadian one, a PO box, Australia with a unit, and the UK with a flat.",
-      "例を入れます：日本語とローマ字の日本の住所、部屋番号つきの米国の住所、カナダの住所、私書箱、部屋番号つきのオーストラリアの住所、フラットつきのイギリスの住所。",
+      "Fill the box with an example: Japan in Japanese script and in romaji, a US address with a unit, a Canadian one, a PO box, Australia with a unit, France with a residence and a box, and the UK with a flat.",
+      "例を入れます：日本語とローマ字の日本の住所、部屋番号つきの米国の住所、カナダの住所、私書箱、部屋番号つきのオーストラリアの住所、建物名と私書箱のあるフランスの住所、フラットつきのイギリスの住所。",
     ],
   }),
   panel({
     name: "compare",
-    code: "compareAddresses · isSameAddress · compareAustralianAddresses · compareUKAddresses",
+    code: "compareAddresses · isSameAddress · compareAustralianAddresses · compareFrenchAddresses · compareUKAddresses",
     fields: `${field("compare-first", "compare_first", "123 Main Street, Anytown, NY 12345", { pair: true })}${field("compare-second", "compare_second", "123 Main St, Anytown, New York 12345", { pair: true })}`,
     help: [
       "Type two addresses. They are parsed and compared field by field.",
       "住所を二つ入力します。それぞれ読み取ってから、項目ごとに比べます。",
     ],
     exampleHelp: [
-      "Fill both boxes with an example: abbreviations against full names, a typo, Canada, kanji against full-width digits, Australia's 3/12 against Unit 3, a UK postcode with and without its space, two different places.",
-      "二つの欄に例を入れます：略語と正式名、打ち間違い、カナダの住所、漢字と全角数字、オーストラリアの「3/12」と「Unit 3」、空白ありとなしのイギリスの郵便番号、まったく別の場所。",
+      "Fill both boxes with an example: abbreviations against full names, a typo, Canada, kanji against full-width digits, Australia's 3/12 against Unit 3, France's av. against avenue, a UK postcode with and without its space, two different places.",
+      "二つの欄に例を入れます：略語と正式名、打ち間違い、カナダの住所、漢字と全角数字、オーストラリアの「3/12」と「Unit 3」、フランスの「av.」と「avenue」、空白ありとなしのイギリスの郵便番号、まったく別の場所。",
     ],
   }),
   panel({
     name: "postal",
-    code: "getStateFromZip · getPrefectureFromJapanesePostalCode · getStatesForAustralianPostcode · parseUKPostcode",
+    code: "getStateFromZip · getPrefectureFromJapanesePostalCode · getStatesForAustralianPostcode · parseFrenchPostcode · parseUKPostcode",
     fields: field("postal-input", "input", "98101"),
     help: [
       "Type a ZIP code or a postal code or postcode to find its region, or a region's code or name to list its codes.",
       "郵便番号を入力すると地域が、地域のコードか名前を入力するとそこで使われる番号がわかります。",
     ],
     exampleHelp: [
-      "Fill the box with an example: US ZIP codes, Canadian postal codes, Japanese postal codes in half-width and full-width digits, an Australian postcode that serves two states, British postcodes in England, Wales and Jersey, then a state, a province and two prefectures.",
-      "例を入れます：米国の ZIP コード、カナダの郵便番号、半角と全角の日本の郵便番号、二つの州にまたがるオーストラリアの郵便番号、イングランド、ウェールズ、ジャージー島の郵便番号、そして米国の州、カナダの州、都道府県が二つ。",
+      "Fill the box with an example: US ZIP codes, Canadian postal codes, Japanese postal codes in half-width and full-width digits, an Australian postcode that serves two states, French postcodes in Paris, Corsica and French Polynesia, British postcodes in England, Wales and Jersey, then a state, a province and two prefectures.",
+      "例を入れます：米国の ZIP コード、カナダの郵便番号、半角と全角の日本の郵便番号、二つの州にまたがるオーストラリアの郵便番号、パリ、コルシカ島、フランス領ポリネシアの郵便番号、イングランド、ウェールズ、ジャージー島の郵便番号、そして米国の州、カナダの州、都道府県が二つ。",
     ],
   }),
   panel({
@@ -216,8 +219,8 @@ const panels = [
 ];
 
 const bulkHelp = [
-  "Paste a list of addresses, one to a line, from the US, Canada, Japan, Australia or the UK, mixed as they come. Each line is parsed, checked and written the post office's way.",
-  "住所の一覧を、1行に1件ずつ貼り付けます。米国、カナダ、日本、オーストラリア、イギリスの住所が混ざっていてもかまいません。1行ずつ解析し、検証して、郵便の書式で書き直します。",
+  "Paste a list of addresses, one to a line, from the US, Canada, Japan, Australia, France or the UK, mixed as they come. Each line is parsed, checked and written the post office's way.",
+  "住所の一覧を、1行に1件ずつ貼り付けます。米国、カナダ、日本、オーストラリア、フランス、イギリスの住所が混ざっていてもかまいません。1行ずつ解析し、検証して、郵便の書式で書き直します。",
 ];
 const bulkActionsHelp = [
   "Fill the box with a mixed list to try, or empty it.",
@@ -231,7 +234,7 @@ const bulkDownloadHelp = [
 /** Paste a list: every line parsed, checked and formatted, in a table to save as CSV, JSON or text. */
 const bulkSection = `<section class="fam-panels job wide" id="bulk" aria-labelledby="bulk-title" data-testid="bulk-panel">
         <div class="fam-panel">
-          <h2 id="bulk-title"><span data-say="bulk_title"></span> <code>parseLocation · validateAddress · formatUSPS · formatCanadaPost · formatJapanese · formatAustraliaPost · formatRoyalMail</code></h2>
+          <h2 id="bulk-title"><span data-say="bulk_title"></span> <code>parseLocation · validateAddress · formatUSPS · formatCanadaPost · formatJapanese · formatAustraliaPost · formatLaPoste · formatRoyalMail</code></h2>
           <p class="blurb" data-say="bulk_blurb"></p>
           ${row(bulkHelp, `<label class="fam-label" for="bulk-input" data-say="bulk_list"></label><textarea id="bulk-input" class="fam-field bulk-input" data-testid="bulk-input" rows="7" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off"></textarea>`)}
           ${row(bulkActionsHelp, `<span class="fam-label" data-say="bulk_try"></span><div class="tools"><button type="button" class="fam-button" data-testid="bulk-sample" data-say="bulk_sample" data-say-title="bulk_sample_tip"></button><button type="button" class="fam-button" data-testid="bulk-clear" data-say="bulk_clear" data-say-title="bulk_clear_tip"></button></div>`)}
@@ -263,6 +266,7 @@ const corpusSection = `<section class="fam-panels job wide" id="corpus" aria-lab
                 { say: "corpus_canada", value: "canada", pressed: false },
                 { say: "corpus_japan", value: "japan", pressed: false },
                 { say: "corpus_au", value: "au", pressed: false },
+                { say: "corpus_fr", value: "fr", pressed: false },
                 { say: "corpus_gb", value: "gb", pressed: false },
               ])}<button type="button" class="fam-button" id="corpus-wrong" data-testid="corpus-wrong" aria-pressed="false" data-say="corpus_wrong" data-say-title="corpus_wrong_tip"></button>${field("corpus-search", "corpus_search", "")}`,
             )}
@@ -279,12 +283,13 @@ function page(uses) {
   <head>
     ${familyHead({
       id,
-      title: "Address Plus · parse, validate and format US, Canadian, Japanese, Australian and British addresses",
+      title:
+        "Address Plus · parse, validate and format US, Canadian, Japanese, Australian, French and British addresses",
       description:
-        "Try address-plus in your browser: a TypeScript address parser for the US, Canada and Japan, with Australia and the UK as modules of their own. Parse an address into its fields, validate it (a ZIP code, postal code or postcode from another state, province or prefecture is caught), write it out the USPS, Canada Post, Japanese, Australia Post or Royal Mail way, compare two addresses, find the region of a postal code, and clean up a messy one. Free and open source, in English and Japanese.",
-      ogTitle: "Address Plus: US, Canadian, Japanese, Australian and British addresses, parsed and checked",
+        "Try address-plus in your browser: a TypeScript address parser for the US, Canada and Japan, with Australia, France and the UK as modules of their own. Parse an address into its fields, validate it (a ZIP code, postal code or postcode from another state, province or prefecture is caught), write it out the USPS, Canada Post, Japanese, Australia Post, La Poste or Royal Mail way, compare two addresses, find the region of a postal code, and clean up a messy one. Free and open source, in English and Japanese.",
+      ogTitle: "Address Plus: US, Canadian, Japanese, Australian, French and British addresses, parsed and checked",
       ogDescription:
-        "Parse, validate, format and compare addresses from the US, Canada, Japan, Australia and the UK, including Japanese script, romaji and full-width digits. One small dependency.",
+        "Parse, validate, format and compare addresses from the US, Canada, Japan, Australia, France and the UK, including Japanese script, romaji and full-width digits. One small dependency.",
     })}
     <link rel="icon" href="${ICON}" />
     <link rel="stylesheet" href="family.css" />
@@ -330,7 +335,7 @@ cpSync("demo", "site", { recursive: true });
 // and each country module as one of its own.
 await build({
   config: false,
-  entry: { index: "src/index.ts", au: "src/au/index.ts", gb: "src/gb/index.ts" },
+  entry: { index: "src/index.ts", au: "src/au/index.ts", fr: "src/fr/index.ts", gb: "src/gb/index.ts" },
   format: ["esm"],
   platform: "browser",
   target: "es2022",
@@ -347,8 +352,8 @@ writeFileSync("site/index.html", page(uses));
 // The corpus, for the page's corpus browser: every case with what it is checked on, and nothing else (no sources or
 // descriptions), fetched by the page only when asked for.
 // A case of a country module's folder carries the hint its suite reads it with; the page adds the modules.
-const HINTS = { au: "AU", gb: "GB" };
-const corpus = ["us", "canada", "japan", "au", "gb"].flatMap((country) =>
+const HINTS = { au: "AU", fr: "FR", gb: "GB" };
+const corpus = ["us", "canada", "japan", "au", "fr", "gb"].flatMap((country) =>
   readdirSync(`test-data/corpus/${country}`)
     .filter((file) => file.endsWith(".json") && file !== "parity.json")
     .sort()

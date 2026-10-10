@@ -5620,7 +5620,7 @@ function
 looksFrench(text: string): boolean
 ```
 
-Whether an address is surely French, with no hint: it ends with France, an overseas department, Monaco or one of the collectivities, or holds CEDEX beside a postcode, or its last line begins with a postcode La Poste lists followed by a commune (`75008 Paris`) while its street begins with a French type of voie (`rue`, `avenue`, `chemin`). A US ZIP code follows its state and a Canadian one ends in a digit, so neither is the shape of that last line; a German one has its postcode first too, but its streets end in `straße` or `weg` and begin with no French type.
+Whether an address is surely French, with no hint: it ends with France, an overseas department, Monaco or one of the collectivities, or holds CEDEX beside a postcode, or its last line begins with a postcode whose number names a department, a collectivity or Monaco, followed by a commune (`75008 Paris`), while the address has a French type of voie (`rue`, `avenue`, `chemin`) at the start of a street, a `BP`, a `TSA` or a `lieu-dit`. A US ZIP code follows its state and a Canadian one ends in a digit, so neither is the shape of that last line; a German one has its postcode first too, but its streets end in `straße` or `weg` and begin with no French type.
 
 - `text`: The address as one string.
 - Returns: `true` when the address is French beyond doubt, `false` otherwise.

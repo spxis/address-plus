@@ -950,7 +950,7 @@ core fields are the lines of La Poste's layout and what the postcode tells: `car
 `secUnitNum`, `floorType`, `floor`, `staircase`, `entrance`, `number`, `numberExtension`, `type`, `street`, `lieuDit`,
 `postalBoxType`, `postalBoxNum`, `city`, `arrondissement`, `cedex`, `state`, `zip` and `country`. A core field a case
 does not name must be absent. Every case that ends with a country, holds a CEDEX or an arrondissement, or has a last line
-of a postcode La Poste lists and a commune beside a French street, a box or a lieu-dit is also recognised with no hint,
+of a postcode that names a department and a commune beside a French street, a box or a lieu-dit is also recognised with no hint,
 and no US, Canadian, Japanese, Australian or British case is taken for French (the detection suite): 95% of the
 French corpus is, the rest being addresses with no sign of their own (`12 Grande Rue, 25000 Besançon`).
 

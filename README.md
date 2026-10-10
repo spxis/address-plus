@@ -584,7 +584,7 @@ With no hint, an address is Australian when it ends with a state and an Australi
 `WA` the postcode must be Western Australia's, so `Seattle, WA 9810` stays American), and British when it holds a
 postcode in Royal Mail's grammar near its end, or ends with the United Kingdom or a nation. A Canadian postal code is
 never taken for a British one: it ends in a digit. A French address is told by its country at the end, a CEDEX, an arrondissement,
-or a last line of a postcode La Poste lists and a commune (`75008 Paris`) beside a French type of voie (`rue`, `avenue`,
+or a last line of a postcode whose number names a department and a commune (`75008 Paris`) beside a French type of voie (`rue`, `avenue`,
 `chemin`), a box or a lieu-dit; a US ZIP code follows its state, so `New York, NY 10036` stays American. Without `countries`, nothing changes. When the country is known, pass
 it: the hint is the reliable path. [docs/COUNTRIES.md](docs/COUNTRIES.md) has the design, the detection rules, the
 fields each country fills and where its data comes from.

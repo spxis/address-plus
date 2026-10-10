@@ -82,7 +82,7 @@ first time a postcode is looked up.
 | --- | --- | --- |
 | Australia | ends with `Australia`, or with a state (code or name) and a four-digit postcode inside some state's block | a postcode alone; `WA` with a postcode outside Western Australia's block |
 | United Kingdom | ends with the United Kingdom, a nation, Jersey, Guernsey or the Isle of Man; or holds `BFPO` and a number, or `GIR 0AA`; or holds, in its last two parts, a postcode in Royal Mail's grammar whose area Royal Mail uses | an outward code alone |
-| France | ends with France, an overseas department, Monaco or an overseas collectivity; or holds `CEDEX` beside a five-digit code; or names an arrondissement of Paris, Lyon or Marseille; or its last line is a postcode La Poste lists and a commune (`75008 Paris`) while the address has a French type of voie (`rue`, `avenue`, `chemin`) at the start of a street, a `BP`, a `TSA` or a `lieu-dit` | a five-digit code that follows a US state (`NY 10036`); a postcode and commune with no French sign (`10115 Berlin`); a code La Poste does not list |
+| France | ends with France, an overseas department, Monaco or an overseas collectivity; or holds `CEDEX` beside a five-digit code; or names an arrondissement of Paris, Lyon or Marseille; or its last line is a postcode whose number names a department, a collectivity or Monaco and a commune (`75008 Paris`) while the address has a French type of voie (`rue`, `avenue`, `chemin`) at the start of a street, a `BP`, a `TSA` or a `lieu-dit` | a five-digit code that follows a US state (`NY 10036`); a postcode and commune with no French sign (`10115 Berlin`); a number that names no department (`96000`, `99999`) |
 | Japan (core) | is in Japanese script, ends with Japan, or names a prefecture beside a Japanese postal code or a romaji designator | an address that only mentions a Japanese place |
 | US and Canada (core) | everything else, by the state or province and the ZIP or postal code | |
 
@@ -103,10 +103,12 @@ The cases that look alike, and why they cannot be confused:
 - **A French postcode and a US ZIP code.** Both are five digits, and the module's hint is the only sure way to tell a
   bare one. With no hint, a ZIP code is told by where it stands: it follows its state (`Seattle, WA 98101`) and ends the
   address, while a French code comes first on the last line and a commune follows it (`75008 Paris`). That shape alone is
-  not enough, since a German address has it too (`10115 Berlin`): detection also asks for a code that La Poste lists and a
-  French sign beside it, a type of voie at the start of a street, a box, a lieu-dit, a CEDEX or the country at the end.
-  `100 Avenue of the Americas, New York, NY 10036` has the shape of a French street (`Avenue`) and a code La Poste
-  lists (10036 is in the Aube) but a state before the code and no commune after it, so it stays American.
+  not enough, since a German address has it too (`10115 Berlin`): detection also asks for a code whose number names a
+  department (a code La Poste does not list, `75099`, still counts, so that a typo in a French address is read as French
+  and flagged by the validator) and a French sign beside it, a type of voie at the start of a street, a box, a lieu-dit, a
+  CEDEX or the country at the end. `100 Avenue of the Americas, New York, NY 10036` has the shape of a French street
+  (`Avenue`) and a code that names a department (10 is the Aube) but a state before the code and no commune after it, so
+  it stays American.
 - **Monaco, the overseas departments and the collectivities.** Monaco (postcode 98000) and the overseas collectivities
   (97500, 97133, 97150, 98600, 987xx, 988xx) are addressed by La Poste in the same way and have postcodes in the same
   base. The French module reads them and reports `country` as `MC`, `PM`, `BL`, `MF`, `WF`, `PF` or `NC`, the way the
@@ -182,6 +184,14 @@ What is not used, and why:
   postcode exists, not only whether its district does. It is not shipped: npm installs the whole package, so every
   user would download it whether they import it or not, and it would be out of date within a month. It would fit a
   separate package, if wanted.
+
+## What the country modules do not reach
+
+`cleanAddress`, `cleanAddressDetailed` and the fuzzy comparer `compareAddresses` are the core's, and they read the US,
+Canadian and Japanese shapes: the cleaner puts a postcode after the commune, as a US address has it, which turns
+`12 rue de la paix, 75002 paris` into `12 Rue De La Paix, Paris 75002`, and is no longer a French address. A French
+address is compared with `compareFrenchAddresses`, and written with `formatLaPoste`. The demo's Clean panel has no French
+example for that reason.
 
 ## The fields each country fills
 
