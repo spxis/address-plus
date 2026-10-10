@@ -2,8 +2,8 @@
 
 address-plus reads the US, Canada and Japan from its main entry point. Every other country is a module of its own,
 from an entry point of its own, so it costs only the callers who import it. Australia (`/au`) and the United Kingdom
-(`/gb`) are the first two. This document is the design they share, how an address finds its country, where each
-country's data comes from and under what licence, and what to do to add the next one.
+(`/gb`) are the first two, and France (`/fr`) the third. This document is the design they share, how an address finds
+its country, where each country's data comes from and under what licence, and what to do to add the next one.
 
 ## The design
 
@@ -30,12 +30,14 @@ no country module. It takes them in a new option, `countries`, on `parseLocation
 ```ts
 import { parseLocation, validateAddress } from "@johnmorrisdotca/address-plus";
 import { australia } from "@johnmorrisdotca/address-plus/au";
+import { france } from "@johnmorrisdotca/address-plus/fr";
 import { unitedKingdom } from "@johnmorrisdotca/address-plus/gb";
 
-const countries = [australia, unitedKingdom];
+const countries = [australia, france, unitedKingdom];
 
 parseLocation("3/12 Smith St, Parramatta NSW 2150", { countries }); // read as Australian
 parseLocation("10 Downing Street, London SW1A 2AA", { countries }); // read as British
+parseLocation("12 bis rue de la Paix, 75002 Paris", { countries }); // read as French
 parseLocation("100 Queen St W, Toronto, ON M5H 2N2", { countries }); // still Canadian, unchanged
 parseLocation("12 Smith St, Parramatta", { country: "AU", countries }); // the hint: always Australian
 validateAddress("1 Main St, Sydney VIC 2000", { countries }).warnings[0].code; // "POSTAL_REGION_MISMATCH"
@@ -51,7 +53,7 @@ What the core does with them is all in `src/country/pick.ts`, about 30 lines:
 3. Otherwise the core reads the address as before: Japan, then the US and Canada.
 
 Without `countries`, nothing changes: every case of the US, Canadian and Japanese corpora (2,723) gives the same
-result with both modules passed as without them (`src/__tests__/countries/detection.test.ts` holds that).
+result with all three modules passed as without them (`src/__tests__/countries/detection.test.ts` holds that).
 
 **The hint is the reliable path.** Detection is written to be sure rather than to be clever: it says yes only on
 signs that no address of another country carries, and an address without them falls through to the core. A caller
@@ -67,9 +69,12 @@ Measured by bundling each entry point for the browser, minified, with esbuild:
 | `/jp` | 325.1 KB | 325.1 KB | 61.8 KB | 61.9 KB |
 | `/au` | | 16.3 KB | | 7.1 KB |
 | `/gb` | | 19.5 KB | | 8.5 KB |
+| `/fr` | | 27.2 KB | | 8.8 KB |
 
-The main entry point grows by 0.7 KB (the option and the picker). `/au` and `/gb` carry none of the US, Canadian or
-Japanese tables, nor each other's; `pnpm test:package` proves it on the packed package.
+The main entry point grows by 0.7 KB (the option and the picker); France added nothing to it. `/au`, `/gb` and `/fr`
+carry none of the US, Canadian or Japanese tables, nor each other's; `pnpm test:package` proves it on the packed
+package. `/fr`'s 6,328 postcodes are 7.5 KB of text (1.4 KB gzipped), packed as steps in base 36 and unpacked the
+first time a postcode is looked up.
 
 ## How an address finds its country
 
@@ -77,6 +82,7 @@ Japanese tables, nor each other's; `pnpm test:package` proves it on the packed p
 | --- | --- | --- |
 | Australia | ends with `Australia`, or with a state (code or name) and a four-digit postcode inside some state's block | a postcode alone; `WA` with a postcode outside Western Australia's block |
 | United Kingdom | ends with the United Kingdom, a nation, Jersey, Guernsey or the Isle of Man; or holds `BFPO` and a number, or `GIR 0AA`; or holds, in its last two parts, a postcode in Royal Mail's grammar whose area Royal Mail uses | an outward code alone |
+| France | ends with France, an overseas department, Monaco or an overseas collectivity; or holds `CEDEX` beside a five-digit code; or names an arrondissement of Paris, Lyon or Marseille; or its last line is a postcode La Poste lists and a commune (`75008 Paris`) while the address has a French type of voie (`rue`, `avenue`, `chemin`) at the start of a street, a `BP`, a `TSA` or a `lieu-dit` | a five-digit code that follows a US state (`NY 10036`); a postcode and commune with no French sign (`10115 Berlin`); a code La Poste does not list |
 | Japan (core) | is in Japanese script, ends with Japan, or names a prefecture beside a Japanese postal code or a romaji designator | an address that only mentions a Japanese place |
 | US and Canada (core) | everything else, by the state or province and the ZIP or postal code | |
 
@@ -94,6 +100,18 @@ The cases that look alike, and why they cannot be confused:
   slash and Canada with a hyphen, and in Australia a hyphen joins a range (`12-14`). The country is decided first, by
   the end of the address, and each country's parser reads its own form; the slash alone decides nothing, since a US
   address may hold a fraction (`123 1/2 Main St`).
+- **A French postcode and a US ZIP code.** Both are five digits, and the module's hint is the only sure way to tell a
+  bare one. With no hint, a ZIP code is told by where it stands: it follows its state (`Seattle, WA 98101`) and ends the
+  address, while a French code comes first on the last line and a commune follows it (`75008 Paris`). That shape alone is
+  not enough, since a German address has it too (`10115 Berlin`): detection also asks for a code that La Poste lists and a
+  French sign beside it, a type of voie at the start of a street, a box, a lieu-dit, a CEDEX or the country at the end.
+  `100 Avenue of the Americas, New York, NY 10036` has the shape of a French street (`Avenue`) and a code La Poste
+  lists (10036 is in the Aube) but a state before the code and no commune after it, so it stays American.
+- **Monaco, the overseas departments and the collectivities.** Monaco (postcode 98000) and the overseas collectivities
+  (97500, 97133, 97150, 98600, 987xx, 988xx) are addressed by La Poste in the same way and have postcodes in the same
+  base. The French module reads them and reports `country` as `MC`, `PM`, `BL`, `MF`, `WF`, `PF` or `NC`, the way the
+  British module reports `JE`; its validator says so (`OUTSIDE_FRANCE`). The overseas departments (971 to 974 and 976)
+  are French regions, so their country is `FR` and their `state` is their three-digit code.
 - **Jersey, Guernsey and the Isle of Man.** They use Royal Mail's postcodes (`JE2 3AB`) but are not part of the United
   Kingdom: the British module reads them and reports `country` as `JE`, `GY` or `IM`, with no nation, and its validator
   says so (`OUTSIDE_UK`).
@@ -106,6 +124,10 @@ English and Japanese, come from kuni (`@johnmorrisdotca/kuni` 1.1.0). kuni is a 
 `src/constants/gb/nations.data.ts`. The alternative, importing kuni inside the `/au` and `/gb` entries, would have
 made it a runtime dependency for everyone who installs the package, to read twelve rows that change once a decade.
 The package keeps its one runtime dependency (`fast-levenshtein`).
+
+France's departments, regions and overseas collectivities are not kuni's: kuni 1.1.0 has France's regions and the
+overseas territories as a whole, but not the 101 departments a postcode's first digits name. They come from INSEE's
+Code officiel géographique, so `pnpm data:countries` reads two sources for France where it reads kuni for the other two.
 
 ## Data sources and licences
 
@@ -121,6 +143,10 @@ its inputs) or written by hand from rules described in our own words.
 | British postcode districts, and the nation of each area and border district | Ordnance Survey, Code-Point Open (July 2026 release) | Open Government Licence v3.0. Attribution, kept in the generated file's header: "Contains OS data © Crown copyright and database right 2026. Contains Royal Mail data © Royal Mail copyright and database right 2026. Contains National Statistics data © Crown copyright and database right 2026." | `src/constants/gb/districts.data.ts` (generated) |
 | Royal Mail's postcode grammar, its postcode areas and the towns they are named for | Royal Mail, through the UPU's addressing sheet for the United Kingdom | The grammar and the list are facts, written in our own words | `src/constants/gb/index.ts` |
 | British thoroughfare descriptors and counties | Royal Mail's addressing guidance; the former postal, ceremonial and traditional counties | Written in our own words | `src/constants/gb/words.ts` |
+| Every French postcode (6,328, France, the overseas departments and collectivities, Monaco) | La Poste, Base officielle des codes postaux (`laposte-hexasmal`, updated 8 October 2026), https://data.laposte.fr/datasets/laposte-hexasmal | Licence Ouverte 2.0 (Etalab). Attribution, kept in the generated file's header: the producer, La Poste, and the dataset's name | `src/constants/fr/postcodes.data.ts` (generated) |
+| France's 101 departments, their regions, and the overseas collectivities with postcodes | INSEE, Code officiel géographique 2026 (`v_departement_2026`, `v_region_2026`, `v_comer_2026`), https://www.insee.fr/fr/information/8740218 | Licence Ouverte 2.0 (Etalab). Attribution, kept in the generated file's header: INSEE | `src/constants/fr/departments.data.ts` (generated) |
+| The layout of a French address: the six lines and what goes on each, and the types of voie La Poste allows abbreviated | La Poste, SP 8855 volume 2, "Adressage des plis" (version 1.9, a public technical specification that follows the norm NF Z10-011) | The layout and the list of abbreviations are facts, written in our own words. The norm NF Z10-011 is AFNOR's and sold by it: it has not been read, and nothing here is taken from it | `src/fr/format.ts`, `src/constants/fr/words.ts` |
+| French types of voie in full, apartment, floor and building words, Roman numerals, overseas names | La Poste's addressing guidance and common usage | Written in our own words | `src/constants/fr/words.ts` |
 
 What is not used, and why:
 
@@ -138,6 +164,19 @@ What is not used, and why:
   and database right; Contains Royal Mail data © Royal Mail copyright and database right; Source: Office for National
   Statistics licensed under the Open Government Licence v.3.0". An MIT package cannot pass on the BT terms, so none of
   it is used: a BT postcode is known to be Northern Ireland's by its area, and its district is not checked.
+- **La Poste's commune names and its CEDEX codes.** The base lists 39,193 lines, one for each commune and each
+  postcode it has, with the commune's name. Only the postcodes are kept here (6,328 of them, 7.5 KB), so the validator
+  can say whether a postcode is in use and which department it belongs to but not whether the commune written beside it
+  is the one that postcode serves: measured, the 35,624 pairs of a postcode and its commune's label are 656 KB of text and 230 KB gzipped, for every user of the package whether they import `/fr` or not (npm installs the whole package), and out of date within months. The base
+  has no CEDEX codes (those are in La Poste's other files, which are not open data), so the validator does not look a
+  postcode up when the address has a CEDEX.
+- **A postcode's department by the communes that share it.** A few postcodes serve a commune across a department's
+  border (three in the metropolis: 01590 serves communes of the Jura as well as the Ain, and 94390 serves Paray-Vieille-Poste, in the Essonne); the department
+  reported is the one the number names, the rule La Poste's own codes follow. Overseas, where it matters (97133 is
+  Saint-Barthélemy, 97150 Saint-Martin, 98000 Monaco), the exceptions are generated from the base.
+- **The Base Adresse Nationale (BAN), OpenStreetMap and OpenAddresses.** The BAN is open (Licence Ouverte 2.0) but lists
+  every address of France, tens of millions, which is a street gazetteer and not a table for a parser to carry; the
+  other two are ODbL or a mix of licences. None is used, and no street name of France is in the package.
 - **A list of every British postcode.** Measured: Code-Point Open's 1,749,109 postcodes, packed as one bit per possible
   unit in each of their 10,875 sectors, are 776 KB of text and 304 KB gzipped. That would let a validator say whether a
   postcode exists, not only whether its district does. It is not shipped: npm installs the whole package, so every
@@ -149,25 +188,30 @@ What is not used, and why:
 The shared fields keep their meaning in every country: `number`, `street`, `type`, `secUnitType`, `secUnitNum`,
 `city`, `state`, `zip`, `zipValid`, `country`.
 
-| Field | Australia | United Kingdom |
-| --- | --- | --- |
-| `number` | street number: `12`, `12A`, `12-14` | building number: `10`, `22B`, `100-106` |
-| `street`, `type` | `Smith`, `St` (AS4590's abbreviation, in proper case) | `High`, `Street` (the descriptor in full, as Royal Mail writes it) |
-| `suffix` | `N`, `NE`, `EX`, `UP` (AS4590's street suffixes) | |
-| `secUnitType`, `secUnitNum` | `Unit 3` (from `3/12` too), `Shop 5`; or a postal delivery, `PO Box 37`, `Locked Bag 801`, `Care PO` | `Flat 2`, `Flat 2/1`, `Studio J`; or `PO Box 111` |
-| `floorType`, `floor` | `Level` and `6`, `Ground Floor` | `Floor` and `4`, `Ground Floor` |
-| `lot` | `12` in `Lot 12 Smith Rd` | |
-| `building` | a building's name on a line of its own | the building's name, or an organisation's |
-| `subBuilding` | | a named part of a building: `Basement Flat` |
-| `dependentThoroughfare` | | `Seastone Cottages` in `1A Seastone Cottages, Station Road` |
-| `locality`, `doubleDependentLocality` | | the dependent locality and the one above it |
-| `city` | the suburb or town | the post town |
-| `county` | | a county, when written |
-| `state` | `NSW` | |
-| `nation` | | `ENG`, `SCT`, `WLS` or `NIR`, from the postcode |
-| `zip` | `2150` | `SW1A 2AA` (capitals, one space) |
-| `bfpo` | | `105` in `BFPO 105` |
-| `country` | `AU` | `GB`, or `JE`, `GY`, `IM` |
+| Field | Australia | United Kingdom | France |
+| --- | --- | --- | --- |
+| `number` | street number: `12`, `12A`, `12-14` | building number: `10`, `22B`, `100-106` | the street number: `12`, `12-14` |
+| `street`, `type` | `Smith`, `St` (AS4590's abbreviation, in proper case) | `High`, `Street` (the descriptor in full, as Royal Mail writes it) | `de la Paix`, `Rue` (the type in full, first in French; the name keeps its words as written) |
+| `suffix` | `N`, `NE`, `EX`, `UP` (AS4590's street suffixes) | |  |
+| `secUnitType`, `secUnitNum` | `Unit 3` (from `3/12` too), `Shop 5`; or a postal delivery, `PO Box 37`, `Locked Bag 801`, `Care PO` | `Flat 2`, `Flat 2/1`, `Studio J`; or `PO Box 111` | `Appartement 12`, `Porte 3`, `Bureau 21` |
+| `floorType`, `floor` | `Level` and `6`, `Ground Floor` | `Floor` and `4`, `Ground Floor` | `Étage` and `3`, `Rez-de-chaussée` |
+| `lot` | `12` in `Lot 12 Smith Rd` | |  |
+| `building` | a building's name on a line of its own | the building's name, or an organisation's | a residence, a building, a tower, a zone: `Résidence Les Lilas`, `Zone industrielle Nord`; and any name before the street that is none of these |
+| `subBuilding` | | a named part of a building: `Basement Flat` |  |
+| `dependentThoroughfare` | | `Seastone Cottages` in `1A Seastone Cottages, Station Road` |  |
+| `locality`, `doubleDependentLocality` | | the dependent locality and the one above it |  |
+| `city` | the suburb or town | the post town | the commune: `Paris`, `Lyon` |
+| `county` | | a county, when written |  |
+| `state` | `NSW` | | the department's code: `75`, `2A`, `971`; absent for Monaco and the collectivities |
+| `nation` | | `ENG`, `SCT`, `WLS` or `NIR`, from the postcode |  |
+| `zip` | `2150` | `SW1A 2AA` (capitals, one space) | `75002` |
+| `bfpo` | | `105` in `BFPO 105` |  |
+| `country` | `AU` | `GB`, or `JE`, `GY`, `IM` | `FR`, or `MC`, `PM`, `BL`, `MF`, `WF`, `PF`, `NC` |
+
+France fills nine fields of its own beside these (`FrenchAddressFields`): `numberExtension` (`bis`, `ter`, `quater`, or the
+B of `12 B`), `staircase`, `entrance`, `lieuDit`, `postalBoxType` (`BP`, `CS`, `TSA`) with `postalBoxNum`, `cedex`
+(`CEDEX 09`, or `CEDEX`), `arrondissement` (the number: 8 for `Paris 8e`) and `careOf` (the "chez" line). A `lieuDit` is
+also what La Poste's fifth line holds when it names the commune a box or a hamlet is in.
 
 ## Adding a country
 
@@ -188,4 +232,6 @@ The shared fields keep their meaning in every country: `number`, `street`, `type
 7. Document it: a section in `docs/TEST_COVERAGE.md`, a row in each table here, a short section in the README, the
    changelog, and the demo's country choices and examples.
 
-The survey that chose Australia and the United Kingdom first named France and Germany next.
+The survey that chose Australia and the United Kingdom first named France and Germany next. France came third, with
+the changes it needed from the template above: a third entry point, a second source of tables (INSEE beside kuni), a
+validator that skips the base for an address with a CEDEX, and territories with country codes of their own.

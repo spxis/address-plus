@@ -1,6 +1,6 @@
 # address-plus
 
-`@johnmorrisdotca/address-plus` parses US, Canadian and Japanese addresses, and Australian and British ones through their country modules. The coding conventions are in [.github/copilot-instructions.md](.github/copilot-instructions.md); this file covers the toolchain, the layout and the release procedure.
+`@johnmorrisdotca/address-plus` parses US, Canadian and Japanese addresses, and Australian, French and British ones through their country modules. The coding conventions are in [.github/copilot-instructions.md](.github/copilot-instructions.md); this file covers the toolchain, the layout and the release procedure.
 
 ## Toolchain
 
@@ -19,7 +19,7 @@
 | `pnpm lint`              | ESLint, then `prettier --check .`; `pnpm lint:fix` fixes what it can                                       |
 | `pnpm typecheck`         | `tsc -p tsconfig.check.json`: `src/**` including the tests, and `scripts/**/*.ts`                          |
 | `pnpm test`              | Vitest, once (`pnpm test:watch` to watch, `pnpm test:coverage` for coverage)                               |
-| `pnpm build`             | tsup into `dist/`: `dist/index.*`, `dist/jp/index.*`, `dist/au/index.*` and `dist/gb/index.*`              |
+| `pnpm build`             | tsup into `dist/`: `dist/index.*`, `dist/jp/index.*`, `dist/au/index.*`, `dist/fr/index.*` and `dist/gb/index.*`              |
 | `pnpm test:types`        | `tsd` on `src/__tests__/types.test-d.ts`; needs `dist/index.d.ts`, so build first                          |
 | `pnpm schema:validate`   | Validates every JSON file in `test-data/` against the schemas in `schemas/`                                |
 | `pnpm test:package`      | `scripts/check-package.mjs`; packs the built package and proves it works as a user installs it             |
@@ -27,21 +27,21 @@
 | `pnpm docs:make`         | Writes `docs/api.md`, the API reference, from the TSDoc                                                    |
 | `pnpm data:jp`           | Regenerates the Japanese data tables (documented in `scripts/README.md`)                                   |
 | `pnpm data:sub-regions`  | Regenerates `src/constants/sub-regions.ts` from the Census and Statistics Canada                           |
-| `pnpm data:countries`    | Regenerates the Australian and British tables from kuni, the ABS and Code-Point Open (`docs/COUNTRIES.md`) |
+| `pnpm data:countries`    | Regenerates the Australian, British and French tables from kuni, the ABS, Code-Point Open, La Poste and INSEE (`docs/COUNTRIES.md`) |
 | `pnpm release <version>` | Cuts a release (below)                                                                                     |
 
 Run `pnpm check` before every push. It must pass with nothing disabled: do not turn a lint rule off to get green unless the rule is wrong for this repository, and then say why in the commit.
 
 ## Layout
 
-- Four entry points, all built by tsup: `src/index.ts` is the package root, `src/jp/index.ts` is `@johnmorrisdotca/address-plus/jp`, and `src/au/index.ts` and `src/gb/index.ts` are the country modules `/au` and `/gb`. The `/jp` bundle must not carry the US street-type tables, and `/au` and `/gb` must carry none of the US, Canadian or Japanese tables nor each other's; `pnpm test:package` fails if they do. Keep those modules from importing anything that pulls in another country's tables. The main entry point never imports a country module: it takes them in the `countries` option (`src/country/pick.ts`). `docs/COUNTRIES.md` says how to add a country.
+- Five entry points, all built by tsup: `src/index.ts` is the package root, `src/jp/index.ts` is `@johnmorrisdotca/address-plus/jp`, and `src/au/index.ts`, `src/fr/index.ts` and `src/gb/index.ts` are the country modules `/au`, `/fr` and `/gb`. The `/jp` bundle must not carry the US street-type tables, and `/au`, `/fr` and `/gb` must carry none of the US, Canadian or Japanese tables nor each other's; `pnpm test:package` fails if they do. Keep those modules from importing anything that pulls in another country's tables. The main entry point never imports a country module: it takes them in the `countries` option (`src/country/pick.ts`). `docs/COUNTRIES.md` says how to add a country.
 - `src/parser.ts` and `src/parsers/` parse; `src/constants/` holds the tables; `src/patterns/` holds every regular expression; `src/utils/` holds shared helpers; `src/types/` holds the types.
 - Tests are in `src/__tests__/`. Their data is JSON in `test-data/`, one folder per area, validated against `schemas/`. Test-only scripts live in `scripts/*.test.mjs`.
 - `scripts/*.js` (the old debug scripts) are not linted; leave them alone.
 
 ## Generated data
 
-Files named `*.data.ts` (the Japanese prefectures, municipalities and postal prefixes under `src/constants/jp/`) are written by `pnpm data:jp`, those under `src/constants/au/` and `src/constants/gb/` by `pnpm data:countries`, and `src/constants/sub-regions.ts` is written by `pnpm data:sub-regions`. Never edit them by hand: change the generator in `scripts/` and run it again. Prettier ignores `*.data.ts`, so the generator's output does not have to be formatted.
+Files named `*.data.ts` (the Japanese prefectures, municipalities and postal prefixes under `src/constants/jp/`) are written by `pnpm data:jp`, those under `src/constants/au/`, `src/constants/fr/` and `src/constants/gb/` by `pnpm data:countries`, and `src/constants/sub-regions.ts` is written by `pnpm data:sub-regions`. Never edit them by hand: change the generator in `scripts/` and run it again. Prettier ignores `*.data.ts`, so the generator's output does not have to be formatted.
 
 ## Release procedure
 

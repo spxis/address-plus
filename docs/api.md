@@ -1,6 +1,6 @@
 # API reference
 
-Every export of every entry point of @johnmorrisdotca/address-plus 1.4.0, with its signature, its TSDoc (what it does, each parameter, what it returns) and one example with the answer it gives. Made from the source by `pnpm docs:make`, and `pnpm docs:check` holds every example's answer to the built package; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html. Editors show the same TSDoc on hover, from the published type definitions.
+Every export of every entry point of @johnmorrisdotca/address-plus 1.5.0, with its signature, its TSDoc (what it does, each parameter, what it returns) and one example with the answer it gives. Made from the source by `pnpm docs:make`, and `pnpm docs:check` holds every example's answer to the built package; the same reference is on the demo site at https://johnmorrisdotca.github.io/address-plus/api.html. Editors show the same TSDoc on hover, from the published type definitions.
 
 ## @johnmorrisdotca/address-plus
 
@@ -1280,7 +1280,7 @@ interface FormattedAddress {
   deliveryLine?: string; // Street address line
   lastLine?: string; // City/state/postal line
   country?: string; // Country designation
-  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail" | "la-poste"; // Formatting standard used
 }
 ```
 
@@ -1323,6 +1323,105 @@ French particles that can open a street name, each with the space after it, to t
 ```js
 FRENCH_PREPOSITIONS.get("de la ")
 // "De la "
+```
+
+### FrenchAddressFields
+
+type
+
+```ts
+interface FrenchAddressFields {
+  numberExtension?: string; // The indice de répétition after the number: bis, ter, quater, or a letter (the B of 12 B)
+  staircase?: string; // The staircase: the B of "Escalier B"
+  entrance?: string; // The entrance: the A of "Entrée A"
+  lieuDit?: string; // A lieu-dit: a named place (a hamlet, a farm) that goes on a line of its own
+  postalBoxType?: "BP" | "CS" | "TSA"; // A boîte postale, a course spéciale or a tri service arrivée
+  postalBoxNum?: string; // The number of the box: 123 in "BP 123"
+  cedex?: string; // The CEDEX the commune line ends with, as La Poste writes it: "CEDEX 09", or "CEDEX" alone
+  arrondissement?: string; // The arrondissement of Paris, Lyon or Marseille, as a number: 8 for "Paris 8e"
+  careOf?: string; // The "chez" line: who the address is care of
+}
+```
+
+The fields an address in France fills beside the shared ones. The shared fields keep their meaning: `number` is the street number, `street` the name of the street without its type and `type` the type in full (`Rue`; the name is `de la Paix`), `secUnitType` and `secUnitNum` an apartment or a door, `floorType` and `floor` a floor, `building` the building's or the residence's name, `city` the commune, `state` the department's code and `zip` the postcode.
+
+```js
+parseFrenchAddress("12 bis rue de la Paix, 75002 Paris")?.numberExtension
+// "bis"
+```
+
+### FrenchCollectivity
+
+type
+
+```ts
+interface FrenchCollectivity {
+  code: string; // 988
+  country: FrenchPostalCountry; // NC
+  name: string; // Nouvelle-Calédonie
+}
+```
+
+An overseas collectivity of France in the tables: its code (`987`), the ISO 3166-1 country code an address in it reads as (`PF`) and its name.
+
+```js
+FR_COLLECTIVITIES.find((one) => one.code === "988")
+// {"code":"988","country":"NC","name":"Nouvelle-Calédonie"}
+```
+
+### FrenchDepartment
+
+type
+
+```ts
+interface FrenchDepartment {
+  code: string; // 75, 2A, 971
+  name: string; // Paris
+  region: string; // Île-de-France
+}
+```
+
+A department of France in the tables: its code (`75`, `2A`, `971`), its name and its region's, from INSEE's Code officiel géographique.
+
+```js
+FR_DEPARTMENTS.find((department) => department.code === "75")
+// {"code":"75","name":"Paris","region":"Île-de-France"}
+```
+
+### FrenchPostalCountry
+
+type
+
+```ts
+type FrenchPostalCountry = "BL" | "FR" | "MC" | "MF" | "NC" | "PF" | "PM" | "WF";
+```
+
+The country an address in La Poste's base belongs to: `FR` for France (the metropolis and the overseas departments), `MC` for Monaco, and the ISO 3166-1 code of an overseas collectivity (`PM`, `BL`, `MF`, `WF`, `PF`, `NC`), which is French but has a country code of its own and is listed apart by the Universal Postal Union.
+
+```js
+parseFrenchAddress("Avenue Pouvanaa a Oopa, 98713 Papeete, Polynésie française")?.country
+// "PF"
+```
+
+### FrenchPostcode
+
+type
+
+```ts
+interface FrenchPostcode {
+  postcode: string; // 75008
+  place: string; // 75, 2B, 971, 987, 99
+  country: FrenchPostalCountry;
+  known: boolean; // Whether La Poste's base lists it
+  department?: string; // The department's code, absent for a collectivity and for Monaco
+}
+```
+
+A postcode taken apart: the code of the department or territory its number belongs to, the country it delivers to, and whether La Poste's base has it. `place` is a department's code (`75`, `2A`, `971`), a collectivity's (`987`) or `99` for Monaco.
+
+```js
+parseFrenchPostcode("20200")
+// {"postcode":"20200","place":"2B","country":"FR","known":true,"department":"2B"}
 ```
 
 ### FuzzyMatchOptions
@@ -2032,10 +2131,10 @@ parseAddressesBatch(["10 Main St, Anytown, NY 12345", "PO Box 12, Springfield, I
 type
 
 ```ts
-interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, FrenchAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man) and FR (with Monaco and the overseas collectivities) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
@@ -2335,8 +2434,23 @@ type
 
 ```ts
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
-  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  country?:
+    | "CA"
+    | "US"
+    | "JP"
+    | "AU"
+    | "GB"
+    | "GY"
+    | "IM"
+    | "JE"
+    | FrenchPostalCountry
+    | "GP"
+    | "MQ"
+    | "GF"
+    | "RE"
+    | "YT"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
@@ -3163,7 +3277,7 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
   countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 ```
@@ -3666,10 +3780,10 @@ normalizeJapaneseAddressText("〒１００-０００５ 東京都千代田区丸
 type
 
 ```ts
-interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, FrenchAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man) and FR (with Monaco and the overseas collectivities) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
@@ -3731,8 +3845,23 @@ type
 
 ```ts
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
-  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  country?:
+    | "CA"
+    | "US"
+    | "JP"
+    | "AU"
+    | "GB"
+    | "GY"
+    | "IM"
+    | "JE"
+    | FrenchPostalCountry
+    | "GP"
+    | "MQ"
+    | "GF"
+    | "RE"
+    | "YT"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
@@ -3804,7 +3933,7 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
   countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 ```
@@ -4166,7 +4295,7 @@ interface FormattedAddress {
   deliveryLine?: string; // Street address line
   lastLine?: string; // City/state/postal line
   country?: string; // Country designation
-  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail" | "la-poste"; // Formatting standard used
 }
 ```
 
@@ -4273,10 +4402,10 @@ parseAustralianAddress("Unit 3/12 Smith St, Parramatta NSW 2150")
 type
 
 ```ts
-interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, FrenchAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man) and FR (with Monaco and the overseas collectivities) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
@@ -4319,8 +4448,23 @@ type
 
 ```ts
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
-  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  country?:
+    | "CA"
+    | "US"
+    | "JP"
+    | "AU"
+    | "GB"
+    | "GY"
+    | "IM"
+    | "JE"
+    | FrenchPostalCountry
+    | "GP"
+    | "MQ"
+    | "GF"
+    | "RE"
+    | "YT"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
@@ -4392,7 +4536,7 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
   countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 ```
@@ -4553,7 +4697,7 @@ interface FormattedAddress {
   deliveryLine?: string; // Street address line
   lastLine?: string; // City/state/postal line
   country?: string; // Country designation
-  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail"; // Formatting standard used
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail" | "la-poste"; // Formatting standard used
 }
 ```
 
@@ -4716,10 +4860,10 @@ Whether an address is surely British, with no hint: it ends with the United King
 type
 
 ```ts
-interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, UKAddressFields {
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, FrenchAddressFields, UKAddressFields {
   city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
   compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE"; // Detected country; AU and GB (with Jersey, Guernsey and the Isle of Man) only from their modules
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man) and FR (with Monaco and the overseas collectivities) only from their modules
   fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
   generalDelivery?: boolean; // General delivery indicator
   highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
@@ -4762,8 +4906,23 @@ type
 
 ```ts
 interface ParseOptions {
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB and the rest need their module in countries
-  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb"
+  country?:
+    | "CA"
+    | "US"
+    | "JP"
+    | "AU"
+    | "GB"
+    | "GY"
+    | "IM"
+    | "JE"
+    | FrenchPostalCountry
+    | "GP"
+    | "MQ"
+    | "GF"
+    | "RE"
+    | "YT"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
   normalize?: boolean; // Whether to normalize street types and directions
   validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
   language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
@@ -5005,7 +5164,649 @@ interface ValidationOptions {
   allowRuralRoute?: boolean; // Whether rural route addresses are allowed
   allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
   strictPostalValidation?: boolean; // Whether to use strict postal code validation
-  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | "auto"; // Country context for validation rules; AU, GB and the rest need their module in countries
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
+  countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
+}
+```
+
+Options for the validators: which parts an address must have, which kinds are allowed, and whether a postal code that does not match its region is an error.
+
+```js
+validateAddress("123 Main St", { requirePostalCode: true }).errors.map((error) => error.code)
+// ["MISSING_POSTAL_CODE"]
+```
+
+
+## @johnmorrisdotca/address-plus/fr
+
+### compareFrenchAddresses
+
+function
+
+```ts
+compareFrenchAddresses(first: ParsedAddress, second: ParsedAddress): CountryComparison
+```
+
+Compares two addresses in France field by field: the delivery point, the building, the number and its extension, the type and name of the street, the lieu-dit, the box, the commune and the postcode. Letter case, accents, hyphens, a type of voie abbreviated (`av.`, `bd`) and `St` for `Saint` are not differences. The CEDEX and the department are left out: the postcode already says them.
+
+- `first`: The first address, as `parseFrenchAddress` returns it.
+- `second`: The second address.
+- Returns: Whether they are the same delivery point, and each field that differs.
+
+```js
+compareFrenchAddresses(parseFrenchAddress("12 rue de l'Église, 38000 Saint-Étienne"), parseFrenchAddress("12 R. DE L EGLISE, 38000 ST ETIENNE")).isSame
+// true
+```
+
+### CountryComparison
+
+type
+
+```ts
+interface CountryComparison {
+  isSame: boolean;
+  differences: CountryDifference[];
+}
+```
+
+What a country module's comparer returns: whether the two addresses are the same delivery point, and every field that differs once both are in the same form (letter case, punctuation, a street type written out or abbreviated).
+
+```js
+compareAustralianAddresses(parseAustralianAddress("3/12 Smith Street, Parramatta NSW 2150"), parseAustralianAddress("Unit 3, 12 Smith St, PARRAMATTA NSW 2150")).isSame
+// true
+```
+
+### CountryDifference
+
+type
+
+```ts
+interface CountryDifference {
+  field: string;
+  first?: string;
+  second?: string;
+}
+```
+
+One way two addresses differ, as a country module's comparer reports it: the field, and its value in each address after both were put in the same form.
+
+```js
+compareUKAddresses(parseUKAddress("10 High Street, Bath BA1 1AA"), parseUKAddress("12 High St, Bath BA1 1AA")).differences
+// [{"field":"number","first":"10","second":"12"}]
+```
+
+### CountryModule
+
+type
+
+```ts
+interface CountryModule {
+  code: string; // The country's ISO 3166-1 code: AU, GB
+  codes: readonly string[]; // Every country code the module reads; GB also reads Jersey (JE), Guernsey (GY) and the Isle of Man (IM)
+  name: string; // The country's name in English
+  detect(address: string): boolean; // Whether the address is surely this country's, with no hint
+  parse(address: string, options?: ParseOptions): ParsedAddress | null;
+  validate(address: ParsedAddress, options?: ValidationOptions): CountryValidation;
+  format(address: ParsedAddress): FormattedAddress;
+  compare(first: ParsedAddress, second: ParsedAddress): CountryComparison;
+}
+```
+
+A country's address module: its codes, how to tell its addresses apart, and its parser, validator, formatter and comparer. Import one from its entry point (`australia` from `@johnmorrisdotca/address-plus/au`, `unitedKingdom` from `@johnmorrisdotca/address-plus/gb`) and hand it to `parseLocation` and `validateAddress` in `countries`.
+
+```js
+australia.codes
+// ["AU"]
+```
+
+### CountryValidation
+
+type
+
+```ts
+interface CountryValidation {
+  errors: ValidationError[];
+  warnings: ValidationError[];
+}
+```
+
+What a country module's validator returns: the errors and the warnings it found.
+
+```js
+validateAustralianAddress(parseAustralianAddress("1 Main St, Sydney VIC 2000")).warnings.map((one) => one.code)
+// ["POSTAL_REGION_MISMATCH"]
+```
+
+### findFrenchDepartment
+
+function
+
+```ts
+findFrenchDepartment(text: string): FrenchDepartment | null
+```
+
+Finds a department of France by its code (`75`, `2A`, `971`) or its name (`Paris`, `Haute-Corse`), without regard to letter case or accents.
+
+- `text`: The code or the name.
+- Returns: The department, or `null` when nothing matches.
+
+```js
+findFrenchDepartment("haute-corse")?.code
+// "2B"
+```
+
+### formatLaPoste
+
+function
+
+```ts
+formatLaPoste(address: ParsedAddress, options?: LaPosteFormattingOptions): FormattedAddress
+```
+
+Writes an address in France as La Poste's specification asks (SP 8855): the person it is care of, then the line of the apartment, the floor and the staircase, the line of the entrance and the building, the number and street, the lieu-dit and the box, then the postcode, the commune and its CEDEX, each on its own line, in capitals without accents or punctuation. The arrondissement of Paris, Lyon or Marseille is not written when there is a postcode, which carries it (`75008 PARIS`, as La Poste's own list has it); without one it is written in two digits (`PARIS 08`).
+
+- `address`: The address as `parseFrenchAddress` returns it.
+- `options`: Whether to add the country, and whether to keep accents (see `LaPosteFormattingOptions`).
+- Returns: The lines, the same on one line, the delivery line (the number and street) and the last line.
+
+```js
+formatLaPoste(parseFrenchAddress("Apt 12, Résidence Les Lilas, 4 bis av. des Écoles, 31000 Toulouse")).lines
+// ["APPARTEMENT 12","RESIDENCE LES LILAS","4 BIS AVENUE DES ECOLES","31000 TOULOUSE"]
+```
+
+### FormattedAddress
+
+type
+
+```ts
+interface FormattedAddress {
+  lines: string[]; // Individual address lines
+  singleLine: string; // Single-line representation
+  deliveryLine?: string; // Street address line
+  lastLine?: string; // City/state/postal line
+  country?: string; // Country designation
+  format: "standard" | "usps" | "canada-post" | "international" | "australia-post" | "royal-mail" | "la-poste"; // Formatting standard used
+}
+```
+
+A formatted address: its lines, and the same on one line.
+
+```js
+formatUSPS(parseLocation("123 Main St, Anytown, NY 12345"))
+// {"lines":["123 MAIN ST","ANYTOWN NY 12345"],"singleLine":"123 Main St, Anytown NY 12345","deliveryLine":"123 Main St","lastLine":"Anytown NY 12345","country":"US","format":"usps"}
+```
+
+### FR_BUILDING_WORDS
+
+const
+
+```ts
+FR_BUILDING_WORDS: Readonly<Record<string, readonly string[]>>
+```
+
+The words that open the line naming a building, a residence or a zone (La Poste's third line), which the parser keeps whole as `building` (`Résidence Les Lilas`, `Bâtiment A`, `Zone industrielle Nord`, `ZAC des Prés`), with their abbreviations.
+
+```js
+FR_BUILDING_WORDS.Bâtiment
+// ["BAT","BATIMENT","BÂT"]
+```
+
+### FR_COLLECTIVITIES
+
+const
+
+```ts
+FR_COLLECTIVITIES: readonly FrenchCollectivity[]
+```
+
+The overseas collectivities that have postcodes in La Poste's base: each with its code, its ISO 3166-1 country code and its name. They are French, and addressed through La Poste, but each has a country code of its own and the Universal Postal Union lists them apart, so an address in one reads as that country's. From INSEE's Code officiel géographique (Licence Ouverte 2.0).
+
+```js
+FR_COLLECTIVITIES.map((one) => one.country)
+// ["PM","BL","MF","WF","PF","NC"]
+```
+
+### FR_DEPARTMENTS
+
+const
+
+```ts
+FR_DEPARTMENTS: readonly FrenchDepartment[]
+```
+
+The 101 departments of France, in order of their codes, each with its code (`75`, `2A`, `971`), its name and its region's. The code is how a postcode begins: its first two digits (three overseas), with Corsica's 20 split at 20200. From INSEE's Code officiel géographique (Licence Ouverte 2.0).
+
+```js
+FR_DEPARTMENTS.find((department) => department.code === "2A")
+// {"code":"2A","name":"Corse-du-Sud","region":"Corse"}
+```
+
+### FR_NUMBER_EXTENSIONS
+
+const
+
+```ts
+FR_NUMBER_EXTENSIONS: readonly string[]
+```
+
+The words that may follow the number as its indice de répétition: `bis`, `ter`, `quater` and the rest of the Latin series. A single letter (the B of `12 B rue Hugo`) is read as one too, when a type of voie follows it.
+
+```js
+FR_NUMBER_EXTENSIONS.slice(0, 3)
+// ["bis","ter","quater"]
+```
+
+### FR_STREET_TYPES
+
+const
+
+```ts
+FR_STREET_TYPES: Readonly<Record<string, readonly string[]>>
+```
+
+The types of voie the parser takes off the front of a street's name and reports, in full, as `type` (`rue de la Paix` is street `de la Paix`, type `Rue`), with the abbreviations it reads for each. In French the type comes first. A street with none of them (`Le Vieux Pont`) has no type.
+
+```js
+FR_STREET_TYPES.Boulevard
+// ["BD","BLD","BOUL","BVD","BLVD"]
+```
+
+### FR_UNIT_TYPES
+
+const
+
+```ts
+FR_UNIT_TYPES: Readonly<Record<string, readonly string[]>>
+```
+
+The types of the part of a building that an address names below the number: an apartment or a door, which the parser reports as `secUnitType` and `secUnitNum`, with the abbreviations it reads for each.
+
+```js
+FR_UNIT_TYPES.Appartement
+// ["APPT","APT","APP","APPART"]
+```
+
+### france
+
+const
+
+```ts
+france: CountryModule
+```
+
+France's module, for `parseLocation` and `validateAddress`: pass it in `countries`, and an address that ends with France (or Monaco or an overseas territory), holds CEDEX, or has a French type of voie and a postcode first on its last line is read as French; `country: "FR"` reads any address as one, and so does the code of an overseas department or collectivity. It reads Monaco (`MC`) and the collectivities (`PM`, `BL`, `MF`, `WF`, `PF`, `NC`) too, and reports their own codes.
+
+```js
+parseLocation("12 bis rue de la Paix, 75002 Paris, France", { countries: [france] })?.numberExtension
+// "bis"
+```
+
+### FrenchAddressFields
+
+type
+
+```ts
+interface FrenchAddressFields {
+  numberExtension?: string; // The indice de répétition after the number: bis, ter, quater, or a letter (the B of 12 B)
+  staircase?: string; // The staircase: the B of "Escalier B"
+  entrance?: string; // The entrance: the A of "Entrée A"
+  lieuDit?: string; // A lieu-dit: a named place (a hamlet, a farm) that goes on a line of its own
+  postalBoxType?: "BP" | "CS" | "TSA"; // A boîte postale, a course spéciale or a tri service arrivée
+  postalBoxNum?: string; // The number of the box: 123 in "BP 123"
+  cedex?: string; // The CEDEX the commune line ends with, as La Poste writes it: "CEDEX 09", or "CEDEX" alone
+  arrondissement?: string; // The arrondissement of Paris, Lyon or Marseille, as a number: 8 for "Paris 8e"
+  careOf?: string; // The "chez" line: who the address is care of
+}
+```
+
+The fields an address in France fills beside the shared ones. The shared fields keep their meaning: `number` is the street number, `street` the name of the street without its type and `type` the type in full (`Rue`; the name is `de la Paix`), `secUnitType` and `secUnitNum` an apartment or a door, `floorType` and `floor` a floor, `building` the building's or the residence's name, `city` the commune, `state` the department's code and `zip` the postcode.
+
+```js
+parseFrenchAddress("12 bis rue de la Paix, 75002 Paris")?.numberExtension
+// "bis"
+```
+
+### FrenchCollectivity
+
+type
+
+```ts
+interface FrenchCollectivity {
+  code: string; // 988
+  country: FrenchPostalCountry; // NC
+  name: string; // Nouvelle-Calédonie
+}
+```
+
+An overseas collectivity of France in the tables: its code (`987`), the ISO 3166-1 country code an address in it reads as (`PF`) and its name.
+
+```js
+FR_COLLECTIVITIES.find((one) => one.code === "988")
+// {"code":"988","country":"NC","name":"Nouvelle-Calédonie"}
+```
+
+### FrenchDepartment
+
+type
+
+```ts
+interface FrenchDepartment {
+  code: string; // 75, 2A, 971
+  name: string; // Paris
+  region: string; // Île-de-France
+}
+```
+
+A department of France in the tables: its code (`75`, `2A`, `971`), its name and its region's, from INSEE's Code officiel géographique.
+
+```js
+FR_DEPARTMENTS.find((department) => department.code === "75")
+// {"code":"75","name":"Paris","region":"Île-de-France"}
+```
+
+### FrenchPostalCountry
+
+type
+
+```ts
+type FrenchPostalCountry = "BL" | "FR" | "MC" | "MF" | "NC" | "PF" | "PM" | "WF";
+```
+
+The country an address in La Poste's base belongs to: `FR` for France (the metropolis and the overseas departments), `MC` for Monaco, and the ISO 3166-1 code of an overseas collectivity (`PM`, `BL`, `MF`, `WF`, `PF`, `NC`), which is French but has a country code of its own and is listed apart by the Universal Postal Union.
+
+```js
+parseFrenchAddress("Avenue Pouvanaa a Oopa, 98713 Papeete, Polynésie française")?.country
+// "PF"
+```
+
+### FrenchPostcode
+
+type
+
+```ts
+interface FrenchPostcode {
+  postcode: string; // 75008
+  place: string; // 75, 2B, 971, 987, 99
+  country: FrenchPostalCountry;
+  known: boolean; // Whether La Poste's base lists it
+  department?: string; // The department's code, absent for a collectivity and for Monaco
+}
+```
+
+A postcode taken apart: the code of the department or territory its number belongs to, the country it delivers to, and whether La Poste's base has it. `place` is a department's code (`75`, `2A`, `971`), a collectivity's (`987`) or `99` for Monaco.
+
+```js
+parseFrenchPostcode("20200")
+// {"postcode":"20200","place":"2B","country":"FR","known":true,"department":"2B"}
+```
+
+### getDepartmentFromFrenchPostcode
+
+function
+
+```ts
+getDepartmentFromFrenchPostcode(postcode: string): string | undefined
+```
+
+The department a postcode's number belongs to, by its code: `75` for 75008, `2B` for 20200, `971` for 97100.
+
+- `postcode`: The postcode.
+- Returns: The department's code; `undefined` for a postcode in a collectivity or Monaco, one that no department has, or text that is not a postcode.
+
+```js
+["75008", "20190", "20200", "97400", "98714", "98000"].map(getDepartmentFromFrenchPostcode)
+// ["75","2A","2B","974",null,null]
+```
+
+### isKnownFrenchPostcode
+
+function
+
+```ts
+isKnownFrenchPostcode(postcode: string): boolean
+```
+
+Whether La Poste's base officielle des codes postaux lists a postcode: France, the overseas departments and collectivities and Monaco. The base is La Poste's (Licence Ouverte 2.0); a postcode created since it was copied is not in it, so an unknown one is a warning for a validator to give, not proof that it does not exist.
+
+- `postcode`: The postcode.
+- Returns: `true` when La Poste's base lists it.
+
+```js
+["75008", "75099", "98000", "00000"].map(isKnownFrenchPostcode)
+// [true,false,true,false]
+```
+
+### isValidFrenchPostcode
+
+function
+
+```ts
+isValidFrenchPostcode(postcode: string): boolean
+```
+
+Whether a postcode follows La Poste's shape: five digits. Whether the postcode is in use is a different question; `isKnownFrenchPostcode` asks it, and the validator checks both.
+
+- `postcode`: The postcode.
+- Returns: `true` when it is five digits.
+
+```js
+["75008", "2000", "7500a", " 13001 "].map(isValidFrenchPostcode)
+// [true,false,false,true]
+```
+
+### LaPosteFormattingOptions
+
+type
+
+```ts
+interface LaPosteFormattingOptions {
+  includeCountry?: boolean; // FRANCE as the last line, for mail from abroad (or MONACO, or the collectivity's name)
+  keepAccents?: boolean; // Keep the accents and the hyphens: La Poste reads them, though the norm asks for none
+}
+```
+
+Options for `formatLaPoste`.
+
+```js
+formatLaPoste(parseFrenchAddress("12 rue de la Paix, 75002 Paris"), { includeCountry: true }).lines
+// ["12 RUE DE LA PAIX","75002 PARIS","FRANCE"]
+```
+
+### looksFrench
+
+function
+
+```ts
+looksFrench(text: string): boolean
+```
+
+Whether an address is surely French, with no hint: it ends with France, an overseas department, Monaco or one of the collectivities, or holds CEDEX beside a postcode, or its last line begins with a postcode La Poste lists followed by a commune (`75008 Paris`) while its street begins with a French type of voie (`rue`, `avenue`, `chemin`). A US ZIP code follows its state and a Canadian one ends in a digit, so neither is the shape of that last line; a German one has its postcode first too, but its streets end in `straße` or `weg` and begin with no French type.
+
+- `text`: The address as one string.
+- Returns: `true` when the address is French beyond doubt, `false` otherwise.
+
+```js
+[looksFrench("12 rue de la Paix, 75002 Paris"), looksFrench("123 Main St, Seattle, WA 98101")]
+// [true,false]
+```
+
+### ParsedAddress
+
+type
+
+```ts
+interface ParsedAddress extends JapaneseAddressFields, AustralianAddressFields, FrenchAddressFields, UKAddressFields {
+  city?: string; // City name, or the municipality in Japan; APO, FPO or DPO in a military address
+  compartment?: string; // Compartment on a Canadian rural route (the 10 in "SITE 6 COMP 10 RR 8")
+  country?: "CA" | "US" | "JP" | "AU" | "GB" | "GY" | "IM" | "JE" | FrenchPostalCountry; // Detected country; AU, GB (with Jersey, Guernsey and the Isle of Man) and FR (with Monaco and the overseas collectivities) only from their modules
+  fraction?: string; // Fractional address number (e.g., 1/2 in "123 1/2 Main St")
+  generalDelivery?: boolean; // General delivery indicator
+  highwayContract?: string; // Highway contract route number (the 68 in "HC 68 BOX 23A"); ruralRoute holds "HC 68"
+  locality?: string; // Sub-city locality (borough, district, neighborhood), or a Puerto Rico urbanization
+  military?: string; // Military delivery line ("PSC 802 Box 74", "Unit 2050 Box 4190"); state is AA, AE or AP
+  number?: string; // Street number
+  place?: string; // Place name (landmark, POI, building, monument, etc.)
+  plus4?: string; // Extended ZIP+4 code
+  postalValid?: boolean; // Postal code validation status
+  postalType?: "zip" | "postal"; // Postal code type (zip or postal)
+  prefix?: string; // Directional prefix (N, S, E, W, etc.)
+  rpo?: string; // Retail Postal Outlet (Canada Post) identifier
+  rr?: string; // Rural Route number (RR/R.R.)
+  ruralRoute?: string; // Rural route or similar
+  secUnitNum?: string; // Secondary unit number
+  secUnitType?: string; // Secondary unit type (apt, suite, etc.)
+  secondary?: string; // Legacy properties for backward compatibility
+  site?: string; // Site number on a Canadian rural route (the 6 in "SITE 6 COMP 10 RR 8")
+  state?: string; // State/Province code; AA, AE or AP for a military address
+  station?: string; // Station or Succursale identifier (e.g., Station A, Succ. Centre-ville)
+  street?: string; // Street name
+  suffix?: string; // Directional suffix
+  type?: string; // Street type/suffix (St, Ave, Rd, etc.)
+  unit?: string; // Legacy unit property for backward compatibility
+  zip?: string; // ZIP or postal code
+  zipValid?: boolean; // ZIP/postal code format validation (true if format is valid)
+}
+```
+
+What `parseLocation` returns: every part it found, each absent when the address has none. A Japanese address fills its own fields and the shared ones that stand for them: `state` the prefecture's JIS code, `city` the municipality, `street` the town, `number` the block, `zip` the postal code.
+
+```js
+parseLocation("123 Main St Apt 4, Anytown, NY 12345")
+// {"number":"123","secUnitType":"Apartment","secUnitNum":"4","unit":"Apt 4","street":"Main","type":"St","city":"Anytown","state":"NY","zip":"12345","zipValid":true,"country":"US"}
+```
+
+### parseFrenchAddress
+
+function
+
+```ts
+parseFrenchAddress(text: string, options?: ParseOptions): ParsedAddress | null
+```
+
+Parses an address in France (or Monaco, or an overseas department or collectivity, which are written the same way) into the parts La Poste's norm names: who it is care of (`careOf`), an apartment or a door (`secUnitType`, `secUnitNum`), a floor, a staircase, an entrance, the building or residence (`building`), the number with its extension (`numberExtension`: `bis`, `ter`, a letter), the type of voie in full in `type` and its name in `street` (`rue de la Paix` is `Rue` and `de la Paix`), a lieu-dit, a box (`BP 12`, `CS 30001`), the commune in `city` with its arrondissement and CEDEX, and the postcode in `zip` with the department's code in `state`. The postcode may stand anywhere after the street; `F-75008` is read as `75008`.
+
+- `text`: The address as one string; commas and line breaks both separate its parts.
+- `options`: `useSnakeCase` gives snake_case keys; the other options are not used.
+- Returns: The parts found, with `country` `FR` (or `MC` or a collectivity's code), or `null` when the text is empty or holds nothing that makes it an address.
+
+```js
+parseFrenchAddress("Résidence Les Lilas, 12 bis rue de la Paix, 75002 Paris")
+// {"building":"Résidence Les Lilas","number":"12","numberExtension":"bis","type":"Rue","street":"de la Paix","city":"Paris","state":"75","zip":"75002","zipValid":true,"country":"FR"}
+```
+
+### parseFrenchPostcode
+
+function
+
+```ts
+parseFrenchPostcode(postcode: string): FrenchPostcode | null
+```
+
+Takes a postcode apart: the code of the department or territory its number belongs to, and the country it delivers to (`FR` for France and its overseas departments, `MC` for Monaco, `PF`, `NC` and the other collectivities' own codes), and whether La Poste's base lists it. A few postcodes serve a commune across a department's border; the department reported is the one the number names.
+
+- `postcode`: The postcode, with or without spaces.
+- Returns: The parts, or `null` when it is not five digits.
+
+```js
+parseFrenchPostcode("98714")
+// {"postcode":"98714","place":"987","country":"PF","known":true}
+```
+
+### ParseOptions
+
+type
+
+```ts
+interface ParseOptions {
+  country?:
+    | "CA"
+    | "US"
+    | "JP"
+    | "AU"
+    | "GB"
+    | "GY"
+    | "IM"
+    | "JE"
+    | FrenchPostalCountry
+    | "GP"
+    | "MQ"
+    | "GF"
+    | "RE"
+    | "YT"
+    | "auto"; // Country to optimize parsing for; JP skips the detection and parses as Japanese; AU, GB, FR and the rest need their module in countries
+  countries?: readonly CountryModule[]; // Country modules to read beside the US, Canada and Japan: australia from "/au", unitedKingdom from "/gb", france from "/fr"
+  normalize?: boolean; // Whether to normalize street types and directions
+  validatePostalCode?: boolean; // Whether to validate postal/ZIP codes
+  language?: "auto" | "en" | "fr"; // Language preference for bilingual parsing (Canada)
+  extractFacilities?: boolean; // Whether to extract facility names
+  parseParenthetical?: boolean; // Whether to parse parenthetical information
+  strict?: boolean; // Whether to only extract valid ZIP/postal codes (strict mode) - true: Only extract codes that pass format validation, false (default): Extract all codes but indicate validity with zipValid field
+  useSnakeCase?: boolean; // Whether to return field names in snake_case format for backward compatibility - true: Return snake_case field names (sec_unit_type, sec_unit_num, etc.), false (default): Return camelCase field names (secUnitType, secUnitNum, etc.)
+}
+```
+
+Options for every parser: the country, strict postal codes, snake_case keys and the rest. Every one is optional.
+
+```js
+parseLocation("東京都千代田区丸の内1-2-3", { country: "JP", useSnakeCase: true })?.prefecture_code
+// "13"
+```
+
+### validateFrenchAddress
+
+function
+
+```ts
+validateFrenchAddress(address: ParsedAddress, options?: ValidationOptions): CountryValidation
+```
+
+Checks an address in France against La Poste's postcode shape and the tables: the postcode is five digits, its number names a department, a collectivity or Monaco, and La Poste's base officielle lists it. Says when a postcode is Monaco's or an overseas collectivity's, which have country codes of their own, and warns when the postcode or the commune is missing.
+
+- `address`: The address as `parseFrenchAddress` (or `parseLocation` with the module) returns it.
+- `options`: `strictPostalValidation: true` makes the postcode findings errors; the rest are not used.
+- Returns: The errors and warnings, each with its field, code and message.
+
+```js
+validateFrenchAddress(parseFrenchAddress("12 rue de la Paix, 75099 Paris")).warnings.map((one) => one.code)
+// ["UNRECOGNIZED_POSTAL_CODE"]
+```
+
+### ValidationError
+
+type
+
+```ts
+interface ValidationError {
+  field: string; // Field name where error occurred
+  code: string; // Error code identifier
+  message: string; // Human-readable error message
+  severity: "error" | "warning" | "info"; // Severity level of the validation issue
+}
+```
+
+One finding of a validator: the field it is about, its code, a message, and how serious it is.
+
+```js
+validateAddress("123 Main St, Seattle, NY 98101").warnings[0]
+// {"field":"zip","code":"POSTAL_REGION_MISMATCH","message":"ZIP code 98101 belongs to WA, not NY","severity":"warning"}
+```
+
+### ValidationOptions
+
+type
+
+```ts
+interface ValidationOptions {
+  requireStreetNumber?: boolean; // Whether street number is required
+  requireStreetName?: boolean; // Whether street name is required
+  requireCity?: boolean; // Whether city is required
+  requireState?: boolean; // Whether state/province is required
+  requirePostalCode?: boolean; // Whether postal code is required
+  allowPOBox?: boolean; // Whether PO Box addresses are allowed
+  allowRuralRoute?: boolean; // Whether rural route addresses are allowed
+  allowGeneralDelivery?: boolean; // Whether general delivery addresses are allowed
+  strictPostalValidation?: boolean; // Whether to use strict postal code validation
+  country?: ParseOptions["country"]; // Country context for validation rules; AU, GB, FR and the rest need their module in countries
   countries?: readonly import("./country-module").CountryModule[]; // Country modules to read beside the US, Canada and Japan
 }
 ```

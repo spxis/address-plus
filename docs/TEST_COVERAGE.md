@@ -1,12 +1,12 @@
-# Test Coverage: the US, Canadian, Japanese, Australian and British Address Corpora
+# Test Coverage: the US, Canadian, Japanese, Australian, French and British Address Corpora
 
 This document says what address shapes the US and Canadian postal authorities define, which of them the
 hand-written tests already exercised, what the corpus under `test-data/corpus/` adds, and, last, what the
 parser got wrong when the corpus was written and how the fixing pass that followed dealt with each cause.
 The Japanese corpus, added after 1.3.0, has a part of its own: see "The Japanese corpus" below. So do the
 Australian and British corpora, added after 1.4.0 with the `/au` and `/gb` country modules: see "The Australian
-corpus" and "The British corpus". How a country module is chosen for an address is in
-[COUNTRIES.md](COUNTRIES.md).
+corpus" and "The British corpus". The French corpus came with the `/fr` module after 1.5.0: see "The French corpus". How
+a country module is chosen for an address is in [COUNTRIES.md](COUNTRIES.md).
 
 ## In numbers
 
@@ -17,7 +17,8 @@ corpus" and "The British corpus". How a country module is chosen for an address 
 | Japan (`test-data/corpus/japan/`, 11 files) | 1,118 | 1,105 | 13 | 153 |
 | Australia (`test-data/corpus/au/`, 6 files) | 266 | 266 | 0 | 5 |
 | United Kingdom (`test-data/corpus/gb/`, 7 files) | 190 | 182 | 8 | 9 |
-| Total | 3,179 | 3,157 | 22 | 466 |
+| France (`test-data/corpus/fr/`, 7 files) | 196 | 196 | 0 | 11 |
+| Total | 3,375 | 3,353 | 22 | 477 |
 
 Before the corpus, `test-data/` held about 440 address inputs written by hand (the 600 test cases count
 the function tests in TypeScript too). They exercised 34 distinct street types, 13 unit designators and
@@ -32,6 +33,7 @@ Field by field, over every field value a corpus case names other than `country`:
 | Japan (6,424 field values) | 6,400 (99.6%) | (parse-address reads no Japanese) |
 | Australia (1,623 field values) | 1,623 (100%) | (not compared) |
 | United Kingdom (1,141 field values) | 1,124 (98.5%) | (not compared) |
+| France (1,157 field values) | 1,157 (100%) | (not compared) |
 
 Before the fixing pass the same count gave address-plus 94.7% in the United States, 89.9% in Canada and 95.0% in
 Japan.
@@ -907,7 +909,7 @@ the type `St` and the city `London SW1A 2AA`, with no postcode or country, as it
 | `localities-and-counties` | localities | A dependent locality, two, a London district | 3 | 0 (0) |
 | `localities-and-counties` | counties | Ten counties in full and short, a town named like a county | 11 | 0 (0) |
 | `localities-and-counties` | countries | UK, U.K., United Kingdom, Great Britain, a nation, a nation with no postcode, a town alone | 9 | 0 (0) |
-| `libpostal-shapes` | shapes | libpostal's 29 British fixtures and its Manx one | 30 | 4 (5) |
+| `libpostal-shapes` | shapes | libpostal's 29 British fixtures and its Manx one | 30 | 0 (2) |
 | `null-cases` | notAnAddress | Words, a town or an outward code alone | 7 | 0 (0) |
 
 ### What the parser got wrong, and how each cause was fixed
@@ -934,6 +936,111 @@ not used, a name's part is known only from its words and its place.
   parser reads a lone name with no descriptor as a street, which libpostal's fixtures have more of.
 - **A numbered building before a street with no descriptor (1).** `8 Market Place Shopping Centre, Bondgate`: the
   parser takes the numbered part for the street, since `Bondgate` has no descriptor to mark it as one.
+
+## The French corpus
+
+The corpus under `test-data/corpus/fr/` was written after 1.5.0 with the French module (`/fr`), the way the Australian and
+British ones were: the parser first, from La Poste's rules, then the corpus from the same rules, then a fixing pass.
+Eleven cases came out wrong when they were first run; every one was fixed, and none is left.
+
+### How a French case is judged
+
+Each case is read with `parseLocation(input, { country: "FR", countries: [australia, france, unitedKingdom] })`. The
+core fields are the lines of La Poste's layout and what the postcode tells: `careOf`, `building`, `secUnitType`,
+`secUnitNum`, `floorType`, `floor`, `staircase`, `entrance`, `number`, `numberExtension`, `type`, `street`, `lieuDit`,
+`postalBoxType`, `postalBoxNum`, `city`, `arrondissement`, `cedex`, `state`, `zip` and `country`. A core field a case
+does not name must be absent. Every case that ends with a country, holds a CEDEX or an arrondissement, or has a last line
+of a postcode La Poste lists and a commune beside a French street, a box or a lieu-dit is also recognised with no hint,
+and no US, Canadian, Japanese, Australian or British case is taken for French (the detection suite): 95% of the
+French corpus is, the rest being addresses with no sign of their own (`12 Grande Rue, 25000 Besançon`).
+
+### Conventions the expected values follow
+
+- `type` is the type of voie in full, in French, with its accent (`Rue`, `Allée`, `Chaussée`, `Rond-point`), however it
+  was written (`r.`, `av`, `Bd.`, `allee`); `street` is the name that follows it, in the case it was written in
+  (`de la Paix`, `HAUSSMANN`). A street whose first word is no type (`Grande Rue`, `Le Vieux Port`) has no `type`.
+- `numberExtension` is `bis`, `ter`, `quater` in lower case, or a letter in capitals; `number` keeps a range (`12-14`).
+- `zip` is five digits; `state` is the department the number names (`75`, `2A` for Corsica's 20000 to 20199 and `2B` from
+  20200, `971` overseas). A postcode of Monaco or of an overseas collectivity has no `state`, and the country is `MC`, `PM`,
+  `BL`, `MF`, `WF`, `PF` or `NC`; the overseas departments and Saint-Barthélemy's and Saint-Martin's postcodes (which
+  begin 971) are told apart by La Poste's base.
+- `city` is the commune as written; the arrondissement of Paris, Lyon or Marseille written after it, or before it
+  (`9e arrondissement Paris`), is the `arrondissement`, a number, and not part of the commune. A `CEDEX` is written
+  `CEDEX 09` or `CEDEX` and is not part of the commune.
+- A line above the street that is no delivery point, box or lieu-dit is the `building` (a residence, a tower, a zone,
+  a company's name); after the street, it is the `lieuDit`, which is also where La Poste's fifth line puts the commune a
+  box is in.
+- A commune alone, or a commune and a country (`Annecy`, `Lille, France`), is not an address with a street: the first reads
+  as none and the second as a commune with a country, as libpostal's fixtures have both.
+
+### Sources and licences
+
+| Source | Licence | Used for |
+| --- | --- | --- |
+| La Poste's addressing guidance and its specification SP 8855 (volume 2, "Adressage des plis"): the lines of an address and the types of voie it abbreviates | Rules described in our own words; nothing copied | Every shape. Every input is constructed: real communes with their real postcodes, invented numbers, streets and names. |
+| libpostal `test/test_parser.c`, `test_fr_parses` | MIT code; the inputs are third-party addresses | `libpostal-shapes.json`: all seven French fixtures, each written again as an original input of the same shape (the same parts, order and punctuation, another commune). Each case's source names the fixture. |
+| La Poste, Base officielle des codes postaux | Licence Ouverte 2.0 | The communes and postcodes the cases use, each checked against the base. |
+| INSEE, Code officiel géographique | Licence Ouverte 2.0 | The departments the postcodes belong to, and the overseas collectivities. |
+
+### Gap analysis
+
+Before the module, address-plus read no French address: `parseLocation` gives `12 rue de la Paix, 75002 Paris` the
+street `rue de la Paix`, the city `Paris` and the ZIP code `75002`, with no type, no state and no country, as it still does
+without the module.
+
+| File | Group | What it covers | Cases | Todo now (before the fix) |
+| --- | --- | --- | ---: | ---: |
+| `street-addresses` | types | 28 types of voie in full | 28 | 0 (0) |
+| `street-addresses` | abbreviations | 17 ways of writing them short | 17 | 0 (0) |
+| `street-addresses` | numbers | bis, ter, quater, a letter, glued or spaced, a range, N°, no number | 15 | 0 (0) |
+| `street-addresses` | names | Apostrophes, a date in the name, capitals, no comma, a street with no type, line breaks, St for Saint | 15 | 0 (0) |
+| `delivery-points` | apartments | Apt, Appartement, Appt., App, Porte, Bureau, n° | 8 | 0 (0) |
+| `delivery-points` | floors | 3e, 3ème, 1er, Étage 2, Rez-de-chaussée, RDC, staircases and entrances | 11 | 0 (1) |
+| `delivery-points` | buildings | Résidence, Bâtiment, Bât., Immeuble, Tour, Pavillon, a zone, a shopping centre, an entrance, a name before the street, a name run into the street | 14 | 0 (0) |
+| `delivery-points` | careOf | Chez, c/o, the six lines of the specification together | 5 | 0 (0) |
+| `postcodes-and-communes` | postcodeLine | With and without a comma, F- and FR-, the country after, on lines of its own, no postcode, no commune | 14 | 0 (2) |
+| `postcodes-and-communes` | cedex | CEDEX with a number, without, with a box and with the country | 6 | 0 (0) |
+| `postcodes-and-communes` | arrondissements | Paris, Lyon and Marseille, and a number that is not one | 7 | 0 (0) |
+| `lieux-dits-and-boxes` | lieuxDits | After the street, before it, written, abbreviated, alone | 9 | 0 (2) |
+| `lieux-dits-and-boxes` | boxes | BP, B.P., boîte postale, CS, TSA, with a street and a company, a five-digit box number, a box and the commune it is in | 11 | 0 (2) |
+| `overseas` | departments | Guadeloupe, Martinique, Guyane, La Réunion, Mayotte, with the territory written after | 8 | 0 (1) |
+| `overseas` | collectivities | Polynésie française, Nouvelle-Calédonie, Wallis-et-Futuna, Saint-Pierre-et-Miquelon, Saint-Barthélemy, Saint-Martin, Monaco | 10 | 0 (1) |
+| `overseas` | corsica | 2A and 2B, and the border at 20200 | 4 | 0 (0) |
+| `libpostal-shapes` | shapes | libpostal's seven French fixtures | 7 | 0 (2) |
+| `null-cases` | notAnAddress | Nothing, a greeting, a sentence, a name, a commune | 7 | 0 (0) |
+
+The "before the fix" figures count the cases that failed when they were first run: nine on the first run and two more
+(the lieux-dits written before the street) when those cases were added. Seven causes lie under the eleven cases.
+
+### What the parser got wrong, and how each cause was fixed
+
+| Cause | Cases | Status | The fix |
+| --- | ---: | --- | --- |
+| 1. `F-75002` and `FR-75002`: the hyphen stopped the postcode being found | 2 | Fixed | Only a digit before the five digits rules them out |
+| 2. `Fort-de-France` read as a commune `Fort-de-` and the country `France` | 1 | Fixed | France is not a country after a hyphen or after `de`, `la` or `le` |
+| 3. `Boîte postale` with its accent not read as a box | 1 | Fixed | The box words match with and without the accent |
+| 4. A company's name above a box read as a lieu-dit | 1 | Fixed | With a box and no street, the other lines are the building's |
+| 5. A commune alone beside a country (`Lille, France`, `Papeete, Polynésie française`) | 3 | Fixed | A lone last part is the commune when a country is written |
+| 6. `Rez-de-chaussée` capitalised into `Rez de chaussée` | 1 | Fixed | The ground floor's name is written, not derived |
+| 7. A lieu-dit named before the street (`LD Les Prés`, `Lieu-dit Les Prés, 4 chemin du Moulin`) | 2 | Fixed | A line before the street that names a lieu-dit is the `lieuDit`, not the building |
+
+The detection rule for a French address went through the same corpus: with a street and a postcode alone it recognised
+87% of it, and with the boxes, the lieux-dits, the arrondissements and the letter extensions added 95%. The 5% it leaves are
+the addresses with no sign but a postcode and a commune, and those with no commune at all.
+
+### What is still wrong
+
+Nothing in the corpus. What the parser cannot do without the commune and street lists it does not carry:
+
+- **A name run into the street with no number between.** `Résidence du Parc rue Pasteur` with no comma reads the whole
+  as the building's name: a number is the only mark of where the street begins, and without one a name and a type of voie
+  cannot be told from a street called `Résidence du Parc`.
+- **A street with a type in the middle.** `Grande Rue`, `Vieille Route de Gap` and `La Rue du Port` have no type of voie
+  at their start, so the type is not taken and the street keeps the whole name, as `Le Vieux Port` does.
+- **A commune and its postcode that do not belong together.** The base is not carried with its communes, so
+  `75002 Lyon` is read as it is written.
+- **The recipient.** A person's or a company's name above the address (La Poste's first line) is the `building`, since
+  it comes before the street and is none of the other lines.
 
 ## Not done here
 
