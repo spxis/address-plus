@@ -3,10 +3,10 @@
  *
  * It packs the package, installs the tarball into a temporary project, and checks that
  *   - require() and import of the main entry both work and expose parseLocation;
- *   - the ./jp, ./au and ./gb entries work from both and expose their parsers;
+ *   - the ./jp, ./au, ./gb and ./fr entries work from both and expose their parsers;
  *   - the types of every entry resolve under the Node16 and bundler module resolutions;
  *   - the ./jp bundle, and every chunk it loads, carries none of the US street-type tables, so a Japan-only user does
- *     not ship them; and the ./au and ./gb bundles carry none of the US, Canadian or Japanese tables, nor each other's.
+ *     not ship them; and the ./au, ./gb and ./fr bundles carry none of the US, Canadian or Japanese tables, nor each other's.
  *
  * It prints what it proved and exits non-zero on the first failure.
  */
@@ -21,17 +21,19 @@ const PACKAGE_NAME = JSON.parse(readFileSync(join(root, "package.json"), "utf8")
 // A word only the US street-type tables carry; the Japan entry has no use for it.
 const US_ONLY_WORD = "boulevard";
 // Words only one table carries: the US street types, the US and Canadian sub-regions, Japan's municipalities,
-// Australia's street types and Britain's postcode areas. A country entry must carry none but its own.
+// Australia's street types, Britain's postcode areas and France's departments. A country entry must carry none but its own.
 const TABLE_WORDS = {
   us: "trafficway",
   subRegions: "burnaby",
   japan: "千代田区",
   australia: "Anchorage",
   britain: "Galashiels",
+  france: "Haute-Garonne",
 };
 const FORBIDDEN = {
-  au: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.britain],
-  gb: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.australia],
+  au: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.britain, TABLE_WORDS.france],
+  gb: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.australia, TABLE_WORDS.france],
+  fr: [TABLE_WORDS.us, TABLE_WORDS.subRegions, TABLE_WORDS.japan, TABLE_WORDS.australia, TABLE_WORDS.britain],
 };
 
 const proved = [];
@@ -104,13 +106,15 @@ function checkTypes(project) {
       `import { parseJapaneseAddress } from "${PACKAGE_NAME}/jp";`,
       `import { australia, parseAustralianAddress } from "${PACKAGE_NAME}/au";`,
       `import { parseUKAddress, unitedKingdom } from "${PACKAGE_NAME}/gb";`,
+      `import { france, parseFrenchAddress } from "${PACKAGE_NAME}/fr";`,
       "",
       "const us: ParsedAddress | null = parseLocation('1600 Pennsylvania Avenue NW, Washington, DC 20500');",
       "const jp = parseJapaneseAddress('東京都千代田区千代田1-1');",
       "const au: ParsedAddress | null = parseAustralianAddress('3/12 Smith St, Parramatta NSW 2150');",
       "const gb: ParsedAddress | null = parseUKAddress('10 Downing Street, London SW1A 2AA');",
-      "const either = parseLocation('10 Downing Street, London SW1A 2AA', { countries: [australia, unitedKingdom] });",
-      "console.log(us, jp, au, gb, either?.country);",
+      "const fr: ParsedAddress | null = parseFrenchAddress('12 rue de la Paix, 75002 Paris');",
+      "const either = parseLocation('10 Downing Street, London SW1A 2AA', { countries: [australia, france, unitedKingdom] });",
+      "console.log(us, jp, au, gb, fr, either?.country);",
       "",
     ].join("\n"),
   );
@@ -184,6 +188,9 @@ function main() {
     "dist/gb/index.js",
     "dist/gb/index.cjs",
     "dist/gb/index.d.ts",
+    "dist/fr/index.js",
+    "dist/fr/index.cjs",
+    "dist/fr/index.d.ts",
   ]) {
     if (!existsSync(join(root, file))) fail(`${file} does not exist; run pnpm build first`);
   }
@@ -210,6 +217,7 @@ function main() {
     checkEntry(project, "./jp", "parseJapaneseAddress");
     checkEntry(project, "./au", "parseAustralianAddress");
     checkEntry(project, "./gb", "parseUKAddress");
+    checkEntry(project, "./fr", "parseFrenchAddress");
     checkTypes(project);
     checkJpBundle(join(project, "node_modules", ...PACKAGE_NAME.split("/")));
     checkCountryBundles(join(project, "node_modules", ...PACKAGE_NAME.split("/")));
