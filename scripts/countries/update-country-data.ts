@@ -16,11 +16,14 @@
 //     departments, their regions and the overseas collectivities, with their names. France's tables hold which
 //     postcodes exist and which department or territory each belongs to, not the communes.
 //
-// Run: node scripts/countries/update-country-data.ts [--only au,gb,fr] [--abs <POA_2021_AUST.xlsx>]
+//   - GeoNames' postal code file for Germany (Creative Commons Attribution 4.0): every postcode it lists, with the
+//     Land its places are in, and kuni's sixteen Länder with their ISO 3166-2 codes and names in English and Japanese.
+//
+// Run: node scripts/countries/update-country-data.ts [--only au,gb,fr,de] [--abs <POA_2021_AUST.xlsx>]
 //   [--codepoint <codepo_gb folder>] [--laposte <hexasmal.csv>] [--insee <folder of v_departement_2026.csv,
-//   v_region_2026.csv and v_comer_2026.csv>]
+//   v_region_2026.csv and v_comer_2026.csv>] [--geonames <DE.txt>]
 // Without arguments it downloads everything it needs (about 37 MB) into a temporary folder; `--only fr` makes France's
-// tables alone (about 1.6 MB). It needs `unzip` for Australia and Great Britain. Node 24 runs it as is.
+// tables alone (about 1.6 MB), `--only de` Germany's (0.4 MB). It needs `unzip` for Australia, Great Britain and Germany. Node 24 runs it as is.
 
 import { execFileSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -28,6 +31,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
 import australianStates from "@johnmorrisdotca/kuni/subdivisions/au";
+import germanStates from "@johnmorrisdotca/kuni/subdivisions/de";
 import britishSubdivisions from "@johnmorrisdotca/kuni/subdivisions/gb";
 
 const ABS_URL =
@@ -36,6 +40,8 @@ const CODEPOINT_URL = "https://api.os.uk/downloads/v1/products/CodePointOpen/dow
 const AU_DIR = resolve("src/constants/au");
 const GB_DIR = resolve("src/constants/gb");
 const FR_DIR = resolve("src/constants/fr");
+const DE_DIR = resolve("src/constants/de");
+const GEONAMES_URL = "https://download.geonames.org/export/zip/DE.zip";
 const LAPOSTE_URL = "https://data.laposte.fr/data-fair/api/v1/datasets/laposte-hexasmal/raw";
 const INSEE_URL = "https://www.insee.fr/fr/statistiques/fichier/8740222";
 const INSEE_FILES = ["v_departement_2026.csv", "v_region_2026.csv", "v_comer_2026.csv"];
@@ -71,12 +77,13 @@ const download = async (url: string, path: string): Promise<void> => {
   writeFileSync(path, Buffer.from(await res.arrayBuffer()));
 };
 
-const only = new Set((flag("only") ?? "au,gb,fr").split(","));
+const only = new Set((flag("only") ?? "au,gb,fr,de").split(","));
 const wants = (country: string): boolean => only.has(country);
 
-const fetchInputs = async (): Promise<{ abs?: string; codepoint?: string; laposte?: string; insee?: string }> => {
+type Inputs = { abs?: string; codepoint?: string; laposte?: string; insee?: string; geonames?: string };
+const fetchInputs = async (): Promise<Inputs> => {
   const dir = mkdtempSync(join(tmpdir(), "address-plus-countries-"));
-  const inputs: { abs?: string; codepoint?: string; laposte?: string; insee?: string } = {};
+  const inputs: Inputs = {};
   if (wants("au")) {
     inputs.abs = flag("abs");
     if (!inputs.abs) {
@@ -104,6 +111,15 @@ const fetchInputs = async (): Promise<{ abs?: string; codepoint?: string; lapost
       inputs.insee = join(dir, "insee");
       mkdirSync(inputs.insee);
       for (const file of INSEE_FILES) await download(`${INSEE_URL}/${file}`, join(inputs.insee, file));
+    }
+  }
+  if (wants("de")) {
+    inputs.geonames = flag("geonames");
+    if (!inputs.geonames) {
+      const zip = join(dir, "DE.zip");
+      await download(GEONAMES_URL, zip);
+      execFileSync("unzip", ["-q", "-o", zip, "DE.txt", "-d", dir]);
+      inputs.geonames = join(dir, "DE.txt");
     }
   }
   return inputs;
@@ -510,13 +526,122 @@ const writeFrance = (laposte: Map<string, Map<string, number>>, inseeFolder: str
   );
 };
 
+// ---- Germany ---------------------------------------------------------------------------------------------------
+
+// The Länder as GeoNames names them, in German and in English (it uses both for the same Land), by ISO 3166-2 code.
+const GEONAMES_STATES: Readonly<Record<string, string>> = {
+  "Baden-Württemberg": "BW",
+  Bayern: "BY",
+  Bavaria: "BY",
+  Berlin: "BE",
+  "Land Berlin": "BE",
+  Brandenburg: "BB",
+  Bremen: "HB",
+  Hamburg: "HH",
+  Hessen: "HE",
+  "Mecklenburg-Vorpommern": "MV",
+  "Mecklenburg-Western Pomerania": "MV",
+  Niedersachsen: "NI",
+  "Lower Saxony": "NI",
+  "Nordrhein-Westfalen": "NW",
+  "Rheinland-Pfalz": "RP",
+  Saarland: "SL",
+  Sachsen: "SN",
+  Saxony: "SN",
+  "Sachsen-Anhalt": "ST",
+  "Saxony-Anhalt": "ST",
+  "Schleswig-Holstein": "SH",
+  Thüringen: "TH",
+  Thuringia: "TH",
+};
+
+// Every postcode in GeoNames' file for Germany, with how many of its places are in each Land.
+const readGeoNames = (path: string): Map<string, Map<string, number>> => {
+  const postcodes = new Map<string, Map<string, number>>();
+  for (const line of readFileSync(path, "utf8").split(/\r?\n/)) {
+    if (line === "") continue;
+    const cells = line.split("\t");
+    const [country, postcode, , landName] = cells;
+    if (country !== "DE" || !/^\d{5}$/.test(postcode ?? "") || cells.length < 11) {
+      throw new Error(`Unexpected GeoNames row: ${line}`);
+    }
+    if (landName === "") continue;
+    const land = GEONAMES_STATES[landName];
+    if (!land) throw new Error(`GeoNames names a Land this script does not know: ${landName}`);
+    if (!postcodes.has(postcode)) postcodes.set(postcode, new Map());
+    const lands = postcodes.get(postcode)!;
+    lands.set(land, (lands.get(land) ?? 0) + 1);
+  }
+  return postcodes;
+};
+
+const writeGermany = (geonames: Map<string, Map<string, number>>): void => {
+  if (!existsSync(DE_DIR)) mkdirSync(DE_DIR, { recursive: true });
+  const states = germanStates
+    .map((one) => ({ code: one.shortCode, iso: one.code, name: one.name.en, nameJa: one.name.ja }))
+    .sort((a, b) => a.code.localeCompare(b.code));
+  if (states.length !== 16) throw new Error(`kuni gave ${states.length} German states, not 16`);
+  writeFileSync(
+    join(DE_DIR, "states.data.ts"),
+    header("The sixteen Länder of Germany.", [KUNI]) +
+      `import type { GermanState } from "../../types/germany";\n\n` +
+      tsdoc(
+        "The sixteen Länder of Germany, in order of their codes, each with its ISO 3166-2 code and its name in English and in Japanese. Copied from kuni when the tables are made.",
+        "DE_STATES.map((state) => state.code)",
+        JSON.stringify(states.map((one) => one.code)),
+      ) +
+      `const DE_STATES: readonly GermanState[] = ${JSON.stringify(states, null, 2)};\n\nexport { DE_STATES };\n`,
+  );
+
+  const postcodes = [...geonames.keys()].sort();
+  const landOf = (postcode: string): string => ranked(geonames.get(postcode)!)[0];
+  // Where a Land's postcodes begin: each postcode that is not in the same Land as the one before it.
+  const runs: string[] = [];
+  let previousLand = "";
+  let previousStart = 0;
+  let straddling = 0;
+  for (const postcode of postcodes) {
+    if (geonames.get(postcode)!.size > 1) straddling += 1;
+    const land = landOf(postcode);
+    if (land === previousLand) continue;
+    const step = Number(postcode) - previousStart;
+    runs.push(`${step < 36 ? base36(step) : `~${base36(step).padStart(3, "0")}`}${land}`);
+    previousStart = Number(postcode);
+    previousLand = land;
+  }
+  const packed = packPostcodes(postcodes);
+  const joinedRuns = runs.join("");
+  writeFileSync(
+    join(DE_DIR, "postcodes.data.ts"),
+    header("The postcodes of Germany and the Land each is in, from GeoNames.", [
+      "GeoNames, postal code data for Germany, https://download.geonames.org/export/zip/ (Creative Commons Attribution 4.0)",
+    ]) +
+      tsdoc(
+        `Every postcode GeoNames lists for Germany (${postcodes.length} of them), packed as the first's number and the step to each next in base 36 (a step of 36 or more is a tilde and three digits). Read with isKnownGermanPostcode, never by hand. From GeoNames (CC BY 4.0).`,
+        "DE_POSTCODES_PACKED.length",
+        String(packed.length),
+      ) +
+      `const DE_POSTCODES_PACKED = ${JSON.stringify(packed)};\n\n` +
+      tsdoc(
+        `Where each Land's postcodes begin: the step from the last run's first postcode, in base 36 (a step of 36 or more is a tilde and three digits), then the Land's two-letter code. ${runs.length} runs in all. A postcode is in the Land of the last run that begins at or before it; ${straddling} postcodes have places in more than one Land (the postcodes of large firms among them) and take the Land most of their places are in. From GeoNames (CC BY 4.0).`,
+        "DE_POSTCODE_STATE_RUNS.length",
+        String(joinedRuns.length),
+      ) +
+      `const DE_POSTCODE_STATE_RUNS = ${JSON.stringify(joinedRuns)};\n\nexport { DE_POSTCODE_STATE_RUNS, DE_POSTCODES_PACKED };\n`,
+  );
+  console.log(
+    `Germany: ${states.length} Länder, ${postcodes.length} postcodes (${packed.length} characters packed), ${runs.length} Land runs (${joinedRuns.length} characters), ${straddling} postcodes in more than one Land.`,
+  );
+};
+
 const main = async (): Promise<void> => {
   for (const country of only)
-    if (!["au", "gb", "fr"].includes(country)) throw new Error(`--only: no country ${country}`);
-  const { abs, codepoint, laposte, insee } = await fetchInputs();
+    if (!["au", "gb", "fr", "de"].includes(country)) throw new Error(`--only: no country ${country}`);
+  const { abs, codepoint, laposte, insee, geonames } = await fetchInputs();
   if (abs) writeAustralia(await readAbs(resolve(abs)));
   if (codepoint) writeBritain(readCodePoint(resolve(codepoint)));
   if (laposte && insee) writeFrance(readLaPoste(resolve(laposte)), resolve(insee));
+  if (geonames) writeGermany(readGeoNames(resolve(geonames)));
 };
 
 await main();
